@@ -1,0 +1,10 @@
+node_modules
+dist
+.dist
+.next
+coverage
+.coverage
+storybook-static
+lang/.defaults
+.env
+tmp

@@ -1,0 +1,25 @@
+{
+  "app": {
+    "name": "Channel",
+    "description": "Conheça oportunidades de trabalho voluntário e inscreva-se."
+  },
+  "searchForm": {
+    "placeholder": "Busque vagas de voluntariado ou ONGs"
+  },
+  "disponibility": {
+    "work": "Recorrente",
+    "job": "Pontual"
+  },
+  "meta": {
+    "title": "Title",
+    "title_addon": " - Title Addon",
+    "description": "Conheça oportunidades de trabalho voluntário e inscreva-se."
+  },
+  "toolbar": {
+    "im_organization": "Sou uma ONG",
+    "explore": "Vagas de voluntariado",
+    "mobile": {
+      "explore": "Busque vagas de voluntariado"
+    }
+  }
+}

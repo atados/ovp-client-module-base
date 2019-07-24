@@ -1,0 +1,21 @@
+.btn-group
+  display: inline-block
+
+.btn-group
+  .btn
+    border-radius: 0
+    border-right-width: 0
+
+  .dropdown
+    display: inline-block !important
+
+  > .btn:first-child,
+  .dropdown:first-child .btn
+    border-top-left-radius: $border-radius
+    border-bottom-left-radius: $border-radius
+
+  > .btn:last-child,
+  .dropdown:last-child .btn
+    border-right-width: 1px
+    border-top-right-radius: $border-radius
+    border-bottom-right-radius: $border-radius

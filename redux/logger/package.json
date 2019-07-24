@@ -1,0 +1,4 @@
+{
+  "main": "./logger.server.ts",
+  "browser": "./logger.client.ts"
+}
