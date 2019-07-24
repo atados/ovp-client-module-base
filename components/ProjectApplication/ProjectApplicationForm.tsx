@@ -1,5 +1,5 @@
 import { InjectedFormikProps, withFormik } from 'formik'
-import * as React from 'react'
+import React from 'react'
 import { connect } from 'react-redux'
 import Textarea from 'react-textarea-autosize'
 import { PayloadAction } from 'redux-handy'
@@ -45,7 +45,7 @@ interface Values {
   readonly message: string
 }
 
-const ProjectApplicationFormProps: React.SFC<
+const ProjectApplicationFormProps: React.FC<
   InjectedFormikProps<ProjectApplicationFormProps, Values>
 > = ({
   className,

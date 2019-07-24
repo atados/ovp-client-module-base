@@ -1,5 +1,5 @@
 import { InjectedFormikProps, withFormik } from 'formik'
-import * as React from 'react'
+import React from 'react'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
 import Yup from '~/lib/form/yup'
@@ -52,7 +52,7 @@ interface NewsletterFormProps {
   readonly onSubmit: (values: NewsletterSubscriptionPayload) => any
 }
 
-const NewsletterForm: React.SFC<
+const NewsletterForm: React.FC<
   InjectedFormikProps<NewsletterFormProps, Values>
 > = ({
   className,

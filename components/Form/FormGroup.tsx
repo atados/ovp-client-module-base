@@ -1,4 +1,4 @@
-import * as React from 'react'
+import React from 'react'
 import styled from 'styled-components'
 
 const Hint = styled.span`
@@ -24,7 +24,7 @@ interface FormGroupProps {
   readonly children?: React.ReactNode
 }
 
-const FormGroup: React.SFC<FormGroupProps> = ({
+const FormGroup: React.FC<FormGroupProps> = ({
   label,
   maxLength,
   length,

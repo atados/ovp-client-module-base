@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import * as React from 'react'
+import React from 'react'
 import styled from 'styled-components'
 import {
   InboxViewer,
@@ -72,7 +72,7 @@ interface InboxConversationHeaderProps {
   readonly className?: string
 }
 
-const InboxConversationHeader: React.SFC<InboxConversationHeaderProps> = ({
+const InboxConversationHeader: React.FC<InboxConversationHeaderProps> = ({
   className,
   viewer,
   thread,

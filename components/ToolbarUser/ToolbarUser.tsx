@@ -117,6 +117,7 @@ const ToolbarUser: React.FC<ToolbarUserProps & WithRouterProps> = ({
   router,
   theme = 'dark',
 }) => {
+  // @ts-ignore
   const toolbarHelp = <ToolbarHelp className="mr-2" />
   const chatEnabled =
     user &&

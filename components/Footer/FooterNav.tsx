@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import * as React from 'react'
+import React from 'react'
 import styled from 'styled-components'
 import { channel } from '~/common/constants'
 
@@ -36,7 +36,7 @@ interface FooterNavProps {
   readonly className?: string
 }
 
-const FooterNav: React.SFC<FooterNavProps> = ({
+const FooterNav: React.FC<FooterNavProps> = ({
   title,
   children,
   className,

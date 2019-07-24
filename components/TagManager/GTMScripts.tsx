@@ -1,11 +1,11 @@
 import Head from 'next/head'
-import * as React from 'react'
+import React from 'react'
 
 interface GTMScriptsProps {
   readonly id: string
 }
 
-const GTMScripts: React.SFC<GTMScriptsProps> = ({ id }) => (
+const GTMScripts: React.FC<GTMScriptsProps> = ({ id }) => (
   <>
     <Head>
       <script

@@ -1,4 +1,4 @@
-import * as React from 'react'
+import React from 'react'
 import AuthenticationLogin from '~/components/Authentication/AuthenticationLogin'
 import AuthenticationRegister from '~/components/Authentication/AuthenticationRegister'
 import RouterSwitch from '~/components/RouterSwitch'
@@ -19,7 +19,7 @@ interface AuthenticationProps {
   readonly onLocationChange?: RouterSwitchOptions.OnLocationChangeCallback
 }
 
-const Authentication: React.SFC<AuthenticationProps> = ({
+const Authentication: React.FC<AuthenticationProps> = ({
   className,
   defaultPath,
   registerError,

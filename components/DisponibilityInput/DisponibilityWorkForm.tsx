@@ -1,6 +1,6 @@
 import isEqual from 'fast-deep-equal'
 import { InjectedFormikProps, withFormik } from 'formik'
-import * as React from 'react'
+import React from 'react'
 import MaskedTextInput from 'react-text-mask'
 import * as masks from '~/lib/form/masks'
 import Yup from '~/lib/form/yup'

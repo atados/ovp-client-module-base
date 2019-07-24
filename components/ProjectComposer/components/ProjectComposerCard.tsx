@@ -57,7 +57,7 @@ interface ProjectComposerCardProps {
   }
 }
 
-const ProjectComposerCard: React.SFC<ProjectComposerCardProps> = ({
+const ProjectComposerCard: React.FC<ProjectComposerCardProps> = ({
   className,
   values,
 }) => {

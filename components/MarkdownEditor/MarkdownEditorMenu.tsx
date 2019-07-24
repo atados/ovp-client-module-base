@@ -1,4 +1,4 @@
-import * as React from 'react'
+import React from 'react'
 import * as Slate from 'slate'
 import styled, { StyledProps } from 'styled-components'
 import Icon from '../Icon'

@@ -1,7 +1,7 @@
 import escapeRegExp from 'escape-string-regexp'
 import Router from 'next/router'
 import queryString from 'query-string'
-import * as React from 'react'
+import React from 'react'
 import { defineMessages, InjectedIntlProps } from 'react-intl'
 import { connect } from 'react-redux'
 import styled, { StyledProps } from 'styled-components'

@@ -1,4 +1,4 @@
-import * as React from 'react'
+import React from 'react'
 import { defineMessages, InjectedIntlProps } from 'react-intl'
 import styled from 'styled-components'
 import { Link as RouterSwitchLink } from '~/components/RouterSwitch'
@@ -79,7 +79,7 @@ const { appName } = defineMessages({
   },
 })
 
-const AuthenticationLogin: React.SFC<
+const AuthenticationLogin: React.FC<
   AuthenticationLoginProps & InjectedIntlProps
 > = ({ successRedirect, className, errorCode, headerDisabled, intl }) => (
   <Form

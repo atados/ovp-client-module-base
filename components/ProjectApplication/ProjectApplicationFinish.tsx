@@ -51,7 +51,7 @@ interface ProjectApplicationFinishProps {
   ) => any
 }
 
-const ProjectApplicationFinish: React.SFC<ProjectApplicationFinishProps> = ({
+const ProjectApplicationFinish: React.FC<ProjectApplicationFinishProps> = ({
   viewer,
   project,
   application,

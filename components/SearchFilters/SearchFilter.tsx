@@ -1,4 +1,4 @@
-import * as React from 'react'
+import React from 'react'
 import styled, { StyledProps } from 'styled-components'
 import Dropdown, { DropdownMenu } from '~/components/Dropdown'
 import Icon from '../Icon'

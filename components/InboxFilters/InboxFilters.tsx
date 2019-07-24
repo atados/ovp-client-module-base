@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import * as React from 'react'
+import React from 'react'
 import { connect } from 'react-redux'
 import styled, { StyledProps } from 'styled-components'
 import { resolvePage } from '~/common/page'
@@ -159,7 +159,7 @@ interface InboxFiltersProps {
   readonly viewer: InboxViewer
 }
 
-const InboxFilters: React.SFC<InboxFiltersProps> = ({
+const InboxFilters: React.FC<InboxFiltersProps> = ({
   className,
   viewer,
   user,

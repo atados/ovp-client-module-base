@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import * as React from 'react'
+import React from 'react'
 import { InjectedIntlProps } from 'react-intl'
 import styled from 'styled-components'
 import { APP_URL } from '~/common/constants'
@@ -63,14 +63,12 @@ export const styles = {
   Description,
 }
 
-interface OrganizationCardProps {
+interface OrganizationCardProps extends InjectedIntlProps {
   readonly className?: string
   readonly organization: Organization
 }
 
-class OrganizationCard extends React.Component<
-  OrganizationCardProps & InjectedIntlProps
-> {
+class OrganizationCard extends React.Component<OrganizationCardProps> {
   public handleLinkClick = () => {
     const { organization } = this.props
 
@@ -145,4 +143,4 @@ class OrganizationCard extends React.Component<
   }
 }
 
-export default withIntl(OrganizationCard)
+export default withIntl<OrganizationCardProps>(OrganizationCard)

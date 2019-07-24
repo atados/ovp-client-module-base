@@ -1,5 +1,5 @@
 import { InjectedFormikProps, withFormik } from 'formik'
-import * as React from 'react'
+import React from 'react'
 import MaskedTextInput from 'react-text-mask'
 import Textarea from 'react-textarea-autosize'
 import FormGroup from '~/components/Form/FormGroup'
@@ -30,7 +30,7 @@ interface RoleFormProps {
   }) => any
 }
 
-const RoleForm: React.SFC<InjectedFormikProps<RoleFormProps, Values>> = ({
+const RoleForm: React.FC<InjectedFormikProps<RoleFormProps, Values>> = ({
   defaultValue,
   values,
   touched,

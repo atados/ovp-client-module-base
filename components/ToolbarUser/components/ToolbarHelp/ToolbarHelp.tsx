@@ -1,5 +1,5 @@
 import escapeRegExp from 'escape-string-regexp'
-import * as React from 'react'
+import React from 'react'
 import { InjectedIntlProps } from 'react-intl'
 import { connect } from 'react-redux'
 import reactStringReplace from 'react-string-replace'

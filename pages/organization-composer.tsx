@@ -1,6 +1,6 @@
 import { NextContext } from 'next'
 import Router from 'next/router'
-import * as React from 'react'
+import React from 'react'
 import styled from 'styled-components'
 import { resolvePage } from '~/common/page'
 import { StepIds, StepIdType } from '~/components/FormComposer/FormComposer'

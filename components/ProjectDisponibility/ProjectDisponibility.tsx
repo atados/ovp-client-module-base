@@ -1,7 +1,6 @@
 import moment from 'moment'
-import * as React from 'react'
+import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { withIntl } from '~/lib/intl'
 import { Disponibility } from '~/redux/ducks/project'
 
 interface ProjectDisponibilityProps {
@@ -9,7 +8,7 @@ interface ProjectDisponibilityProps {
   readonly relativeTo?: number
 }
 
-const ProjectDisponibility: React.SFC<ProjectDisponibilityProps> = ({
+const ProjectDisponibility: React.FC<ProjectDisponibilityProps> = ({
   value,
   relativeTo = new Date(),
 }) => {
@@ -43,4 +42,4 @@ const ProjectDisponibility: React.SFC<ProjectDisponibilityProps> = ({
 }
 ProjectDisponibility.displayName = 'ProjectDisponibility'
 
-export default withIntl(ProjectDisponibility)
+export default ProjectDisponibility

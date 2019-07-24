@@ -1,4 +1,4 @@
-import * as React from 'react'
+import React from 'react'
 import OrganizationCard from '~/components/OrganizationCard'
 import ProjectCard from '~/components/ProjectCard'
 import { CatalogueSectionType } from '~/redux/ducks/catalogue'
@@ -8,7 +8,7 @@ interface CatalogueSectionProps {
   readonly section: CatalogueSectionType
 }
 
-const CatalogueSection: React.SFC<CatalogueSectionProps> = ({
+const CatalogueSection: React.FC<CatalogueSectionProps> = ({
   className,
   section,
 }) => {

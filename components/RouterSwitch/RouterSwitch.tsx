@@ -1,5 +1,5 @@
 import isEqual from 'fast-deep-equal'
-import * as React from 'react'
+import React from 'react'
 import styled from 'styled-components'
 import { keyframes } from 'styled-components'
 import Icon from '~/components/Icon'

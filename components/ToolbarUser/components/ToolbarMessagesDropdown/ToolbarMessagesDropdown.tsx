@@ -1,4 +1,4 @@
-import * as React from 'react'
+import React from 'react'
 import { useQuery } from 'react-apollo-hooks'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
@@ -108,7 +108,7 @@ interface ToolbarMessagesDropdownState {
   readonly fetch?: boolean
 }
 
-const ToolbarMessagesDropdown: React.SFC<ToolbarMessagesDropdownProps> = ({
+const ToolbarMessagesDropdown: React.FC<ToolbarMessagesDropdownProps> = ({
   className,
   user,
   onRegisterViewer,

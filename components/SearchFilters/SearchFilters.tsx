@@ -1,7 +1,7 @@
 import isEqual from 'fast-deep-equal'
 import Router from 'next/router'
 import queryString from 'query-string'
-import * as React from 'react'
+import React from 'react'
 import styled from 'styled-components'
 import { channel } from '~/common/constants'
 import { resolvePage } from '~/common/page'

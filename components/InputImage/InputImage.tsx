@@ -1,4 +1,4 @@
-import * as React from 'react'
+import React from 'react'
 import { connect } from 'react-redux'
 import styled, { StyledProps } from 'styled-components'
 import { fetchAPI } from '~/lib/fetch/fetch.server'

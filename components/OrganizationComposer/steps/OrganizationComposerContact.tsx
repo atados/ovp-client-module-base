@@ -1,5 +1,5 @@
 import { InjectedFormikProps, withFormik } from 'formik'
-import * as React from 'react'
+import React from 'react'
 import MaskedTextInput from 'react-text-mask'
 import FormGroup from '~/components/Form/FormGroup'
 import { FormComposerMode } from '~/components/FormComposer/FormComposer'

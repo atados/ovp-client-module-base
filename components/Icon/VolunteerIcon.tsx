@@ -1,4 +1,4 @@
-import * as React from 'react'
+import React from 'react'
 
 interface VolunteerIconProps {
   readonly className?: string
@@ -7,7 +7,7 @@ interface VolunteerIconProps {
   readonly fill?: string
 }
 
-const VolunteerIcon: React.SFC<VolunteerIconProps> = ({
+const VolunteerIcon: React.FC<VolunteerIconProps> = ({
   className,
   fill,
   width,

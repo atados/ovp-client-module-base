@@ -1,5 +1,5 @@
 import { InjectedFormikProps, withFormik } from 'formik'
-import * as React from 'react'
+import React from 'react'
 import { connect } from 'react-redux'
 import MaskedTextInput from 'react-text-mask'
 import ActivityIndicator from '~/components/ActivityIndicator'
@@ -34,7 +34,7 @@ interface Values {
   readonly gender: string
 }
 
-const ProjectApplicationUserFormProps: React.SFC<
+const ProjectApplicationUserFormProps: React.FC<
   InjectedFormikProps<ProjectApplicationUserFormProps, Values>
 > = ({
   className,

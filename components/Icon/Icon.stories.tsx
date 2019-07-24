@@ -1,6 +1,6 @@
 import { withInfo } from '@storybook/addon-info'
 import { storiesOf } from '@storybook/react'
-import * as React from 'react'
+import React from 'react'
 import { Icon } from './Icon'
 
 storiesOf('Components', module).add(

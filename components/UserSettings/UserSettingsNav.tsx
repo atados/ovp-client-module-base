@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import { withRouter, WithRouterProps } from 'next/router'
-import * as React from 'react'
+import React from 'react'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
 import { resolvePage } from '~/common/page'
@@ -41,7 +41,7 @@ interface UserSettingsNavProps {
   readonly user?: User
 }
 
-const UserSettingsNav: React.SFC<UserSettingsNavProps & WithRouterProps> = ({
+const UserSettingsNav: React.FC<UserSettingsNavProps & WithRouterProps> = ({
   user,
   router,
 }) =>

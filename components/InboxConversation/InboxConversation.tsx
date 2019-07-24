@@ -1,5 +1,5 @@
 import gql from 'graphql-tag'
-import * as React from 'react'
+import React from 'react'
 import { useQuery } from 'react-apollo-hooks'
 import { connect } from 'react-redux'
 import styled, { keyframes } from 'styled-components'
@@ -182,7 +182,7 @@ const sortMessages = (messageA: Message, messageB: Message) => {
   return parseInt(messageA.createdAt, 10) - parseInt(messageB.createdAt, 10)
 }
 
-const InboxConversation: React.SFC<InboxConversationProps> = ({
+const InboxConversation: React.FC<InboxConversationProps> = ({
   className,
   thread,
   viewer,

@@ -1,5 +1,5 @@
 import { InjectedFormikProps, withFormik } from 'formik'
-import * as React from 'react'
+import React from 'react'
 import { connect } from 'react-redux'
 import Yup from '~/lib/form/yup'
 import { throwActionError } from '~/lib/utils/redux'
@@ -22,7 +22,7 @@ interface Values {
   email: string
 }
 
-const InviteMember: React.SFC<
+const InviteMember: React.FC<
   InjectedFormikProps<InviteMemberProps, Values>
 > = ({
   values,

@@ -1,4 +1,4 @@
-import * as React from 'react'
+import React from 'react'
 import {
   Location,
   RouterSwitchContext,
@@ -10,7 +10,7 @@ interface RouterSwitchLinkProps {
   readonly className?: string
 }
 
-const RouterSwitchLink: React.SFC<RouterSwitchLinkProps> = ({
+const RouterSwitchLink: React.FC<RouterSwitchLinkProps> = ({
   href,
   children,
 }) => (

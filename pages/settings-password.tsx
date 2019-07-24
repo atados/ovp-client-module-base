@@ -1,6 +1,6 @@
 import { InjectedFormikProps, withFormik } from 'formik'
 import { NextContext, NextStatelessComponent } from 'next'
-import * as React from 'react'
+import React from 'react'
 import { connect } from 'react-redux'
 import ActivityIndicator from '~/components/ActivityIndicator'
 import ErrorMessage from '~/components/Form/ErrorMessage'

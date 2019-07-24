@@ -1,4 +1,4 @@
-import * as React from 'react'
+import React from 'react'
 import styled, { keyframes } from 'styled-components'
 import { FormComposerStep } from '~/components/FormComposer/FormComposer'
 import FormComposerLayout from '~/components/FormComposer/FormComposerLayout'
@@ -86,7 +86,7 @@ interface OrganizationComposerIntroProps {
   readonly steps: FormComposerStep[]
 }
 
-const OrganizationComposerIntro: React.SFC<OrganizationComposerIntroProps> = ({
+const OrganizationComposerIntro: React.FC<OrganizationComposerIntroProps> = ({
   onStartFromDraft,
   onStart,
   steps,

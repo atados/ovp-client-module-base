@@ -1,4 +1,4 @@
-import * as React from 'react'
+import React from 'react'
 import styled, { StyledProps } from 'styled-components'
 import { CarouselContext, Direction } from '~/components/Carousel/Carousel'
 
@@ -95,7 +95,7 @@ export interface CarouselItemProps {
   readonly style?: React.CSSProperties
 }
 
-export interface CarouselItemType extends React.SFC<CarouselItemProps> {
+export interface CarouselItemType extends React.FC<CarouselItemProps> {
   isCarouselItem?: boolean
 }
 

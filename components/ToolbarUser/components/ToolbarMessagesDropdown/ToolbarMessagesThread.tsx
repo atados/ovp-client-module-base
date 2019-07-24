@@ -1,6 +1,6 @@
 import moment from 'moment'
 import Link from 'next/link'
-import * as React from 'react'
+import React from 'react'
 import styled from 'styled-components'
 import { resolvePage } from '~/common/page'
 import { MessageThreadable, MessageThreadType } from '~/redux/ducks/inbox'
@@ -56,7 +56,7 @@ interface ToolbarMessagesThreadProps {
   readonly thread: MessageThreadType
 }
 
-const ToolbarMessagesThread: React.SFC<ToolbarMessagesThreadProps> = ({
+const ToolbarMessagesThread: React.FC<ToolbarMessagesThreadProps> = ({
   className,
   thread,
   viewerSlug,

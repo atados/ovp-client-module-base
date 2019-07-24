@@ -1,5 +1,5 @@
 import Router from 'next/router'
-import * as React from 'react'
+import React from 'react'
 import { resolvePage } from '~/common/page'
 import Authentication from '~/components/Authentication'
 import {

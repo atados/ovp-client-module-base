@@ -1,4 +1,4 @@
-import * as React from 'react'
+import React from 'react'
 import styled from 'styled-components'
 import { DropdownMenu } from '~/components/Dropdown'
 import SearchFilter from '~/components/SearchFilters/SearchFilter'

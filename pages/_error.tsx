@@ -1,5 +1,5 @@
 import { NextContext } from 'next'
-import * as React from 'react'
+import React from 'react'
 import styled from 'styled-components'
 import { dev } from '~/common/constants'
 import Layout from '~/components/Layout'

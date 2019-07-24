@@ -1,8 +1,7 @@
 import Header from 'next/head'
-import * as React from 'react'
-import { defineMessages, InjectedIntlProps } from 'react-intl'
-import { withIntl } from '~/lib/intl'
-
+import React from 'react'
+import { defineMessages } from 'react-intl'
+import useIntl from '~/hooks/use-intl'
 interface MetaProps {
   readonly title?: string
   readonly description?: string
@@ -24,8 +23,8 @@ const messages = defineMessages({
   },
 })
 
-const Meta: React.SFC<MetaProps & InjectedIntlProps> = props => {
-  const { intl } = props
+const Meta: React.FC<MetaProps> = props => {
+  const intl = useIntl()
   const {
     description = intl.formatMessage(messages.description),
     image,
@@ -48,4 +47,4 @@ const Meta: React.SFC<MetaProps & InjectedIntlProps> = props => {
 
 Meta.displayName = 'Meta'
 
-export default withIntl(Meta)
+export default Meta

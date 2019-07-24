@@ -1,4 +1,4 @@
-import * as React from 'react'
+import React from 'react'
 import styled from 'styled-components'
 import { InputAddressValueType } from '~/components/InputAddress/InputAddress'
 import { InputImageValueType } from '~/components/InputImage/InputImage'
@@ -61,7 +61,7 @@ interface OrganizationComposerCardProps {
   readonly address?: InputAddressValueType
 }
 
-const OrganizationComposerCard: React.SFC<OrganizationComposerCardProps> = ({
+const OrganizationComposerCard: React.FC<OrganizationComposerCardProps> = ({
   className,
   image,
   name,

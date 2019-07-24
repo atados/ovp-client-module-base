@@ -1,5 +1,5 @@
 import gql from 'graphql-tag'
-import * as React from 'react'
+import React from 'react'
 import styled, { keyframes } from 'styled-components'
 import { GQL_THREADS_LIST, GQLQueryThreadsListType } from '~/common/chat'
 import useEffectSubscription from '~/hooks/use-effect-subscription'
@@ -142,7 +142,7 @@ interface AppNotificationWatcherProps {
   readonly inboxViewers: InboxViewer[]
 }
 
-const AppNotificationWatcher: React.SFC<AppNotificationWatcherProps> = ({
+const AppNotificationWatcher: React.FC<AppNotificationWatcherProps> = ({
   className,
   user,
   inboxViewers,

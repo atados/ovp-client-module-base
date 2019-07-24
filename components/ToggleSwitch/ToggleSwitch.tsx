@@ -1,4 +1,4 @@
-import * as React from 'react'
+import React from 'react'
 import styled from 'styled-components'
 
 const generateSizeCSS = (height: number): string => {
@@ -69,7 +69,7 @@ interface ToggleSwitchProps {
   readonly className?: string
 }
 
-const ToggleSwitch: React.SFC<
+const ToggleSwitch: React.FC<
   ToggleSwitchProps & React.InputHTMLAttributes<HTMLInputElement>
 > = ({ height, className, ...props }) => (
   <Button height={height as number} className={className}>

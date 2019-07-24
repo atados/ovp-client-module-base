@@ -1,5 +1,5 @@
 import { InjectedFormikProps, withFormik } from 'formik'
-import * as React from 'react'
+import React from 'react'
 import { connect } from 'react-redux'
 import { PayloadAction } from 'redux-handy'
 import ActivityIndicator from '~/components/ActivityIndicator'
@@ -23,7 +23,7 @@ export interface ProjectUnapplicationProps {
 // tslint:disable-next-line
 type Values = {}
 
-const ProjectUnapplicationProps: React.SFC<
+const ProjectUnapplicationProps: React.FC<
   InjectedFormikProps<ProjectUnapplicationProps, Values>
 > = ({ className, onFinish, isSubmitting, handleSubmit }) => {
   return (

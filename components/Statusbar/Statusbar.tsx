@@ -1,4 +1,4 @@
-import * as React from 'react'
+import React from 'react'
 import styled from 'styled-components'
 
 const Container = styled.div`
@@ -20,7 +20,7 @@ interface StatusbarProps {
   readonly className?: string
 }
 
-const Statusbar: React.SFC<StatusbarProps> = ({ className, children }) => (
+const Statusbar: React.FC<StatusbarProps> = ({ className, children }) => (
   <Container className={className}>{children}</Container>
 )
 

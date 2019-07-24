@@ -1,6 +1,6 @@
 import { withInfo } from '@storybook/addon-info'
 import { storiesOf } from '@storybook/react'
-import * as React from 'react'
+import React from 'react'
 import { Modal } from './Modal'
 import ModalCard from './ModalCard'
 

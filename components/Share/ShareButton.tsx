@@ -1,4 +1,4 @@
-import * as React from 'react'
+import React from 'react'
 import { openWindow } from '~/lib/dom/window'
 import * as ShareLinkCreators from './share-link-creators'
 
@@ -12,7 +12,7 @@ interface ShareButtonProps {
     | ShareLinkCreators.WhatsappShareMeta
 }
 
-const ShareButton: React.SFC<ShareButtonProps> = ({
+const ShareButton: React.FC<ShareButtonProps> = ({
   children,
   network,
   url,

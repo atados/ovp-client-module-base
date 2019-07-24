@@ -1,5 +1,5 @@
 import gql from 'graphql-tag'
-import * as React from 'react'
+import React from 'react'
 import { useMutation } from 'react-apollo-hooks'
 import Textarea from 'react-textarea-autosize'
 import styled from 'styled-components'

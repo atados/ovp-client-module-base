@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import * as React from 'react'
+import React from 'react'
 import { Waypoint } from 'react-waypoint'
 import styled, { keyframes } from 'styled-components'
 import { resolvePage } from '~/common/page'
@@ -67,7 +67,7 @@ interface SearchSourcesProps {
   readonly refWaypoint?: (ref: HTMLDivElement | null) => any
 }
 
-const SearchSources: React.SFC<SearchSourcesProps> = ({
+const SearchSources: React.FC<SearchSourcesProps> = ({
   size,
   fetching,
   searchType,

@@ -1,4 +1,4 @@
-import * as React from 'react'
+import React from 'react'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
 import { InboxContextType } from '~/redux/ducks/inbox'
@@ -37,7 +37,7 @@ interface InboxConversationContextProps {
   readonly value?: InboxContextType
 }
 
-const InboxConversationContext: React.SFC<InboxConversationContextProps> = ({
+const InboxConversationContext: React.FC<InboxConversationContextProps> = ({
   className,
   value,
 }) => (

@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import * as React from 'react'
+import React from 'react'
 import { resolvePage } from '~/common/page'
 import FormComposerLayout from '~/components/FormComposer/FormComposerLayout'
 import HelpCard from '~/components/HelpCard'
@@ -9,7 +9,7 @@ interface OrganizationComposerConclusionProps {
   readonly formContext?: { organization: Organization }
 }
 
-const OrganizationComposerConclusion: React.SFC<
+const OrganizationComposerConclusion: React.FC<
   OrganizationComposerConclusionProps
 > = ({ formContext }) => (
   <FormComposerLayout

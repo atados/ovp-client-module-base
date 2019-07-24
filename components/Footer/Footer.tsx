@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import * as React from 'react'
+import React from 'react'
 import { defineMessages } from 'react-intl'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
@@ -71,7 +71,7 @@ const messages = defineMessages({
   },
 })
 
-const Footer: React.SFC<FooterProps> = ({ causes, className }) => {
+const Footer: React.FC<FooterProps> = ({ causes, className }) => {
   const intl = useIntl()
 
   return (

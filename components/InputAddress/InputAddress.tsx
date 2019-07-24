@@ -1,4 +1,4 @@
-import * as React from 'react'
+import React from 'react'
 import styled from 'styled-components'
 import { getPlacePredictions } from '~/lib/maps/google-maps-autocomplete'
 import { reportError } from '~/lib/utils/error'

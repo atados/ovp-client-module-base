@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import * as React from 'react'
+import React from 'react'
 import styled from 'styled-components'
 import { resolvePage } from '~/common/page'
 import { Organization } from '~/redux/ducks/organization'

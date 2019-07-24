@@ -1,5 +1,5 @@
 import { ApolloError } from 'apollo-client'
-import * as React from 'react'
+import React from 'react'
 import styled from 'styled-components'
 import StatusBar from './Statusbar'
 
@@ -20,7 +20,7 @@ interface ErrorStatusbarProps {
   readonly error?: Error | ApolloError
 }
 
-const ErrorStatusbar: React.SFC<ErrorStatusbarProps> = ({ className, error }) =>
+const ErrorStatusbar: React.FC<ErrorStatusbarProps> = ({ className, error }) =>
   error ? <Container className={className}>{error.message}</Container> : null
 
 ErrorStatusbar.displayName = 'ErrorStatusbar'

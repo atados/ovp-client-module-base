@@ -1,4 +1,4 @@
-import * as React from 'react'
+import React from 'react'
 import useModal from './use-modal-hook'
 
 interface ModalLinkProps<Props> {
@@ -10,7 +10,7 @@ interface ModalLinkProps<Props> {
   readonly componentProps?: Props
 }
 
-const ModalLink: React.SFC<ModalLinkProps<any>> = ({
+const ModalLink: React.FC<ModalLinkProps<any>> = ({
   id,
   component,
   componentProps,

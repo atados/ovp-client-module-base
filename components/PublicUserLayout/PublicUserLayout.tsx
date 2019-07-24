@@ -1,7 +1,7 @@
 import { NextContext } from 'next'
 import Link from 'next/link'
 import { withRouter, WithRouterProps } from 'next/router'
-import * as React from 'react'
+import React from 'react'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
 import { resolvePage } from '~/common/page'
@@ -71,7 +71,7 @@ interface PublicUserLayoutProps {
   readonly children?: React.ReactNode
 }
 
-const PublicUserLayout: React.SFC<PublicUserLayoutProps & WithRouterProps> = ({
+const PublicUserLayout: React.FC<PublicUserLayoutProps & WithRouterProps> = ({
   publicUser,
   isAuthenticatedUser,
   children,

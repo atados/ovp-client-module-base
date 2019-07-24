@@ -1,7 +1,7 @@
 import { NextContext } from 'next'
 import Link from 'next/link'
 import { withRouter, WithRouterProps } from 'next/router'
-import * as React from 'react'
+import React from 'react'
 import styled from 'styled-components'
 import { channel } from '~/common/constants'
 import { resolvePage } from '~/common/page'

@@ -1,6 +1,6 @@
 import { InjectedFormikProps, withFormik } from 'formik'
 import moment from 'moment'
-import * as React from 'react'
+import React from 'react'
 import MaskedTextInput from 'react-text-mask'
 import * as masks from '~/lib/form/masks'
 import { RE_DATE, RE_HOUR } from '~/lib/form/regex'
@@ -22,7 +22,7 @@ interface DisponibilityJobDateFormProps {
   readonly onCancel: () => any
 }
 
-const DisponibilityJobDateForm: React.SFC<
+const DisponibilityJobDateForm: React.FC<
   InjectedFormikProps<DisponibilityJobDateFormProps, Values>
 > = ({
   onCancel,

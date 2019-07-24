@@ -1,4 +1,4 @@
-import * as React from 'react'
+import React from 'react'
 import styled from 'styled-components'
 
 interface ToolbarNavProps {
@@ -13,7 +13,7 @@ const Nav = styled.ul`
   }
 `
 
-const ToolbarNav: React.SFC<ToolbarNavProps> = ({ className, children }) => (
+const ToolbarNav: React.FC<ToolbarNavProps> = ({ className, children }) => (
   <Nav className={`navbar-nav d-none d-lg-flex ${className}`}>
     {React.Children.map(children, (child: React.ReactElement<any>) => (
       <li className="nav-item">

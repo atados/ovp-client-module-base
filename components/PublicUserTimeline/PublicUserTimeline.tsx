@@ -1,4 +1,4 @@
-import * as React from 'react'
+import React from 'react'
 import { Waypoint } from 'react-waypoint'
 import styled, { StyledProps } from 'styled-components'
 import { PublicUserApplication } from '~/redux/ducks/public-user'

@@ -1,4 +1,4 @@
-import * as React from 'react'
+import React from 'react'
 
 interface SocialMediaIconProps {
   readonly social: {
@@ -59,7 +59,7 @@ const icons = {
   ),
 }
 
-const SocialMediaIcon: React.SFC<SocialMediaIconProps> = ({ social }) =>
+const SocialMediaIcon: React.FC<SocialMediaIconProps> = ({ social }) =>
   icons[social.kind]
 
 SocialMediaIcon.displayName = 'SocialMediaIcon'

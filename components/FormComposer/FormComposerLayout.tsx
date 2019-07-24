@@ -1,4 +1,4 @@
-import * as React from 'react'
+import React from 'react'
 import styled from 'styled-components'
 import ActivityIndicator from '../ActivityIndicator'
 import Icon from '../Icon'
@@ -84,7 +84,7 @@ interface FormComposerLayoutProps {
   readonly isSubmitting?: boolean
 }
 
-const FormComposerLayout: React.SFC<FormComposerLayoutProps> = ({
+const FormComposerLayout: React.FC<FormComposerLayoutProps> = ({
   className,
   children,
   helpPanelProps,

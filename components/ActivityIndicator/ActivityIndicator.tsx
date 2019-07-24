@@ -1,4 +1,4 @@
-import * as React from 'react'
+import React from 'react'
 
 interface ActivityIndicatorProps {
   className?: string
@@ -6,7 +6,7 @@ interface ActivityIndicatorProps {
   size?: number
 }
 
-const ActivityIndicator: React.SFC<ActivityIndicatorProps> = ({
+const ActivityIndicator: React.FC<ActivityIndicatorProps> = ({
   className,
   size,
   fill,

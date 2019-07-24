@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import * as React from 'react'
+import React from 'react'
 import styled, { StyledProps } from 'styled-components'
 import { globalColors } from '~/lib/color/manager'
 import { Message, MessageSenderKind } from '~/redux/ducks/inbox'
@@ -97,7 +97,7 @@ interface InboxMessageProps {
   readonly showAuthorName?: boolean
 }
 
-const InboxMessage: React.SFC<InboxMessageProps> = ({
+const InboxMessage: React.FC<InboxMessageProps> = ({
   className,
   sent,
   firstFromSegment,

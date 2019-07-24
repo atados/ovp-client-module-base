@@ -10,7 +10,7 @@ import fetch from 'isomorphic-unfetch'
 import { NextComponentType } from 'next'
 import { NextAppContext } from 'next/app'
 import Head from 'next/head'
-import * as React from 'react'
+import React from 'react'
 import { ApolloProvider, getMarkupFromTree } from 'react-apollo-hooks'
 import { renderToString } from 'react-dom/server'
 import {

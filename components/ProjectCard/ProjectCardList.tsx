@@ -1,4 +1,4 @@
-import * as React from 'react'
+import React from 'react'
 import styled, { keyframes } from 'styled-components'
 import ProjectCard from '~/components/ProjectCard'
 import { range } from '~/lib/utils/array'
@@ -37,7 +37,7 @@ export enum ProjectCardListSize {
   WIDE,
 }
 
-const ProjectCardList: React.SFC<ProjectCardListProps> = ({
+const ProjectCardList: React.FC<ProjectCardListProps> = ({
   className,
   projects,
   size,

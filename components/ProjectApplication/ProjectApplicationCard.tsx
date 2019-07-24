@@ -1,6 +1,6 @@
 import moment from 'moment'
 import Link from 'next/link'
-import * as React from 'react'
+import React from 'react'
 import { InjectedIntlProps } from 'react-intl'
 import styled from 'styled-components'
 import { resolvePage } from '~/common/page'

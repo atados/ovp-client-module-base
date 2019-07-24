@@ -1,4 +1,4 @@
-import * as React from 'react'
+import React from 'react'
 import styled from 'styled-components'
 import ShareButton from '~/components/Share/ShareButton'
 
@@ -40,7 +40,7 @@ export interface ShareListProps {
   readonly url: string
 }
 
-const ShareList: React.SFC<ShareListProps> = ({
+const ShareList: React.FC<ShareListProps> = ({
   url,
   title,
   subtitle,

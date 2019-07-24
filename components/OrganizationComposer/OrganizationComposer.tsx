@@ -1,4 +1,4 @@
-import * as React from 'react'
+import React from 'react'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
 import OrganizationComposerAbout, {
@@ -65,7 +65,7 @@ interface OrganizationComposerProps {
   readonly intro?: React.ComponentType<any> | false
 }
 
-const OrganizationComposer: React.SFC<OrganizationComposerProps> = ({
+const OrganizationComposer: React.FC<OrganizationComposerProps> = ({
   stepId,
   onStepChange,
   onSubmit,

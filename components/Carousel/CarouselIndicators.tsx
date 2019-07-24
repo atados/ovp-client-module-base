@@ -1,4 +1,4 @@
-import * as React from 'react'
+import React from 'react'
 import styled from 'styled-components'
 import { CarouselContext } from '~/components/Carousel/Carousel'
 
@@ -38,7 +38,7 @@ export interface CarouselIndicatorsProps {
   readonly className?: string
 }
 
-const CarouselIndicators: React.SFC<CarouselIndicatorsProps> = ({
+const CarouselIndicators: React.FC<CarouselIndicatorsProps> = ({
   className,
   itemClassName,
 }) => (

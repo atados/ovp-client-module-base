@@ -1,4 +1,4 @@
-import * as React from 'react'
+import React from 'react'
 import { connect } from 'react-redux'
 import { Waypoint } from 'react-waypoint'
 import styled from 'styled-components'
@@ -36,7 +36,7 @@ interface BlogSectionProps {
   readonly posts: BlogPost[]
 }
 
-const BlogSection: React.SFC<BlogSectionProps> = ({
+const BlogSection: React.FC<BlogSectionProps> = ({
   onLoad,
   posts,
   filters,

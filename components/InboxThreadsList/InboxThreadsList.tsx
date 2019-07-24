@@ -1,4 +1,4 @@
-import * as React from 'react'
+import React from 'react'
 import styled, { StyledProps } from 'styled-components'
 import { InboxScreen } from '~/common/chat'
 import { InboxViewer, MessageThreadType } from '~/redux/ducks/inbox'
@@ -76,7 +76,7 @@ interface InboxThreadsListProps {
   readonly threads: MessageThreadType[]
 }
 
-const InboxThreadsList: React.SFC<InboxThreadsListProps> = ({
+const InboxThreadsList: React.FC<InboxThreadsListProps> = ({
   className,
   threads,
   currentThread,

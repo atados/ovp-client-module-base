@@ -1,6 +1,6 @@
 import moment from 'moment'
 import Link from 'next/link'
-import * as React from 'react'
+import React from 'react'
 import styled from 'styled-components'
 import { resolvePage } from '~/common/page'
 import { PublicUserApplication } from '~/redux/ducks/public-user'
@@ -52,7 +52,7 @@ interface TimelineItemProps {
   readonly application: PublicUserApplication
 }
 
-const TimelineItem: React.SFC<TimelineItemProps> = ({
+const TimelineItem: React.FC<TimelineItemProps> = ({
   className,
   application,
   onGoing,

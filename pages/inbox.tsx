@@ -1,5 +1,5 @@
 import { NextContext, NextFunctionComponent } from 'next'
-import * as React from 'react'
+import React from 'react'
 import { useQuery } from 'react-apollo-hooks'
 import styled, { StyledProps } from 'styled-components'
 import {
@@ -99,7 +99,7 @@ const InboxPage: NextFunctionComponent<InboxPageProps> = ({
 
   const children = (
     <>
-      <Meta tilte="Caixa de entrada" />
+      <Meta title="Caixa de entrada" />
 
       <Page viewerKind={viewer.kind}>
         <InboxThreadsList

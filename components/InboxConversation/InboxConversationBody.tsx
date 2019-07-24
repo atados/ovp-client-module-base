@@ -1,5 +1,5 @@
 import { ApolloError } from 'apollo-client'
-import * as React from 'react'
+import React from 'react'
 import styled from 'styled-components'
 import {
   InboxViewer,
@@ -42,7 +42,7 @@ interface InboxConversationBodyProps {
   readonly error?: Error | ApolloError
 }
 
-const InboxConversationBody: React.SFC<InboxConversationBodyProps> = ({
+const InboxConversationBody: React.FC<InboxConversationBodyProps> = ({
   className,
   thread,
   viewer,

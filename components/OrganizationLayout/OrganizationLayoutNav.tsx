@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import { withRouter, WithRouterProps } from 'next/router'
-import * as React from 'react'
+import React from 'react'
 import styled from 'styled-components'
 import { resolvePage } from '~/common/page'
 import { Organization } from '~/redux/ducks/organization'
@@ -53,7 +53,7 @@ const items: NavItemType[] = [
   },
 ]
 
-const OrganizationLayoutNav: React.SFC<
+const OrganizationLayoutNav: React.FC<
   OrganizationLayoutNavProps & WithRouterProps
 > = ({ organization, onShare, router }) => {
   return (

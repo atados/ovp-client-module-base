@@ -1,5 +1,5 @@
 import { InjectedFormikProps, withFormik } from 'formik'
-import * as React from 'react'
+import React from 'react'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
 import FormGroup from '~/components/Form/FormGroup'
@@ -27,7 +27,7 @@ enum AuthenticationRecoverStatus {
   Failed,
 }
 
-const AuthenticationRecover: React.SFC<
+const AuthenticationRecover: React.FC<
   InjectedFormikProps<AuthenticationRecoverProps, Values>
 > = ({
   successRedirect,

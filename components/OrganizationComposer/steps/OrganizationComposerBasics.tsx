@@ -1,5 +1,5 @@
 import { InjectedFormikProps, withFormik } from 'formik'
-import * as React from 'react'
+import React from 'react'
 import { connect } from 'react-redux'
 import MaskedTextInput from 'react-text-mask'
 import Textarea from 'react-textarea-autosize'

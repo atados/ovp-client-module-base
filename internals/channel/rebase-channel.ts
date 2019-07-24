@@ -30,7 +30,7 @@ export default async function() {
     }
   })
 
-  const basePkg = require(path.resolve('base', 'package.json'))
+  const basePkg = require(path.resolve('base', 'base-package.json'))
   const pkg = require(path.resolve('package.json'))
 
   pkg.channel = pkg.channel || {}

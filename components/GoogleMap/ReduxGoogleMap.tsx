@@ -1,4 +1,4 @@
-import * as React from 'react'
+import React from 'react'
 import { connect } from 'react-redux'
 import { fetchOrganization, Organization } from '~/redux/ducks/organization'
 import { fetchProject, Project } from '~/redux/ducks/project'

@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import * as React from 'react'
+import React from 'react'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
 import { colors } from '~/common/constants'
@@ -21,7 +21,7 @@ interface OrganizationAppliesProps {
   readonly payload?: OrganizationAppliesPayload
 }
 
-const OrganizationApplies: React.SFC<OrganizationAppliesProps> = ({
+const OrganizationApplies: React.FC<OrganizationAppliesProps> = ({
   fetching,
   payload,
 }) => {

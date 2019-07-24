@@ -1,5 +1,5 @@
 import baseMarked from 'marked'
-import * as React from 'react'
+import React from 'react'
 import TurndownService from 'turndown'
 
 // For security reasons i'm using marked and showdown
@@ -18,7 +18,7 @@ export const markdownToHtml = baseMarked.setOptions({
   sanitize: true,
 })
 
-const Markdown: React.SFC<MarkdownProps> = ({ className, value }) => (
+const Markdown: React.FC<MarkdownProps> = ({ className, value }) => (
   <div
     className={className}
     dangerouslySetInnerHTML={{ __html: markdownToHtml(value) }}

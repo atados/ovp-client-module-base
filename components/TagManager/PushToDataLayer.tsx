@@ -1,4 +1,4 @@
-import * as React from 'react'
+import React from 'react'
 import { DataLayerMessage, pushToDataLayer } from '~/lib/tag-manager'
 
 interface PushToDataLayerProps {
@@ -8,7 +8,7 @@ interface PushToDataLayerProps {
   readonly children: React.ReactNode
 }
 
-const PushToDataLayer: React.SFC<PushToDataLayerProps> = ({
+const PushToDataLayer: React.FC<PushToDataLayerProps> = ({
   children,
   ...props
 }) => {

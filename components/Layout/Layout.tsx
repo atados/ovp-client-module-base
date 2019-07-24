@@ -1,4 +1,4 @@
-import * as React from 'react'
+import React from 'react'
 import Footer, { FooterProps } from '~/components//Footer/Footer'
 import Toolbar, { ToolbarProps } from '~/components/Toolbar/Toolbar'
 
@@ -10,7 +10,7 @@ export interface LayoutProps {
   readonly children?: React.ReactNode
 }
 
-const Layout: React.SFC<LayoutProps> = ({
+const Layout: React.FC<LayoutProps> = ({
   children,
   toolbarProps,
   footerProps,

@@ -68,7 +68,7 @@ const Card = styled.div`
   }
 `
 
-const CausesSection: React.SFC<CausesSectionProps> = ({ causes, ...props }) => {
+const CausesSection: React.FC<CausesSectionProps> = ({ causes, ...props }) => {
   if (causes.length === 0) {
     return null
   }

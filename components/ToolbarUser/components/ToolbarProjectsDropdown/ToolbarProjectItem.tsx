@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import * as React from 'react'
+import React from 'react'
 import { InjectedIntlProps } from 'react-intl'
 import styled from 'styled-components'
 import { resolvePage } from '~/common/page'
@@ -69,7 +69,7 @@ interface ToolbarProjectItemProps {
   readonly className?: string
 }
 
-const ToolbarProjectItem: React.SFC<
+const ToolbarProjectItem: React.FC<
   ToolbarProjectItemProps & InjectedIntlProps
 > = ({
   className,

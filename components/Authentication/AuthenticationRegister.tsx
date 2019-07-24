@@ -1,6 +1,6 @@
 import { FormikState, InjectedFormikProps, withFormik } from 'formik'
 import Link from 'next/link'
-import * as React from 'react'
+import React from 'react'
 import styled from 'styled-components'
 import FormGroup from '~/components/Form/FormGroup'
 import InputAddress, {

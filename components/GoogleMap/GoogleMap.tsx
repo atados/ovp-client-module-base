@@ -1,5 +1,5 @@
 import BaseGoogleMap from 'google-map-react'
-import * as React from 'react'
+import React from 'react'
 import styled from 'styled-components'
 import { channel } from '~/common/constants'
 import Status, { StatusLevel } from '~/components/Status'
