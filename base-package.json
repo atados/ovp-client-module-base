@@ -15,25 +15,16 @@
     "css": "gulp css",
     "css:watch": "gulp watch",
     "prettier": "prettier --write \"{next.config.js,gulpfile.js,{pages,base,channel,__{tests,mocks}__}/**/*.{js,ts,tsx}}\"",
-    "rebase": "ts-node -P tsconfig.server.json -e \"require('./base/internals/channel/rebase-channel').default()\"",
-    "check-channel-conflicts": "ts-node -P tsconfig.server.json -e \"require('./base/internals/channel/check-channel-conflicts').default()\"",
-    "fix-channel-conflicts": "ts-node -P tsconfig.server.json  -e \"require('./base/internals/channel/fix-channel-conflicts').default()\""
+    "rebase": "ts-node -P tsconfig.server.json -e \"require('./base/internals/channel/rebase-channel').default()\""
   },
   "husky": {
     "hooks": {
-      "pre-commit": "yarn check-channel-conflicts && yarn type-check && lint-staged"
+      "pre-commit": "yarn type-check && lint-staged"
     }
   },
   "lint-staged": {
-    "**/*.js": [
-      "prettier --write",
-      "git add"
-    ],
-    "**/*.{ts,tsx}": [
-      "tslint --fix --project .",
-      "prettier --write",
-      "git add"
-    ]
+    "**/*.js": ["prettier --write", "git add"],
+    "**/*.{ts,tsx}": ["tslint --fix --project .", "prettier --write", "git add"]
   },
   "dependencies": {
     "@sentry/browser": "^5.1.1",
@@ -167,7 +158,7 @@
     "tslint-config-prettier": "^1.18.0",
     "tslint-react": "^4.0.0",
     "tslint-react-hooks": "^2.1.0",
-    "typescript": "^3.5.2"
+    "typescript": "^3.5.3"
   },
   "jest": {
     "collectCoverageFrom": [
@@ -187,13 +178,6 @@
       "^.+\\.(js|jsx|ts|tsx)$": "<rootDir>/node_modules/babel-jest"
     },
     "modulePaths": [],
-    "moduleFileExtensions": [
-      "ts",
-      "tsx",
-      "js",
-      "json",
-      "jsx",
-      "node"
-    ]
+    "moduleFileExtensions": ["ts", "tsx", "js", "json", "jsx", "node"]
   }
 }

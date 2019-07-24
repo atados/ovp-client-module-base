@@ -1,5 +1,5 @@
 import { IncomingMessage } from 'http'
-import withRedux, { MakeStoreOptions } from 'next-redux-wrapper'
+import withRedux from 'next-redux-wrapper'
 import { MapStateToProps } from 'react-redux'
 import { applyMiddleware, compose, createStore, Middleware } from 'redux'
 import thunk from 'redux-thunk'
@@ -16,7 +16,7 @@ declare global {
   }
 }
 
-interface MyStoreCreatorOptions extends MakeStoreOptions {
+interface MyStoreCreatorOptions {
   req?: IncomingMessage & { user?: User } & ChannelRequest & {
       locale: string
       messages: { [messageId: string]: string }
