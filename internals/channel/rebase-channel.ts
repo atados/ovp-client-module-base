@@ -17,6 +17,11 @@ export default async function() {
 
   files.map(async filename => {
     const targetFilename = filename.substr(basePagesDirname.length + 1)
+
+    if (/(_app|_error|_document)\.tsx/.test(targetFilename)) {
+      return
+    }
+
     try {
       fs.statSync(path.resolve('pages', targetFilename))
     } catch (error) {
@@ -30,12 +35,12 @@ export default async function() {
     }
   })
 
-  const basePkg = require(path.resolve('base', 'base-package.json'))
+  const basePkg = require(path.resolve('base', 'settings.json'))
   const pkg = require(path.resolve('package.json'))
 
   pkg.channel = pkg.channel || {}
 
-  writeFile(
+  await writeFile(
     path.resolve('package.json'),
     JSON.stringify(
       {
@@ -68,5 +73,17 @@ export default async function() {
       null,
       2,
     ),
+  )
+  await writeFile(
+    path.resolve('tsconfig.json'),
+    JSON.stringify(basePkg.tsconfig, null, 2),
+  )
+  await writeFile(
+    path.resolve('tsconfig.server.json'),
+    JSON.stringify(basePkg['tsconfig.server'], null, 2),
+  )
+  await writeFile(
+    path.resolve('tslint.json'),
+    JSON.stringify(basePkg['tslint'], null, 2),
   )
 }

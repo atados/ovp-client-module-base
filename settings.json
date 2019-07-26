@@ -179,5 +179,62 @@
     },
     "modulePaths": [],
     "moduleFileExtensions": ["ts", "tsx", "js", "json", "jsx", "node"]
+  },
+  "tsconfig": {
+    "compileOnSave": false,
+    "compilerOptions": {
+      "target": "esnext",
+      "module": "esnext",
+      "jsx": "preserve",
+      "allowJs": false,
+      "moduleResolution": "node",
+      "allowSyntheticDefaultImports": true,
+      "noUnusedLocals": true,
+      "noUnusedParameters": true,
+      "removeComments": false,
+      "strictNullChecks": true,
+      "preserveConstEnums": true,
+      "resolveJsonModule": true,
+      "sourceMap": true,
+      "skipLibCheck": true,
+      "noEmit": true,
+      "baseUrl": ".",
+      "paths": {
+        "~/base/*": ["base/*"],
+        "~/pages/*": ["channel/pages/*", "base/pages/*"],
+        "~/*": ["channel/*", "base/*"]
+      },
+      "typeRoots": ["./base/types", "./node_modules/@types"],
+      "lib": ["dom", "es2015", "es2016"]
+    },
+    "exclude": ["tmp", "node_modules", ".next", ".dist"]
+  },
+  "tsconfig.server": {
+    "extends": "./tsconfig.json",
+    "compilerOptions": {
+      "module": "commonjs",
+      "outDir": ".next/production-server/"
+    },
+    "exclude": ["tmp", "node_modules", ".storybook", "stories", ".dist"],
+    "include": ["base/server/**/*.ts", "channel/server/**/*.ts"]
+  },
+  "tslint": {
+    "defaultSeverity": "error",
+    "extends": [
+      "tslint:recommended",
+      "tslint-config-prettier",
+      "tslint-react-hooks"
+    ],
+    "rules": {
+      "interface-name": [true, "never-prefix"],
+      "object-literal-sort-keys": false,
+      "jsx-no-lambda": [false],
+      "no-console": [true, "log"],
+      "no-relative-imports": ["never"]
+    },
+    "rulesDirectory": [],
+    "linterOptions": {
+      "exclude": ["node_modules/**/*"]
+    }
   }
 }
