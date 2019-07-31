@@ -19,11 +19,22 @@ export default async function() {
     const targetFilename = filename.substr(basePagesDirname.length + 1)
 
     if (/(_app|_error|_document)\.tsx/.test(targetFilename)) {
+      try {
+        fs.statSync(path.resolve('pages', targetFilename))
+      } catch (error) {
+        await writeFile(
+          path.resolve('pages', targetFilename),
+          `export { default } from '~/pages/${path.basename(
+            targetFilename,
+            path.extname(targetFilename),
+          )}'`,
+        )
+      }
       return
     }
 
     try {
-      fs.statSync(path.resolve('pages', targetFilename))
+      fs.statSync(path.resolve('pages', 'base', targetFilename))
     } catch (error) {
       await writeFile(
         path.resolve('pages', 'base', targetFilename),
