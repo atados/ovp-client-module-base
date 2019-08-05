@@ -6,8 +6,8 @@ const { promisify } = require('util')
 const execAsync = promisify(exec)
 
 async function run() {
-  const { stdout } = await execAsync('git submodule status', {
-    cwd: path.resolve(),
+  const { stdout } = await execAsync('git status --porcelain', {
+    cwd: path.resolve('base'),
   })
 
   if (stdout) {
