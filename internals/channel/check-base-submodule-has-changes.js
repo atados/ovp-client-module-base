@@ -9,7 +9,7 @@ async function run() {
   const { stdout } = await execAsync(
     'git submodule foreach -q git status --porcelain',
     {
-      cwd: path.resolve('base'),
+      cwd: path.resolve(),
     },
   )
 
