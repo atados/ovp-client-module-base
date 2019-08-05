@@ -3,6 +3,8 @@ import isoFetch from 'isomorphic-fetch'
 import queryString from 'query-string'
 import { API_URL, channel, dev } from '~/common/constants'
 
+const LOG_ALL = process.env.NODE_LOG === 'ALL'
+
 export interface Options {
   asJSON?: boolean
   method?: 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH'
@@ -24,7 +26,7 @@ export class FetchJSONError extends Error {
   ) {
     super(
       `Failed to fetch ${fixedUrl || response.url}${
-        dev ? `\nPayload = ${JSON.stringify(payload)}` : ''
+        dev || LOG_ALL ? `\nPayload = ${JSON.stringify(payload)}` : ''
       }`,
     )
 
