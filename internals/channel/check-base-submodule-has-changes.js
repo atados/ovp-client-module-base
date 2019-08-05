@@ -6,9 +6,12 @@ const { promisify } = require('util')
 const execAsync = promisify(exec)
 
 async function run() {
-  const { stdout } = await execAsync('git status --porcelain', {
-    cwd: path.resolve('base'),
-  })
+  const { stdout } = await execAsync(
+    'git submodule foreach -q git status --porcelain',
+    {
+      cwd: path.resolve('base'),
+    },
+  )
 
   if (stdout) {
     throw new Error('Base submodule has uncommit changes')
