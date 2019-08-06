@@ -100,18 +100,17 @@ export type SearchOption =
 
 const DropdownInputWrapper = styled(Dropdown)`
   width: 100%;
-  height: 36px;
+  height: 40px;
   box-shadow: ${props =>
     props.theme.toolbarBackground
       ? '0 0 1px rgba(0,0,0,.2), 0 0 2px rgba(0,0,0,.2)'
       : ''};
-  border-radius: 4px;
+  border-radius: 20px;
 
   > input {
     height: 40px;
     padding-left: 40px;
     position: absolute;
-    margin: -2px 0;
     z-index: 50;
     top: 0;
     left: 0;
@@ -122,7 +121,7 @@ const DropdownInputWrapper = styled(Dropdown)`
   > .searchForm__icon {
     position: absolute;
     left: 12px;
-    top: 3px;
+    top: 6px;
     font-size: 20px;
     color: #666;
     z-index: 54;
@@ -137,10 +136,10 @@ const Form = styled.form`
     content: '';
     left: 16px;
     right: 16px;
-    background: #ddd;
+    background: rgba(0, 0, 0, 0.1);
     height: 1px;
     position: absolute;
-    top: 37px;
+    bottom: 0;
     z-index: 56;
   }
 

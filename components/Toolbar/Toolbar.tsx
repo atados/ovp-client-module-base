@@ -81,9 +81,9 @@ const Toolbar: React.FC<ToolbarProps> = ({
 
   return (
     <ToolbarStyled
-      className={`${fixed ? 'fixed top-0 left-0 right-0' : 'pos-relative'} ${
-        !flat ? 'shadow' : ''
-      } ${className || ''}`}
+      className={`toolbar ${
+        fixed ? 'fixed top-0 left-0 right-0' : 'pos-relative'
+      } ${!flat ? 'shadow' : ''} ${className || ''}`}
     >
       <Navbar className={`h-full navbar navbar-expand-lg px-0 navbar-${theme}`}>
         <div className="container w-full">

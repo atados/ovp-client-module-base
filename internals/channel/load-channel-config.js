@@ -2,7 +2,6 @@ const channelConfig = require('../../../channel.json')
 const channelConfigSchema = require('./channel-config-schema')
 
 module.exports = () => {
-  const { config: modulesConfig } = channelConfig
   const channel = channelConfigSchema.cast(channelConfig)
 
   // Validate channel

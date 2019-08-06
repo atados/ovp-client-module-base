@@ -3,11 +3,6 @@ import styled, { StyledProps } from 'styled-components'
 import Dropdown, { DropdownMenu } from '~/components/Dropdown'
 import Popover from '~/components/Popover/Popover'
 
-const Tooltip = styled.span`
-  bottom: -34px;
-  right: 10px;
-`
-
 const CountIndicator = styled.span`
   position: absolute;
   top: 0;
@@ -170,17 +165,11 @@ class ToolbarDropdown extends React.Component<ToolbarDropdownProps> {
       pendingCount,
       popover,
       icon,
-      title,
       popoverId,
       popoverExpiration,
     } = this.props
 
-    const button = (
-      <ButtonIcon onClick={this.handleClick} className="w-40 h-40">
-        {icon}
-        <Tooltip className="tooltip">{title}</Tooltip>
-      </ButtonIcon>
-    )
+    const button = <ButtonIcon onClick={this.handleClick}>{icon}</ButtonIcon>
 
     return (
       <Dropdown

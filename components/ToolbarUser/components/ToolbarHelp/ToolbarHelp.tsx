@@ -369,7 +369,7 @@ class ToolbarHelpDropdown extends React.Component<
         onOpen={onFetchQuestions}
         className={className}
         title="Dúvidas"
-        icon={<Icon name="help" />}
+        icon={<span className="nav-link">Dúvidas</span>}
       >
         <Container>
           <Header>
