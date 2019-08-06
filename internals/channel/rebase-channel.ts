@@ -95,6 +95,6 @@ export default async function() {
   )
   await writeFile(
     path.resolve('tslint.json'),
-    JSON.stringify(basePkg['tslint'], null, 2),
+    JSON.stringify(basePkg.tslint, null, 2),
   )
 }

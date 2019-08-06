@@ -1,7 +1,7 @@
-import useIntl from '~/hooks/use-intl'
 import React from 'react'
 import styled from 'styled-components'
 import { colors } from '~/common/constants'
+import useIntl from '~/hooks/use-intl'
 import { formatDisponibility } from '~/lib/project/utils'
 import { Project } from '~/redux/ducks/project'
 import Icon from '../Icon'
