@@ -12,6 +12,7 @@ import Icon from '../Icon'
 import { unwrapLink, wrapLink } from './commands'
 import MarkdownEditorHoverMenu from './MarkdownEditorHoverMenu'
 import serializer from './serializer'
+import { channel } from '~/base/common/constants'
 
 const plugins = [PasteLinkify()]
 
@@ -42,7 +43,7 @@ const Control = styled.button`
   margin-right: 8px;
   background: none !important;
   color: ${(props: StyledProps<ControlProps>) =>
-    props.active ? `${props.theme.colorPrimary} !important` : '#999'};
+    props.active ? `${channel.theme.color.primary[500]} !important` : '#999'};
 `
 
 export interface EditorControlType {
@@ -246,7 +247,7 @@ class MarkdownEditor extends React.PureComponent<
 
     return (
       <Container className={`${className ? ` ${className}` : ''}`}>
-        <div className="input pos-relative">
+        <div className="input relative">
           {controls && (
             <Controls>
               {this.marks.map(mark => (

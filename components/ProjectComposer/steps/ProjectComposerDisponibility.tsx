@@ -129,7 +129,7 @@ const ProjectComposerDisponibility: React.FC<
           />
           <div className="media-body">
             Essa vaga pode ser feita a distância
-            <span className="tc-muted d-block ts-tiny">
+            <span className="tc-muted block ts-tiny">
               Marque caso essa vaga aceita voluntários remotos
             </span>
           </div>

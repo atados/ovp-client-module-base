@@ -4,6 +4,7 @@ import { getPlacePredictions } from '~/lib/maps/google-maps-autocomplete'
 import { reportError } from '~/lib/utils/error'
 import Dropdown, { DropdownMenu } from '../Dropdown'
 import Icon from '../Icon'
+import { channel } from '~/base/common/constants'
 
 const InputIcon = styled(Icon)`
   position: absolute;
@@ -16,7 +17,7 @@ const InputIcon = styled(Icon)`
   height: 30px;
 
   &.active {
-    color: ${props => props.theme.colorPrimary};
+    color: ${channel.theme.color.primary[500]};
   }
 
   &.right {
@@ -39,7 +40,7 @@ const Input = styled.input`
   }
 
   &:focus + ${InputIcon} {
-    color: ${props => props.theme.colorPrimary};
+    color: ${channel.theme.color.primary[500]};
   }
 `
 
@@ -57,7 +58,7 @@ const Option = styled.button`
   border-bottom: 1px solid #eee;
 
   &:hover {
-    background: ${props => props.theme.colorPrimary};
+    background: ${channel.theme.color.primary[500]};
     color: #fff;
   }
 `
@@ -83,7 +84,7 @@ const Overlay = styled.button`
   bottom: 0;
   right: 0;
   border-radius: 4px;
-  color: ${props => props.theme.colorPrimary};
+  color: ${channel.theme.color.primary[500]};
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -311,7 +312,7 @@ class InputAddress extends React.Component<
               data-index={i}
               key={node.place_id}
               type="button"
-              className="d-block py-1"
+              className="block py-1"
               onClick={this.handleOptionClick}
             >
               {node.description}

@@ -1,9 +1,8 @@
-import { NextStatelessComponent } from 'next'
+import { NextPage } from 'next'
 import Link from 'next/link'
 import React from 'react'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
-import { resolvePage } from '~/common/page'
 import Layout from '~/components/Layout'
 import Meta from '~/components/Meta'
 import SearchSources from '~/components/SearchSources'
@@ -22,6 +21,8 @@ import {
   SearchType,
 } from '~/redux/ducks/search'
 import { RootState } from '~/redux/root-reducer'
+import { PageAs, Page } from '~/common'
+import { channel } from '../common/constants'
 
 const Hero = styled.div`
   padding: 100px 0;
@@ -38,7 +39,7 @@ const CauseLink = styled.a`
 
   &.active {
     color: #fff !important;
-    background: ${props => props.theme.colorPrimary};
+    background: ${channel.theme.color.primary[500]};
   }
 `
 
@@ -62,7 +63,7 @@ interface CausePageProps {
   readonly sources: Array<SearchSource<Project | Organization>>
 }
 
-const CausePage: NextStatelessComponent<
+const CausePage: NextPage<
   CausePageProps,
   Pick<CausePageProps, 'cause' | 'backgroundColor'>
 > = ({
@@ -86,18 +87,18 @@ const CausePage: NextStatelessComponent<
         </h1>
       </div>
     </Hero>
-    <div className="d-flex container py-5">
-      <Sidebar className="d-none d-md-block">
+    <div className="flex container py-5">
+      <Sidebar className="hidden md:block">
         <h4 className="ts-medium nav-link">Causas</h4>
         {causes.map(c => (
           <Link
             key={c.id}
-            href={{ pathname: resolvePage('/cause'), query: { slug: c.slug } }}
-            as={`/causa/${c.slug}`}
+            as={PageAs.Cause({ slug: c.slug })}
+            href={Page.Cause}
           >
             <CauseLink
               href={`/causa/${c.slug}`}
-              className={`text-truncate d-block nav-link${
+              className={`text-truncate block nav-link${
                 c.id === cause.id ? ' active' : ''
               }`}
             >

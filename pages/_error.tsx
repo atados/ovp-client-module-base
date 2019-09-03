@@ -1,4 +1,4 @@
-import { NextContext } from 'next'
+import { NextPageContext } from 'next'
 import React from 'react'
 import styled from 'styled-components'
 import { dev } from '~/common/constants'
@@ -19,7 +19,7 @@ class ErrorPage extends React.Component<ErrorPageProps> {
   public static getInitialProps({
     res,
     err,
-  }: NextContext & { err?: Error & { statusCode?: number } }) {
+  }: NextPageContext & { err?: Error & { statusCode?: number } }) {
     const statusCode = res ? res.statusCode : err ? err.statusCode : null
     return {
       statusCode: statusCode || 404,

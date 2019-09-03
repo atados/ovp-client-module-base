@@ -1,5 +1,5 @@
 import { InjectedFormikProps, withFormik } from 'formik'
-import { NextContext, NextStatelessComponent } from 'next'
+import { NextPageContext, NextPage } from 'next'
 import React from 'react'
 import { connect } from 'react-redux'
 import ActivityIndicator from '~/components/ActivityIndicator'
@@ -32,7 +32,7 @@ interface Values {
   readonly confirmNewPassword: string
 }
 
-const SettingsPassword: NextStatelessComponent<
+const SettingsPassword: NextPage<
   InjectedFormikProps<SettingsPasswordProps, Values>,
   {}
 > = ({
@@ -140,7 +140,7 @@ const SettingsPassword: NextStatelessComponent<
 }
 
 SettingsPassword.displayName = 'SettingsPassword'
-SettingsPassword.getInitialProps = async (context: NextContext) => {
+SettingsPassword.getInitialProps = async (context: NextPageContext) => {
   await getPublicUserLayoutInitialProps(context)
   const {
     user: authenticatedUser,

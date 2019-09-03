@@ -155,7 +155,7 @@ const ProjectComposerBasics: React.FC<
       disabled={!isValid}
       helpPanelChildren={
         <div className="px-3 py-5">
-          <span className="tc-muted tw-medium ts-small mb-3 d-block ta-center">
+          <span className="tc-muted tw-medium ts-small mb-3 block ta-center">
             COMO SUA VAGA VAI SER VISTA:
           </span>
           <ProjectComposerCard values={values} className="mx-auto" />

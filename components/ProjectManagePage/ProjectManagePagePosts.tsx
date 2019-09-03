@@ -2,7 +2,6 @@ import moment from 'moment'
 import Link from 'next/link'
 import React from 'react'
 import styled from 'styled-components'
-import { resolvePage } from '~/common/page'
 import { Project } from '~/redux/ducks/project'
 import ClosePostForm from '../ClosePostForm'
 import Icon from '../Icon'
@@ -65,11 +64,11 @@ const ProjectManagePagePosts: React.FC<ProjectManagePagePostsProps> = ({
         className ? ` ${className}` : ''
       }`}
     >
-      <div className="p-4 pos-relative">
+      <div className="p-4 relative">
         {hasPosts && (
           <Link
             href={{
-              pathname: resolvePage('/post-form'),
+              pathname: '/post-form',
               query: {
                 nodeKind: 'project',
                 nodeSlug: project.slug,
@@ -78,9 +77,7 @@ const ProjectManagePagePosts: React.FC<ProjectManagePagePostsProps> = ({
             }}
             as={
               organizationSlug
-                ? `/ong/${organizationSlug}/vaga/${
-                    project.slug
-                  }/publicacoes/nova`
+                ? `/ong/${organizationSlug}/vaga/${project.slug}/publicacoes/nova`
                 : `/minhas-vagas/vaga/${project.slug}/publicacoes/nova`
             }
           >
@@ -95,16 +92,16 @@ const ProjectManagePagePosts: React.FC<ProjectManagePagePostsProps> = ({
       {!hasPosts && (
         <div className="pb-5 ta-center">
           <PlaceholderIcon name="library_books" />
-          <span className="h4 d-block tw-normal mb-2">
+          <span className="h4 block tw-normal mb-2">
             Essa vaga ainda não possui nenhuma publicação
           </span>
-          <span className="tc-muted d-block mb-3">
+          <span className="tc-muted block mb-3">
             As publicações são um espaço para a história dessa vaga. Conta o que
             ta rolando!
           </span>
           <Link
             href={{
-              pathname: resolvePage('/post-form'),
+              pathname: '/post-form',
               query: {
                 nodeKind: 'project',
                 nodeSlug: project.slug,
@@ -113,9 +110,7 @@ const ProjectManagePagePosts: React.FC<ProjectManagePagePostsProps> = ({
             }}
             as={
               organizationSlug
-                ? `/ong/${organizationSlug}/vaga/${
-                    project.slug
-                  }/publicacoes/nova`
+                ? `/ong/${organizationSlug}/vaga/${project.slug}/publicacoes/nova`
                 : `/minhas-vagas/vaga/${project.slug}/publicacoes/nova`
             }
           >
@@ -147,7 +142,7 @@ const ProjectManagePagePosts: React.FC<ProjectManagePagePostsProps> = ({
                   <td style={{ width: 190 }} className="ta-right">
                     <Link
                       href={{
-                        pathname: resolvePage('/post-form'),
+                        pathname: '/post-form',
                         query: {
                           nodeKind: 'project',
                           nodeSlug: project.slug,
@@ -157,12 +152,8 @@ const ProjectManagePagePosts: React.FC<ProjectManagePagePostsProps> = ({
                       }}
                       as={
                         organizationSlug
-                          ? `/ong/${organizationSlug}/vaga/${
-                              project.slug
-                            }/publicacoes/editar/${post.id}`
-                          : `/minhas-vagas/vaga/${
-                              project.slug
-                            }/publicacoes/editar/${post.id}`
+                          ? `/ong/${organizationSlug}/vaga/${project.slug}/publicacoes/editar/${post.id}`
+                          : `/minhas-vagas/vaga/${project.slug}/publicacoes/editar/${post.id}`
                       }
                     >
                       <a className="btn btn-muted btn--size-2 mr-2">

@@ -1,10 +1,8 @@
-import { NextContext } from 'next'
+import { NextPageContext } from 'next'
 import Link from 'next/link'
-import { withRouter, WithRouterProps } from 'next/router'
 import React from 'react'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
-import { resolvePage } from '~/common/page'
 import { NotFoundPageError } from '~/lib/next/errors'
 import { fetchPublicUser, PublicUser } from '~/redux/ducks/public-user'
 import { RootState } from '~/redux/root-reducer'
@@ -71,7 +69,7 @@ interface PublicUserLayoutProps {
   readonly children?: React.ReactNode
 }
 
-const PublicUserLayout: React.FC<PublicUserLayoutProps & WithRouterProps> = ({
+const PublicUserLayout: React.FC<PublicUserLayoutProps> = ({
   publicUser,
   isAuthenticatedUser,
   children,
@@ -84,7 +82,7 @@ const PublicUserLayout: React.FC<PublicUserLayoutProps & WithRouterProps> = ({
   return (
     <Layout toolbarProps={{ fixed: true }}>
       <div className="p-toolbar">
-        <Container className="container d-md-flex py-5">
+        <Container className="container md:flex py-5">
           <Sidebar className="container ta-center ta-md-left">
             {sidebar || (
               <>
@@ -106,7 +104,7 @@ const PublicUserLayout: React.FC<PublicUserLayoutProps & WithRouterProps> = ({
                 {isAuthenticatedUser && (
                   <Link
                     href={{
-                      pathname: resolvePage('/settings-user'),
+                      pathname: '/settings-user',
                       query: { slug: publicUser.slug },
                     }}
                     as="/configuracoes/perfil"
@@ -128,7 +126,7 @@ PublicUserLayout.displayName = 'PublicUserLayout'
 export const getPublicUserLayoutInitialProps = async ({
   store,
   query: { slug },
-}: NextContext) => {
+}: NextPageContext) => {
   if (typeof slug !== 'string') {
     throw new NotFoundPageError()
   }
@@ -159,6 +157,4 @@ const mapStateToProps = ({ user, publicUser }: RootState) => ({
   publicUser: publicUser.node,
 })
 
-export default React.memo(
-  withRouter<PublicUserLayoutProps>(connect(mapStateToProps)(PublicUserLayout)),
-)
+export default React.memo(connect(mapStateToProps)(PublicUserLayout))

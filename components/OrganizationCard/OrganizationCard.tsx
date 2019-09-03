@@ -1,12 +1,12 @@
 import Link from 'next/link'
 import React from 'react'
-import { InjectedIntlProps } from 'react-intl'
 import styled from 'styled-components'
+import { withIntl } from '~/base/lib/intl'
 import { APP_URL } from '~/common/constants'
-import { resolvePage } from '~/common/page'
-import { withIntl } from '~/lib/intl'
 import { pushToDataLayer } from '~/lib/tag-manager'
 import { Organization } from '~/redux/ducks/organization'
+import { Page, PageAs } from '~/common'
+import { WithIntlProps } from 'react-intl'
 
 const Header = styled.div`
   position: relative;
@@ -63,12 +63,14 @@ export const styles = {
   Description,
 }
 
-interface OrganizationCardProps extends InjectedIntlProps {
+interface OrganizationCardProps {
   readonly className?: string
   readonly organization: Organization
 }
 
-class OrganizationCard extends React.Component<OrganizationCardProps> {
+class OrganizationCard extends React.Component<
+  OrganizationCardProps & WithIntlProps<any>
+> {
   public handleLinkClick = () => {
     const { organization } = this.props
 
@@ -85,11 +87,8 @@ class OrganizationCard extends React.Component<OrganizationCardProps> {
 
     return (
       <Link
-        href={{
-          pathname: resolvePage('/organization'),
-          query: { slug: organization.slug },
-        }}
-        as={`/ong/${organization.slug}`}
+        href={Page.Organization}
+        as={PageAs.Organization({ slug: organization.slug })}
       >
         <Anchor
           href={`/ong/${organization.slug}`}
@@ -129,7 +128,7 @@ class OrganizationCard extends React.Component<OrganizationCardProps> {
               `${organization.address.city_state}, `} ${
               organization.address.typed_address
             }`}
-            className="w-100 tc-secondary"
+            className="w-100 tc-secondary-500"
           >
             {organization.address.city_state &&
               `${organization.address.city_state}, `}

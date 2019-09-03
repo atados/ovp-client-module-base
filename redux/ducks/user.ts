@@ -1,7 +1,38 @@
+import { Dispatch } from 'redux'
+import cookie from 'js-cookie'
+import deserializeUser from '~/base/lib/auth/deserialize-user'
 import { Cause, Skill } from './channel'
 import { editOrganization } from './organization-composer'
 import { sendRating } from './ratings'
 import { updateUser } from './user-update'
+
+export const loginWithSessionToken = (sessionToken: string) => {
+  return async (dispatch: Dispatch) => {
+    cookie.set('sessionToken', sessionToken)
+    try {
+      const user = await deserializeUser(sessionToken)
+      dispatch({
+        type: 'LOGIN',
+        payload: user,
+      })
+    } catch (error) {
+      if (error.payload && error.payload.detail) {
+        cookie.remove('sessionToken')
+        return
+      }
+
+      throw error
+    }
+  }
+}
+
+export const logout = () => {
+  cookie.remove('sessionToken')
+
+  return {
+    type: 'LOGOUT',
+  }
+}
 
 export interface User {
   uuid: string
@@ -47,6 +78,14 @@ export interface UserProfile {
 export type UserState = User | null
 
 export default (user: User | null = null, action): UserState => {
+  if (action.type === 'LOGOUT') {
+    return null
+  }
+
+  if (action.type === 'LOGIN') {
+    return action.payload
+  }
+
   if (user && action.type === sendRating.type && !action.pending) {
     return {
       ...user,

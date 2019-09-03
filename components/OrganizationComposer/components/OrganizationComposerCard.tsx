@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import { InputAddressValueType } from '~/components/InputAddress/InputAddress'
 import { InputImageValueType } from '~/components/InputImage/InputImage'
 import { styles } from '~/components/OrganizationCard/OrganizationCard'
+import { channel } from '~/base/common/constants'
 
 const Container = styled.div`
   max-width: 300px;
@@ -11,7 +12,7 @@ const Container = styled.div`
 const InfoPlaceholder = styled.div`
   width: 75%;
   height: 18px;
-  background: ${props => props.theme.colorSecondary};
+  background: ${channel.theme.color.secondary[500]};
   margin-bottom: 8px;
 `
 
@@ -79,7 +80,7 @@ const OrganizationComposerCard: React.FC<OrganizationComposerCardProps> = ({
       <HeaderInner className="ratio-fill" style={{ paddingTop: '100%' }} />
     </Header>
     {address ? (
-      <Info className="w-100 tc-secondary">{address.node.description}</Info>
+      <Info className="w-100 tc-secondary-500">{address.node.description}</Info>
     ) : (
       <InfoPlaceholder />
     )}

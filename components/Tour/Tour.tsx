@@ -2,6 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import Icon from '../Icon'
 import RouterSwitch from '../RouterSwitch'
+import { channel } from '~/base/common/constants'
 
 const Container = styled.div``
 const Figure = styled.div`
@@ -60,7 +61,7 @@ const Indicator = styled.span`
   }
 
   &.active {
-    background: ${props => props.theme.colorPrimary};
+    background: ${channel.theme.color.primary[500]};
   }
 `
 

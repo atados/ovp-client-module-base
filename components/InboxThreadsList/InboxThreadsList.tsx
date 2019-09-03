@@ -89,13 +89,13 @@ const InboxThreadsList: React.FC<InboxThreadsListProps> = ({
       show={currentScreen === InboxScreen.Threads}
     >
       <Header>
-        <h4 className="d-block ts-medium mt-2 text-truncate tw-medium tc-muted-dark">
+        <h4 className="block ts-medium mt-2 text-truncate tw-medium tc-muted-dark">
           Caixa de entrada
         </h4>
       </Header>
       <Body>
         <ScrollableArea>
-          <span className="tc-muted ts-tiny mt-2 px-2 mb-1 d-block">
+          <span className="tc-muted ts-tiny mt-2 px-2 mb-1 block">
             Mostrando {threads.length} conversas
           </span>
           {threads.map(thread => (

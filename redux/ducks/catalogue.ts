@@ -32,6 +32,7 @@ export interface CatalogueOrganizationSection {
   id: string
   name: string
   slug: string
+  order: number
   type: 'organizations'
   organizations: Organization[]
 }
@@ -40,6 +41,7 @@ export interface CatalogueProjectSection {
   id: string
   name: string
   slug: string
+  order: number
   type: 'projects'
   projects: Project[]
 }

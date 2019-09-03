@@ -1,13 +1,14 @@
 import moment from 'moment'
 import Link from 'next/link'
 import React from 'react'
-import { InjectedIntlProps } from 'react-intl'
+import { WithIntlProps } from 'react-intl'
 import styled from 'styled-components'
-import { resolvePage } from '~/common/page'
 import Icon from '~/components/Icon'
 import { withIntl } from '~/lib/intl'
 import { findNearestDate, formatDisponibility } from '~/lib/project/utils'
 import { Project } from '~/redux/ducks/project'
+import { Page, PageAs } from '~/common'
+import { channel } from '~/base/common/constants'
 
 // const Container = styled.div``
 const Thumbnail = styled.div`
@@ -26,7 +27,7 @@ const Thumbnail = styled.div`
 
 const Info = styled.div`
   height: 48px;
-  background: ${props => props.theme.colorPrimary};
+  background: ${channel.theme.color.primary[500]};
   color: #fff;
   box-shadow: none;
 
@@ -53,7 +54,7 @@ const OrganizationAvatar = styled.figure`
   background-color: #ddd;
 `
 
-interface ProjectApplicationCardProps extends InjectedIntlProps {
+interface ProjectApplicationCardProps extends WithIntlProps<any> {
   readonly className?: string
   readonly project: Project
   readonly renderThumbnail?: boolean
@@ -66,7 +67,7 @@ interface ProjectApplicationCardState {
 }
 
 class ProjectApplicationCard extends React.Component<
-  ProjectApplicationCardProps & InjectedIntlProps,
+  ProjectApplicationCardProps & WithIntlProps<any>,
   ProjectApplicationCardState
 > {
   constructor(props) {
@@ -141,9 +142,7 @@ class ProjectApplicationCard extends React.Component<
               style={
                 project.image
                   ? {
-                      backgroundImage: `url('${
-                        project.image.image_medium_url
-                      }')`,
+                      backgroundImage: `url('${project.image.image_medium_url}')`,
                     }
                   : undefined
               }
@@ -160,11 +159,8 @@ class ProjectApplicationCard extends React.Component<
         {project.organization && (
           <Block className="py-2 px-3">
             <Link
-              href={{
-                pathname: resolvePage('/organization'),
-                query: { slug: project.organization.slug },
-              }}
-              as={`/ong/${project.organization.slug}`}
+              href={Page.Organization}
+              as={PageAs.Organization({ slug: project.organization.slug })}
             >
               <a className="media tc-base text-truncate">
                 <OrganizationAvatar
@@ -177,10 +173,10 @@ class ProjectApplicationCard extends React.Component<
                   }}
                 />
                 <div className="media-body tl-heading">
-                  <span className="tc-muted d-block ts-small mb-1">
+                  <span className="tc-muted block ts-small mb-1">
                     Realizado pela ONG:
                   </span>
-                  <span className="text-truncate tw-medium text-truncate d-block">
+                  <span className="text-truncate tw-medium text-truncate block">
                     {project.organization.name}
                   </span>
                 </div>
@@ -192,7 +188,7 @@ class ProjectApplicationCard extends React.Component<
           <>
             <Block className="py-2 px-3">
               <div className="media">
-                <Icon name="place" className="tc-primary ts-medium mr-2" />
+                <Icon name="place" className="tc-primary-500 ts-medium mr-2" />
                 <div className="media-body">
                   {project.address.typed_address}
                 </div>
@@ -201,7 +197,7 @@ class ProjectApplicationCard extends React.Component<
           </>
         )}
         {!(project.closed || project.canceled) && (
-          <div className="p-3 pos-relative">
+          <div className="p-3 relative">
             {!project.current_user_is_applied && (
               <>
                 {project.roles && project.roles.length > 0 && (
@@ -250,7 +246,7 @@ class ProjectApplicationCard extends React.Component<
                 </>
               )}
             </button>
-            <span className="tc-muted ta-center mt-2 d-block ts-small">
+            <span className="tc-muted ta-center mt-2 block ts-small">
               Há uma segunda etapa de inscrição
             </span>
           </div>

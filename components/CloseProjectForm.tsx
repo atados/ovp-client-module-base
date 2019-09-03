@@ -38,7 +38,7 @@ const CloseProjectForm: React.FC<CloseProjectFormProps> = ({
         Ao encerrar a vaga você não poderá mais reabri-la, ela sairá da listagem
         na plataforma e não poderá receber mais inscrições.
       </p>
-      <div className="d-flex">
+      <div className="flex">
         <button
           type="button"
           onClick={onCancel}

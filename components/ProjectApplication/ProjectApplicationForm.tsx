@@ -70,7 +70,7 @@ const ProjectApplicationFormProps: React.FC<
 
       {roles && roles.length > 0 && (
         <>
-          <b className="d-block mb-2">Função</b>
+          <b className="block mb-2">Função</b>
           <div className="card mb-4">
             {roles.map(role => (
               <div key={role.id} className="card-item">

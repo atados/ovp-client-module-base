@@ -35,7 +35,7 @@ const Option = styled.a`
   }
 
   &:hover {
-    border-color: ${channel.theme.colorPrimary};
+    border-color: ${channel.theme.color.primary[500]};
   }
 `
 
@@ -100,7 +100,7 @@ const ProjectComposerIntro: React.FC<ProjectComposerIntroProps> = ({
             <figure>
               <OptionIcon name="add" />
             </figure>
-            <OptionTitleCenter className="h4 tw-normal mb-1 text-truncate d-block">
+            <OptionTitleCenter className="h4 tw-normal mb-1 text-truncate block">
               Criar uma nova vaga
             </OptionTitleCenter>
           </Option>
@@ -129,7 +129,7 @@ const ProjectComposerIntro: React.FC<ProjectComposerIntroProps> = ({
                     : undefined
                 }
               />
-              <OptionTitle className="mb-1 text-truncate d-block">
+              <OptionTitle className="mb-1 text-truncate block">
                 {draft.value.name || 'Adicione um nome'}
               </OptionTitle>
               <p className="tc-muted-dark tw-normal">

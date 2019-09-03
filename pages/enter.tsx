@@ -1,6 +1,5 @@
 import Router from 'next/router'
 import React from 'react'
-import { resolvePage } from '~/common/page'
 import Authentication from '~/components/Authentication'
 import {
   AUTH_ERROR_EMAIL_CODE,
@@ -51,9 +50,7 @@ class EnterPage extends React.Component<EnterPageProps, EnterPageState> {
     const { successRedirect } = this.props
     const search = `?next=${successRedirect}`
     Router.push(
-      `${resolvePage(
-        '/enter',
-      )}?path=${nextPath}&successRedirect=${successRedirect}`,
+      `/enter?path=${nextPath}&successRedirect=${successRedirect}`,
       nextPath === '/recover'
         ? `/redefinir-senha${search}`
         : nextPath === '/login'
@@ -63,7 +60,6 @@ class EnterPage extends React.Component<EnterPageProps, EnterPageState> {
   }
 
   public render() {
-    const { successRedirect, errorCode } = this.props
     const { location } = this.state
 
     const isLogin = location.path === '/login'
@@ -76,15 +72,8 @@ class EnterPage extends React.Component<EnterPageProps, EnterPageState> {
         />
         <div className="py-5 bg-muted">
           <div className="container container--sm">
-            <div className="card">
-              <Authentication
-                className="p-5"
-                onLocationChange={this.handleLocationChange}
-                location={location}
-                disableBackButton
-                successRedirect={successRedirect}
-                errorCode={errorCode}
-              />
+            <div className="card rounded-lg p-5">
+              <Authentication />
             </div>
           </div>
         </div>

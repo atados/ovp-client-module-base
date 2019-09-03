@@ -125,7 +125,7 @@ const InboxConversationForm: React.FunctionComponent<
 
   return (
     <Container className={className} onSubmit={submit}>
-      <div className="pos-relative">
+      <div className="relative">
         <SendButton type="submit" className="btn btn-text">
           <Icon name="send" />
         </SendButton>

@@ -1,7 +1,6 @@
 import Link from 'next/link'
 import React, { useCallback } from 'react'
 import styled from 'styled-components'
-import { resolvePage } from '~/common/page'
 import { PublicUserApplication } from '~/redux/ducks/public-user'
 import Icon from '../Icon'
 
@@ -51,19 +50,19 @@ const ToolbarApplicationsItem: React.FC<ToolbarApplicationsItemProps> = ({
     >
       <Link
         href={{
-          pathname: resolvePage('/project'),
+          pathname: '/project',
           query: { slug: project.slug },
         }}
         as={`/vaga/${project.slug}`}
       >
         <a
-          className={`tc-base td-hover-none d-block p-2 pl-5 ${
+          className={`tc-base td-hover-none block p-2 pl-5 ${
             active ? '' : 'hover:bg-muted'
           }`}
           onClick={onClick}
         >
           <div
-            className={`w-48 h-48 d-block rounded -ml-3 float-left bg-cover mr-3 ${
+            className={`w-48 h-48 block rounded -ml-3 float-left bg-cover mr-3 ${
               !project.image ? 'bg-muted' : ''
             }`}
             style={
@@ -77,15 +76,15 @@ const ToolbarApplicationsItem: React.FC<ToolbarApplicationsItemProps> = ({
           <div className="flex-grow">
             <button
               className={`btn btn-muted w-36 h-36 rounded-full p-0 float-right ${
-                active ? 'bg-primary tc-white' : ''
+                active ? 'bg-primary-500 tc-white' : ''
               }`}
             >
               <Icon name={active ? 'check' : 'keyboard_arrow_down'} />
             </button>
-            <span className="ts-medium tw-medium text-truncate d-block">
+            <span className="ts-medium tw-medium text-truncate block">
               {project.name}
             </span>
-            <span className="tc-muted ts-small text-truncate d-block">
+            <span className="tc-muted ts-small text-truncate block">
               {project.description}
             </span>
           </div>

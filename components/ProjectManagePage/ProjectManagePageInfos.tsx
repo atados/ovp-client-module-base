@@ -1,4 +1,4 @@
-import useIntl from '~/hooks/use-intl'
+import { useIntl } from 'react-intl'
 import React from 'react'
 import styled from 'styled-components'
 import { colors } from '~/common/constants'
@@ -138,7 +138,7 @@ const ProjectManagePageInfos: React.FC<ProjectManagePageInfosProps> = ({
             </InfoValue>
             <InfoLabel>Disponibilidade</InfoLabel>
             <hr />
-            <span className="d-block mt-1 ts-small text-truncate tc-light">
+            <span className="block mt-1 ts-small text-truncate tc-light">
               {project.disponibility &&
                 (project.disponibility.type === 'work'
                   ? project.disponibility.work.description

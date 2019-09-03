@@ -1,7 +1,6 @@
 import Link from 'next/link'
 import React from 'react'
 import styled from 'styled-components'
-import { resolvePage } from '~/common/page'
 import { Project } from '~/redux/ducks/project'
 import { UserOrganization } from '~/redux/ducks/user'
 import { FormComposerMode } from '../FormComposer/FormComposer'
@@ -40,7 +39,7 @@ const ProjectManagePageHeader: React.FC<ProjectManagePageHeaderProps> = ({
           <li className="mr-2">
             <Link
               href={{
-                pathname: resolvePage('/project-composer'),
+                pathname: '/project-composer',
                 query: {
                   mode: FormComposerMode.EDIT,
                   organizationSlug: organization && organization.slug,
@@ -61,7 +60,7 @@ const ProjectManagePageHeader: React.FC<ProjectManagePageHeaderProps> = ({
           </li>
           <li className="mr-2">
             <Link
-              href={`${resolvePage('/project')}?slug=${project.slug}`}
+              href={`${'/project'}?slug=${project.slug}`}
               as={`/vaga/${project.slug}`}
             >
               <a className="btn btn-muted btn--size-3">
@@ -73,7 +72,7 @@ const ProjectManagePageHeader: React.FC<ProjectManagePageHeaderProps> = ({
           <li className="mr-2">
             <Link
               href={{
-                pathname: resolvePage('/project-composer'),
+                pathname: '/project-composer',
                 query: {
                   mode: FormComposerMode.DUPLICATE,
                   organizationSlug: organization && organization.slug,

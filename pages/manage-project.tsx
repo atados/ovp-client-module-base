@@ -1,4 +1,4 @@
-import { NextContext, NextFC } from 'next'
+import { NextPageContext, NextPage } from 'next'
 import React from 'react'
 import { connect } from 'react-redux'
 import { channel } from '~/common/constants'
@@ -43,7 +43,7 @@ interface ManageProjectPageProps extends ManageProjectPageInitialProps {
   readonly applications: ProjectApplication[]
 }
 
-const ManageProjectPage: NextFC<
+const ManageProjectPage: NextPage<
   ManageProjectPageProps,
   ManageProjectPageInitialProps
 > = ({ project, organization }) => {
@@ -89,7 +89,7 @@ const ManageProjectPage: NextFC<
         {!project.closed && (
           <div className="radius-10 shadow bg-error-light p-4">
             <h4 className="tw-normal mb-0">Encerrar vaga</h4>
-            <span className="tc-muted-dark mb-0 d-block mb-3">
+            <span className="tc-muted-dark mb-0 block mb-3">
               Ao encerrar a vaga você não poderá mais reabri-la, ela sairá da
               listagem na plataforma e não poderá receber mais inscrições.
             </span>
@@ -117,7 +117,7 @@ const ManageProjectPage: NextFC<
   return <Layout>{children}</Layout>
 }
 ManageProjectPage.getInitialProps = async (
-  context: NextContext,
+  context: NextPageContext,
 ): Promise<ManageProjectPageInitialProps> => {
   const {
     store,

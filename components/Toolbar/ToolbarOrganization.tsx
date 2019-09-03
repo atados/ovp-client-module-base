@@ -1,9 +1,7 @@
 import cx from 'classnames'
-import Link from 'next/link'
 import React from 'react'
 import styled from 'styled-components'
 import { channel } from '~/common/constants'
-import { resolvePage } from '~/common/page'
 import { UserOrganization } from '~/redux/ducks/user'
 import { DropdownMenu, DropdownToggler } from '../Dropdown'
 import DropdownWithContext from '../Dropdown/DropdownWithContext'
@@ -44,7 +42,7 @@ const Menu: React.FC<{ className?: string }> = styled(DropdownMenu)`
   }
 
   > a:hover .icon {
-    color: ${channel.theme.colorPrimary};
+    color: ${channel.theme.color.primary[500]};
   }
 `
 
@@ -64,7 +62,7 @@ const ToolbarOrganization: React.FC<ToolbarOrganizationProps> = ({
         href={`/ong/${organization.slug}`}
         className={cx(
           className,
-          'd-block bg-white rounded-full py-1 shadow tc-base tw-medium text-truncate',
+          'block bg-white rounded-full py-1 shadow tc-base tw-medium text-truncate',
         )}
       >
         <Avatar
@@ -72,9 +70,7 @@ const ToolbarOrganization: React.FC<ToolbarOrganizationProps> = ({
           style={
             organization.image
               ? {
-                  backgroundImage: `url('${
-                    organization.image.image_small_url
-                  }')`,
+                  backgroundImage: `url('${organization.image.image_small_url}')`,
                 }
               : { backgroundColor: '#ddd' }
           }
@@ -83,70 +79,7 @@ const ToolbarOrganization: React.FC<ToolbarOrganizationProps> = ({
         <Icon name="keyboard_arrow_down" className="dropdownArrow" />
       </Toggler>
     </DropdownToggler>
-    <Menu className="mt-1 py-2">
-      <Link
-        href={{
-          pathname: resolvePage('/organization'),
-          query: { slug: organization.slug },
-        }}
-        as={`/ong/${organization.slug}`}
-      >
-        <a className="hover:text-primary hover:bg-muted d-block py-1 px-4 tc-base td-hover-none">
-          <Icon name="visibility" />
-          Página da ONG
-        </a>
-      </Link>
-      <hr className="my-1" />
-      <Link
-        href={{
-          pathname: resolvePage('/project-composer'),
-          query: { organizationSlug: organization.slug },
-        }}
-        as={`/ong/${organization.slug}/criar-vaga`}
-      >
-        <a className="hover:text-primary hover:bg-muted d-block py-1 px-4 tc-base td-hover-none">
-          <Icon name="add" />
-          Criar vaga
-        </a>
-      </Link>
-      <Link
-        href={{
-          pathname: resolvePage('/manageable-projects-list'),
-          query: { organizationSlug: organization.slug },
-        }}
-        as={`/ong/${organization.slug}/gerenciar/vagas`}
-      >
-        <a className="hover:text-primary hover:bg-muted d-block py-1 px-4 tc-base td-hover-none">
-          <Icon name="settings" />
-          Gerenciar vagas
-        </a>
-      </Link>
-      <hr className="my-1" />
-      <Link
-        href={{
-          pathname: resolvePage('/organization-members'),
-          query: { organizationSlug: organization.slug },
-        }}
-        as="/membros"
-      >
-        <a className="hover:text-primary hover:bg-muted d-block py-1 px-4 tc-base td-hover-none">
-          <Icon name="group" />
-          Membros
-        </a>
-      </Link>
-      <Link
-        href={{
-          pathname: resolvePage('/organization-edit'),
-          query: { slug: organization.slug },
-        }}
-        as={`/ong/${organization.slug}/editar`}
-      >
-        <a className="hover:text-primary hover:bg-muted d-block py-1 px-4 tc-base td-hover-none">
-          <Icon name="edit" />
-          Editar perfil da ONG
-        </a>
-      </Link>
-    </Menu>
+    <Menu className="mt-1 py-2">qwew</Menu>
   </DropdownWithContext>
 )
 

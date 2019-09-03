@@ -2,14 +2,14 @@ import escapeRegExp from 'escape-string-regexp'
 import Router from 'next/router'
 import queryString from 'query-string'
 import React from 'react'
-import { defineMessages, InjectedIntlProps } from 'react-intl'
+import { defineMessages, WithIntlProps } from 'react-intl'
 import { connect } from 'react-redux'
 import styled, { StyledProps } from 'styled-components'
+import { withIntl } from '~/base/lib/intl'
+import { Page, PageAs } from '~/common'
 import { channel, regionLongNameMap } from '~/common/constants'
-import { resolvePage } from '~/common/page'
 import Dropdown, { DropdownMenu } from '~/components/Dropdown'
 import Icon from '~/components/Icon'
-import { withIntl } from '~/lib/intl'
 import { getPlacePredictions } from '~/lib/maps/google-maps-autocomplete'
 import { createAccentFriendlyRegexp } from '~/lib/regex/utils'
 import { pushToDataLayer } from '~/lib/tag-manager'
@@ -100,7 +100,7 @@ export type SearchOption =
 
 const DropdownInputWrapper = styled(Dropdown)`
   width: 100%;
-  height: 36px;
+  height: 40px;
   box-shadow: ${props =>
     props.theme.toolbarBackground
       ? '0 0 1px rgba(0,0,0,.2), 0 0 2px rgba(0,0,0,.2)'
@@ -111,7 +111,6 @@ const DropdownInputWrapper = styled(Dropdown)`
     height: 40px;
     padding-left: 40px;
     position: absolute;
-    margin: -2px 0;
     z-index: 50;
     top: 0;
     left: 0;
@@ -122,7 +121,7 @@ const DropdownInputWrapper = styled(Dropdown)`
   > .searchForm__icon {
     position: absolute;
     left: 12px;
-    top: 3px;
+    top: 5px;
     font-size: 20px;
     color: #666;
     z-index: 54;
@@ -140,7 +139,7 @@ const Form = styled.form`
     background: #ddd;
     height: 1px;
     position: absolute;
-    top: 37px;
+    bottom: -1px;
     z-index: 56;
   }
 
@@ -171,7 +170,7 @@ const Form = styled.form`
       }
 
       .searchForm__icon {
-        color: ${props => props.theme.colorPrimary};
+        color: ${channel.theme.color.primary[500]};
       }
     }
   }
@@ -267,19 +266,19 @@ interface SearchFormState {
 }
 
 class SearchForm extends React.Component<
-  SearchFormProps & InjectedIntlProps,
+  SearchFormProps & WithIntlProps<any>,
   SearchFormState
 > {
   public static defaultProps = {
     className: undefined,
   }
-  public dropdown: Dropdown | null
+  public dropdown: Dropdown | null = null
 
   public timeout?: number
   public dispatchKey?: string
   public state: SearchFormState
 
-  constructor(props: SearchFormProps & InjectedIntlProps) {
+  constructor(props: SearchFormProps & WithIntlProps<any>) {
     super(props)
 
     const inputValue = props.defaultValue
@@ -323,7 +322,7 @@ class SearchForm extends React.Component<
 
   public resolveOptionClassName = (kind: string): string | undefined => {
     if (kind === 'remote') {
-      return 'tc-secondary'
+      return 'tc-secondary-500'
     }
 
     return undefined
@@ -353,7 +352,7 @@ class SearchForm extends React.Component<
     return 'search'
   }
 
-  public componentDidUpdate(_, prevState: SearchFormState) {
+  public componentDidUpdate(_: any, prevState: SearchFormState) {
     if (this.state.focused !== prevState.focused) {
       const { onOpenStateChange } = this.props
       if (onOpenStateChange) {
@@ -362,7 +361,7 @@ class SearchForm extends React.Component<
     }
   }
 
-  public replaceMatch = (match: string, i) => (
+  public replaceMatch = (match: string, i: number) => (
     <Highlight key={i}>{match}</Highlight>
   )
 
@@ -544,15 +543,14 @@ class SearchForm extends React.Component<
       address: currentFilters && currentFilters.address,
     }
 
-    if (Router.pathname === resolvePage('/explore') && currentFilters) {
+    if (Router.pathname === Page.Search && currentFilters) {
       Object.assign(queryObject, currentFilters, { query: '' })
     }
 
     let searchType =
-      Router.pathname === resolvePage('/explore')
+      Router.pathname === Page.Search
         ? currentSearchType || SearchType.Any
         : SearchType.Any
-    let asPath = '/explorar'
 
     if (focusedOptionIndex > -1) {
       const option = options[focusedOptionIndex]
@@ -591,7 +589,9 @@ class SearchForm extends React.Component<
         pushToDataLayer({
           event: 'search',
           type: 'remote-only',
-          text: regionLongNameMap[geo.region] || geo.region,
+          text:
+            regionLongNameMap[geo.region as keyof typeof regionLongNameMap] ||
+            geo.region,
         })
       }
     } else {
@@ -606,10 +606,11 @@ class SearchForm extends React.Component<
       }
     }
 
+    let pageName: keyof typeof Page = 'Search'
     if (searchType === SearchType.Projects) {
-      asPath = '/vagas'
+      pageName = 'SearchProjects'
     } else if (searchType === SearchType.Organizations) {
-      asPath = '/ongs'
+      pageName = 'SearchOrganizations'
     }
 
     const searchQueryString = queryString.stringify({
@@ -617,8 +618,8 @@ class SearchForm extends React.Component<
       searchType,
     })
     Router.push(
-      `${resolvePage('/explore')}?${searchQueryString}`,
-      `${asPath}?${searchQueryString}`,
+      `${Page[pageName]}?${searchQueryString}`,
+      `${PageAs[pageName]()}?${searchQueryString}`,
     )
     this.close()
   }

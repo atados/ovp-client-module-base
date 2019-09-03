@@ -55,7 +55,7 @@ const ClosePostForm: React.FC<ClosePostFormProps> = ({
         Ao remover uma publicação vaga você não poderá mais restaura-la, ela
         sairá da plataforma.
       </p>
-      <div className="d-flex">
+      <div className="flex">
         <button
           type="button"
           onClick={onFinish}

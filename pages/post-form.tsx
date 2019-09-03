@@ -1,11 +1,10 @@
-import { NextFC } from 'next'
+import { NextPage } from 'next'
 import Link from 'next/link'
 import Router from 'next/router'
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { connect } from 'react-redux'
 import Textarea from 'react-textarea-autosize'
 import styled from 'styled-components'
-import { resolvePage } from '~/common/page'
 import ActivityIndicator from '~/components/ActivityIndicator'
 import Icon from '~/components/Icon'
 import Layout from '~/components/Layout'
@@ -19,6 +18,7 @@ import { UserOrganization } from '~/redux/ducks/user'
 import { RootState } from '~/redux/root-reducer'
 import { Post } from '~/types/api'
 import { ProjectPageSubPage } from '~/types/project'
+import { Page, PageAs } from '~/common'
 
 const Content = styled.div`
   max-width: 700px;
@@ -63,10 +63,9 @@ interface PostFormPageProps extends PostFormPageInitialProps {
   ) => void
 }
 
-const PostFormPage: NextFC<PostFormPageProps, PostFormPageInitialProps> = ({
+const PostFormPage: NextPage<PostFormPageProps, PostFormPageInitialProps> = ({
   organization,
   parentNode,
-  nodeSlug,
   postId,
   dispatchProjectChange,
 }) => {
@@ -169,9 +168,7 @@ const PostFormPage: NextFC<PostFormPageProps, PostFormPageInitialProps> = ({
     }
 
     Router.push(
-      `${resolvePage(`/project`)}?slug=${parentNode.slug}&subpage=${
-        ProjectPageSubPage.Stories
-      }`,
+      `/project?slug=${parentNode.slug}&subpage=${ProjectPageSubPage.Stories}`,
       `/vaga/${parentNode.slug}/${ProjectPageSubPage.Stories}`,
     )
   }, [postId, parentNode, state, submitTrigger.trigger])
@@ -183,25 +180,26 @@ const PostFormPage: NextFC<PostFormPageProps, PostFormPageInitialProps> = ({
   ) : (
     <>
       <nav className="py-3 shadow-sm">
-        <div className="container d-flex">
+        <div className="container flex">
           <Link
-            href={{
-              pathname: resolvePage('/manage-project'),
-              query: {
-                slug: nodeSlug,
-                organizationSlug: organization && organization.slug,
-              },
-            }}
+            href={
+              organization
+                ? Page.OrganizationDashboardProject
+                : Page.ProjectDashboard
+            }
             as={
               organization
-                ? `/ong/${organization.slug}/vaga/${nodeSlug}`
-                : `/minhas-vagas/vaga/${nodeSlug}`
+                ? PageAs.OrganizationDashboardProject({
+                    organizaitonSlug: organization.slug,
+                    slug: parentNode.slug,
+                  })
+                : PageAs.ProjectDashboard({ slug: parentNode.slug })
             }
           >
             <a className="media tc-base td-hover-none">
               <Icon name="arrow_back" className="mr-2" />
               <div className="media-body">
-                <span className="h4 tw-normal mb-0 d-block">
+                <span className="h4 tw-normal mb-0 block">
                   {parentNode.name}
                 </span>
                 <span className="ts-small tc-muted tw-normal">

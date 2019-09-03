@@ -1,9 +1,8 @@
-import { NextContext } from 'next'
+import { NextPageContext } from 'next'
 import Link from 'next/link'
 import React from 'react'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
-import { resolvePage } from '~/common/page'
 import GoogleMap from '~/components/GoogleMap'
 import Icon from '~/components/Icon'
 import Layout from '~/components/Layout'
@@ -17,6 +16,8 @@ import { fetchOrganization, Organization } from '~/redux/ducks/organization'
 import { fetchOrganizationApplies } from '~/redux/ducks/organization-applies'
 import { User } from '~/redux/ducks/user'
 import { RootState } from '~/redux/root-reducer'
+import { PageAs, Page } from '~/common'
+import { channel } from '../common/constants'
 
 const Row = styled.div`
   margin: 0 -7px;
@@ -71,7 +72,7 @@ const RatingIndicator = styled.span`
   display: inline-block;
   width: 42px;
   height: 42px;
-  background: ${props => props.theme.colorPrimary};
+  background: ${channel.theme.color.primary[500]};
   color: #fff;
   border-radius: 50%;
   font-size: 16px;
@@ -93,7 +94,7 @@ class OrganizationPage extends React.Component<OrganizationPageProps> {
     store,
     query: { slug },
     req,
-  }: NextContext): Promise<Partial<OrganizationPageProps>> {
+  }: NextPageContext): Promise<Partial<OrganizationPageProps>> {
     const { user } = store.getState()
     if (typeof slug !== 'string') {
       throw new NotFoundPageError()
@@ -170,7 +171,7 @@ class OrganizationPage extends React.Component<OrganizationPageProps> {
             )}
           </div>
 
-          <div className="d-none d-lg-block col-lg-4 pb-5">
+          <div className="hidden lg:block col-lg-4 pb-5">
             {organization.rating && (
               <Rating className="bg-muted radius-10 mb-3">
                 <div className="p-2">
@@ -192,14 +193,11 @@ class OrganizationPage extends React.Component<OrganizationPageProps> {
               {organization.causes.map((cause, i) => (
                 <Link
                   key={cause.id}
-                  href={{
-                    pathname: resolvePage('/cause'),
-                    query: { slug: cause.slug },
-                  }}
-                  as={`/causa/${cause.slug}`}
+                  as={PageAs.Cause({ slug: cause.slug })}
+                  href={Page.Cause}
                 >
                   <a
-                    className={`d-block tc-base ${
+                    className={`block tc-base ${
                       i !== organization.causes.length - 1 ? 'mb-1' : ''
                     }`}
                   >

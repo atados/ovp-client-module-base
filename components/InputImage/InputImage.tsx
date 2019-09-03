@@ -216,7 +216,7 @@ class InputImage extends React.Component<InputImageProps, InputImageState> {
                 <Icon name="cloud_upload" className="mr-2" />
                 Carregue a foto
               </span>
-              <span className="d-block ta-center mt-2 tc-muted-dark">
+              <span className="block ta-center mt-2 tc-muted-dark">
                 ou arraste pra cá
               </span>
             </InputWrapperInner>
@@ -259,7 +259,7 @@ class InputImage extends React.Component<InputImageProps, InputImageState> {
         <div className="col-sm-6">
           <Icon
             name="lightbulb_outline"
-            className="d-block tc-secondary ts-medium"
+            className="block tc-secondary-500 ts-medium"
           />
           <span className="tc-muted ts-small">{hint}</span>
         </div>

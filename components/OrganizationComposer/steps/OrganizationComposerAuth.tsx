@@ -28,12 +28,7 @@ class OrganizationComposerAuth extends React.Component<
         <p className="ts-medium tc-muted-dark mb-4">
           Crie uma conta de usuário pra poder registrar sua ONG
         </p>
-        <Authentication
-          defaultPath="/register"
-          disableBackButton
-          headerDisabled
-          successRedirect="/sou-uma-ong/basics"
-        />
+        <Authentication />
       </FormComposerLayout>
     )
   }

@@ -106,7 +106,7 @@ const FormComposerLayout: React.FC<FormComposerLayoutProps> = ({
               <Footer>
                 <FooterDivider />
 
-                <div className="d-flex">
+                <div className="flex">
                   {onBack && mode !== FormComposerMode.EDIT && (
                     <button
                       type="button"
@@ -165,7 +165,7 @@ const FormComposerLayout: React.FC<FormComposerLayoutProps> = ({
         helpPanelProps && helpPanelProps.className
           ? `${helpPanelProps.className} `
           : ''
-      }d-none d-lg-block`}
+      }hidden lg:block`}
     >
       {helpPanelChildren}
     </HelpPanel>

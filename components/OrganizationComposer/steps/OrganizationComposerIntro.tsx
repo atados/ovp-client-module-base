@@ -12,7 +12,7 @@ const Container = styled.div`
     bottom: 0;
     background-color: #fff;
     background-repeat: no-repeat;
-    background-image: url('/base/images/organization-composer-bg-effect-1.svg');
+    background-image: url('static/base/images/organization-composer-bg-effect-1.svg');
     background-position: top left;
     left: 60%;
   }
@@ -127,14 +127,14 @@ const OrganizationComposerIntro: React.FC<OrganizationComposerIntroProps> = ({
           <Icon name="arrow_forward" className="ml-2" />
         </button>
         <PresentationStep type="button" onClick={onStartFromDraft}>
-          <span className="tw-medium tc-primary">CONTINUAR</span>
+          <span className="tw-medium tc-primary-500">CONTINUAR</span>
           <h2 className="mb-1 tw-normal">Continue do ponto que parou</h2>
           <p className="ts-medium mb-3">
             As informações que preencheu continuam salvas. Deseja continuar?
           </p>
           <div className="progress">
             <div
-              className="progress-value bg-primary"
+              className="progress-value bg-primary-500"
               style={{ width: '50%' }}
             />
           </div>
@@ -188,8 +188,8 @@ const OrganizationComposerIntro: React.FC<OrganizationComposerIntroProps> = ({
               voluntários para colaborar com a sua causa, conte para a rede do
               Atados.
             </p>
-            <h4 className="h1 tc-secondary">9 a cada 10</h4>
-            <p className="ts-large tc-secondary">VAGAS SÃO PREENCHIDAS</p>
+            <h4 className="h1 tc-secondary-500">9 a cada 10</h4>
+            <p className="ts-large tc-secondary-500">VAGAS SÃO PREENCHIDAS</p>
           </SidebarInner>
         }
         helpPanelProps={{

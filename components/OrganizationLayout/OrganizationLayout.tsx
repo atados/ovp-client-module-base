@@ -1,15 +1,14 @@
-import { NextContext } from 'next'
+import { NextPageContext } from 'next'
 import Link from 'next/link'
-import { withRouter, WithRouterProps } from 'next/router'
+import { useRouter } from 'next/router'
 import React from 'react'
 import styled from 'styled-components'
 import { channel } from '~/common/constants'
-import { resolvePage } from '~/common/page'
 import { NotFoundPageError } from '~/lib/next/errors'
-import Dropdown, { DropdownMenu } from '../Dropdown'
 import Layout from '../Layout'
 import { LayoutProps } from '../Layout/Layout'
 import Meta from '../Meta'
+import { Page, PageAs } from '~/common'
 
 const Body = styled.div`
   &.p-toolbar-nav {
@@ -42,7 +41,7 @@ const DashboardNav = styled.div`
 
   ul.navbar-nav > li.active {
     font-weight: 500;
-    box-shadow: inset 0 -2px ${props => props.theme.colorSecondary};
+    box-shadow: inset 0 -2px ${channel.theme.color.secondary[500]};
   }
 
   ul.navbar-nav > li.active .nav-link {
@@ -69,31 +68,6 @@ const DashboardNavInner = styled.div`
 
   .navbar-nav {
     min-width: 500px;
-  }
-`
-
-const Popover = styled(DropdownMenu)`
-  position: absolute;
-  z-index: 10200;
-  background: ${props => props.theme.colorPrimary};
-  padding: 16px;
-  border-radius: 4px;
-  margin-top: 10px;
-  top: 100%;
-  width: 300px;
-  white-space: normal;
-
-  &::after {
-    content: '';
-    border-width: 0 8px 8px;
-    border-color: ${props => props.theme.colorPrimary} rgba(0, 0, 0, 0);
-    border-style: solid;
-    width: 0;
-    height: 0;
-    position: absolute;
-    top: -8px;
-    left: 16px;
-    display: block;
   }
 `
 
@@ -133,276 +107,174 @@ interface OrganizationLayoutProps {
   }
   readonly isCurrentUserMember: boolean
   readonly layoutProps?: LayoutProps
+  readonly children: React.ReactNode
 }
 
-interface OrganizationLayoutState {
-  isPopoverOpen: boolean
-}
+const OrganizationLayout: React.FC<OrganizationLayoutProps> = ({
+  className,
+  organization,
+  isCurrentUserMember,
+  children,
+  layoutProps,
+}) => {
+  const router = useRouter()
 
-class OrganizationLayout extends React.Component<
-  OrganizationLayoutProps & WithRouterProps,
-  OrganizationLayoutState
-> {
-  public static getDerivedStateFromProps(
-    _: OrganizationLayoutProps,
-    state?: OrganizationLayoutState,
-  ): OrganizationLayoutState {
-    return {
-      isPopoverOpen: state ? state.isPopoverOpen : false,
-    }
-  }
-
-  constructor(props) {
-    super(props)
-
-    this.state = OrganizationLayout.getDerivedStateFromProps(props)
-  }
-
-  public componentDidMount() {
-    if (this.props.isCurrentUserMember) {
-      const hasViewedMembersPopover = localStorage.getItem(
-        '@@popover/organization/members',
-      )
-
-      if (!hasViewedMembersPopover) {
-        this.setState({ isPopoverOpen: true })
-      }
-    }
-  }
-
-  public handlePopoverOpenStateChange = isOpen => {
-    if (!isOpen) {
-      localStorage.setItem('@@popover/organization/members', String(Date.now()))
-    }
-
-    this.setState({ isPopoverOpen: isOpen })
-  }
-
-  public closePopover = () => {
-    localStorage.setItem('@@popover/organization/members', String(Date.now()))
-    this.setState({
-      isPopoverOpen: false,
-    })
-  }
-
-  public render() {
-    const {
-      className,
-      organization,
-      isCurrentUserMember,
-      children,
-      router,
-      layoutProps,
-    } = this.props
-    const { isPopoverOpen } = this.state
-
-    return (
-      <div className={className}>
-        <Meta
-          title={organization.name}
-          description={organization.description}
-          image={organization.image && organization.image.image_url}
-        />
-        <Layout toolbarProps={{ flat: true, fixed: true }} {...layoutProps}>
-          {isCurrentUserMember && (
-            <DashboardNav>
-              <DashboardNavInner className={isPopoverOpen ? 'has-popover' : ''}>
-                <div className="navbar navbar-expand navbar-light">
-                  <div className="container">
-                    <ul className="nav navbar-nav">
-                      <li>
-                        <Link
-                          href={{
-                            pathname: resolvePage('/organization'),
-                            query: { slug: organization.slug },
-                          }}
-                          as={`/ong/${organization.slug}`}
-                        >
-                          <CurrentOrganizationLink
-                            href={`/ong/${organization.slug}`}
-                            className="nav-link text-truncate"
-                          >
-                            <CurrentOrganizationImage
-                              style={
-                                organization.image
-                                  ? {
-                                      backgroundImage: `url('${
-                                        organization.image.image_url
-                                      }')`,
-                                    }
-                                  : { backgroundColor: '#ddd' }
-                              }
-                            />
-                            {organization.name}
-                          </CurrentOrganizationLink>
-                        </Link>
-                      </li>
-                      <li
-                        className={
-                          router!.pathname === resolvePage('/organization') ||
-                          router!.pathname ===
-                            resolvePage('/organization-projects')
-                            ? 'active'
-                            : ''
-                        }
+  return (
+    <div className={className}>
+      <Meta
+        title={organization.name}
+        description={organization.description}
+        image={organization.image && organization.image.image_url}
+      />
+      <Layout toolbarProps={{ flat: true, fixed: true }} {...layoutProps}>
+        {isCurrentUserMember && (
+          <DashboardNav>
+            <DashboardNavInner>
+              <div className="navbar navbar-expand navbar-light">
+                <div className="container">
+                  <ul className="nav navbar-nav">
+                    <li>
+                      <Link
+                        href={Page.Organization}
+                        as={PageAs.Organization({ slug: organization.slug })}
                       >
-                        <Link
-                          href={{
-                            pathname: resolvePage('/organization'),
-                            query: { slug: organization.slug },
-                          }}
-                          as={`/ong/${organization.slug}`}
+                        <CurrentOrganizationLink
+                          href={`/ong/${organization.slug}`}
+                          className="nav-link text-truncate"
                         >
-                          <a className="nav-link">Página</a>
-                        </Link>
-                      </li>
-                      <li
-                        className={
-                          router!.pathname === resolvePage('/project-composer')
-                            ? 'active'
-                            : ''
-                        }
+                          <CurrentOrganizationImage
+                            style={
+                              organization.image
+                                ? {
+                                    backgroundImage: `url('${organization.image.image_url}')`,
+                                  }
+                                : { backgroundColor: '#ddd' }
+                            }
+                          />
+                          {organization.name}
+                        </CurrentOrganizationLink>
+                      </Link>
+                    </li>
+                    <li
+                      className={
+                        router!.pathname === Page.Organization ||
+                        router!.pathname === Page.OrganizationProjects
+                          ? 'active'
+                          : ''
+                      }
+                    >
+                      <Link
+                        href={Page.Organization}
+                        as={PageAs.Organization({ slug: organization.slug })}
                       >
-                        <Link
-                          href={{
-                            pathname: resolvePage('/project-composer'),
-                            query: { organizationSlug: organization.slug },
-                          }}
-                          as={`/ong/${organization.slug}/criar-vaga`}
-                        >
-                          <a className="nav-link">Criar vaga</a>
-                        </Link>
-                      </li>
-                      <li
-                        className={
-                          router!.pathname === resolvePage('/manage-project') ||
-                          router!.pathname ===
-                            resolvePage('/manageable-projects-list')
-                            ? 'active'
-                            : ''
-                        }
+                        <a className="nav-link">Página</a>
+                      </Link>
+                    </li>
+                    <li
+                      className={
+                        router!.pathname === '/project-composer' ? 'active' : ''
+                      }
+                    >
+                      <Link
+                        href={{
+                          pathname: '/project-composer',
+                          query: { organizationSlug: organization.slug },
+                        }}
+                        as={`/ong/${organization.slug}/criar-vaga`}
                       >
-                        <Link
-                          href={{
-                            pathname: resolvePage('/manageable-projects-list'),
-                            query: { organizationSlug: organization.slug },
-                          }}
-                          as={`/ong/${organization.slug}/gerenciar/vagas`}
-                        >
-                          <a className="nav-link">Gerenciar vagas</a>
-                        </Link>
-                      </li>
-                      <li
-                        className={
-                          router!.pathname ===
-                          resolvePage('/organization-members')
-                            ? 'active'
-                            : ''
-                        }
+                        <a className="nav-link">Criar vaga</a>
+                      </Link>
+                    </li>
+                    <li
+                      className={
+                        router!.pathname ===
+                          Page.OrganizationDashboardProject ||
+                        router!.pathname ===
+                          Page.OrganizationDashboardProjectsList
+                          ? 'active'
+                          : ''
+                      }
+                    >
+                      <Link
+                        href={Page.OrganizationDashboardProjectsList}
+                        as={PageAs.OrganizationDashboardProjectsList({
+                          organizationSlug: organization.slug,
+                        })}
                       >
-                        <Dropdown
-                          open={isPopoverOpen}
-                          onOpenStateChange={this.handlePopoverOpenStateChange}
+                        <a className="nav-link">Gerenciar vagas</a>
+                      </Link>
+                    </li>
+                    <li
+                      className={
+                        router!.pathname === '/organization-members'
+                          ? 'active'
+                          : ''
+                      }
+                    >
+                      <Link
+                        href={{
+                          pathname: '/organization-members',
+                          query: { organizationSlug: organization.slug },
+                        }}
+                        as={`/ong/${organization.slug}/membros`}
+                      >
+                        <a className="nav-link">Membros</a>
+                      </Link>
+                    </li>
+                    <li
+                      className={
+                        router!.pathname === '/organization-edit'
+                          ? 'active'
+                          : ''
+                      }
+                    >
+                      <Link
+                        href={{
+                          pathname: '/organization-edit',
+                          query: { slug: organization.slug },
+                        }}
+                        as={`/ong/${organization.slug}/editar`}
+                      >
+                        <a className="nav-link">Editar ONG</a>
+                      </Link>
+                    </li>
+                    {channel.config.chat.enabled &&
+                      (!channel.config.chat.beta ||
+                        organization.chat_enabled) && (
+                        <li
+                          className={
+                            router!.pathname === '/inbox' ? 'active' : ''
+                          }
                         >
                           <Link
                             href={{
-                              pathname: resolvePage('/organization-members'),
-                              query: { organizationSlug: organization.slug },
+                              pathname: '/inbox',
+                              query: { viewerSlug: organization.slug },
                             }}
-                            as={`/ong/${organization.slug}/membros`}
+                            as={`/mensagens/${organization.slug}`}
                           >
-                            <a className="nav-link">Membros</a>
+                            <a className="nav-link">Caixa de entrada</a>
                           </Link>
-
-                          {isPopoverOpen && (
-                            <Popover>
-                              <p className="tc-white ts-small">
-                                Agora você pode adicionar membros a sua ONG.
-                                Envie convites para os usuários fazerem parte
-                                disso!
-                              </p>
-                              <Link
-                                href={{
-                                  pathname: resolvePage(
-                                    '/organization-members',
-                                  ),
-                                  query: { slug: organization.slug },
-                                }}
-                                as={`/ong/${organization.slug}/membros`}
-                              >
-                                <a
-                                  onClick={this.closePopover}
-                                  className="btn btn-white tc-primary mr-2 btn--size-2"
-                                >
-                                  Vamos lá!
-                                </a>
-                              </Link>
-                              <button
-                                type="button"
-                                onClick={this.closePopover}
-                                className="btn btn-text tc-white btn--size-2"
-                              >
-                                Entendi
-                              </button>
-                            </Popover>
-                          )}
-                        </Dropdown>
-                      </li>
-                      <li
-                        className={
-                          router!.pathname === resolvePage('/organization-edit')
-                            ? 'active'
-                            : ''
-                        }
-                      >
-                        <Link
-                          href={{
-                            pathname: resolvePage('/organization-edit'),
-                            query: { slug: organization.slug },
-                          }}
-                          as={`/ong/${organization.slug}/editar`}
-                        >
-                          <a className="nav-link">Editar ONG</a>
-                        </Link>
-                      </li>
-                      {channel.config.chat.enabled &&
-                        (!channel.config.chat.beta ||
-                          organization.chat_enabled) && (
-                          <li
-                            className={
-                              router!.pathname === resolvePage('/inbox')
-                                ? 'active'
-                                : ''
-                            }
-                          >
-                            <Link
-                              href={{
-                                pathname: resolvePage('/inbox'),
-                                query: { viewerSlug: organization.slug },
-                              }}
-                              as={`/mensagens/${organization.slug}`}
-                            >
-                              <a className="nav-link">Caixa de entrada</a>
-                            </Link>
-                          </li>
-                        )}
-                    </ul>
-                  </div>
+                        </li>
+                      )}
+                  </ul>
                 </div>
-              </DashboardNavInner>
-            </DashboardNav>
-          )}
-          <Body className={isCurrentUserMember ? 'p-toolbar-nav' : 'p-toolbar'}>
-            {children}
-          </Body>
-        </Layout>
-      </div>
-    )
-  }
+              </div>
+            </DashboardNavInner>
+          </DashboardNav>
+        )}
+        <Body className={isCurrentUserMember ? 'p-toolbar-nav' : 'p-toolbar'}>
+          {children}
+        </Body>
+      </Layout>
+    </div>
+  )
 }
 
+OrganizationLayout.displayName = 'OrganizationLayout'
+
 export const getOrganizationLayoutInitialProps = async (
-  { store, query }: NextContext,
+  { store, query }: NextPageContext,
   mustHavePermission: boolean = false,
 ) => {
   const slug = query.organizationSlug || query.slug
@@ -423,6 +295,4 @@ export const getOrganizationLayoutInitialProps = async (
   }
 }
 
-export default React.memo(
-  withRouter<OrganizationLayoutProps>(OrganizationLayout),
-)
+export default React.memo(OrganizationLayout)

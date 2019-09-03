@@ -3,7 +3,7 @@ import React, { useCallback, useMemo, useState } from 'react'
 import { connect } from 'react-redux'
 import { Waypoint } from 'react-waypoint'
 import styled, { StyledProps } from 'styled-components'
-import { resolvePage } from '~/common/page'
+import { Page, PageAs } from '~/common'
 import useTriggerableFetchApi from '~/hooks/use-trigglerable-fetch-api'
 import { Project, updateProject } from '~/redux/ducks/project'
 import { User } from '~/redux/ducks/user'
@@ -13,6 +13,7 @@ import Authentication from '../Authentication'
 import Icon from '../Icon'
 import VolunteerIcon from '../Icon/VolunteerIcon'
 import { useModal } from '../Modal'
+import { channel } from '~/base/common/constants'
 
 interface NavProps {
   fixed?: boolean
@@ -39,7 +40,7 @@ const Nav = styled.div`
 
       &.active {
         font-weight: 500;
-        box-shadow: inset 0 -3px ${props.theme.colorPrimary};
+        box-shadow: inset 0 -3px ${channel.theme.color.primary[500]};
       }
     }
 
@@ -198,22 +199,21 @@ const ProjectPageNav: React.FC<ProjectPageNavProps> = ({
   return (
     <div>
       <Waypoint onPositionChange={handleWaypointPositionChange} />
-      <div className="container mb-3 d-flex d-lg-none">
+      <div className="container mb-3 flex lg:hidden">
         {isOwner ? (
           <Link
-            href={{
-              pathname: resolvePage('/manage-project'),
-              query: project.organization
-                ? {
-                    organizationSlug: project.organization.slug,
-                    slug: project.slug,
-                  }
-                : { slug: project.slug },
-            }}
+            href={
+              project.organization
+                ? Page.OrganizationDashboardProject
+                : Page.ProjectDashboard
+            }
             as={
               project.organization
-                ? `/ong/${project.organization.slug}/vaga/${project.slug}`
-                : `/minhas-vagas/vaga/${project.slug}`
+                ? PageAs.OrganizationDashboardProject({
+                    organizaitonSlug: project.organization.slug,
+                    slug: project.slug,
+                  })
+                : PageAs.ProjectDashboard({ slug: project.slug })
             }
           >
             <ActionButton
@@ -287,7 +287,7 @@ const ProjectPageNav: React.FC<ProjectPageNavProps> = ({
               ))}
             </ul>
             <div className="mr-auto" />
-            <ul className="navbar-nav d-none d-lg-flex">
+            <ul className="navbar-nav hidden lg:flex">
               <li>
                 <button
                   type="button"
@@ -309,29 +309,24 @@ const ProjectPageNav: React.FC<ProjectPageNavProps> = ({
               <li>
                 {isOwner ? (
                   <Link
-                    href={{
-                      pathname: resolvePage('/manage-project'),
-                      query: project.organization
-                        ? {
-                            organizationSlug: project.organization.slug,
-                            slug: project.slug,
-                          }
-                        : { slug: project.slug },
-                    }}
+                    href={
+                      project.organization
+                        ? Page.OrganizationDashboardProject
+                        : Page.ProjectDashboard
+                    }
                     as={
                       project.organization
-                        ? `/ong/${project.organization.slug}/vaga/${
-                            project.slug
-                          }`
-                        : `/minhas-vagas/vaga/${project.slug}`
+                        ? PageAs.OrganizationDashboardProject({
+                            organizaitonSlug: project.organization.slug,
+                            slug: project.slug,
+                          })
+                        : PageAs.ProjectDashboard({ slug: project.slug })
                     }
                   >
                     <ActionButton
                       href={
                         project.organization
-                          ? `/ong/${project.organization.slug}/vaga/${
-                              project.slug
-                            }`
+                          ? `/ong/${project.organization.slug}/vaga/${project.slug}`
                           : `/minhas-vagas/vaga/${project.slug}`
                       }
                       className="btn btn-primary btn--size-3"
@@ -349,9 +344,7 @@ const ProjectPageNav: React.FC<ProjectPageNavProps> = ({
                   </ActionButton>
                 ) : (
                   <ActionButton
-                    href={`/vaga/${project.slug}/${
-                      ProjectPageSubPage.ApplicationForm
-                    }`}
+                    href={`/vaga/${project.slug}/${ProjectPageSubPage.ApplicationForm}`}
                     className={`btn ${
                       project.current_user_is_applied
                         ? 'btn-outline-primary'

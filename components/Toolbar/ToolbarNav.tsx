@@ -14,7 +14,7 @@ const Nav = styled.ul`
 `
 
 const ToolbarNav: React.FC<ToolbarNavProps> = ({ className, children }) => (
-  <Nav className={`navbar-nav d-none d-lg-flex ${className}`}>
+  <Nav className={`navbar-nav hidden lg:flex ${className}`}>
     {React.Children.map(children, (child: React.ReactElement<any>) => (
       <li className="nav-item">
         {React.cloneElement(child, {

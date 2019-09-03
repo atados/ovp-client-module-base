@@ -1,3 +1,4 @@
+import { NextIntl } from 'next'
 import { combineReducers } from 'redux'
 import currentUserProfile, {
   CurrentUserProfileState,
@@ -36,12 +37,12 @@ import projectComposer, {
 } from './ducks/project-composer'
 import ratings, { RatingsReducerState } from './ducks/ratings'
 import searchMarks, { SearchMarksReducerState } from './ducks/search-marks'
-import startup, { StartupData } from './ducks/startup'
+import startup, { StartupData, StartupReducerState } from './ducks/startup'
 import unratedProjects, {
   UnratedProjectsReducerState,
 } from './ducks/unrated-projects'
 
-export interface RootState {
+export interface BaseRootState {
   readonly user: UserState
   readonly inbox: InboxReducerState
   readonly inboxViewers: InboxViewersReducerState
@@ -61,10 +62,15 @@ export interface RootState {
   readonly organizationApplies: OrganizationAppliesReducerState
   readonly organizationMembers: OrganizationMembersReducerState
   readonly currentUserProfile: CurrentUserProfileState
-  readonly startup: StartupData
+  readonly startup: StartupReducerState
   readonly faq: FAQReducerState
   readonly geo: GeolocationReducerState
   readonly ratings: RatingsReducerState
+}
+
+export interface RootState extends Omit<BaseRootState, 'startup' | 'intl'> {
+  startup: StartupData
+  intl: NextIntl
 }
 
 export const baseReducers = {
@@ -93,4 +99,4 @@ export const baseReducers = {
   currentUserProfile,
 }
 
-export default combineReducers<RootState>(baseReducers)
+export default combineReducers<BaseRootState>(baseReducers)

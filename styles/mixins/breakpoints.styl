@@ -59,6 +59,14 @@ breakpoint-infix($name, $breakpoints = $grid-breakpoints)
   else
     '-' + $name
 
+
+tailwind-breakpoint-infix($name, $breakpoints = $grid-breakpoints)
+  if breakpoint-min($name, $breakpoints) == null
+    ''
+  else
+    $name + '\:'
+
+
 // Media of at least the minimum breakpoint width. No query for the smallest breakpoint.
 // Makes the @content apply to the given breakpoint and wider.
 media-breakpoint-up($name, $breakpoints = $grid-breakpoints)

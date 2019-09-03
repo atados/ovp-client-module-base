@@ -1,12 +1,11 @@
 import Link from 'next/link'
 import React from 'react'
-import styled, { StyledProps } from 'styled-components'
-import { colors } from '~/common/constants'
-import { resolvePage } from '~/common/page'
-import { rgba } from '~/lib/color/transformers'
+import styled from 'styled-components'
+import { colors, channel } from '~/common/constants'
 import { Project } from '~/redux/ducks/project'
 import Icon from '../Icon'
 import ProjectStatusPill from '../ProjectStatusPill'
+import { Page, PageAs } from '~/common'
 
 const Apply = styled.li`
   width: 38px;
@@ -90,42 +89,17 @@ const Progress = styled.div`
 `
 
 const ProgressValue = styled.div`
-  background: ${props => props.theme.colorPrimary};
+  background: ${channel.theme.color.primary[500]};
   height: 5px;
 `
 
-interface PillProps {
-  primary?: boolean
-}
-
-// TODO: Create a global color cache
 const Pill = styled.span`
-  color: #ca5200;
-  background: #ffeee3;
   display: inline-block;
   height: 32px;
   border-radius: 16px;
   padding: 5px 16px;
   margin: 5px;
   white-space: nowrap;
-
-  &.fv {
-    background: #ffe9fa;
-    color: #963780 !important;
-
-    > img {
-      vertical-align: top;
-      margin-right: 10px;
-    }
-  }
-
-  ${(props: StyledProps<PillProps>) =>
-    props.primary
-      ? `
-    color: ${props.theme.colorPrimary};
-    background: ${rgba(props.theme.colorPrimary, 10)};
-  `
-      : ''};
 `
 
 const Showcase = styled.div`
@@ -164,7 +138,7 @@ const ProjectPageHeader: React.FC<ProjectPageHeaderProps> = ({
   isOwner,
 }) => (
   <div className={`container pt-5${className ? ` ${className}` : ''}`}>
-    <div className="d-flex">
+    <div className="flex">
       <div className="flex-grow">
         {(project.closed || project.canceled) && (
           <span className="tc-error tw-medium">
@@ -185,7 +159,7 @@ const ProjectPageHeader: React.FC<ProjectPageHeaderProps> = ({
           </p>
         )}
 
-        <div className="d-xl-flex">
+        <div className="xl:flex">
           <div className="t-nowrap">
             {project.applies.length > 0 && (
               <Applies className="mr-2">
@@ -202,11 +176,8 @@ const ProjectPageHeader: React.FC<ProjectPageHeaderProps> = ({
                   >
                     {application.user && (
                       <Link
-                        href={{
-                          pathname: resolvePage('/public-user'),
-                          query: { slug: application.user.slug },
-                        }}
-                        as={`/voluntario/${application.user.slug}`}
+                        href={Page.PublicUser}
+                        as={PageAs.PublicUser({ slug: application.user.slug })}
                       >
                         <a />
                       </Link>
@@ -232,14 +203,14 @@ const ProjectPageHeader: React.FC<ProjectPageHeaderProps> = ({
             {project.disponibility &&
               project.disponibility.type === 'work' &&
               project.disponibility.work.can_be_done_remotely && (
-                <Pill>
+                <Pill className="bg-secondary-100 tc-secondary-500">
                   <Icon name="public" className="mr-2" />
                   Pode ser feito à distância
                 </Pill>
               )}
             {!project.closed &&
               project.max_applies_from_roles - project.applied_count > 0 && (
-                <Pill primary>
+                <Pill className="bg-primary-100 tc-primary-500">
                   <Icon name="person" className="mr-2" />
                   Faltam{' '}
                   {project.max_applies_from_roles - project.applied_count}{' '}
@@ -261,17 +232,11 @@ const ProjectPageHeader: React.FC<ProjectPageHeaderProps> = ({
             }}
           />
         </Progress>
-        <div className="d-xl-flex">
+        <div className="xl:flex">
           <Causes>
             {project.causes.map(cause => (
               <li key={cause.id}>
-                <Link
-                  href={{
-                    pathname: resolvePage('/cause'),
-                    query: { slug: cause.slug },
-                  }}
-                  as={`/causa/${cause.slug}`}
-                >
+                <Link as={PageAs.Cause({ slug: cause.slug })} href={Page.Cause}>
                   <a>
                     <CauseIndicator style={{ backgroundColor: cause.color }} />
                     {cause.name}
@@ -283,7 +248,7 @@ const ProjectPageHeader: React.FC<ProjectPageHeaderProps> = ({
           <div className="mr-auto" />
         </div>
       </div>
-      <Showcase className="d-none d-lg-block">
+      <Showcase className="hidden lg:block">
         <Thumbnail className="ratio">
           <span className="ratio-fill" style={{ paddingTop: '56%' }} />
           <div
@@ -300,11 +265,8 @@ const ProjectPageHeader: React.FC<ProjectPageHeaderProps> = ({
         {project.organization && (
           <div className="mt-4">
             <Link
-              href={{
-                pathname: resolvePage('/organization'),
-                query: { slug: project.organization.slug },
-              }}
-              as={`/ong/${project.organization.slug}`}
+              href={Page.Organization}
+              as={PageAs.Organization({ slug: project.organization.slug })}
             >
               <a className="media tc-base text-truncate">
                 <OwnerAvatar
@@ -320,10 +282,10 @@ const ProjectPageHeader: React.FC<ProjectPageHeaderProps> = ({
                   }
                 />
                 <div className="media-body tl-heading">
-                  <span className="tc-muted d-block ts-small mb-1">
+                  <span className="tc-muted block ts-small mb-1">
                     Realizado pela ONG:
                   </span>
-                  <span className="text-truncate tw-medium text-truncate d-block">
+                  <span className="text-truncate tw-medium text-truncate block">
                     {project.organization.name}
                   </span>
                 </div>

@@ -108,22 +108,22 @@ make-col($size, $columns = $grid-columns)
 make-hidden-utilities($breakpoints = $grid-breakpoints)
   for $breakpoint in $breakpoints
     +media-breakpoint-up($breakpoint)
-      $infix = breakpoint-infix($breakpoint, $grid-breakpoints)
+      $infix = tailwind-breakpoint-infix($breakpoint, $grid-breakpoints)
 
-      .d{$infix}-none
+      .{$infix}hidden
         display: none !important
 
-      .d{$infix}-inline
+      .{$infix}inline
         display: inline !important
 
-      .d{$infix}-inline-block
+      .{$infix}inline-block
         display: inline-block !important
 
-      .d{$infix}-block
+      .{$infix}block
         display: block !important
 
-      .d{$infix}-flex
+      .{$infix}flex
         display: flex !important
 
-      .d{$infix}-inline-flex
+      .{$infix}inline-flex
         display: inline-flex !important

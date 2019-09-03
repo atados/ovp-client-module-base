@@ -2,9 +2,9 @@ import moment from 'moment'
 import Link from 'next/link'
 import React from 'react'
 import styled, { StyledProps } from 'styled-components'
-import { resolvePage } from '~/common/page'
 import { MessageThreadable, MessageThreadType } from '~/redux/ducks/inbox'
 import Icon from '../Icon'
+import { channel } from '~/base/common/constants'
 
 const { useMemo } = React
 const Container = styled.a`
@@ -27,7 +27,7 @@ const Container = styled.a`
     props.active
       ? `
       background: #e9eff1 !important;
-      box-shadow: inset -3px 0 ${props.theme.colorSecondary};
+      box-shadow: inset -3px 0 ${channel.theme.color.secondary[500]};
   `
       : ''}
 `
@@ -63,7 +63,7 @@ const AvatarIcon = styled.span`
   font-size: 10px;
   z-index: 10;
   padding: 3px 0 0;
-  background: ${props => props.theme.colorPrimary};
+  background: ${channel.theme.color.primary[500]};
   color: #fff;
   text-align: center;
   border: 2px solid #fff;
@@ -103,7 +103,7 @@ const InboxThread: React.FC<InboxThreadProps> = ({
   return (
     <Link
       href={{
-        pathname: resolvePage('/inbox'),
+        pathname: '/inbox',
         query: { viewerSlug, threadId: thread.id },
       }}
       as={`/mensagens/${viewerSlug}/${thread.id}`}
@@ -135,10 +135,10 @@ const InboxThread: React.FC<InboxThreadProps> = ({
               {lastMessageMoment.fromNow()}
             </Timestamp>
           )}
-          <span className="tw-medium d-block mb-1 text-truncate">
+          <span className="tw-medium block mb-1 text-truncate">
             {thread.threadableNode.name}
           </span>
-          <span className="d-block text-truncate ts-small tc-muted">
+          <span className="block text-truncate ts-small tc-muted">
             {thread.threadable === MessageThreadable.Project ? 'Você: ' : ''}
             {thread.lastMessage && thread.lastMessage.body}
           </span>

@@ -1,5 +1,5 @@
 import { InjectedFormikProps, withFormik } from 'formik'
-import { NextContext, NextStatelessComponent } from 'next'
+import { NextPageContext, NextPage } from 'next'
 import React from 'react'
 import { connect } from 'react-redux'
 import MaskedTextInput from 'react-text-mask'
@@ -51,7 +51,7 @@ interface Values {
   readonly city: InputAddressValueType
 }
 
-const SettingsUserPage: NextStatelessComponent<
+const SettingsUserPage: NextPage<
   InjectedFormikProps<SettingsUserPageProps, Values>,
   {}
 > = ({
@@ -292,7 +292,7 @@ const SettingsUserPage: NextStatelessComponent<
 }
 
 SettingsUserPage.displayName = 'SettingsUserPage'
-SettingsUserPage.getInitialProps = async (context: NextContext) => {
+SettingsUserPage.getInitialProps = async (context: NextPageContext) => {
   await getPublicUserLayoutInitialProps(context)
   const {
     user: authenticatedUser,

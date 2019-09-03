@@ -62,7 +62,7 @@ const ProjectPageDisponibility: React.FC<ProjectPageDisponibilityProps> = ({
     <>
       <span
         id="como-participar"
-        className="tc-secondary tw-medium d-block mb-1"
+        className="tc-secondary-500 tw-medium block mb-1"
       >
         VAGA {project.disponibility.type === 'work' ? 'RECORRENTE' : 'PONTUAL'}
       </span>
@@ -76,8 +76,8 @@ const ProjectPageDisponibility: React.FC<ProjectPageDisponibilityProps> = ({
             que vai acontecer.
           </p>
 
-          {project.disponibility.job.dates.map(jobDate => (
-            <EventDate key={jobDate.name} className="mb-3">
+          {project.disponibility.job.dates.map((jobDate, i) => (
+            <EventDate key={`${jobDate.name}${i}`} className="mb-3">
               <EventCalendarDate>
                 {moment(jobDate.start_date).date()}
               </EventCalendarDate>

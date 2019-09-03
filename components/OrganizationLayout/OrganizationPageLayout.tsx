@@ -3,7 +3,6 @@ import React from 'react'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
 import { APP_SHARE_URL, channel } from '~/common/constants'
-import { resolvePage } from '~/common/page'
 import { ShareList } from '~/components/Share'
 import { Organization } from '~/redux/ducks/organization'
 import { RootState } from '~/redux/root-reducer'
@@ -140,8 +139,8 @@ const OrganizationPageLayout: React.FC<OrganizationPageLayoutProps> = ({
       organization={organization}
       isCurrentUserMember={isCurrentUserMember}
     >
-      <div className="container d-flex">
-        <Sidebar className="d-none d-md-block">
+      <div className="container flex">
+        <Sidebar className="hidden md:block">
           <SidebarBody>
             <Avatar
               style={
@@ -160,7 +159,7 @@ const OrganizationPageLayout: React.FC<OrganizationPageLayoutProps> = ({
               <span className="badge badge-secondary mb-1">ONG em revisão</span>
             )}
             {organization.address && organization.address.city_state && (
-              <span className="d-block ts-small tc-muted-dark mb-3">
+              <span className="block ts-small tc-muted-dark mb-3">
                 <Icon name="place" className="mr-1" />
                 {organization.address.city_state}
               </span>
@@ -198,26 +197,26 @@ const OrganizationPageLayout: React.FC<OrganizationPageLayoutProps> = ({
                   <ActionsNav>
                     <a
                       href={`mailto:${organization.contact_email}`}
-                      className="btn btn--size-2 btn-text tc-primary  mr-2"
+                      className="btn btn--size-2 btn-text tc-primary-500  mr-2"
                     >
                       <Icon name="mail" className="mr-2" />
                       Enviar email
                     </a>
                     <Link
                       href={{
-                        pathname: resolvePage('/organization-projects'),
+                        pathname: '/organization-projects',
                         query: { slug: organization.slug },
                       }}
                       as={`/ong/${organization.slug}/vagas`}
                     >
                       <VolunteerButton
                         href={`/ong/${organization.slug}/vagas`}
-                        className="btn btn-text tc-primary btn--size-2"
+                        className="btn btn-text tc-primary-500 btn--size-2"
                       >
                         <VolunteerIcon
                           width={16}
                           height={16}
-                          fill={channel.theme.colorPrimary}
+                          fill={channel.theme.color.primary[500]}
                           className="mr-2 d-inline-block"
                         />
                         Quero voluntariar

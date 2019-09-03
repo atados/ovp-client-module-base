@@ -1,4 +1,4 @@
-import { NextContext } from 'next'
+import { NextPageContext } from 'next'
 import Link from 'next/link'
 import queryString from 'query-string'
 import React from 'react'
@@ -6,7 +6,6 @@ import { connect } from 'react-redux'
 import { Waypoint } from 'react-waypoint'
 import styled from 'styled-components'
 import { channel } from '~/common/constants'
-import { resolvePage } from '~/common/page'
 import { Mark } from '~/components/GoogleMap/GoogleMap'
 import ReduxGoogleMap from '~/components/GoogleMap/ReduxGoogleMap'
 import Icon from '~/components/Icon'
@@ -35,6 +34,7 @@ import {
 } from '~/redux/ducks/search'
 import { fetchMapMarks } from '~/redux/ducks/search-marks'
 import { RootState } from '~/redux/root-reducer'
+import { Page, PageAs } from '~/common'
 
 const Container = styled.div`
   padding-top: ${props => props.theme.toolbarHeight + 56}px;
@@ -146,7 +146,7 @@ class ExplorePage extends React.Component<ExplorePageProps, ExplorePageState> {
   public static async getInitialProps({
     store,
     query: { searchType, ...jsonFilters },
-  }: NextContext) {
+  }: NextPageContext) {
     const {
       geo,
       startup: { causes },
@@ -296,13 +296,13 @@ class ExplorePage extends React.Component<ExplorePageProps, ExplorePageState> {
               <div className="mb-4">
                 <Link
                   href={{
-                    pathname: resolvePage('/explore'),
+                    pathname: Page.SearchProjects,
                     query: {
                       ...(filtersQueryObject as any),
                       searchType: SearchType.Projects,
                     },
                   }}
-                  as={`/vagas/?${filtersQueryString}`}
+                  as={`${PageAs.SearchProjects()}?${filtersQueryString}`}
                 >
                   <Option
                     href={`/vagas/?${filtersQueryString}`}
@@ -310,7 +310,7 @@ class ExplorePage extends React.Component<ExplorePageProps, ExplorePageState> {
                   >
                     <div className="media">
                       <div className="media-body">
-                        <span className="tw-normal d-block ts-small mb-1">
+                        <span className="tw-normal block ts-small mb-1">
                           Buscar somente
                         </span>
                         <span className="ts-large">
@@ -329,21 +329,19 @@ class ExplorePage extends React.Component<ExplorePageProps, ExplorePageState> {
                 </Link>
                 <Link
                   href={{
-                    pathname: resolvePage('/explore'),
+                    pathname: Page.SearchOrganizations,
                     query: {
                       ...(filtersQueryObject as any),
                       searchType: SearchType.Organizations,
                     },
                   }}
-                  as={`/ongs/?${filtersQueryString}`}
+                  as={`${PageAs.SearchOrganizations()}?${filtersQueryString}`}
+                  passHref
                 >
-                  <Option
-                    href={`/ongs/?${filtersQueryString}`}
-                    className="btn btn--size-3 ta-left ml-md-3"
-                  >
+                  <Option className="btn btn--size-3 ta-left ml-md-3">
                     <div className="media">
                       <div className="media-body">
-                        <span className="tw-normal d-block ts-small mb-1">
+                        <span className="tw-normal block ts-small mb-1">
                           Buscar somente
                         </span>
                         <span className="ts-large">ONGs</span>{' '}
@@ -363,12 +361,12 @@ class ExplorePage extends React.Component<ExplorePageProps, ExplorePageState> {
             {searchType !== SearchType.Any && (
               <Link
                 href={{
-                  pathname: resolvePage('/explore'),
+                  pathname: Page.Search,
                   query: filtersQueryObject as any,
                 }}
-                as={`/explorar/?${filtersQueryString}`}
+                as={`${PageAs.Search()}?${filtersQueryString}`}
               >
-                <a className="tc-secondary float-right">
+                <a className="tc-secondary-500 float-right">
                   Incluir{' '}
                   {searchType === SearchType.Projects ? 'ONGs' : 'vagas'} na
                   busca
@@ -391,7 +389,7 @@ class ExplorePage extends React.Component<ExplorePageProps, ExplorePageState> {
           </Body>
           {renderMap && (
             <Map
-              className="d-none d-lg-block"
+              className="hidden lg:block"
               defaultCenter={mapDefaultCenter}
               defaultZoom={12}
               marks={marks}
@@ -471,7 +469,7 @@ const mapStateToProps = ({
     sources: searchState.sources,
     filters: searchState.filters || {},
     marks,
-    mapDefaultCenter: mapDefaultCenter || channel.geo.default,
+    mapDefaultCenter: mapDefaultCenter || channel.config.geo.default,
   }
 }
 

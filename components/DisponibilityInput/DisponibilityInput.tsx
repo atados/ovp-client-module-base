@@ -25,7 +25,7 @@ const Option = styled.div`
   border-radius: 0 !important;
 
   &.active {
-    box-shadow: -2px 0 ${props => props.theme.colorSecondary};
+    box-shadow: -2px 0 ${channel.theme.color.secondary[500]};
 
     ${OptionHeader} {
       border-bottom: 1px solid #ddd;

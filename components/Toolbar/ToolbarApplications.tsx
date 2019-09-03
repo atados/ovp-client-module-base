@@ -1,8 +1,8 @@
 import Link from 'next/link'
 import React, { useCallback, useState } from 'react'
 import styled from 'styled-components'
+import { PageAs, Page } from '~/common'
 import { channel } from '~/common/constants'
-import { resolvePage } from '~/common/page'
 import useFetchAPI from '~/hooks/use-fetch-api'
 import { PublicUser } from '~/redux/ducks/public-user'
 import { SearchType } from '~/redux/ducks/search'
@@ -74,7 +74,7 @@ const ToolbarApplications: React.FC<ToolbarApplicationsProps> = ({
           className={`rounded-circle w-40 h-40 no-border mr-2 btn-light ${
             state.focused
               ? theme === 'light'
-                ? 'bg-primary'
+                ? 'bg-primary-500'
                 : 'bg-white text-white'
               : theme === 'light'
               ? 'bg-black-100'
@@ -90,7 +90,7 @@ const ToolbarApplications: React.FC<ToolbarApplicationsProps> = ({
                   ? '#fff'
                   : '#333'
                 : state.focused
-                ? channel.theme.colorPrimary
+                ? channel.theme.color.primary[500]
                 : '#fff'
             }
           />
@@ -98,7 +98,7 @@ const ToolbarApplications: React.FC<ToolbarApplicationsProps> = ({
       </DropdownToggler>
       <Menu className="mt-1 bg-muted">
         <div className="">
-          <Header className="px-2 shadow-sm pos-relative bg-white rounded-t-lg shadow">
+          <Header className="px-2 shadow-sm relative bg-white rounded-t-lg shadow">
             <h4 className="ts-medium mb-0">Minhas inscrições</h4>
           </Header>
           <Body className="absolute bottom-0 left-0 right-0">
@@ -140,16 +140,16 @@ const ToolbarApplications: React.FC<ToolbarApplicationsProps> = ({
             {applications.length === 0 && (
               <div className="p-5 ta-center">
                 <h4>Nenhuma inscrição encontrada</h4>
-                <span className="d-block mb-3 tc-muted-dark">
+                <span className="block mb-3 tc-muted-dark">
                   Ainda não encontrou nenhuma vaga pra você? <br /> Tente usar
                   os filtros
                 </span>
                 <Link
                   href={{
-                    pathname: resolvePage('/explore'),
+                    pathname: Page.SearchProjects,
                     query: { searchType: SearchType.Projects },
                   }}
-                  as="/vagas"
+                  as={PageAs.SearchProjects()}
                 >
                   <a className="btn btn-primary">
                     Ver vagas de voluntariado <Icon name="arrow_forward" />

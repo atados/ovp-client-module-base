@@ -3,16 +3,16 @@ import { Waypoint } from 'react-waypoint'
 import styled, { StyledProps } from 'styled-components'
 import { PublicUserApplication } from '~/redux/ducks/public-user'
 import TimelineItem from './TimelineItem'
+import { channel } from '~/base/common/constants'
 
 const TimelineCrossedHr = styled.div`
-  background-image: url(/base/icons/cross-x.svg);
+  background-image: url(/static/base/icons/cross-x.svg);
   background-repeat: repeat-x;
   height: 10px;
   padding-left: 30px;
   text-align: center;
 
   > span {
-    diplay: inline-block;
     background: #fff;
     font-size: 14px;
     font-weight: 500;
@@ -68,7 +68,7 @@ const TimelineYear = styled.a`
   ${(props: StyledProps<TimelineYearProps>) =>
     props.active
       ? `
-    background: ${props.theme.colorPrimary};
+    background: ${channel.theme.color.primary[500]};
     color: #fff;
 
     &:hover {
@@ -282,7 +282,7 @@ class PublicUserTimeline extends React.Component<
               }
             })}
           </TimelineBody>
-          <TimelineSidebarWrapper className="d-none d-md-block">
+          <TimelineSidebarWrapper className="hidden md:block">
             <TimelineSidebar fixed={isTimelineSidebarFixed}>
               {timelineYears.map(year => (
                 <TimelineYear

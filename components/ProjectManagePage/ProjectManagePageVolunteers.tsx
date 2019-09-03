@@ -3,7 +3,6 @@ import React, { useCallback } from 'react'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
 import { APP_SHARE_URL, channel } from '~/common/constants'
-import { resolvePage } from '~/common/page'
 import useFetchAPI from '~/hooks/use-fetch-api'
 import { fetchAPI } from '~/lib/fetch/fetch.client'
 import { download } from '~/lib/utils/dom'
@@ -15,6 +14,7 @@ import VolunteerIcon from '../Icon/VolunteerIcon'
 import { useModal } from '../Modal'
 import Popover from '../Popover/Popover'
 import { ShareList } from '../Share'
+import { Page, PageAs } from '~/base/common'
 
 const Avatar = styled.span`
   width: 24px;
@@ -134,11 +134,8 @@ const ProjectManagePageVolunteers: React.FC<
 
       return (
         <Link
-          href={{
-            pathname: resolvePage('/public-user'),
-            query: { slug: application.user.slug },
-          }}
-          as={`/voluntario/${application.user.slug}`}
+          href={Page.PublicUser}
+          as={PageAs.PublicUser({ slug: application.user.slug })}
         >
           <a className="tc-base">{children}</a>
         </Link>
@@ -154,9 +151,9 @@ const ProjectManagePageVolunteers: React.FC<
         className ? ` ${className}` : ''
       }`}
     >
-      <div className="p-4 pos-relative">
+      <div className="p-4 relative">
         <h4 className="tw-normal mb-1">Voluntários incritos</h4>
-        <span className="d-block tc-muted-dark mb-0">
+        <span className="block tc-muted-dark mb-0">
           {project.applied_count} inscritos
         </span>
 
@@ -177,7 +174,7 @@ const ProjectManagePageVolunteers: React.FC<
           <button
             type="button"
             onClick={handleExport}
-            className="float-right btn btn-outline-primary tc-primary mt-3 mb-3 mt-md-0 mb-md-0"
+            className="float-right btn btn-outline-primary tc-primary-500 mt-3 mb-3 mt-md-0 mb-md-0"
           >
             <Icon name="get_app" className="mr-2" />
             Exportar planilha de voluntários
@@ -247,11 +244,11 @@ const ProjectManagePageVolunteers: React.FC<
                     {application.canceled ? (
                       <span className="tc-error tw-medium">Desistiu</span>
                     ) : (
-                      <span className="tw-medium tc-primary">Inscrito</span>
+                      <span className="tw-medium tc-primary-500">Inscrito</span>
                     )}
                   </td>
                   <td>
-                    <span className="badge bg-primary">
+                    <span className="badge bg-primary-500">
                       <Icon name={channel.theme.iconRating} className="mr-1" />
                       {application.user &&
                         String((application.user.rating || 0) * 5).substr(0, 3)}
@@ -266,10 +263,10 @@ const ProjectManagePageVolunteers: React.FC<
       {applications.length === 0 && (
         <div className="py-4 ta-center">
           <VolunteerIcon fill="#999" width={64} height={64} className="mb-3" />
-          <span className="h4 d-block tw-normal mb-2">
+          <span className="h4 block tw-normal mb-2">
             Essa vaga ainda não possui nenhum inscrito
           </span>
-          <span className="tc-muted d-block mb-3">
+          <span className="tc-muted block mb-3">
             {project.published && !project.closed
               ? 'Que tal compartilhar ela nas redes sociais?'
               : project.closed

@@ -1,9 +1,9 @@
 import Link from 'next/link'
 import React from 'react'
 import styled from 'styled-components'
-import { resolvePage } from '~/common/page'
 import { Project } from '~/redux/ducks/project'
 import Icon from '../Icon'
+import { Page, PageAs } from '~/common'
 
 const Wrapper = styled.div`
   padding-left: 120px;
@@ -39,20 +39,15 @@ const ProjectPageOrganization: React.FC<ProjectPageOrganizationProps> = ({
       </h4>
       <Wrapper>
         <Link
-          href={{
-            pathname: resolvePage('/organization'),
-            query: { slug: project.organization.slug },
-          }}
-          as={`/ong/${project.organization.slug}`}
+          href={Page.Organization}
+          as={PageAs.Organization({ slug: project.organization.slug })}
         >
           <a className="tc-base td-hover-none">
             <Thumbnail
               style={
                 project.organization.image
                   ? {
-                      backgroundImage: `url('${
-                        project.organization.image.image_url
-                      }')`,
+                      backgroundImage: `url('${project.organization.image.image_url}')`,
                     }
                   : { backgroundColor: '#eee' }
               }

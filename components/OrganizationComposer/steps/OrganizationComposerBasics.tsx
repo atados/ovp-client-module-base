@@ -172,7 +172,10 @@ class OrganizationComposerBasics extends React.Component<
         helpPanelChildren={
           <div className="p-5">
             <h4 className="tw-normal ts-normal tc-muted-dark mb-4">
-              <Icon name="lightbulb_outline" className="mr-1 tc-secondary" />
+              <Icon
+                name="lightbulb_outline"
+                className="mr-1 tc-secondary-500"
+              />
               Como sua ONG será vista:
             </h4>
             <OrganizationComposerCard {...values} />

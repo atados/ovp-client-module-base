@@ -2,7 +2,7 @@ import Link from 'next/link'
 import React from 'react'
 import { Waypoint } from 'react-waypoint'
 import styled, { keyframes } from 'styled-components'
-import { resolvePage } from '~/common/page'
+import { Page, PageAs } from '~/common'
 import Icon from '~/components/Icon'
 import OrganizationCard from '~/components/OrganizationCard'
 import ProjectCard from '~/components/ProjectCard'
@@ -111,39 +111,41 @@ const SearchSources: React.FC<SearchSourcesProps> = ({
                   Aproximadamente {source.count} ONGs
                 </SectionSubtitle>
                 <div className="row">
-                  {source.nodes.map((node: Organization, nodeIndex) => (
-                    <div
-                      key={node.slug}
-                      className={`col-6 col-md-3 mb-4 ${
-                        size === SearchSourcesSize.Large ? '' : 'col-lg-2'
-                      }`}
-                    >
-                      {isLastSource &&
-                        nodeIndex === source.nodes.length - 21 && (
-                          <span ref={refWaypoint} />
-                        )}
-                      <OrganizationCard organization={node} />
-                    </div>
-                  ))}
+                  {(source as SearchSource<Organization>).nodes.map(
+                    (node, nodeIndex) => (
+                      <div
+                        key={node.slug}
+                        className={`col-6 col-md-3 mb-4 ${
+                          size === SearchSourcesSize.Large ? '' : 'col-lg-2'
+                        }`}
+                      >
+                        {isLastSource &&
+                          nodeIndex === source.nodes.length - 21 && (
+                            <span ref={refWaypoint} />
+                          )}
+                        <OrganizationCard organization={node} />
+                      </div>
+                    ),
+                  )}
                 </div>
                 {searchType === SearchType.Any && source.count > 4 && (
                   <Link
                     href={{
-                      pathname: resolvePage('/explore'),
+                      pathname: Page.SearchOrganizations,
                       query: {
                         ...(filtersQueryObject as any),
                         searchType: SearchType.Organizations,
                       },
                     }}
                     as={{
-                      pathname: '/ongs',
+                      pathname: PageAs.SearchOrganizations(),
                       query: {
                         ...(filtersQueryObject as any),
                         searchType: SearchType.Organizations,
                       },
                     }}
                   >
-                    <a className="tc-secondary ts-medium">
+                    <a className="tc-secondary-500 ts-medium">
                       Ver tudo {source.count > 6 && `(+ ${source.count - 6})`}{' '}
                       <Icon name="arrow_forward" />
                     </a>
@@ -164,41 +166,43 @@ const SearchSources: React.FC<SearchSourcesProps> = ({
                   Aproximadamente {source.count} vagas abertas
                 </SectionSubtitle>
                 <div className="row">
-                  {source.nodes.map((node: Project, nodeIndex) => (
-                    <div
-                      key={node.slug}
-                      className={`col-sm-6 col-lg-${
-                        size === SearchSourcesSize.Large ? '4' : '3'
-                      } mb-4`}
-                    >
-                      {isLastSource &&
-                        nodeIndex === source.nodes.length - 21 && (
-                          <span ref={refWaypoint} />
-                        )}
-                      <ProjectCard {...node} />
-                    </div>
-                  ))}
+                  {(source as SearchSource<Project>).nodes.map(
+                    (node, nodeIndex) => (
+                      <div
+                        key={node.slug}
+                        className={`col-sm-6 col-lg-${
+                          size === SearchSourcesSize.Large ? '4' : '3'
+                        } mb-4`}
+                      >
+                        {isLastSource &&
+                          nodeIndex === source.nodes.length - 21 && (
+                            <span ref={refWaypoint} />
+                          )}
+                        <ProjectCard {...node} />
+                      </div>
+                    ),
+                  )}
                 </div>
                 {searchType === SearchType.Any &&
                   !onNextWaypointPositionChange &&
                   source.count > 4 && (
                     <Link
                       href={{
-                        pathname: resolvePage('/explore'),
+                        pathname: Page.SearchProjects,
                         query: {
                           ...(filtersQueryObject as any),
                           searchType: SearchType.Projects,
                         },
                       }}
                       as={{
-                        pathname: '/vagas',
+                        pathname: PageAs.SearchProjects(),
                         query: {
                           ...(filtersQueryObject as any),
                           searchType: SearchType.Projects,
                         },
                       }}
                     >
-                      <a className="tc-secondary ts-medium">
+                      <a className="tc-secondary-500 ts-medium">
                         Ver tudo {source.count > 6 && `(+ ${source.count - 6})`}{' '}
                         <Icon name="arrow_forward" />
                       </a>
@@ -257,13 +261,21 @@ const SearchSources: React.FC<SearchSourcesProps> = ({
             <li>Busque vagas à distância</li>
           </ul>
           <Link
-            href={{ pathname: resolvePage('/explore'), query: { searchType } }}
+            href={{
+              pathname:
+                searchType === SearchType.Any
+                  ? Page.Search
+                  : searchType === SearchType.Projects
+                  ? Page.SearchProjects
+                  : Page.SearchOrganizations,
+              query: { searchType },
+            }}
             as={
               searchType === SearchType.Any
-                ? '/explorar'
+                ? PageAs.Search()
                 : searchType === SearchType.Projects
-                ? '/vagas'
-                : '/ongs'
+                ? PageAs.SearchProjects()
+                : PageAs.SearchOrganizations()
             }
           >
             <a className="btn btn-primary">
@@ -282,14 +294,16 @@ const SearchSources: React.FC<SearchSourcesProps> = ({
               Ainda não encontrou a vaga certa?{' '}
               <Link
                 href={{
-                  pathname: resolvePage('/explore'),
+                  pathname: Page.Search,
                   query: { searchType, remoteOnly: true },
                 }}
                 as={`${
-                  searchType === SearchType.Any ? '/explorar' : '/vagas'
+                  searchType === SearchType.Any
+                    ? Page.Search
+                    : Page.SearchProjects
                 }?remoteOnly=true`}
               >
-                <a className="tw-medium tc-secondary">
+                <a className="tw-medium tc-secondary-500">
                   Busque somente vagas a distância.
                 </a>
               </Link>

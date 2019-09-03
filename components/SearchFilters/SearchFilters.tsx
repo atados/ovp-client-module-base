@@ -3,8 +3,8 @@ import Router from 'next/router'
 import queryString from 'query-string'
 import React from 'react'
 import styled from 'styled-components'
+import { Page, PageAs } from '~/common'
 import { channel } from '~/common/constants'
-import { resolvePage } from '~/common/page'
 import CausesFilter from '~/components/CausesFilter'
 import DisponibilityFilter from '~/components/DisponibilityFilter'
 import SkillsFilter from '~/components/SkillsFilter'
@@ -182,15 +182,15 @@ class SearchFilters extends React.Component<
       searchType,
     })
 
-    let path: string = '/explorar'
+    let pageName: keyof typeof Page = 'Search'
 
     if (searchType === SearchType.Projects) {
-      path = '/vagas'
+      pageName = 'SearchProjects'
     } else if (searchType === SearchType.Organizations) {
-      path = '/ongs'
+      pageName = 'SearchOrganizations'
     }
 
-    Router.push(`${resolvePage('/explore')}?${query}`, `${path}?${query}`)
+    Router.push(`${Page[pageName]}?${query}`, `${PageAs[pageName]()}?${query}`)
     this.setState({ dirty: false })
   }
 
@@ -207,7 +207,7 @@ class SearchFilters extends React.Component<
     const { value } = this.state
 
     return (
-      <Container className="d-flex">
+      <Container className="flex">
         <SearchFilterButton
           active={Boolean(value.address || value.remoteOnly)}
           className="btn mr-2"
@@ -247,7 +247,7 @@ class SearchFilters extends React.Component<
         )}
         <div className="mr-auto" />
         {channel.config.maps.key && searchType !== SearchType.Any && (
-          <div className="d-none d-md-block">
+          <div className="hidden md:block">
             <MapToggleSwitchLabel htmlFor="filters-show-map-toggler">
               <span className="ts-small">Mostrar Mapa</span>
               <ToggleSwitch

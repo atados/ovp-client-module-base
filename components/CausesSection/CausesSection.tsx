@@ -2,8 +2,7 @@ import Link from 'next/link'
 import React from 'react'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
-import { colors } from '~/common/constants'
-import { resolvePage } from '~/common/page'
+import { Page, PageAs } from '~/common'
 import { Cause } from '~/redux/ducks/channel'
 import { RootState } from '~/redux/root-reducer'
 
@@ -81,13 +80,10 @@ const CausesSection: React.FC<CausesSectionProps> = ({ causes, ...props }) => {
       </SectionSubtitle>
 
       <div className="row">
-        {causes.map((cause, i) => (
+        {causes.map(cause => (
           <Link
-            as={`/causa/${cause.slug}`}
-            href={{
-              pathname: resolvePage('/cause'),
-              query: { slug: cause.slug },
-            }}
+            as={PageAs.Cause({ slug: cause.slug })}
+            href={Page.Cause}
             key={cause.id}
           >
             <a className="col-6 col-md-4 col-lg-2 mb-4">
@@ -101,7 +97,7 @@ const CausesSection: React.FC<CausesSectionProps> = ({ causes, ...props }) => {
                 <div className="ratio-body">
                   <Card
                     style={{
-                      backgroundColor: colors[i],
+                      backgroundColor: cause.color,
                       backgroundImage: cause.image
                         ? `url('${cause.image.image_url}')`
                         : undefined,
@@ -122,27 +118,7 @@ const CausesSection: React.FC<CausesSectionProps> = ({ causes, ...props }) => {
 CausesSection.displayName = 'CausesSection'
 
 const mapStateToProps = ({ startup }: RootState) => ({
-  causes: startup.causes
-    // Sort causes to prioritize the ones who have image
-    .sort(
-      (a, b): number => {
-        if (a.image && b.image) {
-          return a.name.localeCompare(b.name)
-        }
-
-        if (a.image) {
-          return -1
-        }
-
-        if (b.image) {
-          return 1
-        }
-
-        return 0
-      },
-    )
-    // We only need 6 causes. Pick the first 6
-    .slice(0, 6),
+  causes: startup.causes.slice(0, 6),
 })
 
 export default connect(mapStateToProps)(CausesSection)

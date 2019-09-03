@@ -1,5 +1,5 @@
 import moment from 'moment'
-import { NextFC } from 'next'
+import { NextPage } from 'next'
 import Link from 'next/link'
 import Router from 'next/router'
 import queryString from 'querystring'
@@ -7,7 +7,6 @@ import React, { useCallback, useMemo, useRef, useState } from 'react'
 import { Waypoint } from 'react-waypoint'
 import styled from 'styled-components'
 import { channel, dev } from '~/common/constants'
-import { resolvePage } from '~/common/page'
 import ActivityIndicator from '~/components/ActivityIndicator'
 import {
   DropdownMenu,
@@ -25,8 +24,9 @@ import { NotFoundPageError } from '~/lib/next/errors'
 import { Project } from '~/redux/ducks/project'
 import { ApiPagination } from '~/redux/ducks/search'
 import { UserOrganization } from '~/redux/ducks/user'
+import { Page, PageAs } from '~/common'
 
-const Page = styled.div`
+const PageStyled = styled.div`
   min-height: 100vh;
 `
 
@@ -76,7 +76,7 @@ const SearchForm = styled.div`
     position: absolute;
     left: 12px;
     top: 6px;
-    color: ${channel.theme.colorPrimary};
+    color: ${channel.theme.color.primary[500]};
     font-size: 20px;
   }
 `
@@ -112,7 +112,7 @@ const DropdownAnchor = styled.a`
   overflow: hidden;
 
   &:hover {
-    background: ${props => props.theme.colorPrimary};
+    background: ${channel.theme.color.primary[500]};
     color: #fff;
     text-decoration: none;
   }
@@ -126,7 +126,7 @@ const ContextMenu = styled(DropdownMenu)`
 `
 
 const Header = styled.div`
-  background: hsl(${hexToHsl(channel.theme.colorPrimary)[0]}, 20%, 39%);
+  background: hsl(${hexToHsl(channel.theme.color.primary[500])[0]}, 20%, 39%);
   color: #fff;
 `
 
@@ -138,7 +138,7 @@ interface ManageableProjectsListProps {
   }
 }
 
-const ManageableProjectsList: NextFC<ManageableProjectsListProps> = ({
+const ManageableProjectsList: NextPage<ManageableProjectsListProps> = ({
   organization,
   filters,
 }) => {
@@ -242,7 +242,7 @@ const ManageableProjectsList: NextFC<ManageableProjectsListProps> = ({
       <Card>
         <Header className="px-4 py-3">
           <h1 className="h2">Gerenciar vagas</h1>
-          <span className="mb-4 d-block tc-light">
+          <span className="mb-4 block tc-light">
             {queryResult.data
               ? `${queryResult.data.count} vagas no total`
               : 'Carregando...'}
@@ -280,42 +280,40 @@ const ManageableProjectsList: NextFC<ManageableProjectsListProps> = ({
                     <td className="pl-4">
                       <ProjectHead>
                         <Link
-                          href={{
-                            pathname: resolvePage('/manage-project'),
-                            query: {
-                              slug: project.slug,
-                              organizationSlug:
-                                organization && organization.slug,
-                            },
-                          }}
-                          as={`${
+                          href={
                             organization
-                              ? `/ong/${organization.slug}/vaga/`
-                              : '/minhas-vagas/vaga/'
-                          }${project.slug}`}
+                              ? Page.OrganizationDashboardProject
+                              : Page.ProjectDashboard
+                          }
+                          as={
+                            organization
+                              ? PageAs.OrganizationDashboardProject({
+                                  organizaitonSlug: organization.slug,
+                                  slug: project.slug,
+                                })
+                              : PageAs.ProjectDashboard({ slug: project.slug })
+                          }
                         >
                           <a>
                             <Thumbnail
                               style={
                                 project.image
                                   ? {
-                                      backgroundImage: `url('${
-                                        project.image.image_medium_url
-                                      }')`,
+                                      backgroundImage: `url('${project.image.image_medium_url}')`,
                                     }
                                   : undefined
                               }
                             />
-                            <span className="ts-medium tw-medium d-block">
+                            <span className="ts-medium tw-medium block">
                               {project.name}
                             </span>
                           </a>
                         </Link>
-                        <span className="ts-small tc-muted-dark d-block mb-1">
+                        <span className="ts-small tc-muted-dark block mb-1">
                           {project.description}
                         </span>
                         {project.published_date && (
-                          <span className="d-block ts-small tc-muted">
+                          <span className="block ts-small tc-muted">
                             <Icon name="access_time" className="mr-1" />
                             Publicada {moment(project.published_date).fromNow()}
                           </span>
@@ -328,19 +326,19 @@ const ManageableProjectsList: NextFC<ManageableProjectsListProps> = ({
                     <td style={{ width: 230 }} className="pr-4">
                       <div className="btn-group float-right">
                         <Link
-                          href={{
-                            pathname: resolvePage('/manage-project'),
-                            query: {
-                              slug: project.slug,
-                              organizationSlug:
-                                organization && organization.slug,
-                            },
-                          }}
-                          as={`${
+                          href={
                             organization
-                              ? `/ong/${organization.slug}/vaga/`
-                              : '/minhas-vagas/vaga/'
-                          }${project.slug}`}
+                              ? Page.OrganizationDashboardProject
+                              : Page.ProjectDashboard
+                          }
+                          as={
+                            organization
+                              ? PageAs.OrganizationDashboardProject({
+                                  organizaitonSlug: organization.slug,
+                                  slug: project.slug,
+                                })
+                              : PageAs.ProjectDashboard({ slug: project.slug })
+                          }
                         >
                           <a className="btn btn-outline-primary">
                             Gerenciar vaga
@@ -355,7 +353,7 @@ const ManageableProjectsList: NextFC<ManageableProjectsListProps> = ({
                           <ContextMenu>
                             <Link
                               href={{
-                                pathname: resolvePage('/project-composer'),
+                                pathname: '/project-composer',
                                 query: {
                                   mode: FormComposerMode.EDIT,
                                   organizationSlug:
@@ -365,18 +363,14 @@ const ManageableProjectsList: NextFC<ManageableProjectsListProps> = ({
                               }}
                               as={
                                 organization
-                                  ? `/ong/${organization.slug}/vagas/editar/${
-                                      project.slug
-                                    }`
+                                  ? `/ong/${organization.slug}/vagas/editar/${project.slug}`
                                   : `/minhas-vagas/editar/${project.slug}`
                               }
                             >
                               <DropdownAnchor
                                 href={
                                   organization
-                                    ? `/ong/${organization.slug}/vagas/editar/${
-                                        project.slug
-                                      }`
+                                    ? `/ong/${organization.slug}/vagas/editar/${project.slug}`
                                     : `/minhas-vagas/editar/${project.slug}`
                                 }
                                 className="dropdown-item"
@@ -386,7 +380,7 @@ const ManageableProjectsList: NextFC<ManageableProjectsListProps> = ({
                             </Link>
                             <Link
                               href={{
-                                pathname: resolvePage('/project-composer'),
+                                pathname: '/project-composer',
                                 query: {
                                   organizationSlug:
                                     organization && organization.slug,
@@ -396,18 +390,14 @@ const ManageableProjectsList: NextFC<ManageableProjectsListProps> = ({
                               }}
                               as={
                                 organization
-                                  ? `/ong/${organization.slug}/vagas/duplicar/${
-                                      project.slug
-                                    }`
+                                  ? `/ong/${organization.slug}/vagas/duplicar/${project.slug}`
                                   : `/minhas-vagas/duplicar/${project.slug}`
                               }
                             >
                               <DropdownAnchor
                                 href={
                                   organization
-                                    ? `/ong/${
-                                        organization.slug
-                                      }/vagas/duplicar/${project.slug}`
+                                    ? `/ong/${organization.slug}/vagas/duplicar/${project.slug}`
                                     : `/minhas-vagas/duplicar/${project.slug}`
                                 }
                                 className="dropdown-item"
@@ -417,9 +407,7 @@ const ManageableProjectsList: NextFC<ManageableProjectsListProps> = ({
                             </Link>
 
                             <Link
-                              href={`${resolvePage('/project')}slug=${
-                                project.slug
-                              }`}
+                              href={`${'/project'}slug=${project.slug}`}
                               as={`/vaga/${project.slug}`}
                             >
                               <DropdownAnchor
@@ -443,7 +431,7 @@ const ManageableProjectsList: NextFC<ManageableProjectsListProps> = ({
             <div className="card-item p-5 ta-center">
               <Waypoint onEnter={handleLoadMoreProjectsCallback} />
               <ActivityIndicator size={64} className="mb-2" />
-              <span className="d-block tc-muted">Carregando vagas...</span>
+              <span className="block tc-muted">Carregando vagas...</span>
             </div>
           )}
           {!queryResult.loading &&
@@ -459,7 +447,7 @@ const ManageableProjectsList: NextFC<ManageableProjectsListProps> = ({
   )
 
   return (
-    <Page className="bg-muted">
+    <PageStyled className="bg-muted">
       {organization ? (
         <OrganizationLayout
           layoutProps={{ disableFooter: true }}
@@ -471,12 +459,12 @@ const ManageableProjectsList: NextFC<ManageableProjectsListProps> = ({
       ) : (
         <Layout disableFooter>{body}</Layout>
       )}
-    </Page>
+    </PageStyled>
   )
 }
 
 ManageableProjectsList.displayName = 'ManageableProjectsList'
-ManageableProjectsList.getInitialProps = ({ store, query }) => {
+ManageableProjectsList.getInitialProps = async ({ store, query }) => {
   const { user } = store.getState()
   const organizationSlug = query.organizationSlug
     ? String(query.organizationSlug)

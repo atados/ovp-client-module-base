@@ -91,14 +91,14 @@ class CausesFilter extends React.Component<CausesFilterProps> {
       children[i > causes.length / 2 ? 1 : 0].push(
         <label
           id={`explore-filter-cause-${cause.id}`}
-          className="mb-1 d-block"
+          className="mb-1 block"
           key={cause.id}
         >
           <input
             id={`explore-filter-cause-${cause.id}`}
             type="checkbox"
             value={cause.id}
-            className="d-none"
+            className="hidden"
             onChange={this.handleCauseChange}
             checked={value.indexOf(cause.id) !== -1}
           />

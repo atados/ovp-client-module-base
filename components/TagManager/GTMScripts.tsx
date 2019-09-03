@@ -20,7 +20,7 @@ const GTMScripts: React.FC<GTMScriptsProps> = ({ id }) => (
     </Head>
     <noscript>
       <iframe
-        src="https://www.googletagmanager.com/ns.html?id=GTM-NP5GCZB"
+        src={`https://www.googletagmanager.com/ns.html?id=${id}`}
         height="0"
         width="0"
         style={{ display: 'none', visibility: 'hidden' }}

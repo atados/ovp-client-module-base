@@ -1,31 +1,16 @@
-import getConfig from 'next/config'
 import { Channel } from '~/redux/ducks/channel'
 
-export const {
-  publicRuntimeConfig: {
-    apiURL: API_URL,
-    appURL: APP_URL,
-    appShareURL: APP_SHARE_URL,
-    socketApiURL: SOCKET_API_URL,
-    socketApiWsURL: SOCKET_API_WS_URL,
-    channelPages,
-    channel,
-  },
-} = getConfig() as {
-  publicRuntimeConfig: {
-    channelId: string
-    apiURL: string
-    appURL: string
-    appShareURL: string
-    socketApiURL: string
-    socketApiWsURL: string
-    channelPages: string[]
-    channel: Channel
-  }
-}
+export const API_URL = process.env.API_URL!
+export const APP_URL = process.env.APP_URL!
+export const APP_SHARE_URL = process.env.APP_SHARE_URL!
+export const SOCKET_API_URL = process.env.SOCKET_API_URL!
+export const SOCKET_API_WS_URL = process.env.SOCKET_API_WS_URL!
+export const NOW_URL = process.env.NOW_URL!
+export const STATIC_DIST_DIRNAME = process.env.STATIC_DIST_DIRNAME!
+export const channel = JSON.parse(process.env.CHANNEL_JSON as string) as Channel
 
 export const dev = process.env.NODE_ENV !== 'production'
-export const meta = pageMeta => ({
+export const meta = (pageMeta: { title?: string } = {}) => ({
   description: 'Basic app description',
   ...pageMeta,
   title: pageMeta.title ? `${pageMeta.title} - App name` : 'App name',
@@ -97,3 +82,4 @@ export const regionLongNameMap = {
   '28': 'Sergipe',
   '29': 'Tocantins',
 }
+export const DEFAULT_LOCALE = 'pt-br'

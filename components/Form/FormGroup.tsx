@@ -41,7 +41,7 @@ const FormGroup: React.FC<FormGroupProps> = ({
     }`}
   >
     {(label || maxLength) && (
-      <div className="d-flex mb-2">
+      <div className="flex mb-2">
         {label && (
           <label htmlFor={labelFor} className="tw-medium mb-0">
             {label}

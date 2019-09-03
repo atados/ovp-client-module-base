@@ -1,4 +1,4 @@
-import { NextContext, NextFunctionComponent } from 'next'
+import { NextPageContext, NextPage } from 'next'
 import React from 'react'
 import { useQuery } from 'react-apollo-hooks'
 import styled, { StyledProps } from 'styled-components'
@@ -53,7 +53,7 @@ interface InboxPageState {
   currentScreen: InboxScreen
 }
 
-const InboxPage: NextFunctionComponent<InboxPageProps> = ({
+const InboxPage: NextPage<InboxPageProps> = ({
   initialScreen,
   viewer,
   threadId,
@@ -133,7 +133,7 @@ const InboxPage: NextFunctionComponent<InboxPageProps> = ({
 
 InboxPage.displayName = 'InboxPage'
 
-InboxPage.getInitialProps = async ({ store, query }: NextContext) => {
+InboxPage.getInitialProps = async ({ store, query }: NextPageContext) => {
   const { user, inbox } = store.getState() as RootState
 
   if (

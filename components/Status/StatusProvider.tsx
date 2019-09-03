@@ -77,7 +77,7 @@ const StatusProvider: React.FC<StatusProviderProps> = ({ children }) => {
         {state.messages.map((message, i) => (
           <div
             key={`${message.text}${i}`}
-            className={cx('tc-white ta-center py-1 px-2 text-left d-flex', {
+            className={cx('tc-white ta-center py-1 px-2 text-left flex', {
               'bg-error tc-error': message.level === StatusLevel.Error,
               'bg-warning tc-warning': message.level === StatusLevel.Warning,
             })}

@@ -86,7 +86,7 @@ const InboxConversationHeader: React.FC<InboxConversationHeaderProps> = ({
         >
           <BackButton
             href={`/mensagens/${viewer.slug}`}
-            className="btn btn-text d-lg-none"
+            className="btn btn-text lg:hidden"
           >
             <Icon name="arrow_back" />
           </BackButton>

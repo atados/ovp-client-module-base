@@ -1,8 +1,7 @@
-import { NextContext } from 'next'
+import { NextPageContext } from 'next'
 import Router from 'next/router'
 import React from 'react'
 import styled from 'styled-components'
-import { resolvePage } from '~/common/page'
 import { StepIds, StepIdType } from '~/components/FormComposer/FormComposer'
 import Meta from '~/components/Meta'
 import OrganizationComposer from '~/components/OrganizationComposer'
@@ -20,13 +19,13 @@ interface OrganizationComposerPageProps {
 class OrganizationComposerPage extends React.Component<
   OrganizationComposerPageProps
 > {
-  public static getInitialProps = ({ query: { stepId } }: NextContext) => ({
+  public static getInitialProps = ({ query: { stepId } }: NextPageContext) => ({
     stepId: stepId || StepIds.Introduction,
   })
 
   public handleStepChange = (stepId: StepIdType) => {
     Router.push(
-      `${resolvePage('/organization-composer')}?stepId=${stepId}`,
+      `${'/organization-composer'}?stepId=${stepId}`,
       `/sou-uma-ong/${stepId}`,
     )
   }

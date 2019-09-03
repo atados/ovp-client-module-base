@@ -1,9 +1,9 @@
 import Link from 'next/link'
 import React from 'react'
-import { InjectedIntlProps } from 'react-intl'
+import { WithIntlProps } from 'react-intl'
 import styled from 'styled-components'
-import { APP_URL } from '~/common/constants'
-import { resolvePage } from '~/common/page'
+import { Page, PageAs } from '~/common'
+import { APP_URL, channel } from '~/common/constants'
 import Icon from '~/components/Icon'
 import { withIntl } from '~/lib/intl'
 import { formatDisponibility } from '~/lib/project/utils'
@@ -83,7 +83,7 @@ const Counter = styled.div`
   left: 8px;
   bottom: 8px;
   padding: 5px 12px;
-  background: ${props => props.theme.colorPrimary};
+  background: ${channel.theme.color.primary[500]};
   color: #fff;
   font-size: 14px;
   height: 30px;
@@ -150,7 +150,7 @@ interface ProjectCardProps extends Project {
 }
 
 class ProjectCard extends React.Component<
-  ProjectCardProps & InjectedIntlProps
+  ProjectCardProps & WithIntlProps<any>
 > {
   public handleLinkClick = () => {
     const { slug, name } = this.props
@@ -166,13 +166,8 @@ class ProjectCard extends React.Component<
     const { slug } = this.props
 
     return (
-      <Link
-        href={{ pathname: resolvePage('/project'), query: { slug } }}
-        as={`/vaga/${slug}`}
-      >
-        <Anchor href={`/vaga/${slug}`} onClick={this.handleLinkClick}>
-          {children}
-        </Anchor>
+      <Link href={Page.Project} as={PageAs.Project({ slug })} passHref>
+        <Anchor onClick={this.handleLinkClick}>{children}</Anchor>
       </Link>
     )
   }
@@ -185,11 +180,8 @@ class ProjectCard extends React.Component<
 
     return (
       <Link
-        href={{
-          pathname: resolvePage('/organization'),
-          query: { slug: organization.slug },
-        }}
-        as={`/ong/${organization.slug}`}
+        href={Page.Organization}
+        as={PageAs.Organization({ slug: organization.slug })}
       >
         <a>{children}</a>
       </Link>
@@ -226,7 +218,11 @@ class ProjectCard extends React.Component<
               style={{ paddingTop: '66.666666666%' }}
             />
             <Counter title={`${appliedCount} inscritos`}>
-              <img src="/base/icons/volunteer.svg" alt="" className="mr-2" />
+              <img
+                src="/static/base/icons/volunteer.svg"
+                alt=""
+                className="mr-2"
+              />
               <span>{appliedCount}</span>
             </Counter>
             <Pills>
@@ -266,7 +262,7 @@ class ProjectCard extends React.Component<
                 title={`${address.city_state && `${address.city_state}, `} ${
                   address.typed_address
                 }`}
-                className="d-block"
+                className="block"
               >
                 <Icon name="place" />{' '}
                 {address.city_state && `${address.city_state}, `}

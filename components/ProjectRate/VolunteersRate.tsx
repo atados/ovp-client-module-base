@@ -253,7 +253,7 @@ class VolunteersRate extends React.Component<
                         ))}
                       </Stars>
                       {(markedValue || value > 0) && (
-                        <span className="d-block ts-tiny tc-muted">
+                        <span className="block ts-tiny tc-muted">
                           {messages[value > 0 ? value - 1 : markedValue - 1]}
                         </span>
                       )}

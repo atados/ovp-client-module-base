@@ -1,4 +1,4 @@
-import { NextContext } from 'next'
+import { NextPageContext } from 'next'
 import React from 'react'
 import { connect } from 'react-redux'
 import { getOrganizationLayoutInitialProps } from '~/components/OrganizationLayout/OrganizationLayout'
@@ -23,7 +23,7 @@ interface OrganizationPageProps {
 
 class OrganizationPage extends React.Component<OrganizationPageProps> {
   public static async getInitialProps(
-    context: NextContext,
+    context: NextPageContext,
   ): Promise<Partial<OrganizationPageProps>> {
     await getOrganizationLayoutInitialProps(context)
     const {

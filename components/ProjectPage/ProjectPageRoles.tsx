@@ -1,11 +1,11 @@
 import Link from 'next/link'
 import React from 'react'
 import styled from 'styled-components'
-import { colors } from '~/common/constants'
-import { resolvePage } from '~/common/page'
+import { colors, channel } from '~/common/constants'
 import { rgba } from '~/lib/color/transformers'
 import { Project } from '~/redux/ducks/project'
 import { SearchType } from '~/redux/ducks/search'
+import { Page, PageAs } from '~/common'
 
 const RoleName = styled.h2`
   font-size: 20px;
@@ -68,7 +68,7 @@ const RoleApply = styled.div`
   right: 0;
   bottom: 0;
   border-radius: 10px;
-  background: ${props => rgba(props.theme.colorPrimary, 90)};
+  background: ${rgba(channel.theme.color.primary[500], 90)};
   opacity: 0;
   transition: opacity 0.2s;
   cursor: pointer;
@@ -127,7 +127,7 @@ const ProjectPageRoles: React.FC<ProjectPageRolesProps> = ({
     return (
       <div className={className}>
         <div className="card radius-10 p-4">
-          <span className="ts-large d-block">Essa vaga foi encerrada</span>
+          <span className="ts-large block">Essa vaga foi encerrada</span>
           <span className="ts-small tc-muted">
             Essa vaga não necessita mais de voluntários. Mas não precisa parar
             por aqui! Clique abaixo para encontrar outras vagas relacionadas.
@@ -135,12 +135,12 @@ const ProjectPageRoles: React.FC<ProjectPageRolesProps> = ({
           <hr />
           <Link
             href={{
-              pathname: resolvePage('/explorer'),
+              pathname: Page.SearchProjects,
               query: { searchType: SearchType.Projects },
             }}
-            as="/vagas"
+            as={PageAs.SearchProjects()}
           >
-            <a className="btn btn-white tc-primary btn--size-3 btn--block">
+            <a className="btn btn-white tc-primary-500 btn--size-3 btn--block">
               Buscar outras vagas
             </a>
           </Link>
@@ -161,7 +161,7 @@ const ProjectPageRoles: React.FC<ProjectPageRolesProps> = ({
         >
           <RoleApply>
             <div className="animte-slideInUp">
-              Quero contribuir como <b className="d-block">{role.name}</b>
+              Quero contribuir como <b className="block">{role.name}</b>
             </div>
           </RoleApply>
           <RoleName>{role.name}</RoleName>
@@ -169,7 +169,7 @@ const ProjectPageRoles: React.FC<ProjectPageRolesProps> = ({
           <RoleText>{role.details}</RoleText>
           <RoleSectionTitle>PRÉ-REQUISITOS</RoleSectionTitle>
           <RoleText>{role.prerequisites}</RoleText>
-          <div className="d-flex">
+          <div className="flex">
             <span className="tw-medium mr-2">
               {role.applied_count}/{role.vacancies}
             </span>

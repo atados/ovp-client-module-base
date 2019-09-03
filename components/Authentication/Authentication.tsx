@@ -1,79 +1,72 @@
-import React from 'react'
-import AuthenticationLogin from '~/components/Authentication/AuthenticationLogin'
-import AuthenticationRegister from '~/components/Authentication/AuthenticationRegister'
-import RouterSwitch from '~/components/RouterSwitch'
-import * as RouterSwitchOptions from '~/components/RouterSwitch/RouterSwitch'
-import AuthenticationRecover from './AuthenticationRecover'
+import React, { useReducer } from 'react'
+import AuthenticationOptions from './AuthenticationOptions'
+import AuthenticationEmailLogin from './AuthenticationEmailLogin'
+
+type AuthenticationPageName = 'options' | 'new-account' | 'login'
+
+export interface ActionBack {
+  type: 'Back'
+  payload: AuthenticationPageName
+}
+
+export interface ActionSetPage {
+  type: 'SetPage'
+  payload: AuthenticationPageName
+}
+
+type Action = ActionSetPage | ActionBack
+
+interface AuthenticationState {
+  page: AuthenticationPageName
+  history: string[]
+}
+
+const authenticationReducer = (state: AuthenticationState, action: Action) => {
+  if (action.type === 'SetPage') {
+    return {
+      page: action.payload,
+      history: [...state.history, action.payload],
+    }
+  }
+
+  if (action.type === 'Back') {
+    const { history } = state
+
+    if (!history.length) {
+      return state
+    }
+
+    const lastPage = history.pop()
+
+    return {
+      page: lastPage,
+      history: [...history],
+    }
+  }
+
+  return state
+}
 
 interface AuthenticationProps {
-  readonly location?: RouterSwitchOptions.Location
-  readonly defaultPath?: string
-  readonly successRedirect?: string
-  readonly failedRedirect?: string
-  readonly errorCode?: string
-  readonly registerError?: string
-  readonly loginError?: string
   readonly className?: string
-  readonly headerDisabled?: boolean
-  readonly disableBackButton?: boolean
-  readonly onLocationChange?: RouterSwitchOptions.OnLocationChangeCallback
 }
 
-const Authentication: React.FC<AuthenticationProps> = ({
-  className,
-  defaultPath,
-  registerError,
-  loginError,
-  successRedirect,
-  failedRedirect,
-  onLocationChange,
-  location,
-  disableBackButton,
-  headerDisabled,
-  errorCode,
-}) => (
-  <RouterSwitch
-    disableBackButton={disableBackButton}
-    location={location}
-    onLocationChange={onLocationChange}
-    className={className}
-    defaultPath={defaultPath}
-    transition="fade-up"
-    routes={[
-      {
-        path: '/register',
-        component: AuthenticationRegister,
-        props: {
-          error: registerError,
-          successRedirect,
-          failedRedirect,
-          errorCode,
-          headerDisabled,
-        },
-      },
-      {
-        path: '/recover',
-        component: AuthenticationRecover as React.ComponentType,
-      },
-      {
-        path: '/login',
-        component: AuthenticationLogin,
-        props: {
-          error: loginError,
-          successRedirect,
-          failedRedirect,
-          errorCode,
-          headerDisabled,
-        },
-      },
-    ]}
-  />
-)
+const Authentication: React.FC<AuthenticationProps> = ({ className }) => {
+  const [state, dispatch] = useReducer(authenticationReducer, {
+    page: 'login',
+    history: [],
+  })
+
+  if (state.page === 'login') {
+    return (
+      <AuthenticationEmailLogin className={className} dispatch={dispatch} />
+    )
+  }
+
+  return <AuthenticationOptions className={className} dispatch={dispatch} />
+}
 
 Authentication.displayName = 'Authentication'
-Authentication.defaultProps = {
-  defaultPath: '/login',
-  className: undefined,
-}
 
 export default Authentication
+export type AuthenticationAction = Action

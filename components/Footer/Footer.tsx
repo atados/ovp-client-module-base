@@ -3,11 +3,11 @@ import React from 'react'
 import { defineMessages } from 'react-intl'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
+import { Page, PageAs } from '~/common'
 import { channel } from '~/common/constants'
-import { resolvePage } from '~/common/page'
 import NewsletterForm from '~/components/NewsletterForm'
 import SocialMediaIcon from '~/components/SocialMediaIcon/SocialMediaIcon'
-import useIntl from '~/hooks/use-intl'
+import { useIntl } from 'react-intl'
 import { Cause } from '~/redux/ducks/channel'
 import { RootState } from '~/redux/root-reducer'
 import FooterNav from './FooterNav'
@@ -103,11 +103,8 @@ const Footer: React.FC<FooterProps> = ({ causes, className }) => {
               {causes.slice(0, 8).map(cause => (
                 <span key={cause.slug}>
                   <Link
-                    href={{
-                      pathname: resolvePage('/cause'),
-                      query: { slug: cause.slug },
-                    }}
-                    as={`/causa/${cause.slug}`}
+                    as={PageAs.Cause({ slug: cause.slug })}
+                    href={Page.Cause}
                   >
                     <a className="nav-link">{cause.name}</a>
                   </Link>
@@ -120,11 +117,8 @@ const Footer: React.FC<FooterProps> = ({ causes, className }) => {
               {causes.slice(8, 16).map(cause => (
                 <span key={cause.slug}>
                   <Link
-                    href={{
-                      pathname: resolvePage('/cause'),
-                      query: { slug: cause.slug },
-                    }}
-                    as={`/causa/${cause.slug}`}
+                    as={PageAs.Cause({ slug: cause.slug })}
+                    href={Page.Cause}
                   >
                     <a className="nav-link">{cause.name}</a>
                   </Link>
@@ -137,8 +131,8 @@ const Footer: React.FC<FooterProps> = ({ causes, className }) => {
           </div>
         </div>
         <hr className="mt-4" />
-        <div className="py-2 d-flex">
-          <Link href={resolvePage('/home')} as="/">
+        <div className="py-2 flex">
+          <Link href={Page.Home} as={PageAs.Home()}>
             <a>
               <img src={channel.assets.footerBrand} alt="" height="42" />
               <span className="ml-3 ts-medium">

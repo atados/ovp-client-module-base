@@ -1,10 +1,9 @@
-import { NextFC } from 'next'
+import { NextPage } from 'next'
 import Link from 'next/link'
 import React from 'react'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
 import { channel } from '~/common/constants'
-import { resolvePage } from '~/common/page'
 import Icon from '~/components/Icon'
 import InviteMember from '~/components/InviteMember'
 import { useModal } from '~/components/Modal'
@@ -14,8 +13,9 @@ import { NotFoundPageError } from '~/lib/next/errors'
 import { User, UserOrganization } from '~/redux/ducks/user'
 import { RootState } from '~/redux/root-reducer'
 import { OrganizationMember } from '~/types/api'
+import { Page, PageAs } from '../common'
 
-const Page = styled.div`
+const PageStyled = styled.div`
   min-height: 100vh;
 `
 
@@ -50,7 +50,7 @@ interface OrganizationMembersPageProps
   readonly organization: UserOrganization
 }
 
-const OrganizationMembersPage: NextFC<
+const OrganizationMembersPage: NextPage<
   OrganizationMembersPageProps,
   OrganizationMembersPageInitialProps
 > = ({ organization, viewer }) => {
@@ -68,7 +68,7 @@ const OrganizationMembersPage: NextFC<
   const members = queryResult.data || []
 
   return (
-    <Page className="bg-muted">
+    <PageStyled className="bg-muted">
       <OrganizationLayout
         layoutProps={{ disableFooter: true }}
         isCurrentUserMember
@@ -89,11 +89,8 @@ const OrganizationMembersPage: NextFC<
                     <tr key={member.id}>
                       <td className="pl-4">
                         <Link
-                          href={{
-                            pathname: resolvePage('/public-user'),
-                            query: { slug: member.slug },
-                          }}
-                          as={`/voluntarios/${member.slug}`}
+                          href={Page.PublicUser}
+                          as={PageAs.PublicUser({ slug: member.slug })}
                         >
                           <a className="tc-base">
                             <div
@@ -101,9 +98,7 @@ const OrganizationMembersPage: NextFC<
                               style={
                                 member.avatar
                                   ? {
-                                      backgroundImage: `url('${
-                                        member.avatar.image_url
-                                      }')`,
+                                      backgroundImage: `url('${member.avatar.image_url}')`,
                                     }
                                   : { backgroundColor: '#ddd' }
                               }
@@ -142,12 +137,12 @@ const OrganizationMembersPage: NextFC<
           </Card>
         </div>
       </OrganizationLayout>
-    </Page>
+    </PageStyled>
   )
 }
 
 OrganizationMembersPage.displayName = 'OrganizationMembersPage'
-OrganizationMembersPage.getInitialProps = ({ store, query }) => {
+OrganizationMembersPage.getInitialProps = async ({ store, query }) => {
   const { user } = store.getState()
   const organizationSlug = query.organizationSlug
     ? String(query.organizationSlug)

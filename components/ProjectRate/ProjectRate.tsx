@@ -155,7 +155,7 @@ class ProjectRate extends React.Component<
             ))}
           </Stars>
           {(values.rate || value > 0) && (
-            <span className="d-block ta-center h4 tw-normal mt-2 mb-3">
+            <span className="block ta-center h4 tw-normal mt-2 mb-3">
               {messages[value > 0 ? value - 1 : values.rate! - 1]}
             </span>
           )}

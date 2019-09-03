@@ -1,52 +1,49 @@
+import '../../channel/generated/styles/index.css'
+import '../../channel/generated/styles/channel.css'
+
 import * as Sentry from '@sentry/browser'
 import moment from 'moment'
-import NextApp, { AppComponentProps, Container } from 'next/app'
+import nextCookies from 'next-cookies'
+import { AppContextType } from 'next-server/dist/lib/utils'
+import NextApp, { AppProps as NextAppProps } from 'next/app'
 import Head from 'next/head'
-import Router from 'next/router'
+import { Router } from 'next/router'
 import React from 'react'
-import { addLocaleData, IntlProvider } from 'react-intl'
+import { IntlProvider } from 'react-intl'
 import { Provider } from 'react-redux'
 import { Store } from 'redux'
 import styled, { ThemeProvider } from 'styled-components'
 import { channel, dev } from '~/common/constants'
-import {
-  generateButtonCSS,
-  generateButtonOutlineCSS,
-  generateTextButtonCSS,
-} from '~/components/Button/mixins'
-import IntlContextProvider from '~/components/IntlContextProvider'
 import { ModalProvider } from '~/components/Modal'
 import ProgressBar from '~/components/ProgressBar'
 import { StatusProvider } from '~/components/Status'
 import GTMScripts from '~/components/TagManager/GTMScripts'
 import withApollo from '~/lib/apollo/with-apollo'
-import { rgba } from '~/lib/color/transformers'
 import { setupDataLayer } from '~/lib/tag-manager'
 import { RootState } from '~/redux/root-reducer'
 import withRedux from '~/redux/with-redux'
+import { getStartupData } from '../lib/startup'
+import { loginWithSessionToken } from '../redux/ducks/user'
 
 declare global {
   interface Window {
     __NEXT_DATA__: { [key: string]: any }
-    ReactIntlLocaleData: { [lang: string]: ReactIntl.Locale }
   }
 }
 
 // Only run Sentry on production
-if (!dev) {
-  Sentry.init({
-    dsn: 'https://96b61952137240d98f0086f071ae54e1@sentry.io/1329517',
-  })
+if (!dev && channel.config.sentry) {
+  Sentry.init(channel.config.sentry)
 }
 
 // Register React Intl's locale data for the user's locale in the browser. This
 // locale data was added to the page by `pages/_document.js`. This only happens
 // once, on initial page load in the browser.
-if (typeof window !== 'undefined' && window.ReactIntlLocaleData) {
-  Object.keys(window.ReactIntlLocaleData).forEach(lang => {
-    addLocaleData(window.ReactIntlLocaleData[lang])
-  })
-}
+// if (typeof window !== 'undefined' && window.ReactIntlLocaleData) {
+//   Object.keys(window.ReactIntlLocaleData).forEach(lang => {
+//     addLocaleData(window.ReactIntlLocaleData[lang])
+//   })
+// }
 
 const GlobalProgressBar = styled(ProgressBar)`
   position: fixed;
@@ -57,89 +54,50 @@ const GlobalProgressBar = styled(ProgressBar)`
   z-index: 9000;
 `
 
-interface AppProps extends AppComponentProps {
+interface AppProps extends NextAppProps {
   readonly store: Store<RootState>
   readonly channelPages: string[]
 }
 
-const css = `
-  .p-toolbar {
-    padding-top: ${channel.theme.toolbarHeight}px;
-  }
-
-  .bg-primary {
-    background: ${channel.theme.colorPrimary};
-  }
-
-  .bg-outline-primary {
-    border-color: ${channel.theme.colorPrimary};
-    background: ${rgba(channel.theme.colorPrimary, 15)}
-  }
-
-  .input:focus {
-    border-color: ${channel.theme.colorPrimary}
-  }
-
-  .tc-primary,
-  .hover\\:text-primary:hover {
-    color: ${channel.theme.colorPrimary} !important;
-  }
-
-  .checkbox-indicator:focus {
-    border-color: ${channel.theme.colorPrimary};
-    box-shadow: 0 0 8px ${channel.theme.colorPrimary};
-  }
-
-  input:checked + .checkbox-indicator {
-    background-color: ${channel.theme.colorPrimary};
-    border-color: ${channel.theme.colorPrimary};
-  }
-
-  .tc-secondary,
-  .tc-secondary:hover,
-  .tc-secondary:focus {
-    color: ${channel.theme.colorSecondary}
-  }
-
-  .bg-primary-hover:hover {
-    background: ${channel.theme.colorPrimary};
-  }
-
-  ${generateButtonCSS(['.btn-secondary'], channel.theme.colorSecondary)}
-
-
-  ${generateButtonCSS(
-    ['.btn-primary', '.btn-apply'],
-    channel.theme.primaryButtonBackground || channel.theme.colorPrimary,
-  )}
-
-  ${generateButtonOutlineCSS(
-    ['.btn-outline-primary'],
-    channel.theme.primaryButtonBackground || channel.theme.colorPrimary,
-  )}
-
-  ${generateButtonOutlineCSS(
-    ['.btn-outline-secondary'],
-    channel.theme.colorSecondary,
-  )}
-
-  ${generateTextButtonCSS(['.btn-text-primary'], channel.theme.colorPrimary)}
-`
-
+const intlHash = Date.now()
 class App extends NextApp<AppProps> {
-  public progressBar: ProgressBar | null
+  public static async getInitialProps({ Component, ctx }: AppContextType) {
+    let pageProps = {}
+
+    const { sessionToken } = nextCookies(ctx)
+    const { startup, user } = ctx.store.getState() as RootState
+
+    if (sessionToken && !user) {
+      await ctx.store.dispatch(loginWithSessionToken(sessionToken))
+    }
+
+    if (!startup) {
+      ctx.store.dispatch({
+        type: 'STARTUP',
+        payload: await getStartupData(),
+      })
+    }
+
+    if (Component.getInitialProps) {
+      pageProps = await Component.getInitialProps(ctx)
+    }
+
+    return { pageProps }
+  }
+
+  public progressBar: ProgressBar | null = null
 
   public componentWillMount() {
     const { intl } = this.props.store.getState()
 
-    moment.locale(intl.locale)
+    moment.locale(intl!.locale)
   }
 
   public componentDidMount() {
-    if (this.progressBar) {
-      Router.onRouteChangeStart = this.progressBar.start
-      Router.onRouteChangeComplete = this.progressBar.done
-      Router.onRouteChangeError = this.progressBar.done
+    if (this.progressBar && Router) {
+      Router.events.on('routeChangeStart', this.progressBar.start)
+      Router.events.on('routeChangeComplete', this.progressBar.done)
+      Router.events.on('routeChangeError', this.progressBar.done)
     }
 
     if (channel.config.googleTagManager) {
@@ -149,69 +107,57 @@ class App extends NextApp<AppProps> {
 
   public render() {
     const { Component, store, pageProps } = this.props
-    const {
-      intl: { locale, messages },
-    } = store.getState()
-    const now = Date.now()
+    const reduxState = store.getState() as RootState
+    const intl = reduxState.intl!
 
     return (
-      <Container>
-        <IntlProvider locale={locale} messages={messages} initialNow={now}>
-          <IntlContextProvider>
-            <Provider store={store}>
-              <ThemeProvider theme={channel.theme}>
-                <StatusProvider>
-                  <ModalProvider>
-                    <style
-                      dangerouslySetInnerHTML={{
-                        __html: css,
-                      }}
+      <IntlProvider locale={intl.locale} messages={intl.messages}>
+        <Provider store={store}>
+          <ThemeProvider theme={channel.theme}>
+            <StatusProvider>
+              <ModalProvider>
+                <Head>
+                  <meta
+                    name="theme-color"
+                    content={channel.theme.color.primary[500]}
+                  />
+                  <script src={`/api/intl/${intlHash}/${intl.locale}`} />
+                  {channel.config.maps.key && (
+                    <script
+                      src={`https://maps.googleapis.com/maps/api/js?key=${channel.config.maps.key}&libraries=places&language=pt-Br`}
                     />
-                    <Head>
-                      <meta
-                        name="theme-color"
-                        content={channel.theme.colorPrimary}
-                      />
-                      {channel.config.maps.key && (
-                        <script
-                          src={`https://maps.googleapis.com/maps/api/js?key=${
-                            channel.config.maps.key
-                          }&libraries=places&language=pt-Br`}
-                        />
-                      )}
-                      {channel.assets.icon && (
-                        <link
-                          rel="shortcut icon"
-                          href={channel.assets.icon}
-                          type="image/x-icon"
-                        />
-                      )}
-                      {channel.assets.scripts &&
-                        channel.assets.scripts.map((script, i) => (
-                          <script key={i} {...script} />
-                        ))}
-                      {channel.assets.links &&
-                        channel.assets.links.map((link, i) => (
-                          <link key={i} {...link} />
-                        ))}
-                    </Head>
+                  )}
+                  {channel.assets.icon && (
+                    <link
+                      rel="shortcut icon"
+                      href={channel.assets.icon}
+                      type="image/x-icon"
+                    />
+                  )}
+                  {channel.assets.scripts &&
+                    channel.assets.scripts.map((script, i) => (
+                      <script key={i} {...script} />
+                    ))}
+                  {channel.assets.links &&
+                    channel.assets.links.map((link, i) => (
+                      <link key={i} {...link} />
+                    ))}
+                </Head>
 
-                    {channel.config.googleTagManager && (
-                      <GTMScripts {...channel.config.googleTagManager} />
-                    )}
-                    <GlobalProgressBar
-                      ref={ref => {
-                        this.progressBar = ref as ProgressBar
-                      }}
-                    />
-                    <Component {...pageProps} />
-                  </ModalProvider>
-                </StatusProvider>
-              </ThemeProvider>
-            </Provider>
-          </IntlContextProvider>
-        </IntlProvider>
-      </Container>
+                {channel.config.googleTagManager && (
+                  <GTMScripts {...channel.config.googleTagManager} />
+                )}
+                <GlobalProgressBar
+                  ref={ref => {
+                    this.progressBar = ref as ProgressBar
+                  }}
+                />
+                <Component {...pageProps} />
+              </ModalProvider>
+            </StatusProvider>
+          </ThemeProvider>
+        </Provider>
+      </IntlProvider>
     )
   }
 }

@@ -1,9 +1,9 @@
 import Link from 'next/link'
 import React from 'react'
-import { resolvePage } from '~/common/page'
 import FormComposerLayout from '~/components/FormComposer/FormComposerLayout'
 import HelpCard from '~/components/HelpCard'
 import { Organization } from '~/redux/ducks/organization'
+import { Page, PageAs } from '~/common'
 
 interface OrganizationComposerConclusionProps {
   readonly formContext?: { organization: Organization }
@@ -37,18 +37,15 @@ const OrganizationComposerConclusion: React.FC<
       {formContext && formContext.organization && (
         <div className="mt-4">
           <Link
-            href={{
-              pathname: resolvePage('/organization'),
-              query: { slug: formContext.organization.slug },
-            }}
-            as={`/ong/${formContext.organization.slug}`}
+            href={Page.Organization}
+            as={PageAs.Organization({ slug: formContext.organization.slug })}
           >
             <a className="btn btn-primary btn--size-3">Ir pra página da ONG</a>
           </Link>
 
           <Link
             href={{
-              pathname: resolvePage('/project-composer'),
+              pathname: '/project-composer',
               query: { organizationSlug: formContext.organization.slug },
             }}
             as={`/ong/${formContext.organization.slug}/criar-vaga`}

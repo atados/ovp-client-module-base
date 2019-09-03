@@ -2,8 +2,8 @@ import Link from 'next/link'
 import React from 'react'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
+import { Page } from '~/base/common'
 import { colors } from '~/common/constants'
-import { resolvePage } from '~/common/page'
 import { OrganizationAppliesPayload } from '~/redux/ducks/organization-applies'
 import { RootState } from '~/redux/root-reducer'
 
@@ -37,7 +37,7 @@ const OrganizationApplies: React.FC<OrganizationAppliesProps> = ({
     <div className="bg-muted radius-10 mb-3 p-3">
       {fetching}
       <h4 className="ts-normal mb-0">Voluntários</h4>
-      <span className="tc-muted mb-2 ts-small d-block">
+      <span className="tc-muted mb-2 ts-small block">
         {payload.applied_count} voluntários
       </span>
       {payload.applies.map((application, i) => {
@@ -58,7 +58,7 @@ const OrganizationApplies: React.FC<OrganizationAppliesProps> = ({
           <Link
             key={application.id}
             href={{
-              pathname: resolvePage('/public-user'),
+              pathname: Page.PublicUser,
               query: { slug: application.user.slug },
             }}
             as={`/voluntario/${application.user.slug}`}

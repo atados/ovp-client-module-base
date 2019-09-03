@@ -5,15 +5,23 @@ export interface StartupDataStats {
   readonly organizations: number
 }
 
+export interface StartupAction {
+  type: 'STARTUP'
+  payload: StartupData
+}
+
 export interface StartupData {
   readonly causes: Cause[]
   readonly skills: Skill[]
   readonly stats: StartupDataStats
 }
 
-const initialState: StartupData = {
-  causes: [],
-  skills: [],
-  stats: { volunteers: 0, organizations: 0 },
+export type StartupReducerState = StartupData | null
+
+export default (state: StartupReducerState = null, action: StartupAction) => {
+  if (action.type === 'STARTUP') {
+    return action.payload!
+  }
+
+  return state
 }
-export default (state: StartupData = initialState) => state

@@ -118,7 +118,7 @@ const FormComposerLayout: React.FC<FormComposerLayoutProps> = ({
             <Footer>
               <FooterDivider />
 
-              <div className="d-flex">
+              <div className="flex">
                 <div className="mr-auto" />
                 {onSubmit && (
                   <button
@@ -163,7 +163,7 @@ const FormComposerLayout: React.FC<FormComposerLayoutProps> = ({
           helpPanelProps && helpPanelProps.className
             ? `${helpPanelProps.className} `
             : ''
-        }d-none d-lg-block`}
+        }hidden lg:block`}
       >
         {helpPanelChildren}
       </HelpPanel>

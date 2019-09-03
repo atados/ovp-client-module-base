@@ -1,26 +1,29 @@
 import Link from 'next/link'
 import React, { useCallback, useState } from 'react'
-import { defineMessages } from 'react-intl'
 import { useSelector } from 'react-redux'
 import styled from 'styled-components'
 import { channel } from '~/common/constants'
-import { resolvePage } from '~/common/page'
-import useIntl from '~/hooks/use-intl'
-import { SearchType } from '~/redux/ducks/search'
 import { RootState } from '~/redux/root-reducer'
 import SearchForm from '../SearchForm'
 import ToolbarUser from '../ToolbarUser'
 import ToolbarBrand from './ToolbarBrand'
 import ToolbarMobileNav from './ToolbarMobileNav'
-import ToolbarOrganization from './ToolbarOrganization'
+import ToolbarOrganizationDropdown from './ToolbarOrganizationDropdown'
+import ToolbarVolunteerDropdown from './ToolbarVolunteerDropdown'
+import { Page, PageAs } from '~/base/common'
 
 const ToolbarStyled = styled.div`
   height: ${channel.theme.toolbarHeight}px;
-  background: ${channel.theme.toolbarBackground || channel.theme.colorPrimary};
+  background: ${channel.theme.toolbarBackground ||
+    channel.theme.color.primary[500]};
   z-index: 400;
 
   .toolbarOrganization {
     max-width: 180px;
+  }
+
+  .navbar-dark .tc-toolbar {
+    color: #fff;
   }
 `
 
@@ -35,23 +38,13 @@ const Nav = styled.ul`
   }
 `
 
-const messages = defineMessages({
-  explore: {
-    id: 'toolbar.explore',
-    defaultMessage: 'Vagas de voluntariado',
-  },
-  imOrganization: {
-    id: 'toolbar.im_organization',
-    defaultMessage: 'Sou uma ONG',
-  },
-})
-
 export interface ToolbarProps {
   readonly className?: string
-  readonly brand?: string
+  readonly brand?: React.ReactNode
   readonly theme?: 'dark' | 'light'
   readonly fixed?: boolean
   readonly flat?: boolean
+  readonly float?: boolean
   readonly searchFormEnabled?: boolean
 }
 
@@ -61,9 +54,9 @@ const Toolbar: React.FC<ToolbarProps> = ({
   fixed,
   theme = 'dark',
   flat,
+  float,
   searchFormEnabled = true,
 }) => {
-  const intl = useIntl()
   const [state, setState] = useState({
     collapsed: true,
     searchFormFocused: false,
@@ -81,16 +74,19 @@ const Toolbar: React.FC<ToolbarProps> = ({
 
   return (
     <ToolbarStyled
-      className={`${fixed ? 'fixed top-0 left-0 right-0' : 'pos-relative'} ${
-        !flat ? 'shadow' : ''
-      } ${className || ''}`}
+      className={`${
+        fixed || float
+          ? `${fixed ? 'fixed' : 'absolute'} top-0 left-0 right-0`
+          : 'relative'
+      } ${!flat ? 'shadow' : ''} ${className || ''}`}
     >
       <Navbar className={`h-full navbar navbar-expand-lg px-0 navbar-${theme}`}>
         <div className="container w-full">
-          <ToolbarBrand
-            brand={brand}
-            className={state.searchFormFocused ? 'd-none d-md-block' : ''}
-          />
+          {brand || (
+            <ToolbarBrand
+              className={state.searchFormFocused ? 'hidden md:block' : ''}
+            />
+          )}
           {searchFormEnabled && (
             // @ts-ignore
             <SearchForm
@@ -100,7 +96,7 @@ const Toolbar: React.FC<ToolbarProps> = ({
           )}
 
           <div className="mr-auto" />
-          <Nav className="navbar-nav d-none d-lg-flex">
+          <Nav className="navbar-nav hidden lg:flex">
             {channel.config.toolbar.links.map(link => (
               <li key={link.href + link.as} className="nav-item">
                 {link.as ? (
@@ -116,47 +112,30 @@ const Toolbar: React.FC<ToolbarProps> = ({
             ))}
 
             <li className="nav-item">
-              <Link
-                href={{
-                  pathname: resolvePage('/explore'),
-                  query: { searchType: SearchType.Projects },
-                }}
-                as="/vagas"
-              >
-                <a className="nav-link">
-                  {intl.formatMessage(messages.explore)}
-                </a>
-              </Link>
+              <ToolbarVolunteerDropdown />
             </li>
-            {viewerOrganizations.length === 0 && (
-              <li className="nav-item">
-                <Link
-                  href={{ pathname: resolvePage('/organization-composer') }}
-                  as="/sou-uma-ong"
-                >
-                  <a className="nav-link">
-                    {intl.formatMessage(messages.imOrganization)}
-                  </a>
-                </Link>
-              </li>
-            )}
-            {viewerOrganizations.length === 1 && (
+            {channel.config.organization.enabled && (
               <li>
-                <ToolbarOrganization
+                <ToolbarOrganizationDropdown
                   organization={viewerOrganizations[0]}
-                  className="toolbarOrganization mr-2"
                   theme={theme}
+                  className={viewerOrganizations[0] ? 'ml-2' : ''}
                 />
               </li>
             )}
             <li>
               <ToolbarUser theme={theme} />
             </li>
+            <li>
+              <Link href={Page.FAQ} as={PageAs.FAQ()}>
+                <a className="nav-link">Ajuda</a>
+              </Link>
+            </li>
           </Nav>
           <button
             className={`btn ${theme === 'dark' ? 'bg-light' : ''} ${
-              state.searchFormFocused ? 'd-none d-md-block' : ''
-            } d-lg-none navbar-toggler tl-base rounded-full w-40 h-40 px-0`}
+              state.searchFormFocused ? 'hidden md:block' : ''
+            } lg:hidden navbar-toggler tl-base rounded-full w-40 h-40 px-0`}
             onClick={handleTogglerClick}
             type="button"
           >
