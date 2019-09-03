@@ -11,6 +11,7 @@ module.exports = withCSS({
   cssModules: false,
   target: 'serverless',
   env: {
+    NODE_LOG: process.env.NODE_LOG,
     STATIC_DIST_DIRNAME: `${Math.random()
       .toString(36)
       .substring(7)}-${Date.now()}`,
