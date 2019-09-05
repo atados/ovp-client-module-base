@@ -224,7 +224,7 @@ export const fetchProject = createAction<string, Project, ProjectFetchMeta>(
       projectRolesMap[role.id] = role
     })
     project.applies.forEach(application => {
-      if (application.role) {
+      if (application.role && projectRolesMap[application.role.id]) {
         if (!projectRolesMap[application.role.id].applies) {
           projectRolesMap[application.role.id].applies = []
         }
