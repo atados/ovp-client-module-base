@@ -115,7 +115,7 @@ const Toolbar: React.FC<ToolbarProps> = ({
               <ToolbarVolunteerDropdown />
             </li>
             {channel.config.organization.enabled && (
-              <li>
+              <li className="mr-2">
                 <ToolbarOrganizationDropdown
                   organization={viewerOrganizations[0]}
                   theme={theme}
@@ -135,7 +135,7 @@ const Toolbar: React.FC<ToolbarProps> = ({
           <button
             className={`btn ${theme === 'dark' ? 'bg-light' : ''} ${
               state.searchFormFocused ? 'hidden md:block' : ''
-            } lg:hidden navbar-toggler tl-base rounded-full w-40 h-40 px-0`}
+            } lg:hidden navbar-toggler tl-base rounded-full w-10 h-10 px-0`}
             onClick={handleTogglerClick}
             type="button"
           >

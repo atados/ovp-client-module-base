@@ -94,7 +94,7 @@ const OrganizationMembersPage: NextPage<
                         >
                           <a className="tc-base">
                             <div
-                              className="w-32 h-32 bg-cover rounded mr-3 d-inline-block vertical-align-middle"
+                              className="w-8 h-8 bg-cover rounded mr-3 inline-block vertical-align-middle"
                               style={
                                 member.avatar
                                   ? {

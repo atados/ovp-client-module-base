@@ -254,7 +254,7 @@ const ProjectComposerBasics: React.FC<
       <input
         type="text"
         name="addressComplement"
-        className="input input--size-4 w-50 mb-3"
+        className="input input--size-4 w-1/2 mb-3"
         placeholder="Complemento"
         value={values.addressComplement}
         onChange={handleChange}

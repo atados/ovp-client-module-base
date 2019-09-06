@@ -79,7 +79,6 @@ const RatingIndicator = styled.span`
   text-align: center;
   padding: 12px 0;
   margin-left: -52px;
-  float: left;
 `
 
 interface OrganizationPageProps {
@@ -92,7 +91,7 @@ interface OrganizationPageProps {
 class OrganizationPage extends React.Component<OrganizationPageProps> {
   public static async getInitialProps({
     store,
-    query: { slug },
+    query: { organizationSlug: slug },
     req,
   }: NextPageContext): Promise<Partial<OrganizationPageProps>> {
     const { user } = store.getState()

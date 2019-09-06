@@ -80,7 +80,9 @@ const OrganizationComposerCard: React.FC<OrganizationComposerCardProps> = ({
       <HeaderInner className="ratio-fill" style={{ paddingTop: '100%' }} />
     </Header>
     {address ? (
-      <Info className="w-100 tc-secondary-500">{address.node.description}</Info>
+      <Info className="w-full tc-secondary-500">
+        {address.node.description}
+      </Info>
     ) : (
       <InfoPlaceholder />
     )}

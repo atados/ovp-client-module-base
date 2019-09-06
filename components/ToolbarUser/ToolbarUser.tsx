@@ -157,21 +157,15 @@ const ToolbarUser: React.FC<ToolbarUserProps> = ({
             <Icon name="keyboard_arrow_down" className="dropdownArrow" />
           </Avatar>
           <Menu className="mt-1">
-            <Link href={Page.Viewer}>
-              <DropdownAnchor href="/perfil">
+            <Link href={Page.Viewer} passHref>
+              <DropdownAnchor>
                 <Icon name="person" />
                 Meu perfil de voluntário
               </DropdownAnchor>
             </Link>
 
-            <Link
-              href={{
-                pathname: '/settings-user',
-                query: { slug: user.slug },
-              }}
-              as="/configuracoes/perfil"
-            >
-              <DropdownAnchor href="/configuracoes/perfil">
+            <Link href={Page.ViewerSettings} passHref>
+              <DropdownAnchor>
                 <Icon name="settings" />
                 Configurações
               </DropdownAnchor>
@@ -179,13 +173,13 @@ const ToolbarUser: React.FC<ToolbarUserProps> = ({
             <hr className="my-1" />
             {channel.config.user.createProject === true && (
               <>
-                <Link href={'/project-composer'} as="/criar-vaga">
-                  <DropdownAnchor href="/criar-vaga">
+                <Link href={Page.NewProject} passHref>
+                  <DropdownAnchor>
                     <Icon name="add" />
                     Criar vaga
                   </DropdownAnchor>
                 </Link>
-                <Link href={'/created-projects-list'} as="/minhas-vagas">
+                <Link href={Page.ViewerProjects} passHref>
                   <DropdownAnchor href="/minhas-vagas">
                     <Icon name="group" />
                     Gerenciar minhas vagas
@@ -193,18 +187,22 @@ const ToolbarUser: React.FC<ToolbarUserProps> = ({
                 </Link>
               </>
             )}
-            <Link href={'/settings-organizations'} as="/configuracoes/ongs">
-              <DropdownAnchor href="/configuracoes/ongs">
-                <Icon name="group" />
-                ONGs que participo
-              </DropdownAnchor>
-            </Link>
-            <Link href={'/organization-composer'} as="/sou-uma-ong">
-              <DropdownAnchor href="/sou-uma-ong">
-                <Icon name="add" />
-                Registrar nova ONG
-              </DropdownAnchor>
-            </Link>
+            {channel.config.organization.enabled && (
+              <>
+                <Link href={Page.ViewerOrganizations} passHref>
+                  <DropdownAnchor>
+                    <Icon name="group" />
+                    ONGs que participo
+                  </DropdownAnchor>
+                </Link>
+                <Link href={Page.NewOrganization}>
+                  <DropdownAnchor>
+                    <Icon name="add" />
+                    Registrar nova ONG
+                  </DropdownAnchor>
+                </Link>
+              </>
+            )}
             <hr className="my-1" />
             <Link href={Page.Home} passHref>
               <DropdownAnchor onClick={handleLogout}>
@@ -225,7 +223,7 @@ const ToolbarUser: React.FC<ToolbarUserProps> = ({
         component={Authentication}
         cardClassName="p-5"
       >
-        <a href="/entrar" className="nav-link">
+        <a id="toolbar-auth-button" href="/entrar" className="nav-link">
           Entrar
         </a>
       </ModalLink>

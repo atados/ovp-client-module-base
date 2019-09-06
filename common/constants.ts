@@ -7,6 +7,8 @@ export const SOCKET_API_URL = process.env.SOCKET_API_URL!
 export const SOCKET_API_WS_URL = process.env.SOCKET_API_WS_URL!
 export const NOW_URL = process.env.NOW_URL!
 export const STATIC_DIST_DIRNAME = process.env.STATIC_DIST_DIRNAME!
+export const AUTH_CLIENT_ID = process.env.AUTH_CLIENT_ID!
+export const AUTH_CLIENT_SECRET = process.env.AUTH_CLIENT_SECRET!
 export const channel = JSON.parse(process.env.CHANNEL_JSON as string) as Channel
 
 export const dev = process.env.NODE_ENV !== 'production'

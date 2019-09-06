@@ -328,15 +328,15 @@ const ProjectComposerPage: NextPage<
               href={
                 organization
                   ? Page.OrganizationDashboardProject
-                  : Page.ProjectDashboard
+                  : Page.ViewerProjectDashboard
               }
               as={
                 organization
                   ? PageAs.OrganizationDashboardProject({
-                      organizaitonSlug: organization.slug,
+                      organizationSlug: organization.slug,
                       slug: project.slug,
                     })
-                  : PageAs.ProjectDashboard({ slug: project.slug })
+                  : PageAs.ViewerProjectDashboard({ slug: project.slug })
               }
             >
               <a className="media tc-base">

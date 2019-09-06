@@ -282,7 +282,7 @@ class OrganizationComposerBasics extends React.Component<
         <input
           type="text"
           name="addressComplement"
-          className="input input--size-3 w-50 mb-3"
+          className="input input--size-3 w-1/2 mb-3"
           placeholder="Complemento"
           value={values.addressComplement}
           onChange={handleChange}

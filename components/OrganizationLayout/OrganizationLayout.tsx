@@ -117,7 +117,7 @@ const OrganizationLayout: React.FC<OrganizationLayoutProps> = ({
   children,
   layoutProps,
 }) => {
-  const router = useRouter()
+  const { pathname } = useRouter() || { pathname: '' }
 
   return (
     <div className={className}>
@@ -136,7 +136,9 @@ const OrganizationLayout: React.FC<OrganizationLayoutProps> = ({
                     <li>
                       <Link
                         href={Page.Organization}
-                        as={PageAs.Organization({ slug: organization.slug })}
+                        as={PageAs.Organization({
+                          organizationSlug: organization.slug,
+                        })}
                       >
                         <CurrentOrganizationLink
                           href={`/ong/${organization.slug}`}
@@ -157,22 +159,24 @@ const OrganizationLayout: React.FC<OrganizationLayoutProps> = ({
                     </li>
                     <li
                       className={
-                        router!.pathname === Page.Organization ||
-                        router!.pathname === Page.OrganizationProjects
+                        pathname === Page.Organization ||
+                        pathname === Page.OrganizationProjects
                           ? 'active'
                           : ''
                       }
                     >
                       <Link
                         href={Page.Organization}
-                        as={PageAs.Organization({ slug: organization.slug })}
+                        as={PageAs.Organization({
+                          organizationSlug: organization.slug,
+                        })}
                       >
                         <a className="nav-link">Página</a>
                       </Link>
                     </li>
                     <li
                       className={
-                        router!.pathname === '/project-composer' ? 'active' : ''
+                        pathname === '/project-composer' ? 'active' : ''
                       }
                     >
                       <Link
@@ -180,17 +184,17 @@ const OrganizationLayout: React.FC<OrganizationLayoutProps> = ({
                           pathname: '/project-composer',
                           query: { organizationSlug: organization.slug },
                         }}
-                        as={`/ong/${organization.slug}/criar-vaga`}
+                        as={PageAs.OrganizationNewProject({
+                          organizationSlug: organization.slug,
+                        })}
                       >
                         <a className="nav-link">Criar vaga</a>
                       </Link>
                     </li>
                     <li
                       className={
-                        router!.pathname ===
-                          Page.OrganizationDashboardProject ||
-                        router!.pathname ===
-                          Page.OrganizationDashboardProjectsList
+                        pathname === Page.OrganizationDashboardProject ||
+                        pathname === Page.OrganizationDashboardProjectsList
                           ? 'active'
                           : ''
                       }
@@ -206,34 +210,30 @@ const OrganizationLayout: React.FC<OrganizationLayoutProps> = ({
                     </li>
                     <li
                       className={
-                        router!.pathname === '/organization-members'
+                        pathname === Page.OrganizationDashboardMembers
                           ? 'active'
                           : ''
                       }
                     >
                       <Link
-                        href={{
-                          pathname: '/organization-members',
-                          query: { organizationSlug: organization.slug },
-                        }}
-                        as={`/ong/${organization.slug}/membros`}
+                        href={Page.OrganizationDashboardMembers}
+                        as={PageAs.OrganizationDashboardMembers({
+                          organizationSlug: organization.slug,
+                        })}
                       >
                         <a className="nav-link">Membros</a>
                       </Link>
                     </li>
                     <li
                       className={
-                        router!.pathname === '/organization-edit'
-                          ? 'active'
-                          : ''
+                        pathname === Page.OrganizationEdit ? 'active' : ''
                       }
                     >
                       <Link
-                        href={{
-                          pathname: '/organization-edit',
-                          query: { slug: organization.slug },
-                        }}
-                        as={`/ong/${organization.slug}/editar`}
+                        href={Page.OrganizationEdit}
+                        as={PageAs.OrganizationEdit({
+                          organizationSlug: organization.slug,
+                        })}
                       >
                         <a className="nav-link">Editar ONG</a>
                       </Link>
@@ -241,17 +241,10 @@ const OrganizationLayout: React.FC<OrganizationLayoutProps> = ({
                     {channel.config.chat.enabled &&
                       (!channel.config.chat.beta ||
                         organization.chat_enabled) && (
-                        <li
-                          className={
-                            router!.pathname === '/inbox' ? 'active' : ''
-                          }
-                        >
+                        <li className={pathname === '/inbox' ? 'active' : ''}>
                           <Link
-                            href={{
-                              pathname: '/inbox',
-                              query: { viewerSlug: organization.slug },
-                            }}
-                            as={`/mensagens/${organization.slug}`}
+                            href={Page.Inbox}
+                            as={PageAs.Inbox({ slug: organization.slug })}
                           >
                             <a className="nav-link">Caixa de entrada</a>
                           </Link>

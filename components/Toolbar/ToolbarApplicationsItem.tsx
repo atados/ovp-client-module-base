@@ -3,6 +3,7 @@ import React, { useCallback } from 'react'
 import styled from 'styled-components'
 import { PublicUserApplication } from '~/redux/ducks/public-user'
 import Icon from '../Icon'
+import { Page, PageAs } from '~/base/common'
 
 const Actions = styled.div`
   button {
@@ -48,13 +49,7 @@ const ToolbarApplicationsItem: React.FC<ToolbarApplicationsItemProps> = ({
     <div
       className={`${active ? 'rounded-lg shadow-lg' : ''} ${className || ''}`}
     >
-      <Link
-        href={{
-          pathname: '/project',
-          query: { slug: project.slug },
-        }}
-        as={`/vaga/${project.slug}`}
-      >
+      <Link href={Page.Project} as={PageAs.Project({ slug: project.slug })}>
         <a
           className={`tc-base td-hover-none block p-2 pl-5 ${
             active ? '' : 'hover:bg-muted'
@@ -62,7 +57,7 @@ const ToolbarApplicationsItem: React.FC<ToolbarApplicationsItemProps> = ({
           onClick={onClick}
         >
           <div
-            className={`w-48 h-48 block rounded -ml-3 float-left bg-cover mr-3 ${
+            className={`w-12 h-12 block rounded -ml-3 float-left bg-cover mr-3 ${
               !project.image ? 'bg-muted' : ''
             }`}
             style={
@@ -75,7 +70,7 @@ const ToolbarApplicationsItem: React.FC<ToolbarApplicationsItemProps> = ({
           />
           <div className="flex-grow">
             <button
-              className={`btn btn-muted w-36 h-36 rounded-full p-0 float-right ${
+              className={`btn btn-muted w-10 h-10 rounded-full p-0 float-right ${
                 active ? 'bg-primary-500 tc-white' : ''
               }`}
             >
@@ -102,18 +97,14 @@ const ToolbarApplicationsItem: React.FC<ToolbarApplicationsItemProps> = ({
               Ver minha inscrição
             </button>
             <Link
-              href={{ pathname: '/project', query: { slug: project.slug } }}
-              as={`/vaga/${project.slug}`}
+              href={Page.Project}
+              as={PageAs.Project({ slug: project.slug })}
             >
               <a className="btn btn--block py-1 px-2 ta-left hover:bg-muted tc-base tw-normal">
                 <Icon name="launch" className="mr-2" />
                 Ir para página da vaga
               </a>
             </Link>
-            <button className="btn btn--block py-1 px-2 ta-left hover:bg-muted">
-              <Icon name="person" className="mr-2" />
-              Contatar resposável
-            </button>
           </Actions>
         </>
       )}

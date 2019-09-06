@@ -141,15 +141,14 @@ const SettingsPassword: NextPage<
 
 SettingsPassword.displayName = 'SettingsPassword'
 SettingsPassword.getInitialProps = async (context: NextPageContext) => {
-  await getPublicUserLayoutInitialProps(context)
-  const {
-    user: authenticatedUser,
-    publicUser: { node: user },
-  } = context.store.getState()
+  const { user: viewer } = context.store.getState()
 
-  if (!user || !authenticatedUser || user.slug !== user.slug) {
+  if (!viewer) {
     throw new NotFoundPageError()
   }
+
+  context.query.slug = viewer.slug
+  await getPublicUserLayoutInitialProps(context)
 
   return {}
 }

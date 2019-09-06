@@ -185,15 +185,15 @@ const PostFormPage: NextPage<PostFormPageProps, PostFormPageInitialProps> = ({
             href={
               organization
                 ? Page.OrganizationDashboardProject
-                : Page.ProjectDashboard
+                : Page.ViewerProjectDashboard
             }
             as={
               organization
                 ? PageAs.OrganizationDashboardProject({
-                    organizaitonSlug: organization.slug,
+                    organizationSlug: organization.slug,
                     slug: parentNode.slug,
                   })
-                : PageAs.ProjectDashboard({ slug: parentNode.slug })
+                : PageAs.ViewerProjectDashboard({ slug: parentNode.slug })
             }
           >
             <a className="media tc-base td-hover-none">

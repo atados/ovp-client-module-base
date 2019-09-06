@@ -102,7 +102,7 @@ const RoleForm: React.FC<InjectedFormikProps<RoleFormProps, Values>> = ({
       <MaskedTextInput
         name="vacancies"
         type="text"
-        className="input w-50"
+        className="input w-1/2"
         mask={masks.numeral}
         value={values.vacancies}
         onChange={handleChange}

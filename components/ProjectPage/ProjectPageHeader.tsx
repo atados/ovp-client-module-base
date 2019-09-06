@@ -266,7 +266,9 @@ const ProjectPageHeader: React.FC<ProjectPageHeaderProps> = ({
           <div className="mt-4">
             <Link
               href={Page.Organization}
-              as={PageAs.Organization({ slug: project.organization.slug })}
+              as={PageAs.Organization({
+                organizationSlug: project.organization.slug,
+              })}
             >
               <a className="media tc-base text-truncate">
                 <OwnerAvatar

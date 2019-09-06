@@ -97,7 +97,9 @@ class OrganizationComposerPage extends React.Component<
             <div className="mb-4">
               <Link
                 href={Page.Organization}
-                as={PageAs.Organization({ slug: organization.slug })}
+                as={PageAs.Organization({
+                  organizationSlug: organization.slug,
+                })}
               >
                 <a className="float-right">
                   Ir à página da ONG <Icon name="arrow_forward" />

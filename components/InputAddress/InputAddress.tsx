@@ -306,7 +306,7 @@ class InputAddress extends React.Component<
         />
         <InputIcon name="place" className={address ? 'active' : ''} />
         {address && <InputIcon name="close" className="right" />}
-        <Menu>
+        <Menu id="input-address-options">
           {nodes.map((node, i) => (
             <Option
               data-index={i}

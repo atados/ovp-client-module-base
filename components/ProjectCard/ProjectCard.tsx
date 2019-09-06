@@ -181,7 +181,7 @@ class ProjectCard extends React.Component<
     return (
       <Link
         href={Page.Organization}
-        as={PageAs.Organization({ slug: organization.slug })}
+        as={PageAs.Organization({ organizationSlug: organization.slug })}
       >
         <a>{children}</a>
       </Link>

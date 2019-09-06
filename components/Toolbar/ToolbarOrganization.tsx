@@ -66,7 +66,7 @@ const ToolbarOrganization: React.FC<ToolbarOrganizationProps> = ({
         )}
       >
         <Avatar
-          className="d-inline-block w-32 h-32  bg-cover rounded-circle"
+          className="inline-block w-8 h-8  bg-cover rounded-circle"
           style={
             organization.image
               ? {

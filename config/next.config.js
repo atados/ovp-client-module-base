@@ -1,5 +1,5 @@
 const dotenv = require('dotenv')
-const loadChannelConfig = require('./internals/channel/load-channel-config')
+const loadChannelConfig = require('../internals/channel/load-channel-config')
 const withCSS = require('@zeit/next-css')
 
 const channel = loadChannelConfig()
@@ -20,6 +20,8 @@ module.exports = withCSS({
     SOCKET_API_WS_URL: process.env.SOCKET_API_WS_URL || 'ws://localhost:3002',
     API_URL: process.env.API_URL || 'http://localhost:8000',
     APP_URL: process.env.APP_URL || 'http://localhost:3000',
+    AUTH_CLIENT_ID: process.env.AUTH_CLIENT_ID,
+    AUTH_CLIENT_SECRET: process.env.AUTH_CLIENT_SECRET,
     APP_SHARE_URL: process.env.APP_SHARE_URL || 'http://localhost:3000',
   },
   webpack(config, { dev }) {

@@ -98,12 +98,12 @@ const OrganizationComposerIntro: React.FC<OrganizationComposerIntroProps> = ({
     body = (
       <>
         <PresentationStepPlaceholder>
-          <TextPlaceholder style={{ height: '19px' }} className="w-50 mb-2" />
+          <TextPlaceholder style={{ height: '19px' }} className="w-1/2 mb-2" />
           <TextPlaceholder
             style={{ backgroundColor: '#aaa', height: '38px' }}
             className="mb-2"
           />
-          <TextPlaceholder style={{ height: '26px' }} className="w-50" />
+          <TextPlaceholder style={{ height: '26px' }} className="w-1/2" />
         </PresentationStepPlaceholder>
         <PresentationStepPlaceholder>
           <TextPlaceholder style={{ height: '19px' }} className="mb-2" />
@@ -111,7 +111,7 @@ const OrganizationComposerIntro: React.FC<OrganizationComposerIntroProps> = ({
             style={{ backgroundColor: '#aaa', height: '38px' }}
             className="mb-2"
           />
-          <TextPlaceholder style={{ height: '26px' }} className="w-50" />
+          <TextPlaceholder style={{ height: '26px' }} className="w-1/2" />
         </PresentationStepPlaceholder>
       </>
     )

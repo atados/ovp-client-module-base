@@ -205,15 +205,15 @@ const ProjectPageNav: React.FC<ProjectPageNavProps> = ({
             href={
               project.organization
                 ? Page.OrganizationDashboardProject
-                : Page.ProjectDashboard
+                : Page.ViewerProjectDashboard
             }
             as={
               project.organization
                 ? PageAs.OrganizationDashboardProject({
-                    organizaitonSlug: project.organization.slug,
+                    organizationSlug: project.organization.slug,
                     slug: project.slug,
                   })
-                : PageAs.ProjectDashboard({ slug: project.slug })
+                : PageAs.ViewerProjectDashboard({ slug: project.slug })
             }
           >
             <ActionButton
@@ -312,15 +312,15 @@ const ProjectPageNav: React.FC<ProjectPageNavProps> = ({
                     href={
                       project.organization
                         ? Page.OrganizationDashboardProject
-                        : Page.ProjectDashboard
+                        : Page.ViewerProjectDashboard
                     }
                     as={
                       project.organization
                         ? PageAs.OrganizationDashboardProject({
-                            organizaitonSlug: project.organization.slug,
+                            organizationSlug: project.organization.slug,
                             slug: project.slug,
                           })
-                        : PageAs.ProjectDashboard({ slug: project.slug })
+                        : PageAs.ViewerProjectDashboard({ slug: project.slug })
                     }
                   >
                     <ActionButton

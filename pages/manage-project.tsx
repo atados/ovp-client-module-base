@@ -121,7 +121,7 @@ ManageProjectPage.getInitialProps = async (
 ): Promise<ManageProjectPageInitialProps> => {
   const {
     store,
-    query: { slug, organizationSlug },
+    query: { projectSlug, organizationSlug },
   } = context
   if (organizationSlug) {
     await getOrganizationLayoutInitialProps(context, true)
@@ -129,11 +129,11 @@ ManageProjectPage.getInitialProps = async (
 
   const { user: currentUser } = store.getState()
 
-  if (typeof slug !== 'string') {
+  if (typeof projectSlug !== 'string') {
     throw new NotFoundPageError()
   }
   const project = await store
-    .dispatch(fetchProject(slug))
+    .dispatch(fetchProject(projectSlug))
     .then(throwActionError)
 
   if (!currentUser || !doesUserHaveAccessToProject(currentUser, project)) {
@@ -142,7 +142,7 @@ ManageProjectPage.getInitialProps = async (
 
   return {
     organizationSlug: organizationSlug && String(organizationSlug),
-    slug,
+    slug: projectSlug,
   }
 }
 ManageProjectPage.displayName = 'ManageProjectPage'

@@ -40,7 +40,9 @@ const ProjectPageOrganization: React.FC<ProjectPageOrganizationProps> = ({
       <Wrapper>
         <Link
           href={Page.Organization}
-          as={PageAs.Organization({ slug: project.organization.slug })}
+          as={PageAs.Organization({
+            organizationSlug: project.organization.slug,
+          })}
         >
           <a className="tc-base td-hover-none">
             <Thumbnail

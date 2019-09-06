@@ -88,7 +88,7 @@ class OrganizationCard extends React.Component<
     return (
       <Link
         href={Page.Organization}
-        as={PageAs.Organization({ slug: organization.slug })}
+        as={PageAs.Organization({ organizationSlug: organization.slug })}
       >
         <Anchor
           href={`/ong/${organization.slug}`}
@@ -128,7 +128,7 @@ class OrganizationCard extends React.Component<
               `${organization.address.city_state}, `} ${
               organization.address.typed_address
             }`}
-            className="w-100 tc-secondary-500"
+            className="w-full tc-secondary-500"
           >
             {organization.address.city_state &&
               `${organization.address.city_state}, `}

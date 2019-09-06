@@ -58,6 +58,7 @@ export interface RequiredPagesMap {
   Home: string
   Project: string
   Organization: string
+  NewAccount: string
   Cause: string
   Login: string
   Search: string
@@ -78,15 +79,18 @@ export interface RequiredPagesMap {
   NewProject: string
   PublicUser: string
   RecoverPassword: string
-  SettingsOrganizations: string
-  SettingsPassword: string
-  SettingsUser: string
   PrivacyTerms: string
   VolunteerTerms: string
   UsageTerms: string
   ApprovalTerms: string
   TermsList: string
   Viewer: string
+  ForgotPassword: string
+  ViewerProjectDashboard: string
+  ViewerProjects: string
+  ViewerSettings: string
+  ViewerOrganizations: string
+  ViewerSettingsPassword: string
 }
 
 export interface ChannelTheme {

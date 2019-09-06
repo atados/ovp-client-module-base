@@ -54,7 +54,7 @@ const SettingsOrganizations: NextPage<SettingsOrganizationsProps, {}> = ({
           <div key={organization.slug} className="flex card-item px-2 py-3">
             <Link
               href={Page.Organization}
-              as={PageAs.Organization({ slug: organization.slug })}
+              as={PageAs.Organization({ organizationSlug: organization.slug })}
             >
               <a className="tw-medium">
                 <Avatar

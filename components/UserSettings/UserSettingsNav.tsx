@@ -43,53 +43,35 @@ interface UserSettingsNavProps {
 }
 
 const UserSettingsNav: React.FC<UserSettingsNavProps> = ({ user }) => {
-  const router = useRouter()
+  const { pathname } = useRouter() || { pathname: '' }
 
   return user ? (
     <Nav>
       <div className="mb-4">
         <div className="px-2 py-1 tw-medium">Minha Conta</div>
-        <Link
-          href={{
-            pathname: '/settings-user',
-            query: { slug: user.slug },
-          }}
-          as="/configuracoes/perfil"
-        >
+        <Link href={Page.ViewerSettings}>
           <a
             className={`px-2 py-1 nav-link ${
-              router!.pathname === '/settings-user' ? 'active' : ''
+              pathname === Page.ViewerSettings ? 'active' : ''
             }`}
           >
             Perfil público
           </a>
         </Link>
 
-        <Link
-          href={{
-            pathname: '/settings-password',
-            query: { slug: user.slug },
-          }}
-          as="/configuracoes/alterar-senha"
-        >
+        <Link href={Page.ViewerSettingsPassword}>
           <a
             className={`px-2 py-1 nav-link ${
-              router!.pathname === '/settings-password' ? 'active' : ''
+              pathname === Page.ViewerSettingsPassword ? 'active' : ''
             }`}
           >
             Alterar senha
           </a>
         </Link>
-        <Link
-          href={{
-            pathname: '/settings-organizations',
-            query: { slug: user.slug },
-          }}
-          as="/configuracoes/ongs"
-        >
+        <Link href={Page.ViewerOrganizations}>
           <a
             className={`px-2 py-1 nav-link ${
-              router!.pathname === '/settings-organizations' ? 'active' : ''
+              pathname === Page.ViewerOrganizations ? 'active' : ''
             }`}
           >
             ONGs que você é responsável
@@ -103,7 +85,7 @@ const UserSettingsNav: React.FC<UserSettingsNavProps> = ({ user }) => {
             <Link
               key={organization.slug}
               href={Page.Organization}
-              as={PageAs.Organization({ slug: organization.slug })}
+              as={PageAs.Organization({ organizationSlug: organization.slug })}
             >
               <a className="px-2 py-1 nav-link text-truncate">
                 <OrganizationAvatar

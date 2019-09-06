@@ -71,7 +71,7 @@ const ToolbarApplications: React.FC<ToolbarApplicationsProps> = ({
     <DropdownWithContext onOpenStateChange={handleOpenStateChange}>
       <DropdownToggler>
         <button
-          className={`rounded-circle w-40 h-40 no-border mr-2 btn-light ${
+          className={`rounded-circle w-10 h-10 no-border mr-2 btn-light ${
             state.focused
               ? theme === 'light'
                 ? 'bg-primary-500'
@@ -104,7 +104,7 @@ const ToolbarApplications: React.FC<ToolbarApplicationsProps> = ({
           <Body className="absolute bottom-0 left-0 right-0">
             <div className="shadow-sm">
               {applications.length !== 0 && (
-                <div className="pt-2 px-2 bg-white">
+                <div className="px-2 bg-white">
                   <span className="tc-muted ts-small tw-medium">
                     VAGAS ABERTAS
                   </span>

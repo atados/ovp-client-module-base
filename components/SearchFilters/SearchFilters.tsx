@@ -225,7 +225,7 @@ class SearchFilters extends React.Component<
           onCommit={this.commit}
           onChange={this.handleCausesFilterChange}
           onOpenStateChange={this.fields.causes.onOpenStateChange}
-          className="mr-2 d-inline-block direction-right"
+          className="mr-2 inline-block direction-right"
         />
         {searchType !== SearchType.Organizations && (
           <>
@@ -234,14 +234,14 @@ class SearchFilters extends React.Component<
               onCommit={this.commit}
               onChange={this.handleSkillsFilterChange}
               onOpenStateChange={this.fields.skills.onOpenStateChange}
-              className="mr-2 d-inline-block direction-right"
+              className="mr-2 inline-block direction-right"
             />
             <DisponibilityFilter
               value={value.disponibility}
               onCommit={this.commit}
               onChange={this.handleDisponibilityFilterChange}
               onOpenStateChange={this.fields.disponibility.onOpenStateChange}
-              className="mr-2 d-inline-block direction-right"
+              className="mr-2 inline-block direction-right"
             />
           </>
         )}

@@ -227,7 +227,7 @@ class MapMark extends React.Component<MapMarkProps, MapMarkState> {
         as={
           nodeKind === NodeKind.Project
             ? PageAs.Project({ slug: node.slug })
-            : PageAs.Organization({ slug: node.slug })
+            : PageAs.Organization({ organizationSlug: node.slug })
         }
         passHref
       >
@@ -249,7 +249,7 @@ class MapMark extends React.Component<MapMarkProps, MapMarkState> {
       organization && (
         <Link
           href={Page.Organization}
-          as={PageAs.Organization({ slug: organization.slug })}
+          as={PageAs.Organization({ organizationSlug: organization.slug })}
         >
           <a>{organization.name}</a>
         </Link>
@@ -312,7 +312,7 @@ class MapMark extends React.Component<MapMarkProps, MapMarkState> {
                   `${node.address.city_state}, `} ${
                   node.address.typed_address
                 }`}
-                className="w-100 tc-secondary-500"
+                className="w-full tc-secondary-500"
               >
                 {node.address.city_state && `${node.address.city_state}, `}
                 {node.address.typed_address}

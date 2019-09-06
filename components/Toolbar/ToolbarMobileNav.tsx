@@ -100,14 +100,14 @@ const ToolbarMobileNav: React.FC<ToolbarMobileNavProps> = ({ collapsed }) => {
       )}
       {viewerOrganizations.map(organization => (
         <React.Fragment key={organization.slug}>
-          <hr className="hr-muted w-100 my-1" />
+          <hr className="hr-muted w-full my-1" />
           <Link
             href={Page.Organization}
-            as={PageAs.Organization({ slug: organization.slug })}
+            as={PageAs.Organization({ organizationSlug: organization.slug })}
           >
             <a className="hover:bg-muted td-hover-none block px-3 py-2 tc-base ts-medium flex">
               <span
-                className={`d-inline-block w-32 h-32 bg-cover rounded-lg mr-3 vertical-align-top${
+                className={`inline-block w-8 h-8 bg-cover rounded-lg mr-3 vertical-align-top${
                   organization.image ? '' : 'bg-muted'
                 }`}
                 style={
@@ -127,24 +127,18 @@ const ToolbarMobileNav: React.FC<ToolbarMobileNavProps> = ({ collapsed }) => {
             </a>
           </Link>
           <Collapse />
-          <hr className="hr-muted w-100 my-1" />
+          <hr className="hr-muted w-full my-1" />
         </React.Fragment>
       ))}
       {viewer && (
         <>
-          <Link href={Page.Viewer} as={Page.Viewer}>
+          <Link href={Page.Viewer}>
             <a className="hover:bg-muted td-hover-none block px-3 py-2 tc-base ts-medium">
               <Icon name="person" />
               Meu perfil como voluntário
             </a>
           </Link>
-          <Link
-            href={{
-              pathname: '/settings-user',
-              query: { slug: viewer.slug },
-            }}
-            as="/configuracoes/perfil"
-          >
+          <Link href={Page.ViewerSettings}>
             <a className="hover:bg-muted td-hover-none block px-3 py-2 tc-base ts-medium">
               <Icon name="settings" />
               Configurações
@@ -152,7 +146,7 @@ const ToolbarMobileNav: React.FC<ToolbarMobileNavProps> = ({ collapsed }) => {
           </Link>
         </>
       )}
-      <hr className="hr-muted w-100 my-1" />
+      <hr className="hr-muted w-full my-1" />
       {viewer && (
         <a
           href="/sair"

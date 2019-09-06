@@ -102,7 +102,7 @@ const ProjectComposerCard: React.FC<ProjectComposerCardProps> = ({
       <Footer className="row">
         {address && (
           <div className="col-6">
-            <Info title={address.node.description} className="w-100">
+            <Info title={address.node.description} className="w-full">
               <Icon name="place" /> {address.node.description}
             </Info>
           </div>

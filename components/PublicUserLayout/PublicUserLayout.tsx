@@ -7,6 +7,7 @@ import { NotFoundPageError } from '~/lib/next/errors'
 import { fetchPublicUser, PublicUser } from '~/redux/ducks/public-user'
 import { RootState } from '~/redux/root-reducer'
 import Layout from '../Layout'
+import { Page } from '~/base/common'
 
 const Container = styled.div`
   @media (max-width: 767px) {
@@ -102,13 +103,7 @@ const PublicUserLayout: React.FC<PublicUserLayoutProps> = ({
                 <Name>{publicUser.name}</Name>
                 <p className="ts-small tc-muted">{publicUser.profile.about}</p>
                 {isAuthenticatedUser && (
-                  <Link
-                    href={{
-                      pathname: '/settings-user',
-                      query: { slug: publicUser.slug },
-                    }}
-                    as="/configuracoes/perfil"
-                  >
+                  <Link href={Page.ViewerSettings}>
                     <a className="btn btn-default btn--block">Editar perfil</a>
                   </Link>
                 )}

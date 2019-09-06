@@ -38,7 +38,9 @@ const OrganizationComposerConclusion: React.FC<
         <div className="mt-4">
           <Link
             href={Page.Organization}
-            as={PageAs.Organization({ slug: formContext.organization.slug })}
+            as={PageAs.Organization({
+              organizationSlug: formContext.organization.slug,
+            })}
           >
             <a className="btn btn-primary btn--size-3">Ir pra página da ONG</a>
           </Link>

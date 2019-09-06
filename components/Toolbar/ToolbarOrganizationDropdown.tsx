@@ -34,6 +34,11 @@ const ToolbarDropdownStyled = styled(ToolbarDropdown)`
       border-radius: 6px 6px 0 0 !important;
     }
   }
+
+  .toolbar-dropdown-menu {
+    width: 300px;
+    height: auto;
+  }
 `
 
 const Avatar = styled.div`
@@ -92,7 +97,7 @@ const ToolbarOrganizationDropdown: React.FC<
         organization ? (
           <>
             <Avatar
-              className="d-inline-block w-32 h-32  bg-cover rounded-circle"
+              className="inline-block w-8 h-8  bg-cover rounded-circle"
               style={
                 organization.image
                   ? {
@@ -110,72 +115,67 @@ const ToolbarOrganizationDropdown: React.FC<
       }
     >
       {organization && (
-        <div className="row">
-          <div className="col-4">qwe</div>
-          <NavPills className="col-8">
-            <div className="p-2">
-              <Link
-                href={Page.Organization}
-                as={PageAs.Organization({ slug: organization.slug })}
-              >
-                <a className="hover:text-primary hover:bg-muted block py-1 px-4 tc-base td-hover-none">
-                  <Icon name="visibility" />
-                  Página da ONG
-                </a>
-              </Link>
-              <hr className="my-1" />
-              <Link
-                href={{
-                  pathname: '/project-composer',
-                  query: { organizationSlug: organization.slug },
-                }}
-                as={`/ong/${organization.slug}/criar-vaga`}
-              >
-                <a className="hover:text-primary hover:bg-muted block py-1 px-4 tc-base td-hover-none">
-                  <Icon name="add" />
-                  Criar vaga
-                </a>
-              </Link>
-              <Link
-                href={{
-                  pathname: '/manageable-projects-list',
-                  query: { organizationSlug: organization.slug },
-                }}
-                as={`/ong/${organization.slug}/gerenciar/vagas`}
-              >
-                <a className="hover:text-primary hover:bg-muted block py-1 px-4 tc-base td-hover-none">
-                  <Icon name="settings" />
-                  Gerenciar vagas
-                </a>
-              </Link>
-              <hr className="my-1" />
-              <Link
-                href={{
-                  pathname: '/organization-members',
-                  query: { organizationSlug: organization.slug },
-                }}
-                as="/membros"
-              >
-                <a className="hover:text-primary hover:bg-muted block py-1 px-4 tc-base td-hover-none">
-                  <Icon name="group" />
-                  Membros
-                </a>
-              </Link>
-              <Link
-                href={{
-                  pathname: '/organization-edit',
-                  query: { slug: organization.slug },
-                }}
-                as={`/ong/${organization.slug}/editar`}
-              >
-                <a className="hover:text-primary hover:bg-muted block py-1 px-4 tc-base td-hover-none">
-                  <Icon name="edit" />
-                  Editar perfil da ONG
-                </a>
-              </Link>
-            </div>
-          </NavPills>
-        </div>
+        <NavPills>
+          <div className="p-2">
+            <Link
+              href={Page.Organization}
+              as={PageAs.Organization({
+                organizationSlug: organization.slug,
+              })}
+            >
+              <a className="hover:text-primary hover:bg-muted block py-1 px-4 tc-base td-hover-none">
+                <Icon name="visibility" />
+                Página da ONG
+              </a>
+            </Link>
+            <hr className="my-1" />
+            <Link
+              href={Page.OrganizationNewProject}
+              as={PageAs.OrganizationNewProject({
+                organizationSlug: organization.slug,
+              })}
+            >
+              <a className="hover:text-primary hover:bg-muted block py-1 px-4 tc-base td-hover-none">
+                <Icon name="add" />
+                Criar vaga
+              </a>
+            </Link>
+            <Link
+              href={Page.OrganizationDashboardProjectsList}
+              as={PageAs.OrganizationDashboardProjectsList({
+                organizationSlug: organization.slug,
+              })}
+            >
+              <a className="hover:text-primary hover:bg-muted block py-1 px-4 tc-base td-hover-none">
+                <Icon name="settings" />
+                Gerenciar vagas
+              </a>
+            </Link>
+            <hr className="my-1" />
+            <Link
+              href={Page.OrganizationDashboardMembers}
+              as={PageAs.OrganizationDashboardMembers({
+                organizationSlug: organization.slug,
+              })}
+            >
+              <a className="hover:text-primary hover:bg-muted block py-1 px-4 tc-base td-hover-none">
+                <Icon name="group" />
+                Membros
+              </a>
+            </Link>
+            <Link
+              href={Page.OrganizationEdit}
+              as={PageAs.OrganizationEdit({
+                organizationSlug: organization.slug,
+              })}
+            >
+              <a className="hover:text-primary hover:bg-muted block py-1 px-4 tc-base td-hover-none">
+                <Icon name="edit" />
+                Editar perfil da ONG
+              </a>
+            </Link>
+          </div>
+        </NavPills>
       )}
     </ToolbarDropdownStyled>
   )

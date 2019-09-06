@@ -1,5 +1,6 @@
-import { useCallback, useContext } from 'react'
+import { useCallback, useContext, useEffect } from 'react'
 import { ModalContext, ModalOptions } from './ModalProvider'
+import { useRouter } from 'next/router'
 
 interface UseModalOptions<Props> extends ModalOptions<Props> {
   readonly id?: string
@@ -20,6 +21,16 @@ export default function useModal<Props>({
   if (!modalManager) {
     throw new Error('You must wrap the Root component with <ModalProvider>')
   }
+
+  const router = useRouter()
+  useEffect(() => {
+    const onRouteChangeStart = () => {
+      modalManager.close(id)
+    }
+
+    router.events.on('routeChangeStart', onRouteChangeStart)
+    return () => router.events.off('routeChangeStart', onRouteChangeStart)
+  }, [router])
 
   const fn = useCallback(
     (

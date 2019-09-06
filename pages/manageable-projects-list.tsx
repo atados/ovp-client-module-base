@@ -19,7 +19,6 @@ import Layout from '~/components/Layout'
 import OrganizationLayout from '~/components/OrganizationLayout/OrganizationLayout'
 import ProjectStatusPill from '~/components/ProjectStatusPill'
 import useFetchAPI from '~/hooks/use-fetch-api'
-import { hexToHsl } from '~/lib/color/transformers'
 import { NotFoundPageError } from '~/lib/next/errors'
 import { Project } from '~/redux/ducks/project'
 import { ApiPagination } from '~/redux/ducks/search'
@@ -126,7 +125,6 @@ const ContextMenu = styled(DropdownMenu)`
 `
 
 const Header = styled.div`
-  background: hsl(${hexToHsl(channel.theme.color.primary[500])[0]}, 20%, 39%);
   color: #fff;
 `
 
@@ -240,7 +238,7 @@ const ManageableProjectsList: NextPage<ManageableProjectsListProps> = ({
   const body = (
     <div className="container">
       <Card>
-        <Header className="px-4 py-3">
+        <Header className="px-4 py-3 bg-primary-700">
           <h1 className="h2">Gerenciar vagas</h1>
           <span className="mb-4 block tc-light">
             {queryResult.data
@@ -251,7 +249,7 @@ const ManageableProjectsList: NextPage<ManageableProjectsListProps> = ({
             <SearchForm className="mr-2">
               <input
                 type="text"
-                className="input h-40 rounded-full border-transparent"
+                className="input h-10 rounded-full border-transparent"
                 placeholder="Buscar vagas"
                 onChange={handleSearchInputChange}
                 value={searchInputValue}
@@ -259,7 +257,7 @@ const ManageableProjectsList: NextPage<ManageableProjectsListProps> = ({
               <Icon name="search" />
             </SearchForm>
             <ClosedFilterInput
-              className="input h-40 bg-white-200 input-dark tc-white rounded-full px-3 border-transparent"
+              className="input h-10 bg-white-200 input-dark tc-white rounded-full px-3 border-transparent"
               value={filters.status}
               onChange={handleClosedFilterInputChange}
             >
@@ -283,15 +281,17 @@ const ManageableProjectsList: NextPage<ManageableProjectsListProps> = ({
                           href={
                             organization
                               ? Page.OrganizationDashboardProject
-                              : Page.ProjectDashboard
+                              : Page.ViewerProjectDashboard
                           }
                           as={
                             organization
                               ? PageAs.OrganizationDashboardProject({
-                                  organizaitonSlug: organization.slug,
-                                  slug: project.slug,
+                                  organizationSlug: organization.slug,
+                                  projectSlug: project.slug,
                                 })
-                              : PageAs.ProjectDashboard({ slug: project.slug })
+                              : PageAs.ViewerProjectDashboard({
+                                  projectSlug: project.slug,
+                                })
                           }
                         >
                           <a>
@@ -329,15 +329,17 @@ const ManageableProjectsList: NextPage<ManageableProjectsListProps> = ({
                           href={
                             organization
                               ? Page.OrganizationDashboardProject
-                              : Page.ProjectDashboard
+                              : Page.ViewerProjectDashboard
                           }
                           as={
                             organization
                               ? PageAs.OrganizationDashboardProject({
-                                  organizaitonSlug: organization.slug,
-                                  slug: project.slug,
+                                  organizationSlug: organization.slug,
+                                  projectSlug: project.slug,
                                 })
-                              : PageAs.ProjectDashboard({ slug: project.slug })
+                              : PageAs.ViewerProjectDashboard({
+                                  projectSlug: project.slug,
+                                })
                           }
                         >
                           <a className="btn btn-outline-primary">

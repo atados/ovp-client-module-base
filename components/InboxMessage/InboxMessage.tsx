@@ -114,7 +114,7 @@ const InboxMessage: React.FC<InboxMessageProps> = ({
   const profileLinkAs = message.sending
     ? undefined
     : message.senderKind === MessageSenderKind.Organization
-    ? PageAs.Organization({ slug: message.sender.slug })
+    ? PageAs.Organization({ organizationSlug: message.sender.slug })
     : PageAs.PublicUser({ slug: message.sender.slug })
 
   return (

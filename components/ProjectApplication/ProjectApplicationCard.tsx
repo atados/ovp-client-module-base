@@ -160,7 +160,9 @@ class ProjectApplicationCard extends React.Component<
           <Block className="py-2 px-3">
             <Link
               href={Page.Organization}
-              as={PageAs.Organization({ slug: project.organization.slug })}
+              as={PageAs.Organization({
+                organizationSlug: project.organization.slug,
+              })}
             >
               <a className="media tc-base text-truncate">
                 <OrganizationAvatar

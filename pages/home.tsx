@@ -10,7 +10,7 @@ import { Catalogue } from '~/redux/ducks/catalogue'
 
 const messages = defineMessages({
   appName: {
-    id: 'app.name',
+    id: 'home.title',
     defaultMessage: 'Channel name',
   },
   appDescription: {

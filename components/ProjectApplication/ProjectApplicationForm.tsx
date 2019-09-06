@@ -12,6 +12,7 @@ import {
   ApplicationPayload,
   applyToProject,
 } from '~/redux/ducks/project-application'
+import { Page } from '~/base/common'
 
 const RoleButton = styled.button`
   width: 100%;
@@ -159,7 +160,7 @@ const ProjectApplicationFormProps: React.FC<
         Mantenha suas informações de contato atualizadas para que o responsável
         pela vaga possa entrar em contato com você.{' '}
         <a
-          href="/configuracoes/perfil"
+          href={Page.ViewerSettings}
           target="__blank"
           className="tc-base td-underline"
         >

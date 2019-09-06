@@ -217,7 +217,7 @@ const OrganizationPageLayout: React.FC<OrganizationPageLayoutProps> = ({
                           width={16}
                           height={16}
                           fill={channel.theme.color.primary[500]}
-                          className="mr-2 d-inline-block"
+                          className="mr-2 inline-block"
                         />
                         Quero voluntariar
                       </VolunteerButton>

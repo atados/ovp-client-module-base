@@ -1,0 +1,34 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "target": "esnext",
+    "module": "esnext",
+    "jsx": "preserve",
+    "allowJs": false,
+    "moduleResolution": "node",
+    "allowSyntheticDefaultImports": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "removeComments": false,
+    "strictNullChecks": true,
+    "preserveConstEnums": true,
+    "resolveJsonModule": true,
+    "sourceMap": true,
+    "skipLibCheck": true,
+    "strict": false,
+    "noEmit": true,
+    "baseUrl": ".",
+    "paths": {
+      "~/base/*": ["base/*"],
+      "~/pages/*": ["channel/pages/*", "base/pages/*"],
+      "~/*": ["channel/*", "base/*"]
+    },
+    "typeRoots": ["./base/types", "./node_modules/@types"],
+    "lib": ["dom", "es2015", "es2016"],
+    "forceConsistentCasingInFileNames": true,
+    "esModuleInterop": true,
+    "isolatedModules": true
+  },
+  "exclude": ["tmp", "node_modules", "base/node_modules", ".next", ".dist"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"]
+}
