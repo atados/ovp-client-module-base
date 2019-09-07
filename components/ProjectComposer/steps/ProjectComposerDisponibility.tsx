@@ -9,6 +9,8 @@ import asFormStep, {
   InjectedMultipleStepsFormProps,
 } from '~/components/MultipleStepsForm/as-form-step'
 import Yup from '~/lib/form/yup'
+import { defineMessages } from 'react-intl'
+import useIntl from '~/hooks/use-intl'
 
 const ProjectDisponibilityFormSchema = Yup.object().shape({
   disponibility: Yup.object()
@@ -43,6 +45,46 @@ const ProjectDisponibilityFormSchema = Yup.object().shape({
         .nullable(true),
     })
     .required(),
+})
+
+const {
+  ETAPA2,
+  DISPONIBILIDADE,
+  PREENCHA_INFORMACOES,
+  PREENCHA_CAMPOS,
+  INSIRA_DATA,
+  VAGA_DISTANCIA,
+  MARQUE_CASO,
+} = defineMessages({
+  ETAPA2: {
+    id: 'ETAPA2',
+    defaultMessage: 'ETAPA 2',
+  },
+  DISPONIBILIDADE: {
+    id: 'DISPONIBILIDADE',
+    defaultMessage: 'Disponibilidade',
+  },
+  PREENCHA_INFORMACOES: {
+    id: 'PREENCHA_INFORMACOES',
+    defaultMessage:
+      'Preencha as informações de data e comparecimento do voluntário na vaga',
+  },
+  PREENCHA_CAMPOS: {
+    id: 'PREENCHA_CAMPOS',
+    defaultMessage: 'Preencha todos os campos',
+  },
+  INSIRA_DATA: {
+    id: 'INSIRA_DATA',
+    defaultMessage: 'Insira ao menos uma data',
+  },
+  VAGA_DISTANCIA: {
+    id: 'VAGA_DISTANCIA',
+    defaultMessage: 'Essa vaga pode ser feita a distância',
+  },
+  MARQUE_CASO: {
+    id: 'MARQUE_CASO',
+    defaultMessage: 'Marque caso essa vaga aceita voluntários remotos',
+  },
 })
 
 export interface Values {
@@ -82,6 +124,7 @@ const ProjectComposerDisponibility: React.FC<
   const handleDisponibilityBlur = useCallback(() => {
     setFieldTouched('disponibility', true)
   }, [])
+  const intl = useIntl()
 
   return (
     <FormComposerLayout
@@ -91,11 +134,11 @@ const ProjectComposerDisponibility: React.FC<
       isSubmitting={isFormSubmitting}
     >
       {mode !== FormComposerMode.EDIT && (
-        <h4 className="tc-muted ts-small">ETAPA 2</h4>
+        <h4 className="tc-muted ts-small">{intl.formatMessage(ETAPA2)}</h4>
       )}
-      <h1 className="tw-light mb-1">Disponibilidade</h1>
+      <h1 className="tw-light mb-1">{intl.formatMessage(DISPONIBILIDADE)}</h1>
       <p className="ts-medium tc-muted-dark mb-4">
-        Preencha as informações de data e comparecimento do voluntário na vaga
+        {intl.formatMessage(PREENCHA_INFORMACOES)}
       </p>
 
       <FormGroup
@@ -103,8 +146,8 @@ const ProjectComposerDisponibility: React.FC<
           touched.disponibility
             ? errors.disponibility
               ? (errors.disponibility as any).work
-                ? 'Preencha todos os campos'
-                : 'Insira ao menos uma data'
+                ? intl.formatMessage(PREENCHA_CAMPOS)
+                : intl.formatMessage(INSIRA_DATA)
               : undefined
             : undefined
         }
@@ -128,9 +171,9 @@ const ProjectComposerDisponibility: React.FC<
             onBlur={handleBlur}
           />
           <div className="media-body">
-            Essa vaga pode ser feita a distância
+            {intl.formatMessage(VAGA_DISTANCIA)}
             <span className="tc-muted d-block ts-tiny">
-              Marque caso essa vaga aceita voluntários remotos
+              {intl.formatMessage(MARQUE_CASO)}
             </span>
           </div>
         </div>
