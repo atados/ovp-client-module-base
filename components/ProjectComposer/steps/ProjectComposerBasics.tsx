@@ -30,6 +30,8 @@ import { hasQuerySucceeded } from '~/lib/utils/graphql'
 import { Project } from '~/redux/ducks/project'
 import { User } from '~/redux/ducks/user'
 import { OrganizationMember } from '~/types/api'
+import { defineMessages } from 'react-intl'
+import useIntl from '~/hooks/use-intl'
 
 const ProjectBasicsFormSchema = Yup.object().shape({
   name: Yup.string()
@@ -80,6 +82,136 @@ interface ProjectComposerBasicsProps
   readonly skillsSelectItems: InputSelectItem[]
 }
 
+const {
+  COMO_VAI,
+  ETAPA1,
+  INFO,
+  PREENCHA_INFO,
+  NOME_VAGA,
+  NOME_VAGA_HINT,
+  DESCARTE_LATAS,
+  RESUMO,
+  RESUMO_HINT,
+  EX_RESUMO,
+  IMAGEM,
+  IMAGEM_HINT,
+  IMAGEM_HINT2,
+  ENDERECO,
+  ENDERECO_HINT,
+  CAUSAS,
+  CAUSAS_HINT,
+  HABILIDADES,
+  HABILIDADES_HINT,
+  N_BENEFICIADOS,
+  N_BENEFICIADOS_HINT,
+  RESPONSIBLE,
+  RESPONSIBLE_HINT,
+  SELECIONE_MEMBRO,
+} = defineMessages({
+  COMO_VAI: {
+    id: 'COMO_VAI',
+    defaultMessage: 'COMO SUA VAGA VAI SER VISTA:',
+  },
+  ETAPA1: {
+    id: 'ETAPA1',
+    defaultMessage: 'ETAPA 1',
+  },
+  INFO: {
+    id: 'INFO',
+    defaultMessage: 'Informações gerais',
+  },
+  PREENCHA_INFO: {
+    id: 'PREENCHA_INFO',
+    defaultMessage: 'Preencha as informações',
+  },
+  NOME_VAGA: {
+    id: 'NOME_VAGA',
+    defaultMessage: 'Nome da vaga',
+  },
+  NOME_VAGA_HINT: {
+    id: 'NOME_VAGA_HINT',
+    defaultMessage:
+      'Coloque um nome atrativo, algo que chame a atenção dos voluntários.',
+  },
+  DESCARTE_LATAS: {
+    id: 'DESCARTE_LATAS',
+    defaultMessage: 'Ex.: Descarte latas #Cestou',
+  },
+  RESUMO: {
+    id: 'RESUMO',
+    defaultMessage: 'Resumo',
+  },
+  RESUMO_HINT: {
+    id: 'RESUMO_HINT',
+    defaultMessage:
+      'Faça uma chamada atrativa e resumida do trabalho. Seja convidativo (a), pois essa será a 1ª impressão que o voluntário terá da vaga.',
+  },
+  EX_RESUMO: {
+    id: 'EX_RESUMO',
+    defaultMessage:
+      'Ex.: Dia 09/04 faremos instalação de cestas para o descarte exclusivo de latas, facilitando a coleta pelos catadores. Faça parte dessa intervenção urbana e coletiva.',
+  },
+  IMAGEM: {
+    id: 'IMAGEM',
+    defaultMessage: 'Imagem',
+  },
+  IMAGEM_HINT: {
+    id: 'IMAGEM_HINT',
+    defaultMessage:
+      'Assim como o nome, a imagem deve ser bem atrativa e relacionada com a vaga!',
+  },
+  IMAGEM_HINT2: {
+    id: 'IMAGEM_HINT2',
+    defaultMessage:
+      'Carregue uma imagem no formato JPG, JPEG, PNG ou GIF de no máximo 2MB.',
+  },
+  ENDERECO: {
+    id: 'ENDERECO',
+    defaultMessage: 'Endereço',
+  },
+  ENDERECO_HINT: {
+    id: 'ENDERECO_HINT',
+    defaultMessage: 'Comece a escrever e selecione uma opção',
+  },
+  CAUSAS: {
+    id: 'CAUSAS',
+    defaultMessage: 'Causas',
+  },
+  CAUSAS_HINT: {
+    id: 'CAUSAS_HINT',
+    defaultMessage: 'Selecione até 3 causas que melhor definem a vaga',
+  },
+  HABILIDADES: {
+    id: 'HABILIDADES',
+    defaultMessage: 'Habilidades possíveis para a vaga',
+  },
+  HABILIDADES_HINT: {
+    id: 'HABILIDADES_HINT',
+    defaultMessage: 'Selecione uma ou mais habilidades para o voluntário',
+  },
+  N_BENEFICIADOS: {
+    id: 'N_BENEFICIADOS',
+    defaultMessage: 'Número de beneficiados',
+  },
+  N_BENEFICIADOS_HINT: {
+    id: 'N_BENEFICIADOS_HINT',
+    defaultMessage: 'Estimativa do número de pessoas impactadas',
+  },
+  RESPONSIBLE: {
+    id: 'RESPONSIBLE',
+    defaultMessage: 'Responsável da vaga',
+  },
+  RESPONSIBLE_HINT: {
+    id: 'RESPONSIBLE_HINT',
+    defaultMessage:
+      'Selecione a pessoa que será responsável pela coordanação dos voluntários. Ela ficará responsável por respondê-los.',
+  },
+  SELECIONE_MEMBRO: {
+    id: 'SELECIONE_MEMBRO',
+    defaultMessage: 'Selecione um membro da ONG',
+  },
+})
+
 const ProjectComposerBasics: React.FC<
   InjectedFormikProps<ProjectComposerBasicsProps, Values>
 > = ({
@@ -112,6 +244,7 @@ const ProjectComposerBasics: React.FC<
   const handleSkillsBlur = useCallback(() => {
     setFieldTouched('skills')
   }, [setFieldTouched])
+  const intl = useIntl()
 
   const handleImageChange = useCallback(
     newValue => {
@@ -156,26 +289,28 @@ const ProjectComposerBasics: React.FC<
       helpPanelChildren={
         <div className="px-3 py-5">
           <span className="tc-muted tw-medium ts-small mb-3 d-block ta-center">
-            COMO SUA VAGA VAI SER VISTA:
+            {intl.formatMessage(COMO_VAI)}
           </span>
           <ProjectComposerCard values={values} className="mx-auto" />
         </div>
       }
     >
       {mode !== FormComposerMode.EDIT && (
-        <h4 className="tc-muted ts-small">ETAPA 1</h4>
+        <h4 className="tc-muted ts-small">{intl.formatMessage(ETAPA1)}</h4>
       )}
-      <h1 className="tw-light mb-1">Informações gerais</h1>
-      <p className="ts-medium tc-muted-dark mb-4">Preencha as informações</p>
+      <h1 className="tw-light mb-1">{intl.formatMessage(INFO)}</h1>
+      <p className="ts-medium tc-muted-dark mb-4">
+        {intl.formatMessage(PREENCHA_INFO)}
+      </p>
 
       <FormGroup
         labelFor="project-input-name"
-        label="Nome da vaga"
+        label={intl.formatMessage(NOME_VAGA)}
         error={touched.name ? errors.name : undefined}
         length={values.name.length}
         maxLength={150}
         className="mb-4"
-        hint="Coloque um nome atrativo, algo que chame a atenção dos voluntários."
+        hint={intl.formatMessage(NOME_VAGA_HINT)}
       >
         <input
           id="project-input-name"
@@ -185,18 +320,18 @@ const ProjectComposerBasics: React.FC<
           onBlur={handleBlur}
           type="text"
           className="input input--size-4"
-          placeholder="Ex.: Descarte latas #Cestou"
+          placeholder={intl.formatMessage(DESCARTE_LATAS)}
         />
       </FormGroup>
 
       <FormGroup
         labelFor="project-input-description"
-        label="Resumo"
+        label={intl.formatMessage(RESUMO)}
         error={touched.description ? errors.description : undefined}
         length={values.description.length}
         maxLength={160}
         className="mb-4"
-        hint="Faça uma chamada atrativa e resumida do trabalho. Seja convidativo (a), pois essa será a 1ª impressão que o voluntário terá da vaga."
+        hint={intl.formatMessage(RESUMO_HINT)}
       >
         <Textarea
           id="project-input-description"
@@ -205,29 +340,24 @@ const ProjectComposerBasics: React.FC<
           value={values.description}
           onChange={handleChange}
           onBlur={handleBlur}
-          placeholder="Ex.: Dia 09/04 faremos instalação de cestas para o descarte exclusivo de latas, facilitando a coleta pelos catadores. Faça parte dessa intervenção urbana e coletiva."
+          placeholder={intl.formatMessage(EX_RESUMO)}
           className="input input--size-4"
         />
       </FormGroup>
 
       <FormGroup
         labelFor="project-input-image"
-        label="Imagem"
+        label={intl.formatMessage(IMAGEM)}
         error={
           touched.image
             ? errors.image && ((errors.image as any).payload || errors.image)
             : undefined
         }
         className="mb-4"
-        hint="Assim como o nome, a imagem deve ser bem atrativa e relacionada com a vaga!"
+        hint={intl.formatMessage(IMAGEM_HINT)}
       >
         <InputImage
-          hint={
-            <>
-              Carregue uma imagem no formato JPG, JPEG, PNG ou GIF de no máximo
-              2MB.
-            </>
-          }
+          hint={<>{intl.formatMessage(IMAGEM_HINT2)}</>}
           value={values.image}
           ratio={66.666666666}
           onChange={handleImageChange}
@@ -237,10 +367,10 @@ const ProjectComposerBasics: React.FC<
 
       <FormGroup
         labelFor="project-input-address"
-        label="Endereço"
+        label={intl.formatMessage(ENDERECO)}
         error={touched.address ? (errors.address as string) : undefined}
         className="mb-3"
-        hint="Comece a escrever e selecione uma opção"
+        hint={intl.formatMessage(ENDERECO_HINT)}
       >
         <InputAddress
           id="project-input-address"
@@ -263,12 +393,12 @@ const ProjectComposerBasics: React.FC<
 
       <FormGroup
         labelFor="project-input-causes"
-        label="Causas"
+        label={intl.formatMessage(CAUSAS)}
         error={touched.causes ? ((errors.causes as any) as string) : undefined}
         length={values.causes.length}
         className="mb-4"
         maxLength={3}
-        hint="Selecione até 3 causas que melhor definem a vaga"
+        hint={intl.formatMessage(CAUSAS_HINT)}
       >
         <InputSelect
           inputClassName="input--size-4"
@@ -282,12 +412,12 @@ const ProjectComposerBasics: React.FC<
 
       <FormGroup
         labelFor="project-input-skills"
-        label="Habilidades possíveis para a vaga"
+        label={intl.formatMessage(HABILIDADES)}
         error={touched.skills ? ((errors.skills as any) as string) : undefined}
         length={values.skills.length}
         className="mb-4"
         maxLength={3}
-        hint="Selecione uma ou mais habilidades para o voluntário"
+        hint={intl.formatMessage(HABILIDADES_HINT)}
       >
         <InputSelect
           inputClassName="input--size-4"
@@ -301,14 +431,14 @@ const ProjectComposerBasics: React.FC<
 
       <FormGroup
         labelFor="ong-input-benefited-people"
-        label="Número de beneficiados"
+        label={intl.formatMessage(N_BENEFICIADOS)}
         error={
           touched.benefitedPeople
             ? (errors.benefitedPeople as string)
             : undefined
         }
         className="mb-3"
-        hint="Estimativa do número de pessoas impactadas"
+        hint={intl.formatMessage(N_BENEFICIADOS_HINT)}
         required={false}
       >
         <MaskedTextInput
@@ -325,10 +455,10 @@ const ProjectComposerBasics: React.FC<
       {organization && (
         <FormGroup
           labelFor="project-input-owner_id"
-          label="Responsável da vaga"
+          label={intl.formatMessage(RESPONSIBLE)}
           error={touched.owner_id ? errors.owner_id : undefined}
           className="mb-4"
-          hint="Selecione a pessoa que será responsável pela coordanação dos voluntários. Ela ficará responsável por respondê-los."
+          hint={intl.formatMessage(RESPONSIBLE_HINT)}
         >
           <select
             id="project-input-owner_id"
@@ -338,7 +468,7 @@ const ProjectComposerBasics: React.FC<
             onBlur={handleBlur}
             className="input input--size-4"
           >
-            <option value="">Selecione um membro da ONG</option>
+            <option value="">{intl.formatMessage(SELECIONE_MEMBRO)}</option>
             {members.map(member => (
               <option key={member.uuid} value={member.uuid}>
                 {member.name}{' '}
