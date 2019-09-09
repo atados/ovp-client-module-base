@@ -27,7 +27,7 @@ const { ETAPA1, ACESSO, CRIE_CONTA } = defineMessages({
 })
 
 class OrganizationComposerAuth extends React.Component<
-  OrganizationComposerAuthProps
+  OrganizationComposerAuthProps & InjectedIntlProps
 > {
   public componentDidMount() {
     const { isAuthenticated, onSubmit } = this.props
