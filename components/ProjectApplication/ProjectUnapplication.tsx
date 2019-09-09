@@ -9,6 +9,8 @@ import {
   unapplyFromProject,
 } from '~/redux/ducks/project-application'
 import { User } from '~/redux/ducks/user'
+import { defineMessages } from 'react-intl'
+import useIntl from '~/hooks/use-intl'
 
 export interface ProjectUnapplicationProps {
   readonly currentUser: User
@@ -20,16 +22,33 @@ export interface ProjectUnapplicationProps {
   readonly onSubmit: (payload: UnapplicationPayload) => PayloadAction<boolean>
 }
 
+const { DESINSCREVER, CANCELAR, CONFIRMAR } = defineMessages({
+  DESINSCREVER: {
+    id: 'DESINSCREVER',
+    defaultMessage: 'Tem certeza que deseja se desinscrever?',
+  },
+  CANCELAR: {
+    id: 'CANCELAR',
+    defaultMessage: 'Cancelar',
+  },
+  CONFIRMAR: {
+    id: 'CONFIRMAR',
+    defaultMessage: 'Confirmar desistência da vaga',
+  },
+})
+
 // tslint:disable-next-line
 type Values = {}
 
 const ProjectUnapplicationProps: React.FC<
   InjectedFormikProps<ProjectUnapplicationProps, Values>
 > = ({ className, onFinish, isSubmitting, handleSubmit }) => {
+  const intl = useIntl()
+
   return (
     <form method="post" onSubmit={handleSubmit} className={className}>
       <h4 className="tw-normal ta-center">
-        Tem certeza que deseja se desinscrever?
+        {intl.formatMessage(DESINSCREVER)}
       </h4>
       <hr />
       <div className="ta-center">
@@ -38,14 +57,14 @@ const ProjectUnapplicationProps: React.FC<
           className="btn btn--size-3 btn-default mr-2"
           onClick={onFinish}
         >
-          Cancelar
+          {intl.formatMessage(CANCELAR)}
         </button>
         <button
           type="submit"
           className="btn btn--size-3 btn-error"
           disabled={isSubmitting}
         >
-          Confirmar desistência da vaga
+          {intl.formatMessage(CONFIRMAR)}
           {isSubmitting && (
             <ActivityIndicator size={36} fill="white" className="ml-1" />
           )}
