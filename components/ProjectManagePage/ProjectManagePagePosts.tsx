@@ -48,57 +48,52 @@ interface ProjectManagePagePostsProps {
 }
 
 const {
-  NAO_PODE,
-  DESCREVA,
-  IMPORTANCIA,
-  PUBLICO,
-  SE_HOUVER,
-  ETAPA4,
-  SOBRE,
-  DESCREVA_CLAREZA,
-  HINT,
-  PLACEHOLDER,
+  NOVA_PUB,
+  PUB,
+  ESSA_VAGA,
+  AS_PUB,
+  ADICIONAR_PRIMEIRA,
+  TITULO,
+  CONTEUDO,
+  ULTIMA,
+  REMOVER,
 } = defineMessages({
-  NAO_PODE: {
-    id: 'NAO_PODE',
-    defaultMessage: 'O que não pode faltar!',
+  NOVA_PUB: {
+    id: 'NOVA_PUB',
+    defaultMessage: 'Nova publicação',
   },
-  DESCREVA: {
-    id: 'DESCREVA',
-    defaultMessage: 'Descreva as atividades que o voluntário (a) irá realizar;',
+  PUB: {
+    id: 'PUB',
+    defaultMessage: 'Publicações',
   },
-  IMPORTANCIA: {
-    id: 'IMPORTANCIA',
-    defaultMessage: 'Importância da ação;',
+  ESSA_VAGA: {
+    id: 'ESSA_VAGA',
+    defaultMessage: 'Essa vaga ainda não possui nenhuma publicação',
   },
-  PUBLICO: {
-    id: 'PUBLICO',
-    defaultMessage: 'Público que será atendido pelo voluntariado;',
-  },
-  SE_HOUVER: {
-    id: 'SE_HOUVER',
-    defaultMessage: 'Se houver capacitação, é importante mencionar;',
-  },
-  ETAPA4: {
-    id: 'ETAPA4',
-    defaultMessage: 'ETAPA 4',
-  },
-  SOBRE: {
-    id: 'SOBRE',
-    defaultMessage: 'Sobre a Vaga',
-  },
-  DESCREVA_CLAREZA: {
-    id: 'DESCREVA_CLAREZA',
-    defaultMessage: 'Descreva com clareza a finalidade da vaga.',
-  },
-  HINT: {
-    id: 'HINT',
-    defaultMessage: 'Você pode adicionar links e formatações ao texto.',
-  },
-  PLACEHOLDER: {
-    id: 'PLACEHOLDER',
+  AS_PUB: {
+    id: 'AS_PUB',
     defaultMessage:
-      'Faça uma descrição completa e deixa um bom convite. Isso garante que mais voluntários se candidatem a esta vaga.',
+      'As publicações são um espaço para a história dessa vaga. Conta o que ta rolando!',
+  },
+  ADICIONAR_PRIMEIRA: {
+    id: 'ADICIONAR_PRIMEIRA',
+    defaultMessage: 'Adicionar primeira publicação',
+  },
+  TITULO: {
+    id: 'TITULO',
+    defaultMessage: 'Titulo',
+  },
+  CONTEUDO: {
+    id: 'CONTEUDO',
+    defaultMessage: 'Conteúdo',
+  },
+  ULTIMA: {
+    id: 'ULTIMA',
+    defaultMessage: 'Ultima atualização',
+  },
+  REMOVER: {
+    id: 'REMOVER',
+    defaultMessage: 'Remover',
   },
 })
 
@@ -143,21 +138,20 @@ const ProjectManagePagePosts: React.FC<ProjectManagePagePostsProps> = ({
           >
             <a className="btn btn-outline-primary float-right">
               <Icon name="add" className="mr-2" />
-              Nova publicação
+              {intl.formatMessage(NOVA_PUB)}
             </a>
           </Link>
         )}
-        <h4 className="tw-normal mb-0">Publicações</h4>
+        <h4 className="tw-normal mb-0">{intl.formatMessage(PUB)}</h4>
       </div>
       {!hasPosts && (
         <div className="pb-5 ta-center">
           <PlaceholderIcon name="library_books" />
           <span className="h4 d-block tw-normal mb-2">
-            Essa vaga ainda não possui nenhuma publicação
+            {intl.formatMessage(ESSA_VAGA)}
           </span>
           <span className="tc-muted d-block mb-3">
-            As publicações são um espaço para a história dessa vaga. Conta o que
-            ta rolando!
+            {intl.formatMessage(AS_PUB)}
           </span>
           <Link
             href={{
@@ -175,7 +169,7 @@ const ProjectManagePagePosts: React.FC<ProjectManagePagePostsProps> = ({
             }
           >
             <a className="btn btn-outline-primary">
-              <Icon name="add" /> Adicionar primeira publicação
+              <Icon name="add" /> {intl.formatMessage(ADICIONAR_PRIMEIRA)}
             </a>
           </Link>
         </div>
@@ -184,9 +178,9 @@ const ProjectManagePagePosts: React.FC<ProjectManagePagePostsProps> = ({
         <Table className="table card-item borderless">
           <thead>
             <tr>
-              <th>Titulo</th>
-              <th>Conteúdo</th>
-              <th>Ultima atualização</th>
+              <th>{intl.formatMessage(TITULO)}</th>
+              <th>{intl.formatMessage(CONTEUDO)}</th>
+              <th>{intl.formatMessage(ULTIMA)}</th>
               <th />
             </tr>
           </thead>
@@ -226,7 +220,7 @@ const ProjectManagePagePosts: React.FC<ProjectManagePagePostsProps> = ({
                       className="btn btn-muted tc-error btn--size-2"
                       onClick={() => openClosePostModal({ project, post })}
                     >
-                      Remover
+                      {intl.formatMessage(REMOVER)}
                     </button>
                   </td>
                 </tr>
