@@ -15,7 +15,6 @@ import GoogleMap from '../GoogleMap'
 import Icon from '../Icon'
 import MapMark from '../MapMark'
 import { defineMessages } from 'react-intl'
-import useIntl from '~/hooks/use-intl'
 
 const Avatar = styled.span`
   width: 40px;

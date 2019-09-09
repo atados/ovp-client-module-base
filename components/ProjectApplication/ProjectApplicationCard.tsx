@@ -1,7 +1,7 @@
 import moment from 'moment'
 import Link from 'next/link'
 import React from 'react'
-import { InjectedIntlProps } from 'react-intl'
+import { defineMessages, InjectedIntlProps } from 'react-intl'
 import styled from 'styled-components'
 import { resolvePage } from '~/common/page'
 import Icon from '~/components/Icon'
@@ -64,6 +64,45 @@ interface ProjectApplicationCardProps extends InjectedIntlProps {
 interface ProjectApplicationCardState {
   selectedRoleIndex: string
 }
+
+const {
+  REALIZADO,
+  INSCREVASE,
+  SELECIONE,
+  FUNCAO,
+  DESINSCREVER,
+  SEGUNDA_ETAPA,
+  VOLUNTARIOS_INSCRITOS,
+} = defineMessages({
+  REALIZADO: {
+    id: 'REALIZADO',
+    defaultMessage: 'Realizado pela ONG:',
+  },
+  INSCREVASE: {
+    id: 'INSCREVASE',
+    defaultMessage: 'Inscreva-se como:',
+  },
+  SELECIONE: {
+    id: 'SELECIONE',
+    defaultMessage: 'Selecione uma função',
+  },
+  FUNCAO: {
+    id: 'FUNCAO',
+    defaultMessage: 'Função:',
+  },
+  DESINSCREVER: {
+    id: 'DESINSCREVER',
+    defaultMessage: 'Desinscrever-se',
+  },
+  SEGUNDA_ETAPA: {
+    id: 'SEGUNDA_ETAPA',
+    defaultMessage: 'Há uma segunda etapa de inscrição',
+  },
+  VOLUNTARIOS_INSCRITOS: {
+    id: 'VOLUNTARIOS_INSCRITOS',
+    defaultMessage: 'Voluntários inscritos',
+  },
+})
 
 class ProjectApplicationCard extends React.Component<
   ProjectApplicationCardProps & InjectedIntlProps,
@@ -141,9 +180,7 @@ class ProjectApplicationCard extends React.Component<
               style={
                 project.image
                   ? {
-                      backgroundImage: `url('${
-                        project.image.image_medium_url
-                      }')`,
+                      backgroundImage: `url('${project.image.image_medium_url}')`,
                     }
                   : undefined
               }
@@ -178,7 +215,7 @@ class ProjectApplicationCard extends React.Component<
                 />
                 <div className="media-body tl-heading">
                   <span className="tc-muted d-block ts-small mb-1">
-                    Realizado pela ONG:
+                    {intl.formatMessage(REALIZADO)}
                   </span>
                   <span className="text-truncate tw-medium text-truncate d-block">
                     {project.organization.name}
@@ -206,14 +243,18 @@ class ProjectApplicationCard extends React.Component<
               <>
                 {project.roles && project.roles.length > 0 && (
                   <>
-                    <h4 className="tw-normal ts-normal">Inscreva-se como:</h4>
+                    <h4 className="tw-normal ts-normal">
+                      {intl.formatMessage(INSCREVASE)}
+                    </h4>
                     <select
                       className="input input--size-3 mb-3"
                       value={selectedRoleIndex}
                       onChange={this.handleRoleSelectChange}
                     >
                       {project.roles.length > 1 && (
-                        <option value="">Selecione uma função</option>
+                        <option value="">
+                          {intl.formatMessage(SELECIONE)}
+                        </option>
                       )}
                       {project.roles.map((role, index) => (
                         <option key={role.id} value={index}>
@@ -226,7 +267,9 @@ class ProjectApplicationCard extends React.Component<
                 {project.roles[selectedRoleIndex] &&
                   project.roles[selectedRoleIndex].details && (
                     <>
-                      <h5 className="ts-small mb-1">Função:</h5>
+                      <h5 className="ts-small mb-1">
+                        {intl.formatMessage(FUNCAO)}
+                      </h5>
                       <p className="ts-small tc-muted-dark">
                         {project.roles[selectedRoleIndex].details}
                       </p>
@@ -245,20 +288,22 @@ class ProjectApplicationCard extends React.Component<
                 'Inscrever-se'
               ) : (
                 <>
-                  Desinscrever-se
+                  {intl.formatMessage(DESINSCREVER)}
                   <Icon name="clear" className="ml-2" />
                 </>
               )}
             </button>
             <span className="tc-muted ta-center mt-2 d-block ts-small">
-              Há uma segunda etapa de inscrição
+              {intl.formatMessage(SEGUNDA_ETAPA)}
             </span>
           </div>
         )}
         {(project.closed || project.canceled) && (
           <div className="p-3">
             <h3 className="tw-normal">{project.applied_count}</h3>
-            <small className="tc-muted">Voluntários inscritos</small>
+            <small className="tc-muted">
+              {intl.formatMessage(VOLUNTARIOS_INSCRITOS)}
+            </small>
           </div>
         )}
       </div>
