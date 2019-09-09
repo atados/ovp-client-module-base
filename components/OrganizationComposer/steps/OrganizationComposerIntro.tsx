@@ -3,6 +3,8 @@ import styled, { keyframes } from 'styled-components'
 import { FormComposerStep } from '~/components/FormComposer/FormComposer'
 import FormComposerLayout from '~/components/FormComposer/FormComposerLayout'
 import Icon from '~/components/Icon'
+import { defineMessages } from 'react-intl'
+import useIntl from '~/hooks/use-intl'
 
 const Container = styled.div`
   .intro-help-panel {
@@ -79,6 +81,92 @@ const TextPlaceholder = styled.div`
   animation: ${blink} 1s ease-in-out 0s infinite normal;
 `
 
+const {
+  CONTINUE_A_CADASTRAR,
+  CONTINUAR,
+  CONTINUE_DO_PONTO,
+  AS_INFORMACOES,
+  NOVO,
+  CRIAR,
+  DESCARTAR,
+  COMECE,
+  ETAPA,
+  FACA_PARTE,
+  PESSOAS_INTERESSADAS,
+  SE_SUA_ONG,
+  A_CADA,
+  VAGAS_PREENCHIDAS,
+  OLA,
+  A_INSCRICAO,
+} = defineMessages({
+  CONTINUE_A_CADASTRAR: {
+    id: 'CONTINUE_A_CADASTRAR',
+    defaultMessage: 'Continue a cadastrar sua ONG',
+  },
+  CONTINUAR: {
+    id: 'CONTINUAR',
+    defaultMessage: 'CONTINUAR',
+  },
+  CONTINUE_DO_PONTO: {
+    id: 'CONTINUE_DO_PONTO',
+    defaultMessage: 'Continue do ponto que parou',
+  },
+  AS_INFORMACOES: {
+    id: 'AS_INFORMACOES',
+    defaultMessage: 'Público que será atendido pelo voluntariado;',
+  },
+  NOVO: {
+    id: 'NOVO',
+    defaultMessage: 'NOVO',
+  },
+  CRIAR: {
+    id: 'CRIAR',
+    defaultMessage: 'Criar nova ONG',
+  },
+  DESCARTAR: {
+    id: 'DESCARTAR',
+    defaultMessage: 'Descartar informações que eu já havia preenchido',
+  },
+  COMECE: {
+    id: 'COMECE',
+    defaultMessage: 'Comece a cadastrar sua ONG',
+  },
+  ETAPA: {
+    id: 'ETAPA',
+    defaultMessage: 'ETAPA',
+  },
+  FACA_PARTE: {
+    id: 'FACA_PARTE',
+    defaultMessage: 'FAÇA PARTE DA NOSSA REDE',
+  },
+  PESSOAS_INTERESSADAS: {
+    id: 'PESSOAS_INTERESSADAS',
+    defaultMessage: 'Mais de 80.000 pessoas interessadas em serem voluntárias',
+  },
+  SE_SUA_ONG: {
+    id: 'SE_SUA_ONG',
+    defaultMessage:
+      'Se a sua ONG, coletivo ou movimento social está em busca de voluntários para colaborar com a sua causa, conte para a rede do Atados.',
+  },
+  A_CADA: {
+    id: 'A_CADA',
+    defaultMessage: '9 a cada 10',
+  },
+  VAGAS_PREENCHIDAS: {
+    id: 'VAGAS_PREENCHIDAS',
+    defaultMessage: 'VAGAS SÃO PREENCHIDAS',
+  },
+  OLA: {
+    id: 'OLA',
+    defaultMessage: 'Olá, vamos cadastrar sua ONG?',
+  },
+  A_INSCRICAO: {
+    id: 'A_INSCRICAO',
+    defaultMessage:
+      'A inscrição funciona a partir das seguintes etapas. Após concluidas, será feita a revisão das informações pela nossa equipe.',
+  },
+})
+
 interface OrganizationComposerIntroProps {
   readonly onStart: () => void
   readonly onStartFromDraft: () => void
@@ -93,6 +181,7 @@ const OrganizationComposerIntro: React.FC<OrganizationComposerIntroProps> = ({
   fetchingDraft,
 }) => {
   let body
+  const intl = useIntl()
 
   if (fetchingDraft) {
     body = (
@@ -123,15 +212,17 @@ const OrganizationComposerIntro: React.FC<OrganizationComposerIntroProps> = ({
           className="btn btn-primary btn--size-3 mt-3"
           onClick={onStartFromDraft}
         >
-          Continue a cadastrar sua ONG
+          {intl.formatMessage(CONTINUE_A_CADASTRAR)}
           <Icon name="arrow_forward" className="ml-2" />
         </button>
         <PresentationStep type="button" onClick={onStartFromDraft}>
-          <span className="tw-medium tc-primary">CONTINUAR</span>
-          <h2 className="mb-1 tw-normal">Continue do ponto que parou</h2>
-          <p className="ts-medium mb-3">
-            As informações que preencheu continuam salvas. Deseja continuar?
-          </p>
+          <span className="tw-medium tc-primary">
+            {intl.formatMessage(CONTINUAR)}
+          </span>
+          <h2 className="mb-1 tw-normal">
+            {intl.formatMessage(CONTINUE_DO_PONTO)}
+          </h2>
+          <p className="ts-medium mb-3">{intl.formatMessage(AS_INFORMACOES)}</p>
           <div className="progress">
             <div
               className="progress-value bg-primary"
@@ -140,11 +231,9 @@ const OrganizationComposerIntro: React.FC<OrganizationComposerIntroProps> = ({
           </div>
         </PresentationStep>
         <PresentationStep type="button" onClick={onStart}>
-          <span className="tw-medium tc-muted">NOVO</span>
-          <h2 className="mb-1 tw-normal">Criar nova ONG</h2>
-          <p className="ts-medium mb-0">
-            Descartar informações que eu já havia preenchido
-          </p>
+          <span className="tw-medium tc-muted">{intl.formatMessage(NOVO)}</span>
+          <h2 className="mb-1 tw-normal">{intl.formatMessage(CRIAR)}</h2>
+          <p className="ts-medium mb-0">{intl.formatMessage(DESCARTAR)}</p>
         </PresentationStep>
       </>
     ) : (
@@ -154,7 +243,7 @@ const OrganizationComposerIntro: React.FC<OrganizationComposerIntroProps> = ({
           className="btn btn-primary btn--size-3 mt-3"
           onClick={onStart}
         >
-          Comece a cadastrar sua ONG
+          {intl.formatMessage(COMECE)}
           <Icon name="arrow_forward" className="ml-2" />
         </button>
         {steps.map((step, i) => (
@@ -164,7 +253,9 @@ const OrganizationComposerIntro: React.FC<OrganizationComposerIntroProps> = ({
             disabled={i !== 0}
             onClick={onStart}
           >
-            <span className="tw-medium tc-muted">ETAPA {i + 1}</span>
+            <span className="tw-medium tc-muted">
+              {intl.formatMessage(ETAPA)} {i + 1}
+            </span>
             <h2 className="mb-1 tw-normal">{step.name}</h2>
             <p className="ts-medium mb-0">{step.description}</p>
           </PresentationStep>
@@ -178,18 +269,14 @@ const OrganizationComposerIntro: React.FC<OrganizationComposerIntroProps> = ({
         helpPanelChildren={
           <SidebarInner>
             <span className="tw-medium ts-medium">
-              FAÇA PARTE DA NOSSA REDE
+              {intl.formatMessage(FACA_PARTE)}
             </span>
-            <h1>
-              Mais de 80.000 <br /> pessoas interessadas em serem voluntárias
-            </h1>
-            <p className="ts-medium">
-              Se a sua ONG, coletivo ou movimento social está em busca de
-              voluntários para colaborar com a sua causa, conte para a rede do
-              Atados.
+            <h1>{intl.formatMessage(PESSOAS_INTERESSADAS)}</h1>
+            <p className="ts-medium">{intl.formatMessage(SE_SUA_ONG)}</p>
+            <h4 className="h1 tc-secondary">{intl.formatMessage(A_CADA)}</h4>
+            <p className="ts-large tc-secondary">
+              {intl.formatMessage(VAGAS_PREENCHIDAS)}
             </p>
-            <h4 className="h1 tc-secondary">9 a cada 10</h4>
-            <p className="ts-large tc-secondary">VAGAS SÃO PREENCHIDAS</p>
           </SidebarInner>
         }
         helpPanelProps={{
@@ -200,11 +287,8 @@ const OrganizationComposerIntro: React.FC<OrganizationComposerIntroProps> = ({
           },
         }}
       >
-        <h1 className="h2 tw-normal">Olá, vamos cadastrar sua ONG?</h1>
-        <p className="ts-medium">
-          A inscrição funciona a partir das seguintes etapas. Após concluidas,
-          será feita a revisão das informações pela nossa equipe.
-        </p>
+        <h1 className="h2 tw-normal">{intl.formatMessage(OLA)}</h1>
+        <p className="ts-medium">{intl.formatMessage(A_INSCRICAO)}</p>
         {body}
       </FormComposerLayout>
     </Container>
