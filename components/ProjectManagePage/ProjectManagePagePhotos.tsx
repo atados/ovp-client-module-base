@@ -129,57 +129,53 @@ interface ProjectManagePagePhotosProps
 }
 
 const {
-  NAO_PODE,
-  DESCREVA,
-  IMPORTANCIA,
-  PUBLICO,
-  SE_HOUVER,
-  ETAPA4,
-  SOBRE,
-  DESCREVA_CLAREZA,
-  HINT,
+  CANCELAR,
+  SALVAR,
+  ADICIONAR,
+  FOTOS,
+  CLIQUE,
+  ADICIONAR_FOTOS,
+  FOTOS_VAGA,
+  VAGA_ATRATIVA,
+  PRIMEIRAS_FOTOS,
   PLACEHOLDER,
 } = defineMessages({
-  NAO_PODE: {
-    id: 'NAO_PODE',
-    defaultMessage: 'O que não pode faltar!',
+  CANCELAR: {
+    id: 'CANCELAR',
+    defaultMessage: 'Cancelar',
   },
-  DESCREVA: {
-    id: 'DESCREVA',
-    defaultMessage: 'Descreva as atividades que o voluntário (a) irá realizar;',
+  SALVAR: {
+    id: 'SALVAR',
+    defaultMessage: 'Salvar alterações',
   },
-  IMPORTANCIA: {
-    id: 'IMPORTANCIA',
-    defaultMessage: 'Importância da ação;',
+  ADICIONAR: {
+    id: 'ADICIONAR',
+    defaultMessage: 'Adicionar fotos',
   },
-  PUBLICO: {
-    id: 'PUBLICO',
-    defaultMessage: 'Público que será atendido pelo voluntariado;',
+  FOTOS: {
+    id: 'FOTOS',
+    defaultMessage: 'Fotos',
   },
-  SE_HOUVER: {
-    id: 'SE_HOUVER',
-    defaultMessage: 'Se houver capacitação, é importante mencionar;',
+  CLIQUE: {
+    id: 'CLIQUE',
+    defaultMessage: 'Clique para',
   },
-  ETAPA4: {
-    id: 'ETAPA4',
-    defaultMessage: 'ETAPA 4',
+  ADICIONAR_FOTOS: {
+    id: 'ADICIONAR_FOTOS',
+    defaultMessage: 'adicionar mais fotos',
   },
-  SOBRE: {
-    id: 'SOBRE',
-    defaultMessage: 'Sobre a Vaga',
+  FOTOS_VAGA: {
+    id: 'FOTOS_VAGA',
+    defaultMessage: 'Fotos da vaga',
   },
-  DESCREVA_CLAREZA: {
-    id: 'DESCREVA_CLAREZA',
-    defaultMessage: 'Descreva com clareza a finalidade da vaga.',
-  },
-  HINT: {
-    id: 'HINT',
-    defaultMessage: 'Você pode adicionar links e formatações ao texto.',
-  },
-  PLACEHOLDER: {
-    id: 'PLACEHOLDER',
+  VAGA_ATRATIVA: {
+    id: 'VAGA_ATRATIVA',
     defaultMessage:
-      'Faça uma descrição completa e deixa um bom convite. Isso garante que mais voluntários se candidatem a esta vaga.',
+      'Adicione fotos para deixar sua vaga mais atrativa e mostra como foi essa ação.',
+  },
+  PRIMEIRAS_FOTOS: {
+    id: 'PRIMEIRAS_FOTOS',
+    defaultMessage: 'Adicionar primeiras fotos',
   },
 })
 
@@ -377,7 +373,7 @@ const ProjectManagePagePhotos: React.FC<ProjectManagePagePhotosProps> = ({
                 className="btn btn-muted mr-2"
               >
                 <Icon name="close" className="mr-2" />
-                Cancelar
+                {intl.formatMessage(CANCELAR)}
               </button>
               <button
                 type="button"
@@ -386,7 +382,7 @@ const ProjectManagePagePhotos: React.FC<ProjectManagePagePhotosProps> = ({
                 disabled={isUploading}
               >
                 <Icon name="save" className="mr-2" />
-                Salvar alterações
+                {intl.formatMessage(SALVAR)}
               </button>
             </div>
           </>
@@ -395,11 +391,11 @@ const ProjectManagePagePhotos: React.FC<ProjectManagePagePhotosProps> = ({
             <div className="btn btn-outline-primary tc-primary float-right inputFileWrapper">
               <input type="file" onChange={handleInputFileChange} multiple />
               <Icon name="add" className="mr-2" />
-              Adicionar fotos
+              {intl.formatMessage(ADICIONAR)}
             </div>
           )
         )}
-        <h4 className="tw-normal mb-0">Fotos</h4>
+        <h4 className="tw-normal mb-0">{intl.formatMessage(FOTOS)}</h4>
       </div>
       {items.length > 0 && (
         <Photos className="px-4 pb-4">
@@ -447,9 +443,9 @@ const ProjectManagePagePhotos: React.FC<ProjectManagePagePhotosProps> = ({
                       <PhotoImageInputLabel>
                         <Icon name="add_circle" className="mb-2" />
                         <span className="d-block ts-small tl-base">
-                          Clique para
+                          {intl.formatMessage(CLIQUE)}
                           <br />
-                          adicionar mais fotos
+                          {intl.formatMessage(ADICIONAR_FOTOS)}
                         </span>
                       </PhotoImageInputLabel>
                     </PhotoImageInputWrapper>
@@ -463,17 +459,18 @@ const ProjectManagePagePhotos: React.FC<ProjectManagePagePhotosProps> = ({
       {items.length === 0 && (
         <div className="pb-5 px-3 ta-center">
           <PlaceholderIcon name="image" />
-          <span className="h4 d-block tw-normal mb-2">Fotos da vaga</span>
+          <span className="h4 d-block tw-normal mb-2">
+            {intl.formatMessage(FOTOS_VAGA)}
+          </span>
           <span className="tc-muted d-block mb-3">
-            Adicione fotos para deixar sua vaga mais atrativa e <br /> mostra
-            como foi essa ação.
+            {intl.formatMessage(VAGA_ATRATIVA)}
           </span>
           <button
             type="button"
             className="btn btn-outline-primary"
             onClick={toggleEdtting}
           >
-            <Icon name="add" /> Adicionar primeiras fotos
+            <Icon name="add" /> {intl.formatMessage(PRIMEIRAS_FOTOS)}
           </button>
         </div>
       )}
