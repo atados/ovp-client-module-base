@@ -10,7 +10,7 @@ interface OrganizationComposerAuthProps {
 }
 
 class OrganizationComposerAuth extends React.Component<
-  OrganizationComposerAuthProps
+  OrganizationComposerAuthProps & InjectedIntlProps
 > {
   public componentDidMount() {
     const { isAuthenticated, onSubmit } = this.props
