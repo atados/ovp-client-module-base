@@ -1,6 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
 import ShareButton from '~/components/Share/ShareButton'
+import { defineMessages } from 'react-intl'
+import useIntl from '~/hooks/use-intl'
 
 const Item = styled.button`
   position: relative;
@@ -31,6 +33,12 @@ const ItemIcon = styled.svg`
   bottom: 0;
   margin: auto;
 `
+const { COMPARTILHAR } = defineMessages({
+  COMPARTILHAR: {
+    id: 'COMPARTILHAR',
+    defaultMessage: 'Compartilhar no',
+  },
+})
 
 export interface ShareListProps {
   readonly className?: string
@@ -47,6 +55,8 @@ const ShareList: React.FC<ShareListProps> = ({
   meta,
   className,
 }) => {
+  const intl = useIntl()
+
   return (
     <div className={className}>
       <h2 className="tw-medium">{title}</h2>
@@ -70,7 +80,7 @@ const ShareList: React.FC<ShareListProps> = ({
             11.9-11.9V11.9C216 5.3 210.7 0 204.1 0z"
             />
           </ItemIcon>
-          <small>Compartilhar no</small>
+          <small>{intl.formatMessage(COMPARTILHAR)}</small>
           <span>Facebook</span>
         </Item>
       </ShareButton>
@@ -91,7 +101,7 @@ const ShareList: React.FC<ShareListProps> = ({
               fillRule="evenodd"
             />
           </ItemIcon>
-          <small>Compartilhar no</small>
+          <small>{intl.formatMessage(COMPARTILHAR)}</small>
           <span>Twitter</span>
         </Item>
       </ShareButton>
@@ -114,7 +124,7 @@ const ShareList: React.FC<ShareListProps> = ({
               />
             </g>
           </ItemIcon>
-          <small>Compartilhar no</small>
+          <small>{intl.formatMessage(COMPARTILHAR)}</small>
           <span>WhatsApp</span>
         </Item>
       </ShareButton>
@@ -135,7 +145,7 @@ const ShareList: React.FC<ShareListProps> = ({
               fillRule="evenodd"
             />
           </ItemIcon>
-          <small>Compartilhar no</small>
+          <small>{intl.formatMessage(COMPARTILHAR)}</small>
           <span>Messenger</span>
         </Item>
       </ShareButton>
@@ -164,7 +174,7 @@ const ShareList: React.FC<ShareListProps> = ({
 	L341.91,330.654L341.91,330.654z"
             />
           </ItemIcon>
-          <small>Compartilhar no</small>
+          <small>{intl.formatMessage(COMPARTILHAR)}</small>
           <span>Linkedin</span>
         </Item>
       </ShareButton>

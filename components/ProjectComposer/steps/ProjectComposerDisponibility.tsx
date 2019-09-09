@@ -1,20 +1,22 @@
-import { InjectedFormikProps, withFormik } from 'formik'
-import React, { useCallback } from 'react'
-import DisponibilityInput from '~/components/DisponibilityInput'
-import { DisponibilityInputValue } from '~/components/DisponibilityInput/DisponibilityInput'
-import FormGroup from '~/components/Form/FormGroup'
-import { FormComposerMode } from '~/components/FormComposer/FormComposer'
-import FormComposerLayout from '~/components/FormComposer/MultistepFormComposerLayout'
+import { InjectedFormikProps, withFormik } from "formik";
+import React, { useCallback } from "react";
+import DisponibilityInput from "~/components/DisponibilityInput";
+import { DisponibilityInputValue } from "~/components/DisponibilityInput/DisponibilityInput";
+import FormGroup from "~/components/Form/FormGroup";
+import { FormComposerMode } from "~/components/FormComposer/FormComposer";
+import FormComposerLayout from "~/components/FormComposer/MultistepFormComposerLayout";
 import asFormStep, {
-  InjectedMultipleStepsFormProps,
-} from '~/components/MultipleStepsForm/as-form-step'
-import Yup from '~/lib/form/yup'
+  InjectedMultipleStepsFormProps
+} from "~/components/MultipleStepsForm/as-form-step";
+import Yup from "~/lib/form/yup";
+import { defineMessages } from "react-intl";
+import useIntl from "~/hooks/use-intl";
 
 const ProjectDisponibilityFormSchema = Yup.object().shape({
   disponibility: Yup.object()
     .shape({
       type: Yup.string()
-        .oneOf(['job', 'work'])
+        .oneOf(["job", "work"])
         .required(),
       work: Yup.object()
         .shape({
@@ -25,7 +27,7 @@ const ProjectDisponibilityFormSchema = Yup.object().shape({
           weekly_hours: Yup.number()
             .min(1)
             .max(1000)
-            .required(),
+            .required()
         })
         .nullable(true),
       job: Yup.object()
@@ -35,25 +37,65 @@ const ProjectDisponibilityFormSchema = Yup.object().shape({
               Yup.object().shape({
                 name: Yup.string().required(),
                 start_date: Yup.string().required(),
-                end_date: Yup.string().required(),
-              }),
+                end_date: Yup.string().required()
+              })
             )
-            .min(1),
+            .min(1)
         })
-        .nullable(true),
+        .nullable(true)
     })
-    .required(),
-})
+    .required()
+});
+
+const {
+  ETAPA2,
+  DISPONIBILIDADE,
+  PREENCHA_INFORMACOES,
+  PREENCHA_CAMPOS,
+  INSIRA_DATA,
+  VAGA_DISTANCIA,
+  MARQUE_CASO
+} = defineMessages({
+  ETAPA2: {
+    id: "ETAPA2",
+    defaultMessage: "ETAPA 2"
+  },
+  DISPONIBILIDADE: {
+    id: "DISPONIBILIDADE",
+    defaultMessage: "Disponibilidade"
+  },
+  PREENCHA_INFORMACOES: {
+    id: "PREENCHA_INFORMACOES",
+    defaultMessage:
+      "Preencha as informações de data e comparecimento do voluntário na vaga"
+  },
+  PREENCHA_CAMPOS: {
+    id: "PREENCHA_CAMPOS",
+    defaultMessage: "Preencha todos os campos"
+  },
+  INSIRA_DATA: {
+    id: "INSIRA_DATA",
+    defaultMessage: "Insira ao menos uma data"
+  },
+  VAGA_DISTANCIA: {
+    id: "VAGA_DISTANCIA",
+    defaultMessage: "Essa vaga pode ser feita a distância"
+  },
+  MARQUE_CASO: {
+    id: "MARQUE_CASO",
+    defaultMessage: "Marque caso essa vaga aceita voluntários remotos"
+  }
+});
 
 export interface Values {
-  readonly disponibility: DisponibilityInputValue
-  readonly canBeDoneRemotely: boolean
-  readonly canHaveMinors: boolean
+  readonly disponibility: DisponibilityInputValue;
+  readonly canBeDoneRemotely: boolean;
+  readonly canHaveMinors: boolean;
 }
 
 interface ProjectComposerDisponibilityProps
   extends InjectedMultipleStepsFormProps<any, any, any> {
-  readonly className?: string
+  readonly className?: string;
 }
 
 const ProjectComposerDisponibility: React.FC<
@@ -70,18 +112,19 @@ const ProjectComposerDisponibility: React.FC<
   isFormSubmitting,
   setFieldValue,
   setFieldTouched,
-  formContext: { mode },
+  formContext: { mode }
 }) => {
   const handleDisponibilityChange = useCallback(newValue => {
-    setFieldValue('disponibility', {
+    setFieldValue("disponibility", {
       type: newValue.type,
       job: newValue.job || null,
-      work: newValue.work || null,
-    })
-  }, [])
+      work: newValue.work || null
+    });
+  }, []);
   const handleDisponibilityBlur = useCallback(() => {
-    setFieldTouched('disponibility', true)
-  }, [])
+    setFieldTouched("disponibility", true);
+  }, []);
+  const intl = useIntl();
 
   return (
     <FormComposerLayout
@@ -91,11 +134,11 @@ const ProjectComposerDisponibility: React.FC<
       isSubmitting={isFormSubmitting}
     >
       {mode !== FormComposerMode.EDIT && (
-        <h4 className="tc-muted ts-small">ETAPA 2</h4>
+        <h4 className="tc-muted ts-small">{intl.formatMessage(ETAPA2)}</h4>
       )}
-      <h1 className="tw-light mb-1">Disponibilidade</h1>
+      <h1 className="tw-light mb-1">{intl.formatMessage(DISPONIBILIDADE)}</h1>
       <p className="ts-medium tc-muted-dark mb-4">
-        Preencha as informações de data e comparecimento do voluntário na vaga
+        {intl.formatMessage(PREENCHA_INFORMACOES)}
       </p>
 
       <FormGroup
@@ -103,8 +146,8 @@ const ProjectComposerDisponibility: React.FC<
           touched.disponibility
             ? errors.disponibility
               ? (errors.disponibility as any).work
-                ? 'Preencha todos os campos'
-                : 'Insira ao menos uma data'
+                ? intl.formatMessage(PREENCHA_CAMPOS)
+                : intl.formatMessage(INSIRA_DATA)
               : undefined
             : undefined
         }
@@ -128,75 +171,75 @@ const ProjectComposerDisponibility: React.FC<
             onBlur={handleBlur}
           />
           <div className="media-body">
-            Essa vaga pode ser feita a distância
+            {intl.formatMessage(VAGA_DISTANCIA)}
             <span className="tc-muted block ts-tiny">
-              Marque caso essa vaga aceita voluntários remotos
+              {intl.formatMessage(MARQUE_CASO)}
             </span>
           </div>
         </div>
       </label>
     </FormComposerLayout>
-  )
-}
+  );
+};
 
-ProjectComposerDisponibility.displayName = 'ProjectComposerDisponibility'
+ProjectComposerDisponibility.displayName = "ProjectComposerDisponibility";
 
 export default asFormStep(
-  'disponibilidade',
+  "disponibilidade",
   {
-    label: 'Disponibilidade',
+    label: "Disponibilidade",
     isDone: (value: any) => {
       return ProjectDisponibilityFormSchema.isValidSync({
         disponibility: value &&
           value.disponibility && {
             type: value.disponibility.type,
             work: value.disponibility.work || null,
-            job: value.disponibility.job || null,
-          },
-      })
-    },
+            job: value.disponibility.job || null
+          }
+      });
+    }
   },
 
   withFormik<ProjectComposerDisponibilityProps, Values>({
-    displayName: 'ProjectComposerDisponibilityForm',
+    displayName: "ProjectComposerDisponibilityForm",
     handleSubmit: (values, { props: { onSubmit } }) => {
-      const { disponibility } = values
+      const { disponibility } = values;
 
       if (!disponibility) {
-        return
+        return;
       }
 
-      if (disponibility && disponibility.type === 'work') {
-        disponibility.work.can_be_done_remotely = values.canBeDoneRemotely
+      if (disponibility && disponibility.type === "work") {
+        disponibility.work.can_be_done_remotely = values.canBeDoneRemotely;
       }
 
       onSubmit(project => ({
         ...project,
         disponibility:
-          disponibility.type === 'work'
-            ? { type: 'work', work: disponibility.work }
-            : { type: 'job', job: disponibility.job },
-        minimum_age: values.canHaveMinors ? 16 : undefined,
-      }))
+          disponibility.type === "work"
+            ? { type: "work", work: disponibility.work }
+            : { type: "job", job: disponibility.job },
+        minimum_age: values.canHaveMinors ? 16 : undefined
+      }));
     },
     isInitialValid: ({ value }: ProjectComposerDisponibilityProps) =>
       value
         ? ProjectDisponibilityFormSchema.isValidSync({
-            disponibility: value && value.disponibility,
+            disponibility: value && value.disponibility
           })
         : false,
     validationSchema: ProjectDisponibilityFormSchema,
     mapPropsToValues: ({ value }) => ({
       disponibility: (value && value.disponibility) || null,
       canHaveMinors: Boolean(
-        value && value.minimum_age && value.minimum_age >= 16,
+        value && value.minimum_age && value.minimum_age >= 16
       ),
       canBeDoneRemotely: Boolean(
         value &&
           value.disponibility &&
-          value.disponibility.type === 'work' &&
-          value.disponibility.work.can_be_done_remotely,
-      ),
-    }),
-  })(ProjectComposerDisponibility),
-)
+          value.disponibility.type === "work" &&
+          value.disponibility.work.can_be_done_remotely
+      )
+    })
+  })(ProjectComposerDisponibility)
+);

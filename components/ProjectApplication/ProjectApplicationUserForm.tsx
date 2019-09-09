@@ -18,6 +18,8 @@ import { PublicUser } from '~/redux/ducks/public-user'
 import { User } from '~/redux/ducks/user'
 import { updateUser, UserOverrides } from '~/redux/ducks/user-update'
 import { RootState } from '~/redux/root-reducer'
+import { defineMessages } from 'react-intl'
+import useIntl from '~/hooks/use-intl'
 
 interface ProjectApplicationUserFormProps {
   readonly currentUser?: User
@@ -34,6 +36,66 @@ interface Values {
   readonly gender: string
 }
 
+const {
+  PREENCHA,
+  TELEFONE,
+  HINT,
+  NASCIMENTO,
+  CIDADE,
+  GENERO,
+  NAO_ESPECIFICADO,
+  HOMEM,
+  MULHER,
+  PODE_EDITAR,
+  CONTINUAR,
+} = defineMessages({
+  PREENCHA: {
+    id: 'PREENCHA',
+    defaultMessage: 'Preencha seu perfil',
+  },
+  TELEFONE: {
+    id: 'TELEFONE',
+    defaultMessage: 'Telefone',
+  },
+  HINT: {
+    id: 'HINT',
+    defaultMessage: 'Essa informação é obrigatória para se inscrever numa ação',
+  },
+  NASCIMENTO: {
+    id: 'NASCIMENTO',
+    defaultMessage: 'Data de nascimento',
+  },
+  CIDADE: {
+    id: 'CIDADE',
+    defaultMessage: 'Cidade',
+  },
+  GENERO: {
+    id: 'GENERO',
+    defaultMessage: 'Gênero',
+  },
+  NAO_ESPECIFICADO: {
+    id: 'NAO_ESPECIFICADO',
+    defaultMessage: 'Não especificado',
+  },
+  HOMEM: {
+    id: 'HOMEM',
+    defaultMessage: 'Homem',
+  },
+  MULHER: {
+    id: 'MULHER',
+    defaultMessage: 'Mulher',
+  },
+  PODE_EDITAR: {
+    id: 'PODE_EDITAR',
+    defaultMessage:
+      'Você pode editar a qualquer momento essas informações nas Configurações.',
+  },
+  CONTINUAR: {
+    id: 'CONTINUAR',
+    defaultMessage: 'Continuar para a inscrição',
+  },
+})
+
 const ProjectApplicationUserFormProps: React.FC<
   InjectedFormikProps<ProjectApplicationUserFormProps, Values>
 > = ({
@@ -48,21 +110,23 @@ const ProjectApplicationUserFormProps: React.FC<
   setFieldValue,
   setFieldTouched,
 }) => {
+  const intl = useIntl()
+
   return (
     <form
       onSubmit={handleSubmit}
       className={`${className || ''} card no-border radius-10 shadow-xl p-5`}
     >
-      <h4 className="tw-normal">Preencha seu perfil</h4>
+      <h4 className="tw-normal">{intl.formatMessage(PREENCHA)}</h4>
       <hr />
 
       <FormGroup
         labelFor="profile-input-phone"
-        label="Telefone"
+        label={intl.formatMessage(TELEFONE)}
         error={touched.phone ? errors.phone : undefined}
         length={values.phone.length}
         className="mb-4"
-        hint="Essa informação é obrigatória para se inscrever numa ação"
+        hint={intl.formatMessage(HINT)}
       >
         <MaskedTextInput
           id="profile-input-cnpj"
@@ -79,11 +143,11 @@ const ProjectApplicationUserFormProps: React.FC<
 
       <FormGroup
         labelFor="profile-input-birthday_date"
-        label="Data de nascimento"
+        label={intl.formatMessage(NASCIMENTO)}
         error={touched.birthday_date ? errors.birthday_date : undefined}
         length={values.birthday_date.length}
         className="mb-4"
-        hint="Essa informação é obrigatória para se inscrever numa ação"
+        hint={intl.formatMessage(HINT)}
       >
         <MaskedTextInput
           id="profile-input-birthday_date"
@@ -100,7 +164,7 @@ const ProjectApplicationUserFormProps: React.FC<
 
       <FormGroup
         labelFor="profile-input-city"
-        label="Cidade"
+        label={intl.formatMessage(CIDADE)}
         error={touched.city ? errors.city : undefined}
         className="mb-4"
       >
@@ -108,7 +172,7 @@ const ProjectApplicationUserFormProps: React.FC<
           id="register-input-city"
           name="input-address"
           className="input input--size-4"
-          placeholder="Cidade"
+          placeholder={intl.formatMessage(CIDADE)}
           address={values.city}
           onChange={newAddressValue => setFieldValue('city', newAddressValue)}
           onBlur={() => setFieldTouched('city', true)}
@@ -125,7 +189,7 @@ const ProjectApplicationUserFormProps: React.FC<
 
       <FormGroup
         labelFor="profile-input-gender"
-        label="Gênero"
+        label={intl.formatMessage(GENERO)}
         error={touched.gender ? errors.gender : undefined}
         length={values.gender.length}
         className="mb-4"
@@ -139,15 +203,15 @@ const ProjectApplicationUserFormProps: React.FC<
           onBlur={handleBlur}
           className="input input--size-3"
         >
-          <option value="unspecified">Não especificado</option>
-          <option value="male">Homem</option>
-          <option value="female">Mulher</option>
+          <option value="unspecified">
+            {intl.formatMessage(NAO_ESPECIFICADO)}
+          </option>
+          <option value="male">{intl.formatMessage(HOMEM)}</option>
+          <option value="female">{intl.formatMessage(MULHER)}</option>
         </select>
       </FormGroup>
 
-      <p className="tc-muted ts-small">
-        Você pode editar a qualquer momento essas informações nas Configurações.
-      </p>
+      <p className="tc-muted ts-small">{intl.formatMessage(PODE_EDITAR)}</p>
 
       <div className="ta-right">
         <button
@@ -155,7 +219,7 @@ const ProjectApplicationUserFormProps: React.FC<
           className="btn btn--size-3 btn-primary"
           disabled={isSubmitting}
         >
-          Continuar para a inscrição
+          {intl.formatMessage(CONTINUAR)}
           <Icon name="arrow_forward" className="ml-2" />
           {isSubmitting && (
             <ActivityIndicator size={36} fill="white" className="ml-1" />

@@ -1,15 +1,17 @@
-import nanoid from 'nanoid'
-import React, { useCallback, useMemo, useState } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
-import styled from 'styled-components'
-import { channel } from '~/common/constants'
-import { fetchAPI } from '~/lib/fetch/fetch.server'
-import { ImageDict } from '~/redux/ducks/channel'
-import { Project, updateProject } from '~/redux/ducks/project'
-import { RootState } from '~/redux/root-reducer'
-import ActivityIndicator from '../ActivityIndicator'
-import Icon from '../Icon'
-import Tooltip from '../Tooltip'
+import nanoid from "nanoid";
+import React, { useCallback, useMemo, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import styled from "styled-components";
+import { channel } from "~/common/constants";
+import { fetchAPI } from "~/lib/fetch/fetch.server";
+import { ImageDict } from "~/redux/ducks/channel";
+import { Project, updateProject } from "~/redux/ducks/project";
+import { RootState } from "~/redux/root-reducer";
+import ActivityIndicator from "../ActivityIndicator";
+import Icon from "../Icon";
+import Tooltip from "../Tooltip";
+import { defineMessages } from "react-intl";
+import useIntl from "~/hooks/use-intl";
 
 const PhotoImage = styled.div`
   background: rgba(0, 0, 0, 0.05);
@@ -25,7 +27,7 @@ const PhotoImage = styled.div`
     bottom: 0;
     margin: auto !important;
   }
-`
+`;
 
 const Photos = styled.div`
   > .row {
@@ -37,7 +39,7 @@ const Photos = styled.div`
   .col-lg-2 {
     padding: 0 5px;
   }
-`
+`;
 
 const Container = styled.div`
   transition: box-shadow 0.2s;
@@ -45,7 +47,7 @@ const Container = styled.div`
   &.active {
     box-shadow: 0 0 0 3px ${channel.theme.color.primary[500]};
   }
-`
+`;
 
 const PhotoImageInputWrapper = styled.div`
   position: relative;
@@ -57,7 +59,7 @@ const PhotoImageInputWrapper = styled.div`
   &:hover {
     background: #e0e1e2;
   }
-`
+`;
 
 const PhotoImageInputLabel = styled.div`
   height: 100px;
@@ -76,12 +78,12 @@ const PhotoImageInputLabel = styled.div`
     font-size: 48px;
     display: block;
   }
-`
+`;
 
 const PlaceholderIcon = styled(Icon)`
   font-size: 64px;
   color: #999;
-`
+`;
 
 const ToogleRemovedButton = styled.button`
   position: absolute;
@@ -94,7 +96,7 @@ const ToogleRemovedButton = styled.button`
   padding: 4px;
   border: 2px solid #fff !important;
   display: none;
-`
+`;
 
 const Photo = styled.figure`
   margin-bottom: 10px;
@@ -102,187 +104,240 @@ const Photo = styled.figure`
   &:hover ${ToogleRemovedButton} {
     display: block;
   }
-`
+`;
 
 interface GalleryItem {
-  id: string | number
-  isDraft?: boolean
-  uploading?: boolean
-  image?: ImageDict
-  removed?: boolean
+  id: string | number;
+  isDraft?: boolean;
+  uploading?: boolean;
+  image?: ImageDict;
+  removed?: boolean;
 }
 
 interface ProjectManagePagePhotosProps {
-  readonly className?: string
-  readonly project: Project
+  readonly className?: string;
+  readonly project: Project;
 }
+
+const {
+  CANCELAR,
+  SALVAR,
+  ADICIONAR,
+  FOTOS,
+  CLIQUE,
+  ADICIONAR_FOTOS,
+  FOTOS_VAGA,
+  VAGA_ATRATIVA,
+  PRIMEIRAS_FOTOS,
+  PLACEHOLDER
+} = defineMessages({
+  CANCELAR: {
+    id: "CANCELAR",
+    defaultMessage: "Cancelar"
+  },
+  SALVAR: {
+    id: "SALVAR",
+    defaultMessage: "Salvar alterações"
+  },
+  ADICIONAR: {
+    id: "ADICIONAR",
+    defaultMessage: "Adicionar fotos"
+  },
+  FOTOS: {
+    id: "FOTOS",
+    defaultMessage: "Fotos"
+  },
+  CLIQUE: {
+    id: "CLIQUE",
+    defaultMessage: "Clique para"
+  },
+  ADICIONAR_FOTOS: {
+    id: "ADICIONAR_FOTOS",
+    defaultMessage: "adicionar mais fotos"
+  },
+  FOTOS_VAGA: {
+    id: "FOTOS_VAGA",
+    defaultMessage: "Fotos da vaga"
+  },
+  VAGA_ATRATIVA: {
+    id: "VAGA_ATRATIVA",
+    defaultMessage:
+      "Adicione fotos para deixar sua vaga mais atrativa e mostra como foi essa ação."
+  },
+  PRIMEIRAS_FOTOS: {
+    id: "PRIMEIRAS_FOTOS",
+    defaultMessage: "Adicionar primeiras fotos"
+  }
+});
 
 const ProjectManagePagePhotos: React.FC<ProjectManagePagePhotosProps> = ({
   className,
-  project,
+  project
 }) => {
-  const viewer = useSelector((state: RootState) => state.user!)
-  const dispatchToReduxStore = useDispatch()
+  const viewer = useSelector((state: RootState) => state.user!);
+  const dispatchToReduxStore = useDispatch();
+  const intl = useIntl();
+
   const [items, setItems] = useState<GalleryItem[]>(() => {
     const looseGallery = project.galleries.find(
-      gallery => gallery.name === 'loose',
-    )
+      gallery => gallery.name === "loose"
+    );
 
     if (looseGallery) {
       return looseGallery.images.map(image => ({
         id: image.id,
-        image,
-      }))
+        image
+      }));
     }
 
-    return []
-  })
+    return [];
+  });
   const [isDrafting, isUploading] = useMemo(() => {
-    let drafting = false
-    let uploading = false
+    let drafting = false;
+    let uploading = false;
     items.some(item => {
       if (!drafting) {
-        drafting = Boolean(item.isDraft) || Boolean(item.removed)
+        drafting = Boolean(item.isDraft) || Boolean(item.removed);
       }
       if (!uploading) {
-        uploading = Boolean(item.uploading)
+        uploading = Boolean(item.uploading);
       }
 
-      return drafting && uploading
-    })
-    return [drafting, uploading]
-  }, [items])
+      return drafting && uploading;
+    });
+    return [drafting, uploading];
+  }, [items]);
 
   const handleInputFileChange = useCallback(
     async (event: React.ChangeEvent<HTMLInputElement>) => {
-      const { files } = event.target
+      const { files } = event.target;
       if (!files) {
-        return
+        return;
       }
 
-      const promises: Array<Promise<ImageDict>> = []
-      const newItems: GalleryItem[] = []
+      const promises: Array<Promise<ImageDict>> = [];
+      const newItems: GalleryItem[] = [];
       Array.from(files).map(file => {
-        const formData = new FormData()
-        formData.append('image', file)
+        const formData = new FormData();
+        formData.append("image", file);
 
-        const id = nanoid()
+        const id = nanoid();
         newItems.push({
           id,
           isDraft: true,
-          uploading: true,
-        })
+          uploading: true
+        });
 
         promises.push(
-          fetchAPI('/uploads/images/', {
-            method: 'POST',
+          fetchAPI("/uploads/images/", {
+            method: "POST",
             body: formData,
-            sessionToken: viewer.token,
-          }),
-        )
-      })
+            sessionToken: viewer.token
+          })
+        );
+      });
 
-      setItems(prevItems => [...prevItems, ...newItems])
+      setItems(prevItems => [...prevItems, ...newItems]);
 
-      const payloads = await Promise.all(promises)
-      const newItemsIds = newItems.map(item => item.id)
+      const payloads = await Promise.all(promises);
+      const newItemsIds = newItems.map(item => item.id);
 
       setItems(prevItems =>
         prevItems.map(item => {
-          const index = newItemsIds.indexOf(item.id)
+          const index = newItemsIds.indexOf(item.id);
           if (index !== -1) {
             return {
               ...item,
               uploading: false,
-              image: payloads[index],
-            }
+              image: payloads[index]
+            };
           }
-          return item
-        }),
-      )
+          return item;
+        })
+      );
     },
-    [items],
-  )
+    [items]
+  );
 
   const handleSubmitChanges = useCallback(async () => {
     if (isUploading) {
-      return
+      return;
     }
 
     const images = items
       .filter(item => item.image && !item.removed)
-      .map(item => item.image!)
+      .map(item => item.image!);
     let gallery =
       project.galleries &&
-      project.galleries.find(galleryItem => galleryItem.name === 'loose')
+      project.galleries.find(galleryItem => galleryItem.name === "loose");
 
     if (gallery) {
       gallery = await fetchAPI(`/gallery/${gallery.uuid}/`, {
-        method: 'PATCH',
+        method: "PATCH",
         body: {
-          images,
+          images
         },
-        sessionToken: viewer.token,
-      })
+        sessionToken: viewer.token
+      });
 
       dispatchToReduxStore(
         updateProject({
           slug: project.slug,
           galleries: project.galleries.map(galleryItem => {
             if (galleryItem.id === gallery!.id) {
-              return gallery!
+              return gallery!;
             }
 
-            return galleryItem
-          }),
-        }),
-      )
+            return galleryItem;
+          })
+        })
+      );
     } else {
-      gallery = await fetchAPI('/gallery/', {
-        method: 'POST',
+      gallery = await fetchAPI("/gallery/", {
+        method: "POST",
         body: {
-          name: 'loose',
-          description: '',
-          images,
+          name: "loose",
+          description: "",
+          images
         },
-        sessionToken: viewer.token,
-      })
+        sessionToken: viewer.token
+      });
 
-      const galleries = [...project.galleries, gallery!]
+      const galleries = [...project.galleries, gallery!];
 
       await fetchAPI(`/projects/${project.slug}/`, {
-        method: 'PATCH',
+        method: "PATCH",
         body: {
           galleries: galleries.map(galleryItem => ({
-            id: galleryItem.id,
-          })),
+            id: galleryItem.id
+          }))
         },
-        sessionToken: viewer.token,
-      })
+        sessionToken: viewer.token
+      });
 
       dispatchToReduxStore(
         updateProject({
           slug: project.slug,
-          galleries,
-        }),
-      )
+          galleries
+        })
+      );
     }
 
     setItems(
       images.map(image => ({
         id: image.id,
-        image,
-      })),
-    )
-  }, [project, isUploading, items])
+        image
+      }))
+    );
+  }, [project, isUploading, items]);
 
   const toggleEdtting = useCallback(() => {
     const gallery =
-      project.galleries && project.galleries.find(g => g.name === 'loose')
+      project.galleries && project.galleries.find(g => g.name === "loose");
     setItems(
-      gallery ? gallery.images.map(image => ({ id: image.id, image })) : [],
-    )
-  }, [project, setItems])
+      gallery ? gallery.images.map(image => ({ id: image.id, image })) : []
+    );
+  }, [project, setItems]);
 
   const toggleImageRemoved = (selectedItem: GalleryItem) => {
     setItems(
@@ -290,18 +345,18 @@ const ProjectManagePagePhotos: React.FC<ProjectManagePagePhotosProps> = ({
         if (item === selectedItem) {
           return {
             ...selectedItem,
-            removed: !selectedItem.removed,
-          }
+            removed: !selectedItem.removed
+          };
         }
-        return item
-      }),
-    )
-  }
+        return item;
+      })
+    );
+  };
 
   return (
     <Container
-      className={`radius-10 bg-white shadow mb-4 ${isDrafting ? 'active' : ''}${
-        className ? ` ${className}` : ''
+      className={`radius-10 bg-white shadow mb-4 ${isDrafting ? "active" : ""}${
+        className ? ` ${className}` : ""
       }`}
     >
       <div className="p-4 relative">
@@ -314,7 +369,7 @@ const ProjectManagePagePhotos: React.FC<ProjectManagePagePhotosProps> = ({
                 className="btn btn-muted mr-2"
               >
                 <Icon name="close" className="mr-2" />
-                Cancelar
+                {intl.formatMessage(CANCELAR)}
               </button>
               <button
                 type="button"
@@ -323,7 +378,7 @@ const ProjectManagePagePhotos: React.FC<ProjectManagePagePhotosProps> = ({
                 disabled={isUploading}
               >
                 <Icon name="save" className="mr-2" />
-                Salvar alterações
+                {intl.formatMessage(SALVAR)}
               </button>
             </div>
           </>
@@ -332,11 +387,11 @@ const ProjectManagePagePhotos: React.FC<ProjectManagePagePhotosProps> = ({
             <div className="btn btn-outline-primary tc-primary-500 float-right inputFileWrapper">
               <input type="file" onChange={handleInputFileChange} multiple />
               <Icon name="add" className="mr-2" />
-              Adicionar fotos
+              {intl.formatMessage(ADICIONAR)}
             </div>
           )
         )}
-        <h4 className="tw-normal mb-0">Fotos</h4>
+        <h4 className="tw-normal mb-0">{intl.formatMessage(FOTOS)}</h4>
       </div>
       {items.length > 0 && (
         <Photos className="px-4 pb-4">
@@ -344,24 +399,24 @@ const ProjectManagePagePhotos: React.FC<ProjectManagePagePhotosProps> = ({
             {items.map(item => (
               <div key={item.id} className="col-4">
                 <Photo className="ratio">
-                  <span className="ratio-fill" style={{ paddingTop: '100%' }} />
+                  <span className="ratio-fill" style={{ paddingTop: "100%" }} />
                   <Tooltip
-                    value={item.removed ? 'Restaurar foto' : 'Remover foto'}
+                    value={item.removed ? "Restaurar foto" : "Remover foto"}
                   >
                     <ToogleRemovedButton
                       className={`btn ${
-                        item.removed ? 'btn-success block' : 'btn-error'
+                        item.removed ? "btn-success block" : "btn-error"
                       }`}
                       onClick={() => toggleImageRemoved(item)}
                     >
-                      <Icon name={item.removed ? 'refresh' : 'remove'} />
+                      <Icon name={item.removed ? "refresh" : "remove"} />
                     </ToogleRemovedButton>
                   </Tooltip>
                   <PhotoImage
-                    className={`ratio-body ${item.removed ? 'opacity-50' : ''}`}
+                    className={`ratio-body ${item.removed ? "opacity-50" : ""}`}
                     style={
                       item.image && {
-                        backgroundImage: `url('${item.image.image_url}')`,
+                        backgroundImage: `url('${item.image.image_url}')`
                       }
                     }
                   >
@@ -373,7 +428,7 @@ const ProjectManagePagePhotos: React.FC<ProjectManagePagePhotosProps> = ({
             {isDrafting && (
               <div className="col-4">
                 <Photo className="ratio">
-                  <span className="ratio-fill" style={{ paddingTop: '100%' }} />
+                  <span className="ratio-fill" style={{ paddingTop: "100%" }} />
                   <PhotoImage className="ratio-body">
                     <PhotoImageInputWrapper className="inputFileWrapper">
                       <input
@@ -384,9 +439,9 @@ const ProjectManagePagePhotos: React.FC<ProjectManagePagePhotosProps> = ({
                       <PhotoImageInputLabel>
                         <Icon name="add_circle" className="mb-2" />
                         <span className="block ts-small tl-base">
-                          Clique para
+                          {intl.formatMessage(CLIQUE)}
                           <br />
-                          adicionar mais fotos
+                          {intl.formatMessage(ADICIONAR_FOTOS)}
                         </span>
                       </PhotoImageInputLabel>
                     </PhotoImageInputWrapper>
@@ -400,24 +455,25 @@ const ProjectManagePagePhotos: React.FC<ProjectManagePagePhotosProps> = ({
       {items.length === 0 && (
         <div className="pb-5 px-3 ta-center">
           <PlaceholderIcon name="image" />
-          <span className="h4 block tw-normal mb-2">Fotos da vaga</span>
+          <span className="h4 block tw-normal mb-2">
+            {intl.formatMessage(FOTOS_VAGA)}
+          </span>
           <span className="tc-muted block mb-3">
-            Adicione fotos para deixar sua vaga mais atrativa e <br /> mostra
-            como foi essa ação.
+            {intl.formatMessage(VAGA_ATRATIVA)}
           </span>
           <button
             type="button"
             className="btn btn-outline-primary"
             onClick={toggleEdtting}
           >
-            <Icon name="add" /> Adicionar primeiras fotos
+            <Icon name="add" /> {intl.formatMessage(PRIMEIRAS_FOTOS)}
           </button>
         </div>
       )}
     </Container>
-  )
-}
+  );
+};
 
-ProjectManagePagePhotos.displayName = 'ProjectManagePagePhotos'
+ProjectManagePagePhotos.displayName = "ProjectManagePagePhotos";
 
-export default ProjectManagePagePhotos
+export default ProjectManagePagePhotos;

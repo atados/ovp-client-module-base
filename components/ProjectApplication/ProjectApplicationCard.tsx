@@ -1,14 +1,15 @@
-import moment from 'moment'
-import Link from 'next/link'
-import React from 'react'
-import { WithIntlProps } from 'react-intl'
-import styled from 'styled-components'
-import Icon from '~/components/Icon'
-import { withIntl } from '~/lib/intl'
-import { findNearestDate, formatDisponibility } from '~/lib/project/utils'
-import { Project } from '~/redux/ducks/project'
-import { Page, PageAs } from '~/common'
-import { channel } from '~/base/common/constants'
+import moment from "moment";
+import Link from "next/link";
+import React from "react";
+import { WithIntlProps } from "react-intl";
+import { defineMessages, InjectedIntlProps } from "react-intl";
+import styled from "styled-components";
+import Icon from "~/components/Icon";
+import { withIntl } from "~/lib/intl";
+import { findNearestDate, formatDisponibility } from "~/lib/project/utils";
+import { Project } from "~/redux/ducks/project";
+import { Page, PageAs } from "~/common";
+import { channel } from "~/base/common/constants";
 
 // const Container = styled.div``
 const Thumbnail = styled.div`
@@ -23,7 +24,7 @@ const Thumbnail = styled.div`
     background-size: cover;
     background-position: center;
   }
-`
+`;
 
 const Info = styled.div`
   height: 48px;
@@ -34,17 +35,17 @@ const Info = styled.div`
   &.info--hiden-thumbnail {
     margin-top: -1px;
   }
-`
+`;
 
 const InfoText = styled.h2`
   font-size: 20px;
   font-weight: normal;
   padding: 12px 16px;
-`
+`;
 
 const Block = styled.div`
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-`
+`;
 
 const OrganizationAvatar = styled.figure`
   width: 40px;
@@ -52,97 +53,136 @@ const OrganizationAvatar = styled.figure`
   min-width: 40px;
   border-radius: 3px;
   background-color: #ddd;
-`
+`;
 
 interface ProjectApplicationCardProps extends WithIntlProps<any> {
-  readonly className?: string
-  readonly project: Project
-  readonly renderThumbnail?: boolean
-  readonly onApply: (roleId: number) => void
-  readonly onUnapply: () => void
+  readonly className?: string;
+  readonly project: Project;
+  readonly renderThumbnail?: boolean;
+  readonly onApply: (roleId: number) => void;
+  readonly onUnapply: () => void;
 }
 
 interface ProjectApplicationCardState {
-  selectedRoleIndex: string
+  selectedRoleIndex: string;
 }
+
+const {
+  REALIZADO,
+  INSCREVASE,
+  SELECIONE,
+  FUNCAO,
+  DESINSCREVER,
+  SEGUNDA_ETAPA,
+  VOLUNTARIOS_INSCRITOS
+} = defineMessages({
+  REALIZADO: {
+    id: "REALIZADO",
+    defaultMessage: "Realizado pela ONG:"
+  },
+  INSCREVASE: {
+    id: "INSCREVASE",
+    defaultMessage: "Inscreva-se como:"
+  },
+  SELECIONE: {
+    id: "SELECIONE",
+    defaultMessage: "Selecione uma função"
+  },
+  FUNCAO: {
+    id: "FUNCAO",
+    defaultMessage: "Função:"
+  },
+  DESINSCREVER: {
+    id: "DESINSCREVER",
+    defaultMessage: "Desinscrever-se"
+  },
+  SEGUNDA_ETAPA: {
+    id: "SEGUNDA_ETAPA",
+    defaultMessage: "Há uma segunda etapa de inscrição"
+  },
+  VOLUNTARIOS_INSCRITOS: {
+    id: "VOLUNTARIOS_INSCRITOS",
+    defaultMessage: "Voluntários inscritos"
+  }
+});
 
 class ProjectApplicationCard extends React.Component<
   ProjectApplicationCardProps & WithIntlProps<any>,
   ProjectApplicationCardState
 > {
   constructor(props) {
-    super(props)
+    super(props);
 
     this.state = {
       selectedRoleIndex:
-        props.project.roles && props.project.roles.length > 1 ? '' : '0',
-    }
+        props.project.roles && props.project.roles.length > 1 ? "" : "0"
+    };
   }
 
   public handleRoleSelectChange = (
-    event: React.ChangeEvent<HTMLSelectElement>,
+    event: React.ChangeEvent<HTMLSelectElement>
   ) => {
-    const { value } = event.target
+    const { value } = event.target;
 
-    this.setState({ selectedRoleIndex: value })
-  }
+    this.setState({ selectedRoleIndex: value });
+  };
 
   public submit = () => {
-    const { project, onApply, onUnapply } = this.props
+    const { project, onApply, onUnapply } = this.props;
 
     if (!project.current_user_is_applied) {
       if (onApply) {
-        const role = project.roles[this.state.selectedRoleIndex]
-        onApply(role ? role.id : undefined)
+        const role = project.roles[this.state.selectedRoleIndex];
+        onApply(role ? role.id : undefined);
       }
     } else if (onUnapply) {
-      onUnapply()
+      onUnapply();
     }
-  }
+  };
 
   public render() {
-    const { intl, project, renderThumbnail, className } = this.props
-    const { selectedRoleIndex } = this.state
+    const { intl, project, renderThumbnail, className } = this.props;
+    const { selectedRoleIndex } = this.state;
     let disponibilityText: any = project.canceled
-      ? 'Cancelada'
+      ? "Cancelada"
       : project.closed
-      ? 'Encerrada'
-      : undefined
+      ? "Encerrada"
+      : undefined;
 
     if (!(project.closed || project.canceled) && project.disponibility) {
-      if (project.disponibility.type === 'work') {
-        disponibilityText = formatDisponibility(project.disponibility, intl)
+      if (project.disponibility.type === "work") {
+        disponibilityText = formatDisponibility(project.disponibility, intl);
       } else {
-        const nearestDate = findNearestDate(project.disponibility)
+        const nearestDate = findNearestDate(project.disponibility);
 
         if (nearestDate) {
-          const startMoment = moment(nearestDate.start_date)
-          const endMoment = moment(nearestDate.end_date)
+          const startMoment = moment(nearestDate.start_date);
+          const endMoment = moment(nearestDate.end_date);
 
           disponibilityText = (
             <>
-              <b>{startMoment.format('L')}</b>
-              {' de '}
-              {startMoment.format('LT')}
-              {' até '}
-              {endMoment.format('LT')}
+              <b>{startMoment.format("L")}</b>
+              {" de "}
+              {startMoment.format("LT")}
+              {" até "}
+              {endMoment.format("LT")}
             </>
-          )
+          );
         }
       }
     }
 
     return (
-      <div className={`radius-10 bg-muted ${className ? ` ${className}` : ''}`}>
+      <div className={`radius-10 bg-muted ${className ? ` ${className}` : ""}`}>
         {renderThumbnail && (
           <Thumbnail className="ratio">
-            <span className="ratio-fill" style={{ paddingTop: '56%' }} />
+            <span className="ratio-fill" style={{ paddingTop: "56%" }} />
             <div
               className="ratio-body"
               style={
                 project.image
                   ? {
-                      backgroundImage: `url('${project.image.image_medium_url}')`,
+                      backgroundImage: `url('${project.image.image_medium_url}')`
                     }
                   : undefined
               }
@@ -151,7 +191,7 @@ class ProjectApplicationCard extends React.Component<
         )}
         <Info
           className={`card-overflow-x ${
-            !renderThumbnail ? 'info--hiden-thumbnail' : ''
+            !renderThumbnail ? "info--hiden-thumbnail" : ""
           }`}
         >
           <InfoText>{disponibilityText}</InfoText>
@@ -161,7 +201,7 @@ class ProjectApplicationCard extends React.Component<
             <Link
               href={Page.Organization}
               as={PageAs.Organization({
-                organizationSlug: project.organization.slug,
+                organizationSlug: project.organization.slug
               })}
             >
               <a className="media tc-base text-truncate">
@@ -171,12 +211,12 @@ class ProjectApplicationCard extends React.Component<
                     backgroundImage: project.organization.image
                       ? `url(${project.organization.image.image_medium_url ||
                           project.organization.image.image_url})`
-                      : undefined,
+                      : undefined
                   }}
                 />
                 <div className="media-body tl-heading">
-                  <span className="tc-muted block ts-small mb-1">
-                    Realizado pela ONG:
+                  <span className="tc-muted d-block ts-small mb-1">
+                    {intl.formatMessage(REALIZADO)}
                   </span>
                   <span className="text-truncate tw-medium text-truncate block">
                     {project.organization.name}
@@ -204,14 +244,18 @@ class ProjectApplicationCard extends React.Component<
               <>
                 {project.roles && project.roles.length > 0 && (
                   <>
-                    <h4 className="tw-normal ts-normal">Inscreva-se como:</h4>
+                    <h4 className="tw-normal ts-normal">
+                      {intl.formatMessage(INSCREVASE)}
+                    </h4>
                     <select
                       className="input input--size-3 mb-3"
                       value={selectedRoleIndex}
                       onChange={this.handleRoleSelectChange}
                     >
                       {project.roles.length > 1 && (
-                        <option value="">Selecione uma função</option>
+                        <option value="">
+                          {intl.formatMessage(SELECIONE)}
+                        </option>
                       )}
                       {project.roles.map((role, index) => (
                         <option key={role.id} value={index}>
@@ -224,7 +268,9 @@ class ProjectApplicationCard extends React.Component<
                 {project.roles[selectedRoleIndex] &&
                   project.roles[selectedRoleIndex].details && (
                     <>
-                      <h5 className="ts-small mb-1">Função:</h5>
+                      <h5 className="ts-small mb-1">
+                        {intl.formatMessage(FUNCAO)}
+                      </h5>
                       <p className="ts-small tc-muted-dark">
                         {project.roles[selectedRoleIndex].details}
                       </p>
@@ -235,33 +281,35 @@ class ProjectApplicationCard extends React.Component<
 
             <button
               className={`btn btn--size-3 btn--block ${
-                project.current_user_is_applied ? 'btn-error' : 'btn-apply'
+                project.current_user_is_applied ? "btn-error" : "btn-apply"
               }`}
               onClick={this.submit}
             >
               {!project.current_user_is_applied ? (
-                'Inscrever-se'
+                "Inscrever-se"
               ) : (
                 <>
-                  Desinscrever-se
+                  {intl.formatMessage(DESINSCREVER)}
                   <Icon name="clear" className="ml-2" />
                 </>
               )}
             </button>
-            <span className="tc-muted ta-center mt-2 block ts-small">
-              Há uma segunda etapa de inscrição
+            <span className="tc-muted ta-center mt-2 d-block ts-small">
+              {intl.formatMessage(SEGUNDA_ETAPA)}
             </span>
           </div>
         )}
         {(project.closed || project.canceled) && (
           <div className="p-3">
             <h3 className="tw-normal">{project.applied_count}</h3>
-            <small className="tc-muted">Voluntários inscritos</small>
+            <small className="tc-muted">
+              {intl.formatMessage(VOLUNTARIOS_INSCRITOS)}
+            </small>
           </div>
         )}
       </div>
-    )
+    );
   }
 }
 
-export default withIntl(ProjectApplicationCard)
+export default withIntl(ProjectApplicationCard);

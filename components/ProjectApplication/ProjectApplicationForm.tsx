@@ -1,18 +1,20 @@
-import { InjectedFormikProps, withFormik } from 'formik'
-import React from 'react'
-import { connect } from 'react-redux'
-import Textarea from 'react-textarea-autosize'
-import { PayloadAction } from 'redux-handy'
-import styled from 'styled-components'
-import ActivityIndicator from '~/components/ActivityIndicator'
-import FormGroup from '~/components/Form/FormGroup'
-import Yup from '~/lib/form/yup'
-import { Project, ProjectRole } from '~/redux/ducks/project'
+import { InjectedFormikProps, withFormik } from "formik";
+import React from "react";
+import { connect } from "react-redux";
+import Textarea from "react-textarea-autosize";
+import { PayloadAction } from "redux-handy";
+import styled from "styled-components";
+import ActivityIndicator from "~/components/ActivityIndicator";
+import FormGroup from "~/components/Form/FormGroup";
+import Yup from "~/lib/form/yup";
+import { Project, ProjectRole } from "~/redux/ducks/project";
 import {
   ApplicationPayload,
-  applyToProject,
-} from '~/redux/ducks/project-application'
-import { Page } from '~/base/common'
+  applyToProject
+} from "~/redux/ducks/project-application";
+import { Page } from "~/base/common";
+import { defineMessages } from "react-intl";
+import useIntl from "~/hooks/use-intl";
 
 const RoleButton = styled.button`
   width: 100%;
@@ -25,26 +27,82 @@ const RoleButton = styled.button`
   &:hover {
     background: #f9f9f9;
   }
-`
+`;
 
 const RoleBody = styled.div`
   border-top: 1px solid #ccc;
-`
+`;
 
 export interface ProjectApplicationFormProps {
-  readonly className?: string
-  readonly roles: ProjectRole[]
-  readonly roleId: number
-  readonly project: Project
-  readonly onSubmit: (payload: ApplicationPayload) => PayloadAction<boolean>
-  readonly onFinish?: () => any
+  readonly className?: string;
+  readonly roles: ProjectRole[];
+  readonly roleId: number;
+  readonly project: Project;
+  readonly onSubmit: (payload: ApplicationPayload) => PayloadAction<boolean>;
+  readonly onFinish?: () => any;
 }
 
 interface Values {
-  readonly terms: boolean
-  readonly roleId: number
-  readonly message: string
+  readonly terms: boolean;
+  readonly roleId: number;
+  readonly message: string;
 }
+
+const {
+  FORMULARIO,
+  FUNCAO,
+  PRE_REQUISITOS,
+  MENSAGEM,
+  DECLARO,
+  TERMOS,
+  CONFIRMAR,
+  AO_CONFIRMAR,
+  MANTENHA,
+  ATUALIZAR
+} = defineMessages({
+  FORMULARIO: {
+    id: "FORMULARIO",
+    defaultMessage: "Formulário de inscrição"
+  },
+  FUNCAO: {
+    id: "FUNCAO",
+    defaultMessage: "Função"
+  },
+  PRE_REQUISITOS: {
+    id: "PRE_REQUISITOS",
+    defaultMessage: "Pré-requisitos:"
+  },
+  MENSAGEM: {
+    id: "MENSAGEM",
+    defaultMessage: "Mensagem"
+  },
+  DECLARO: {
+    id: "DECLARO",
+    defaultMessage: "Eu declaro que li e aceito os"
+  },
+  TERMOS: {
+    id: "TERMOS",
+    defaultMessage: "termos de voluntariado"
+  },
+  CONFIRMAR: {
+    id: "CONFIRMAR",
+    defaultMessage: "Confirmar inscrição na vaga"
+  },
+  AO_CONFIRMAR: {
+    id: "AO_CONFIRMAR",
+    defaultMessage:
+      "Ao confirmar a inscrição você se compromete a fazer parte dessa vaga como voluntário. A ONG será informada da sua inscrição e fará contato."
+  },
+  MANTENHA: {
+    id: "MANTENHA",
+    defaultMessage:
+      "Mantenha suas informações de contato atualizadas para que o responsável pela vaga possa entrar em contato com você."
+  },
+  ATUALIZAR: {
+    id: "ATUALIZAR",
+    defaultMessage: "Atualizar minhas informações"
+  }
+});
 
 const ProjectApplicationFormProps: React.FC<
   InjectedFormikProps<ProjectApplicationFormProps, Values>
@@ -58,31 +116,33 @@ const ProjectApplicationFormProps: React.FC<
   roles,
   isSubmitting,
   handleSubmit,
-  setFieldValue,
+  setFieldValue
 }) => {
+  const intl = useIntl();
+
   return (
     <form
       method="post"
       onSubmit={handleSubmit}
-      className={`${className || ''} card no-border radius-10 shadow-xl p-5`}
+      className={`${className || ""} card no-border radius-10 shadow-xl p-5`}
     >
-      <h4 className="tw-normal">Formulário de inscrição</h4>
+      <h4 className="tw-normal">{intl.formatMessage(FORMULARIO)}</h4>
       <hr />
 
       {roles && roles.length > 0 && (
         <>
-          <b className="block mb-2">Função</b>
+          <b className="block mb-2">{intl.formatMessage(FUNCAO)}</b>
           <div className="card mb-4">
             {roles.map(role => (
               <div key={role.id} className="card-item">
                 <RoleButton
                   type="button"
                   className="p-3 media"
-                  onClick={() => setFieldValue('roleId', role.id)}
+                  onClick={() => setFieldValue("roleId", role.id)}
                 >
                   <span
                     className={`input-radio mr-3${
-                      values.roleId === role.id ? ' checked' : ''
+                      values.roleId === role.id ? " checked" : ""
                     }`}
                   />
                   <div className="media-body">
@@ -93,7 +153,7 @@ const ProjectApplicationFormProps: React.FC<
                   <RoleBody className="bg-muted ts-small p-3">
                     <p>{role.details}</p>
                     <p className="mb-0">
-                      <b>Pré-requisitos: </b>
+                      <b>{intl.formatMessage(PRE_REQUISITOS)} </b>
                       {role.prerequisites}
                     </p>
                   </RoleBody>
@@ -105,7 +165,7 @@ const ProjectApplicationFormProps: React.FC<
       )}
       <FormGroup
         labelFor="profile-input-message"
-        label="Mensagem"
+        label={intl.formatMessage(MENSAGEM)}
         error={touched.message ? errors.message : undefined}
         length={values.message.length}
         maxLength={150}
@@ -135,9 +195,9 @@ const ProjectApplicationFormProps: React.FC<
           onBlur={handleBlur}
         />
         <span>
-          Eu declaro que li e aceito os{' '}
+          {`${intl.formatMessage(DECLARO)} `}
           <a href="/termos/voluntariado" target="__blank">
-            termos de voluntariado
+            {intl.formatMessage(TERMOS)}
           </a>
         </span>
       </FormGroup>
@@ -146,73 +206,69 @@ const ProjectApplicationFormProps: React.FC<
         className="btn btn--size-3 btn-primary mb-3"
         disabled={isSubmitting}
       >
-        Confirmar inscrição na vaga
+        {intl.formatMessage(CONFIRMAR)}
         {isSubmitting && (
           <ActivityIndicator size={36} fill="white" className="ml-1" />
         )}
       </button>
-      <p className="tc-muted ts-small">
-        Ao confirmar a inscrição você se compromete a fazer parte dessa vaga
-        como voluntário. A ONG será informada da sua inscrição e fará contato.
-      </p>
+      <p className="tc-muted ts-small">{intl.formatMessage(AO_CONFIRMAR)}</p>
 
       <div className="card p-2 bg-outline-primary">
-        Mantenha suas informações de contato atualizadas para que o responsável
-        pela vaga possa entrar em contato com você.{' '}
+        {intl.formatMessage(MANTENHA)}{" "}
         <a
           href={Page.ViewerSettings}
           target="__blank"
           className="tc-base td-underline"
         >
-          Atualizar minhas informações
+          {intl.formatMessage(ATUALIZAR)}
         </a>
       </div>
     </form>
-  )
-}
+  );
+};
 
-ProjectApplicationFormProps.displayName = 'ProjectApplicationFormProps'
+ProjectApplicationFormProps.displayName = "ProjectApplicationFormProps";
 
 const ProjectApplicationFormSchema = Yup.object().shape({
   roleId: Yup.string().required(),
   terms: Yup.boolean().oneOf(
     [true],
-    'Você deve aceitar os termos de voluntariado',
-  ),
-})
+    "Você deve aceitar os termos de voluntariado"
+  )
+});
 
 const mapDispatchToProps = dispatch => ({
-  onSubmit: (payload: ApplicationPayload) => dispatch(applyToProject(payload)),
-})
+  onSubmit: (payload: ApplicationPayload) => dispatch(applyToProject(payload))
+});
 
 export default connect(
   undefined,
-  mapDispatchToProps,
+  mapDispatchToProps
 )(
   withFormik<ProjectApplicationFormProps, Values>({
-    displayName: 'ProjectApplicationFormProps',
+    displayName: "ProjectApplicationFormProps",
     mapPropsToValues: ({ roleId, roles }: ProjectApplicationFormProps) => ({
       terms: false,
       roleId: roleId || (roles.length ? roles[0].id : -1),
-      message: '',
+      message: ""
     }),
     handleSubmit: async (
       values,
-      { props: { project, roles, onSubmit, onFinish }, setSubmitting },
+      { props: { project, roles, onSubmit, onFinish }, setSubmitting }
     ) => {
-      const role = roles.find(r => r.id === values.roleId)
+      const role = roles.find(r => r.id === values.roleId);
 
       const { payload: success } = await onSubmit({
         project,
         message: values.message,
-        role,
-      })
-      setSubmitting(false)
+        role
+      });
+      setSubmitting(false);
 
       if (success && onFinish) {
-        onFinish()
+        onFinish();
       }
     },
-    validationSchema: ProjectApplicationFormSchema,
-  })(ProjectApplicationFormProps),
-)
+    validationSchema: ProjectApplicationFormSchema
+  })(ProjectApplicationFormProps)
+);

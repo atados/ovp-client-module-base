@@ -143,6 +143,14 @@ const ChannelConfigSchema = Yup.object().shape({
           createProject: Yup.boolean().default(false),
         })
         .default({}),
+      project: Yup.object()
+        .shape({
+          galleries: Yup.boolean().default(true),
+          posts: Yup.boolean().default(true),
+          documents: Yup.boolean().default(true),
+          documentsRestricted: Yup.boolean().default(false),
+        })
+        .default({}),
       user: Yup.object()
         .shape({
           documents: Yup.boolean().default(true),
