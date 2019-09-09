@@ -7,6 +7,8 @@ import { Project } from '~/redux/ducks/project'
 import ClosePostForm from '../ClosePostForm'
 import Icon from '../Icon'
 import { useModal } from '../Modal'
+import { defineMessages } from 'react-intl'
+import useIntl from '~/hooks/use-intl'
 
 const Table = styled.table`
   min-width: 900px;
@@ -45,11 +47,68 @@ interface ProjectManagePagePostsProps {
   readonly project: Project
 }
 
+const {
+  NAO_PODE,
+  DESCREVA,
+  IMPORTANCIA,
+  PUBLICO,
+  SE_HOUVER,
+  ETAPA4,
+  SOBRE,
+  DESCREVA_CLAREZA,
+  HINT,
+  PLACEHOLDER,
+} = defineMessages({
+  NAO_PODE: {
+    id: 'NAO_PODE',
+    defaultMessage: 'O que não pode faltar!',
+  },
+  DESCREVA: {
+    id: 'DESCREVA',
+    defaultMessage: 'Descreva as atividades que o voluntário (a) irá realizar;',
+  },
+  IMPORTANCIA: {
+    id: 'IMPORTANCIA',
+    defaultMessage: 'Importância da ação;',
+  },
+  PUBLICO: {
+    id: 'PUBLICO',
+    defaultMessage: 'Público que será atendido pelo voluntariado;',
+  },
+  SE_HOUVER: {
+    id: 'SE_HOUVER',
+    defaultMessage: 'Se houver capacitação, é importante mencionar;',
+  },
+  ETAPA4: {
+    id: 'ETAPA4',
+    defaultMessage: 'ETAPA 4',
+  },
+  SOBRE: {
+    id: 'SOBRE',
+    defaultMessage: 'Sobre a Vaga',
+  },
+  DESCREVA_CLAREZA: {
+    id: 'DESCREVA_CLAREZA',
+    defaultMessage: 'Descreva com clareza a finalidade da vaga.',
+  },
+  HINT: {
+    id: 'HINT',
+    defaultMessage: 'Você pode adicionar links e formatações ao texto.',
+  },
+  PLACEHOLDER: {
+    id: 'PLACEHOLDER',
+    defaultMessage:
+      'Faça uma descrição completa e deixa um bom convite. Isso garante que mais voluntários se candidatem a esta vaga.',
+  },
+})
+
 const ProjectManagePagePosts: React.FC<ProjectManagePagePostsProps> = ({
   className,
   project,
   organizationSlug,
 }) => {
+  const intl = useIntl()
+
   const openClosePostModal = useModal({
     id: 'ClosePost',
     component: ClosePostForm,
@@ -78,9 +137,7 @@ const ProjectManagePagePosts: React.FC<ProjectManagePagePostsProps> = ({
             }}
             as={
               organizationSlug
-                ? `/ong/${organizationSlug}/vaga/${
-                    project.slug
-                  }/publicacoes/nova`
+                ? `/ong/${organizationSlug}/vaga/${project.slug}/publicacoes/nova`
                 : `/minhas-vagas/vaga/${project.slug}/publicacoes/nova`
             }
           >
@@ -113,9 +170,7 @@ const ProjectManagePagePosts: React.FC<ProjectManagePagePostsProps> = ({
             }}
             as={
               organizationSlug
-                ? `/ong/${organizationSlug}/vaga/${
-                    project.slug
-                  }/publicacoes/nova`
+                ? `/ong/${organizationSlug}/vaga/${project.slug}/publicacoes/nova`
                 : `/minhas-vagas/vaga/${project.slug}/publicacoes/nova`
             }
           >
@@ -157,12 +212,8 @@ const ProjectManagePagePosts: React.FC<ProjectManagePagePostsProps> = ({
                       }}
                       as={
                         organizationSlug
-                          ? `/ong/${organizationSlug}/vaga/${
-                              project.slug
-                            }/publicacoes/editar/${post.id}`
-                          : `/minhas-vagas/vaga/${
-                              project.slug
-                            }/publicacoes/editar/${post.id}`
+                          ? `/ong/${organizationSlug}/vaga/${project.slug}/publicacoes/editar/${post.id}`
+                          : `/minhas-vagas/vaga/${project.slug}/publicacoes/editar/${post.id}`
                       }
                     >
                       <a className="btn btn-muted btn--size-2 mr-2">

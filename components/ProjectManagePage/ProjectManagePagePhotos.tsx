@@ -11,6 +11,8 @@ import { RootState } from '~/redux/root-reducer'
 import ActivityIndicator from '../ActivityIndicator'
 import Icon from '../Icon'
 import Tooltip from '../Tooltip'
+import { defineMessages } from 'react-intl'
+import useIntl from '~/hooks/use-intl'
 
 const PhotoImage = styled.div`
   background: rgba(0, 0, 0, 0.05);
@@ -126,12 +128,69 @@ interface ProjectManagePagePhotosProps
   ) => any
 }
 
+const {
+  NAO_PODE,
+  DESCREVA,
+  IMPORTANCIA,
+  PUBLICO,
+  SE_HOUVER,
+  ETAPA4,
+  SOBRE,
+  DESCREVA_CLAREZA,
+  HINT,
+  PLACEHOLDER,
+} = defineMessages({
+  NAO_PODE: {
+    id: 'NAO_PODE',
+    defaultMessage: 'O que não pode faltar!',
+  },
+  DESCREVA: {
+    id: 'DESCREVA',
+    defaultMessage: 'Descreva as atividades que o voluntário (a) irá realizar;',
+  },
+  IMPORTANCIA: {
+    id: 'IMPORTANCIA',
+    defaultMessage: 'Importância da ação;',
+  },
+  PUBLICO: {
+    id: 'PUBLICO',
+    defaultMessage: 'Público que será atendido pelo voluntariado;',
+  },
+  SE_HOUVER: {
+    id: 'SE_HOUVER',
+    defaultMessage: 'Se houver capacitação, é importante mencionar;',
+  },
+  ETAPA4: {
+    id: 'ETAPA4',
+    defaultMessage: 'ETAPA 4',
+  },
+  SOBRE: {
+    id: 'SOBRE',
+    defaultMessage: 'Sobre a Vaga',
+  },
+  DESCREVA_CLAREZA: {
+    id: 'DESCREVA_CLAREZA',
+    defaultMessage: 'Descreva com clareza a finalidade da vaga.',
+  },
+  HINT: {
+    id: 'HINT',
+    defaultMessage: 'Você pode adicionar links e formatações ao texto.',
+  },
+  PLACEHOLDER: {
+    id: 'PLACEHOLDER',
+    defaultMessage:
+      'Faça uma descrição completa e deixa um bom convite. Isso garante que mais voluntários se candidatem a esta vaga.',
+  },
+})
+
 const ProjectManagePagePhotos: React.FC<ProjectManagePagePhotosProps> = ({
   className,
   user,
   project,
   onUpdateProject,
 }) => {
+  const intl = useIntl()
+
   const [items, setItems] = useState<GalleryItem[]>(() => {
     const looseGallery = project.galleries.find(
       gallery => gallery.name === 'loose',
