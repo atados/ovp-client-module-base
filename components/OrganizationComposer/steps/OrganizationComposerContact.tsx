@@ -9,6 +9,8 @@ import * as masks from '~/lib/form/masks'
 import { RE_PHONE } from '~/lib/form/regex'
 import Yup from '~/lib/form/yup'
 import { ensureHttpsUri } from '~/lib/utils/string'
+import { defineMessages, InjectedIntlProps } from 'react-intl'
+import { withIntl } from '~/lib/intl'
 
 const OrganizationContactFormSchema = Yup.object().shape({
   phone: Yup.string()
@@ -38,9 +40,50 @@ interface OrganizationComposerContactProps {
   readonly defaultValue?: Values
 }
 
+const {
+  A_COMUNICACAO,
+  FUNDAMENTAL,
+  ETAPA2,
+  CONTATO,
+  PREENCHA,
+  EMAIL,
+  EMAIL_HINT,
+} = defineMessages({
+  A_COMUNICACAO: {
+    id: 'A_COMUNICACAO',
+    defaultMessage: 'A comunicação é fudamental',
+  },
+  FUNDAMENTAL: {
+    id: 'FUNDAMENTAL',
+    defaultMessage:
+      'É fudamental que os dados estejam corretos para que os voluntários possam entrar em contato após a inscrição.',
+  },
+  ETAPA2: {
+    id: 'ETAPA2',
+    defaultMessage: 'ETAPA 2',
+  },
+  CONTATO: {
+    id: 'CONTATO',
+    defaultMessage: 'Contato',
+  },
+  PREENCHA: {
+    id: 'PREENCHA',
+    defaultMessage: 'Preencha as informações de contato da ONG',
+  },
+  EMAIL: {
+    id: 'EMAIL',
+    defaultMessage: 'Email de contato da ONG',
+  },
+  EMAIL_HINT: {
+    id: 'EMAIL_HINT',
+    defaultMessage: 'Use um email de contato ativo',
+  },
+})
+
 class OrganizationComposerContact extends React.Component<
   OrganizationComposerContactProps &
-    InjectedFormikProps<OrganizationComposerContactProps, Values>
+    InjectedFormikProps<OrganizationComposerContactProps, Values> &
+    InjectedIntlProps
 > {
   public static isValidValue = (values: Values): Promise<boolean> => {
     return OrganizationContactFormSchema.isValid(values)
@@ -77,6 +120,7 @@ class OrganizationComposerContact extends React.Component<
       handleSubmit,
       onBack,
       isComposerSubmitting,
+      intl,
     } = this.props
 
     return (
@@ -91,22 +135,21 @@ class OrganizationComposerContact extends React.Component<
           <div className="p-5">
             <HelpCard className="card pr-4 pb-4 pl-4 pt-2">
               <h4 className="ts-medium tw-medium">
-                A comunicação é fudamental
+                {intl.formatMessage(A_COMUNICACAO)}
               </h4>
               <p className="tc-muted-dark mb-0">
-                É fudamental que os dados estejam corretos para que os
-                voluntários possam entrar em contato após a inscrição.
+                {intl.formatMessage(FUNDAMENTAL)}
               </p>
             </HelpCard>
           </div>
         }
       >
         {mode !== FormComposerMode.EDIT && (
-          <h4 className="tc-muted ts-small">ETAPA 2</h4>
+          <h4 className="tc-muted ts-small">{intl.formatMessage(ETAPA2)}</h4>
         )}
-        <h1 className="tw-light mb-1">Contato</h1>
+        <h1 className="tw-light mb-1">{intl.formatMessage(CONTATO)}</h1>
         <p className="ts-medium tc-muted-dark mb-4">
-          Preencha as informações de contato da ONG
+          {intl.formatMessage(PREENCHA)}
         </p>
 
         <FormGroup
@@ -130,10 +173,10 @@ class OrganizationComposerContact extends React.Component<
 
         <FormGroup
           labelFor="ong-input-email"
-          label="Email de contato da ONG"
+          label={intl.formatMessage(EMAIL)}
           error={touched.contact_email ? errors.contact_email : undefined}
           className="mb-4"
-          hint="Use um email de contato ativo"
+          hint={intl.formatMessage(EMAIL_HINT)}
         >
           <input
             id="ong-input-email"
@@ -213,4 +256,4 @@ export default withFormik<OrganizationComposerContactProps, Values>({
     contact_email: value.contact_email || '',
     facebook_page: value.facebook_page || '',
   }),
-})(OrganizationComposerContact)
+})(withIntl(OrganizationComposerContact))
