@@ -12,6 +12,8 @@ import {
   ApplicationPayload,
   applyToProject,
 } from '~/redux/ducks/project-application'
+import { defineMessages } from 'react-intl'
+import useIntl from '~/hooks/use-intl'
 
 const RoleButton = styled.button`
   width: 100%;
@@ -45,6 +47,62 @@ interface Values {
   readonly message: string
 }
 
+const {
+  FORMULARIO,
+  FUNCAO,
+  PRE_REQUISITOS,
+  MENSAGEM,
+  DECLARO,
+  TERMOS,
+  CONFIRMAR,
+  AO_CONFIRMAR,
+  MANTENHA,
+  ATUALIZAR,
+} = defineMessages({
+  FORMULARIO: {
+    id: 'FORMULARIO',
+    defaultMessage: 'Formulário de inscrição',
+  },
+  FUNCAO: {
+    id: 'FUNCAO',
+    defaultMessage: 'Função',
+  },
+  PRE_REQUISITOS: {
+    id: 'PRE_REQUISITOS',
+    defaultMessage: 'Pré-requisitos:',
+  },
+  MENSAGEM: {
+    id: 'MENSAGEM',
+    defaultMessage: 'Mensagem',
+  },
+  DECLARO: {
+    id: 'DECLARO',
+    defaultMessage: 'Eu declaro que li e aceito os',
+  },
+  TERMOS: {
+    id: 'TERMOS',
+    defaultMessage: 'termos de voluntariado',
+  },
+  CONFIRMAR: {
+    id: 'CONFIRMAR',
+    defaultMessage: 'Confirmar inscrição na vaga',
+  },
+  AO_CONFIRMAR: {
+    id: 'AO_CONFIRMAR',
+    defaultMessage:
+      'Ao confirmar a inscrição você se compromete a fazer parte dessa vaga como voluntário. A ONG será informada da sua inscrição e fará contato.',
+  },
+  MANTENHA: {
+    id: 'MANTENHA',
+    defaultMessage:
+      'Mantenha suas informações de contato atualizadas para que o responsável pela vaga possa entrar em contato com você.',
+  },
+  ATUALIZAR: {
+    id: 'ATUALIZAR',
+    defaultMessage: 'Atualizar minhas informações',
+  },
+})
+
 const ProjectApplicationFormProps: React.FC<
   InjectedFormikProps<ProjectApplicationFormProps, Values>
 > = ({
@@ -59,18 +117,20 @@ const ProjectApplicationFormProps: React.FC<
   handleSubmit,
   setFieldValue,
 }) => {
+  const intl = useIntl()
+
   return (
     <form
       method="post"
       onSubmit={handleSubmit}
       className={`${className || ''} card no-border radius-10 shadow-xl p-5`}
     >
-      <h4 className="tw-normal">Formulário de inscrição</h4>
+      <h4 className="tw-normal">{intl.formatMessage(FORMULARIO)}</h4>
       <hr />
 
       {roles && roles.length > 0 && (
         <>
-          <b className="d-block mb-2">Função</b>
+          <b className="d-block mb-2">{intl.formatMessage(FUNCAO)}</b>
           <div className="card mb-4">
             {roles.map(role => (
               <div key={role.id} className="card-item">
@@ -92,7 +152,7 @@ const ProjectApplicationFormProps: React.FC<
                   <RoleBody className="bg-muted ts-small p-3">
                     <p>{role.details}</p>
                     <p className="mb-0">
-                      <b>Pré-requisitos: </b>
+                      <b>{intl.formatMessage(PRE_REQUISITOS)} </b>
                       {role.prerequisites}
                     </p>
                   </RoleBody>
@@ -104,7 +164,7 @@ const ProjectApplicationFormProps: React.FC<
       )}
       <FormGroup
         labelFor="profile-input-message"
-        label="Mensagem"
+        label={intl.formatMessage(MENSAGEM)}
         error={touched.message ? errors.message : undefined}
         length={values.message.length}
         maxLength={150}
@@ -134,9 +194,9 @@ const ProjectApplicationFormProps: React.FC<
           onBlur={handleBlur}
         />
         <span>
-          Eu declaro que li e aceito os{' '}
+          {`${intl.formatMessage(DECLARO)} `}
           <a href="/termos/voluntariado" target="__blank">
-            termos de voluntariado
+            {intl.formatMessage(TERMOS)}
           </a>
         </span>
       </FormGroup>
@@ -145,25 +205,21 @@ const ProjectApplicationFormProps: React.FC<
         className="btn btn--size-3 btn-primary mb-3"
         disabled={isSubmitting}
       >
-        Confirmar inscrição na vaga
+        {intl.formatMessage(CONFIRMAR)}
         {isSubmitting && (
           <ActivityIndicator size={36} fill="white" className="ml-1" />
         )}
       </button>
-      <p className="tc-muted ts-small">
-        Ao confirmar a inscrição você se compromete a fazer parte dessa vaga
-        como voluntário. A ONG será informada da sua inscrição e fará contato.
-      </p>
+      <p className="tc-muted ts-small">{intl.formatMessage(AO_CONFIRMAR)}</p>
 
       <div className="card p-2 bg-outline-primary">
-        Mantenha suas informações de contato atualizadas para que o responsável
-        pela vaga possa entrar em contato com você.{' '}
+        {intl.formatMessage(MANTENHA)}{' '}
         <a
           href="/configuracoes/perfil"
           target="__blank"
           className="tc-base td-underline"
         >
-          Atualizar minhas informações
+          {intl.formatMessage(ATUALIZAR)}
         </a>
       </div>
     </form>
