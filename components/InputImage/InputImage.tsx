@@ -116,7 +116,10 @@ interface InputImageState {
   readonly value: InputImageValueType
 }
 
-class InputImage extends React.Component<InputImageProps, InputImageState> {
+class InputImage extends React.Component<
+  InputImageProps & InjectedIntlProps,
+  InputImageState
+> {
   public static getDerivedStateFromProps(
     props: InputImageProps,
     state?: InputImageState,
