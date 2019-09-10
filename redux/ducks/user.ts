@@ -1,6 +1,6 @@
 import cookie from 'js-cookie'
 import deserializeUser from '~/base/lib/auth/deserialize-user'
-import { Cause, Skill } from './channel'
+import { Cause, Skill } from '~/common/channel'
 import { editOrganization } from './organization-composer'
 import { sendRating } from './ratings'
 import { updateUser } from './user-update'

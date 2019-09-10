@@ -23,6 +23,18 @@ export interface Cause {
   image?: ImageDict
 }
 
+interface ChannelAssets {
+  Logo?: string
+  ToolbarBrand?: string
+  Favicon?: string
+  FooterBrand?: string
+}
+
+interface ChannelHead {
+  links: Array<{ href: string }>
+  scripts: Array<{ href: string }>
+}
+
 export interface Channel {
   id: string
   theme: ChannelTheme
@@ -33,21 +45,14 @@ export interface Channel {
     volunteers: number
     organizations: number
   }
-  assets: {
-    brand?: string
-    toolbarBrand?: string
-    footerBrand?: string
-    icon?: string
-    links: Array<{ href: string }>
-    scripts: Array<{ href: string }>
-  }
+  assets: ChannelAssets
   social: Array<{
     kind: 'facebook' | 'github' | 'instagram'
     url: string
   }>
+  head: ChannelHead
   pages: RequiredPagesMap
   config: ChannelConfig
-
   integrations?: Array<{
     channelId: string
     apiUri: string
@@ -101,6 +106,7 @@ export interface ChannelTheme {
   primaryButtonBackground?: string
   darkIcons?: boolean
   toolbarBackground?: string
+  progressBarColor?: string
   toolbarHeight: number
   toolbarTheme?: string
   footerBackground?: string
@@ -128,6 +134,9 @@ export interface ChannelConfig {
   footer: {
     links: Array<{ href: string; as?: string; label: string }>
   }
+  popover: {
+    backgroundColor?: string
+  }
   wpBlogUrl?: string
   googleTagManager?: {
     id: string
@@ -152,3 +161,9 @@ export interface ChannelConfig {
   }
   sentry: Sentry.BrowserOptions
 }
+
+export const channel = JSON.parse(process.env.CHANNEL_JSON as string) as Channel
+export const Config = channel.config
+export const Asset = channel.assets
+export const Theme = channel.theme
+export const Color = channel.theme.color

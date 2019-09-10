@@ -1,4 +1,4 @@
-import { Channel } from '../redux/ducks/channel'
+import { Channel } from '~/common/channel'
 import * as path from 'path'
 import { rgba, shade } from '../lib/color/transformers'
 import loadChannelConfig from './channel/load-channel-config'

@@ -1,5 +1,5 @@
 import { channel } from '../common/constants'
-import { RequiredPagesMap } from '../redux/ducks/channel'
+import { RequiredPagesMap } from '~/common/channel'
 
 export const Page: RequiredPagesMap = channel.pages
 

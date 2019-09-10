@@ -3,7 +3,9 @@ import { readFileSync } from 'fs'
 import * as IntlPolyfill from 'intl'
 import * as path from 'path'
 import { dev } from '~/common/constants'
-import PortugueMessages from '../../../../static/dist/lang/pt-br.json'
+import IntlDefaultMessages from '~/generated/lang/pt-br.json'
+import IntlEnglishMessages from '~/generated/lang/en-us.json'
+import IntlSpanishMessages from '~/generated/lang/es-ar.json'
 
 Intl.NumberFormat = IntlPolyfill.NumberFormat
 Intl.DateTimeFormat = IntlPolyfill.DateTimeFormat
@@ -22,7 +24,13 @@ export default (locale: string) => {
     let messages: IntlMessages = {}
 
     if (process.env.NODE_ENV === 'production') {
-      messages = flat(PortugueMessages)
+      if (locale.startsWith('en')) {
+        messages = IntlEnglishMessages as any
+      } else if (locale.startsWith('es')) {
+        messages = IntlSpanishMessages as any
+      } else {
+        messages = IntlDefaultMessages as any
+      }
     } else {
       // Get base lang messages
       Object.assign(

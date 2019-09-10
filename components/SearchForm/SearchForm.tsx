@@ -13,7 +13,7 @@ import Icon from '~/components/Icon'
 import { getPlacePredictions } from '~/lib/maps/google-maps-autocomplete'
 import { createAccentFriendlyRegexp } from '~/lib/regex/utils'
 import { pushToDataLayer } from '~/lib/tag-manager'
-import { Cause, Skill } from '~/redux/ducks/channel'
+import { Cause, Skill } from '~/common/channel'
 import { Geolocation } from '~/redux/ducks/geo'
 import {
   BaseFilters,

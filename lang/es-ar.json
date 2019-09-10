@@ -1,10 +1,10 @@
 {
   "app": {
     "name": "Channel",
-    "description": "HEEEY"
+    "description": "Conheça oportunidades de trabalho voluntário e inscreva-se."
   },
   "searchForm": {
-    "placeholder": "ENGLISH"
+    "placeholder": "Busque vagas de voluntariado ou ONGs"
   },
   "disponibility": {
     "work": "Recorrente",

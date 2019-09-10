@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import GoogleMap from '~/components/GoogleMap'
+import GoogleMap from '~/components/GoogleMap/BlockedGoogleMap'
 import { Project } from '~/redux/ducks/project'
 import MapMark from '../MapMark'
 

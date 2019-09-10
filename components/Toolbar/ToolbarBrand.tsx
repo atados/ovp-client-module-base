@@ -3,8 +3,7 @@ import Link from 'next/link'
 import React from 'react'
 import { defineMessages } from 'react-intl'
 import styled from 'styled-components'
-import { Page, PageAs } from '~/common'
-import { channel } from '~/common/constants'
+import { Page, PageAs, Asset } from '~/common'
 import { useIntl } from 'react-intl'
 
 const Brand = styled.a`
@@ -31,8 +30,8 @@ const ToolbarBrand: React.FC<ToolbarBrandProps> = ({ className, brand }) => {
   return (
     <Link href={Page.Home} as={PageAs.Home()}>
       <Brand href="/" className={cx(className, 'navbar-brand')}>
-        {brand || channel.assets.toolbarBrand ? (
-          <img src={brand || channel.assets.toolbarBrand} alt="" />
+        {brand || Asset.ToolbarBrand ? (
+          <img src={brand || Asset.ToolbarBrand} alt="" />
         ) : (
           intl.formatMessage(messages.appName)
         )}

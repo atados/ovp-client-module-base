@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import { DropdownMenu } from '~/components/Dropdown'
 import SearchFilter from '~/components/SearchFilters/SearchFilter'
 import { pushToDataLayer } from '~/lib/tag-manager'
-import { Skill } from '~/redux/ducks/channel'
+import { Skill } from '~/common/channel'
 import { RootState } from '~/redux/root-reducer'
 
 const Menu = styled(DropdownMenu)`

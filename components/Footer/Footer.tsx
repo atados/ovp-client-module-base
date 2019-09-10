@@ -8,7 +8,7 @@ import { channel } from '~/common/constants'
 import NewsletterForm from '~/components/NewsletterForm'
 import SocialMediaIcon from '~/components/SocialMediaIcon/SocialMediaIcon'
 import { useIntl } from 'react-intl'
-import { Cause } from '~/redux/ducks/channel'
+import { Cause } from '~/common/channel'
 import { RootState } from '~/redux/root-reducer'
 import FooterNav from './FooterNav'
 
@@ -134,7 +134,9 @@ const Footer: React.FC<FooterProps> = ({ causes, className }) => {
         <div className="py-2 flex">
           <Link href={Page.Home} as={PageAs.Home()}>
             <a>
-              <img src={channel.assets.footerBrand} alt="" height="42" />
+              {channel.assets.FooterBrand && (
+                <img src={channel.assets.FooterBrand} alt="" height="42" />
+              )}
               <span className="ml-3 ts-medium">
                 {intl.formatMessage(appName)}
               </span>

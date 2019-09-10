@@ -5,7 +5,7 @@ import { FetchJSONError } from '~/lib/fetch/fetch.client'
 import { reportError } from '~/lib/utils/error'
 import { Address } from '~/redux/ducks/project'
 import { RootState } from '~/redux/root-reducer'
-import { Cause } from './channel'
+import { Cause } from '~/common/channel'
 import { editOrganization } from './organization-composer'
 
 export interface Organization {

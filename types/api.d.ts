@@ -1,4 +1,4 @@
-import { ImageDict } from '~/redux/ducks/channel'
+import { ImageDict } from '~/common/channel'
 
 export interface DocumentDict {
   id: number

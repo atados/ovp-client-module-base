@@ -25,8 +25,15 @@
     }
   },
   "lint-staged": {
-    "**/*.js": ["prettier --write", "git add"],
-    "**/*.{ts,tsx}": ["tslint --fix", "prettier --write", "git add"]
+    "**/*.js": [
+      "prettier --write",
+      "git add"
+    ],
+    "**/*.{ts,tsx}": [
+      "tslint --fix",
+      "prettier --write",
+      "git add"
+    ]
   },
   "dependencies": {
     "@formatjs/intl-relativetimeformat": "^2.8.2",
@@ -39,6 +46,7 @@
     "body-parser": "^1.19.0",
     "classnames": "^2.2.6",
     "cookie": "^0.4.0",
+    "copy": "^0.3.2",
     "debounce": "^1.2.0",
     "dotenv": "^7.0.0",
     "escape-string-regexp": "^2.0.0",
@@ -94,8 +102,6 @@
     "@types/body-parser": "^1.17.0",
     "@types/classnames": "^2.2.9",
     "@types/dotenv": "^6.1.1",
-    "@types/express": "^4.16.1",
-    "@types/express-session": "^1.15.12",
     "@types/flat": "^0.0.28",
     "@types/glob": "^7.1.1",
     "@types/googlemaps": "^3.30.19",
@@ -178,6 +184,13 @@
       "^.+\\.(js|jsx|ts|tsx)$": "<rootDir>/node_modules/babel-jest"
     },
     "modulePaths": [],
-    "moduleFileExtensions": ["ts", "tsx", "js", "json", "jsx", "node"]
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "json",
+      "jsx",
+      "node"
+    ]
   }
 }

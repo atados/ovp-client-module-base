@@ -39,7 +39,6 @@ const ChannelConfigSchema = Yup.object().shape({
           }),
         })
         .required(),
-      popoverColor: Yup.string(),
       darkIcons: Yup.boolean(),
       footerBackground: Yup.string(),
       footerTheme: Yup.string().oneOf(['light', 'dark']),
@@ -47,13 +46,20 @@ const ChannelConfigSchema = Yup.object().shape({
       toolbarHeight: Yup.number().default(56),
     })
     .required(),
+  head: Yup.object()
+    .shape({
+      links: Yup.array(Yup.object().shape({ href: Yup.string() })).default([]),
+      scripts: Yup.array(Yup.object().shape({ href: Yup.string() })).default(
+        [],
+      ),
+    })
+    .default({}),
   assets: Yup.object()
     .shape({
-      brand: Yup.string().default('/static/logo.svg'),
-      icon: Yup.string(),
-      toolbarBrand: Yup.string(),
-      links: Yup.array(Yup.object()).default([]),
-      scripts: Yup.array(Yup.object()).default([]),
+      Logo: Yup.string().default('/static/logo.svg'),
+      Favicon: Yup.string(),
+      ToolbarBrand: Yup.string(),
+      FooterBrand: Yup.string(),
     })
     .default({}),
   pages: Yup.object()
@@ -117,6 +123,11 @@ const ChannelConfigSchema = Yup.object().shape({
   ).default([]),
   config: Yup.object()
     .shape({
+      popover: Yup.object()
+        .shape({
+          backgroundColor: Yup.string(),
+        })
+        .default({}),
       geo: Yup.object()
         .shape({
           default: Yup.object()
