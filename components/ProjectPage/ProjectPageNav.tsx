@@ -3,7 +3,7 @@ import React, { useCallback, useMemo, useState } from 'react'
 import { connect } from 'react-redux'
 import { Waypoint } from 'react-waypoint'
 import styled, { StyledProps } from 'styled-components'
-import { Page, PageAs } from '~/common'
+import { resolvePage } from '~/common/page'
 import useTriggerableFetchApi from '~/hooks/use-trigglerable-fetch-api'
 import { Project, updateProject } from '~/redux/ducks/project'
 import { User } from '~/redux/ducks/user'
@@ -13,7 +13,8 @@ import Authentication from '../Authentication'
 import Icon from '../Icon'
 import VolunteerIcon from '../Icon/VolunteerIcon'
 import { useModal } from '../Modal'
-import { channel } from '~/base/common/constants'
+import { defineMessages } from 'react-intl'
+import useIntl from '~/hooks/use-intl'
 
 interface NavProps {
   fixed?: boolean
@@ -40,7 +41,7 @@ const Nav = styled.div`
 
       &.active {
         font-weight: 500;
-        box-shadow: inset 0 -3px ${channel.theme.color.primary[500]};
+        box-shadow: inset 0 -3px ${props.theme.colorPrimary};
       }
     }
 
@@ -98,6 +99,27 @@ const ActionButton = styled.a`
   }
 `
 
+const { GERENCIAR_VAGA, VAGA, QUERO_INSCREVER, VER_INSCRICAO } = defineMessages(
+  {
+    GERENCIAR_VAGA: {
+      id: 'GERENCIAR_VAGA',
+      defaultMessage: 'Gerenciar vaga',
+    },
+    VAGA: {
+      id: 'VAGA',
+      defaultMessage: 'Vaga',
+    },
+    QUERO_INSCREVER: {
+      id: 'QUERO_INSCREVER',
+      defaultMessage: 'Quero me inscrever',
+    },
+    VER_INSCRICAO: {
+      id: 'VER_INSCRICAO',
+      defaultMessage: 'Ver minha inscrição',
+    },
+  },
+)
+
 export interface ProjectPageNavItem {
   id: string
   name: string
@@ -125,6 +147,7 @@ const ProjectPageNav: React.FC<ProjectPageNavProps> = ({
   onApply,
   onNavItemClick,
 }) => {
+  const intl = useIntl()
   const [fixed, setFixed] = useState(false)
   const nav: ProjectPageNavItem[] = useMemo(() => {
     return [
@@ -199,21 +222,22 @@ const ProjectPageNav: React.FC<ProjectPageNavProps> = ({
   return (
     <div>
       <Waypoint onPositionChange={handleWaypointPositionChange} />
-      <div className="container mb-3 flex lg:hidden">
+      <div className="container mb-3 d-flex d-lg-none">
         {isOwner ? (
           <Link
-            href={
-              project.organization
-                ? Page.OrganizationDashboardProject
-                : Page.ViewerProjectDashboard
-            }
-            as={
-              project.organization
-                ? PageAs.OrganizationDashboardProject({
+            href={{
+              pathname: resolvePage('/manage-project'),
+              query: project.organization
+                ? {
                     organizationSlug: project.organization.slug,
                     slug: project.slug,
-                  })
-                : PageAs.ViewerProjectDashboard({ slug: project.slug })
+                  }
+                : { slug: project.slug },
+            }}
+            as={
+              project.organization
+                ? `/ong/${project.organization.slug}/vaga/${project.slug}`
+                : `/minhas-vagas/vaga/${project.slug}`
             }
           >
             <ActionButton
@@ -225,12 +249,13 @@ const ProjectPageNav: React.FC<ProjectPageNavProps> = ({
               className="btn btn-primary btn--size-3 flex-grow mr-2"
             >
               <Icon name="settings" className="mr-2" />
-              Gerenciar vaga
+              {intl.formatMessage(GERENCIAR_VAGA)}
             </ActionButton>
           </Link>
         ) : project.closed || project.canceled ? (
           <ActionButton as="span" className="btn btn-outline-error btn--size-3">
-            Vaga {project.closed ? 'encerrada' : 'cancelada'}
+            {`${intl.formatMessage(VAGA)} `}
+            {project.closed ? 'encerrada' : 'cancelada'}
           </ActionButton>
         ) : (
           <ActionButton
@@ -245,12 +270,12 @@ const ProjectPageNav: React.FC<ProjectPageNavProps> = ({
             {!project.current_user_is_applied ? (
               <>
                 <VolunteerIcon width={20} height={20} fill="#fff" />
-                Quero me inscrever
+                {intl.formatMessage(QUERO_INSCREVER)}
               </>
             ) : (
               <>
                 <Icon name="assignment" className="mr-2" />
-                Ver minha inscrição
+                {intl.formatMessage(VER_INSCRICAO)}
               </>
             )}
           </ActionButton>
@@ -287,7 +312,7 @@ const ProjectPageNav: React.FC<ProjectPageNavProps> = ({
               ))}
             </ul>
             <div className="mr-auto" />
-            <ul className="navbar-nav hidden lg:flex">
+            <ul className="navbar-nav d-none d-lg-flex">
               <li>
                 <button
                   type="button"
@@ -309,30 +334,35 @@ const ProjectPageNav: React.FC<ProjectPageNavProps> = ({
               <li>
                 {isOwner ? (
                   <Link
-                    href={
-                      project.organization
-                        ? Page.OrganizationDashboardProject
-                        : Page.ViewerProjectDashboard
-                    }
-                    as={
-                      project.organization
-                        ? PageAs.OrganizationDashboardProject({
+                    href={{
+                      pathname: resolvePage('/manage-project'),
+                      query: project.organization
+                        ? {
                             organizationSlug: project.organization.slug,
                             slug: project.slug,
-                          })
-                        : PageAs.ViewerProjectDashboard({ slug: project.slug })
+                          }
+                        : { slug: project.slug },
+                    }}
+                    as={
+                      project.organization
+                        ? `/ong/${project.organization.slug}/vaga/${
+                            project.slug
+                          }`
+                        : `/minhas-vagas/vaga/${project.slug}`
                     }
                   >
                     <ActionButton
                       href={
                         project.organization
-                          ? `/ong/${project.organization.slug}/vaga/${project.slug}`
+                          ? `/ong/${project.organization.slug}/vaga/${
+                              project.slug
+                            }`
                           : `/minhas-vagas/vaga/${project.slug}`
                       }
                       className="btn btn-primary btn--size-3"
                     >
                       <Icon name="settings" className="mr-2" />
-                      Gerenciar vaga
+                      {intl.formatMessage(GERENCIAR_VAGA)}
                     </ActionButton>
                   </Link>
                 ) : project.closed || project.canceled ? (
@@ -340,11 +370,14 @@ const ProjectPageNav: React.FC<ProjectPageNavProps> = ({
                     as="span"
                     className="btn btn-outline-error btn--size-3"
                   >
-                    Vaga {project.closed ? 'encerrada' : 'cancelada'}
+                    {intl.formatMessage(VAGA)}{' '}
+                    {project.closed ? 'encerrada' : 'cancelada'}
                   </ActionButton>
                 ) : (
                   <ActionButton
-                    href={`/vaga/${project.slug}/${ProjectPageSubPage.ApplicationForm}`}
+                    href={`/vaga/${project.slug}/${
+                      ProjectPageSubPage.ApplicationForm
+                    }`}
                     className={`btn ${
                       project.current_user_is_applied
                         ? 'btn-outline-primary'
@@ -355,12 +388,12 @@ const ProjectPageNav: React.FC<ProjectPageNavProps> = ({
                     {!project.current_user_is_applied ? (
                       <>
                         <VolunteerIcon width={20} height={20} fill="#fff" />
-                        Quero me inscrever
+                        {intl.formatMessage(QUERO_INSCREVER)}
                       </>
                     ) : (
                       <>
                         <Icon name="assignment" className="mr-2" />
-                        Ver minha inscrição
+                        {intl.formatMessage(VER_INSCRICAO)}
                       </>
                     )}
                   </ActionButton>

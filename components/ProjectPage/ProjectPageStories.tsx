@@ -21,7 +21,7 @@ const ProjectPageStories: React.FC<ProjectPageStoryProps> = ({ project }) => {
     <>
       {project.posts.map((post, i) => (
         <Post key={`${post.id}${i}`} className="mb-4">
-          <span className="tc-muted mb-2 block">
+          <span className="tc-muted mb-2 d-block">
             {moment(post.created_date).format('LL')}
           </span>
           <h2 className="tw-normal mb-3">{post.title || 'Atualizações'}</h2>

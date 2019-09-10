@@ -3,6 +3,8 @@ import React from 'react'
 import styled from 'styled-components'
 import { Project } from '~/redux/ducks/project'
 import Icon from '../Icon'
+import { defineMessages } from 'react-intl'
+import useIntl from '~/hooks/use-intl'
 
 const EventCalendarDate = styled.span`
   width: 64px;
@@ -55,29 +57,87 @@ interface ProjectPageDisponibilityProps {
   readonly project: Project
 }
 
+const {
+  VAGA,
+  VAGA_DESCRICAO,
+  DESCRICAO_HORARIO,
+  HORAS_SEMANAIS,
+  DISTANCIA,
+  RECORRENTE,
+  PONTUAL,
+  HORARIOS,
+  DATAS,
+} = defineMessages({
+  VAGA: {
+    id: 'VAGA',
+    defaultMessage: 'Vaga',
+  },
+  VAGA_DESCRICAO: {
+    id: 'VAGA_DESCRICAO',
+    defaultMessage:
+      'Essa vaga acontece em datas específicas. Confira as datas abaixo e o que vai acontecer.',
+  },
+  DESCRICAO_HORARIO: {
+    id: 'DESCRICAO_HORARIO',
+    defaultMessage:
+      'Leia abaixo as descrições de horários para atuar nessa vaga.',
+  },
+  HORAS_SEMANAIS: {
+    id: 'HORAS_SEMANAIS',
+    defaultMessage: 'Horas semanais',
+  },
+  DISTANCIA: {
+    id: 'DISTANCIA',
+    defaultMessage: 'Você pode atuar à distância',
+  },
+  RECORRENTE: {
+    id: 'RECORRENTE',
+    defaultMessage: 'RECORRENTE',
+  },
+  PONTUAL: {
+    id: 'PONTUAL',
+    defaultMessage: 'PONTUAL',
+  },
+  HORARIOS: {
+    id: 'HORARIOS',
+    defaultMessage: 'Horários',
+  },
+  DATAS: {
+    id: 'DATAS',
+    defaultMessage: 'Datas',
+  },
+})
+
 const ProjectPageDisponibility: React.FC<ProjectPageDisponibilityProps> = ({
   project,
-}) =>
-  project.disponibility && (
+}) => {
+  const intl = useIntl()
+
+  if (!project.disponibility) {
+    return null
+  }
+  return (
     <>
       <span
         id="como-participar"
-        className="tc-secondary-500 tw-medium block mb-1"
+        className="tc-secondary tw-medium d-block mb-1"
       >
-        VAGA {project.disponibility.type === 'work' ? 'RECORRENTE' : 'PONTUAL'}
+        {intl.formatMessage(VAGA)}{' '}
+        {project.disponibility.type === 'work'
+          ? intl.formatMessage(RECORRENTE)
+          : intl.formatMessage(PONTUAL)}
       </span>
       <h4 className="mb-2">
-        {project.disponibility.type === 'work' ? 'Horários' : 'Datas'}
+        {project.disponibility.type === 'work'
+          ? intl.formatMessage(HORARIOS)
+          : intl.formatMessage(DATAS)}
       </h4>
       {project.disponibility.type === 'job' && (
         <>
-          <p className="mb-4 tc-muted">
-            Essa vaga acontece em datas específicas. Confira as datas abaixo e o
-            que vai acontecer.
-          </p>
+          <p className="mb-4 tc-muted">{intl.formatMessage(VAGA_DESCRICAO)}</p>
 
-          {project.disponibility.job.dates.map((jobDate, i) => (
-            <EventDate key={`${jobDate.name}${i}`} className="mb-3">
+          {project.disponibility.job.dates.map(jobDate => (
+            <EventDate key={jobDate.name} className="mb-3">
               <EventCalendarDate>
                 {moment(jobDate.start_date).date()}
               </EventCalendarDate>
@@ -93,7 +153,7 @@ const ProjectPageDisponibility: React.FC<ProjectPageDisponibilityProps> = ({
       {project.disponibility.type === 'work' && (
         <>
           <p className="tc-muted mb-4">
-            Leia abaixo as descrições de horários para atuar nessa vaga.
+            {intl.formatMessage(DESCRICAO_HORARIO)}
           </p>
           <p className="ts-large">
             <Icon name="event" className="mr-2" />
@@ -101,12 +161,13 @@ const ProjectPageDisponibility: React.FC<ProjectPageDisponibilityProps> = ({
           </p>
           <p className="ts-large">
             <Icon name="access_time" className="mr-2" />
-            {project.disponibility.work.weekly_hours} Horas semanais
+            {project.disponibility.work.weekly_hours}{' '}
+            {intl.formatMessage(HORAS_SEMANAIS)}
           </p>
           {project.disponibility.work.can_be_done_remotely && (
             <p className="ts-large">
               <Icon name="public" className="mr-2" />
-              Você pode atuar à distância
+              {intl.formatMessage(DISTANCIA)}
             </p>
           )}
         </>
@@ -114,6 +175,7 @@ const ProjectPageDisponibility: React.FC<ProjectPageDisponibilityProps> = ({
       <hr className="mt-4 mb-4" />
     </>
   )
+}
 
 ProjectPageDisponibility.displayName = 'ProjectPageDisponibility'
 

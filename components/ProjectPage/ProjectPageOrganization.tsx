@@ -1,9 +1,11 @@
 import Link from 'next/link'
 import React from 'react'
 import styled from 'styled-components'
+import { resolvePage } from '~/common/page'
 import { Project } from '~/redux/ducks/project'
 import Icon from '../Icon'
-import { Page, PageAs } from '~/common'
+import { defineMessages } from 'react-intl'
+import useIntl from '~/hooks/use-intl'
 
 const Wrapper = styled.div`
   padding-left: 120px;
@@ -25,9 +27,18 @@ interface ProjectPageOrganizationProps {
   readonly project: Project
 }
 
+const { REALIZADA } = defineMessages({
+  REALIZADA: {
+    id: 'REALIZADA',
+    defaultMessage: 'Realizada pela ONG',
+  },
+})
+
 const ProjectPageOrganization: React.FC<ProjectPageOrganizationProps> = ({
   project,
 }) => {
+  const intl = useIntl()
+
   if (!project.organization) {
     return null
   }
@@ -35,21 +46,24 @@ const ProjectPageOrganization: React.FC<ProjectPageOrganizationProps> = ({
   return (
     <>
       <h4 id="ong" className="mb-4">
-        Realizada pela ONG
+        {intl.formatMessage(REALIZADA)}
       </h4>
       <Wrapper>
         <Link
-          href={Page.Organization}
-          as={PageAs.Organization({
-            organizationSlug: project.organization.slug,
-          })}
+          href={{
+            pathname: resolvePage('/organization'),
+            query: { slug: project.organization.slug },
+          }}
+          as={`/ong/${project.organization.slug}`}
         >
           <a className="tc-base td-hover-none">
             <Thumbnail
               style={
                 project.organization.image
                   ? {
-                      backgroundImage: `url('${project.organization.image.image_url}')`,
+                      backgroundImage: `url('${
+                        project.organization.image.image_url
+                      }')`,
                     }
                   : { backgroundColor: '#eee' }
               }
