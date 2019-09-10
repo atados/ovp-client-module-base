@@ -75,7 +75,7 @@ const InviteMember: React.FC<
             <ActivityIndicator size={36} fill="white" className="ml-1" />
           )}
         </button>
-        <span className="tc-muted d-block ta-center ts-small mt-3">
+        <span className="tc-muted block ta-center ts-small mt-3">
           Essa pessoa receberá total acesso ao perfil da ONG podendo cadastrar
           vagas e editar informações importantes.
         </span>

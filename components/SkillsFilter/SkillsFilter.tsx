@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import { DropdownMenu } from '~/components/Dropdown'
 import SearchFilter from '~/components/SearchFilters/SearchFilter'
 import { pushToDataLayer } from '~/lib/tag-manager'
-import { Skill } from '~/redux/ducks/channel'
+import { Skill } from '~/common/channel'
 import { RootState } from '~/redux/root-reducer'
 
 const Menu = styled(DropdownMenu)`
@@ -81,14 +81,14 @@ class SkillsFilter extends React.Component<SkillsFilterProps> {
       children[i > skills.length / 2 ? 1 : 0].push(
         <label
           id={`explore-filter-skill-${skill.id}`}
-          className="mb-1 d-block"
+          className="mb-1 block"
           key={skill.id}
         >
           <input
             id={`explore-filter-skill-${skill.id}`}
             type="checkbox"
             value={skill.id}
-            className="d-none"
+            className="hidden"
             onChange={this.handleSkillChange}
             checked={value.indexOf(skill.id) !== -1}
           />

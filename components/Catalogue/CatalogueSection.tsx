@@ -25,7 +25,7 @@ const CatalogueSection: React.FC<CatalogueSectionProps> = ({
         {section.slug === 'benegrip' ? (
           <>
             <span
-              className="ts-small d-block tw-medium"
+              className="ts-small block tw-medium"
               style={{ color: '#038b4f' }}
             >
               Benegrip patrocina essa seção

@@ -1,7 +1,8 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useQuery } from 'react-apollo-hooks'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
+import ToolbarDropdown from '~/base/components/Toolbar/ToolbarDropdown'
 import { GQL_THREADS_LIST, GQLQueryThreadsListType } from '~/common/chat'
 import Icon from '~/components/Icon'
 import ErrorStatusbar from '~/components/Statusbar/ErrorStatusbar'
@@ -15,10 +16,7 @@ import {
 } from '~/redux/ducks/inbox-viewers'
 import { User } from '~/redux/ducks/user'
 import { RootState } from '~/redux/root-reducer'
-import ToolbarDropdown from '../ToolbarDropdown'
 import ToolbarMessagesThread from './ToolbarMessagesThread'
-
-const { useState, useCallback, useEffect } = React
 
 const Header = styled.div`
   height: 36px;
@@ -117,10 +115,6 @@ const ToolbarMessagesDropdown: React.FC<ToolbarMessagesDropdownProps> = ({
   const [state, setState] = useState<ToolbarMessagesDropdownState>(() => ({
     viewer: resolveViewer('me', user)!,
   }))
-  const onOpen = useCallback(
-    () => setState(currentState => ({ ...currentState, fetch: true })),
-    [setState],
-  )
 
   useEffect(() => {
     onRegisterViewer(state.viewer)
@@ -145,19 +139,9 @@ const ToolbarMessagesDropdown: React.FC<ToolbarMessagesDropdownProps> = ({
 
   const { viewer } = state
   return (
-    <ToolbarDropdown
-      menuWidth="400px"
-      menuHeight="500px"
-      className={className}
-      title="Mensagens"
-      onOpen={onOpen}
-      icon={<Icon name="email" />}
-      popoverId="volunteer-messages"
-      // 3 Months
-      popoverExpiration={7776000000}
-    >
+    <ToolbarDropdown className={className} title="Mensagens" href="/mensagens">
       <Header>
-        <Icon name="email" className="tc-primary" />
+        <Icon name="email" className="tc-primary-500" />
         <ViewerSelector>
           <Viewer
             className={`btn btn-${

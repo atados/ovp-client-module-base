@@ -10,7 +10,7 @@ import asFormStep, {
 } from '~/components/MultipleStepsForm/as-form-step'
 import Yup from '~/lib/form/yup'
 import { defineMessages } from 'react-intl'
-import useIntl from '~/hooks/use-intl'
+import { useIntl } from 'react-intl'
 
 const ProjectAboutFormSchema = Yup.object().shape({
   body: Yup.string()

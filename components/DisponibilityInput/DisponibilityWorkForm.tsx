@@ -72,7 +72,7 @@ class DisponibilityWorkForm extends React.PureComponent<
             <MaskedTextInput
               name="weekly_hours"
               type="text"
-              className="input w-50"
+              className="input w-1/2"
               onChange={handleChange}
               onBlur={this.handleBlur}
               mask={masks.numeral}

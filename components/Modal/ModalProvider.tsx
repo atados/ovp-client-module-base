@@ -24,7 +24,7 @@ export interface ModalOptions<Props> {
 
 export interface ModalContextType {
   isModalOpen: (id: string) => boolean
-  close: (id: string) => void
+  close: (id?: string) => void
   push: (
     id: string,
     component: React.ComponentType<any>,
@@ -150,6 +150,11 @@ const ModalProvider: React.FC<ModalModalProviderProps> = ({ children }) => {
         return modalsIdsRef.current.includes(id)
       },
       close: id => {
+        if (id === undefined) {
+          setModals([])
+          return
+        }
+
         setModals(currentModalsList =>
           currentModalsList.filter(modal => modal.id !== id),
         )

@@ -10,7 +10,7 @@ import {
 } from '~/redux/ducks/project-application'
 import { User } from '~/redux/ducks/user'
 import { defineMessages } from 'react-intl'
-import useIntl from '~/hooks/use-intl'
+import { useIntl } from 'react-intl'
 
 export interface ProjectUnapplicationProps {
   readonly currentUser: User

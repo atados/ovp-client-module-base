@@ -10,8 +10,17 @@ interface Store<S = any, A extends Action<any> = AnyAction>
 }
 
 declare module 'next' {
-  export interface NextContext {
+  export interface NextPageContext {
     store: Store<RootState>
     apolloClient: ApolloClient<any>
+    intl: NextIntl
+  }
+
+  export interface NextIntl {
+    locale: string
+    messages: {
+      [messageId: string]: string
+    }
+    initialNow: number
   }
 }

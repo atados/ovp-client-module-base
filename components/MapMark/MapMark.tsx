@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import React from 'react'
 import styled from 'styled-components'
-import { resolvePage } from '~/common/page'
+import { Page, PageAs } from '~/common'
 import { Organization } from '~/redux/ducks/organization'
 import { Project } from '~/redux/ducks/project'
 import { NodeKind } from '~/redux/ducks/search'
@@ -221,19 +221,17 @@ class MapMark extends React.Component<MapMarkProps, MapMarkState> {
       return null
     }
 
-    const href =
-      nodeKind === NodeKind.Project ? `/vaga/${node.slug}` : `/ong/${node.slug}`
-
     return (
       <Link
-        href={{
-          pathname:
-            nodeKind === NodeKind.Project ? '/project' : '/organization',
-          query: { slug: node.slug },
-        }}
-        as={href}
+        href={nodeKind === NodeKind.Project ? Page.Project : Page.Organization}
+        as={
+          nodeKind === NodeKind.Project
+            ? PageAs.Project({ slug: node.slug })
+            : PageAs.Organization({ organizationSlug: node.slug })
+        }
+        passHref
       >
-        <Anchor href={href}>{children}</Anchor>
+        <Anchor>{children}</Anchor>
       </Link>
     )
   }
@@ -250,11 +248,8 @@ class MapMark extends React.Component<MapMarkProps, MapMarkState> {
     return (
       organization && (
         <Link
-          href={{
-            pathname: resolvePage('/organization'),
-            query: { slug: organization.slug },
-          }}
-          as={`/ong/${organization.slug}`}
+          href={Page.Organization}
+          as={PageAs.Organization({ organizationSlug: organization.slug })}
         >
           <a>{organization.name}</a>
         </Link>
@@ -278,7 +273,7 @@ class MapMark extends React.Component<MapMarkProps, MapMarkState> {
     const renderedNode = !fetchingNode && node && (
       <>
         {this.link(
-          <div className="ratio pos-relative">
+          <div className="ratio relative">
             <span
               className="ratio-fill"
               style={{
@@ -299,7 +294,7 @@ class MapMark extends React.Component<MapMarkProps, MapMarkState> {
               {nodeKind === NodeKind.Project && (
                 <Counter title={`${(node as Project).applied_count} inscritos`}>
                   <img
-                    src="/base/icons/volunteer.svg"
+                    src="/static/base/icons/volunteer.svg"
                     alt=""
                     className="mr-2"
                   />
@@ -317,7 +312,7 @@ class MapMark extends React.Component<MapMarkProps, MapMarkState> {
                   `${node.address.city_state}, `} ${
                   node.address.typed_address
                 }`}
-                className="w-100 tc-secondary"
+                className="w-full tc-secondary-500"
               >
                 {node.address.city_state && `${node.address.city_state}, `}
                 {node.address.typed_address}

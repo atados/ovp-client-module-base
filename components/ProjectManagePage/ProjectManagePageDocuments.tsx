@@ -11,7 +11,7 @@ import { DocumentDict } from '~/types/api'
 import ActivityIndicator from '../ActivityIndicator'
 import Icon from '../Icon'
 import { defineMessages } from 'react-intl'
-import useIntl from '~/hooks/use-intl'
+import { useIntl } from 'react-intl'
 
 const PlaceholderIcon = styled(Icon)`
   font-size: 64px;
@@ -257,7 +257,7 @@ const ProjectManagePageDocuments: React.FC<ProjectManagePageDocumentsProps> = ({
         className ? ` ${className}` : ''
       }`}
     >
-      <div className="p-4 pos-relative">
+      <div className="p-4 relative">
         {isDrafting && (
           <div className="float-right">
             <button
@@ -287,10 +287,10 @@ const ProjectManagePageDocuments: React.FC<ProjectManagePageDocumentsProps> = ({
       {!hasDocuments && (
         <div className="px-3 pb-5 ta-center">
           <PlaceholderIcon name="file_copy" />
-          <span className="h4 d-block tw-normal mb-2">
+          <span className="h4 block tw-normal mb-2">
             {intl.formatMessage(DOCUMENTOS_DA_VAGA)}
           </span>
-          <span className="tc-muted d-block mb-3">
+          <span className="tc-muted block mb-3">
             {intl.formatMessage(DOCUMENTOS_HINT)}
           </span>
           <div className="btn btn-outline-primary inputFileWrapper">
@@ -307,7 +307,7 @@ const ProjectManagePageDocuments: React.FC<ProjectManagePageDocumentsProps> = ({
             </span>
           </div>
           {state.items.map(item => (
-            <Item className="pos-relative card-item" key={item.id}>
+            <Item className="relative card-item" key={item.id}>
               {!item.removed && (
                 <ButtonRemove
                   type="button"

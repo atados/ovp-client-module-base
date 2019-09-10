@@ -1,8 +1,13 @@
-import { Cause, Skill } from './channel'
+import { Cause, Skill } from '~/common/channel'
 
 export interface StartupDataStats {
   readonly volunteers: number
   readonly organizations: number
+}
+
+export interface StartupAction {
+  type: 'STARTUP'
+  payload: StartupData
 }
 
 export interface StartupData {
@@ -11,9 +16,12 @@ export interface StartupData {
   readonly stats: StartupDataStats
 }
 
-const initialState: StartupData = {
-  causes: [],
-  skills: [],
-  stats: { volunteers: 0, organizations: 0 },
+export type StartupReducerState = StartupData | null
+
+export default (state: StartupReducerState = null, action: StartupAction) => {
+  if (action.type === 'STARTUP') {
+    return action.payload!
+  }
+
+  return state
 }
-export default (state: StartupData = initialState) => state

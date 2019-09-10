@@ -4,7 +4,7 @@ import { channel } from '~/common/constants'
 import { JobDate } from '~/redux/ducks/project'
 import DisponibilityJobForm from './DisponibilityJobForm'
 import DisponibilityWorkForm from './DisponibilityWorkForm'
-import { defineMessages, InjectedIntlProps } from 'react-intl'
+import { defineMessages, WithIntlProps } from 'react-intl'
 import { withIntl } from '~/lib/intl'
 
 const OptionHeader = styled.button`
@@ -27,7 +27,7 @@ const Option = styled.div`
   border-radius: 0 !important;
 
   &.active {
-    box-shadow: -2px 0 ${props => props.theme.colorSecondary};
+    box-shadow: -2px 0 ${channel.theme.color.secondary[500]};
 
     ${OptionHeader} {
       border-bottom: 1px solid #ddd;
@@ -127,7 +127,7 @@ interface DisponibilityInputState {
 }
 
 class DisponibilityInput extends React.PureComponent<
-  DisponibilityInputProps & InjectedIntlProps,
+  DisponibilityInputProps & WithIntlProps<any>,
   DisponibilityInputState
 > {
   public static getDerivedStateFromProps(

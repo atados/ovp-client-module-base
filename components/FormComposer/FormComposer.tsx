@@ -2,6 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { reportError } from '~/lib/utils/error'
 import ActivityIndicator from '../ActivityIndicator'
+import { channel } from '~/base/common/constants'
 
 const Container = styled.div`
   background: #f4f5f6;
@@ -24,7 +25,7 @@ const Progress = styled.div`
 const ProgressValue = styled.span`
   display: block;
   height: 4px;
-  background: ${props => props.theme.colorSecondary};
+  background: ${channel.theme.color.secondary[500]};
   transition: width 0.2s;
 `
 
@@ -84,7 +85,7 @@ const StepLink = styled.button`
     color: #222;
     font-weight: 500;
     background: #fff;
-    box-shadow: -2px 0 ${props => props.theme.colorSecondary};
+    box-shadow: -2px 0 ${channel.theme.color.secondary[500]};
   }
 
   @media (min-width: 768px) {
@@ -92,7 +93,7 @@ const StepLink = styled.button`
     display: inline-block;
 
     &.active {
-      box-shadow: 0 -2px ${props => props.theme.colorSecondary};
+      box-shadow: 0 -2px ${channel.theme.color.secondary[500]};
     }
   }
 `

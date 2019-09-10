@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import ShareButton from '~/components/Share/ShareButton'
 import { defineMessages } from 'react-intl'
-import useIntl from '~/hooks/use-intl'
+import { useIntl } from 'react-intl'
 
 const Item = styled.button`
   position: relative;
@@ -130,7 +130,7 @@ const ShareList: React.FC<ShareListProps> = ({
       </ShareButton>
       <hr className="my-3" />
       <ShareButton network="messenger" url={url} meta={meta}>
-        <Item className="d-md-none">
+        <Item className="d-mhidden">
           <ItemIcon
             viewBox="0 0 32 32"
             role="presentation"
@@ -149,7 +149,7 @@ const ShareList: React.FC<ShareListProps> = ({
           <span>Messenger</span>
         </Item>
       </ShareButton>
-      <hr className="my-3 d-md-none" />
+      <hr className="my-3 d-mhidden" />
       <ShareButton network="linkedin" url={url} meta={meta}>
         <Item>
           <ItemIcon

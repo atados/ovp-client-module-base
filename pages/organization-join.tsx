@@ -1,9 +1,8 @@
-import { NextContext } from 'next'
+import { NextPageContext } from 'next'
 import Link from 'next/link'
 import React from 'react'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
-import { resolvePage } from '~/common/page'
 import ActivityIndicator from '~/components/ActivityIndicator'
 import ErrorMessage from '~/components/Form/ErrorMessage'
 import Icon from '~/components/Icon'
@@ -15,6 +14,7 @@ import { OrganizationMember } from '~/redux/ducks/organization-members'
 import { joinOrganization } from '~/redux/ducks/organization-membership'
 import { User } from '~/redux/ducks/user'
 import { RootState } from '~/redux/root-reducer'
+import { Page, PageAs } from '~/common'
 
 const Thumbnail = styled.figure`
   width: 72px;
@@ -40,7 +40,7 @@ class OrganizationMembersPage extends React.Component<
   OrganizationMembersPageProps
 > {
   public static async getInitialProps(
-    context: NextContext,
+    context: NextPageContext,
   ): Promise<{ userSlug: string }> {
     await getOrganizationLayoutInitialProps(context)
 
@@ -79,9 +79,7 @@ class OrganizationMembersPage extends React.Component<
                 style={
                   organization.image
                     ? {
-                        backgroundImage: `url('${
-                          organization.image.image_url
-                        }')`,
+                        backgroundImage: `url('${organization.image.image_url}')`,
                       }
                     : undefined
                 }
@@ -95,9 +93,7 @@ class OrganizationMembersPage extends React.Component<
                     referente ao email convidado.
                   </p>
                   <a
-                    href={`/sair?next=/entrar?next=/ong/${
-                      organization.slug
-                    }/participar?user_slug=${userSlug}`}
+                    href={`/sair?next=/entrar?next=/ong/${organization.slug}/participar?user_slug=${userSlug}`}
                     className="btn btn--block btn--size-3 btn-primary"
                   >
                     Entrar com a conta correta
@@ -133,7 +129,7 @@ class OrganizationMembersPage extends React.Component<
                       />
                     )}
                   </button>
-                  <Link href={resolvePage('/home')} as="/">
+                  <Link href={Page.Home} as={PageAs.Home()}>
                     <a className="tc-muted tw-normal btn btn--block btn-text">
                       Não tenho interesse
                     </a>

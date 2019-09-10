@@ -7,7 +7,7 @@ import {
 import { fetchAPI } from '~/lib/fetch'
 import { FetchJSONError } from '~/lib/fetch/fetch.client'
 import { reportError } from '~/lib/utils/error'
-import { Cause, ImageDict, Skill } from '~/redux/ducks/channel'
+import { Cause, ImageDict, Skill } from '~/common/channel'
 import { Organization } from '~/redux/ducks/organization'
 import { RootState } from '~/redux/root-reducer'
 import { DocumentDict, Post } from '~/types/api'
@@ -192,10 +192,6 @@ export const fetchProject = createAction<string, Project, ProjectFetchMeta>(
       throw error
     })
 
-    // TODO: [Backend] Fix applied_count. It's always sending as 1
-    // Sync applied_count with applies length
-    project.applied_count = project.applies.length
-
     if (project.disponibility && project.disponibility.type === 'job') {
       project.disponibility.job.dates = project.disponibility.job.dates.sort(
         sortJobDates,
@@ -220,16 +216,20 @@ export const fetchProject = createAction<string, Project, ProjectFetchMeta>(
     })
 
     const projectRolesMap: { [id: number]: ProjectRole } = {}
+
+    project.max_applies_from_roles = 0
     project.roles.forEach(role => {
+      project.max_applies_from_roles += role.vacancies
       projectRolesMap[role.id] = role
     })
     project.applies.forEach(application => {
-      if (application.role && projectRolesMap[application.role.id]) {
-        if (!projectRolesMap[application.role.id].applies) {
-          projectRolesMap[application.role.id].applies = []
+      const role = application.role && projectRolesMap[application.role.id]
+      if (role) {
+        if (!role.applies) {
+          role.applies = []
         }
 
-        projectRolesMap[application.role.id].applies.push(application)
+        role.applies.push(application)
       }
     })
 
@@ -263,11 +263,9 @@ export const updateProject = createAction<
   Partial<Project> & { slug: string },
   Partial<Project> & { slug: string },
   { slug: string }
->(
-  'UPDATE_PROJECT',
-  undefined,
-  (project): { slug: string } => ({ slug: project.slug }),
-)
+>('UPDATE_PROJECT', undefined, (project): { slug: string } => ({
+  slug: project.slug,
+}))
 
 export interface ProjectReducerState {
   node?: Project

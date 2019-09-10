@@ -8,7 +8,7 @@ import { createHttpLink } from 'apollo-link-http'
 import { WebSocketLink } from 'apollo-link-ws'
 import fetch from 'isomorphic-unfetch'
 import { NextComponentType } from 'next'
-import { NextAppContext } from 'next/app'
+import { AppContext } from 'next/app'
 import Head from 'next/head'
 import React from 'react'
 import { ApolloProvider, getMarkupFromTree } from 'react-apollo-hooks'
@@ -34,13 +34,6 @@ const fragmentMatcher = new IntrospectionFragmentMatcher({
   introspectionQueryResultData: fragmentTypes,
 })
 
-declare global {
-  namespace NodeJS {
-    interface Process {
-      browser: boolean
-    }
-  }
-}
 // Polyfill fetch() on the server (used by apollo-client)
 if (!process.browser) {
   // @ts-ignore
@@ -52,7 +45,7 @@ interface ApolloClientCreationOptions {
 }
 
 function createApolloClient(
-  initialState,
+  initialState?: any,
   options?: ApolloClientCreationOptions,
 ) {
   let apolloLink: WebSocketLink | ApolloLink | undefined
@@ -163,7 +156,7 @@ export default (Component: NextComponentType | any) => {
     )
   }
 
-  WrapperComponent.getInitialProps = async (context: NextAppContext) => {
+  WrapperComponent.getInitialProps = async (context: AppContext) => {
     let initialProps = {}
     if ('getInitialProps' in Component) {
       initialProps = await Component.getInitialProps.call(Component, context)

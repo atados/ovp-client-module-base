@@ -13,6 +13,8 @@ import Authentication from '../Authentication'
 import Icon from '../Icon'
 import VolunteerIcon from '../Icon/VolunteerIcon'
 import { useModal } from '../Modal'
+import { defineMessages } from 'react-intl'
+import useIntl from '~/hooks/use-intl'
 
 interface NavProps {
   fixed?: boolean
@@ -97,6 +99,27 @@ const ActionButton = styled.a`
   }
 `
 
+const { GERENCIAR_VAGA, VAGA, QUERO_INSCREVER, VER_INSCRICAO } = defineMessages(
+  {
+    GERENCIAR_VAGA: {
+      id: 'GERENCIAR_VAGA',
+      defaultMessage: 'Gerenciar vaga',
+    },
+    VAGA: {
+      id: 'VAGA',
+      defaultMessage: 'Vaga',
+    },
+    QUERO_INSCREVER: {
+      id: 'QUERO_INSCREVER',
+      defaultMessage: 'Quero me inscrever',
+    },
+    VER_INSCRICAO: {
+      id: 'VER_INSCRICAO',
+      defaultMessage: 'Ver minha inscrição',
+    },
+  },
+)
+
 export interface ProjectPageNavItem {
   id: string
   name: string
@@ -124,6 +147,7 @@ const ProjectPageNav: React.FC<ProjectPageNavProps> = ({
   onApply,
   onNavItemClick,
 }) => {
+  const intl = useIntl()
   const [fixed, setFixed] = useState(false)
   const nav: ProjectPageNavItem[] = useMemo(() => {
     return [
@@ -225,12 +249,13 @@ const ProjectPageNav: React.FC<ProjectPageNavProps> = ({
               className="btn btn-primary btn--size-3 flex-grow mr-2"
             >
               <Icon name="settings" className="mr-2" />
-              Gerenciar vaga
+              {intl.formatMessage(GERENCIAR_VAGA)}
             </ActionButton>
           </Link>
         ) : project.closed || project.canceled ? (
           <ActionButton as="span" className="btn btn-outline-error btn--size-3">
-            Vaga {project.closed ? 'encerrada' : 'cancelada'}
+            {`${intl.formatMessage(VAGA)} `}
+            {project.closed ? 'encerrada' : 'cancelada'}
           </ActionButton>
         ) : (
           <ActionButton
@@ -245,12 +270,12 @@ const ProjectPageNav: React.FC<ProjectPageNavProps> = ({
             {!project.current_user_is_applied ? (
               <>
                 <VolunteerIcon width={20} height={20} fill="#fff" />
-                Quero me inscrever
+                {intl.formatMessage(QUERO_INSCREVER)}
               </>
             ) : (
               <>
                 <Icon name="assignment" className="mr-2" />
-                Ver minha inscrição
+                {intl.formatMessage(VER_INSCRICAO)}
               </>
             )}
           </ActionButton>
@@ -337,7 +362,7 @@ const ProjectPageNav: React.FC<ProjectPageNavProps> = ({
                       className="btn btn-primary btn--size-3"
                     >
                       <Icon name="settings" className="mr-2" />
-                      Gerenciar vaga
+                      {intl.formatMessage(GERENCIAR_VAGA)}
                     </ActionButton>
                   </Link>
                 ) : project.closed || project.canceled ? (
@@ -345,7 +370,8 @@ const ProjectPageNav: React.FC<ProjectPageNavProps> = ({
                     as="span"
                     className="btn btn-outline-error btn--size-3"
                   >
-                    Vaga {project.closed ? 'encerrada' : 'cancelada'}
+                    {intl.formatMessage(VAGA)}{' '}
+                    {project.closed ? 'encerrada' : 'cancelada'}
                   </ActionButton>
                 ) : (
                   <ActionButton
@@ -362,12 +388,12 @@ const ProjectPageNav: React.FC<ProjectPageNavProps> = ({
                     {!project.current_user_is_applied ? (
                       <>
                         <VolunteerIcon width={20} height={20} fill="#fff" />
-                        Quero me inscrever
+                        {intl.formatMessage(QUERO_INSCREVER)}
                       </>
                     ) : (
                       <>
                         <Icon name="assignment" className="mr-2" />
-                        Ver minha inscrição
+                        {intl.formatMessage(VER_INSCRICAO)}
                       </>
                     )}
                   </ActionButton>

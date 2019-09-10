@@ -19,7 +19,7 @@ import { User } from '~/redux/ducks/user'
 import { updateUser, UserOverrides } from '~/redux/ducks/user-update'
 import { RootState } from '~/redux/root-reducer'
 import { defineMessages } from 'react-intl'
-import useIntl from '~/hooks/use-intl'
+import { useIntl } from 'react-intl'
 
 interface ProjectApplicationUserFormProps {
   readonly currentUser?: User

@@ -10,7 +10,7 @@ import asFormStep, {
 } from '~/components/MultipleStepsForm/as-form-step'
 import Yup from '~/lib/form/yup'
 import { defineMessages } from 'react-intl'
-import useIntl from '~/hooks/use-intl'
+import { useIntl } from 'react-intl'
 
 const ProjectDisponibilityFormSchema = Yup.object().shape({
   disponibility: Yup.object()
@@ -172,7 +172,7 @@ const ProjectComposerDisponibility: React.FC<
           />
           <div className="media-body">
             {intl.formatMessage(VAGA_DISTANCIA)}
-            <span className="tc-muted d-block ts-tiny">
+            <span className="tc-muted block ts-tiny">
               {intl.formatMessage(MARQUE_CASO)}
             </span>
           </div>

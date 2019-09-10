@@ -4,7 +4,7 @@ import { DropdownMenu } from '~/components/Dropdown'
 import SearchFilter from '~/components/SearchFilters/SearchFilter'
 import { pushToDataLayer } from '~/lib/tag-manager'
 import { DisponibilityFilterValue } from '~/redux/ducks/search'
-import { defineMessages, InjectedIntlProps } from 'react-intl'
+import { defineMessages, WithIntlProps } from 'react-intl'
 import { withIntl } from '~/lib/intl'
 
 const Menu = styled(DropdownMenu)`
@@ -104,7 +104,7 @@ interface DisponibilityFilterState {
 }
 
 class DisponibilityFilter extends React.Component<
-  DisponibilityFilterProps & InjectedIntlProps,
+  DisponibilityFilterProps & WithIntlProps<any>,
   DisponibilityFilterState
 > {
   public static defaultProps: Partial<DisponibilityFilterProps> = {}

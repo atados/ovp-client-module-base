@@ -1,14 +1,16 @@
-import { NextContext, NextFC } from 'next'
-import React from 'react'
-import { connect } from 'react-redux'
-import { channel } from '~/common/constants'
-import CloseProjectForm from '~/components/CloseProjectForm'
-import Layout from '~/components/Layout'
-import Meta from '~/components/Meta'
-import { useModal } from '~/components/Modal'
+import { NextContext, NextFC } from "next";
+import * as React from "react";
+import { connect } from "react-redux";
+import { channel } from "~/common/constants";
+import CloseProjectForm from "~/components/CloseProjectForm";
+import Layout from "~/components/Layout";
+import Meta from "~/components/Meta";
+import { useModal } from "~/components/Modal";
+import { defineMessages } from "react-intl";
+import useIntl from "~/hooks/use-intl";
 import OrganizationLayout, {
-  getOrganizationLayoutInitialProps,
-} from '~/components/OrganizationLayout/OrganizationLayout'
+  getOrganizationLayoutInitialProps
+} from "~/components/OrganizationLayout/OrganizationLayout";
 import {
   ProjectManagePageDocuments,
   ProjectManagePageHeader,
@@ -16,42 +18,55 @@ import {
   ProjectManagePageNav,
   ProjectManagePagePhotos,
   ProjectManagePagePosts,
-  ProjectManagePageVolunteers,
-} from '~/components/ProjectManagePage'
-import { NotFoundPageError } from '~/lib/next/errors'
-import { doesUserHaveAccessToProject } from '~/lib/utils/project'
-import { throwActionError } from '~/lib/utils/redux'
+  ProjectManagePageVolunteers
+} from "~/components/ProjectManagePage";
+import { NotFoundPageError } from "~/lib/next/errors";
+import { doesUserHaveAccessToProject } from "~/lib/utils/project";
+import { throwActionError } from "~/lib/utils/redux";
 import {
   fetchProject,
   Project,
-  ProjectApplication,
-} from '~/redux/ducks/project'
-import { User, UserOrganization } from '~/redux/ducks/user'
-import { RootState } from '~/redux/root-reducer'
+  ProjectApplication
+} from "~/redux/ducks/project";
+import { User, UserOrganization } from "~/redux/ducks/user";
+import { RootState } from "~/redux/root-reducer";
 
 interface ManageProjectPageInitialProps {
-  organizationSlug?: string
-  slug: string
+  organizationSlug?: string;
+  slug: string;
 }
 
 interface ManageProjectPageProps extends ManageProjectPageInitialProps {
-  readonly currentUser: User
-  readonly project: Project
-  readonly organization?: UserOrganization
-  readonly fetching?: boolean
-  readonly fetchingApplications?: boolean
-  readonly applications: ProjectApplication[]
+  readonly currentUser: User;
+  readonly project: Project;
+  readonly organization?: UserOrganization;
+  readonly fetching?: boolean;
+  readonly fetchingApplications?: boolean;
+  readonly applications: ProjectApplication[];
 }
+
+const { ENCERRAR_VAGA, ENCERRAR_VAGA_TEXT } = defineMessages({
+  ENCERRAR_VAGA: {
+    id: "ENCERRAR_VAGA",
+    defaultMessage: "Encerrar vaga"
+  },
+  ENCERRAR_VAGA_TEXT: {
+    id: "ENCERRAR_VAGA_TEXT",
+    defaultMessage: "Encerrar vaga"
+  }
+});
 
 const ManageProjectPage: NextFC<
   ManageProjectPageProps,
   ManageProjectPageInitialProps
 > = ({ project, organization }) => {
+  const intl = useIntl();
+
   const openClosureModal = useModal({
-    id: 'CloseProject',
+    id: "CloseProject",
     component: CloseProjectForm as any,
-    cardClassName: 'p-5',
-  })
+    cardClassName: "p-5"
+  });
   const children = (
     <div className="pb-5 bg-muted">
       <Meta
@@ -88,68 +103,69 @@ const ManageProjectPage: NextFC<
         </div>
         {!project.closed && (
           <div className="radius-10 shadow bg-error-light p-4">
-            <h4 className="tw-normal mb-0">Encerrar vaga</h4>
+            <h4 className="tw-normal mb-0">
+              {intl.formatMessage(ENCERRAR_VAGA)}
+            </h4>
             <span className="tc-muted-dark mb-0 d-block mb-3">
-              Ao encerrar a vaga você não poderá mais reabri-la, ela sairá da
-              listagem na plataforma e não poderá receber mais inscrições.
+              {intl.formatMessage(ENCERRAR_VAGA_TEXT)}
             </span>
             <button
               type="button"
               onClick={openClosureModal}
               className="btn btn-error"
             >
-              Encerrar vaga
+              {intl.formatMessage(ENCERRAR_VAGA)}
             </button>
           </div>
         )}
       </div>
     </div>
-  )
+  );
 
   if (organization) {
     return (
       <OrganizationLayout organization={organization} isCurrentUserMember>
         {children}
       </OrganizationLayout>
-    )
+    );
   }
 
-  return <Layout>{children}</Layout>
-}
+  return <Layout>{children}</Layout>;
+};
 ManageProjectPage.getInitialProps = async (
-  context: NextContext,
+  context: NextContext
 ): Promise<ManageProjectPageInitialProps> => {
   const {
     store,
-    query: { slug, organizationSlug },
-  } = context
+    query: { slug, organizationSlug }
+  } = context;
   if (organizationSlug) {
-    await getOrganizationLayoutInitialProps(context, true)
+    await getOrganizationLayoutInitialProps(context, true);
   }
 
-  const { user: currentUser } = store.getState()
+  const { user: currentUser } = store.getState();
 
-  if (typeof slug !== 'string') {
-    throw new NotFoundPageError()
+  if (typeof slug !== "string") {
+    throw new NotFoundPageError();
   }
   const project = await store
     .dispatch(fetchProject(slug))
-    .then(throwActionError)
+    .then(throwActionError);
 
   if (!currentUser || !doesUserHaveAccessToProject(currentUser, project)) {
-    throw new NotFoundPageError()
+    throw new NotFoundPageError();
   }
 
   return {
     organizationSlug: organizationSlug && String(organizationSlug),
-    slug,
-  }
-}
-ManageProjectPage.displayName = 'ManageProjectPage'
+    slug
+  };
+};
+ManageProjectPage.displayName = "ManageProjectPage";
 
 const mapStateToProps = (
   { user, project }: RootState,
-  { organizationSlug },
+  { organizationSlug }
 ): Partial<ManageProjectPageProps> => {
   return {
     currentUser: user!,
@@ -157,12 +173,12 @@ const mapStateToProps = (
       (organizationSlug &&
         user &&
         user.organizations.find(
-          userOrganization => userOrganization.slug === organizationSlug,
+          userOrganization => userOrganization.slug === organizationSlug
         )) ||
       undefined,
     fetching: project.fetching,
-    project: project.node,
-  }
-}
+    project: project.node
+  };
+};
 
-export default connect(mapStateToProps)(ManageProjectPage)
+export default connect(mapStateToProps)(ManageProjectPage);

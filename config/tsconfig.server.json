@@ -1,0 +1,10 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "module": "commonjs",
+    "outDir": ".next/production-server/",
+    "isolatedModules": false
+  },
+  "exclude": ["tmp", "node_modules", ".storybook", "stories", ".dist"],
+  "include": ["base/server/**/*.ts", "channel/server/**/*.ts"]
+}

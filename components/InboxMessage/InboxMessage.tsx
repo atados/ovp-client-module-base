@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import React from 'react'
 import styled, { StyledProps } from 'styled-components'
+import { Page, PageAs } from '~/common'
 import { globalColors } from '~/lib/color/manager'
 import { Message, MessageSenderKind } from '~/redux/ducks/inbox'
 
@@ -59,7 +60,7 @@ const Bubble = styled.div`
         width: 16px;
         height: 16px;
         display: block;
-        background: url(/base/icons/message-bg-${
+        background: url(/static/base/icons/message-bg-${
           props.sent ? 'sent' : 'received'
         }.svg) no-repeat center;
       }`
@@ -112,11 +113,9 @@ const InboxMessage: React.FC<InboxMessageProps> = ({
     : message.sender.avatar
   const profileLinkAs = message.sending
     ? undefined
-    : `${
-        message.senderKind === MessageSenderKind.Organization
-          ? '/ong'
-          : '/voluntario'
-      }/${message.sender.slug}`
+    : message.senderKind === MessageSenderKind.Organization
+    ? PageAs.Organization({ organizationSlug: message.sender.slug })
+    : PageAs.PublicUser({ slug: message.sender.slug })
 
   return (
     <Container className={`${className || ''}${sent ? ' ta-right' : ' pl-5'}`}>
@@ -128,13 +127,11 @@ const InboxMessage: React.FC<InboxMessageProps> = ({
       >
         {!message.sending && lastFromSegment && !sent && (
           <Link
-            href={{
-              pathname:
-                message.senderKind === MessageSenderKind.Organization
-                  ? '/organization'
-                  : '/public-user',
-              query: { slug: message.sender.slug },
-            }}
+            href={
+              message.senderKind === MessageSenderKind.Organization
+                ? Page.Organization
+                : Page.PublicUser
+            }
             as={profileLinkAs}
           >
             <Avatar
@@ -151,7 +148,7 @@ const InboxMessage: React.FC<InboxMessageProps> = ({
         )}
         {showAuthorName && (
           <span
-            className="ts-small d-block tw-medium"
+            className="ts-small block tw-medium"
             style={{ color: globalColors[0] }}
           >
             {!message.sending && message.sender.name}
@@ -160,7 +157,7 @@ const InboxMessage: React.FC<InboxMessageProps> = ({
         <span>{message.body}</span>
       </Bubble>
       {message.sending && (
-        <span className="tc-muted d-block ts-tiny">Enviando...</span>
+        <span className="tc-muted block ts-tiny">Enviando...</span>
       )}
     </Container>
   )

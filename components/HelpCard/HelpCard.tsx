@@ -24,7 +24,7 @@ interface HelpCardProps {
 
 const HelpCard: React.FC<HelpCardProps> = ({ className, children }) => (
   <Container className={`card${className ? ` ${className}` : ''}`}>
-    <HelpIcon name="lightbulb_outline" className="tc-secondary mb-1" />
+    <HelpIcon name="lightbulb_outline" className="tc-secondary-500 mb-1" />
     {children}
   </Container>
 )

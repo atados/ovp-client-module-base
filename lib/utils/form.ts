@@ -1,5 +1,5 @@
 import { InputSelectItem } from '~/components/InputSelect/InputSelect'
-import { Cause, Skill } from '~/redux/ducks/channel'
+import { Cause, Skill } from '~/common/channel'
 
 export const causeToSelectItem = (cause: Cause): InputSelectItem => ({
   value: cause.id,

@@ -1,5 +1,5 @@
 import { InjectedFormikProps, withFormik } from 'formik'
-import { NextContext, NextStatelessComponent } from 'next'
+import { NextPageContext, NextPage } from 'next'
 import React from 'react'
 import { connect } from 'react-redux'
 import ActivityIndicator from '~/components/ActivityIndicator'
@@ -32,7 +32,7 @@ interface Values {
   readonly confirmNewPassword: string
 }
 
-const SettingsPassword: NextStatelessComponent<
+const SettingsPassword: NextPage<
   InjectedFormikProps<SettingsPasswordProps, Values>,
   {}
 > = ({
@@ -140,16 +140,15 @@ const SettingsPassword: NextStatelessComponent<
 }
 
 SettingsPassword.displayName = 'SettingsPassword'
-SettingsPassword.getInitialProps = async (context: NextContext) => {
-  await getPublicUserLayoutInitialProps(context)
-  const {
-    user: authenticatedUser,
-    publicUser: { node: user },
-  } = context.store.getState()
+SettingsPassword.getInitialProps = async (context: NextPageContext) => {
+  const { user: viewer } = context.store.getState()
 
-  if (!user || !authenticatedUser || user.slug !== user.slug) {
+  if (!viewer) {
     throw new NotFoundPageError()
   }
+
+  context.query.slug = viewer.slug
+  await getPublicUserLayoutInitialProps(context)
 
   return {}
 }

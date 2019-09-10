@@ -3,14 +3,14 @@ import React from 'react'
 import { defineMessages } from 'react-intl'
 import { useSelector } from 'react-redux'
 import styled from 'styled-components'
-import { resolvePage } from '~/common/page'
-import useIntl from '~/hooks/use-intl'
+import { useIntl } from 'react-intl'
 import { SearchType } from '~/redux/ducks/search'
 import { RootState } from '~/redux/root-reducer'
 import Authentication from '../Authentication'
 import Collapse from '../Collapse'
 import Icon from '../Icon'
 import { useModal } from '../Modal'
+import { Page, PageAs } from '~/common'
 
 const MobileCollapse = styled(Collapse)`
   a {
@@ -34,6 +34,10 @@ const messages = defineMessages({
   explore: {
     id: 'toolbar.mobile.explore',
     defaultMessage: 'Buscar vagas de voluntariado',
+  },
+  faq: {
+    id: 'toolbar.mobile.faq',
+    defaultMessage: 'Ajuda',
   },
 })
 
@@ -62,29 +66,33 @@ const ToolbarMobileNav: React.FC<ToolbarMobileNavProps> = ({ collapsed }) => {
     >
       <a
         href="/"
-        className="hover:bg-muted td-hover-none d-block px-3 py-2 tc-base ts-medium"
+        className="hover:bg-muted td-hover-none block px-3 py-2 tc-base ts-medium"
       >
         <Icon name="home" />
         Início
       </a>
       <Link
         href={{
-          pathname: resolvePage('/explore'),
+          pathname: Page.SearchProjects,
           query: { searchType: SearchType.Projects },
         }}
-        as="/vagas"
+        as={PageAs.SearchProjects()}
       >
-        <a className="hover:bg-muted td-hover-none d-block px-3 py-2 tc-base ts-medium">
+        <a className="hover:bg-muted td-hover-none block px-3 py-2 tc-base ts-medium">
           <Icon name="search" />
           {intl.formatMessage(messages.explore)}
         </a>
       </Link>
+
+      <Link href={Page.FAQ}>
+        <a className="hover:bg-muted td-hover-none block px-3 py-2 tc-base ts-medium">
+          <Icon name="help_outline" />
+          {intl.formatMessage(messages.faq)}
+        </a>
+      </Link>
       {viewerOrganizations.length === 0 && (
-        <Link
-          href={{ pathname: resolvePage('/organization-composer') }}
-          as="/sou-uma-ong"
-        >
-          <a className="hover:bg-muted td-hover-none d-block px-3 py-2 tc-base ts-medium">
+        <Link href={{ pathname: '/organization-composer' }} as="/sou-uma-ong">
+          <a className="hover:bg-muted td-hover-none block px-3 py-2 tc-base ts-medium">
             <Icon name="favorite_outline" />
             {intl.formatMessage(messages.imOrganization)}
           </a>
@@ -92,74 +100,57 @@ const ToolbarMobileNav: React.FC<ToolbarMobileNavProps> = ({ collapsed }) => {
       )}
       {viewerOrganizations.map(organization => (
         <React.Fragment key={organization.slug}>
-          <hr className="hr-muted w-100 my-1" />
+          <hr className="hr-muted w-full my-1" />
           <Link
-            href={{
-              pathname: '/organization',
-              query: { slug: organization.slug },
-            }}
-            as={`/ong/${organization.slug}`}
+            href={Page.Organization}
+            as={PageAs.Organization({ organizationSlug: organization.slug })}
           >
-            <a className="hover:bg-muted td-hover-none d-block px-3 py-2 tc-base ts-medium d-flex">
+            <a className="hover:bg-muted td-hover-none block px-3 py-2 tc-base ts-medium flex">
               <span
-                className={`d-inline-block w-32 h-32 bg-cover rounded-lg mr-3 vertical-align-top${
+                className={`inline-block w-8 h-8 bg-cover rounded-lg mr-3 vertical-align-top${
                   organization.image ? '' : 'bg-muted'
                 }`}
                 style={
                   organization.image
                     ? {
-                        backgroundImage: `url('${
-                          organization.image.image_url
-                        }')`,
+                        backgroundImage: `url('${organization.image.image_url}')`,
                       }
                     : undefined
                 }
               />
               <div className="flex-grow">
                 {organization.name}
-                <span className="ts-small d-block tc-muted">
+                <span className="ts-small block tc-muted">
                   Clique gerenciar essa ONG
                 </span>
               </div>
             </a>
           </Link>
           <Collapse />
+          <hr className="hr-muted w-full my-1" />
         </React.Fragment>
       ))}
-      <hr className="hr-muted w-100 my-1" />
       {viewer && (
         <>
-          <Link
-            href={{
-              pathname: resolvePage('/public-user'),
-              query: { slug: viewer.slug },
-            }}
-            as="/perfil"
-          >
-            <a className="hover:bg-muted td-hover-none d-block px-3 py-2 tc-base ts-medium">
+          <Link href={Page.Viewer}>
+            <a className="hover:bg-muted td-hover-none block px-3 py-2 tc-base ts-medium">
               <Icon name="person" />
               Meu perfil como voluntário
             </a>
           </Link>
-          <Link
-            href={{
-              pathname: resolvePage('/settings-user'),
-              query: { slug: viewer.slug },
-            }}
-            as="/configuracoes/perfil"
-          >
-            <a className="hover:bg-muted td-hover-none d-block px-3 py-2 tc-base ts-medium">
+          <Link href={Page.ViewerSettings}>
+            <a className="hover:bg-muted td-hover-none block px-3 py-2 tc-base ts-medium">
               <Icon name="settings" />
               Configurações
             </a>
           </Link>
         </>
       )}
-      <hr className="hr-muted w-100 my-1" />
+      <hr className="hr-muted w-full my-1" />
       {viewer && (
         <a
           href="/sair"
-          className="hover:bg-muted td-hover-none d-block px-3 py-2 tc-base ts-medium"
+          className="hover:bg-muted td-hover-none block px-3 py-2 tc-base ts-medium"
         >
           <Icon name="exit_to_app" />
           Sair
@@ -168,7 +159,7 @@ const ToolbarMobileNav: React.FC<ToolbarMobileNavProps> = ({ collapsed }) => {
       {!viewer && (
         <a
           href="/sair"
-          className="hover:bg-muted td-hover-none d-block px-3 py-2 tc-base ts-medium"
+          className="hover:bg-muted td-hover-none block px-3 py-2 tc-base ts-medium"
           onClick={event => {
             event.preventDefault()
             openAuthentication()

@@ -1,10 +1,9 @@
-import { NextContext } from 'next'
+import { NextPageContext } from 'next'
 import Link from 'next/link'
 import Router from 'next/router'
 import React from 'react'
 import { connect } from 'react-redux'
 import { channel } from '~/common/constants'
-import { resolvePage } from '~/common/page'
 import {
   FormComposerMode,
   StepIdType,
@@ -19,6 +18,7 @@ import { NotFoundPageError } from '~/lib/next/errors'
 import { causeToSelectItem } from '~/lib/utils/form'
 import { fetchOrganization, Organization } from '~/redux/ducks/organization'
 import { RootState } from '~/redux/root-reducer'
+import { Page, PageAs } from '~/common'
 
 interface OrganizationComposerPageProps {
   readonly stepId: string
@@ -34,7 +34,7 @@ class OrganizationComposerPage extends React.Component<
   public static async getInitialProps({
     store,
     query: { slug, stepId },
-  }: NextContext) {
+  }: NextPageContext) {
     const { user } = store.getState()
     if (
       typeof slug !== 'string' ||
@@ -69,9 +69,7 @@ class OrganizationComposerPage extends React.Component<
 
   public handleStepChange = (stepId: StepIdType) => {
     Router.push(
-      `${resolvePage('/organization-edit')}?stepId=${stepId}&slug=${
-        this.props.slug
-      }`,
+      `${'/organization-edit'}?stepId=${stepId}&slug=${this.props.slug}`,
       `/ong/${this.props.slug}/editar/${stepId}`,
     )
   }
@@ -98,11 +96,10 @@ class OrganizationComposerPage extends React.Component<
           >
             <div className="mb-4">
               <Link
-                href={{
-                  pathname: resolvePage('/organization'),
-                  query: { slug: organization.slug },
-                }}
-                as={`/ong/${organization.slug}`}
+                href={Page.Organization}
+                as={PageAs.Organization({
+                  organizationSlug: organization.slug,
+                })}
               >
                 <a className="float-right">
                   Ir à página da ONG <Icon name="arrow_forward" />

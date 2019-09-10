@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
-import useIntl from '~/hooks/use-intl'
+import { useIntl } from 'react-intl'
 import useTriggerableFetchApi from '~/hooks/use-trigglerable-fetch-api'
 import { formatDisponibility } from '~/lib/project/utils'
 import {
@@ -66,6 +66,7 @@ const {
   CANCELAR,
   AO_CANCELAR,
   CONFIRMA_CANCELAR,
+  COMPLEMENTO,
 } = defineMessages({
   BEM_SUCEDIDA: {
     id: 'BEM_SUCEDIDA',
@@ -173,7 +174,7 @@ const ProjectApplicationFinish: React.FC<ProjectApplicationFinishProps> = ({
               className="mr-2"
             />
             <div className="media-body">
-              <span className="tw-medium tc-base d-block text-truncate">
+              <span className="tw-medium tc-base block text-truncate">
                 {viewer.name}
               </span>
               <span className="tc-success">
@@ -259,7 +260,7 @@ const ProjectApplicationFinish: React.FC<ProjectApplicationFinishProps> = ({
       </div>
       <div className="card no-border radius-10  shadow bg-error-light p-4">
         <h4 className="tw-normal">{intl.formatMessage(CANCELAR)}</h4>
-        <span className="tc-muted-dark mb-0 d-block mb-3">
+        <span className="tc-muted-dark mb-0 block mb-3">
           {intl.formatMessage(AO_CANCELAR)}
         </span>
         <button

@@ -1,15 +1,15 @@
-import { NextContext, NextStatelessComponent } from 'next'
+import { NextPageContext, NextPage } from 'next'
 import Link from 'next/link'
 import React from 'react'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
-import { resolvePage } from '~/common/page'
 import Meta from '~/components/Meta'
 import PublicUserLayout from '~/components/PublicUserLayout'
 import { getPublicUserLayoutInitialProps } from '~/components/PublicUserLayout/PublicUserLayout'
 import PublicUserTimeline from '~/components/PublicUserTimeline'
 import { PublicUser } from '~/redux/ducks/public-user'
 import { RootState } from '~/redux/root-reducer'
+import { PageAs, Page } from '~/common'
 
 const Causes = styled.ul`
   list-style: none;
@@ -83,14 +83,12 @@ const InfoItemLabel = styled.span`
   font-weight: 500;
 `
 
-interface PublicUserPageProps {
+export interface PublicUserPageProps {
   readonly isAuthenticatedUser?: boolean
   readonly publicUser?: PublicUser
 }
 
-const PublicUserPage: NextStatelessComponent<PublicUserPageProps> = ({
-  publicUser,
-}) => {
+const PublicUserPage: NextPage<PublicUserPageProps> = ({ publicUser }) => {
   if (!publicUser) {
     return <PublicUserLayout />
   }
@@ -119,13 +117,7 @@ const PublicUserPage: NextStatelessComponent<PublicUserPageProps> = ({
           <Causes className="mb-4">
             {publicUser.profile.causes.map(cause => (
               <li key={cause.id}>
-                <Link
-                  href={{
-                    pathname: resolvePage('/cause'),
-                    query: { slug: cause.slug },
-                  }}
-                  as={`/causa/${cause.slug}`}
-                >
+                <Link as={PageAs.Cause({ slug: cause.slug })} href={Page.Cause}>
                   <a>
                     <CauseIndicator style={{ backgroundColor: cause.color }} />
                     {cause.name}
@@ -156,7 +148,7 @@ const PublicUserPage: NextStatelessComponent<PublicUserPageProps> = ({
 }
 
 PublicUserPage.displayName = 'PublicUserPage'
-PublicUserPage.getInitialProps = async (context: NextContext) => {
+PublicUserPage.getInitialProps = async (context: NextPageContext) => {
   return getPublicUserLayoutInitialProps(context)
 }
 

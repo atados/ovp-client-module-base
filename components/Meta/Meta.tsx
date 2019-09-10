@@ -1,7 +1,7 @@
 import Header from 'next/head'
 import React from 'react'
 import { defineMessages } from 'react-intl'
-import useIntl from '~/hooks/use-intl'
+import { useIntl } from 'react-intl'
 interface MetaProps {
   readonly title?: string
   readonly description?: string

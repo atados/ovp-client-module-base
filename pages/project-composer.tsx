@@ -1,4 +1,4 @@
-import { NextFunctionComponent } from 'next'
+import { NextPage } from 'next'
 import Link from 'next/link'
 import Router from 'next/router'
 import queryString from 'query-string'
@@ -6,7 +6,6 @@ import React, { useCallback, useMemo, useRef } from 'react'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
 import { channel } from '~/common/constants'
-import { resolvePage } from '~/common/page'
 import ActivityIndicator from '~/components/ActivityIndicator'
 import { FormComposerMode } from '~/components/FormComposer/FormComposer'
 import Layout from '~/components/Layout'
@@ -24,8 +23,9 @@ import { throwActionError } from '~/lib/utils/redux'
 import { fetchProject, Project, updateProject } from '~/redux/ducks/project'
 import { User, UserOrganization } from '~/redux/ducks/user'
 import { RootState } from '~/redux/root-reducer'
+import { Page, PageAs } from '~/common'
 
-const Page = styled.div`
+const PageStyled = styled.div`
   background: #eef0f3;
   min-height: 100vh;
 `
@@ -108,7 +108,7 @@ interface ProjectComposerPageProps {
   ) => any
 }
 
-const ProjectComposerPage: NextFunctionComponent<
+const ProjectComposerPage: NextPage<
   ProjectComposerPageProps,
   Pick<
     ProjectComposerPageProps,
@@ -124,7 +124,7 @@ const ProjectComposerPage: NextFunctionComponent<
   draftIndex,
   onUpdateProject,
 }) => {
-  const page = resolvePage('/project-composer')
+  const page = '/project-composer'
   const drafts = useLocalStorage<ProjectComposerDraft[]>(
     '@project-composer/drafts',
     [],
@@ -325,17 +325,18 @@ const ProjectComposerPage: NextFunctionComponent<
         {project && (
           <>
             <Link
-              href={{
-                href: resolvePage('/manage-project'),
-                query: {
-                  slug: project.slug,
-                  organizationSlug: organization && organization.slug,
-                },
-              }}
+              href={
+                organization
+                  ? Page.OrganizationDashboardProject
+                  : Page.ViewerProjectDashboard
+              }
               as={
                 organization
-                  ? `/ong/${organization.slug}/vaga/${project.slug}`
-                  : `/minhas-vagas/vaga/${project.slug}`
+                  ? PageAs.OrganizationDashboardProject({
+                      organizationSlug: organization.slug,
+                      slug: project.slug,
+                    })
+                  : PageAs.ViewerProjectDashboard({ slug: project.slug })
               }
             >
               <a className="media tc-base">
@@ -348,12 +349,12 @@ const ProjectComposerPage: NextFunctionComponent<
                   }
                 />
                 <div className="media-body ml-3">
-                  <span className="d-block tc-primary tw-medium ts-small">
+                  <span className="block tc-primary-500 tw-medium ts-small">
                     {mode === FormComposerMode.EDIT
                       ? 'EDITANDO VAGA'
                       : 'DUPLICANDO VAGA'}
                   </span>
-                  <span className="tw-medium d-block text-truncate">
+                  <span className="tw-medium block text-truncate">
                     {project.name}
                   </span>
                 </div>
@@ -389,7 +390,7 @@ const ProjectComposerPage: NextFunctionComponent<
   )
 
   return (
-    <Page>
+    <PageStyled>
       <Meta title="Nova vaga" />
       {organization ? (
         <OrganizationLayout
@@ -402,7 +403,7 @@ const ProjectComposerPage: NextFunctionComponent<
       ) : (
         <Layout disableFooter>{form}</Layout>
       )}
-    </Page>
+    </PageStyled>
   )
 }
 

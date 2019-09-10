@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { colors } from '~/common/constants'
-import useIntl from '~/hooks/use-intl'
+import { useIntl } from 'react-intl'
 import { formatDisponibility } from '~/lib/project/utils'
 import { Project } from '~/redux/ducks/project'
 import Icon from '../Icon'
@@ -180,7 +180,7 @@ const ProjectManagePageInfos: React.FC<ProjectManagePageInfosProps> = ({
             </InfoValue>
             <InfoLabel>{intl.formatMessage(DISPONIBILIDADE)}</InfoLabel>
             <hr />
-            <span className="d-block mt-1 ts-small text-truncate tc-light">
+            <span className="block mt-1 ts-small text-truncate tc-light">
               {project.disponibility &&
                 (project.disponibility.type === 'work'
                   ? project.disponibility.work.description

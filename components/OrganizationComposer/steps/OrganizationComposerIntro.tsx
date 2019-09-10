@@ -4,7 +4,7 @@ import { FormComposerStep } from '~/components/FormComposer/FormComposer'
 import FormComposerLayout from '~/components/FormComposer/FormComposerLayout'
 import Icon from '~/components/Icon'
 import { defineMessages } from 'react-intl'
-import useIntl from '~/hooks/use-intl'
+import { useIntl } from 'react-intl'
 
 const Container = styled.div`
   .intro-help-panel {
@@ -14,7 +14,7 @@ const Container = styled.div`
     bottom: 0;
     background-color: #fff;
     background-repeat: no-repeat;
-    background-image: url('/base/images/organization-composer-bg-effect-1.svg');
+    background-image: url('static/base/images/organization-composer-bg-effect-1.svg');
     background-position: top left;
     left: 60%;
   }
@@ -187,12 +187,12 @@ const OrganizationComposerIntro: React.FC<OrganizationComposerIntroProps> = ({
     body = (
       <>
         <PresentationStepPlaceholder>
-          <TextPlaceholder style={{ height: '19px' }} className="w-50 mb-2" />
+          <TextPlaceholder style={{ height: '19px' }} className="w-1/2 mb-2" />
           <TextPlaceholder
             style={{ backgroundColor: '#aaa', height: '38px' }}
             className="mb-2"
           />
-          <TextPlaceholder style={{ height: '26px' }} className="w-50" />
+          <TextPlaceholder style={{ height: '26px' }} className="w-1/2" />
         </PresentationStepPlaceholder>
         <PresentationStepPlaceholder>
           <TextPlaceholder style={{ height: '19px' }} className="mb-2" />
@@ -200,7 +200,7 @@ const OrganizationComposerIntro: React.FC<OrganizationComposerIntroProps> = ({
             style={{ backgroundColor: '#aaa', height: '38px' }}
             className="mb-2"
           />
-          <TextPlaceholder style={{ height: '26px' }} className="w-50" />
+          <TextPlaceholder style={{ height: '26px' }} className="w-1/2" />
         </PresentationStepPlaceholder>
       </>
     )
@@ -216,7 +216,7 @@ const OrganizationComposerIntro: React.FC<OrganizationComposerIntroProps> = ({
           <Icon name="arrow_forward" className="ml-2" />
         </button>
         <PresentationStep type="button" onClick={onStartFromDraft}>
-          <span className="tw-medium tc-primary">
+          <span className="tw-medium tc-primary-500">
             {intl.formatMessage(CONTINUAR)}
           </span>
           <h2 className="mb-1 tw-normal">
@@ -225,7 +225,7 @@ const OrganizationComposerIntro: React.FC<OrganizationComposerIntroProps> = ({
           <p className="ts-medium mb-3">{intl.formatMessage(AS_INFORMACOES)}</p>
           <div className="progress">
             <div
-              className="progress-value bg-primary"
+              className="progress-value bg-primary-500"
               style={{ width: '50%' }}
             />
           </div>
@@ -273,8 +273,10 @@ const OrganizationComposerIntro: React.FC<OrganizationComposerIntroProps> = ({
             </span>
             <h1>{intl.formatMessage(PESSOAS_INTERESSADAS)}</h1>
             <p className="ts-medium">{intl.formatMessage(SE_SUA_ONG)}</p>
-            <h4 className="h1 tc-secondary">{intl.formatMessage(A_CADA)}</h4>
-            <p className="ts-large tc-secondary">
+            <h4 className="h1 tc-secondary-500">
+              {intl.formatMessage(A_CADA)}
+            </h4>
+            <p className="ts-large tc-secondary-500">
               {intl.formatMessage(VAGAS_PREENCHIDAS)}
             </p>
           </SidebarInner>

@@ -30,7 +30,7 @@ const Container = styled.div`
   .step-intro {
     background-color: #fff;
     background-repeat: no-repeat;
-    background-image: url('/base/images/organization-composer-bg-effect-1.svg');
+    background-image: url('/static/base/images/organization-composer-bg-effect-1.svg');
     background-position: 0 -60px;
 
     @media (min-width: 700px) {
@@ -113,6 +113,7 @@ const OrganizationComposer: React.FC<OrganizationComposerProps> = ({
         description: 'Preencha com as informações básicas da ONG',
         title: 'Começar pelo basico',
         name: 'Acesso',
+        // @ts-ignore
         component: OrganizationComposerAuth,
       },
       ...steps,

@@ -1,5 +1,5 @@
 import { User } from '@sentry/types'
-import { NextFC } from 'next'
+import { NextPage } from 'next'
 import Router from 'next/router'
 import queryString from 'query-string'
 import React, { useCallback, useEffect, useState } from 'react'
@@ -53,7 +53,7 @@ interface ProjectPageProps
   extends ProjectPageReduxProps,
     ProjectPageInitialProps {}
 
-const ProjectPage: NextFC<ProjectPageProps, ProjectPageInitialProps> = ({
+const ProjectPage: NextPage<ProjectPageProps, ProjectPageInitialProps> = ({
   project,
   isOwner,
   subpage,
@@ -95,9 +95,7 @@ const ProjectPage: NextFC<ProjectPageProps, ProjectPageInitialProps> = ({
           component: Authentication,
           cardClassName: 'p-5',
           componentProps: {
-            successRedirect: `/vaga/${project.slug}/${
-              ProjectPageSubPage.ApplicationForm
-            }`,
+            successRedirect: `/vaga/${project.slug}/${ProjectPageSubPage.ApplicationForm}`,
           },
         },
   )
@@ -114,9 +112,7 @@ const ProjectPage: NextFC<ProjectPageProps, ProjectPageInitialProps> = ({
               roleId,
             } as ProjectApplicationProps)
           : {
-              successRedirect: `/vaga/${project.slug}/${
-                ProjectPageSubPage.ApplicationForm
-              }`,
+              successRedirect: `/vaga/${project.slug}/${ProjectPageSubPage.ApplicationForm}`,
             },
       )
     },
@@ -178,7 +174,7 @@ const ProjectPage: NextFC<ProjectPageProps, ProjectPageInitialProps> = ({
           <ProjectPageStories project={project} />
         </div>
       ) : (
-        <div className="container d-flex py-4">
+        <div className="container flex py-4">
           <div className="flex-grow">
             <ProjectPageAbout project={project} />
             <ProjectPageDisponibility project={project} />
@@ -192,7 +188,7 @@ const ProjectPage: NextFC<ProjectPageProps, ProjectPageInitialProps> = ({
             <ProjectPageAddress project={project} />
             <ProjectPageOrganization project={project} />
           </div>
-          <Sidebar className="d-none d-lg-block">
+          <Sidebar className="hidden lg:block">
             <ProjectPageRoles
               project={project}
               isOwner={isOwner}

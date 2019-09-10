@@ -2,7 +2,6 @@ import moment from 'moment'
 import Link from 'next/link'
 import React from 'react'
 import styled from 'styled-components'
-import { resolvePage } from '~/common/page'
 import { PublicUserApplication } from '~/redux/ducks/public-user'
 
 const Container = styled.article`
@@ -64,17 +63,17 @@ const TimelineItem: React.FC<TimelineItemProps> = ({
     }`}
   >
     <ItemIcon>
-      <img src="/base/icons/volunteer.svg" alt="Voluntário" />
+      <img src="/static/base/icons/volunteer.svg" alt="Voluntário" />
     </ItemIcon>
     <div className="bg-muted radius-10">
-      <div className="py-2 d-flex px-3">
+      <div className="py-2 flex px-3">
         <div className="flex-grow">
           <Timestamp>{moment(application.date).format('LL')}</Timestamp>
           <h4 className="tw-normal ts-medium mb-1">
             {onGoing ? 'Está participando da ação ' : 'Participou da ação '}
             <Link
               href={{
-                pathname: resolvePage('/project'),
+                pathname: '/project',
                 query: { slug: application.project.slug },
               }}
               as={`/vaga/${application.project.slug}`}
@@ -86,7 +85,7 @@ const TimelineItem: React.FC<TimelineItemProps> = ({
         </div>
         <Link
           href={{
-            pathname: resolvePage('/project'),
+            pathname: '/project',
             query: { slug: application.project.slug },
           }}
           as={`/vaga/${application.project.slug}`}
@@ -104,7 +103,7 @@ const TimelineItem: React.FC<TimelineItemProps> = ({
       </div>
       {application.role && (
         <div className="card-item py-2 px-3">
-          <span className="d-block ts-small tc-secondary">
+          <span className="block ts-small tc-secondary-500">
             {application.role.name}
           </span>
         </div>

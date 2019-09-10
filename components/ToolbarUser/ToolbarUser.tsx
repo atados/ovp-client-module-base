@@ -1,25 +1,24 @@
 import Link from 'next/link'
-import { withRouter, WithRouterProps } from 'next/router'
 import React, { useCallback, useRef } from 'react'
-import { connect } from 'react-redux'
+import { connect, useDispatch } from 'react-redux'
 import styled from 'styled-components'
 import { channel } from '~/common/constants'
-import { resolvePage } from '~/common/page'
 import Authentication from '~/components/Authentication'
 import Dropdown, { DropdownMenu } from '~/components/Dropdown'
 import Icon from '~/components/Icon'
 import { ModalLink } from '~/components/Modal'
 import { InboxViewer } from '~/redux/ducks/inbox'
-import { User } from '~/redux/ducks/user'
+import { User, logout } from '~/redux/ducks/user'
 import ToolbarApplications from '../Toolbar/ToolbarApplications'
 import AppNotificationWatcher from './components/AppNotificationWatcher'
-import ToolbarHelp from './components/ToolbarHelp'
 import ToolbarMessagesDropdown from './components/ToolbarMessagesDropdown'
+import { Page } from '~/base/common'
+import Router from 'next/router'
 
 interface ToolbarUserProps {
   readonly user: User | null
   readonly className?: string
-  readonly darkIcons?: boolean
+  readonly theme?: 'dark' | 'light'
   readonly inboxViewers: InboxViewer[]
 }
 
@@ -78,7 +77,7 @@ const DropdownAnchor = styled.a`
 
   &:hover,
   &:hover .icon {
-    color: ${channel.theme.colorPrimary};
+    color: ${channel.theme.color.primary[500]};
   }
 `
 
@@ -111,14 +110,11 @@ interface ToolbarUserProps {
   readonly theme?: 'dark' | 'light'
 }
 
-const ToolbarUser: React.FC<ToolbarUserProps & WithRouterProps> = ({
+const ToolbarUser: React.FC<ToolbarUserProps> = ({
   inboxViewers,
   user,
-  router,
   theme = 'dark',
 }) => {
-  // @ts-ignore
-  const toolbarHelp = <ToolbarHelp className="mr-2" />
   const chatEnabled =
     user &&
     (channel.config.chat.enabled &&
@@ -135,6 +131,13 @@ const ToolbarUser: React.FC<ToolbarUserProps & WithRouterProps> = ({
     },
     [dropdownRef.current],
   )
+
+  const dispatchToRedux = useDispatch()
+  const handleLogout = (e: React.MouseEvent<any>) => {
+    e.preventDefault()
+    Router.push(Page.Home)
+    dispatchToRedux(logout())
+  }
 
   if (user) {
     return (
@@ -157,27 +160,15 @@ const ToolbarUser: React.FC<ToolbarUserProps & WithRouterProps> = ({
             <Icon name="keyboard_arrow_down" className="dropdownArrow" />
           </Avatar>
           <Menu className="mt-1">
-            <Link
-              href={{
-                pathname: resolvePage('/public-user'),
-                query: { slug: user.slug },
-              }}
-              as="/perfil"
-            >
-              <DropdownAnchor href="/perfil">
+            <Link href={Page.Viewer} passHref>
+              <DropdownAnchor>
                 <Icon name="person" />
                 Meu perfil de voluntário
               </DropdownAnchor>
             </Link>
 
-            <Link
-              href={{
-                pathname: resolvePage('/settings-user'),
-                query: { slug: user.slug },
-              }}
-              as="/configuracoes/perfil"
-            >
-              <DropdownAnchor href="/configuracoes/perfil">
+            <Link href={Page.ViewerSettings} passHref>
+              <DropdownAnchor>
                 <Icon name="settings" />
                 Configurações
               </DropdownAnchor>
@@ -185,16 +176,13 @@ const ToolbarUser: React.FC<ToolbarUserProps & WithRouterProps> = ({
             <hr className="my-1" />
             {channel.config.user.createProject === true && (
               <>
-                <Link href={resolvePage('/project-composer')} as="/criar-vaga">
-                  <DropdownAnchor href="/criar-vaga">
+                <Link href={Page.NewProject} passHref>
+                  <DropdownAnchor>
                     <Icon name="add" />
                     Criar vaga
                   </DropdownAnchor>
                 </Link>
-                <Link
-                  href={resolvePage('/created-projects-list')}
-                  as="/minhas-vagas"
-                >
+                <Link href={Page.ViewerProjects} passHref>
                   <DropdownAnchor href="/minhas-vagas">
                     <Icon name="group" />
                     Gerenciar minhas vagas
@@ -202,29 +190,29 @@ const ToolbarUser: React.FC<ToolbarUserProps & WithRouterProps> = ({
                 </Link>
               </>
             )}
-            <Link
-              href={resolvePage('/settings-organizations')}
-              as="/configuracoes/ongs"
-            >
-              <DropdownAnchor href="/configuracoes/ongs">
-                <Icon name="group" />
-                ONGs que participo
-              </DropdownAnchor>
-            </Link>
-            <Link
-              href={resolvePage('/organization-composer')}
-              as="/sou-uma-ong"
-            >
-              <DropdownAnchor href="/sou-uma-ong">
-                <Icon name="add" />
-                Registrar nova ONG
-              </DropdownAnchor>
-            </Link>
+            {channel.config.organization.enabled && (
+              <>
+                <Link href={Page.ViewerOrganizations} passHref>
+                  <DropdownAnchor>
+                    <Icon name="group" />
+                    ONGs que participo
+                  </DropdownAnchor>
+                </Link>
+                <Link href={Page.NewOrganization}>
+                  <DropdownAnchor>
+                    <Icon name="add" />
+                    Registrar nova ONG
+                  </DropdownAnchor>
+                </Link>
+              </>
+            )}
             <hr className="my-1" />
-            <DropdownAnchor href="/sair">
-              <Icon name="exit_to_app" />
-              Sair
-            </DropdownAnchor>
+            <Link href={Page.Home} passHref>
+              <DropdownAnchor onClick={handleLogout}>
+                <Icon name="exit_to_app" />
+                Sair
+              </DropdownAnchor>
+            </Link>
           </Menu>
         </UserDropdown>
       </div>
@@ -236,30 +224,12 @@ const ToolbarUser: React.FC<ToolbarUserProps & WithRouterProps> = ({
       <ModalLink
         id="Authentication"
         component={Authentication}
-        componentProps={{
-          defaultPath: '/register',
-          successRedirect: router!.asPath,
-        }}
         cardClassName="p-5"
       >
-        <a href="/entrar/cadastro" className="nav-link">
-          Cadastrar-se
-        </a>
-      </ModalLink>
-      <ModalLink
-        id="Authentication"
-        component={Authentication}
-        componentProps={{
-          defaultPath: '/login',
-          successRedirect: router!.asPath,
-        }}
-        cardClassName="p-5"
-      >
-        <a href="/entrar" className="nav-link">
+        <a id="toolbar-auth-button" href="/entrar" className="nav-link">
           Entrar
         </a>
       </ModalLink>
-      {toolbarHelp}
     </div>
   )
 }
@@ -287,6 +257,4 @@ const mapStateToProps = ({ inboxViewers, user }) => {
   }
 }
 
-export default connect(mapStateToProps)(
-  withRouter<ToolbarUserProps>(ToolbarUser),
-)
+export default connect(mapStateToProps)(ToolbarUser)

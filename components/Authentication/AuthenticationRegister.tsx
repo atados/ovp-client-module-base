@@ -335,7 +335,7 @@ class AuthenticationRegister extends React.Component<
           Cadastre-se
         </button>
         {errorCode === AUTH_ERROR_INTERNAL_CODE && (
-          <span className="tc-error ts-large d-block mb-4 mt-4 ta-center">
+          <span className="tc-error ts-large block mb-4 mt-4 ta-center">
             Erro ao tentar se conectar com o servidor
           </span>
         )}

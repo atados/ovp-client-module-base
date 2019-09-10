@@ -2,7 +2,6 @@ import Link from 'next/link'
 import React from 'react'
 import { connect } from 'react-redux'
 import styled, { StyledProps } from 'styled-components'
-import { resolvePage } from '~/common/page'
 import { InboxViewer, InboxViewerKind } from '~/redux/ducks/inbox'
 import { User } from '~/redux/ducks/user'
 import { RootState } from '~/redux/root-reducer'
@@ -171,10 +170,7 @@ const InboxFilters: React.FC<InboxFiltersProps> = ({
         Caixa de entrada
       </Header>
       <div>
-        <Link
-          href={`${resolvePage('/inbox')}?viewerSlug=me`}
-          as="/mensagens/me"
-        >
+        <Link href={`${'/inbox'}?viewerSlug=me`} as="/mensagens/me">
           <Option
             href="/mensagens/me"
             active={viewer.kind === InboxViewerKind.User}
@@ -189,7 +185,7 @@ const InboxFilters: React.FC<InboxFiltersProps> = ({
                   : { backgroundColor: user.profile.color }
               }
             />
-            <OptionName className="text-truncate d-block">Eu</OptionName>
+            <OptionName className="text-truncate block">Eu</OptionName>
           </Option>
         </Link>
         {user.organizations.map(organization => {
@@ -200,7 +196,7 @@ const InboxFilters: React.FC<InboxFiltersProps> = ({
             <React.Fragment key={organization.slug}>
               <Link
                 href={{
-                  pathname: resolvePage('/inbox'),
+                  pathname: '/inbox',
                   query: { viewerSlug: organization.slug },
                 }}
                 as={`/mensagens/${organization.slug}`}
@@ -214,14 +210,12 @@ const InboxFilters: React.FC<InboxFiltersProps> = ({
                     style={
                       organization.image
                         ? {
-                            backgroundImage: `url('${
-                              organization.image.image_small_url
-                            }')`,
+                            backgroundImage: `url('${organization.image.image_small_url}')`,
                           }
                         : undefined
                     }
                   />
-                  <OptionName className="text-truncate d-block">
+                  <OptionName className="text-truncate block">
                     {organization.name}
                   </OptionName>
                   <OptionDropButton
@@ -236,18 +230,16 @@ const InboxFilters: React.FC<InboxFiltersProps> = ({
                   {viewer.filters.map(filter => (
                     <Link
                       href={{
-                        pathname: resolvePage('/inbox'),
+                        pathname: '/inbox',
                         query: {
                           filter: filter.id,
                           viewerSlug: organization.slug,
                         },
                       }}
-                      as={`/mensaagens/${organization.slug}/?filter=${
-                        filter.id
-                      }`}
+                      as={`/mensaagens/${organization.slug}/?filter=${filter.id}`}
                     >
                       <ChildOption active>
-                        <span className="text-truncate d-block">
+                        <span className="text-truncate block">
                           Voluntários por brumadinho
                         </span>
                       </ChildOption>

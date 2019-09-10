@@ -3,7 +3,7 @@ import isoFetch from 'isomorphic-fetch'
 import queryString from 'query-string'
 import { API_URL, channel, dev } from '~/common/constants'
 
-const LOG_ALL = process.env.NODE_LOG === 'ALL'
+const LOG_ALL = process.env.LOGGING === 'ALL'
 
 export interface Options {
   asJSON?: boolean

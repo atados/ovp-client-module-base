@@ -1,5 +1,5 @@
 import React from 'react'
-import { defineMessages, InjectedIntlProps } from 'react-intl'
+import { defineMessages, WithIntlProps } from 'react-intl'
 import styled from 'styled-components'
 import { Link as RouterSwitchLink } from '~/components/RouterSwitch'
 import { withIntl } from '~/lib/intl'
@@ -80,7 +80,7 @@ const { appName } = defineMessages({
 })
 
 const AuthenticationLogin: React.FC<
-  AuthenticationLoginProps & InjectedIntlProps
+  AuthenticationLoginProps & WithIntlProps<any>
 > = ({ successRedirect, className, errorCode, headerDisabled, intl }) => (
   <Form
     className={className ? ` ${className}` : ''}
@@ -195,7 +195,7 @@ const AuthenticationLogin: React.FC<
     </button>
 
     {errorCode && (
-      <span className="tc-error ts-large d-block mb-4 mt-4 ta-center">
+      <span className="tc-error ts-large block mb-4 mt-4 ta-center">
         {errorCode === AUTH_ERROR_INTERNAL_CODE
           ? 'Erro ao tentar se conectar com o servidor'
           : 'Combinação de email e senha inválidos.'}

@@ -4,6 +4,8 @@ import styled from 'styled-components'
 import { resolvePage } from '~/common/page'
 import { Project } from '~/redux/ducks/project'
 import Icon from '../Icon'
+import { defineMessages } from 'react-intl'
+import useIntl from '~/hooks/use-intl'
 
 const Wrapper = styled.div`
   padding-left: 120px;
@@ -25,9 +27,18 @@ interface ProjectPageOrganizationProps {
   readonly project: Project
 }
 
+const { REALIZADA } = defineMessages({
+  REALIZADA: {
+    id: 'REALIZADA',
+    defaultMessage: 'Realizada pela ONG',
+  },
+})
+
 const ProjectPageOrganization: React.FC<ProjectPageOrganizationProps> = ({
   project,
 }) => {
+  const intl = useIntl()
+
   if (!project.organization) {
     return null
   }
@@ -35,7 +46,7 @@ const ProjectPageOrganization: React.FC<ProjectPageOrganizationProps> = ({
   return (
     <>
       <h4 id="ong" className="mb-4">
-        Realizada pela ONG
+        {intl.formatMessage(REALIZADA)}
       </h4>
       <Wrapper>
         <Link

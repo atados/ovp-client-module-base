@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { DetailedHTMLProps } from 'react'
 import ReactDOM from 'react-dom'
 import styled from 'styled-components'
 
@@ -43,7 +43,13 @@ const Container = styled.div`
   }
 `
 
-export interface DropdownProps {
+export interface DropdownProps
+  extends Partial<
+    Omit<
+      DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement>,
+      'ref'
+    >
+  > {
   readonly open?: boolean
   readonly defaultOpen?: boolean
   readonly onOpenStateChange?: (open: boolean) => void
@@ -175,11 +181,18 @@ class Dropdown extends React.PureComponent<DropdownProps, DropdownState> {
   }
 
   public render() {
-    const { className, direction, children } = this.props
+    const {
+      className,
+      direction,
+      children,
+      onOpenStateChange,
+      ...props
+    } = this.props
     const { open } = this.state
 
     return (
       <Container
+        {...props}
         className={`${
           className ? `${className} ` : ''
         }dropdown dropdown-direction-${

@@ -1,9 +1,10 @@
 import Link from 'next/link'
-import { withRouter, WithRouterProps } from 'next/router'
+import { useRouter } from 'next/router'
 import React from 'react'
 import styled from 'styled-components'
-import { resolvePage } from '~/common/page'
+import { Page } from '~/common'
 import { Organization } from '~/redux/ducks/organization'
+import { channel } from '~/base/common/constants'
 
 const Nav = styled.div``
 
@@ -25,7 +26,7 @@ const NavItem = styled.a`
     color: #222;
     font-weight: 500;
     background: #f6f6f6;
-    box-shadow: -2px 0 ${props => props.theme.colorSecondary};
+    box-shadow: -2px 0 ${channel.theme.color.secondary[500]};
   }
 `
 
@@ -42,20 +43,22 @@ interface NavItemType {
 
 const items: NavItemType[] = [
   {
-    pathname: resolvePage('/organization'),
+    pathname: Page.Organization,
     label: 'Página inicial',
     as: '',
   },
   {
-    pathname: resolvePage('/organization-projects'),
+    pathname: Page.OrganizationProjects,
     label: 'Vagas',
     as: '/vagas',
   },
 ]
 
-const OrganizationLayoutNav: React.FC<
-  OrganizationLayoutNavProps & WithRouterProps
-> = ({ organization, onShare, router }) => {
+const OrganizationLayoutNav: React.FC<OrganizationLayoutNavProps> = ({
+  organization,
+  onShare,
+}) => {
+  const router = useRouter()
   return (
     <Nav className="mt-3">
       {items.map(item => (
@@ -69,7 +72,9 @@ const OrganizationLayoutNav: React.FC<
         >
           <NavItem
             href={`/ong/${organization.slug}${item.as}`}
-            className={router!.pathname === item.pathname ? 'active' : ''}
+            className={
+              router && router.pathname === item.pathname ? 'active' : ''
+            }
           >
             {item.label}
           </NavItem>
@@ -88,6 +93,4 @@ const OrganizationLayoutNav: React.FC<
 
 OrganizationLayoutNav.displayName = 'OrganizationLayoutNav'
 
-export default React.memo(
-  withRouter<OrganizationLayoutNavProps>(OrganizationLayoutNav),
-)
+export default React.memo(OrganizationLayoutNav)

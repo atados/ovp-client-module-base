@@ -1,18 +1,16 @@
 import nanoid from 'nanoid'
 import React, { useCallback, useMemo, useState } from 'react'
-import { connect } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import styled from 'styled-components'
 import { channel } from '~/common/constants'
 import { fetchAPI } from '~/lib/fetch/fetch.server'
-import { ImageDict } from '~/redux/ducks/channel'
+import { ImageDict } from '~/common/channel'
 import { Project, updateProject } from '~/redux/ducks/project'
-import { User } from '~/redux/ducks/user'
 import { RootState } from '~/redux/root-reducer'
 import ActivityIndicator from '../ActivityIndicator'
 import Icon from '../Icon'
 import Tooltip from '../Tooltip'
-import { defineMessages } from 'react-intl'
-import useIntl from '~/hooks/use-intl'
+import { defineMessages, useIntl } from 'react-intl'
 
 const PhotoImage = styled.div`
   background: rgba(0, 0, 0, 0.05);
@@ -46,7 +44,7 @@ const Container = styled.div`
   transition: box-shadow 0.2s;
 
   &.active {
-    box-shadow: 0 0 0 3px ${channel.theme.colorPrimary};
+    box-shadow: 0 0 0 3px ${channel.theme.color.primary[500]};
   }
 `
 
@@ -55,7 +53,7 @@ const PhotoImageInputWrapper = styled.div`
   height: 100%;
   width: 100%;
   cursor: pointer;
-  border: 2px dashed ${channel.theme.colorPrimary};
+  border: 2px dashed ${channel.theme.color.primary[500]};
 
   &:hover {
     background: #e0e1e2;
@@ -67,7 +65,7 @@ const PhotoImageInputLabel = styled.div`
   line-height: 1;
   text-align: center;
   position: absolute;
-  color: ${channel.theme.colorPrimary};
+  color: ${channel.theme.color.primary[500]};
   left: 0;
   right: 0;
   top: 0;
@@ -115,17 +113,9 @@ interface GalleryItem {
   removed?: boolean
 }
 
-interface ProjectManagePagePhotosReduxProps {
-  user: User
-}
-
-interface ProjectManagePagePhotosProps
-  extends ProjectManagePagePhotosReduxProps {
+interface ProjectManagePagePhotosProps {
   readonly className?: string
   readonly project: Project
-  readonly onUpdateProject: (
-    changes: Partial<Project> & { slug: string },
-  ) => any
 }
 
 const {
@@ -138,7 +128,6 @@ const {
   FOTOS_VAGA,
   VAGA_ATRATIVA,
   PRIMEIRAS_FOTOS,
-  PLACEHOLDER,
 } = defineMessages({
   CANCELAR: {
     id: 'CANCELAR',
@@ -181,10 +170,10 @@ const {
 
 const ProjectManagePagePhotos: React.FC<ProjectManagePagePhotosProps> = ({
   className,
-  user,
   project,
-  onUpdateProject,
 }) => {
+  const viewer = useSelector((state: RootState) => state.user!)
+  const dispatchToReduxStore = useDispatch()
   const intl = useIntl()
 
   const [items, setItems] = useState<GalleryItem[]>(() => {
@@ -241,7 +230,7 @@ const ProjectManagePagePhotos: React.FC<ProjectManagePagePhotosProps> = ({
           fetchAPI('/uploads/images/', {
             method: 'POST',
             body: formData,
-            sessionToken: user.token,
+            sessionToken: viewer.token,
           }),
         )
       })
@@ -286,19 +275,21 @@ const ProjectManagePagePhotos: React.FC<ProjectManagePagePhotosProps> = ({
         body: {
           images,
         },
-        sessionToken: user.token,
+        sessionToken: viewer.token,
       })
 
-      onUpdateProject({
-        slug: project.slug,
-        galleries: project.galleries.map(galleryItem => {
-          if (galleryItem.id === gallery!.id) {
-            return gallery!
-          }
+      dispatchToReduxStore(
+        updateProject({
+          slug: project.slug,
+          galleries: project.galleries.map(galleryItem => {
+            if (galleryItem.id === gallery!.id) {
+              return gallery!
+            }
 
-          return galleryItem
+            return galleryItem
+          }),
         }),
-      })
+      )
     } else {
       gallery = await fetchAPI('/gallery/', {
         method: 'POST',
@@ -307,7 +298,7 @@ const ProjectManagePagePhotos: React.FC<ProjectManagePagePhotosProps> = ({
           description: '',
           images,
         },
-        sessionToken: user.token,
+        sessionToken: viewer.token,
       })
 
       const galleries = [...project.galleries, gallery!]
@@ -319,12 +310,15 @@ const ProjectManagePagePhotos: React.FC<ProjectManagePagePhotosProps> = ({
             id: galleryItem.id,
           })),
         },
+        sessionToken: viewer.token,
       })
 
-      onUpdateProject({
-        slug: project.slug,
-        galleries,
-      })
+      dispatchToReduxStore(
+        updateProject({
+          slug: project.slug,
+          galleries,
+        }),
+      )
     }
 
     setItems(
@@ -363,7 +357,7 @@ const ProjectManagePagePhotos: React.FC<ProjectManagePagePhotosProps> = ({
         className ? ` ${className}` : ''
       }`}
     >
-      <div className="p-4 pos-relative">
+      <div className="p-4 relative">
         {isDrafting ? (
           <>
             <div className="float-right">
@@ -388,7 +382,7 @@ const ProjectManagePagePhotos: React.FC<ProjectManagePagePhotosProps> = ({
           </>
         ) : (
           items.length !== 0 && (
-            <div className="btn btn-outline-primary tc-primary float-right inputFileWrapper">
+            <div className="btn btn-outline-primary tc-primary-500 float-right inputFileWrapper">
               <input type="file" onChange={handleInputFileChange} multiple />
               <Icon name="add" className="mr-2" />
               {intl.formatMessage(ADICIONAR)}
@@ -409,7 +403,7 @@ const ProjectManagePagePhotos: React.FC<ProjectManagePagePhotosProps> = ({
                   >
                     <ToogleRemovedButton
                       className={`btn ${
-                        item.removed ? 'btn-success d-block' : 'btn-error'
+                        item.removed ? 'btn-success block' : 'btn-error'
                       }`}
                       onClick={() => toggleImageRemoved(item)}
                     >
@@ -442,7 +436,7 @@ const ProjectManagePagePhotos: React.FC<ProjectManagePagePhotosProps> = ({
                       />
                       <PhotoImageInputLabel>
                         <Icon name="add_circle" className="mb-2" />
-                        <span className="d-block ts-small tl-base">
+                        <span className="block ts-small tl-base">
                           {intl.formatMessage(CLIQUE)}
                           <br />
                           {intl.formatMessage(ADICIONAR_FOTOS)}
@@ -459,10 +453,10 @@ const ProjectManagePagePhotos: React.FC<ProjectManagePagePhotosProps> = ({
       {items.length === 0 && (
         <div className="pb-5 px-3 ta-center">
           <PlaceholderIcon name="image" />
-          <span className="h4 d-block tw-normal mb-2">
+          <span className="h4 block tw-normal mb-2">
             {intl.formatMessage(FOTOS_VAGA)}
           </span>
-          <span className="tc-muted d-block mb-3">
+          <span className="tc-muted block mb-3">
             {intl.formatMessage(VAGA_ATRATIVA)}
           </span>
           <button
@@ -480,13 +474,4 @@ const ProjectManagePagePhotos: React.FC<ProjectManagePagePhotosProps> = ({
 
 ProjectManagePagePhotos.displayName = 'ProjectManagePagePhotos'
 
-const mapStateToProps = (
-  state: RootState,
-): ProjectManagePagePhotosReduxProps => ({ user: state.user! })
-
-export default React.memo(
-  connect(
-    mapStateToProps,
-    { onUpdateProject: updateProject },
-  )(ProjectManagePagePhotos),
-)
+export default ProjectManagePagePhotos

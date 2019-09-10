@@ -5,7 +5,7 @@ import { fetchAPI } from '~/lib/fetch/fetch.server'
 import { RootState } from '~/redux/root-reducer'
 import Icon from '../Icon'
 import { UploadError } from './errors'
-import { defineMessages, InjectedIntlProps } from 'react-intl'
+import { defineMessages, WithIntlProps } from 'react-intl'
 import { withIntl } from '~/lib/intl'
 
 const RE_VALID_TYPE = /image\/(jpe?g|png)/gi
@@ -117,7 +117,11 @@ interface InputImageState {
 }
 
 class InputImage extends React.Component<
+<<<<<<< HEAD
   InputImageProps & InjectedIntlProps,
+=======
+  InputImageProps & WithIntlProps<any>,
+>>>>>>> b79f2fa454a654077a293561d5661f7801b6d642
   InputImageState
 > {
   public static getDerivedStateFromProps(
@@ -243,7 +247,7 @@ class InputImage extends React.Component<
                 <Icon name="cloud_upload" className="mr-2" />
                 {intl.formatMessage(CARREGUE)}
               </span>
-              <span className="d-block ta-center mt-2 tc-muted-dark">
+              <span className="block ta-center mt-2 tc-muted-dark">
                 {intl.formatMessage(ARRASTE)}
               </span>
             </InputWrapperInner>
@@ -286,7 +290,7 @@ class InputImage extends React.Component<
         <div className="col-sm-6">
           <Icon
             name="lightbulb_outline"
-            className="d-block tc-secondary ts-medium"
+            className="block tc-secondary-500 ts-medium"
           />
           <span className="tc-muted ts-small">{hint}</span>
         </div>

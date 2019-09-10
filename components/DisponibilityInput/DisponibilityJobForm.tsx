@@ -104,7 +104,7 @@ class DisponibilityJobForm extends React.Component<
           const endDate = moment(date.end_date)
           return (
             <div key={index} className="card-item py-3 px-2 media">
-              <JobIcon name="event" className="tc-primary" />
+              <JobIcon name="event" className="tc-primary-500" />
               <div className="media-body">
                 <span className="btn-group float-right">
                   <button

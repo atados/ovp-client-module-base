@@ -12,8 +12,9 @@ import {
   ApplicationPayload,
   applyToProject,
 } from '~/redux/ducks/project-application'
+import { Page } from '~/base/common'
 import { defineMessages } from 'react-intl'
-import useIntl from '~/hooks/use-intl'
+import { useIntl } from 'react-intl'
 
 const RoleButton = styled.button`
   width: 100%;
@@ -130,7 +131,7 @@ const ProjectApplicationFormProps: React.FC<
 
       {roles && roles.length > 0 && (
         <>
-          <b className="d-block mb-2">{intl.formatMessage(FUNCAO)}</b>
+          <b className="block mb-2">{intl.formatMessage(FUNCAO)}</b>
           <div className="card mb-4">
             {roles.map(role => (
               <div key={role.id} className="card-item">
@@ -215,7 +216,7 @@ const ProjectApplicationFormProps: React.FC<
       <div className="card p-2 bg-outline-primary">
         {intl.formatMessage(MANTENHA)}{' '}
         <a
-          href="/configuracoes/perfil"
+          href={Page.ViewerSettings}
           target="__blank"
           className="tc-base td-underline"
         >

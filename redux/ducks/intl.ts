@@ -1,7 +1,18 @@
-export interface IntlReducerState {
-  readonly locale: string
-  readonly messages: { [messageId: string]: string }
+import { NextIntl } from 'next'
+
+export type IntlReducerState = NextIntl | null
+export interface InitIntlAction {
+  type: 'INTL'
+  payload: NextIntl
 }
 
-// @ts-ignore
-export default (state: IntlReducerState = {}): IntlReducerState => state
+export default (
+  intl: IntlReducerState = null,
+  action: InitIntlAction,
+): IntlReducerState => {
+  if (action.type === 'INTL') {
+    return action.payload!
+  }
+
+  return intl
+}

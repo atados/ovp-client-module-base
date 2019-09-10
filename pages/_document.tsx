@@ -1,8 +1,11 @@
 import { IncomingMessage } from 'http'
-import NextDocument, { Head, Main, NextScript } from 'next/document'
-import { NextDocumentContext } from 'next/document'
+import NextDocument, {
+  DocumentContext,
+  Head,
+  Main,
+  NextScript,
+} from 'next/document'
 import { ServerStyleSheet } from 'styled-components'
-import { STATIC_DIST_DIRNAME } from '~/server/constants'
 
 interface DocumentProps {
   readonly locale: string
@@ -13,10 +16,10 @@ interface DocumentProps {
 // The document (which is SSR-only) needs to be customized to expose the locale
 // data for the user's locale for React Intl to work in the browser.
 export default class Document extends NextDocument<DocumentProps> {
-  public static getInitialProps({
+  public static async getInitialProps({
     renderPage,
     req: { locale, localeDataScript },
-  }: NextDocumentContext & {
+  }: DocumentContext & {
     req: IncomingMessage & { locale: string; localeDataScript: string }
   }) {
     const sheet = new ServerStyleSheet()
@@ -34,9 +37,7 @@ export default class Document extends NextDocument<DocumentProps> {
 
   public render() {
     // Polyfill Intl API for older browsers
-    const polyfill = `https://cdn.polyfill.io/v2/polyfill.min.js?features=Intl.~locale.${
-      this.props.locale
-    }`
+    const polyfill = `https://cdn.polyfill.io/v3/polyfill.min.js?features=Intl.~locale.${this.props.locale}`
 
     return (
       <html>
@@ -44,10 +45,6 @@ export default class Document extends NextDocument<DocumentProps> {
           <meta
             name="viewport"
             content="width=device-width, initial-scale=1, user-scalable=1"
-          />
-          <link
-            rel="stylesheet"
-            href={`/_static/${STATIC_DIST_DIRNAME}/index.css`}
           />
           <link
             href="https://fonts.googleapis.com/icon?family=Material+Icons"

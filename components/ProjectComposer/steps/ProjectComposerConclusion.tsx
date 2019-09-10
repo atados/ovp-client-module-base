@@ -2,12 +2,11 @@ import Link from 'next/link'
 import Router from 'next/router'
 import React from 'react'
 import styled from 'styled-components'
-import { resolvePage } from '~/common/page'
 import FormComposerLayout from '~/components/FormComposer/MultistepFormComposerLayout'
 import Icon from '~/components/Icon'
 import useMultipleStepsForm from '~/hooks/use-multiple-steps-form'
 import { defineMessages } from 'react-intl'
-import useIntl from '~/hooks/use-intl'
+import { useIntl } from 'react-intl'
 
 const CheckIcon = styled(Icon)`
   font-size: 64px;
@@ -59,10 +58,7 @@ const ProjectComposerConclusion: React.FC<ProjectComposerConclusionProps> = ({
 
   const handleSubmit = event => {
     event.preventDefault()
-    Router.push(
-      `${resolvePage('/project')}?slug=${project.slug}`,
-      `/vaga/${project.slug}`,
-    )
+    Router.push(`${'/project'}?slug=${project.slug}`, `/vaga/${project.slug}`)
   }
 
   return (
@@ -78,7 +74,7 @@ const ProjectComposerConclusion: React.FC<ProjectComposerConclusionProps> = ({
       {project && (
         <Link
           href={{
-            pathname: resolvePage('/project'),
+            pathname: '/project',
             query: { slug: project.slug },
           }}
           as={`/vaga/${project.slug}`}

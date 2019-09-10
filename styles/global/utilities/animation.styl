@@ -16,5 +16,21 @@
     transform: translate3d(0, 0, 0)
     opacity 1
 
+
+.animate-slideInLeft
+  animation-name: slideInLeft
+  animation-duration: .5s
+  animation-fill-mode: both
+
+@keyframes slideInLeft
+  from
+    transform: translate3d(5%, 0, 0)
+    visibility: visible
+    opacity 0
+
+  to
+    transform: translate3d(0, 0, 0)
+    opacity 1
+
 .no-animation
   animation: none !important

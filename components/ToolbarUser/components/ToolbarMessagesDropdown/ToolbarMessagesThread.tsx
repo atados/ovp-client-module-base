@@ -2,7 +2,6 @@ import moment from 'moment'
 import Link from 'next/link'
 import React from 'react'
 import styled from 'styled-components'
-import { resolvePage } from '~/common/page'
 import { MessageThreadable, MessageThreadType } from '~/redux/ducks/inbox'
 
 const { useMemo } = React
@@ -75,7 +74,7 @@ const ToolbarMessagesThread: React.FC<ToolbarMessagesThreadProps> = ({
   return (
     <Link
       href={{
-        pathname: resolvePage('/inbox'),
+        pathname: '/inbox',
         query: { viewerSlug, threadId: thread.id },
       }}
       as={`/mensagens/${viewerSlug}/${thread.id}`}
@@ -100,10 +99,8 @@ const ToolbarMessagesThread: React.FC<ToolbarMessagesThreadProps> = ({
               {lastMessageMoment.fromNow()}
             </Timestamp>
           )}
-          <Name className="d-block tw-medium">
-            {thread.threadableNode.name}
-          </Name>
-          <LastMessageText className="d-block tc-muted-dark text-truncate">
+          <Name className="block tw-medium">{thread.threadableNode.name}</Name>
+          <LastMessageText className="block tc-muted-dark text-truncate">
             {thread.lastMessage && thread.lastMessage.body}
           </LastMessageText>
         </Body>

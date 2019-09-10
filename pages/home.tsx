@@ -5,12 +5,12 @@ import CausesSection from '~/components/CausesSection'
 import Layout from '~/components/Layout'
 import Meta from '~/components/Meta'
 import useFetchAPI from '~/hooks/use-fetch-api'
-import useIntl from '~/hooks/use-intl'
+import { useIntl } from 'react-intl'
 import { Catalogue } from '~/redux/ducks/catalogue'
 
 const messages = defineMessages({
   appName: {
-    id: 'app.name',
+    id: 'home.title',
     defaultMessage: 'Channel name',
   },
   appDescription: {
@@ -22,18 +22,16 @@ const messages = defineMessages({
 const HomePage: React.FC = () => {
   const intl = useIntl()
   const catalogueQuery = useFetchAPI<Catalogue>('/catalogue/home/')
-  const sections = (catalogueQuery.data && catalogueQuery.data.sections) || []
-  return (
-    <Layout className="p-toolbar" toolbarProps={{ flat: true, fixed: true }}>
-      <Meta />
-      <div className="bg-primary">
-        <div className="container py-5">
-          <h1 className="tc-white">{intl.formatMessage(messages.appName)}</h1>
-          <p className="tc-light ts-large">
-            {intl.formatMessage(messages.appDescription)}
-          </p>
-        </div>
-      </div>
+  const sections =
+    (catalogueQuery.data &&
+      catalogueQuery.data.sections &&
+      catalogueQuery.data.sections.sort(
+        (section1, section2) => section2.order - section1.order,
+      )) ||
+    []
+
+  const body = !catalogueQuery.loading && (
+    <div>
       <div className="container pt-5">
         {sections[0] && (
           <CatalogueSection section={sections[0]} className="mb-4" />
@@ -49,6 +47,24 @@ const HomePage: React.FC = () => {
           />
         ))}
       </div>
+    </div>
+  )
+  return (
+    <Layout
+      className="p-toolbar"
+      toolbarProps={{ flat: true, fixed: true }}
+      disableFooter={catalogueQuery.loading}
+    >
+      <Meta />
+      <div className="bg-primary-500">
+        <div className="container py-5">
+          <h1 className="tc-white">{intl.formatMessage(messages.appName)}</h1>
+          <p className="tc-light ts-large">
+            {intl.formatMessage(messages.appDescription)}
+          </p>
+        </div>
+      </div>
+      {body}
     </Layout>
   )
 }

@@ -12,8 +12,9 @@ import asFormStep, {
 import Yup from '~/lib/form/yup'
 import { Project, ProjectRole } from '~/redux/ducks/project'
 import RoleForm from '../components/RoleForm'
+import { channel } from '~/base/common/constants'
 import { defineMessages } from 'react-intl'
-import useIntl from '~/hooks/use-intl'
+import { useIntl } from 'react-intl'
 
 const Role = styled.button`
   background: none;
@@ -35,8 +36,8 @@ const RoleCard = styled.div`
 
   &:hover,
   &:focus {
-    border-color: ${props => props.theme.colorPrimary};
-    box-shadow: 0 0 0 1px ${props => props.theme.colorPrimary};
+    border-color: ${channel.theme.color.primary[500]};
+    box-shadow: 0 0 0 1px ${channel.theme.color.primary[500]};
   }
 `
 
@@ -50,8 +51,8 @@ const RoleAdd = styled.button`
 
   &:hover,
   &:focus {
-    border-color: ${props => props.theme.colorPrimary};
-    box-shadow: 0 0 0 1px ${props => props.theme.colorPrimary};
+    border-color: ${channel.theme.color.primary[500]};
+    box-shadow: 0 0 0 1px ${channel.theme.color.primary[500]};
   }
 
   > .icon {

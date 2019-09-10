@@ -9,7 +9,7 @@ import * as masks from '~/lib/form/masks'
 import { RE_PHONE } from '~/lib/form/regex'
 import Yup from '~/lib/form/yup'
 import { ensureHttpsUri } from '~/lib/utils/string'
-import { defineMessages, InjectedIntlProps } from 'react-intl'
+import { defineMessages, WithIntlProps } from 'react-intl'
 import { withIntl } from '~/lib/intl'
 
 const OrganizationContactFormSchema = Yup.object().shape({
@@ -83,7 +83,7 @@ const {
 class OrganizationComposerContact extends React.Component<
   OrganizationComposerContactProps &
     InjectedFormikProps<OrganizationComposerContactProps, Values> &
-    InjectedIntlProps
+    WithIntlProps<any>
 > {
   public static isValidValue = (values: Values): Promise<boolean> => {
     return OrganizationContactFormSchema.isValid(values)

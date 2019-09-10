@@ -1,9 +1,8 @@
-import { NextContext, NextStatelessComponent } from 'next'
+import { NextPageContext, NextPage } from 'next'
 import Link from 'next/link'
 import React from 'react'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
-import { resolvePage } from '~/common/page'
 import { InputSelectItem } from '~/components/InputSelect/InputSelect'
 import Meta from '~/components/Meta'
 import PublicUserLayout from '~/components/PublicUserLayout'
@@ -14,6 +13,7 @@ import { PublicUser } from '~/redux/ducks/public-user'
 import { User } from '~/redux/ducks/user'
 import { UserOverrides } from '~/redux/ducks/user-update'
 import { RootState } from '~/redux/root-reducer'
+import { Page, PageAs } from '~/common'
 
 const Avatar = styled.span`
   width: 32px;
@@ -30,10 +30,9 @@ interface SettingsOrganizationsProps {
   readonly skillsSelectItems: InputSelectItem[]
 }
 
-const SettingsOrganizations: NextStatelessComponent<
-  SettingsOrganizationsProps,
-  {}
-> = ({ currentUser }) => {
+const SettingsOrganizations: NextPage<SettingsOrganizationsProps, {}> = ({
+  currentUser,
+}) => {
   if (!currentUser) {
     return <PublicUserLayout />
   }
@@ -43,7 +42,7 @@ const SettingsOrganizations: NextStatelessComponent<
       <Meta title={currentUser.name} />
       <Link
         href={{
-          pathname: resolvePage('/organization-composer'),
+          pathname: '/organization-composer',
         }}
         as="/sou-uma-ong"
       >
@@ -52,13 +51,10 @@ const SettingsOrganizations: NextStatelessComponent<
       <h4 className="tw-normal mb-0 mb-4">ONGs que você é responsável</h4>
       <div className="card">
         {currentUser.organizations.map(organization => (
-          <div key={organization.slug} className="d-flex card-item px-2 py-3">
+          <div key={organization.slug} className="flex card-item px-2 py-3">
             <Link
-              href={{
-                pathname: resolvePage('/organization'),
-                query: { slug: organization.slug },
-              }}
-              as={`/ong/${organization.slug}`}
+              href={Page.Organization}
+              as={PageAs.Organization({ organizationSlug: organization.slug })}
             >
               <a className="tw-medium">
                 <Avatar
@@ -66,9 +62,7 @@ const SettingsOrganizations: NextStatelessComponent<
                   style={
                     organization.image
                       ? {
-                          backgroundImage: `url('${
-                            organization.image.image_small_url
-                          }')`,
+                          backgroundImage: `url('${organization.image.image_small_url}')`,
                         }
                       : undefined
                   }
@@ -84,7 +78,7 @@ const SettingsOrganizations: NextStatelessComponent<
 }
 
 SettingsOrganizations.displayName = 'SettingsOrganizations'
-SettingsOrganizations.getInitialProps = async (context: NextContext) => {
+SettingsOrganizations.getInitialProps = async (context: NextPageContext) => {
   const { user: currentUser } = context.store.getState()
   context.query.slug = currentUser ? currentUser.slug : context.query.slug
 
