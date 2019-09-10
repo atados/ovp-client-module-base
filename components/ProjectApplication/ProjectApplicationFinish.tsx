@@ -14,6 +14,7 @@ import { RootState } from '~/redux/root-reducer'
 import GoogleMap from '../GoogleMap'
 import Icon from '../Icon'
 import MapMark from '../MapMark'
+import { defineMessages } from 'react-intl'
 
 const Avatar = styled.span`
   width: 40px;
@@ -51,6 +52,82 @@ interface ProjectApplicationFinishProps {
   ) => any
 }
 
+const {
+  BEM_SUCEDIDA,
+  INSCRITO,
+  FIQUE_ATENTO,
+  VOLUNTARIO_INSCRITO,
+  FUNCAO,
+  PRE,
+  DESCRICAO_HORARIOS,
+  HORAS,
+  A_DISTANCIA,
+  ENDERECO,
+  CANCELAR,
+  AO_CANCELAR,
+  CONFIRMA_CANCELAR,
+  COMPLEMENTO,
+} = defineMessages({
+  BEM_SUCEDIDA: {
+    id: 'BEM_SUCEDIDA',
+    defaultMessage: 'Inscrição bem sucedida!',
+  },
+  INSCRITO: {
+    id: 'INSCRITO',
+    defaultMessage: 'Você está inscrito nessa ação',
+  },
+  FIQUE_ATENTO: {
+    id: 'FIQUE_ATENTO',
+    defaultMessage:
+      'Fique atento as datas e contate a ONG para mais informações.',
+  },
+  VOLUNTARIO_INSCRITO: {
+    id: 'VOLUNTARIO_INSCRITO',
+    defaultMessage: 'Voluntário inscrito',
+  },
+  FUNCAO: {
+    id: 'FUNCAO',
+    defaultMessage: 'FUNÇÃO',
+  },
+  PRE: {
+    id: 'PRE',
+    defaultMessage: 'PRÉ-REQUISITOS',
+  },
+  DESCRICAO_HORARIOS: {
+    id: 'DESCRICAO_HORARIOS',
+    defaultMessage: 'Descrição dos horários',
+  },
+  HORAS: {
+    id: 'HORAS',
+    defaultMessage: 'Horas semanais',
+  },
+  A_DISTANCIA: {
+    id: 'A_DISTANCIA',
+    defaultMessage: 'Você pode atuar à distância',
+  },
+  ENDERECO: {
+    id: 'ENDERECO',
+    defaultMessage: 'Endereço',
+  },
+  COMPLEMENTO: {
+    id: 'COMPLEMENTO',
+    defaultMessage: 'Complemento:',
+  },
+  CANCELAR: {
+    id: 'CANCELAR',
+    defaultMessage: 'Cancelar minha inscrição',
+  },
+  AO_CANCELAR: {
+    id: 'AO_CANCELAR',
+    defaultMessage:
+      'Ao cancelar sua inscrição você não fará mais parte dessa vaga. Não se preocupe, você pode se inscrever novamente.',
+  },
+  CONFIRMA_CANCELAR: {
+    id: 'CONFIRMA_CANCELAR',
+    defaultMessage: 'Cancelar minha inscrição nessa vaga',
+  },
+})
+
 const ProjectApplicationFinish: React.FC<ProjectApplicationFinishProps> = ({
   viewer,
   project,
@@ -75,11 +152,11 @@ const ProjectApplicationFinish: React.FC<ProjectApplicationFinishProps> = ({
     <div>
       <div className="card no-border radius-10  p-4 mb-3 bg-success tc-white">
         <h4 className="tw-normal">
-          {isNew ? 'Inscrição bem sucedida!' : 'Você está inscrito nessa ação'}
+          {isNew
+            ? intl.formatMessage(BEM_SUCEDIDA)
+            : intl.formatMessage(INSCRITO)}
         </h4>
-        <p className="tc-light mb-0">
-          Fique atento as datas e contate a ONG para mais informações.
-        </p>
+        <p className="tc-light mb-0">{intl.formatMessage(FIQUE_ATENTO)}</p>
       </div>
 
       <div className="card no-border radius-10  mb-3 ">
@@ -100,7 +177,9 @@ const ProjectApplicationFinish: React.FC<ProjectApplicationFinishProps> = ({
               <span className="tw-medium tc-base block text-truncate">
                 {viewer.name}
               </span>
-              <span className="tc-success">Voluntário inscrito</span>
+              <span className="tc-success">
+                {intl.formatMessage(VOLUNTARIO_INSCRITO)}
+              </span>
             </div>
           </a>
 
@@ -108,10 +187,12 @@ const ProjectApplicationFinish: React.FC<ProjectApplicationFinishProps> = ({
           {application && application.role && (
             <>
               <h4 className="ts-large mb-1">{application.role.name}</h4>
-              <span className="tc-muted ts-small tw-medium">FUNÇÃO</span>
+              <span className="tc-muted ts-small tw-medium">
+                {intl.formatMessage(FUNCAO)}
+              </span>
               <p>{application.role.details}</p>
               <span className="tc-muted ts-small tw-medium">
-                PRÉ-REQUISITOS
+                {intl.formatMessage(PRE)}
               </span>
               <p className="mb-0">{application.role.details}</p>
             </>
@@ -122,7 +203,7 @@ const ProjectApplicationFinish: React.FC<ProjectApplicationFinishProps> = ({
         <div className="p-4">
           {project.disponibility && (
             <>
-              <h4 className="ts-large mb-2">Descrição dos horários</h4>
+              <h4 className="ts-large mb-2">{DESCRICAO_HORARIOS}</h4>
               <div className="tc-muted-dark">
                 {project.disponibility.type === 'work' ? (
                   <>
@@ -132,12 +213,13 @@ const ProjectApplicationFinish: React.FC<ProjectApplicationFinishProps> = ({
                     </p>
                     <p className="mb-1 ts-medium">
                       <Icon name="access_time" className="mr-2" />
-                      {project.disponibility.work.weekly_hours} Horas semanais
+                      {project.disponibility.work.weekly_hours}{' '}
+                      {intl.formatMessage(HORAS)}
                     </p>
                     {project.disponibility.work.can_be_done_remotely && (
                       <p className="mb-1 ts-medium">
                         <Icon name="public" className="mr-2" />
-                        Você pode atuar à distância
+                        {intl.formatMessage(A_DISTANCIA)}
                       </p>
                     )}
                   </>
@@ -149,13 +231,16 @@ const ProjectApplicationFinish: React.FC<ProjectApplicationFinishProps> = ({
           )}
           {project.address && (
             <>
-              <h4 className="ts-large mb-1 mt-4">Endereço</h4>
+              <h4 className="ts-large mb-1 mt-4">
+                {intl.formatMessage(ENDERECO)}
+              </h4>
               <p className="mb-0 tc-muted-dark">
                 {project.address.typed_address}
                 {project.address.typed_address2 && (
                   <>
                     {' '}
-                    <b>Complemento:</b> {project.address.typed_address2}
+                    <b>{intl.formatMessage(COMPLEMENTO)}</b>{' '}
+                    {project.address.typed_address2}
                   </>
                 )}
               </p>
@@ -174,10 +259,9 @@ const ProjectApplicationFinish: React.FC<ProjectApplicationFinishProps> = ({
         )}
       </div>
       <div className="card no-border radius-10  shadow bg-error-light p-4">
-        <h4 className="tw-normal">Cancelar minha inscrição</h4>
+        <h4 className="tw-normal">{intl.formatMessage(CANCELAR)}</h4>
         <span className="tc-muted-dark mb-0 block mb-3">
-          Ao cancelar sua inscrição você não fará mais parte dessa vaga. Não se
-          preocupe, você pode se inscrever novamente.
+          {intl.formatMessage(AO_CANCELAR)}
         </span>
         <button
           type="button"
@@ -185,7 +269,7 @@ const ProjectApplicationFinish: React.FC<ProjectApplicationFinishProps> = ({
           onClick={handleUnapplication}
           disabled={unapplyTrigger.loading}
         >
-          <Icon name="close" /> Cancelar minha inscrição nessa vaga
+          <Icon name="close" /> {intl.formatMessage(CONFIRMA_CANCELAR)}
         </button>
       </div>
     </div>

@@ -1,4 +1,4 @@
-import { Cause, Skill } from './channel'
+import { Cause, Skill } from '~/common/channel'
 
 export interface StartupDataStats {
   readonly volunteers: number

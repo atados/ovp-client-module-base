@@ -36,7 +36,7 @@ export interface GoogleMapPosition {
   readonly zoom: number
 }
 
-interface GoogleMapProps {
+export interface GoogleMapProps {
   readonly className?: string
   readonly disableChildrenMaping?: boolean
   readonly center?: Mark

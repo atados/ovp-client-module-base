@@ -55,15 +55,14 @@ const Description = styled.p`
 const Info = styled.span`
   display: inline-block;
   font-size: 12px;
-  background: #e9f4fc;
   border-radius: 4px;
   padding: 2px 6px;
-  color: #005cc7;
   font-weight: 500;
   vertical-align: top;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  border-radius: 1000px;
 
   > span {
     vertical-align: top;
@@ -183,7 +182,7 @@ class ProjectCard extends React.Component<
         href={Page.Organization}
         as={PageAs.Organization({ organizationSlug: organization.slug })}
       >
-        <a>{children}</a>
+        <a className="tc-gray-600">{children}</a>
       </Link>
     )
   }
@@ -262,7 +261,7 @@ class ProjectCard extends React.Component<
                 title={`${address.city_state && `${address.city_state}, `} ${
                   address.typed_address
                 }`}
-                className="block"
+                className="block bg-primary-200 tc-primary-700"
               >
                 <Icon name="place" />{' '}
                 {address.city_state && `${address.city_state}, `}
@@ -272,7 +271,7 @@ class ProjectCard extends React.Component<
           )}
           {disponibility && (
             <div className="col-md-6">
-              <Info>
+              <Info className="bg-primary-200 tc-primary-700">
                 <Icon name="date_range" />{' '}
                 {formatDisponibility(disponibility, intl)}
               </Info>

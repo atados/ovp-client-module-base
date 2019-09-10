@@ -113,6 +113,7 @@ const OrganizationComposer: React.FC<OrganizationComposerProps> = ({
         description: 'Preencha com as informações básicas da ONG',
         title: 'Começar pelo basico',
         name: 'Acesso',
+        // @ts-ignore
         component: OrganizationComposerAuth,
       },
       ...steps,

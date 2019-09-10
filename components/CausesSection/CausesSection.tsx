@@ -3,7 +3,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
 import { Page, PageAs } from '~/common'
-import { Cause } from '~/redux/ducks/channel'
+import { Cause } from '~/common/channel'
 import { RootState } from '~/redux/root-reducer'
 
 export interface CausesSectionProps {

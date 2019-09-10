@@ -7,7 +7,7 @@ import {
 import { fetchAPI } from '~/lib/fetch'
 import { FetchJSONError } from '~/lib/fetch/fetch.client'
 import { reportError } from '~/lib/utils/error'
-import { Cause, ImageDict, Skill } from '~/redux/ducks/channel'
+import { Cause, ImageDict, Skill } from '~/common/channel'
 import { Organization } from '~/redux/ducks/organization'
 import { RootState } from '~/redux/root-reducer'
 import { DocumentDict, Post } from '~/types/api'

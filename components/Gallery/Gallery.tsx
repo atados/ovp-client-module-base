@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import styled from 'styled-components'
-import { ImageDict } from '~/redux/ducks/channel'
+import { ImageDict } from '~/common/channel'
 
 const Nav = styled.nav`
   position: fixed;

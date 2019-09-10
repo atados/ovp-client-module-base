@@ -5,6 +5,8 @@ import { fetchAPI } from '~/lib/fetch/fetch.server'
 import { RootState } from '~/redux/root-reducer'
 import Icon from '../Icon'
 import { UploadError } from './errors'
+import { defineMessages, WithIntlProps } from 'react-intl'
+import { withIntl } from '~/lib/intl'
 
 const RE_VALID_TYPE = /image\/(jpe?g|png)/gi
 
@@ -58,6 +60,28 @@ const InputWrapperRemove = styled.div`
   color: #fff;
   text-align: center;
 `
+const { CARREGUE, ARRASTE, CARREGANDO, FALHA, REMOVER } = defineMessages({
+  CARREGUE: {
+    id: 'CARREGUE',
+    defaultMessage: 'Carregue a foto',
+  },
+  ARRASTE: {
+    id: 'ARRASTE',
+    defaultMessage: 'ou arraste pra cá',
+  },
+  CARREGANDO: {
+    id: 'CARREGANDO',
+    defaultMessage: 'Carregando...',
+  },
+  FALHA: {
+    id: 'FALHA',
+    defaultMessage: 'Falha ao tentar carregar',
+  },
+  REMOVER: {
+    id: 'REMOVER',
+    defaultMessage: 'Remover',
+  },
+})
 
 export enum ErrorTypes {
   INVALID_TYPE,
@@ -93,7 +117,11 @@ interface InputImageState {
 }
 
 class InputImage extends React.Component<
+<<<<<<< HEAD
   InputImageProps & InjectedIntlProps,
+=======
+  InputImageProps & WithIntlProps<any>,
+>>>>>>> b79f2fa454a654077a293561d5661f7801b6d642
   InputImageState
 > {
   public static getDerivedStateFromProps(
@@ -206,7 +234,7 @@ class InputImage extends React.Component<
   }
 
   public render() {
-    const { id, hint, ratio, onBlur } = this.props
+    const { id, hint, ratio, onBlur, intl } = this.props
     const { value } = this.state
 
     const input = (
@@ -217,23 +245,23 @@ class InputImage extends React.Component<
             <InputWrapperInner>
               <span className="btn btn-primary btn--block">
                 <Icon name="cloud_upload" className="mr-2" />
-                Carregue a foto
+                {intl.formatMessage(CARREGUE)}
               </span>
               <span className="block ta-center mt-2 tc-muted-dark">
-                ou arraste pra cá
+                {intl.formatMessage(ARRASTE)}
               </span>
             </InputWrapperInner>
           ) : (
             <InputWrapperRemove>
               <button className="btn btn-error btn--block" onClick={this.reset}>
                 {value.fetching ? (
-                  'Carregando...'
+                  intl.formatMessage(CARREGANDO)
                 ) : value.error ? (
-                  'Falha ao tentar carregar'
+                  intl.formatMessage(FALHA)
                 ) : (
                   <>
                     <Icon name="close" className="mr-1" />
-                    Remover
+                    {intl.formatMessage(REMOVER)}
                   </>
                 )}
               </button>
@@ -275,4 +303,4 @@ const mapStateToProps = ({ user }: RootState): { sessionToken?: string } => ({
   sessionToken: user ? user.token : undefined,
 })
 
-export default connect(mapStateToProps)(InputImage)
+export default connect(mapStateToProps)(withIntl(InputImage))

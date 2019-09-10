@@ -13,6 +13,7 @@ import ToolbarApplications from '../Toolbar/ToolbarApplications'
 import AppNotificationWatcher from './components/AppNotificationWatcher'
 import ToolbarMessagesDropdown from './components/ToolbarMessagesDropdown'
 import { Page } from '~/base/common'
+import Router from 'next/router'
 
 interface ToolbarUserProps {
   readonly user: User | null
@@ -132,7 +133,9 @@ const ToolbarUser: React.FC<ToolbarUserProps> = ({
   )
 
   const dispatchToRedux = useDispatch()
-  const handleLogout = () => {
+  const handleLogout = (e: React.MouseEvent<any>) => {
+    e.preventDefault()
+    Router.push(Page.Home)
     dispatchToRedux(logout())
   }
 

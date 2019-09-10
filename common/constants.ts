@@ -1,4 +1,4 @@
-import { Channel } from '~/redux/ducks/channel'
+import { channel } from '~/common/channel'
 
 export const API_URL = process.env.API_URL!
 export const APP_URL = process.env.APP_URL!
@@ -9,7 +9,6 @@ export const NOW_URL = process.env.NOW_URL!
 export const STATIC_DIST_DIRNAME = process.env.STATIC_DIST_DIRNAME!
 export const AUTH_CLIENT_ID = process.env.AUTH_CLIENT_ID!
 export const AUTH_CLIENT_SECRET = process.env.AUTH_CLIENT_SECRET!
-export const channel = JSON.parse(process.env.CHANNEL_JSON as string) as Channel
 
 export const dev = process.env.NODE_ENV !== 'production'
 export const meta = (pageMeta: { title?: string } = {}) => ({
@@ -85,3 +84,4 @@ export const regionLongNameMap = {
   '29': 'Tocantins',
 }
 export const DEFAULT_LOCALE = 'pt-br'
+export { channel }

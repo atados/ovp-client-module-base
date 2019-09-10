@@ -13,7 +13,7 @@ import Icon from '~/components/Icon'
 import { getPlacePredictions } from '~/lib/maps/google-maps-autocomplete'
 import { createAccentFriendlyRegexp } from '~/lib/regex/utils'
 import { pushToDataLayer } from '~/lib/tag-manager'
-import { Cause, Skill } from '~/redux/ducks/channel'
+import { Cause, Skill } from '~/common/channel'
 import { Geolocation } from '~/redux/ducks/geo'
 import {
   BaseFilters,
@@ -105,7 +105,7 @@ const DropdownInputWrapper = styled(Dropdown)`
     props.theme.toolbarBackground
       ? '0 0 1px rgba(0,0,0,.2), 0 0 2px rgba(0,0,0,.2)'
       : ''};
-  border-radius: 4px;
+  border-radius: 20px;
 
   > input {
     height: 40px;
@@ -136,7 +136,7 @@ const Form = styled.form`
     content: '';
     left: 16px;
     right: 16px;
-    background: #ddd;
+    background: rgba(0, 0, 0, 0.1);
     height: 1px;
     position: absolute;
     bottom: -1px;

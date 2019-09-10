@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react'
 import styled from 'styled-components'
-import { ImageDict } from '~/redux/ducks/channel'
+import { ImageDict } from '~/common/channel'
 import { Project } from '~/redux/ducks/project'
 import Gallery from '../Gallery'
 import { useModal } from '../Modal'

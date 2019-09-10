@@ -1,6 +1,6 @@
 import { colors, dev } from '~/common/constants'
 import { fetchAPI } from '~/lib/fetch'
-import { Cause, Skill } from '~/redux/ducks/channel'
+import { Cause, Skill } from '~/common/channel'
 import { StartupData } from '~/redux/ducks/startup'
 
 let lastTimeFetched: number = 0

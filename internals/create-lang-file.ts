@@ -1,6 +1,7 @@
 import * as fs from 'fs'
 import prevGlob from 'glob'
 import prevMkdirp from 'mkdirp'
+import flat from 'flat'
 import * as path from 'path'
 import { promisify } from 'util'
 
@@ -13,7 +14,7 @@ export default async function createLangFile() {
   const langs = (await glob(path.resolve('base', 'lang', '*.json'))).map(
     filename => path.basename(filename, path.extname(filename)),
   )
-  await mkdirp(path.resolve('static', 'dist', 'lang'))
+  await mkdirp(path.resolve('channel', 'generated', 'lang'))
   await mkdirp(path.resolve('static', 'dist', 'locale-data'))
 
   return Promise.all(
@@ -34,7 +35,6 @@ export default async function createLangFile() {
         // ...
       }
 
-      const out = path.resolve('static', 'dist', 'lang', `${lang}.json`)
       const localeDataOut = path.resolve(
         'static',
         'dist',
@@ -51,13 +51,18 @@ export default async function createLangFile() {
         )}\'`,
       )
       return Promise.all([
-        writeFile(out, JSON.stringify(messages)),
+        writeFile(
+          path.resolve('channel', 'generated', 'lang', `${lang}.json`),
+          JSON.stringify(flat(messages)),
+        ),
         writeFile(
           localeDataOut,
           fs.readFileSync(
             path.resolve(
               'node_modules',
-              'react-intl',
+              '@formatjs',
+              'intl-relativetimeformat',
+              'dist',
               'locale-data',
               `${lang.split('-')[0]}.js`,
             ),

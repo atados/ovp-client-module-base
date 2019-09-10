@@ -4,6 +4,8 @@ import { channel } from '~/common/constants'
 import { JobDate } from '~/redux/ducks/project'
 import DisponibilityJobForm from './DisponibilityJobForm'
 import DisponibilityWorkForm from './DisponibilityWorkForm'
+import { defineMessages, WithIntlProps } from 'react-intl'
+import { withIntl } from '~/lib/intl'
 
 const OptionHeader = styled.button`
   width: 100%;
@@ -37,6 +39,42 @@ const OptionBody = styled.div`
   background: #f6f7f8;
   padding-left: 50px !important;
 `
+
+const {
+  RECORRENTE,
+  EXIGE_COMPROMETIMENTO,
+  PONTUAL,
+  E_NECESSARIO,
+  DOACAO,
+  VAGA_DESTINADA,
+} = defineMessages({
+  RECORRENTE: {
+    id: 'RECORRENTE',
+    defaultMessage: 'Recorrente',
+  },
+  EXIGE_COMPROMETIMENTO: {
+    id: 'EXIGE_COMPROMETIMENTO',
+    defaultMessage:
+      'Exige comprometimento por um período mais longo, durante meses ou anos.',
+  },
+  PONTUAL: {
+    id: 'PONTUAL',
+    defaultMessage: 'Pontual',
+  },
+  E_NECESSARIO: {
+    id: 'E_NECESSARIO',
+    defaultMessage:
+      'É necessário dedicar-se por um curto período de tempo, em um dia ou uma semana para a realização das atividades.',
+  },
+  DOACAO: {
+    id: 'DOACAO',
+    defaultMessage: 'Doação',
+  },
+  VAGA_DESTINADA: {
+    id: 'VAGA_DESTINADA',
+    defaultMessage: 'Vaga destinada a doação',
+  },
+})
 
 export interface DisponibilityInputWorkBaseType {
   type: 'work'
@@ -89,7 +127,7 @@ interface DisponibilityInputState {
 }
 
 class DisponibilityInput extends React.PureComponent<
-  DisponibilityInputProps,
+  DisponibilityInputProps & WithIntlProps<any>,
   DisponibilityInputState
 > {
   public static getDerivedStateFromProps(
@@ -211,7 +249,7 @@ class DisponibilityInput extends React.PureComponent<
   }
 
   public render() {
-    const { className } = this.props
+    const { className, intl } = this.props
     const { value } = this.state
 
     return (
@@ -235,10 +273,11 @@ class DisponibilityInput extends React.PureComponent<
               }`}
             />
             <div className="media-body ml-3">
-              <h5 className="tw-normal mb-1">Recorrente</h5>
+              <h5 className="tw-normal mb-1">
+                {intl.formatMessage(RECORRENTE)}
+              </h5>
               <p className="tc-muted-dark ts-small mb-0">
-                Exige comprometimento por um período mais longo, durante meses
-                ou anos.
+                {intl.formatMessage(EXIGE_COMPROMETIMENTO)}
               </p>
             </div>
           </OptionHeader>
@@ -270,10 +309,9 @@ class DisponibilityInput extends React.PureComponent<
               }`}
             />
             <div className="media-body ml-3">
-              <h5 className="tw-normal mb-1">Pontual</h5>
+              <h5 className="tw-normal mb-1">{intl.formatMessage(PONTUAL)}</h5>
               <p className="tc-muted-dark ts-small mb-0">
-                É necessário dedicar-se por um curto período de tempo, em um dia
-                ou uma semana para a realização das atividades.
+                {intl.formatMessage(E_NECESSARIO)}
               </p>
             </div>
           </OptionHeader>
@@ -307,9 +345,9 @@ class DisponibilityInput extends React.PureComponent<
                 }`}
               />
               <div className="media-body ml-3">
-                <h5 className="tw-normal mb-1">Doação</h5>
+                <h5 className="tw-normal mb-1">{intl.formatMessage(DOACAO)}</h5>
                 <p className="tc-muted-dark ts-small mb-0">
-                  Vaga destinada a doação
+                  {intl.formatMessage(VAGA_DESTINADA)}
                 </p>
               </div>
             </OptionHeader>
@@ -330,4 +368,4 @@ class DisponibilityInput extends React.PureComponent<
   }
 }
 
-export default DisponibilityInput
+export default withIntl(DisponibilityInput)

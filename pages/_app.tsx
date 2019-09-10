@@ -24,6 +24,7 @@ import { RootState } from '~/redux/root-reducer'
 import withRedux from '~/redux/with-redux'
 import { getStartupData } from '../lib/startup'
 import { loginWithSessionToken } from '../redux/ducks/user'
+import { Asset, Config, Theme } from '~/common'
 
 declare global {
   interface Window {
@@ -32,8 +33,8 @@ declare global {
 }
 
 // Only run Sentry on production
-if (!dev && channel.config.sentry) {
-  Sentry.init(channel.config.sentry)
+if (!dev && Config.sentry) {
+  Sentry.init(Config.sentry)
 }
 
 // Register React Intl's locale data for the user's locale in the browser. This
@@ -100,8 +101,8 @@ class App extends NextApp<AppProps> {
       Router.events.on('routeChangeError', this.progressBar.done)
     }
 
-    if (channel.config.googleTagManager) {
-      setupDataLayer(channel.config.googleTagManager.id)
+    if (Config.googleTagManager) {
+      setupDataLayer(Config.googleTagManager.id)
     }
   }
 
@@ -113,39 +114,34 @@ class App extends NextApp<AppProps> {
     return (
       <IntlProvider locale={intl.locale} messages={intl.messages}>
         <Provider store={store}>
-          <ThemeProvider theme={channel.theme}>
+          <ThemeProvider theme={Theme}>
             <StatusProvider>
               <ModalProvider>
                 <Head>
-                  <meta
-                    name="theme-color"
-                    content={channel.theme.color.primary[500]}
-                  />
+                  <meta name="theme-color" content={Theme.color.primary[500]} />
                   <script src={`/api/intl/${intlHash}/${intl.locale}`} />
-                  {channel.config.maps.key && (
+                  {Config.maps.key && (
                     <script
-                      src={`https://maps.googleapis.com/maps/api/js?key=${channel.config.maps.key}&libraries=places&language=pt-Br`}
+                      src={`https://maps.googleapis.com/maps/api/js?key=${Config.maps.key}&libraries=places&language=pt-Br`}
                     />
                   )}
-                  {channel.assets.icon && (
+                  {Asset.Favicon && (
                     <link
                       rel="shortcut icon"
-                      href={channel.assets.icon}
+                      href={channel.assets.Favicon}
                       type="image/x-icon"
                     />
                   )}
-                  {channel.assets.scripts &&
-                    channel.assets.scripts.map((script, i) => (
-                      <script key={i} {...script} />
-                    ))}
-                  {channel.assets.links &&
-                    channel.assets.links.map((link, i) => (
-                      <link key={i} {...link} />
-                    ))}
+                  {channel.head.scripts.map((script, i) => (
+                    <script key={i} {...script} />
+                  ))}
+                  {channel.head.links.map((link, i) => (
+                    <link key={i} {...link} />
+                  ))}
                 </Head>
 
-                {channel.config.googleTagManager && (
-                  <GTMScripts {...channel.config.googleTagManager} />
+                {Config.googleTagManager && (
+                  <GTMScripts {...Config.googleTagManager} />
                 )}
                 <GlobalProgressBar
                   ref={ref => {

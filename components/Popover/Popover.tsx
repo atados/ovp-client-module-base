@@ -2,6 +2,8 @@ import React from 'react'
 import styled from 'styled-components'
 import Dropdown, { DropdownMenu } from '../Dropdown'
 import Icon from '../Icon'
+import { channel } from '~/base/common/constants'
+import { Config } from '~/base/common'
 
 const CloseButton = styled.button`
   border-radius: 50%;
@@ -12,7 +14,8 @@ const CloseButton = styled.button`
 const Menu = styled(DropdownMenu)`
   position: absolute;
   z-index: 10200;
-  background: ${props => props.theme.popoverColor};
+  background: ${Config.popover.backgroundColor ||
+    channel.theme.color.primary[500]};
   padding: 16px;
   color: #fff;
   border-radius: 10px;
@@ -26,7 +29,7 @@ const Menu = styled(DropdownMenu)`
   &::after {
     content: '';
     border-width: 0 8px 8px;
-    border-color: ${props => props.theme.popoverColor} rgba(0, 0, 0, 0);
+    border-color: ${channel.theme.color.primary[500]} rgba(0, 0, 0, 0);
     border-style: solid;
     width: 0;
     height: 0;

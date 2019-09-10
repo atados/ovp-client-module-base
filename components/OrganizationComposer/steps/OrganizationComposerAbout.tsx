@@ -1,35 +1,35 @@
-import { InjectedFormikProps, withFormik } from 'formik'
-import React from 'react'
-import FormGroup from '~/components/Form/FormGroup'
+import { InjectedFormikProps, withFormik } from "formik";
+import React from "react";
+import FormGroup from "~/components/Form/FormGroup";
 import {
   FormComposerMode,
-  FormComposerStepProps,
-} from '~/components/FormComposer/FormComposer'
-import FormComposerLayout from '~/components/FormComposer/FormComposerLayout'
-import HelpCard from '~/components/HelpCard'
-import MarkdownEditor from '~/components/ˇMarkdownEditor'
-import Yup from '~/lib/form/yup'
-import { defineMessages, InjectedIntlProps } from 'react-intl'
-import { withIntl } from '~/lib/intl'
+  FormComposerStepProps
+} from "~/components/FormComposer/FormComposer";
+import FormComposerLayout from "~/components/FormComposer/FormComposerLayout";
+import HelpCard from "~/components/HelpCard";
+import MarkdownEditor from "~/components/ˇMarkdownEditor";
+import Yup from "~/lib/form/yup";
+import { defineMessages, WithIntlProps } from "react-intl";
+import { withIntl } from "~/lib/intl";
 
 const OrganizationContactFormSchema = Yup.object().shape({
   content: Yup.string()
     .min(8)
     .max(3000)
-    .required(),
-})
+    .required()
+});
 
 export interface Values {
-  readonly content: string
+  readonly content: string;
 }
 
 interface OrganizationComposerContactProps
   extends FormComposerStepProps<Values> {
-  readonly className?: string
+  readonly className?: string;
 }
 
 interface OrganizationComposerState {
-  renderEditor?: boolean
+  renderEditor?: boolean;
 }
 
 const {
@@ -42,90 +42,90 @@ const {
   SOBRE,
   ETAPA3,
   DESCREVA,
-  ESCREVA,
+  ESCREVA
 } = defineMessages({
   DICAS: {
-    id: 'DICAS',
-    defaultMessage: 'Dicas para uma boa descrição',
+    id: "DICAS",
+    defaultMessage: "Dicas para uma boa descrição"
   },
   DICAS_HEADER: {
-    id: 'DICAS_HEADER',
+    id: "DICAS_HEADER",
     defaultMessage:
-      'Para ter uma descrição completa certifique-se de que o texto contempla os seguinte pontos:',
+      "Para ter uma descrição completa certifique-se de que o texto contempla os seguinte pontos:"
   },
   DICA1: {
-    id: 'DICA1',
-    defaultMessage: '1. A história da ONG;',
+    id: "DICA1",
+    defaultMessage: "1. A história da ONG;"
   },
   DICA2: {
-    id: 'DICA2',
-    defaultMessage: '2. O público atendido;',
+    id: "DICA2",
+    defaultMessage: "2. O público atendido;"
   },
   DICA3: {
-    id: 'DICA3',
-    defaultMessage: '3. Atividades e projetos desenvolvidos;',
+    id: "DICA3",
+    defaultMessage: "3. Atividades e projetos desenvolvidos;"
   },
   DICA4: {
-    id: 'DICA4',
-    defaultMessage: '4. A importância do trabalho da ONG.',
+    id: "DICA4",
+    defaultMessage: "4. A importância do trabalho da ONG."
   },
   SOBRE: {
-    id: 'SOBRE',
-    defaultMessage: 'Sobre a ONG',
+    id: "SOBRE",
+    defaultMessage: "Sobre a ONG"
   },
   ETAPA3: {
-    id: 'ETAPA3',
-    defaultMessage: 'ETAPA 3',
+    id: "ETAPA3",
+    defaultMessage: "ETAPA 3"
   },
   DESCREVA: {
-    id: 'DESCREVA',
-    defaultMessage: 'Descreva com clareza o trabalho da ONG.',
+    id: "DESCREVA",
+    defaultMessage: "Descreva com clareza o trabalho da ONG."
   },
   ESCREVA: {
-    id: 'ESCREVA',
+    id: "ESCREVA",
     defaultMessage:
-      'Escreva sobre o que sua ONG faz, como ela começou, histórias...',
-  },
-})
+      "Escreva sobre o que sua ONG faz, como ela começou, histórias..."
+  }
+});
 
 class OrganizationComposerContact extends React.Component<
   OrganizationComposerContactProps &
     InjectedFormikProps<OrganizationComposerContactProps, Values> &
-    InjectedIntlProps,
+    WithIntlProps<any>,
   OrganizationComposerState
 > {
   public static isValidValue = (values: Values): Promise<boolean> => {
-    return OrganizationContactFormSchema.isValid(values)
-  }
-  public draftTimeout: number
-  public state: OrganizationComposerState = {}
+    return OrganizationContactFormSchema.isValid(values);
+  };
+  public draftTimeout: number;
+  public state: OrganizationComposerState = {};
 
   public componentDidMount() {
-    this.setState({ renderEditor: true })
+    this.setState({ renderEditor: true });
   }
 
   public saveDraft = () => {
-    const { onChange } = this.props
+    const { onChange } = this.props;
 
     if (this.draftTimeout) {
-      clearTimeout(this.draftTimeout)
+      clearTimeout(this.draftTimeout);
     }
 
     this.draftTimeout = window.setTimeout(() => {
       if (onChange) {
-        onChange(this.props.values)
+        onChange(this.props.values);
       }
-    }, 1000)
-  }
+    }, 1000);
+  };
 
   public handleChange = (newValue: string) => {
-    this.props.setFieldValue('content', newValue)
-  }
+    this.props.setFieldValue("content", newValue);
+  };
 
   public handleBlur = () => {
-    this.props.setFieldTouched('content', true)
-    this.saveDraft()
-  }
+    this.props.setFieldTouched("content", true);
+    this.saveDraft();
+  };
 
   public render() {
     const {
@@ -138,9 +138,9 @@ class OrganizationComposerContact extends React.Component<
       handleSubmit,
       onBack,
       isComposerSubmitting,
-      intl,
-    } = this.props
-    const { renderEditor } = this.state
+      intl
+    } = this.props;
+    const { renderEditor } = this.state;
 
     return (
       <FormComposerLayout
@@ -196,18 +196,18 @@ class OrganizationComposerContact extends React.Component<
           )}
         </FormGroup>
       </FormComposerLayout>
-    )
+    );
   }
 }
 
 const defaultValue: Values = {
-  content: '',
-}
+  content: ""
+};
 
 export default withFormik<OrganizationComposerContactProps, Values>({
-  displayName: 'OrganizationComposerContactForm',
+  displayName: "OrganizationComposerContactForm",
   handleSubmit: (values, { props: { onSubmit } }) => {
-    onSubmit(values)
+    onSubmit(values);
   },
   isInitialValid: (props: OrganizationComposerContactProps) =>
     props.defaultValue
@@ -215,6 +215,6 @@ export default withFormik<OrganizationComposerContactProps, Values>({
       : false,
   validationSchema: OrganizationContactFormSchema,
   mapPropsToValues: ({ defaultValue: value = defaultValue }) => ({
-    content: value.content || '',
-  }),
-})(withIntl(OrganizationComposerContact))
+    content: value.content || ""
+  })
+})(withIntl(OrganizationComposerContact));

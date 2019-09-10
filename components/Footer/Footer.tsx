@@ -8,9 +8,10 @@ import { channel } from '~/common/constants'
 import NewsletterForm from '~/components/NewsletterForm'
 import SocialMediaIcon from '~/components/SocialMediaIcon/SocialMediaIcon'
 import { useIntl } from 'react-intl'
-import { Cause } from '~/redux/ducks/channel'
+import { Cause } from '~/common/channel'
 import { RootState } from '~/redux/root-reducer'
 import FooterNav from './FooterNav'
+import LanguageDropdown from '~/components/LanguageDropdown/LanguageDropdown'
 
 const Container = styled.div`
   background: ${props => props.theme.footerBackground || '#f5f6f7'};
@@ -96,6 +97,9 @@ const Footer: React.FC<FooterProps> = ({ causes, className }) => {
                   )}
                 </li>
               ))}
+              <li className="nav-item">
+                <LanguageDropdown />
+              </li>
             </FooterNav>
           </div>
           <div className="col-md-3 mb-3 mb-md-0">
@@ -134,7 +138,9 @@ const Footer: React.FC<FooterProps> = ({ causes, className }) => {
         <div className="py-2 flex">
           <Link href={Page.Home} as={PageAs.Home()}>
             <a>
-              <img src={channel.assets.footerBrand} alt="" height="42" />
+              {channel.assets.FooterBrand && (
+                <img src={channel.assets.FooterBrand} alt="" height="42" />
+              )}
               <span className="ml-3 ts-medium">
                 {intl.formatMessage(appName)}
               </span>

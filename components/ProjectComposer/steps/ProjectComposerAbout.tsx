@@ -9,6 +9,8 @@ import asFormStep, {
   InjectedMultipleStepsFormProps,
 } from '~/components/MultipleStepsForm/as-form-step'
 import Yup from '~/lib/form/yup'
+import { defineMessages } from 'react-intl'
+import { useIntl } from 'react-intl'
 
 const ProjectAboutFormSchema = Yup.object().shape({
   body: Yup.string()
@@ -25,6 +27,61 @@ interface ProjectComposerAboutProps
   extends InjectedMultipleStepsFormProps<any, any, any> {
   readonly className?: string
 }
+
+const {
+  NAO_PODE,
+  DESCREVA,
+  IMPORTANCIA,
+  PUBLICO,
+  SE_HOUVER,
+  ETAPA4,
+  SOBRE,
+  DESCREVA_CLAREZA,
+  HINT,
+  PLACEHOLDER,
+} = defineMessages({
+  NAO_PODE: {
+    id: 'NAO_PODE',
+    defaultMessage: 'O que não pode faltar!',
+  },
+  DESCREVA: {
+    id: 'DESCREVA',
+    defaultMessage: 'Descreva as atividades que o voluntário (a) irá realizar;',
+  },
+  IMPORTANCIA: {
+    id: 'IMPORTANCIA',
+    defaultMessage: 'Importância da ação;',
+  },
+  PUBLICO: {
+    id: 'PUBLICO',
+    defaultMessage: 'Público que será atendido pelo voluntariado;',
+  },
+  SE_HOUVER: {
+    id: 'SE_HOUVER',
+    defaultMessage: 'Se houver capacitação, é importante mencionar;',
+  },
+  ETAPA4: {
+    id: 'ETAPA4',
+    defaultMessage: 'ETAPA 4',
+  },
+  SOBRE: {
+    id: 'SOBRE',
+    defaultMessage: 'Sobre a Vaga',
+  },
+  DESCREVA_CLAREZA: {
+    id: 'DESCREVA_CLAREZA',
+    defaultMessage: 'Descreva com clareza a finalidade da vaga.',
+  },
+  HINT: {
+    id: 'HINT',
+    defaultMessage: 'Você pode adicionar links e formatações ao texto.',
+  },
+  PLACEHOLDER: {
+    id: 'PLACEHOLDER',
+    defaultMessage:
+      'Faça uma descrição completa e deixa um bom convite. Isso garante que mais voluntários se candidatem a esta vaga.',
+  },
+})
 
 const ProjectComposerAbout: React.FC<
   InjectedFormikProps<ProjectComposerAboutProps, Values>
@@ -50,6 +107,7 @@ const ProjectComposerAbout: React.FC<
     },
     [setFieldValue],
   )
+  const intl = useIntl()
   const handleBlur = useCallback(() => {
     setFieldTouched('body', true)
   }, [setFieldTouched])
@@ -63,23 +121,25 @@ const ProjectComposerAbout: React.FC<
       helpPanelChildren={
         <div className="p-5">
           <HelpCard className="card pr-4 pb-4 pl-4 pt-2 mb-4">
-            <h4 className="ts-medium tw-medium">O que não pode faltar!</h4>
+            <h4 className="ts-medium tw-medium">
+              {intl.formatMessage(NAO_PODE)}
+            </h4>
             <ul className="bullets">
-              <li>Descreva as atividades que o voluntário (a) irá realizar;</li>
-              <li>Importância da ação;</li>
-              <li>Público que será atendido pelo voluntariado;</li>
-              <li>Se houver capacitação, é importante mencionar;</li>
+              <li>{intl.formatMessage(DESCREVA)}</li>
+              <li>{intl.formatMessage(IMPORTANCIA)}</li>
+              <li>{intl.formatMessage(PUBLICO)}</li>
+              <li>{intl.formatMessage(SE_HOUVER)}</li>
             </ul>
           </HelpCard>
         </div>
       }
     >
       {mode !== FormComposerMode.EDIT && (
-        <h4 className="tc-muted ts-small">ETAPA 4</h4>
+        <h4 className="tc-muted ts-small">{intl.formatMessage(ETAPA4)}</h4>
       )}
-      <h1 className="tw-light mb-1">Sobre a Vaga</h1>
+      <h1 className="tw-light mb-1">{intl.formatMessage(SOBRE)}</h1>
       <p className="ts-medium tc-muted-dark mb-4">
-        Descreva com clareza a finalidade da vaga.
+        {intl.formatMessage(DESCREVA_CLAREZA)}
       </p>
 
       <FormGroup
@@ -88,17 +148,12 @@ const ProjectComposerAbout: React.FC<
         className="mb-4"
         length={values.body.length}
         maxLength={3000}
-        hint="Você pode adicionar links e formatações ao texto."
+        hint={intl.formatMessage(HINT)}
       >
         {renderEditor && (
           <MarkdownEditor
             // @ts-ignore
-            placeholder={
-              <>
-                Faça uma descrição completa e deixa um bom convite. <br /> Isso
-                garante que mais voluntários se candidatem a esta vaga.
-              </>
-            }
+            placeholder={<>{intl.formatMessage(PLACEHOLDER)}</>}
             onChange={handleChange}
             onBlur={handleBlur}
             defaultValue={values.body}

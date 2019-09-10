@@ -10,7 +10,7 @@ import { SearchSourcesSize } from '~/components/SearchSources/SearchSources'
 import { rgba } from '~/lib/color/transformers'
 import { NotFoundPageError } from '~/lib/next/errors'
 import { mountAddressFilter } from '~/lib/utils/geo-location'
-import { Cause } from '~/redux/ducks/channel'
+import { Cause } from '~/common/channel'
 import { Organization } from '~/redux/ducks/organization'
 import { Project } from '~/redux/ducks/project'
 import {
