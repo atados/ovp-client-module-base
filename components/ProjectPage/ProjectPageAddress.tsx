@@ -1,10 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
-import GoogleMap from '~/components/GoogleMap'
+import GoogleMap from '~/components/GoogleMap/BlockedGoogleMap'
 import { Project } from '~/redux/ducks/project'
 import MapMark from '../MapMark'
-import { defineMessages } from 'react-intl'
-import useIntl from '~/hooks/use-intl'
 
 const Map = styled(GoogleMap)`
   height: 500px;
@@ -13,20 +11,7 @@ interface ProjectPageAddressProps {
   readonly project: Project
 }
 
-const { ENDERECO, COMPLEMENTO } = defineMessages({
-  ENDERECO: {
-    id: 'ENDERECO',
-    defaultMessage: 'Endereço da vaga',
-  },
-  COMPLEMENTO: {
-    id: 'COMPLEMENTO',
-    defaultMessage: 'Complemento:',
-  },
-})
-
 const ProjectPageAddress: React.FC<ProjectPageAddressProps> = ({ project }) => {
-  const intl = useIntl()
-
   if (!project.address) {
     return null
   }
@@ -34,15 +19,14 @@ const ProjectPageAddress: React.FC<ProjectPageAddressProps> = ({ project }) => {
   return (
     <>
       <h4 id="endereco" className="mb-2">
-        {intl.formatMessage(ENDERECO)}
+        Endereço da vaga
       </h4>
       <p className="tw-normal ts-medium mb-4">
         {project.address.typed_address}
         {project.address.typed_address2 && (
           <>
             {' '}
-            <b>{intl.formatMessage(COMPLEMENTO)}</b>{' '}
-            {project.address.typed_address2}
+            <b>Complemento:</b> {project.address.typed_address2}
           </>
         )}
       </p>

@@ -1,11 +1,9 @@
 import React, { useMemo } from 'react'
 import styled from 'styled-components'
-import { ImageDict } from '~/redux/ducks/channel'
+import { ImageDict } from '~/common/channel'
 import { Project } from '~/redux/ducks/project'
 import Gallery from '../Gallery'
 import { useModal } from '../Modal'
-import { defineMessages } from 'react-intl'
-import useIntl from '~/hooks/use-intl'
 
 const Photos = styled.div`
   &.row {
@@ -33,18 +31,9 @@ interface ProjectPageGalleriesProps {
   readonly project: Project
 }
 
-const { FOTOS } = defineMessages({
-  FOTOS: {
-    id: 'FOTOS',
-    defaultMessage: 'Fotos',
-  },
-})
-
 const ProjectPageGalleries: React.FC<ProjectPageGalleriesProps> = ({
   project,
 }) => {
-  const intl = useIntl()
-
   const openGallery = useModal({
     id: 'Gallery',
     component: Gallery,
@@ -65,7 +54,7 @@ const ProjectPageGalleries: React.FC<ProjectPageGalleriesProps> = ({
 
   return (
     <>
-      <h4 className="mb-4">{intl.formatMessage(FOTOS)}</h4>
+      <h4 className="mb-4">Fotos</h4>
       <Photos className="row">
         {images.map(image => (
           <div key={image.id} className="col-4">

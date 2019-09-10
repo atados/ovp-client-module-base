@@ -1,13 +1,11 @@
 import Link from 'next/link'
 import React from 'react'
 import styled from 'styled-components'
-import { channel, colors } from '~/common/constants'
-import { resolvePage } from '~/common/page'
+import { colors, channel } from '~/common/constants'
 import { rgba } from '~/lib/color/transformers'
 import { Project } from '~/redux/ducks/project'
 import { SearchType } from '~/redux/ducks/search'
-import { defineMessages } from 'react-intl'
-import useIntl from '~/hooks/use-intl'
+import { Page, PageAs } from '~/common'
 
 const RoleName = styled.h2`
   font-size: 20px;
@@ -36,11 +34,13 @@ const Apply = styled.li`
   background-size: cover;
   background-position: center;
   vertical-align: top;
+
   > a {
     width: 100%;
     height: 100%;
     display: block;
   }
+
   &.apply__more {
     font-size: 11px;
     text-align: center;
@@ -55,6 +55,7 @@ const Applies = styled.ul`
   margin: 0;
   padding: 0;
   display: inline-block;
+
   ${Apply} + ${Apply} {
     margin-left: -12px;
   }
@@ -67,39 +68,14 @@ const RoleApply = styled.div`
   right: 0;
   bottom: 0;
   border-radius: 10px;
-  background: ${rgba(channel.theme.colorPrimary, 90)};
+  background: ${rgba(channel.theme.color.primary[500], 90)};
   opacity: 0;
   transition: opacity 0.2s;
   cursor: pointer;
   color: #fff;
   font-size: 18px;
   text-align: center;
-  > div {
-    display: none;
-    height: 40px;
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    margin: auto;
-  }
-`
 
-const RoleApplyFull = styled.div`
-  position: absolute;
-  left: 0;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  border-radius: 10px;
-  background: #d6002a;
-  opacity: 0;
-  transition: opacity 0.2s;
-  cursor: pointer;
-  color: #fff;
-  font-size: 18px;
-  text-align: center;
   > div {
     display: none;
     height: 40px;
@@ -121,73 +97,15 @@ const Role = styled.button`
   text-align: left;
   outline: none;
   position: relative;
+
   &:hover ${RoleApply} {
     opacity: 1;
-    > div {
-      display: block;
-    }
-  }
-  &:hover ${RoleApplyFull} {
-    opacity: 1;
+
     > div {
       display: block;
     }
   }
 `
-
-const {
-  VAGA_ENCERRADA,
-  VAGA_ENCERRADA_TEXT,
-  BUSCAR_MAIS,
-  COMO_CONTRIBUIR,
-  VAGAS_COMO,
-  QUERO_CONTRIBUIR,
-  FUNCAO,
-  PRE_REQUISITOS,
-  VAGAS_ESGOTADAS,
-} = defineMessages({
-  VAGA_ENCERRADA: {
-    id: 'VAGA_ENCERRADA',
-    defaultMessage: 'Essa vaga foi encerrada',
-  },
-  VAGA_ENCERRADA_TEXT: {
-    id: 'VAGA_ENCERRADA_TEXT',
-    defaultMessage:
-      'Essa vaga não necessita mais de voluntários. Mas não precisa parar por aqui! Clique abaixo para encontrar outras vagas relacionadas.',
-  },
-  BUSCAR_MAIS: {
-    id: 'BUSCAR_MAIS',
-    defaultMessage: 'Buscar outras vagas',
-  },
-  COMO_CONTRIBUIR: {
-    id: 'COMO_CONTRIBUIR',
-    defaultMessage: 'Como contribuir',
-  },
-  VAGAS_COMO: {
-    id: 'VAGAS_COMO',
-    defaultMessage: 'Vagas esgotadas como',
-  },
-  QUERO_CONTRIBUIR: {
-    id: 'QUERO_CONTRIBUIR',
-    defaultMessage: 'Quero contribuir como',
-  },
-  VAGAS_COMO2: {
-    id: 'VAGAS_COMO2',
-    defaultMessage: 'Vagas esgotadas como',
-  },
-  FUNCAO: {
-    id: 'FUNCAO',
-    defaultMessage: 'FUNÇÃO',
-  },
-  PRE_REQUISITOS: {
-    id: 'PRE_REQUISITOS',
-    defaultMessage: 'PRÉ-REQUISITOSÇÃO',
-  },
-  VAGAS_ESGOTADAS: {
-    id: 'VAGAS_ESGOTADAS',
-    defaultMessage: 'Vagas esgotadas',
-  },
-})
 
 interface ProjectPageRolesProps {
   readonly className?: string
@@ -201,8 +119,6 @@ const ProjectPageRoles: React.FC<ProjectPageRolesProps> = ({
   project,
   onApply,
 }) => {
-  const intl = useIntl()
-
   if (!project.roles.length) {
     return null
   }
@@ -211,22 +127,21 @@ const ProjectPageRoles: React.FC<ProjectPageRolesProps> = ({
     return (
       <div className={className}>
         <div className="card radius-10 p-4">
-          <span className="ts-large d-block">
-            {intl.formatMessage(VAGA_ENCERRADA)}
-          </span>
+          <span className="ts-large block">Essa vaga foi encerrada</span>
           <span className="ts-small tc-muted">
-            {intl.formatMessage(VAGA_ENCERRADA_TEXT)}
+            Essa vaga não necessita mais de voluntários. Mas não precisa parar
+            por aqui! Clique abaixo para encontrar outras vagas relacionadas.
           </span>
           <hr />
           <Link
             href={{
-              pathname: resolvePage('/explorer'),
+              pathname: Page.SearchProjects,
               query: { searchType: SearchType.Projects },
             }}
-            as="/vagas"
+            as={PageAs.SearchProjects()}
           >
-            <a className="btn btn-white tc-primary btn--size-3 btn--block">
-              {intl.formatMessage(BUSCAR_MAIS)}
+            <a className="btn btn-white tc-primary-500 btn--size-3 btn--block">
+              Buscar outras vagas
             </a>
           </Link>
         </div>
@@ -236,86 +151,53 @@ const ProjectPageRoles: React.FC<ProjectPageRolesProps> = ({
 
   return (
     <div className={className}>
-      <h4 className="mb-4">{intl.formatMessage(COMO_CONTRIBUIR)}</h4>
-      {project.roles.map(role => {
-        console.log(role.vacancies)
-        const rolesNumber =
-          role.vacancies * channel.config.project.multiplyRoleVacanciesLimit
-        const limitApplication =
-          channel.config.project.blockApplicationsAtLimit &&
-          (role && role.applied_count >= rolesNumber)
-
-        return (
-          <Role
-            key={role.id}
-            type="button"
-            className="mb-4"
-            onClick={
-              onApply && role.applied_count < role.vacancies
-                ? () => onApply(role.id)
-                : undefined
-            }
-          >
-            {limitApplication ? (
-              <RoleApplyFull>
-                <div className="animte-slideInUp">
-                  {intl.formatMessage(VAGAS_COMO)}{' '}
-                  <b className="d-block">{role.name}</b>
-                </div>
-              </RoleApplyFull>
-            ) : (
-              <RoleApply>
-                <div className="animte-slideInUp">
-                  {intl.formatMessage(QUERO_CONTRIBUIR)}{' '}
-                  <b className="d-block">{role.name}</b>
-                </div>
-              </RoleApply>
-            )}
-            <RoleName>{role.name}</RoleName>
-            <RoleSectionTitle>{intl.formatMessage(FUNCAO)}</RoleSectionTitle>
-            <RoleText>{role.details}</RoleText>
-            <RoleSectionTitle>
-              {intl.formatMessage(PRE_REQUISITOS)}
-            </RoleSectionTitle>
-            <RoleText>{role.prerequisites}</RoleText>
-            <div className="d-flex">
-              {limitApplication ? (
-                <span className="tw-small mr-2 tc-error">
-                  {intl.formatMessage(VAGAS_ESGOTADAS)}
-                </span>
-              ) : (
-                <span className="tw-medium mr-2">
-                  {role.applied_count}/{role.vacancies}
-                </span>
-              )}
-              <div className="mr-auto" />
-              {role.applies && role.applies.length > 0 && (
-                <Applies className="mr-2">
-                  {role.applies.slice(0, 10).map((application, i) => (
-                    <Apply
-                      key={application.user ? application.user.uuid : i}
-                      style={{
-                        backgroundColor: colors[i],
-                        backgroundImage:
-                          application.user && application.user.avatar
-                            ? `url('${
-                                application.user.avatar.image_small_url
-                              }')`
-                            : undefined,
-                      }}
-                    />
-                  ))}
-                  {project.applied_count > 10 && (
-                    <Apply className="apply__more">
-                      +{Math.min(99, project.applied_count - 10)}
-                    </Apply>
-                  )}
-                </Applies>
-              )}
+      <h4 className="mb-4">Como contribuir</h4>
+      {project.roles.map(role => (
+        <Role
+          key={role.id}
+          type="button"
+          className="mb-4"
+          onClick={onApply ? () => onApply(role.id) : undefined}
+        >
+          <RoleApply>
+            <div className="animte-slideInUp">
+              Quero contribuir como <b className="block">{role.name}</b>
             </div>
-          </Role>
-        )
-      })}
+          </RoleApply>
+          <RoleName>{role.name}</RoleName>
+          <RoleSectionTitle>FUNÇÃO</RoleSectionTitle>
+          <RoleText>{role.details}</RoleText>
+          <RoleSectionTitle>PRÉ-REQUISITOS</RoleSectionTitle>
+          <RoleText>{role.prerequisites}</RoleText>
+          <div className="flex">
+            <span className="tw-medium mr-2">
+              {role.applied_count}/{role.vacancies}
+            </span>
+            <div className="mr-auto" />
+            {role.applies && role.applies.length > 0 && (
+              <Applies className="mr-2">
+                {role.applies.slice(0, 10).map((application, i) => (
+                  <Apply
+                    key={application.user ? application.user.uuid : i}
+                    style={{
+                      backgroundColor: colors[i],
+                      backgroundImage:
+                        application.user && application.user.avatar
+                          ? `url('${application.user.avatar.image_small_url}')`
+                          : undefined,
+                    }}
+                  />
+                ))}
+                {project.applied_count > 10 && (
+                  <Apply className="apply__more">
+                    +{Math.min(99, project.applied_count - 10)}
+                  </Apply>
+                )}
+              </Applies>
+            )}
+          </div>
+        </Role>
+      ))}
     </div>
   )
 }

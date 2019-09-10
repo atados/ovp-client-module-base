@@ -1,13 +1,11 @@
-import Link from "next/link";
-import * as React from "react";
-import { connect } from "react-redux";
-import styled from "styled-components";
-import { defineMessages } from "react-intl";
-import useIntl from "~/hooks/use-intl";
-import { colors } from "~/common/constants";
-import { resolvePage } from "~/common/page";
-import { OrganizationAppliesPayload } from "~/redux/ducks/organization-applies";
-import { RootState } from "~/redux/root-reducer";
+import Link from 'next/link'
+import React from 'react'
+import { connect } from 'react-redux'
+import styled from 'styled-components'
+import { Page } from '~/base/common'
+import { colors } from '~/common/constants'
+import { OrganizationAppliesPayload } from '~/redux/ducks/organization-applies'
+import { RootState } from '~/redux/root-reducer'
 
 const Volunteer = styled.a`
   display: inline-block;
@@ -15,41 +13,32 @@ const Volunteer = styled.a`
   width: 32px;
   height: 32px;
   border-radius: 50%;
-`;
-
-const { VOLUNTARIOS } = defineMessages({
-  VOLUNTARIOS: {
-    id: "VOLUNTARIOS",
-    defaultMessage: "Voluntários"
-  }
-});
+`
 
 interface OrganizationAppliesProps {
-  readonly className?: string;
-  readonly fetching?: boolean;
-  readonly payload?: OrganizationAppliesPayload;
+  readonly className?: string
+  readonly fetching?: boolean
+  readonly payload?: OrganizationAppliesPayload
 }
 
-const OrganizationApplies: React.SFC<OrganizationAppliesProps> = ({
+const OrganizationApplies: React.FC<OrganizationAppliesProps> = ({
   fetching,
-  payload
+  payload,
 }) => {
   if (fetching) {
-    return null;
+    return null
   }
 
   if (!payload) {
-    return null;
+    return null
   }
-
-  const intl = useIntl();
 
   return (
     <div className="bg-muted radius-10 mb-3 p-3">
       {fetching}
-      <h4 className="ts-normal mb-0">{intl.formatMessage(VOLUNTARIOS)}</h4>
-      <span className="tc-muted mb-2 ts-small d-block">
-        {payload.applied_count} {intl.formatMessage(VOLUNTARIOS)}
+      <h4 className="ts-normal mb-0">Voluntários</h4>
+      <span className="tc-muted mb-2 ts-small block">
+        {payload.applied_count} voluntários
       </span>
       {payload.applies.map((application, i) => {
         if (!application.user) {
@@ -59,18 +48,18 @@ const OrganizationApplies: React.SFC<OrganizationAppliesProps> = ({
               key={application.id}
               className="bg-cover"
               style={{
-                backgroundColor: colors[i % colors.length]
+                backgroundColor: colors[i % colors.length],
               }}
             />
-          );
+          )
         }
 
         return (
           <Link
             key={application.id}
             href={{
-              pathname: resolvePage("/public-user"),
-              query: { slug: application.user.slug }
+              pathname: Page.PublicUser,
+              query: { slug: application.user.slug },
             }}
             as={`/voluntario/${application.user.slug}`}
           >
@@ -83,23 +72,23 @@ const OrganizationApplies: React.SFC<OrganizationAppliesProps> = ({
                 backgroundImage:
                   application.user && application.user.avatar
                     ? `url('${application.user.avatar.image_small_url}')`
-                    : undefined
+                    : undefined,
               }}
             />
           </Link>
-        );
+        )
       })}
     </div>
-  );
-};
+  )
+}
 
-OrganizationApplies.displayName = "OrganizationApplies";
+OrganizationApplies.displayName = 'OrganizationApplies'
 
 const mapStateToProps = ({
-  organizationApplies
+  organizationApplies,
 }: RootState): Partial<OrganizationAppliesProps> => ({
   fetching: organizationApplies.fetching,
-  payload: organizationApplies.payload
-});
+  payload: organizationApplies.payload,
+})
 
-export default connect(mapStateToProps)(OrganizationApplies);
+export default connect(mapStateToProps)(OrganizationApplies)
