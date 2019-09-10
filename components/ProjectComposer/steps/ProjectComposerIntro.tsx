@@ -8,6 +8,7 @@ import useMultipleStepsForm from '~/hooks/use-multiple-steps-form'
 import { ProjectComposerDraft } from '~/pages/project-composer'
 import { defineMessages } from 'react-intl'
 import { useIntl } from 'react-intl'
+import { Page, PageAs } from '~/base/common'
 
 const Option = styled.a`
   border-radius: 10px;
@@ -101,19 +102,17 @@ const {
 })
 
 interface ProjectComposerIntroProps {
-  readonly query: any
-  readonly routerPathname: string
-  readonly routerAs: string
+  readonly pageName: string
   readonly className?: string
+  readonly organizationSlug?: string
   readonly drafts: ProjectComposerDraft[]
 }
 
 const ProjectComposerIntro: React.FC<ProjectComposerIntroProps> = ({
   className,
   drafts,
-  routerPathname,
-  routerAs,
-  query,
+  pageName,
+  organizationSlug,
 }) => {
   const { currentStepId, steps } = useMultipleStepsForm()
 
@@ -137,11 +136,8 @@ const ProjectComposerIntro: React.FC<ProjectComposerIntroProps> = ({
       </p>
       {firstStep && (
         <Link
-          href={{
-            pathname: routerPathname,
-            query: { ...query, stepId: firstStep.id },
-          }}
-          as={`${routerAs}${firstStep.id}`}
+          href={Page[pageName]}
+          as={PageAs[pageName]({ stepId: firstStep.id, organizationSlug })}
         >
           <Option className="mb-4 animate-slideInUp">
             <figure>
@@ -162,11 +158,11 @@ const ProjectComposerIntro: React.FC<ProjectComposerIntroProps> = ({
         orderedDrafts.map((draft, draftIndex) => (
           <Link
             key={draftIndex}
-            href={{
-              pathname: routerPathname,
-              query: { ...query, stepId: firstStep.id, draftIndex },
-            }}
-            as={`${routerAs}${firstStep.id}?draftIndex=${draftIndex}`}
+            href={Page[pageName]}
+            as={`${PageAs[pageName]({
+              stepId: firstStep.id,
+              organizationSlug,
+            })}?draftIndex=${draftIndex}`}
           >
             <Option className="animate-slideInUp mb-3">
               <figure

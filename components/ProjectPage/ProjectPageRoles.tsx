@@ -4,8 +4,7 @@ import styled from 'styled-components'
 import { colors, channel } from '~/common/constants'
 import { rgba } from '~/lib/color/transformers'
 import { Project } from '~/redux/ducks/project'
-import { SearchType } from '~/redux/ducks/search'
-import { Page, PageAs } from '~/common'
+import { Page } from '~/common'
 
 const RoleName = styled.h2`
   font-size: 20px;
@@ -133,13 +132,7 @@ const ProjectPageRoles: React.FC<ProjectPageRolesProps> = ({
             por aqui! Clique abaixo para encontrar outras vagas relacionadas.
           </span>
           <hr />
-          <Link
-            href={{
-              pathname: Page.SearchProjects,
-              query: { searchType: SearchType.Projects },
-            }}
-            as={PageAs.SearchProjects()}
-          >
+          <Link href={Page.SearchProjects}>
             <a className="btn btn-white tc-primary-500 btn--size-3 btn--block">
               Buscar outras vagas
             </a>

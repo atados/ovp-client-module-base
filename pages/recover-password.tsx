@@ -9,6 +9,7 @@ import Meta from '~/components/Meta'
 import Yup from '~/lib/form/yup'
 import { throwActionError } from '~/lib/utils/redux'
 import { recoverPassword } from '~/redux/ducks/recover-password'
+import { Page } from '../common'
 
 enum Status {
   EqualsEmail,
@@ -72,7 +73,7 @@ class AuthenticationRecover extends React.Component<
               aparecer dentro de alguns minutos, verifique sua pasta de spam.
             </p>
 
-            <Link href="/enter" as="/entrar">
+            <Link href={Page.Login}>
               <a className="btn btn-primary tw-normal btn--block btn--size-4">
                 Ir para o login
               </a>

@@ -3,6 +3,7 @@ import { defineMessages } from 'react-intl'
 import { useIntl } from 'react-intl'
 import ToolbarDropdown from './ToolbarDropdown'
 import Icon from '../Icon'
+import { Page } from '~/base/common'
 
 interface VolunteerDropdownProps {
   readonly className?: string
@@ -20,7 +21,7 @@ const VolunteerDropdown: React.FC<VolunteerDropdownProps> = ({ className }) => {
 
   return (
     <ToolbarDropdown
-      href="/vagas"
+      href={Page.SearchProjects}
       className={className}
       title={
         <>

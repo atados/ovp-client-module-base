@@ -6,6 +6,7 @@ import { InboxViewer, InboxViewerKind } from '~/redux/ducks/inbox'
 import { User } from '~/redux/ducks/user'
 import { RootState } from '~/redux/root-reducer'
 import Icon from '../Icon'
+import { Page } from '~/base/common'
 
 const Container = styled.div`
   position: fixed;
@@ -196,7 +197,7 @@ const InboxFilters: React.FC<InboxFiltersProps> = ({
             <React.Fragment key={organization.slug}>
               <Link
                 href={{
-                  pathname: '/inbox',
+                  pathname: Page.Inbox,
                   query: { viewerSlug: organization.slug },
                 }}
                 as={`/mensagens/${organization.slug}`}
@@ -230,7 +231,7 @@ const InboxFilters: React.FC<InboxFiltersProps> = ({
                   {viewer.filters.map(filter => (
                     <Link
                       href={{
-                        pathname: '/inbox',
+                        pathname: Page.Inbox,
                         query: {
                           filter: filter.id,
                           viewerSlug: organization.slug,

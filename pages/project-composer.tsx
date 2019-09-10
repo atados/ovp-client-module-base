@@ -23,7 +23,7 @@ import { throwActionError } from '~/lib/utils/redux'
 import { fetchProject, Project, updateProject } from '~/redux/ducks/project'
 import { User, UserOrganization } from '~/redux/ducks/user'
 import { RootState } from '~/redux/root-reducer'
-import { Page, PageAs } from '~/common'
+import { Page, PageAs, RequiredPagesMap } from '~/common'
 
 const PageStyled = styled.div`
   background: #eef0f3;
@@ -55,43 +55,31 @@ export interface ProjectComposerDraft {
   updatedAt: number
 }
 
-function getRouterInfo(
+function getRouteName(
   mode?: FormComposerMode,
   organization?: UserOrganization,
-  projectSlug?: string,
-  stepId?: string,
-): string {
-  const query: {
-    organizationSlug?: string
-    projectSlug?: string
-    stepId?: string
-  } = { stepId, projectSlug }
-  let asPath = ''
-
-  if (projectSlug) {
-    query.projectSlug += `&projectSlug=${projectSlug}`
-  }
-
+): keyof RequiredPagesMap {
   if (organization) {
-    query.organizationSlug = organization.slug
-    asPath = `/ong/${organization.slug}`
-
     if (mode === FormComposerMode.EDIT) {
-      asPath += `/vagas/editar/${projectSlug}`
+      return 'OrganizationEditProject'
     }
 
     if (mode === FormComposerMode.DUPLICATE) {
-      asPath += `/vagas/duplicar/${projectSlug}`
+      return 'OrganizationDuplicateProject'
     }
+
+    return 'OrganizationNewProject'
   }
 
-  if (!mode || mode === FormComposerMode.CREATE) {
-    asPath += `/criar-vaga`
-  } else if (mode === FormComposerMode.DUPLICATE) {
-    asPath = `/minhas-vagas/duplicar/${projectSlug}`
+  if (mode === FormComposerMode.EDIT) {
+    return 'EditProject'
   }
 
-  return asPath
+  if (mode === FormComposerMode.DUPLICATE) {
+    return 'DuplicateProject'
+  }
+
+  return 'NewProject'
 }
 
 interface ProjectComposerPageProps {
@@ -124,7 +112,6 @@ const ProjectComposerPage: NextPage<
   draftIndex,
   onUpdateProject,
 }) => {
-  const page = '/project-composer'
   const drafts = useLocalStorage<ProjectComposerDraft[]>(
     '@project-composer/drafts',
     [],
@@ -207,39 +194,28 @@ const ProjectComposerPage: NextPage<
     [drafts, projectSlug, onUpdateProject],
   )
 
-  const routerAsPath = useMemo(
-    () => getRouterInfo(mode, organization, projectSlug, stepId),
-    [mode, organization, projectSlug, stepId],
-  )
+  const pageName = getRouteName(mode, organization)
   const handleStepChange = useCallback(
     newStepId => {
-      const newRouterAsPath = getRouterInfo(
-        mode,
-        organization,
-        projectSlug,
-        newStepId,
-      )
-
       const newDraftIndex =
         nextDraftIndexRef.current !== null
           ? nextDraftIndexRef.current
           : draftIndex
       nextDraftIndexRef.current = null
 
+      const pathSearch = queryString.stringify({
+        draftIndex: newDraftIndex,
+      })
       Router.push(
-        `${page}?${queryString.stringify({
-          mode,
-          projectSlug,
-          organizationSlug: organization ? organization.slug : undefined,
+        `${Page[pageName]}?${pathSearch}`,
+        `${PageAs[pageName]({
           stepId: newStepId,
-          draftIndex: newDraftIndex,
-        })}`,
-        `${newRouterAsPath}/${newStepId}${
-          newDraftIndex !== undefined ? `?draftIndex=${newDraftIndex}` : ''
-        }`,
+          organizationSlug: organization && organization.slug,
+          projectSlug,
+        })}?${pathSearch}`,
       )
     },
-    [organization, draftIndex, mode, projectSlug],
+    [organization, draftIndex, mode, projectSlug, pageName],
   )
 
   const handleStepSubmit = useCallback(
@@ -364,24 +340,20 @@ const ProjectComposerPage: NextPage<
           </>
         )}
         <MultipleStepsFormTabs
-          pathname={page}
-          as={`${routerAsPath}/`}
+          pageName={pageName}
           query={{
             projectSlug,
             organizationSlug: organization ? organization.slug : undefined,
             mode,
             draftIndex,
+            stepId,
           }}
         />
         <Card className="card">
           <ErrorReport />
           <ProjectComposer
-            routerPathname={page}
-            routerAs={routerAsPath}
+            pageName={pageName}
             organization={organization}
-            projectSlug={projectSlug}
-            mode={mode}
-            draftIndex={draftIndex}
             drafts={drafts.value}
           />
         </Card>

@@ -4,7 +4,7 @@ import { RequiredPagesMap } from '~/common/channel'
 export const Page: RequiredPagesMap = channel.pages
 
 interface ArgFormatKeys {
-  [key: string]: string | number | boolean
+  [key: string]: string | number | boolean | undefined
 }
 
 type PageAsMapFn = {
@@ -15,7 +15,7 @@ export const PageAs: PageAsMapFn = {} as PageAsMapFn
 
 const format = (page: string, obj?: ArgFormatKeys) =>
   page.replace(/\[([^\]]+)\]/g, (_, key) =>
-    String((obj && obj[key]) || `[${key}]`),
+    String(obj && obj[key] !== undefined ? obj[key] : `[${key}]`),
   )
 
 Object.keys(Page).forEach(key => {

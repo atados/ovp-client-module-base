@@ -6,6 +6,7 @@ import { StepIds, StepIdType } from '~/components/FormComposer/FormComposer'
 import Meta from '~/components/Meta'
 import OrganizationComposer from '~/components/OrganizationComposer'
 import Toolbar from '~/components/Toolbar'
+import { Page, PageAs } from '../common'
 
 const Container = styled.div`
   padding-top: 56px;
@@ -24,10 +25,7 @@ class OrganizationComposerPage extends React.Component<
   })
 
   public handleStepChange = (stepId: StepIdType) => {
-    Router.push(
-      `${'/organization-composer'}?stepId=${stepId}`,
-      `/sou-uma-ong/${stepId}`,
-    )
+    Router.push(Page.NewOrganization, PageAs.NewOrganization({ stepId }))
   }
 
   public render() {

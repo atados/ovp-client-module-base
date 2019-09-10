@@ -4,7 +4,6 @@ import { defineMessages } from 'react-intl'
 import { useSelector } from 'react-redux'
 import styled from 'styled-components'
 import { useIntl } from 'react-intl'
-import { SearchType } from '~/redux/ducks/search'
 import { RootState } from '~/redux/root-reducer'
 import Authentication from '../Authentication'
 import Collapse from '../Collapse'
@@ -53,9 +52,6 @@ const ToolbarMobileNav: React.FC<ToolbarMobileNavProps> = ({ collapsed }) => {
     id: 'Authentication',
     component: Authentication,
     cardClassName: 'p-5',
-    componentProps: {
-      defaulPath: '/login',
-    },
   })
 
   return (
@@ -71,13 +67,7 @@ const ToolbarMobileNav: React.FC<ToolbarMobileNavProps> = ({ collapsed }) => {
         <Icon name="home" />
         Início
       </a>
-      <Link
-        href={{
-          pathname: Page.SearchProjects,
-          query: { searchType: SearchType.Projects },
-        }}
-        as={PageAs.SearchProjects()}
-      >
+      <Link href={Page.SearchProjects}>
         <a className="hover:bg-muted td-hover-none block px-3 py-2 tc-base ts-medium">
           <Icon name="search" />
           {intl.formatMessage(messages.explore)}
@@ -91,7 +81,7 @@ const ToolbarMobileNav: React.FC<ToolbarMobileNavProps> = ({ collapsed }) => {
         </a>
       </Link>
       {viewerOrganizations.length === 0 && (
-        <Link href={{ pathname: '/organization-composer' }} as="/sou-uma-ong">
+        <Link href={Page.NewOrganization}>
           <a className="hover:bg-muted td-hover-none block px-3 py-2 tc-base ts-medium">
             <Icon name="favorite_outline" />
             {intl.formatMessage(messages.imOrganization)}

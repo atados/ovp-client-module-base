@@ -4,6 +4,7 @@ import { Strategy as LocalStrategy } from 'passport-local'
 
 declare module '*.json'
 export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>
+export type PartialBy<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>
 
 export interface ColorMap {
   100: string

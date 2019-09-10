@@ -5,6 +5,7 @@ import styled from 'styled-components'
 import useMultipleStepsForm from '~/hooks/use-multiple-steps-form'
 import { FormComposerMode } from '../FormComposer/FormComposer'
 import Icon from '../Icon'
+import { Page, PageAs } from '~/base/common'
 
 const Container = styled.div`
   height: 64px;
@@ -37,16 +38,14 @@ const Tab = styled.a`
 `
 
 interface MultipleStepsFormTabsProps {
-  readonly pathname: string
-  readonly as: string
+  readonly pageName: string
   readonly className?: string
   readonly query?: any
 }
 
 const MultipleStepsFormTabs: React.FC<MultipleStepsFormTabsProps> = ({
   className,
-  pathname,
-  as: asPath,
+  pageName,
   query,
 }) => {
   const {
@@ -66,21 +65,18 @@ const MultipleStepsFormTabs: React.FC<MultipleStepsFormTabsProps> = ({
       {steps.map(step => (
         <Link
           key={step.id}
-          href={{
-            pathname,
-            query: query ? { ...query, stepId: step.id } : { stepId: step.id },
-          }}
-          as={`${asPath}${step.id}${
+          href={Page[pageName]}
+          as={PageAs[pageName](query)`${
             query && query.draftIndex !== undefined
               ? `?draftIndex=${query.draftIndex}`
               : ''
           }`}
+          passHref
         >
           <Tab
             className={cx('animate-slideInUp', className, {
               active: step.id === currentStepId,
             })}
-            href={`${asPath}${step.id}`}
             onClick={onTabClick}
           >
             {step.done && (

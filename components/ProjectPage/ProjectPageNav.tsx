@@ -8,7 +8,7 @@ import useTriggerableFetchApi from '~/hooks/use-trigglerable-fetch-api'
 import { Project, updateProject } from '~/redux/ducks/project'
 import { User } from '~/redux/ducks/user'
 import { RootState } from '~/redux/root-reducer'
-import { ProjectPageNavId, ProjectPageSubPage } from '~/types/project'
+import { ProjectPageNavId } from '~/types/project'
 import Authentication from '../Authentication'
 import Icon from '../Icon'
 import VolunteerIcon from '../Icon/VolunteerIcon'
@@ -173,9 +173,6 @@ const ProjectPageNav: React.FC<ProjectPageNavProps> = ({
     id: 'Authentication',
     component: Authentication,
     cardClassName: 'p-5',
-    componentProps: {
-      successRedirect: `/vaga/${project.slug}/`,
-    },
   })
   const handleBookmarkToggle = () => {
     if (!viewer) {
@@ -211,19 +208,13 @@ const ProjectPageNav: React.FC<ProjectPageNavProps> = ({
               project.organization
                 ? PageAs.OrganizationDashboardProject({
                     organizationSlug: project.organization.slug,
-                    slug: project.slug,
+                    projectSlug: project.slug,
                   })
-                : PageAs.ViewerProjectDashboard({ slug: project.slug })
+                : PageAs.ViewerProjectDashboard({ projectSlug: project.slug })
             }
+            passHref
           >
-            <ActionButton
-              href={
-                project.organization
-                  ? `/ong/${project.organization.slug}/vaga/${project.slug}`
-                  : `/minhas-vagas/vaga/${project.slug}`
-              }
-              className="btn btn-primary btn--size-3 flex-grow mr-2"
-            >
+            <ActionButton className="btn btn-primary btn--size-3 flex-grow mr-2">
               <Icon name="settings" className="mr-2" />
               Gerenciar vaga
             </ActionButton>
@@ -234,7 +225,7 @@ const ProjectPageNav: React.FC<ProjectPageNavProps> = ({
           </ActionButton>
         ) : (
           <ActionButton
-            href={`/vaga/${project.slug}/${ProjectPageSubPage.ApplicationForm}`}
+            as="button"
             className={`btn ${
               project.current_user_is_applied
                 ? 'btn-outline-primary'
@@ -318,19 +309,15 @@ const ProjectPageNav: React.FC<ProjectPageNavProps> = ({
                       project.organization
                         ? PageAs.OrganizationDashboardProject({
                             organizationSlug: project.organization.slug,
-                            slug: project.slug,
+                            projectSlug: project.slug,
                           })
-                        : PageAs.ViewerProjectDashboard({ slug: project.slug })
+                        : PageAs.ViewerProjectDashboard({
+                            projectSlug: project.slug,
+                          })
                     }
+                    passHref
                   >
-                    <ActionButton
-                      href={
-                        project.organization
-                          ? `/ong/${project.organization.slug}/vaga/${project.slug}`
-                          : `/minhas-vagas/vaga/${project.slug}`
-                      }
-                      className="btn btn-primary btn--size-3"
-                    >
+                    <ActionButton className="btn btn-primary btn--size-3">
                       <Icon name="settings" className="mr-2" />
                       Gerenciar vaga
                     </ActionButton>
@@ -344,7 +331,7 @@ const ProjectPageNav: React.FC<ProjectPageNavProps> = ({
                   </ActionButton>
                 ) : (
                   <ActionButton
-                    href={`/vaga/${project.slug}/${ProjectPageSubPage.ApplicationForm}`}
+                    as="button"
                     className={`btn ${
                       project.current_user_is_applied
                         ? 'btn-outline-primary'

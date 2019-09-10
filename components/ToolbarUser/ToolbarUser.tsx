@@ -226,7 +226,7 @@ const ToolbarUser: React.FC<ToolbarUserProps> = ({
         component={Authentication}
         cardClassName="p-5"
       >
-        <a id="toolbar-auth-button" href="/entrar" className="nav-link">
+        <a id="toolbar-auth-button" href={Page.Login} className="nav-link">
           Entrar
         </a>
       </ModalLink>

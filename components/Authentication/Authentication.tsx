@@ -8,7 +8,7 @@ import AuthenticationNewAccountFeedback from './AuthenticationNewAccountFeedback
 import { RootState } from '~/base/redux/root-reducer'
 import useModalManager from '~/base/hooks/use-modal-manager'
 
-type AuthenticationPageName =
+export type AuthenticationPageName =
   | 'options'
   | 'new-account'
   | 'new-account-feedback'
@@ -60,15 +60,21 @@ const authenticationReducer: Reducer<AuthenticationState, Action> = (
   return state
 }
 
-interface AuthenticationProps {
+export interface AuthenticationProps {
   readonly className?: string
+  readonly defaultPage?: AuthenticationPageName
+  readonly onAuthenticate?: () => void
 }
 
-const Authentication: React.FC<AuthenticationProps> = ({ className }) => {
+const Authentication: React.FC<AuthenticationProps> = ({
+  className,
+  defaultPage,
+  onAuthenticate,
+}) => {
   const modalManager = useModalManager()
   const viewer = useSelector((reduxState: RootState) => reduxState.user)
   const [state, dispatch] = useReducer(authenticationReducer, {
-    page: viewer ? 'new-account-feedback' : 'options',
+    page: defaultPage || (viewer ? 'new-account-feedback' : 'options'),
     history: [],
   })
   const dispatchToRedux = useDispatch()
@@ -78,10 +84,18 @@ const Authentication: React.FC<AuthenticationProps> = ({ className }) => {
       type: 'SetPage',
       payload: 'new-account-feedback',
     })
+
+    if (onAuthenticate) {
+      onAuthenticate()
+    }
   }
   const handleLoginBySessionToken = async (sessionToken: string) => {
     await dispatchToRedux(loginWithSessionToken(sessionToken))
     modalManager.close()
+
+    if (onAuthenticate) {
+      onAuthenticate()
+    }
   }
 
   if (state.page === 'new-account-feedback') {

@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import { useIntl } from 'react-intl'
 import Icon from '../Icon'
 import ToolbarDropdown from './ToolbarDropdown'
+import { Page } from '~/base/common'
 
 const ToolbarDropdownStyled = styled(ToolbarDropdown)`
   .toolbar-dropdown-anchor {
@@ -40,7 +41,7 @@ const ToolbarLangDropdown: React.FC<ToolbarLangDropdownProps> = ({
 
   return (
     <ToolbarDropdownStyled
-      href="/vagas"
+      href={Page.SearchProjects}
       className={className}
       anchorClassName="toolbar-dropdown-anchor bg-white"
       menuClassName="toolbar-dropdown-menu"

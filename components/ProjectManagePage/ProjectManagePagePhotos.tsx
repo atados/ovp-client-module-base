@@ -459,13 +459,11 @@ const ProjectManagePagePhotos: React.FC<ProjectManagePagePhotosProps> = ({
           <span className="tc-muted block mb-3">
             {intl.formatMessage(VAGA_ATRATIVA)}
           </span>
-          <button
-            type="button"
-            className="btn btn-outline-primary"
-            onClick={toggleEdtting}
-          >
+
+          <div className="btn btn-outline-primary inputFileWrapper">
+            <input type="file" onChange={handleInputFileChange} multiple />
             <Icon name="add" /> {intl.formatMessage(PRIMEIRAS_FOTOS)}
-          </button>
+          </div>
         </div>
       )}
     </Container>

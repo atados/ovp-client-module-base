@@ -8,6 +8,7 @@ import Icon from '../Icon'
 import { useModal } from '../Modal'
 import { defineMessages } from 'react-intl'
 import { useIntl } from 'react-intl'
+import { Page, PageAs } from '~/base/common'
 
 const Table = styled.table`
   min-width: 900px;
@@ -121,18 +122,18 @@ const ProjectManagePagePosts: React.FC<ProjectManagePagePostsProps> = ({
       <div className="p-4 relative">
         {hasPosts && (
           <Link
-            href={{
-              pathname: '/post-form',
-              query: {
-                nodeKind: 'project',
-                nodeSlug: project.slug,
-                organizationSlug,
-              },
-            }}
+            href={
+              organizationSlug
+                ? Page.OrganizationProjectNewPost
+                : Page.ProjectNewPost
+            }
             as={
               organizationSlug
-                ? `/ong/${organizationSlug}/vaga/${project.slug}/publicacoes/nova`
-                : `/minhas-vagas/vaga/${project.slug}/publicacoes/nova`
+                ? PageAs.OrganizationProjectNewPost({
+                    organizationSlug,
+                    projectSlug: project.slug,
+                  })
+                : PageAs.ProjectNewPost({ projectSlug: project.slug })
             }
           >
             <a className="btn btn-outline-primary float-right">
@@ -153,18 +154,18 @@ const ProjectManagePagePosts: React.FC<ProjectManagePagePostsProps> = ({
             {intl.formatMessage(AS_PUB)}
           </span>
           <Link
-            href={{
-              pathname: '/post-form',
-              query: {
-                nodeKind: 'project',
-                nodeSlug: project.slug,
-                organizationSlug,
-              },
-            }}
+            href={
+              organizationSlug
+                ? Page.OrganizationProjectNewPost
+                : Page.ProjectNewPost
+            }
             as={
               organizationSlug
-                ? `/ong/${organizationSlug}/vaga/${project.slug}/publicacoes/nova`
-                : `/minhas-vagas/vaga/${project.slug}/publicacoes/nova`
+                ? PageAs.OrganizationProjectNewPost({
+                    organizationSlug,
+                    projectSlug: project.slug,
+                  })
+                : PageAs.ProjectNewPost({ projectSlug: project.slug })
             }
           >
             <a className="btn btn-outline-primary">
@@ -194,19 +195,22 @@ const ProjectManagePagePosts: React.FC<ProjectManagePagePostsProps> = ({
                   <td>{moment(post.modified_date).fromNow()}</td>
                   <td style={{ width: 190 }} className="ta-right">
                     <Link
-                      href={{
-                        pathname: '/post-form',
-                        query: {
-                          nodeKind: 'project',
-                          nodeSlug: project.slug,
-                          organizationSlug,
-                          postId: post.id,
-                        },
-                      }}
+                      href={
+                        organizationSlug
+                          ? Page.OrganizationProjectEditPost
+                          : Page.ProjectEditPost
+                      }
                       as={
                         organizationSlug
-                          ? `/ong/${organizationSlug}/vaga/${project.slug}/publicacoes/editar/${post.id}`
-                          : `/minhas-vagas/vaga/${project.slug}/publicacoes/editar/${post.id}`
+                          ? PageAs.OrganizationProjectEditPost({
+                              postId: post.id,
+                              organizationSlug,
+                              projectSlug: project.slug,
+                            })
+                          : PageAs.ProjectEditPost({
+                              postId: post.id,
+                              projectSlug: project.slug,
+                            })
                       }
                     >
                       <a className="btn btn-muted btn--size-2 mr-2">

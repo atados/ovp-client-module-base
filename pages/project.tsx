@@ -10,9 +10,7 @@ import Authentication from '~/components/Authentication'
 import Layout from '~/components/Layout'
 import Meta from '~/components/Meta'
 import { useModal } from '~/components/Modal'
-import ProjectApplication, {
-  ProjectApplicationProps,
-} from '~/components/ProjectApplication/ProjectApplication'
+import ProjectApplication from '~/components/ProjectApplication/ProjectApplication'
 import {
   ProjectPageAbout,
   ProjectPageAddress,
@@ -40,7 +38,7 @@ const Sidebar = styled.div`
 
 interface ProjectPageReduxProps {
   readonly isOwner: boolean
-  readonly currentUser: User | null
+  readonly viewer: User | null
   readonly project?: Project
 }
 
@@ -57,7 +55,7 @@ const ProjectPage: NextPage<ProjectPageProps, ProjectPageInitialProps> = ({
   project,
   isOwner,
   subpage,
-  currentUser,
+  viewer,
 }) => {
   const [activeNavItemId, setActiveNavItemId] = useState<ProjectPageNavId>(
     subpage === ProjectPageSubPage.Stories
@@ -80,43 +78,27 @@ const ProjectPage: NextPage<ProjectPageProps, ProjectPageInitialProps> = ({
     return <Layout disableFooter />
   }
 
-  const openApplicationModal = useModal(
-    currentUser
-      ? {
-          id: 'Application',
-          component: ProjectApplication,
-          componentProps: {
-            project,
-          },
-          cardClassName: 'no-shadow no-background',
-        }
-      : {
-          id: 'Authentication',
-          component: Authentication,
-          cardClassName: 'p-5',
-          componentProps: {
-            successRedirect: `/vaga/${project.slug}/${ProjectPageSubPage.ApplicationForm}`,
-          },
-        },
-  )
+  const openApplicationModal = useModal({
+    id: 'Application',
+    component: ProjectApplication,
+    cardClassName: 'no-shadow no-background',
+  })
+  const openAuthenticationModal = useModal({
+    id: 'Authentication',
+    component: Authentication,
+    cardClassName: 'p-5',
+  })
 
   const onApply = useCallback(
     (roleId?: number) => {
-      if (isOwner) {
+      if (viewer) {
+        openApplicationModal({ roleId, project })
         return
       }
 
-      openApplicationModal(
-        currentUser
-          ? ({
-              roleId,
-            } as ProjectApplicationProps)
-          : {
-              successRedirect: `/vaga/${project.slug}/${ProjectPageSubPage.ApplicationForm}`,
-            },
-      )
+      openAuthenticationModal()
     },
-    [isOwner, openApplicationModal, project, currentUser],
+    [isOwner, openApplicationModal, project, viewer],
   )
 
   const handleNavItemClick = useCallback(
@@ -148,7 +130,7 @@ const ProjectPage: NextPage<ProjectPageProps, ProjectPageInitialProps> = ({
 
   useEffect(() => {
     if (subpage === ProjectPageSubPage.ApplicationForm && !isOwner) {
-      openApplicationModal()
+      onApply()
     }
   }, [subpage])
 
@@ -165,7 +147,7 @@ const ProjectPage: NextPage<ProjectPageProps, ProjectPageInitialProps> = ({
         project={project}
         isOwner={isOwner}
         activeNavItemId={activeNavItemId}
-        onApply={openApplicationModal}
+        onApply={onApply}
         onNavItemClick={handleNavItemClick}
       />
       {channel.config.project.posts &&
@@ -211,7 +193,7 @@ ProjectPage.getInitialProps = async ({
   }
 
   try {
-    const { user: currentUser } = store.getState()
+    const { user: viewer } = store.getState()
     const project = await store
       .dispatch(fetchProject(slug))
       .then(throwActionError)
@@ -220,7 +202,7 @@ ProjectPage.getInitialProps = async ({
     // an current user's organizations doesn't have access to it
     if (
       !project.published &&
-      (!currentUser || !doesUserHaveAccessToProject(currentUser, project))
+      (!viewer || !doesUserHaveAccessToProject(viewer, project))
     ) {
       throw new NotFoundPageError()
     }
@@ -241,19 +223,19 @@ ProjectPage.getInitialProps = async ({
 }
 
 const mapStateToProps = ({
-  user: currentUser,
+  user: viewer,
   project: { node: project },
 }: RootState): ProjectPageReduxProps => ({
   isOwner: Boolean(
-    currentUser &&
+    viewer &&
       project &&
       ((project.organization &&
-        currentUser.organizations.some(
+        viewer.organizations.some(
           organization => project.organization!.id === organization.id,
         )) ||
-        currentUser.uuid === project.owner.uuid),
+        viewer.uuid === project.owner.uuid),
   ),
-  currentUser,
+  viewer,
   project,
 })
 

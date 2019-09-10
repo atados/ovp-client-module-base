@@ -13,10 +13,10 @@ import ProjectApplicatUserForm from './ProjectApplicationUserForm'
 
 export interface ProjectApplicationProps {
   readonly className?: string
-  readonly roleId: number
+  readonly roleId?: number
   readonly project: Project
   readonly currentUser?: User | null
-  readonly location: Location
+  readonly location?: Location
   readonly onMount?: (payload: undefined) => any
 }
 

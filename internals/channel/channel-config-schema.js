@@ -69,7 +69,7 @@ const ChannelConfigSchema = Yup.object().shape({
       Project: PageSchema.default('/vaga/[slug]'),
       Cause: PageSchema.default('/causa/[slug]'),
       Login: PageSchema.default('/entrar'),
-      NewAccount: PageSchema.default('/entrar'),
+      NewAccount: PageSchema.default('/nova-conta'),
       Search: PageSchema.default('/explorar'),
       SearchProjects: PageSchema.default('/vagas'),
       SearchOrganizations: PageSchema.default('/ongs'),
@@ -95,8 +95,21 @@ const ChannelConfigSchema = Yup.object().shape({
       OrganizationNewProject: PageSchema.default(
         '/ong/[organizationSlug]/gerenciar/vagas/nova/[stepId]',
       ),
+
+      OrganizationDuplicateProject: PageSchema.default(
+        '/ong/[organizationSlug]/gerenciar/vaga/[projectSlug]/duplicar/[stepId]',
+      ),
+      OrganizationEditProject: PageSchema.default(
+        '/ong/[organizationSlug]/gerenciar/vaga/[projectSlug]/editar/[stepId]',
+      ),
       NewOrganization: PageSchema.default('/sou-uma-ong/[stepId]'),
       NewProject: PageSchema.default('/criar-vaga/[stepId]'),
+      DuplicateProject: PageSchema.default(
+        '/gerenciar/vaga/[projectSlug]/duplicar/[stepId]',
+      ),
+      EditProject: PageSchema.default(
+        '/gerenciar/vaga/[projectSlug]/editar/[stepId]',
+      ),
       PublicUser: PageSchema.default('/voluntario/[slug]'),
       RecoverPassword: PageSchema.default('/recuperar-senha'),
       ForgotPassword: PageSchema.default('/esqueci-minha-senha'),
@@ -111,6 +124,18 @@ const ChannelConfigSchema = Yup.object().shape({
       FAQ: PageSchema.default('/faq'),
       Viewer: PageSchema.default('/eu'),
       FAQQuestion: PageSchema.default('/faq/[id]'),
+      OrganizationProjectNewPost: PageSchema.default(
+        '/ong/[organizationSlug]/gerenciar/vaga/[projectSlug]/publicacoes/nova',
+      ),
+      OrganizationProjectEditPost: PageSchema.default(
+        '/ong/[organizationSlug]/gerenciar/vaga/[projectSlug]/publicacoes/editar/[postId]',
+      ),
+      ProjectNewPost: PageSchema.default(
+        '/gerenciar/vaga/[projectSlug]/publicacoes/nova',
+      ),
+      ProjectEditPost: PageSchema.default(
+        '/gerenciar/vaga/[projectSlug]/publicacoes/editar/[postId]',
+      ),
     })
     .default({}),
   social: Yup.array(

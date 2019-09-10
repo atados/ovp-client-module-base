@@ -78,7 +78,16 @@ const OrganizationComposer: React.FC<OrganizationComposerProps> = ({
   skipingDisabled,
   children,
 }) => {
-  let steps = [
+  const steps = [
+    {
+      id: 'auth',
+      defaultValue: {},
+      description: 'Preencha com as informações básicas da ONG',
+      title: 'Começar pelo basico',
+      name: 'Acesso',
+      // @ts-ignore
+      component: OrganizationComposerAuth,
+    },
     {
       id: 'basics',
       defaultValue: {},
@@ -105,21 +114,6 @@ const OrganizationComposer: React.FC<OrganizationComposerProps> = ({
     },
   ]
 
-  if (!isAuthenticated) {
-    steps = [
-      {
-        id: 'auth',
-        defaultValue: {},
-        description: 'Preencha com as informações básicas da ONG',
-        title: 'Começar pelo basico',
-        name: 'Acesso',
-        // @ts-ignore
-        component: OrganizationComposerAuth,
-      },
-      ...steps,
-    ]
-  }
-
   return (
     <Container>
       <FormComposer
@@ -137,6 +131,7 @@ const OrganizationComposer: React.FC<OrganizationComposerProps> = ({
         }
         onSubmit={onSubmit}
         isSubmitting={isSubmitting}
+        // @ts-ignore
         steps={steps}
         defaultValues={defaultValues}
         skipingDisabled={

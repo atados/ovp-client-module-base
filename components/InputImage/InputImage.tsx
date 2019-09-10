@@ -117,11 +117,7 @@ interface InputImageState {
 }
 
 class InputImage extends React.Component<
-<<<<<<< HEAD
-  InputImageProps & InjectedIntlProps,
-=======
   InputImageProps & WithIntlProps<any>,
->>>>>>> b79f2fa454a654077a293561d5661f7801b6d642
   InputImageState
 > {
   public static getDerivedStateFromProps(

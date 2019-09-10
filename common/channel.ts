@@ -80,8 +80,16 @@ export interface RequiredPagesMap {
   OrganizationEdit: string
   OrganizationJoin: string
   OrganizationNewProject: string
+  OrganizationEditProject: string
+  OrganizationDuplicateProject: string
+  OrganizationProjectNewPost: string
+  OrganizationProjectEditPost: string
+  ProjectNewPost: string
+  ProjectEditPost: string
   NewOrganization: string
   NewProject: string
+  EditProject: string
+  DuplicateProject: string
   PublicUser: string
   RecoverPassword: string
   PrivacyTerms: string

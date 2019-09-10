@@ -12,6 +12,7 @@ import Layout from '../Layout'
 import { useModal } from '../Modal'
 import OrganizationLayout from './OrganizationLayout'
 import OrganizationLayoutNav from './OrganizationLayoutNav'
+import { Page, PageAs } from '~/base/common'
 
 const Sidebar = styled.div`
   width: 200px;
@@ -203,16 +204,13 @@ const OrganizationPageLayout: React.FC<OrganizationPageLayoutProps> = ({
                       Enviar email
                     </a>
                     <Link
-                      href={{
-                        pathname: '/organization-projects',
-                        query: { slug: organization.slug },
-                      }}
-                      as={`/ong/${organization.slug}/vagas`}
+                      href={Page.OrganizationProjects}
+                      as={PageAs.OrganizationProjects({
+                        organizationSlug: organization.slug,
+                      })}
+                      passHref
                     >
-                      <VolunteerButton
-                        href={`/ong/${organization.slug}/vagas`}
-                        className="btn btn-text tc-primary-500 btn--size-2"
-                      >
+                      <VolunteerButton className="btn btn-text tc-primary-500 btn--size-2">
                         <VolunteerIcon
                           width={16}
                           height={16}

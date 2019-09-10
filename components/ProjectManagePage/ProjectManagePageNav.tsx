@@ -3,10 +3,10 @@ import React from 'react'
 import styled from 'styled-components'
 import { Project } from '~/redux/ducks/project'
 import { UserOrganization } from '~/redux/ducks/user'
-import { FormComposerMode } from '../FormComposer/FormComposer'
 import Icon from '../Icon'
 import { defineMessages } from 'react-intl'
 import { useIntl } from 'react-intl'
+import { Page, PageAs } from '~/base/common'
 
 const Container = styled.div`
   background: #fff;
@@ -58,19 +58,22 @@ const ProjectManagePageHeader: React.FC<ProjectManagePageHeaderProps> = ({
           <ul className="navbar-nav">
             <li className="mr-2">
               <Link
-                href={{
-                  pathname: '/project-composer',
-                  query: {
-                    mode: FormComposerMode.EDIT,
-                    organizationSlug: organization && organization.slug,
-                    projectSlug: project.slug,
-                  },
-                }}
+                href={
+                  organization ? Page.OrganizationEditProject : Page.EditProject
+                }
                 as={
                   organization
-                    ? `/ong/${organization.slug}/vagas/editar/${project.slug}`
-                    : `/minhas-vagas/editar/${project.slug}`
+                    ? PageAs.OrganizationEditProject({
+                        projectSlug: project.slug,
+                        organizationSlug: organization.slug,
+                        stepId: 'geral',
+                      })
+                    : PageAs.EditProject({
+                        projectSlug: project.slug,
+                        stepId: 'geral',
+                      })
                 }
+                passHref
               >
                 <a className="btn btn-primary btn--size-3">
                   <Icon name="edit" className="mr-2" />
@@ -91,20 +94,24 @@ const ProjectManagePageHeader: React.FC<ProjectManagePageHeaderProps> = ({
             </li>
             <li className="mr-2">
               <Link
-                href={{
-                  pathname: '/project-composer',
-                  query: {
-                    mode: FormComposerMode.DUPLICATE,
-                    organizationSlug: organization && organization.slug,
-                    projectSlug: project.slug,
-                  },
-                }}
+                href={
+                  organization
+                    ? Page.OrganizationDuplicateProject
+                    : Page.DuplicateProject
+                }
                 as={
                   organization
-                    ? `/ong/${organization &&
-                        organization.slug}/vagas/duplicar/${project.slug}`
-                    : `/minhas-vagas/duplicar/${project.slug}/`
+                    ? PageAs.OrganizationDuplicateProject({
+                        projectSlug: project.slug,
+                        organizationSlug: organization.slug,
+                        stepId: 'geral',
+                      })
+                    : PageAs.DuplicateProject({
+                        projectSlug: project.slug,
+                        stepId: 'geral',
+                      })
                 }
+                passHref
               >
                 <a className="btn btn-muted btn--size-3">
                   <Icon name="file_copy" className="mr-2" />

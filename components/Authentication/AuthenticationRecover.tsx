@@ -3,9 +3,9 @@ import React from 'react'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
 import FormGroup from '~/components/Form/FormGroup'
-import RouterSwitchLink from '~/components/RouterSwitch/RouterSwitchLink'
 import Yup from '~/lib/form/yup'
 import { requestPasswordRecovery } from '~/redux/ducks/recover-password-request'
+import { Page } from '~/base/common'
 
 const Container = styled.div`
   border-radius: 3px;
@@ -53,14 +53,12 @@ const AuthenticationRecover: React.FC<
           </p>
         </div>
         <hr />
-        <RouterSwitchLink href="/login">
-          <a
-            href={`/entrar?next=${successRedirect}`}
-            className="btn btn-text tw-normal btn--block btn--size-4"
-          >
-            Voltar para o login
-          </a>
-        </RouterSwitchLink>
+        <a
+          href={Page.Login}
+          className="btn btn-text tw-normal btn--block btn--size-4"
+        >
+          Voltar para o login
+        </a>
       </Container>
     )
   }
@@ -105,14 +103,12 @@ const AuthenticationRecover: React.FC<
           {isSubmitting ? 'Enviando...' : 'Enviar'}
         </button>
         <hr />
-        <RouterSwitchLink href="/login">
-          <a
-            href={`/entrar?next=${successRedirect}`}
-            className="btn btn-text tw-normal btn--block btn--size-4"
-          >
-            Lembrou sua senha? <span className="tc-link">Entrar</span>
-          </a>
-        </RouterSwitchLink>
+        <a
+          href={Page.Login}
+          className="btn btn-text tw-normal btn--block btn--size-4"
+        >
+          Lembrou sua senha? <span className="tc-link">Entrar</span>
+        </a>
       </form>
     </Container>
   )

@@ -3,6 +3,7 @@ import Link from 'next/link'
 import React from 'react'
 import styled from 'styled-components'
 import { PublicUserApplication } from '~/redux/ducks/public-user'
+import { Page, PageAs } from '~/base/common'
 
 const Container = styled.article`
   border-left: 2px solid #eaecef;
@@ -72,11 +73,8 @@ const TimelineItem: React.FC<TimelineItemProps> = ({
           <h4 className="tw-normal ts-medium mb-1">
             {onGoing ? 'Está participando da ação ' : 'Participou da ação '}
             <Link
-              href={{
-                pathname: '/project',
-                query: { slug: application.project.slug },
-              }}
-              as={`/vaga/${application.project.slug}`}
+              href={Page.Project}
+              as={PageAs.Project({ slug: application.project.slug })}
             >
               <a>{application.project.name}</a>
             </Link>
@@ -84,14 +82,11 @@ const TimelineItem: React.FC<TimelineItemProps> = ({
           <p className="tc-muted mb-0">{application.project.description}</p>
         </div>
         <Link
-          href={{
-            pathname: '/project',
-            query: { slug: application.project.slug },
-          }}
-          as={`/vaga/${application.project.slug}`}
+          href={Page.Project}
+          as={PageAs.Project({ slug: application.project.slug })}
+          passHref
         >
           <Image
-            href={`/vaga/${application.project.slug}`}
             className="bg-cover"
             style={{
               backgroundImage: application.project.image

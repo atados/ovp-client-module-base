@@ -7,6 +7,7 @@ import Icon from '~/components/Icon'
 import useMultipleStepsForm from '~/hooks/use-multiple-steps-form'
 import { defineMessages } from 'react-intl'
 import { useIntl } from 'react-intl'
+import { Page, PageAs } from '~/base/common'
 
 const CheckIcon = styled(Icon)`
   font-size: 64px;
@@ -73,11 +74,8 @@ const ProjectComposerConclusion: React.FC<ProjectComposerConclusionProps> = ({
       </p>
       {project && (
         <Link
-          href={{
-            pathname: '/project',
-            query: { slug: project.slug },
-          }}
-          as={`/vaga/${project.slug}`}
+          href={Page.Project}
+          as={PageAs.Project({ projectSlug: project.slug })}
         >
           <a className="btn btn-primary btn--size-3">
             {intl.formatMessage(VISITAR_PAGINA)}

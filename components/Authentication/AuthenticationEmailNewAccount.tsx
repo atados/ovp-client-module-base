@@ -7,7 +7,7 @@ import { AuthenticationAction } from './Authentication'
 import { useIntl, defineMessages } from 'react-intl'
 import ActivityIndicator from '../ActivityIndicator'
 import Icon from '../Icon'
-import { Asset } from '~/base/common'
+import { Asset, Page } from '~/base/common'
 import InputAddress from '../InputAddress'
 import { InputAddressValueType } from '../InputAddress/InputAddress'
 import {
@@ -196,7 +196,7 @@ const AuthenticationEmailNewAccount: React.FC<
         </button>
         <hr className="my-2" />
         <a
-          href="/entrar"
+          href={Page.Login}
           className="btn btn-text tw-normal btn--block btn--size-3 ta-left tc-gray-600"
           onClick={handleOptionsClick}
         >

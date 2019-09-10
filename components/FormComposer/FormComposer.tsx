@@ -148,8 +148,8 @@ export interface FormComposerStep {
 }
 
 export enum StepIds {
-  Introduction,
-  Conclusion,
+  Introduction = 'inicio',
+  Conclusion = 'concluido',
 }
 
 export type StepIdType = string | StepIds

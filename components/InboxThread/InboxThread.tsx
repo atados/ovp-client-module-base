@@ -5,6 +5,7 @@ import styled, { StyledProps } from 'styled-components'
 import { MessageThreadable, MessageThreadType } from '~/redux/ducks/inbox'
 import Icon from '../Icon'
 import { channel } from '~/base/common/constants'
+import { Page } from '~/base/common'
 
 const { useMemo } = React
 const Container = styled.a`
@@ -103,7 +104,7 @@ const InboxThread: React.FC<InboxThreadProps> = ({
   return (
     <Link
       href={{
-        pathname: '/inbox',
+        pathname: Page.Inbox,
         query: { viewerSlug, threadId: thread.id },
       }}
       as={`/mensagens/${viewerSlug}/${thread.id}`}

@@ -8,7 +8,7 @@ import { Post } from '~/types/api'
 import ActivityIndicator from './ActivityIndicator'
 import Icon from './Icon'
 
-interface ClosePostFormProps {
+export interface ClosePostFormProps {
   readonly className?: string
   readonly viewer: User
   readonly project: Project

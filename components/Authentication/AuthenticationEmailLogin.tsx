@@ -127,7 +127,7 @@ const AuthenticationEmailLogin: React.FC<
           )}
         </button>
         <a
-          href="/entrar/cadastro?next=/"
+          href={Page.NewAccount}
           className="btn btn-text tw-normal btn--block btn--size-3"
           onClick={handleRegisterClick}
         >
@@ -136,7 +136,7 @@ const AuthenticationEmailLogin: React.FC<
         </a>
         <hr className="my-2" />
         <a
-          href="/entrar/cadastro?next=/"
+          href={Page.Login}
           className="btn btn-text tw-normal btn--block btn--size-3 ta-left tc-gray-600"
           onClick={handleOptionsClick}
         >

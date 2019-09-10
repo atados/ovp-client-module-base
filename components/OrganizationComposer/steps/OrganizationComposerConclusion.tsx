@@ -95,11 +95,10 @@ const OrganizationComposerConclusion: React.FC<
             </Link>
 
             <Link
-              href={{
-                pathname: '/project-composer',
-                query: { organizationSlug: formContext.organization.slug },
-              }}
-              as={`/ong/${formContext.organization.slug}/criar-vaga`}
+              href={Page.OrganizationNewProject}
+              as={PageAs.OrganizationNewProject({
+                organizationSlug: formContext.organization.slug,
+              })}
             >
               <a className="btn btn-primary btn--size-3 ml-4">
                 {intl.formatMessage(CRIAR_VAGA)}

@@ -180,12 +180,10 @@ const OrganizationLayout: React.FC<OrganizationLayoutProps> = ({
                       }
                     >
                       <Link
-                        href={{
-                          pathname: '/project-composer',
-                          query: { organizationSlug: organization.slug },
-                        }}
+                        href={Page.OrganizationNewProject}
                         as={PageAs.OrganizationNewProject({
                           organizationSlug: organization.slug,
+                          stepId: 'inicio',
                         })}
                       >
                         <a className="nav-link">Criar vaga</a>

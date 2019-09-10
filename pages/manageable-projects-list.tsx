@@ -13,7 +13,6 @@ import {
   DropdownToggler,
   DropdownWithContext,
 } from '~/components/Dropdown'
-import { FormComposerMode } from '~/components/FormComposer/FormComposer'
 import Icon from '~/components/Icon'
 import Layout from '~/components/Layout'
 import OrganizationLayout from '~/components/OrganizationLayout/OrganizationLayout'
@@ -354,68 +353,60 @@ const ManageableProjectsList: NextPage<ManageableProjectsListProps> = ({
                           </DropdownToggler>
                           <ContextMenu>
                             <Link
-                              href={{
-                                pathname: '/project-composer',
-                                query: {
-                                  mode: FormComposerMode.EDIT,
-                                  organizationSlug:
-                                    organization && organization.slug,
-                                  projectSlug: project.slug,
-                                },
-                              }}
+                              href={
+                                organization
+                                  ? Page.OrganizationEditProject
+                                  : Page.EditProject
+                              }
                               as={
                                 organization
-                                  ? `/ong/${organization.slug}/vagas/editar/${project.slug}`
-                                  : `/minhas-vagas/editar/${project.slug}`
+                                  ? PageAs.OrganizationEditProject({
+                                      projectSlug: project.slug,
+                                      organizationSlug: organization.slug,
+                                      stepId: 'geral',
+                                    })
+                                  : PageAs.EditProject({
+                                      projectSlug: project.slug,
+                                      stepId: 'geral',
+                                    })
                               }
+                              passHref
                             >
-                              <DropdownAnchor
-                                href={
-                                  organization
-                                    ? `/ong/${organization.slug}/vagas/editar/${project.slug}`
-                                    : `/minhas-vagas/editar/${project.slug}`
-                                }
-                                className="dropdown-item"
-                              >
+                              <DropdownAnchor className="dropdown-item">
                                 Editar vaga
                               </DropdownAnchor>
                             </Link>
                             <Link
-                              href={{
-                                pathname: '/project-composer',
-                                query: {
-                                  organizationSlug:
-                                    organization && organization.slug,
-                                  projectSlug: project.slug,
-                                  mode: FormComposerMode.DUPLICATE,
-                                },
-                              }}
+                              href={
+                                organization
+                                  ? Page.OrganizationDuplicateProject
+                                  : Page.DuplicateProject
+                              }
                               as={
                                 organization
-                                  ? `/ong/${organization.slug}/vagas/duplicar/${project.slug}`
-                                  : `/minhas-vagas/duplicar/${project.slug}`
+                                  ? PageAs.OrganizationDuplicateProject({
+                                      projectSlug: project.slug,
+                                      organizationSlug: organization.slug,
+                                      stepId: 'geral',
+                                    })
+                                  : PageAs.DuplicateProject({
+                                      projectSlug: project.slug,
+                                      stepId: 'geral',
+                                    })
                               }
+                              passHref
                             >
-                              <DropdownAnchor
-                                href={
-                                  organization
-                                    ? `/ong/${organization.slug}/vagas/duplicar/${project.slug}`
-                                    : `/minhas-vagas/duplicar/${project.slug}`
-                                }
-                                className="dropdown-item"
-                              >
+                              <DropdownAnchor className="dropdown-item">
                                 Duplicar vaga
                               </DropdownAnchor>
                             </Link>
 
                             <Link
-                              href={`${'/project'}slug=${project.slug}`}
-                              as={`/vaga/${project.slug}`}
+                              href={Page.Project}
+                              as={PageAs.Project({ projectSlug: project.slug })}
+                              passHref
                             >
-                              <DropdownAnchor
-                                href={`/vaga/${project.slug}`}
-                                className="dropdown-item"
-                              >
+                              <DropdownAnchor className="dropdown-item">
                                 Visualizar vaga
                               </DropdownAnchor>
                             </Link>

@@ -2,12 +2,16 @@ import { useCallback, useContext, useEffect } from 'react'
 import { ModalContext, ModalOptions } from './ModalProvider'
 import { useRouter } from 'next/router'
 
-interface UseModalOptions<Props> extends ModalOptions<Props> {
+interface UseModalOptions<TProps> extends ModalOptions<TProps> {
   readonly id?: string
   readonly component?: React.ComponentType<any>
   readonly skip?: boolean
   readonly onClosePropName?: string
 }
+
+// export type UseModalHook<TProps, TDefaultProps extends Partial<TProps>> = (
+//   options: UseModalOptions<TDefaultProps>,
+// ) => (props: PartialBy<TProps, keyof TDefaultProps>) => void
 
 export default function useModal<Props>({
   id,
@@ -15,7 +19,7 @@ export default function useModal<Props>({
   skip,
   onClosePropName = 'onClose',
   ...options
-}: UseModalOptions<Props>) {
+}: UseModalOptions<Partial<Props>>) {
   const modalManager = useContext(ModalContext)
 
   if (!modalManager) {

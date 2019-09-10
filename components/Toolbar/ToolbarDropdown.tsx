@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import styled from 'styled-components'
 import { channel } from '~/common/constants'
 import Dropdown, { DropdownMenu } from '~/components/Dropdown'
+import Link from 'next/link'
 
 const Menu: React.FC<{ className?: string }> = styled(DropdownMenu)`
   width: 400px;
@@ -27,6 +28,7 @@ const Anchor = styled.a`
 interface ToolbarDropdownProps {
   readonly title: React.ReactNode
   readonly href: string
+  readonly linkAs?: string
   readonly className?: string
   readonly anchorClassName?: string
   readonly menuClassName?: string
@@ -38,6 +40,7 @@ const ToolbarDropdown: React.FC<ToolbarDropdownProps> = ({
   menuClassName,
   title,
   href,
+  linkAs,
   children,
 }) => {
   const [open, setOpen] = useState(false)
@@ -52,12 +55,15 @@ const ToolbarDropdown: React.FC<ToolbarDropdownProps> = ({
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
-      <Anchor
-        href={href}
-        className={`nav-link ${anchorClassName || ''} ${open ? 'active' : ''}`}
-      >
-        {title}
-      </Anchor>
+      <Link href={href} as={linkAs} passHref>
+        <Anchor
+          className={`nav-link ${anchorClassName || ''} ${
+            open ? 'active' : ''
+          }`}
+        >
+          {title}
+        </Anchor>
+      </Link>
       <Menu className={menuClassName}>{children}</Menu>
     </Dropdown>
   )

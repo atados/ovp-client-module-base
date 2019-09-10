@@ -1,5 +1,4 @@
 import React from 'react'
-import { FormComposerMode } from '~/components/FormComposer/FormComposer'
 import ProjectComposerAbout from '~/components/ProjectComposer/steps/ProjectComposerAbout'
 import ProjectComposerBasics from '~/components/ProjectComposer/steps/ProjectComposerBasics'
 import ProjectComposerConclusion from '~/components/ProjectComposer/steps/ProjectComposerConclusion'
@@ -10,34 +9,20 @@ import { ProjectComposerDraft } from '~/pages/project-composer'
 import { UserOrganization } from '~/redux/ducks/user'
 
 interface ProjectComposerProps {
-  readonly routerPathname: string
-  readonly routerAs: string
+  readonly pageName: string
   readonly organization?: UserOrganization
-  readonly projectSlug?: string
-  readonly mode?: FormComposerMode
-  readonly draftIndex?: number
   readonly drafts: ProjectComposerDraft[]
 }
 
 const ProjectComposer: React.FC<ProjectComposerProps> = ({
-  routerPathname,
-  routerAs,
+  pageName,
   organization,
-  projectSlug,
-  mode,
-  draftIndex,
   drafts,
 }) => (
   <>
     <ProjectComposerIntro
-      routerPathname={routerPathname}
-      routerAs={`${routerAs}/`}
-      query={{
-        projectSlug,
-        organizationSlug: organization ? organization.slug : undefined,
-        mode,
-        draftIndex,
-      }}
+      pageName={pageName}
+      organizationSlug={organization && organization.slug}
       drafts={drafts}
     />
     <ProjectComposerBasics />

@@ -8,6 +8,7 @@ import { Page, PageAs } from '~/common'
 import { useIntl } from 'react-intl'
 import Icon from '../Icon'
 import ToolbarDropdown from './ToolbarDropdown'
+import { StepIds } from '../FormComposer/FormComposer'
 
 const ToolbarDropdownStyled = styled(ToolbarDropdown)`
   .toolbar-dropdown-anchor {
@@ -89,7 +90,12 @@ const ToolbarOrganizationDropdown: React.FC<
 
   return (
     <ToolbarDropdownStyled
-      href={organization ? `/ong/${organization.slug}` : '/sou-uma-ong'}
+      href={organization ? Page.Organization : Page.NewOrganization}
+      linkAs={
+        organization
+          ? PageAs.Organization({ organizationSlug: organization.slug })
+          : PageAs.NewOrganization({ stepId: StepIds.Introduction })
+      }
       className={className}
       anchorClassName={organization ? 'toolbar-dropdown-anchor bg-white' : ''}
       menuClassName="toolbar-dropdown-menu"
@@ -177,6 +183,7 @@ const ToolbarOrganizationDropdown: React.FC<
           </div>
         </NavPills>
       )}
+      {!organization && <div className="p-4">Faça o cadastro da sua ONG</div>}
     </ToolbarDropdownStyled>
   )
 }

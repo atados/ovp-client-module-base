@@ -2,7 +2,7 @@ import Link from 'next/link'
 import React from 'react'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
-import { Page } from '~/base/common'
+import { Page, PageAs } from '~/base/common'
 import { colors } from '~/common/constants'
 import { OrganizationAppliesPayload } from '~/redux/ducks/organization-applies'
 import { RootState } from '~/redux/root-reducer'
@@ -57,15 +57,12 @@ const OrganizationApplies: React.FC<OrganizationAppliesProps> = ({
         return (
           <Link
             key={application.id}
-            href={{
-              pathname: Page.PublicUser,
-              query: { slug: application.user.slug },
-            }}
-            as={`/voluntario/${application.user.slug}`}
+            href={Page.PublicUser}
+            as={PageAs.PublicUser({ slug: application.user.slug })}
+            passHref
           >
             <Volunteer
               key={application.id}
-              href={`/voluntario/${application.user.slug}`}
               className="bg-cover"
               style={{
                 backgroundColor: colors[i % colors.length],

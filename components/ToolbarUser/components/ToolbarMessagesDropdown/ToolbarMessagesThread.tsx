@@ -3,6 +3,7 @@ import Link from 'next/link'
 import React from 'react'
 import styled from 'styled-components'
 import { MessageThreadable, MessageThreadType } from '~/redux/ducks/inbox'
+import { Page } from '~/base/common'
 
 const { useMemo } = React
 const Container = styled.a`
@@ -74,7 +75,7 @@ const ToolbarMessagesThread: React.FC<ToolbarMessagesThreadProps> = ({
   return (
     <Link
       href={{
-        pathname: '/inbox',
+        pathname: Page.Inbox,
         query: { viewerSlug, threadId: thread.id },
       }}
       as={`/mensagens/${viewerSlug}/${thread.id}`}
