@@ -20,6 +20,8 @@ import * as masks from '~/lib/form/masks'
 import Yup from '~/lib/form/yup'
 import { causeToSelectItem } from '~/lib/utils/form'
 import OrganizationComposerCard from '../components/OrganizationComposerCard'
+import { defineMessages, WithIntlProps } from 'react-intl'
+import { withIntl } from '~/lib/intl'
 
 const RE_CNPJ = /^[0-9]{2}.[0-9]{3}.[0-9]{3}\/[0-9]{4}-[0-9]{2}$/
 const OrganizationBasicsFormSchema = Yup.object().shape({
@@ -91,9 +93,116 @@ interface OrganizationComposerBasicsProps {
   readonly causesSelectItems: InputSelectItem[]
 }
 
+const {
+  COMO_SERA_VISTA,
+  ETAPA1,
+  SUA_ONG,
+  PREENCHA,
+  NOME,
+  RESUMO,
+  RESUMO_HINT,
+  RESUMO_PLACEHOLDER,
+  IMAGEM,
+  IMAGEM_HINT,
+  IMAGEM_HINT2,
+  ENDERECO,
+  ENDERECO_HINT,
+  COMPLEMENTO,
+  ENDERECO_PLACEHOLDER,
+  CAUSAS,
+  CAUSAS_HINT,
+  BENEFICIADOS,
+  BENEFICIADOS_HINT,
+} = defineMessages({
+  COMO_SERA_VISTA: {
+    id: 'COMO_SERA_VISTA',
+    defaultMessage: 'Como sua ONG será vista:',
+  },
+  ETAPA1: {
+    id: 'ETAPA1',
+    defaultMessage: 'Descreva as atividades que o voluntário (a) irá realizar;',
+  },
+  SUA_ONG: {
+    id: 'SUA_ONG',
+    defaultMessage: 'Sua ONG',
+  },
+  PREENCHA: {
+    id: 'PREENCHA',
+    defaultMessage: 'Preencha as informações abaixo:',
+  },
+  NOME: {
+    id: 'NOME',
+    defaultMessage: 'Nome da ONG',
+  },
+  RESUMO: {
+    id: 'RESUMO',
+    defaultMessage: 'Resumo da ONG',
+  },
+  RESUMO_HINT: {
+    id: 'RESUMO_HINT',
+    defaultMessage:
+      'Faça uma descrição atrativa e resumida do trabalho da ONG!',
+  },
+  RESUMO_PLACEHOLDER: {
+    id: 'RESUMO_PLACEHOLDER',
+    defaultMessage:
+      'Ex.: Somos uma rede que tem como objetivo aumentar o impacto das organizações sociais por meio da mobilização de pessoas.',
+  },
+  IMAGEM: {
+    id: 'IMAGEM',
+    defaultMessage: 'Imagem',
+  },
+  IMAGEM_HINT: {
+    id: 'IMAGEM_HINT',
+    defaultMessage:
+      'Insira o logo da sua ONG. Caso não tenha, coloque uma foto que melhor a represente.',
+  },
+  IMAGEM_HINT2: {
+    id: 'IMAGEM_HINT2',
+    defaultMessage:
+      'Carregue uma imagem no formato JPG, JPEG, PNG ou GIF de no máximo 2MB. Prefira imagens no formato quadrado, caso contrário a imagem será cortada e centralizada para melhor visualização.',
+  },
+  ENDERECO: {
+    id: 'ENDERECO',
+    defaultMessage: 'Endereço',
+  },
+  ENDERECO_HINT: {
+    id: 'ENDERECO_HINT',
+    defaultMessage: 'Comece a escrever e selecione uma opção',
+  },
+  COMPLEMENTO: {
+    id: 'COMPLEMENTO',
+    defaultMessage: 'Complemento',
+  },
+  ENDERECO_PLACEHOLDER: {
+    id: 'ENDERECO_PLACEHOLDER',
+    defaultMessage: 'Mostrar endereço na página da ONG',
+  },
+  CAUSAS: {
+    id: 'CAUSAS',
+    defaultMessage: 'Causas',
+  },
+  CAUSAS_HINT: {
+    id: 'CAUSAS_HINT',
+    defaultMessage:
+      'Selecione até 3 causas que melhor definam o trabalho da ONGs',
+  },
+  BENEFICIADOS: {
+    id: 'BENEFICIADOS',
+    defaultMessage: 'Número de beneficiados',
+  },
+  BENEFICIADOS_HINT: {
+    id: 'BENEFICIADOS_HINT',
+    defaultMessage: 'Estimativa do número de pessoas impactadas',
+  },
+})
+
 class OrganizationComposerBasics extends React.Component<
   OrganizationComposerBasicsProps &
-    InjectedFormikProps<OrganizationComposerBasicsProps, Values>
+    InjectedFormikProps<
+      OrganizationComposerBasicsProps & WithIntlProps<any>,
+      Values
+    >
 > {
   public static isValidValue = (values: Values): Promise<boolean> => {
     return OrganizationBasicsFormSchema.isValid(values)
@@ -160,6 +269,7 @@ class OrganizationComposerBasics extends React.Component<
       handleSubmit,
       causesSelectItems,
       isComposerSubmitting,
+      intl,
     } = this.props
 
     return (
@@ -176,23 +286,23 @@ class OrganizationComposerBasics extends React.Component<
                 name="lightbulb_outline"
                 className="mr-1 tc-secondary-500"
               />
-              Como sua ONG será vista:
+              {intl.formatMessage(COMO_SERA_VISTA)}
             </h4>
             <OrganizationComposerCard {...values} />
           </div>
         }
       >
         {mode !== FormComposerMode.EDIT && (
-          <h4 className="tc-muted ts-small">ETAPA 1</h4>
+          <h4 className="tc-muted ts-small">{intl.formatMessage(ETAPA1)}</h4>
         )}
-        <h1 className="tw-light mb-1">Sua ONG</h1>
+        <h1 className="tw-light mb-1">{intl.formatMessage(SUA_ONG)}</h1>
         <p className="ts-medium tc-muted-dark mb-4">
-          Preencha as informações abaixo:
+          {intl.formatMessage(PREENCHA)}
         </p>
 
         <FormGroup
           labelFor="ong-input-name"
-          label="Nome da ONG"
+          label={intl.formatMessage(NOME)}
           error={touched.name ? errors.name : undefined}
           length={values.name.length}
           maxLength={150}
@@ -211,12 +321,12 @@ class OrganizationComposerBasics extends React.Component<
 
         <FormGroup
           labelFor="ong-input-description"
-          label="Resumo da ONG"
+          label={intl.formatMessage(RESUMO)}
           error={touched.description ? errors.description : undefined}
           length={values.description.length}
           maxLength={160}
           className="mb-4"
-          hint="Faça uma descrição atrativa e resumida do trabalho da ONG!"
+          hint={intl.formatMessage(RESUMO_HINT)}
         >
           <Textarea
             id="ong-input-description"
@@ -226,36 +336,23 @@ class OrganizationComposerBasics extends React.Component<
             onChange={handleChange}
             onBlur={this.handleBlur}
             className="input input--size-3"
-            placeholder="Ex.: Somos uma rede que tem como objetivo aumentar o impacto das organizações sociais por meio da mobilização de pessoas."
+            placeholder={intl.formatMessage(RESUMO_PLACEHOLDER)}
           />
         </FormGroup>
 
         <FormGroup
           labelFor="ong-input-image"
-          label="Imagem"
+          label={intl.formatMessage(IMAGEM)}
           error={
             touched.image
               ? errors.image && ((errors.image as any).payload || errors.image)
               : undefined
           }
           className="mb-4"
-          hint={
-            <>
-              Insira o logo da sua ONG. <br />
-              Caso não tenha, coloque uma foto que melhor a represente.
-            </>
-          }
+          hint={<>{intl.formatMessage(IMAGEM_HINT)}</>}
         >
           <InputImage
-            hint={
-              <>
-                Carregue uma imagem no formato JPG, JPEG, PNG ou GIF de no
-                máximo 2MB.
-                <br />
-                <br /> Prefira imagens no formato quadrado, caso contrário a
-                imagem será cortada e centralizada para melhor visualização.
-              </>
-            }
+            hint={<>{intl.formatMessage(IMAGEM_HINT2)}</>}
             value={values.image}
             ratio={100}
             onChange={this.handleImageChange}
@@ -265,10 +362,10 @@ class OrganizationComposerBasics extends React.Component<
 
         <FormGroup
           labelFor="ong-input-address"
-          label="Endereço"
+          label={intl.formatMessage(ENDERECO)}
           error={touched.address ? (errors.address as string) : undefined}
           className="mb-3"
-          hint="Comece a escrever e selecione uma opção"
+          hint={intl.formatMessage(ENDERECO_HINT)}
         >
           <InputAddress
             id="ong-input-address"
@@ -283,7 +380,7 @@ class OrganizationComposerBasics extends React.Component<
           type="text"
           name="addressComplement"
           className="input input--size-3 w-1/2 mb-3"
-          placeholder="Complemento"
+          placeholder={intl.formatMessage(COMPLEMENTO)}
           value={values.addressComplement}
           onChange={handleChange}
           onBlur={this.handleBlur}
@@ -298,19 +395,19 @@ class OrganizationComposerBasics extends React.Component<
             onChange={handleChange}
             onBlur={this.handleBlur}
           />
-          Mostrar endereço na página da ONG
+          {intl.formatMessage(ENDERECO_PLACEHOLDER)}
         </label>
 
         <FormGroup
           labelFor="ong-input-causes"
-          label="Causas"
+          label={intl.formatMessage(CAUSAS)}
           error={
             touched.causes ? ((errors.causes as any) as string) : undefined
           }
           length={values.causes.length}
           className="mb-4"
           maxLength={3}
-          hint="Selecione até 3 causas que melhor definam o trabalho da ONG"
+          hint={intl.formatMessage(CAUSAS_HINT)}
         >
           <InputSelect
             inputClassName="input--size-3"
@@ -324,9 +421,9 @@ class OrganizationComposerBasics extends React.Component<
 
         <FormGroup
           labelFor="ong-input-benefited-people"
-          label="Número de beneficiados"
+          label={intl.formatMessage(BENEFICIADOS)}
           className="mb-3"
-          hint="Estimativa do número de pessoas impactadas"
+          hint={intl.formatMessage(BENEFICIADOS_HINT)}
           required={false}
         >
           <MaskedTextInput
@@ -411,5 +508,5 @@ export default connect(mapStateToProps)(
       defaultCnpj: value.cnpj,
       show_address: value.show_address,
     }),
-  })(OrganizationComposerBasics),
+  })(withIntl(OrganizationComposerBasics)),
 )

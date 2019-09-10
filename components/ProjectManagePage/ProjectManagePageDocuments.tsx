@@ -10,6 +10,8 @@ import { RootState } from '~/redux/root-reducer'
 import { DocumentDict } from '~/types/api'
 import ActivityIndicator from '../ActivityIndicator'
 import Icon from '../Icon'
+import { defineMessages } from 'react-intl'
+import { useIntl } from 'react-intl'
 
 const PlaceholderIcon = styled(Icon)`
   font-size: 64px;
@@ -55,12 +57,69 @@ interface ProjectManagePagePhotosState {
   items: DocumentItem[]
 }
 
+const {
+  CANCELAR,
+  SALVAR,
+  DOCUMENTOS,
+  DOCUMENTOS_DA_VAGA,
+  DOCUMENTOS_HINT,
+  ADICIONAR,
+  ARQUIVO,
+  CARREGANDO,
+  NOVO,
+  ADICIONAR_DOCUMENTOS,
+} = defineMessages({
+  CANCELAR: {
+    id: 'CANCELAR',
+    defaultMessage: 'Cancelar',
+  },
+  SALVAR: {
+    id: 'SALVAR',
+    defaultMessage: 'Salvar alterações',
+  },
+  DOCUMENTOS: {
+    id: 'DOCUMENTOS',
+    defaultMessage: 'Documentos',
+  },
+  DOCUMENTOS_DA_VAGA: {
+    id: 'DOCUMENTOS_DA_VAGA',
+    defaultMessage: 'Documentos da vaga',
+  },
+  DOCUMENTOS_HINT: {
+    id: 'DOCUMENTOS_HINT',
+    defaultMessage:
+      'Aqui você pode adicionar arquivos que vão ficar disponibilizados na vaga.',
+  },
+  ADICIONAR: {
+    id: 'ADICIONAR',
+    defaultMessage: 'Adicionar documentos',
+  },
+  ARQUIVO: {
+    id: 'ARQUIVO',
+    defaultMessage: 'Arquivo',
+  },
+  CARREGANDO: {
+    id: 'CARREGANDO',
+    defaultMessage: 'Carregando...',
+  },
+  NOVO: {
+    id: 'NOVO',
+    defaultMessage: 'NOVO',
+  },
+  ADICIONAR_DOCUMENTOS: {
+    id: 'ADICIONAR_DOCUMENTOS',
+    defaultMessage: 'Adicionar documentos',
+  },
+})
+
 const ProjectManagePageDocuments: React.FC<ProjectManagePageDocumentsProps> = ({
   className,
   project,
   viewer,
   onUpdateProject,
 }) => {
+  const intl = useIntl()
+
   const initialItems = useMemo(() => {
     return project.documents
       ? project.documents.map(document => ({ id: document.id, document }))
@@ -207,7 +266,7 @@ const ProjectManagePageDocuments: React.FC<ProjectManagePageDocumentsProps> = ({
               className="btn btn-muted mr-2"
             >
               <Icon name="close" className="mr-2" />
-              Cancelar
+              {intl.formatMessage(CANCELAR)}
             </button>
             <button
               type="button"
@@ -216,33 +275,36 @@ const ProjectManagePageDocuments: React.FC<ProjectManagePageDocumentsProps> = ({
               disabled={isUploading || updateProjectTrigger.loading}
             >
               <Icon name="save" className="mr-2" />
-              Salvar alterações
+              {intl.formatMessage(SALVAR)}
               {updateProjectTrigger.loading && (
                 <ActivityIndicator size={24} fill="#fff" className="ml-2" />
               )}
             </button>
           </div>
         )}
-        <h4 className="tw-normal mb-0">Documentos</h4>
+        <h4 className="tw-normal mb-0">{intl.formatMessage(DOCUMENTOS)}</h4>
       </div>
       {!hasDocuments && (
         <div className="px-3 pb-5 ta-center">
           <PlaceholderIcon name="file_copy" />
-          <span className="h4 block tw-normal mb-2">Documentos da vaga</span>
+          <span className="h4 block tw-normal mb-2">
+            {intl.formatMessage(DOCUMENTOS_DA_VAGA)}
+          </span>
           <span className="tc-muted block mb-3">
-            Aqui você pode adicionar arquivos que <br /> vão ficar
-            disponibilizados na vaga.
+            {intl.formatMessage(DOCUMENTOS_HINT)}
           </span>
           <div className="btn btn-outline-primary inputFileWrapper">
             <input type="file" onChange={handleInputFileChange} multiple />
-            <Icon name="add" /> Adicionar documentos
+            <Icon name="add" /> {intl.formatMessage(ADICIONAR)}
           </div>
         </div>
       )}
       {hasDocuments && (
         <>
           <div className="px-3 py-1 card-item">
-            <span className="ts-small tw-medium">Arquivo</span>
+            <span className="ts-small tw-medium">
+              {intl.formatMessage(ARQUIVO)}
+            </span>
           </div>
           {state.items.map(item => (
             <Item className="relative card-item" key={item.id}>
@@ -270,12 +332,16 @@ const ProjectManagePageDocuments: React.FC<ProjectManagePageDocumentsProps> = ({
                       {item.document.document_url}
                     </a>
                   ) : (
-                    <span className="tc-muted">Carregando...</span>
+                    <span className="tc-muted">
+                      {intl.formatMessage(CARREGANDO)}
+                    </span>
                   )}
                   {item.isDraft && (
                     <>
                       <br />
-                      <span className="badge bg-error">NOVO</span>
+                      <span className="badge bg-error">
+                        {intl.formatMessage(NOVO)}
+                      </span>
                     </>
                   )}
                 </div>
@@ -288,7 +354,7 @@ const ProjectManagePageDocuments: React.FC<ProjectManagePageDocumentsProps> = ({
         <div className="card-item p-4">
           <div className="btn btn-outline-primary inputFileWrapper">
             <input type="file" onChange={handleInputFileChange} multiple />
-            <Icon name="add" /> Adicionar documentos
+            <Icon name="add" /> {intl.formatMessage(ADICIONAR_DOCUMENTOS)}
           </div>
         </div>
       )}

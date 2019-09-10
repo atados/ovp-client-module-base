@@ -11,6 +11,7 @@ import { useIntl } from 'react-intl'
 import { Cause } from '~/common/channel'
 import { RootState } from '~/redux/root-reducer'
 import FooterNav from './FooterNav'
+import LanguageDropdown from '~/components/LanguageDropdown/LanguageDropdown'
 
 const Container = styled.div`
   background: ${props => props.theme.footerBackground || '#f5f6f7'};
@@ -96,6 +97,9 @@ const Footer: React.FC<FooterProps> = ({ causes, className }) => {
                   )}
                 </li>
               ))}
+              <li className="nav-item">
+                <LanguageDropdown />
+              </li>
             </FooterNav>
           </div>
           <div className="col-md-3 mb-3 mb-md-0">

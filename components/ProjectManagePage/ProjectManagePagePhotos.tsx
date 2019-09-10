@@ -10,6 +10,7 @@ import { RootState } from '~/redux/root-reducer'
 import ActivityIndicator from '../ActivityIndicator'
 import Icon from '../Icon'
 import Tooltip from '../Tooltip'
+import { defineMessages, useIntl } from 'react-intl'
 
 const PhotoImage = styled.div`
   background: rgba(0, 0, 0, 0.05);
@@ -117,12 +118,64 @@ interface ProjectManagePagePhotosProps {
   readonly project: Project
 }
 
+const {
+  CANCELAR,
+  SALVAR,
+  ADICIONAR,
+  FOTOS,
+  CLIQUE,
+  ADICIONAR_FOTOS,
+  FOTOS_VAGA,
+  VAGA_ATRATIVA,
+  PRIMEIRAS_FOTOS,
+} = defineMessages({
+  CANCELAR: {
+    id: 'CANCELAR',
+    defaultMessage: 'Cancelar',
+  },
+  SALVAR: {
+    id: 'SALVAR',
+    defaultMessage: 'Salvar alterações',
+  },
+  ADICIONAR: {
+    id: 'ADICIONAR',
+    defaultMessage: 'Adicionar fotos',
+  },
+  FOTOS: {
+    id: 'FOTOS',
+    defaultMessage: 'Fotos',
+  },
+  CLIQUE: {
+    id: 'CLIQUE',
+    defaultMessage: 'Clique para',
+  },
+  ADICIONAR_FOTOS: {
+    id: 'ADICIONAR_FOTOS',
+    defaultMessage: 'adicionar mais fotos',
+  },
+  FOTOS_VAGA: {
+    id: 'FOTOS_VAGA',
+    defaultMessage: 'Fotos da vaga',
+  },
+  VAGA_ATRATIVA: {
+    id: 'VAGA_ATRATIVA',
+    defaultMessage:
+      'Adicione fotos para deixar sua vaga mais atrativa e mostra como foi essa ação.',
+  },
+  PRIMEIRAS_FOTOS: {
+    id: 'PRIMEIRAS_FOTOS',
+    defaultMessage: 'Adicionar primeiras fotos',
+  },
+})
+
 const ProjectManagePagePhotos: React.FC<ProjectManagePagePhotosProps> = ({
   className,
   project,
 }) => {
   const viewer = useSelector((state: RootState) => state.user!)
   const dispatchToReduxStore = useDispatch()
+  const intl = useIntl()
+
   const [items, setItems] = useState<GalleryItem[]>(() => {
     const looseGallery = project.galleries.find(
       gallery => gallery.name === 'loose',
@@ -314,7 +367,7 @@ const ProjectManagePagePhotos: React.FC<ProjectManagePagePhotosProps> = ({
                 className="btn btn-muted mr-2"
               >
                 <Icon name="close" className="mr-2" />
-                Cancelar
+                {intl.formatMessage(CANCELAR)}
               </button>
               <button
                 type="button"
@@ -323,7 +376,7 @@ const ProjectManagePagePhotos: React.FC<ProjectManagePagePhotosProps> = ({
                 disabled={isUploading}
               >
                 <Icon name="save" className="mr-2" />
-                Salvar alterações
+                {intl.formatMessage(SALVAR)}
               </button>
             </div>
           </>
@@ -332,11 +385,11 @@ const ProjectManagePagePhotos: React.FC<ProjectManagePagePhotosProps> = ({
             <div className="btn btn-outline-primary tc-primary-500 float-right inputFileWrapper">
               <input type="file" onChange={handleInputFileChange} multiple />
               <Icon name="add" className="mr-2" />
-              Adicionar fotos
+              {intl.formatMessage(ADICIONAR)}
             </div>
           )
         )}
-        <h4 className="tw-normal mb-0">Fotos</h4>
+        <h4 className="tw-normal mb-0">{intl.formatMessage(FOTOS)}</h4>
       </div>
       {items.length > 0 && (
         <Photos className="px-4 pb-4">
@@ -384,9 +437,9 @@ const ProjectManagePagePhotos: React.FC<ProjectManagePagePhotosProps> = ({
                       <PhotoImageInputLabel>
                         <Icon name="add_circle" className="mb-2" />
                         <span className="block ts-small tl-base">
-                          Clique para
+                          {intl.formatMessage(CLIQUE)}
                           <br />
-                          adicionar mais fotos
+                          {intl.formatMessage(ADICIONAR_FOTOS)}
                         </span>
                       </PhotoImageInputLabel>
                     </PhotoImageInputWrapper>
@@ -400,17 +453,18 @@ const ProjectManagePagePhotos: React.FC<ProjectManagePagePhotosProps> = ({
       {items.length === 0 && (
         <div className="pb-5 px-3 ta-center">
           <PlaceholderIcon name="image" />
-          <span className="h4 block tw-normal mb-2">Fotos da vaga</span>
+          <span className="h4 block tw-normal mb-2">
+            {intl.formatMessage(FOTOS_VAGA)}
+          </span>
           <span className="tc-muted block mb-3">
-            Adicione fotos para deixar sua vaga mais atrativa e <br /> mostra
-            como foi essa ação.
+            {intl.formatMessage(VAGA_ATRATIVA)}
           </span>
           <button
             type="button"
             className="btn btn-outline-primary"
             onClick={toggleEdtting}
           >
-            <Icon name="add" /> Adicionar primeiras fotos
+            <Icon name="add" /> {intl.formatMessage(PRIMEIRAS_FOTOS)}
           </button>
         </div>
       )}

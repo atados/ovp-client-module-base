@@ -4,6 +4,8 @@ import { DropdownMenu } from '~/components/Dropdown'
 import SearchFilter from '~/components/SearchFilters/SearchFilter'
 import { pushToDataLayer } from '~/lib/tag-manager'
 import { DisponibilityFilterValue } from '~/redux/ducks/search'
+import { defineMessages, WithIntlProps } from 'react-intl'
+import { withIntl } from '~/lib/intl'
 
 const Menu = styled(DropdownMenu)`
   left: 10px;
@@ -55,6 +57,37 @@ const Indicator = styled.span.attrs({ className: 'checkbox-indicator' })`
   margin-left: -30px;
 `
 
+const {
+  FILTRAR,
+  RECORRENTE,
+  VAGAS_QUE_EXIGEM,
+  PONTUAIS,
+  NECESSARIO,
+} = defineMessages({
+  FILTRAR: {
+    id: 'FILTRAR',
+    defaultMessage: 'Filtrar por tipo',
+  },
+  RECORRENTE: {
+    id: 'RECORRENTE',
+    defaultMessage: 'Recorrentes',
+  },
+  VAGAS_QUE_EXIGEM: {
+    id: 'VAGAS_QUE_EXIGEM',
+    defaultMessage:
+      'Vagas que exigem exigem comprometimento por um período mais longo.',
+  },
+  PONTUAIS: {
+    id: 'PONTUAIS',
+    defaultMessage: 'Pontuais',
+  },
+  NECESSARIO: {
+    id: 'NECESSARIO',
+    defaultMessage:
+      'É necessário dedicar-se por um curto período de tempo, em um dia ou uma semana, para a realização das atividades.',
+  },
+})
+
 interface DisponibilityFilterProps {
   readonly onCommit: () => void
   readonly value?: DisponibilityFilterValue
@@ -71,7 +104,7 @@ interface DisponibilityFilterState {
 }
 
 class DisponibilityFilter extends React.Component<
-  DisponibilityFilterProps,
+  DisponibilityFilterProps & WithIntlProps<any>,
   DisponibilityFilterState
 > {
   public static defaultProps: Partial<DisponibilityFilterProps> = {}
@@ -134,7 +167,7 @@ class DisponibilityFilter extends React.Component<
   }
 
   public render() {
-    const { onCommit, className, onOpenStateChange } = this.props
+    const { onCommit, className, onOpenStateChange, intl } = this.props
     const { checked } = this.state
     let label: string = 'Disponibilidade'
 
@@ -157,7 +190,9 @@ class DisponibilityFilter extends React.Component<
         onReset={this.reset}
       >
         <div className="p-3">
-          <h4 className="tw-normal ts-medium mb-3">Filtrar por tipo</h4>
+          <h4 className="tw-normal ts-medium mb-3">
+            {intl.formatMessage(FILTRAR)}
+          </h4>
           <List>
             <li>
               <label htmlFor="disponibility-filter-work">
@@ -169,10 +204,9 @@ class DisponibilityFilter extends React.Component<
                   checked={checked.work}
                 />
                 <Indicator />
-                <ItemName>Recorrentes</ItemName>
+                <ItemName>{intl.formatMessage(RECORRENTE)}</ItemName>
                 <ItemDescription>
-                  Vagas quem exigem exigem comprometimento por um período mais
-                  longo.
+                  {intl.formatMessage(VAGAS_QUE_EXIGEM)}
                 </ItemDescription>
               </label>
             </li>
@@ -186,10 +220,9 @@ class DisponibilityFilter extends React.Component<
                   checked={checked.job}
                 />
                 <Indicator />
-                <ItemName>Pontuais</ItemName>
+                <ItemName>{intl.formatMessage(PONTUAIS)}</ItemName>
                 <ItemDescription>
-                  É necessário dedicar-se por um curto período de tempo, em um
-                  dia ou uma semana, para a realização das atividades.
+                  {intl.formatMessage(NECESSARIO)}
                 </ItemDescription>
               </label>
             </li>
@@ -200,4 +233,4 @@ class DisponibilityFilter extends React.Component<
   }
 }
 
-export default DisponibilityFilter
+export default withIntl(DisponibilityFilter)

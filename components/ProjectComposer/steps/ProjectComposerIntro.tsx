@@ -6,6 +6,8 @@ import { channel } from '~/common/constants'
 import Icon from '~/components/Icon'
 import useMultipleStepsForm from '~/hooks/use-multiple-steps-form'
 import { ProjectComposerDraft } from '~/pages/project-composer'
+import { defineMessages } from 'react-intl'
+import { useIntl } from 'react-intl'
 
 const Option = styled.a`
   border-radius: 10px;
@@ -54,6 +56,50 @@ const OptionIcon = styled(Icon)`
   color: rgba(0, 0, 0, 0.7);
 `
 
+const {
+  NOVA_VAGA,
+  COMO_COMECAR,
+  SALVAMOS,
+  CRIAR_VAGA,
+  CONTINUE,
+  ADICIONE_NOME,
+  ADICIONE_DESCRICAO,
+  ATUALIZADO,
+} = defineMessages({
+  NOVA_VAGA: {
+    id: 'NOVA_VAGA',
+    defaultMessage: 'NOVA VAGA',
+  },
+  COMO_COMECAR: {
+    id: 'COMO_COMECAR',
+    defaultMessage: 'Como você gostaria de começar?',
+  },
+  SALVAMOS: {
+    id: 'SALVAMOS',
+    defaultMessage: 'Nós salvamos o seus ultimos rascunhos para não perder.',
+  },
+  CRIAR_VAGA: {
+    id: 'CRIAR_VAGA',
+    defaultMessage: 'Criar uma nova vaga',
+  },
+  CONTINUE: {
+    id: 'CONTINUE',
+    defaultMessage: 'CONTINUE DA ONDE VOCÊ PAROU:',
+  },
+  ADICIONE_NOME: {
+    id: 'ADICIONE_NOME',
+    defaultMessage: 'Adicione um nome',
+  },
+  ADICIONE_DESCRICAO: {
+    id: 'ADICIONE_DESCRICAO',
+    defaultMessage: 'Adicione uma descrição',
+  },
+  ATUALIZADO: {
+    id: 'ATUALIZADO',
+    defaultMessage: 'Atualizado',
+  },
+})
+
 interface ProjectComposerIntroProps {
   readonly query: any
   readonly routerPathname: string
@@ -76,6 +122,7 @@ const ProjectComposerIntro: React.FC<ProjectComposerIntroProps> = ({
   }
 
   const firstStep = steps[0]
+  const intl = useIntl()
   const orderedDrafts = useMemo(
     () => drafts.sort((draft1, draft2) => draft2.updatedAt - draft1.updatedAt),
     [drafts],
@@ -83,10 +130,10 @@ const ProjectComposerIntro: React.FC<ProjectComposerIntroProps> = ({
 
   return (
     <div className={`p-5${className ? ` ${className}` : ''}`}>
-      <h4 className="tc-muted ts-small">NOVA VAGA</h4>
-      <h1 className="tw-light mb-1">Como você gostaria de começar?</h1>
+      <h4 className="tc-muted ts-small">{intl.formatMessage(NOVA_VAGA)}</h4>
+      <h1 className="tw-light mb-1">{intl.formatMessage(COMO_COMECAR)}</h1>
       <p className="ts-medium tc-muted-dark mb-4">
-        Nós salvamos o seus ultimos rascunhos para não perder.
+        {intl.formatMessage(SALVAMOS)}
       </p>
       {firstStep && (
         <Link
@@ -101,14 +148,14 @@ const ProjectComposerIntro: React.FC<ProjectComposerIntroProps> = ({
               <OptionIcon name="add" />
             </figure>
             <OptionTitleCenter className="h4 tw-normal mb-1 text-truncate block">
-              Criar uma nova vaga
+              {intl.formatMessage(CRIAR_VAGA)}
             </OptionTitleCenter>
           </Option>
         </Link>
       )}
       {orderedDrafts.length > 0 && (
         <h4 className="tc-muted ts-small mb-3 mt-4">
-          CONTINUE DA ONDE VOCÊ PAROU:
+          {intl.formatMessage(CONTINUE)}
         </h4>
       )}
       {firstStep &&
@@ -130,13 +177,16 @@ const ProjectComposerIntro: React.FC<ProjectComposerIntroProps> = ({
                 }
               />
               <OptionTitle className="mb-1 text-truncate block">
-                {draft.value.name || 'Adicione um nome'}
+                {draft.value.name || intl.formatMessage(ADICIONE_NOME)}
               </OptionTitle>
               <p className="tc-muted-dark tw-normal">
-                {draft.value.description || 'Adicione uma descrição'}
+                {draft.value.description ||
+                  intl.formatMessage(ADICIONE_DESCRICAO)}
               </p>
               <span className="tc-muted ts-small">
-                Atualizado {moment(draft.updatedAt).fromNow()}
+                {`${intl.formatMessage(ATUALIZADO)} ${moment(
+                  draft.updatedAt,
+                ).fromNow()}`}
               </span>
             </Option>
           </Link>

@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import GoogleMap, { GoogleMapProps } from './GoogleMap'
 import styled from 'styled-components'
 import Icon from '../Icon'
+import { defineMessages, useIntl } from 'react-intl'
 
 const Wrapper = styled.div`
   position: relative;
@@ -23,6 +24,13 @@ const GoogleMapStyled = styled(GoogleMap)`
   height: 100%;
 `
 
+const m = defineMessages({
+  view: {
+    id: 'BlockGoogleMap.view',
+    defaultMessage: 'Clique para ver o mapa',
+  },
+})
+
 interface BlockedGoogleMapProps extends GoogleMapProps {
   readonly className?: string
 }
@@ -32,6 +40,7 @@ const BlockedGoogleMap: React.FC<BlockedGoogleMapProps> = ({
   ...props
 }) => {
   const [enabled, setEnabled] = useState(false)
+  const intl = useIntl()
 
   return (
     <Wrapper className={className}>
@@ -42,7 +51,7 @@ const BlockedGoogleMap: React.FC<BlockedGoogleMapProps> = ({
         >
           <Icon name="map" className="block mb-3" />
           <span className="tw-medium rounded-full px-3 py-2 bg-white">
-            Ver no mapa
+            {intl.formatMessage(m.view)}
           </span>
         </Overlay>
       ) : (
