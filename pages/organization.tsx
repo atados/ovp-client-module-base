@@ -287,4 +287,4 @@ const mapStateToProps = ({
   organization: organization.node
 });
 
-export default connect(mapStateToProps)(OrganizationPage);
+export default connect(mapStateToProps)(withIntl(OrganizationPage));
