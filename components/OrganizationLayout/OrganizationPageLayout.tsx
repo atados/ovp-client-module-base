@@ -1,18 +1,20 @@
-import Link from 'next/link'
-import React from 'react'
-import { connect } from 'react-redux'
-import styled from 'styled-components'
-import { APP_SHARE_URL, channel } from '~/common/constants'
-import { ShareList } from '~/components/Share'
-import { Organization } from '~/redux/ducks/organization'
-import { RootState } from '~/redux/root-reducer'
-import Icon from '../Icon'
-import VolunteerIcon from '../Icon/VolunteerIcon'
-import Layout from '../Layout'
-import { useModal } from '../Modal'
-import OrganizationLayout from './OrganizationLayout'
-import OrganizationLayoutNav from './OrganizationLayoutNav'
-import { Page, PageAs } from '~/base/common'
+import Link from "next/link";
+import React from "react";
+import { connect } from "react-redux";
+import styled from "styled-components";
+import { APP_SHARE_URL, channel } from "~/common/constants";
+import { ShareList } from "~/components/Share";
+import { Organization } from "~/redux/ducks/organization";
+import { RootState } from "~/redux/root-reducer";
+import Icon from "../Icon";
+import VolunteerIcon from "../Icon/VolunteerIcon";
+import Layout from "../Layout";
+import { useModal } from "../Modal";
+import OrganizationLayout from "./OrganizationLayout";
+import OrganizationLayoutNav from "./OrganizationLayoutNav";
+import { Page, PageAs } from "~/base/common";
+import { defineMessages } from "react-intl";
+import useIntl from "~/hooks/use-intl";
 
 const Sidebar = styled.div`
   width: 200px;
@@ -20,9 +22,9 @@ const Sidebar = styled.div`
   margin-right: 24px;
   margin-top: 24px;
   min-height: 600px;
-`
+`;
 
-const SidebarBody = styled.div``
+const SidebarBody = styled.div``;
 
 const Avatar = styled.figure`
   width: 200px;
@@ -32,33 +34,33 @@ const Avatar = styled.figure`
   background-position: center;
   box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.05);
   border-radius: 3px;
-`
+`;
 
 const Name = styled.h1`
   font-size: 24px;
-`
+`;
 
 const Body = styled.div`
   flex: 1 1 auto;
   padding-top: 24px;
   padding-bottom: 2rem;
-`
+`;
 
 const CausesBar = styled.div`
   height: 4px;
   display: flex;
-`
+`;
 const CausesBarItem = styled.span`
   height: 100%;
   display: block;
-`
+`;
 
 const CoverInfo = styled.ul`
   list-style: none;
   padding: 0;
   margin: 0;
   border-bottom: 1px solid #ddd;
-`
+`;
 
 const CoverInfoItem = styled.li`
   display: inline-block;
@@ -72,67 +74,104 @@ const CoverInfoItem = styled.li`
   &:last-child {
     border-right-width: 0;
   }
-`
+`;
 
 const CoverInfoItemValue = styled.h3`
   font-weight: normal;
   font-size: 24px;
   margin-bottom: 0;
-`
+`;
 
 const CoverInfoItemLabel = styled.span`
   font-size: 13px;
   color: #666;
   font-weight: 500;
-`
+`;
 
 const ActionsNav = styled.div`
   padding: 10px 0;
-`
+`;
 
 const VolunteerButton = styled.a`
   > svg {
     margin: -3px 0;
   }
-`
+`;
 
 interface CoverInfoType {
-  fetching?: boolean
-  count: number
+  fetching?: boolean;
+  count: number;
 }
 
 interface OrganizationPageLayoutProps {
-  readonly className?: string
-  readonly applies?: CoverInfoType
-  readonly projects?: CoverInfoType
-  readonly organization: Organization
-  readonly isCurrentUserMember: boolean
-  readonly header?: React.ReactNode | false
+  readonly className?: string;
+  readonly applies?: CoverInfoType;
+  readonly projects?: CoverInfoType;
+  readonly organization: Organization;
+  readonly isCurrentUserMember: boolean;
+  readonly header?: React.ReactNode | false;
 }
+
+const {
+  ONG_EM_REVISAO,
+  VAGAS_CRIADAS,
+  VOLUNTARIOS_ENGAJADOS,
+  ENVIAR_EMAIL,
+  QUERO_VOLUNTARIAR,
+  CARREGANDO
+} = defineMessages({
+  ONG_EM_REVISAO: {
+    id: "ONG_EM_REVISAO",
+    defaultMessage: "Ong em revisão"
+  },
+  VAGAS_CRIADAS: {
+    id: "VAGAS_CRIADAS",
+    defaultMessage: "VAGAS CRIADAS"
+  },
+  VOLUNTARIOS_ENGAJADOS: {
+    id: "VOLUNTARIOS_ENGAJADOS",
+    defaultMessage: "VOLUNTÁRIOS ENGAJADOS"
+  },
+  ENVIAR_EMAIL: {
+    id: "ENVIAR_EMAIL",
+    defaultMessage: "Enviar email"
+  },
+  QUERO_VOLUNTARIAR: {
+    id: "QUERO_VOLUNTARIAR",
+    defaultMessage: "Quero voluntariar"
+  },
+  CARREGANDO: {
+    id: "CARREGANDO",
+    defaultMessage: "Carregando..."
+  }
+});
+
 const OrganizationPageLayout: React.FC<OrganizationPageLayoutProps> = ({
   className,
   children,
   organization,
   isCurrentUserMember,
   applies,
-  header,
+  header
 }) => {
+  const intl = useIntl();
+
   if (!organization) {
-    return <Layout disableFooter />
+    return <Layout disableFooter />;
   }
 
   const openShareModal = useModal({
-    id: 'Share',
+    id: "Share",
     component: ShareList,
     componentProps: {
       subtitle: organization.name,
       url: `${APP_SHARE_URL}/ong/${organization.slug}`,
       meta: {
         title: organization.name,
-        description: organization.description,
-      },
-    },
-  })
+        description: organization.description
+      }
+    }
+  });
 
   return (
     <OrganizationLayout
@@ -148,7 +187,7 @@ const OrganizationPageLayout: React.FC<OrganizationPageLayoutProps> = ({
                 !organization.image
                   ? { backgroundColor: organization.color }
                   : {
-                      backgroundImage: `url('${organization.image.image_url}')`,
+                      backgroundImage: `url('${organization.image.image_url}')`
                     }
               }
             />
@@ -157,7 +196,9 @@ const OrganizationPageLayout: React.FC<OrganizationPageLayoutProps> = ({
               {organization.description}
             </p>
             {!organization.published && (
-              <span className="badge badge-secondary mb-1">ONG em revisão</span>
+              <span className="badge badge-secondary mb-1">
+                {intl.formatMessage(ONG_EM_REVISAO)}
+              </span>
             )}
             {organization.address && organization.address.city_state && (
               <span className="block ts-small tc-muted-dark mb-3">
@@ -181,16 +222,18 @@ const OrganizationPageLayout: React.FC<OrganizationPageLayoutProps> = ({
                       <CoverInfoItemValue>
                         {organization.projects_count || 0}
                       </CoverInfoItemValue>
-                      <CoverInfoItemLabel>VAGAS CRIADAS</CoverInfoItemLabel>
+                      <CoverInfoItemLabel>
+                        {intl.formatMessage(VAGAS_CRIADAS)}
+                      </CoverInfoItemLabel>
                     </CoverInfoItem>
                     <CoverInfoItem>
                       <CoverInfoItemValue>
                         {!applies || applies.fetching
-                          ? 'Carregando...'
+                          ? intl.formatMessage(CARREGANDO)
                           : applies.count}
                       </CoverInfoItemValue>
                       <CoverInfoItemLabel>
-                        VOLUNTÁRIOS ENGAJADOS
+                        {intl.formatMessage(VOLUNTARIOS_ENGAJADOS)}
                       </CoverInfoItemLabel>
                     </CoverInfoItem>
                   </CoverInfo>
@@ -201,12 +244,12 @@ const OrganizationPageLayout: React.FC<OrganizationPageLayoutProps> = ({
                       className="btn btn--size-2 btn-text tc-primary-500  mr-2"
                     >
                       <Icon name="mail" className="mr-2" />
-                      Enviar email
+                      {intl.formatMessage(ENVIAR_EMAIL)}
                     </a>
                     <Link
                       href={Page.OrganizationProjects}
                       as={PageAs.OrganizationProjects({
-                        organizationSlug: organization.slug,
+                        organizationSlug: organization.slug
                       })}
                       passHref
                     >
@@ -217,7 +260,7 @@ const OrganizationPageLayout: React.FC<OrganizationPageLayoutProps> = ({
                           fill={channel.theme.color.primary[500]}
                           className="mr-2 inline-block"
                         />
-                        Quero voluntariar
+                        {intl.formatMessage(QUERO_VOLUNTARIAR)}
                       </VolunteerButton>
                     </Link>
                   </ActionsNav>
@@ -227,7 +270,7 @@ const OrganizationPageLayout: React.FC<OrganizationPageLayoutProps> = ({
                         key={cause.id}
                         style={{
                           backgroundColor: cause.color,
-                          width: `${100 / organization.causes.length}%`,
+                          width: `${100 / organization.causes.length}%`
                         }}
                       />
                     ))}
@@ -238,13 +281,13 @@ const OrganizationPageLayout: React.FC<OrganizationPageLayoutProps> = ({
         </Body>
       </div>
     </OrganizationLayout>
-  )
-}
+  );
+};
 
-OrganizationPageLayout.displayName = 'OrganizationPageLayout'
+OrganizationPageLayout.displayName = "OrganizationPageLayout";
 
 interface MappedProps {
-  applies: CoverInfoType
+  applies: CoverInfoType;
 }
 
 const mapStateToProps = ({ organizationApplies }: RootState): MappedProps => ({
@@ -252,8 +295,8 @@ const mapStateToProps = ({ organizationApplies }: RootState): MappedProps => ({
     fetching: organizationApplies.fetching,
     count: organizationApplies.payload
       ? organizationApplies.payload.applied_count
-      : 0,
-  },
-})
+      : 0
+  }
+});
 
-export default connect<MappedProps>(mapStateToProps)(OrganizationPageLayout)
+export default connect<MappedProps>(mapStateToProps)(OrganizationPageLayout);
