@@ -1,27 +1,29 @@
-import Link from 'next/link'
-import React from 'react'
-import styled from 'styled-components'
-import { colors, channel } from '~/common/constants'
-import { rgba } from '~/lib/color/transformers'
-import { Project } from '~/redux/ducks/project'
-import { Page } from '~/common'
+import Link from "next/link";
+import React from "react";
+import styled from "styled-components";
+import { colors, channel } from "~/common/constants";
+import { rgba } from "~/lib/color/transformers";
+import { Project } from "~/redux/ducks/project";
+import { Page } from "~/common";
+import { defineMessages } from "react-intl";
+import useIntl from "~/hooks/use-intl";
 
 const RoleName = styled.h2`
   font-size: 20px;
   font-weight: normal;
   line-height: 1.5;
-`
+`;
 
 const RoleText = styled.p`
   font-size: 16px;
   margin-bottom: 12px;
-`
+`;
 
 const RoleSectionTitle = styled.h3`
   font-size: 12px;
   color: #666;
   font-weight: 500;
-`
+`;
 
 const Apply = styled.li`
   width: 28px;
@@ -47,7 +49,7 @@ const Apply = styled.li`
     background: #0288f6;
     color: #fff;
   }
-`
+`;
 
 const Applies = styled.ul`
   list-style: none;
@@ -58,7 +60,7 @@ const Applies = styled.ul`
   ${Apply} + ${Apply} {
     margin-left: -12px;
   }
-`
+`;
 
 const RoleApply = styled.div`
   position: absolute;
@@ -85,7 +87,7 @@ const RoleApply = styled.div`
     right: 0;
     margin: auto;
   }
-`
+`;
 
 const Role = styled.button`
   padding: 16px;
@@ -104,47 +106,104 @@ const Role = styled.button`
       display: block;
     }
   }
-`
+`;
+
+const {
+  VAGA_ENCERRADA,
+  VAGA_ENCERRADA_TEXT,
+  BUSCAR_MAIS,
+  COMO_CONTRIBUIR,
+  VAGAS_COMO,
+  QUERO_CONTRIBUIR,
+  FUNCAO,
+  PRE_REQUISITOS,
+  VAGAS_ESGOTADAS
+} = defineMessages({
+  VAGA_ENCERRADA: {
+    id: "VAGA_ENCERRADA",
+    defaultMessage: "Essa vaga foi encerrada"
+  },
+  VAGA_ENCERRADA_TEXT: {
+    id: "VAGA_ENCERRADA_TEXT",
+    defaultMessage:
+      "Essa vaga não necessita mais de voluntários. Mas não precisa parar por aqui! Clique abaixo para encontrar outras vagas relacionadas."
+  },
+  BUSCAR_MAIS: {
+    id: "BUSCAR_MAIS",
+    defaultMessage: "Buscar outras vagas"
+  },
+  COMO_CONTRIBUIR: {
+    id: "COMO_CONTRIBUIR",
+    defaultMessage: "Como contribuir"
+  },
+  VAGAS_COMO: {
+    id: "VAGAS_COMO",
+    defaultMessage: "Vagas esgotadas como"
+  },
+  QUERO_CONTRIBUIR: {
+    id: "QUERO_CONTRIBUIR",
+    defaultMessage: "Quero contribuir como"
+  },
+  VAGAS_COMO2: {
+    id: "VAGAS_COMO2",
+    defaultMessage: "Vagas esgotadas como"
+  },
+  FUNCAO: {
+    id: "FUNCAO",
+    defaultMessage: "FUNÇÃO"
+  },
+  PRE_REQUISITOS: {
+    id: "PRE_REQUISITOS",
+    defaultMessage: "PRÉ-REQUISITOSÇÃO"
+  },
+  VAGAS_ESGOTADAS: {
+    id: "VAGAS_ESGOTADAS",
+    defaultMessage: "Vagas esgotadas"
+  }
+});
 
 interface ProjectPageRolesProps {
-  readonly className?: string
-  readonly project: Project
-  readonly isOwner?: boolean
-  readonly onApply?: (roleId?: number) => void
+  readonly className?: string;
+  readonly project: Project;
+  readonly isOwner?: boolean;
+  readonly onApply?: (roleId?: number) => void;
 }
 
 const ProjectPageRoles: React.FC<ProjectPageRolesProps> = ({
   className,
   project,
-  onApply,
+  onApply
 }) => {
+  const intl = useIntl();
+
   if (!project.roles.length) {
-    return null
+    return null;
   }
 
   if (project.closed || project.canceled) {
     return (
       <div className={className}>
         <div className="card radius-10 p-4">
-          <span className="ts-large block">Essa vaga foi encerrada</span>
+          <span className="ts-large block">
+            {intl.formatMessage(VAGA_ENCERRADA)}
+          </span>
           <span className="ts-small tc-muted">
-            Essa vaga não necessita mais de voluntários. Mas não precisa parar
-            por aqui! Clique abaixo para encontrar outras vagas relacionadas.
+            {intl.formatMessage(VAGA_ENCERRADA_TEXT)}
           </span>
           <hr />
           <Link href={Page.SearchProjects}>
             <a className="btn btn-white tc-primary-500 btn--size-3 btn--block">
-              Buscar outras vagas
+              {intl.formatMessage(BUSCAR_MAIS)}
             </a>
           </Link>
         </div>
       </div>
-    )
+    );
   }
 
   return (
     <div className={className}>
-      <h4 className="mb-4">Como contribuir</h4>
+      <h4 className="mb-4">{intl.formatMessage(COMO_CONTRIBUIR)}</h4>
       {project.roles.map(role => (
         <Role
           key={role.id}
@@ -154,13 +213,16 @@ const ProjectPageRoles: React.FC<ProjectPageRolesProps> = ({
         >
           <RoleApply>
             <div className="animte-slideInUp">
-              Quero contribuir como <b className="block">{role.name}</b>
+              {intl.formatMessage(QUERO_CONTRIBUIR)}{" "}
+              <b className="block">{role.name}</b>
             </div>
           </RoleApply>
           <RoleName>{role.name}</RoleName>
-          <RoleSectionTitle>FUNÇÃO</RoleSectionTitle>
+          <RoleSectionTitle>{intl.formatMessage(FUNCAO)}</RoleSectionTitle>
           <RoleText>{role.details}</RoleText>
-          <RoleSectionTitle>PRÉ-REQUISITOS</RoleSectionTitle>
+          <RoleSectionTitle>
+            {intl.formatMessage(PRE_REQUISITOS)}
+          </RoleSectionTitle>
           <RoleText>{role.prerequisites}</RoleText>
           <div className="flex">
             <span className="tw-medium mr-2">
@@ -177,7 +239,7 @@ const ProjectPageRoles: React.FC<ProjectPageRolesProps> = ({
                       backgroundImage:
                         application.user && application.user.avatar
                           ? `url('${application.user.avatar.image_small_url}')`
-                          : undefined,
+                          : undefined
                     }}
                   />
                 ))}
@@ -192,9 +254,9 @@ const ProjectPageRoles: React.FC<ProjectPageRolesProps> = ({
         </Role>
       ))}
     </div>
-  )
-}
+  );
+};
 
-ProjectPageRoles.displayName = 'ProjectPageRoles'
+ProjectPageRoles.displayName = "ProjectPageRoles";
 
-export default React.memo(ProjectPageRoles)
+export default React.memo(ProjectPageRoles);
