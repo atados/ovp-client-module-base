@@ -1,24 +1,24 @@
-import { NextPageContext } from 'next'
-import Link from 'next/link'
-import queryString from 'query-string'
-import React from 'react'
-import { connect } from 'react-redux'
-import { Waypoint } from 'react-waypoint'
-import styled from 'styled-components'
-import { channel } from '~/common/constants'
-import { Mark } from '~/components/GoogleMap/GoogleMap'
-import ReduxGoogleMap from '~/components/GoogleMap/ReduxGoogleMap'
-import Icon from '~/components/Icon'
-import Layout from '~/components/Layout'
-import Meta from '~/components/Meta'
-import SearchFilters from '~/components/SearchFilters'
-import SearchSources from '~/components/SearchSources'
-import { SearchSourcesSize } from '~/components/SearchSources/SearchSources'
-import { reportError } from '~/lib/utils/error'
-import { mountAddressFilter } from '~/lib/utils/geo-location'
-import { Geolocation } from '~/redux/ducks/geo'
-import { Organization } from '~/redux/ducks/organization'
-import { Project } from '~/redux/ducks/project'
+import { NextPageContext } from "next";
+import Link from "next/link";
+import queryString from "query-string";
+import React from "react";
+import { connect } from "react-redux";
+import { Waypoint } from "react-waypoint";
+import styled from "styled-components";
+import { channel } from "~/common/constants";
+import { Mark } from "~/components/GoogleMap/GoogleMap";
+import ReduxGoogleMap from "~/components/GoogleMap/ReduxGoogleMap";
+import Icon from "~/components/Icon";
+import Layout from "~/components/Layout";
+import Meta from "~/components/Meta";
+import SearchFilters from "~/components/SearchFilters";
+import SearchSources from "~/components/SearchSources";
+import { SearchSourcesSize } from "~/components/SearchSources/SearchSources";
+import { reportError } from "~/lib/utils/error";
+import { mountAddressFilter } from "~/lib/utils/geo-location";
+import { Geolocation } from "~/redux/ducks/geo";
+import { Organization } from "~/redux/ducks/organization";
+import { Project } from "~/redux/ducks/project";
 import {
   BaseFilters,
   BaseFiltersJSON,
@@ -30,11 +30,13 @@ import {
   searchOrganizations,
   searchProjects,
   SearchSource,
-  SearchType,
-} from '~/redux/ducks/search'
-import { fetchMapMarks } from '~/redux/ducks/search-marks'
-import { RootState } from '~/redux/root-reducer'
-import { Page, PageAs } from '~/common'
+  SearchType
+} from "~/redux/ducks/search";
+import { fetchMapMarks } from "~/redux/ducks/search-marks";
+import { RootState } from "~/redux/root-reducer";
+import { Page, PageAs } from "~/common";
+import { withIntl } from "~/lib/intl";
+import { defineMessages, InjectedIntlProps } from "react-intl";
 
 const Container = styled.div`
   padding-top: ${props => props.theme.toolbarHeight + 56}px;
@@ -46,7 +48,7 @@ const Container = styled.div`
       padding-right: 430px;
     }
   }
-`
+`;
 const Header = styled.div`
   height: 56px;
   position: fixed;
@@ -64,7 +66,7 @@ const Header = styled.div`
       padding-right: 5px;
     }
   }
-`
+`;
 
 const HeaderInner = styled.div`
   height: 56px;
@@ -95,12 +97,12 @@ const HeaderInner = styled.div`
     height: 100vh;
     background: rgba(255, 255, 255, 0.5);
   }
-`
+`;
 
 const Body = styled.div`
   position: relative;
   padding-top: 10px;
-`
+`;
 
 const Option = styled.a`
   background: #f5f6f7;
@@ -108,7 +110,7 @@ const Option = styled.a`
   max-width: 300px;
   color: #333;
   border-radius: 10px;
-`
+`;
 
 const Map = styled(ReduxGoogleMap)`
   position: fixed;
@@ -116,93 +118,140 @@ const Map = styled(ReduxGoogleMap)`
   top: ${props => props.theme.toolbarHeight + 71}px;
   right: 10px;
   bottom: 10px;
-`
+`;
 
-let causesMapById: { [causeId: number]: string } | undefined
+const {
+  TITLE,
+  BUSCAR_SOMENTE,
+  VAGAS,
+  ONGS,
+  INCLUIR,
+  NA_BUSCA,
+  ENCONTRADAS,
+  CARREGANDO
+} = defineMessages({
+  TITLE: {
+    id: "TITLE",
+    defaultMessage: "Explorar"
+  },
+  BUSCAR_SOMENTE: {
+    id: "BUSCAR_SOMENTE",
+    defaultMessage: "Buscar somente"
+  },
+  VAGAS: {
+    id: "VAGAS",
+    defaultMessage: "Vagas"
+  },
+  ONGS: {
+    id: "ONGS",
+    defaultMessage: "Ongs"
+  },
+  INCLUIR: {
+    id: "INCLUIR",
+    defaultMessage: "Incluir"
+  },
+  NA_BUSCA: {
+    id: "NA_BUSCA",
+    defaultMessage: "na busca"
+  },
+  ENCONTRADAS: {
+    id: "ENCONTRADAS",
+    defaultMessage: "encontradas"
+  },
+  CARREGANDO: {
+    id: "CARREGANDO",
+    defaultMessage: "Carregando..."
+  }
+});
+
+let causesMapById: { [causeId: number]: string } | undefined;
 
 interface ExplorePageProps {
-  readonly mapDefaultCenter: Mark
-  readonly geo: Geolocation
-  readonly page: number
-  readonly projectsCount?: number
-  readonly organizationsCount?: number
-  readonly fetching: boolean
-  readonly filtersQueryObject: BaseFiltersJSON
-  readonly onFetchNextPage: (sourceIds: string[]) => any
-  readonly filters: BaseFilters
-  readonly sources: Array<SearchSource<Project | Organization>>
-  readonly className?: string
-  readonly searchType?: SearchType
-  readonly marks: Mark[]
+  readonly mapDefaultCenter: Mark;
+  readonly geo: Geolocation;
+  readonly page: number;
+  readonly projectsCount?: number;
+  readonly organizationsCount?: number;
+  readonly fetching: boolean;
+  readonly filtersQueryObject: BaseFiltersJSON;
+  readonly onFetchNextPage: (sourceIds: string[]) => any;
+  readonly filters: BaseFilters;
+  readonly sources: Array<SearchSource<Project | Organization>>;
+  readonly className?: string;
+  readonly searchType?: SearchType;
+  readonly marks: Mark[];
 }
 
 interface ExplorePageState {
-  readonly mustScrollUpOnFetched: boolean
-  readonly showMap: boolean
-  readonly isAnyFilterOpen?: boolean
+  readonly mustScrollUpOnFetched: boolean;
+  readonly showMap: boolean;
+  readonly isAnyFilterOpen?: boolean;
 }
 
-class ExplorePage extends React.Component<ExplorePageProps, ExplorePageState> {
+class ExplorePage extends React.Component<
+  ExplorePageProps & InjectedIntlProps,
+  ExplorePageState
+> {
   public static async getInitialProps({
     store,
-    query: { searchType, ...jsonFilters },
+    query: { searchType, ...jsonFilters }
   }: NextPageContext) {
     const {
       geo,
-      startup: { causes },
-    } = store.getState()
-    const filters: BaseFilters = mapQueryToFilters(jsonFilters)
+      startup: { causes }
+    } = store.getState();
+    const filters: BaseFilters = mapQueryToFilters(jsonFilters);
 
     if (!causesMapById) {
-      causesMapById = {}
+      causesMapById = {};
       causes.forEach(cause => {
-        causesMapById![cause.id] = cause.name
-      })
+        causesMapById![cause.id] = cause.name;
+      });
     }
 
     if (!filters.address && !filters.remoteOnly) {
-      filters.address = mountAddressFilter(geo)
+      filters.address = mountAddressFilter(geo);
     }
 
     try {
       if (String(searchType) === String(SearchType.Projects)) {
-        await store.dispatch(searchProjects(filters))
+        await store.dispatch(searchProjects(filters));
         await store.dispatch(
           fetchMapMarks({
             filters: { ...filters, address: undefined, length: undefined },
-            nodeKind: NodeKind.Project,
-          }),
-        )
+            nodeKind: NodeKind.Project
+          })
+        );
       } else if (String(searchType) === String(SearchType.Organizations)) {
-        await store.dispatch(searchOrganizations({ ...filters, length: 18 }))
+        await store.dispatch(searchOrganizations({ ...filters, length: 18 }));
         await store.dispatch(
           fetchMapMarks({
             filters: { ...filters, address: undefined, length: undefined },
-            nodeKind: NodeKind.Organization,
-          }),
-        )
+            nodeKind: NodeKind.Organization
+          })
+        );
       } else {
         await store.dispatch(
           search({
             ...filters,
             organizationsLength: 6,
-            projectsLength: 20,
-          }),
-        )
+            projectsLength: 20
+          })
+        );
       }
     } catch (error) {
-      reportError(error)
+      reportError(error);
     }
 
-    return {}
+    return {};
   }
 
-  private waypointContainerRef: HTMLSpanElement | null
+  private waypointContainerRef: HTMLSpanElement | null;
 
   constructor(props: ExplorePageProps) {
-    super(props)
+    super(props);
 
-    this.state = { mustScrollUpOnFetched: false, showMap: false }
+    this.state = { mustScrollUpOnFetched: false, showMap: false };
   }
 
   public componentDidUpdate(prevProps: ExplorePageProps) {
@@ -213,51 +262,51 @@ class ExplorePage extends React.Component<ExplorePageProps, ExplorePageState> {
       this.state.mustScrollUpOnFetched &&
       this.waypointContainerRef
     ) {
-      this.waypointContainerRef.scrollIntoView()
+      this.waypointContainerRef.scrollIntoView();
     }
   }
 
   public fetchNextPage = () => {
-    const { searchType, sources, onFetchNextPage } = this.props
+    const { searchType, sources, onFetchNextPage } = this.props;
 
     if (searchType === SearchType.Any) {
       onFetchNextPage(
         sources
           .filter(source => source.nodeKind === NodeKind.Project)
-          .map(source => source.id),
-      )
+          .map(source => source.id)
+      );
     } else {
-      onFetchNextPage(sources.map(source => source.id))
+      onFetchNextPage(sources.map(source => source.id));
     }
-  }
+  };
 
   public handleNextPageTriggerPositionChange = (
-    waypointState: Waypoint.CallbackArgs,
+    waypointState: Waypoint.CallbackArgs
   ) => {
     const mustScrollUpOnFetched =
       waypointState.currentPosition === Waypoint.above ||
-      waypointState.currentPosition === Waypoint.inside
+      waypointState.currentPosition === Waypoint.inside;
 
     if (this.state.mustScrollUpOnFetched !== mustScrollUpOnFetched) {
-      this.setState({ mustScrollUpOnFetched })
+      this.setState({ mustScrollUpOnFetched });
     }
 
     if (mustScrollUpOnFetched) {
-      this.fetchNextPage()
+      this.fetchNextPage();
     }
-  }
+  };
 
   public handleWaypointContainerRefFn = (ref: HTMLDivElement | null) => {
-    this.waypointContainerRef = ref
-  }
+    this.waypointContainerRef = ref;
+  };
 
   public handleMapSwitchChange = (visible: boolean) => {
-    this.setState({ showMap: visible })
-  }
+    this.setState({ showMap: visible });
+  };
 
   public handleFilterOpenStateChange = (isAnyFilterOpen: boolean) => {
-    this.setState({ isAnyFilterOpen })
-  }
+    this.setState({ isAnyFilterOpen });
+  };
 
   public render() {
     const {
@@ -271,17 +320,18 @@ class ExplorePage extends React.Component<ExplorePageProps, ExplorePageState> {
       organizationsCount,
       mapDefaultCenter,
       marks,
-    } = this.props
-    const { showMap, isAnyFilterOpen } = this.state
-    const filtersQueryString = queryString.stringify(filtersQueryObject as any)
-    const renderMap = Boolean(showMap && searchType !== SearchType.Any)
+      intl
+    } = this.props;
+    const { showMap, isAnyFilterOpen } = this.state;
+    const filtersQueryString = queryString.stringify(filtersQueryObject as any);
+    const renderMap = Boolean(showMap && searchType !== SearchType.Any);
 
     return (
       <Layout toolbarProps={{ fixed: true }} disableFooter>
-        <Meta title="Explorar" />
-        <Container className={`container${renderMap ? ' map-rendered' : ''}`}>
-          <Header className={renderMap ? '' : ' container'}>
-            <HeaderInner className={isAnyFilterOpen ? 'filters-open' : ''}>
+        <Meta title={intl.formatMessage(TITLE)} />
+        <Container className={`container${renderMap ? " map-rendered" : ""}`}>
+          <Header className={renderMap ? "" : " container"}>
+            <HeaderInner className={isAnyFilterOpen ? "filters-open" : ""}>
               <SearchFilters
                 mapToggleChecked={renderMap}
                 onMapSwitchChange={this.handleMapSwitchChange}
@@ -299,8 +349,8 @@ class ExplorePage extends React.Component<ExplorePageProps, ExplorePageState> {
                     pathname: Page.SearchProjects,
                     query: {
                       ...(filtersQueryObject as any),
-                      searchType: SearchType.Projects,
-                    },
+                      searchType: SearchType.Projects
+                    }
                   }}
                   as={`${PageAs.SearchProjects()}?${filtersQueryString}`}
                 >
@@ -311,15 +361,17 @@ class ExplorePage extends React.Component<ExplorePageProps, ExplorePageState> {
                     <div className="media">
                       <div className="media-body">
                         <span className="tw-normal block ts-small mb-1">
-                          Buscar somente
+                          {intl.formatMessage(BUSCAR_SOMENTE)}
                         </span>
                         <span className="ts-large">
-                          Vagas{' '}
+                          {`${intl.formatMessage(VAGAS)} `}
                           <span className="tw-normal ts-normal tc-muted">
-                            {' '}
+                            {" "}
                             {fetching
-                              ? '- Carregando...'
-                              : `- ${projectsCount} encontradas`}
+                              ? `- ${intl.formatMessage(CARREGANDO)}`
+                              : `- ${projectsCount} ${intl.formatMessage(
+                                  ENCONTRADAS
+                                )}`}
                           </span>
                         </span>
                       </div>
@@ -332,8 +384,8 @@ class ExplorePage extends React.Component<ExplorePageProps, ExplorePageState> {
                     pathname: Page.SearchOrganizations,
                     query: {
                       ...(filtersQueryObject as any),
-                      searchType: SearchType.Organizations,
-                    },
+                      searchType: SearchType.Organizations
+                    }
                   }}
                   as={`${PageAs.SearchOrganizations()}?${filtersQueryString}`}
                   passHref
@@ -342,14 +394,18 @@ class ExplorePage extends React.Component<ExplorePageProps, ExplorePageState> {
                     <div className="media">
                       <div className="media-body">
                         <span className="tw-normal block ts-small mb-1">
-                          Buscar somente
+                          {intl.formatMessage(BUSCAR_SOMENTE)}
                         </span>
-                        <span className="ts-large">ONGs</span>{' '}
+                        <span className="ts-large">
+                          {intl.formatMessage(ONGS)}
+                        </span>{" "}
                         <span className="tw-normal ts-normal tc-muted">
-                          {' '}
+                          {" "}
                           {fetching
-                            ? '- Carregando...'
-                            : `- ${organizationsCount} encontradas`}
+                            ? `- ${intl.formatMessage(CARREGANDO)}`
+                            : `- ${organizationsCount} ${intl.formatMessage(
+                                ENCONTRADAS
+                              )}`}
                         </span>
                       </div>
                       <Icon name="arrow_forward" className="ml-2" />
@@ -362,14 +418,16 @@ class ExplorePage extends React.Component<ExplorePageProps, ExplorePageState> {
               <Link
                 href={{
                   pathname: Page.Search,
-                  query: filtersQueryObject as any,
+                  query: filtersQueryObject as any
                 }}
                 as={`${PageAs.Search()}?${filtersQueryString}`}
               >
                 <a className="tc-secondary-500 float-right">
-                  Incluir{' '}
-                  {searchType === SearchType.Projects ? 'ONGs' : 'vagas'} na
-                  busca
+                  {`${intl.formatMessage(INCLUIR)} `}
+                  {searchType === SearchType.Projects
+                    ? intl.formatMessage(ONGS)
+                    : intl.formatMessage(VAGAS)}
+                  {` ${intl.formatMessage(NA_BUSCA)}`}
                   <Icon name="arrow_forward" className="ml-2" />
                 </a>
               </Link>
@@ -402,49 +460,49 @@ class ExplorePage extends React.Component<ExplorePageProps, ExplorePageState> {
           )}
         </Container>
       </Layout>
-    )
+    );
   }
 }
 
 const mapStateToProps = ({
   geo,
   search: searchState,
-  searchMarks,
+  searchMarks
 }: RootState): Partial<ExplorePageProps> => {
-  let projectsCount = 0
-  let organizationsCount = 0
-  let mapDefaultCenter: Mark | undefined
+  let projectsCount = 0;
+  let organizationsCount = 0;
+  let mapDefaultCenter: Mark | undefined;
 
   if (searchState.sources) {
     searchState.sources.forEach(source => {
       if (source.nodeKind === NodeKind.Project) {
-        projectsCount += source.count
+        projectsCount += source.count;
       }
 
       if (source.nodeKind === NodeKind.Organization) {
-        organizationsCount += source.count
+        organizationsCount += source.count;
       }
 
       if (!mapDefaultCenter && source.nodes[0] && source.nodes[0].address) {
         // Set mapDefaultCenter based on first node address
         mapDefaultCenter = {
           lat: source.nodes[0].address!.lat,
-          lng: source.nodes[0].address!.lng,
-        }
+          lng: source.nodes[0].address!.lng
+        };
       }
-    })
+    });
   }
 
-  const marks: Mark[] = []
+  const marks: Mark[] = [];
   const marksMustBeKind =
     searchState.searchType === SearchType.Projects
       ? NodeKind.Project
       : searchState.searchType === SearchType.Organizations
       ? NodeKind.Organization
-      : undefined
+      : undefined;
   searchMarks.sources.forEach(mapSource => {
     if (mapSource.nodeKind !== marksMustBeKind) {
-      return
+      return;
     }
 
     mapSource.nodes.map(node => {
@@ -452,11 +510,11 @@ const mapStateToProps = ({
         marks.push({
           id: node.slug,
           lat: node.address.lat,
-          lng: node.address.lng,
-        })
+          lng: node.address.lng
+        });
       }
-    })
-  })
+    });
+  });
 
   return {
     geo,
@@ -469,11 +527,11 @@ const mapStateToProps = ({
     sources: searchState.sources,
     filters: searchState.filters || {},
     marks,
-    mapDefaultCenter: mapDefaultCenter || channel.config.geo.default,
-  }
-}
+    mapDefaultCenter: mapDefaultCenter || channel.config.geo.default
+  };
+};
 
 export default connect(
   mapStateToProps,
-  { onFetchNextPage: fetchNextSearchPage },
-)(ExplorePage)
+  { onFetchNextPage: fetchNextSearchPage }
+)(withIntl(ExplorePage));
