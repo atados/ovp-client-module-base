@@ -1,13 +1,13 @@
-import Link from "next/link";
-import React from "react";
-import styled from "styled-components";
-import { colors, channel } from "~/common/constants";
-import { Project } from "~/redux/ducks/project";
-import Icon from "../Icon";
-import ProjectStatusPill from "../ProjectStatusPill";
-import { Page, PageAs } from "~/common";
-import { defineMessages } from "react-intl";
-import useIntl from "~/hooks/use-intl";
+import Link from 'next/link'
+import React from 'react'
+import styled from 'styled-components'
+import { colors, channel } from '~/common/constants'
+import { Project } from '~/redux/ducks/project'
+import Icon from '../Icon'
+import ProjectStatusPill from '../ProjectStatusPill'
+import { Page, PageAs } from '~/common'
+import { defineMessages } from 'react-intl'
+import { useIntl } from 'react-intl'
 
 const Apply = styled.li`
   width: 38px;
@@ -33,7 +33,7 @@ const Apply = styled.li`
     background: #0288f6;
     color: #fff;
   }
-`;
+`
 
 const Applies = styled.ul`
   list-style: none;
@@ -44,13 +44,13 @@ const Applies = styled.ul`
   ${Apply} + ${Apply} {
     margin-left: -12px;
   }
-`;
+`
 
 const AppliesCount = styled.span`
   vertical-align: top;
   display: inline-block;
   margin-top: 7px;
-`;
+`
 
 const Causes = styled.ul`
   list-style: none;
@@ -67,7 +67,7 @@ const Causes = styled.ul`
     color: #333;
     font-weight: 500;
   }
-`;
+`
 
 const CauseIndicator = styled.span`
   display: inline-block;
@@ -77,23 +77,23 @@ const CauseIndicator = styled.span`
   border-radius: 50%;
   background: #999;
   margin: 7px 5px 0 0;
-`;
+`
 
 const Pills = styled.div`
   margin: -5px;
-`;
+`
 
 const Progress = styled.div`
   height: 5px;
   background: #eee;
   border-radius: 10px;
   overflow: hidden;
-`;
+`
 
 const ProgressValue = styled.div`
   background: ${channel.theme.color.primary[500]};
   height: 5px;
-`;
+`
 
 const Pill = styled.span`
   display: inline-block;
@@ -102,13 +102,13 @@ const Pill = styled.span`
   padding: 5px 16px;
   margin: 5px;
   white-space: nowrap;
-`;
+`
 
 const Showcase = styled.div`
   min-width: 352px;
   margin-left: 32px;
   border-radius: 10px;
-`;
+`
 
 const Thumbnail = styled.div`
   .ratio-body {
@@ -119,14 +119,14 @@ const Thumbnail = styled.div`
     background-size: cover;
     background-position: center;
   }
-`;
+`
 
 const OwnerAvatar = styled.figure`
   width: 40px;
   height: 40px;
   min-width: 40px;
   border-radius: 3px;
-`;
+`
 
 const {
   CANCELADA,
@@ -137,61 +137,61 @@ const {
   PODE_SER,
   FALTAM,
   VOLUNTARIOS,
-  REALIZADO
+  REALIZADO,
 } = defineMessages({
   CANCELADA: {
-    id: "CANCELADA",
-    defaultMessage: "CANCELADA"
+    id: 'CANCELADA',
+    defaultMessage: 'CANCELADA',
   },
   ENCERRADA: {
-    id: "ENCERRADA",
-    defaultMessage: "ENCERRADA"
+    id: 'ENCERRADA',
+    defaultMessage: 'ENCERRADA',
   },
   VAGA: {
-    id: "VAGA",
-    defaultMessage: "VAGA"
+    id: 'VAGA',
+    defaultMessage: 'VAGA',
   },
   INSCRITO: {
-    id: "INSCRITO",
-    defaultMessage: "inscrito"
+    id: 'INSCRITO',
+    defaultMessage: 'inscrito',
   },
   INSCRITOS: {
-    id: "INSCRITOS",
-    defaultMessage: "inscritos"
+    id: 'INSCRITOS',
+    defaultMessage: 'inscritos',
   },
   PODE_SER: {
-    id: "PODE_SER",
-    defaultMessage: "Pode ser feito à distância"
+    id: 'PODE_SER',
+    defaultMessage: 'Pode ser feito à distância',
   },
   FALTAM: {
-    id: "FALTAM",
-    defaultMessage: "Faltam"
+    id: 'FALTAM',
+    defaultMessage: 'Faltam',
   },
   VOLUNTARIOS: {
-    id: "VOLUNTARIOS",
-    defaultMessage: "voluntários"
+    id: 'VOLUNTARIOS',
+    defaultMessage: 'voluntários',
   },
   REALIZADO: {
-    id: "REALIZADO",
-    defaultMessage: "Realizado pela ONG:"
-  }
-});
+    id: 'REALIZADO',
+    defaultMessage: 'Realizado pela ONG:',
+  },
+})
 
 interface ProjectPageHeaderProps {
-  readonly className?: string;
-  readonly project: Project;
-  readonly isOwner?: boolean;
+  readonly className?: string
+  readonly project: Project
+  readonly isOwner?: boolean
 }
 
 const ProjectPageHeader: React.FC<ProjectPageHeaderProps> = ({
   className,
   project,
-  isOwner
+  isOwner,
 }) => {
-  const intl = useIntl();
+  const intl = useIntl()
 
   return (
-    <div className={`container pt-5${className ? ` ${className}` : ""}`}>
+    <div className={`container pt-5${className ? ` ${className}` : ''}`}>
       <div className="flex">
         <div className="flex-grow">
           {(project.closed || project.canceled) && (
@@ -199,7 +199,7 @@ const ProjectPageHeader: React.FC<ProjectPageHeaderProps> = ({
               {`${intl.formatMessage(VAGA)} `}
               {project.canceled
                 ? intl.formatMessage(CANCELADA)
-                : intl.formatMessage(ENCERRADA)}{" "}
+                : intl.formatMessage(ENCERRADA)}{' '}
             </span>
           )}
           <h1 id="geral">{project.name}</h1>
@@ -209,7 +209,7 @@ const ProjectPageHeader: React.FC<ProjectPageHeaderProps> = ({
               {project.address.typed_address}
               {project.address.typed_address2 && (
                 <>
-                  {". Complemento: "}
+                  {'. Complemento: '}
                   {project.address.typed_address2}
                 </>
               )}
@@ -228,14 +228,14 @@ const ProjectPageHeader: React.FC<ProjectPageHeaderProps> = ({
                         backgroundImage:
                           application.user && application.user.avatar
                             ? `url('${application.user.avatar.image_small_url}')`
-                            : undefined
+                            : undefined,
                       }}
                     >
                       {application.user && (
                         <Link
                           href={Page.PublicUser}
                           as={PageAs.PublicUser({
-                            slug: application.user.slug
+                            slug: application.user.slug,
                           })}
                         >
                           <a />
@@ -252,17 +252,17 @@ const ProjectPageHeader: React.FC<ProjectPageHeaderProps> = ({
               )}
               {(project.applied_count > 0 || isOwner) && (
                 <AppliesCount>
-                  <b>{project.applied_count}</b>{" "}
+                  <b>{project.applied_count}</b>{' '}
                   {project.applied_count === 1
                     ? intl.formatMessage(INSCRITO)
-                    : intl.formatMessage(INSCRITOS)}{" "}
+                    : intl.formatMessage(INSCRITOS)}{' '}
                 </AppliesCount>
               )}
             </div>
             <div className="mr-auto" />
             <Pills className="ta-xl-right ta-left mt-2 mt-xl-0">
               {project.disponibility &&
-                project.disponibility.type === "work" &&
+                project.disponibility.type === 'work' &&
                 project.disponibility.work.can_be_done_remotely && (
                   <Pill className="bg-secondary-100 tc-secondary-500">
                     <Icon name="public" className="mr-2" />
@@ -288,8 +288,8 @@ const ProjectPageHeader: React.FC<ProjectPageHeaderProps> = ({
               style={{
                 width: `${Math.min(
                   1,
-                  project.applied_count / project.max_applies_from_roles
-                ) * 100}%`
+                  project.applied_count / project.max_applies_from_roles,
+                ) * 100}%`,
               }}
             />
           </Progress>
@@ -316,13 +316,13 @@ const ProjectPageHeader: React.FC<ProjectPageHeaderProps> = ({
         </div>
         <Showcase className="hidden lg:block">
           <Thumbnail className="ratio">
-            <span className="ratio-fill" style={{ paddingTop: "56%" }} />
+            <span className="ratio-fill" style={{ paddingTop: '56%' }} />
             <div
               className="ratio-body"
               style={
                 project.image
                   ? {
-                      backgroundImage: `url('${project.image.image_medium_url}')`
+                      backgroundImage: `url('${project.image.image_medium_url}')`,
                     }
                   : undefined
               }
@@ -333,7 +333,7 @@ const ProjectPageHeader: React.FC<ProjectPageHeaderProps> = ({
               <Link
                 href={Page.Organization}
                 as={PageAs.Organization({
-                  organizationSlug: project.organization.slug
+                  organizationSlug: project.organization.slug,
                 })}
               >
                 <a className="media tc-base text-truncate">
@@ -344,9 +344,9 @@ const ProjectPageHeader: React.FC<ProjectPageHeaderProps> = ({
                         ? {
                             backgroundImage: `url(${project.organization.image
                               .image_medium_url ||
-                              project.organization.image.image_url})`
+                              project.organization.image.image_url})`,
                           }
-                        : { backgroundColor: "#ddd" }
+                        : { backgroundColor: '#ddd' }
                     }
                   />
                   <div className="media-body tl-heading">
@@ -364,9 +364,9 @@ const ProjectPageHeader: React.FC<ProjectPageHeaderProps> = ({
         </Showcase>
       </div>
     </div>
-  );
-};
+  )
+}
 
-ProjectPageHeader.displayName = "ProjectPageHeader";
+ProjectPageHeader.displayName = 'ProjectPageHeader'
 
-export default React.memo(ProjectPageHeader);
+export default React.memo(ProjectPageHeader)

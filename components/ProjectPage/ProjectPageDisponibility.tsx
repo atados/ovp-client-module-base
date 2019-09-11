@@ -1,10 +1,10 @@
-import moment from "moment";
-import React from "react";
-import styled from "styled-components";
-import { Project } from "~/redux/ducks/project";
-import Icon from "../Icon";
-import { defineMessages } from "react-intl";
-import useIntl from "~/hooks/use-intl";
+import moment from 'moment'
+import React from 'react'
+import styled from 'styled-components'
+import { Project } from '~/redux/ducks/project'
+import Icon from '../Icon'
+import { defineMessages } from 'react-intl'
+import { useIntl } from 'react-intl'
 
 const EventCalendarDate = styled.span`
   width: 64px;
@@ -19,7 +19,7 @@ const EventCalendarDate = styled.span`
   padding-top: 15px;
 
   &::before {
-    content: "";
+    content: '';
     border-radius: 10px 10px 0 0;
     background: #e05167;
     position: absolute;
@@ -28,7 +28,7 @@ const EventCalendarDate = styled.span`
     top: 0;
     height: 18px;
   }
-`;
+`
 
 const EventDate = styled.div`
   padding-left: 78px;
@@ -44,14 +44,14 @@ const EventDate = styled.div`
   > h4 {
     font-size: 20px;
   }
-`;
+`
 
 const EventDateText = styled.span`
   color: #e05167;
   font-weight: 500;
   margin-bottom: 2px;
   display: block;
-`;
+`
 
 const {
   VAGA,
@@ -62,56 +62,56 @@ const {
   RECORRENTE,
   PONTUAL,
   HORARIOS,
-  DATAS
+  DATAS,
 } = defineMessages({
   VAGA: {
-    id: "VAGA",
-    defaultMessage: "Vaga"
+    id: 'VAGA',
+    defaultMessage: 'Vaga',
   },
   VAGA_DESCRICAO: {
-    id: "VAGA_DESCRICAO",
+    id: 'VAGA_DESCRICAO',
     defaultMessage:
-      "Essa vaga acontece em datas específicas. Confira as datas abaixo e o que vai acontecer."
+      'Essa vaga acontece em datas específicas. Confira as datas abaixo e o que vai acontecer.',
   },
   DESCRICAO_HORARIO: {
-    id: "DESCRICAO_HORARIO",
+    id: 'DESCRICAO_HORARIO',
     defaultMessage:
-      "Leia abaixo as descrições de horários para atuar nessa vaga."
+      'Leia abaixo as descrições de horários para atuar nessa vaga.',
   },
   HORAS_SEMANAIS: {
-    id: "HORAS_SEMANAIS",
-    defaultMessage: "Horas semanais"
+    id: 'HORAS_SEMANAIS',
+    defaultMessage: 'Horas semanais',
   },
   DISTANCIA: {
-    id: "DISTANCIA",
-    defaultMessage: "Você pode atuar à distância"
+    id: 'DISTANCIA',
+    defaultMessage: 'Você pode atuar à distância',
   },
   RECORRENTE: {
-    id: "RECORRENTE",
-    defaultMessage: "RECORRENTE"
+    id: 'RECORRENTE',
+    defaultMessage: 'RECORRENTE',
   },
   PONTUAL: {
-    id: "PONTUAL",
-    defaultMessage: "PONTUAL"
+    id: 'PONTUAL',
+    defaultMessage: 'PONTUAL',
   },
   HORARIOS: {
-    id: "HORARIOS",
-    defaultMessage: "Horários"
+    id: 'HORARIOS',
+    defaultMessage: 'Horários',
   },
   DATAS: {
-    id: "DATAS",
-    defaultMessage: "Datas"
-  }
-});
+    id: 'DATAS',
+    defaultMessage: 'Datas',
+  },
+})
 
 interface ProjectPageDisponibilityProps {
-  readonly project: Project;
+  readonly project: Project
 }
 
 const ProjectPageDisponibility: React.FC<ProjectPageDisponibilityProps> = ({
-  project
+  project,
 }) => {
-  const intl = useIntl();
+  const intl = useIntl()
 
   return (
     project.disponibility && (
@@ -120,17 +120,17 @@ const ProjectPageDisponibility: React.FC<ProjectPageDisponibilityProps> = ({
           id="como-participar"
           className="tc-secondary-500 tw-medium block mb-1"
         >
-          {intl.formatMessage(VAGA)}{" "}
-          {project.disponibility.type === "work"
+          {intl.formatMessage(VAGA)}{' '}
+          {project.disponibility.type === 'work'
             ? intl.formatMessage(RECORRENTE)
-            : intl.formatMessage(PONTUAL)}{" "}
+            : intl.formatMessage(PONTUAL)}{' '}
         </span>
         <h4 className="mb-2">
-          {project.disponibility.type === "work"
+          {project.disponibility.type === 'work'
             ? intl.formatMessage(HORARIOS)
             : intl.formatMessage(DATAS)}
         </h4>
-        {project.disponibility.type === "job" && (
+        {project.disponibility.type === 'job' && (
           <>
             <p className="mb-4 tc-muted">
               {intl.formatMessage(VAGA_DESCRICAO)}
@@ -142,7 +142,7 @@ const ProjectPageDisponibility: React.FC<ProjectPageDisponibilityProps> = ({
                   {moment(jobDate.start_date).date()}
                 </EventCalendarDate>
                 <EventDateText>
-                  {moment(jobDate.start_date).format("LL")}
+                  {moment(jobDate.start_date).format('LL')}
                 </EventDateText>
                 <h4>{jobDate.name}</h4>
                 <p />
@@ -150,7 +150,7 @@ const ProjectPageDisponibility: React.FC<ProjectPageDisponibilityProps> = ({
             ))}
           </>
         )}
-        {project.disponibility.type === "work" && (
+        {project.disponibility.type === 'work' && (
           <>
             <p className="tc-muted mb-4">
               {intl.formatMessage(DESCRICAO_HORARIO)}
@@ -175,9 +175,9 @@ const ProjectPageDisponibility: React.FC<ProjectPageDisponibilityProps> = ({
         <hr className="mt-4 mb-4" />
       </>
     )
-  );
-};
+  )
+}
 
-ProjectPageDisponibility.displayName = "ProjectPageDisponibility";
+ProjectPageDisponibility.displayName = 'ProjectPageDisponibility'
 
-export default React.memo(ProjectPageDisponibility);
+export default React.memo(ProjectPageDisponibility)

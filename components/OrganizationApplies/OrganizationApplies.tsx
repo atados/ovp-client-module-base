@@ -1,13 +1,13 @@
-import Link from "next/link";
-import React from "react";
-import { connect } from "react-redux";
-import styled from "styled-components";
-import { Page, PageAs } from "~/base/common";
-import { colors } from "~/common/constants";
-import { OrganizationAppliesPayload } from "~/redux/ducks/organization-applies";
-import { RootState } from "~/redux/root-reducer";
-import { defineMessages } from "react-intl";
-import useIntl from "~/hooks/use-intl";
+import Link from 'next/link'
+import React from 'react'
+import { connect } from 'react-redux'
+import styled from 'styled-components'
+import { Page, PageAs } from '~/base/common'
+import { colors } from '~/common/constants'
+import { OrganizationAppliesPayload } from '~/redux/ducks/organization-applies'
+import { RootState } from '~/redux/root-reducer'
+import { defineMessages } from 'react-intl'
+import { useIntl } from 'react-intl'
 
 const Volunteer = styled.a`
   display: inline-block;
@@ -15,33 +15,33 @@ const Volunteer = styled.a`
   width: 32px;
   height: 32px;
   border-radius: 50%;
-`;
+`
 
 interface OrganizationAppliesProps {
-  readonly className?: string;
-  readonly fetching?: boolean;
-  readonly payload?: OrganizationAppliesPayload;
+  readonly className?: string
+  readonly fetching?: boolean
+  readonly payload?: OrganizationAppliesPayload
 }
 
 const { VOLUNTARIOS } = defineMessages({
   VOLUNTARIOS: {
-    id: "VOLUNTARIOS",
-    defaultMessage: "Voluntários"
-  }
-});
+    id: 'VOLUNTARIOS',
+    defaultMessage: 'Voluntários',
+  },
+})
 
 const OrganizationApplies: React.FC<OrganizationAppliesProps> = ({
   fetching,
-  payload
+  payload,
 }) => {
-  const intl = useIntl();
+  const intl = useIntl()
 
   if (fetching) {
-    return null;
+    return null
   }
 
   if (!payload) {
-    return null;
+    return null
   }
 
   return (
@@ -59,10 +59,10 @@ const OrganizationApplies: React.FC<OrganizationAppliesProps> = ({
               key={application.id}
               className="bg-cover"
               style={{
-                backgroundColor: colors[i % colors.length]
+                backgroundColor: colors[i % colors.length],
               }}
             />
-          );
+          )
         }
 
         return (
@@ -80,23 +80,23 @@ const OrganizationApplies: React.FC<OrganizationAppliesProps> = ({
                 backgroundImage:
                   application.user && application.user.avatar
                     ? `url('${application.user.avatar.image_small_url}')`
-                    : undefined
+                    : undefined,
               }}
             />
           </Link>
-        );
+        )
       })}
     </div>
-  );
-};
+  )
+}
 
-OrganizationApplies.displayName = "OrganizationApplies";
+OrganizationApplies.displayName = 'OrganizationApplies'
 
 const mapStateToProps = ({
-  organizationApplies
+  organizationApplies,
 }: RootState): Partial<OrganizationAppliesProps> => ({
   fetching: organizationApplies.fetching,
-  payload: organizationApplies.payload
-});
+  payload: organizationApplies.payload,
+})
 
-export default connect(mapStateToProps)(OrganizationApplies);
+export default connect(mapStateToProps)(OrganizationApplies)

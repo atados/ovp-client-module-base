@@ -53,10 +53,7 @@ const BlogSection: React.FC<BlogSectionProps> = ({
               {post.better_featured_image && (
                 <Thumbnail
                   style={{
-                    backgroundImage: `url('${
-                      post.better_featured_image.media_details.sizes.medium
-                        .source_url
-                    }')`,
+                    backgroundImage: `url('${post.better_featured_image.media_details.sizes.medium.source_url}')`,
                   }}
                 />
               )}

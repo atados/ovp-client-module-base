@@ -1,29 +1,29 @@
-import { InjectedFormikProps, withFormik } from "formik";
-import React from "react";
-import { connect } from "react-redux";
-import MaskedTextInput from "react-text-mask";
-import Textarea from "react-textarea-autosize";
-import { DropdownDirection } from "~/components/Dropdown/Dropdown";
-import FormGroup from "~/components/Form/FormGroup";
-import { FormComposerMode } from "~/components/FormComposer/FormComposer";
-import FormComposerLayout from "~/components/FormComposer/FormComposerLayout";
-import Icon from "~/components/Icon";
-import InputAddress from "~/components/InputAddress";
-import { InputAddressValueType } from "~/components/InputAddress/InputAddress";
-import InputImage from "~/components/InputImage";
-import { InputImageValueType } from "~/components/InputImage/InputImage";
+import { InjectedFormikProps, withFormik } from 'formik'
+import React from 'react'
+import { connect } from 'react-redux'
+import MaskedTextInput from 'react-text-mask'
+import Textarea from 'react-textarea-autosize'
+import { DropdownDirection } from '~/components/Dropdown/Dropdown'
+import FormGroup from '~/components/Form/FormGroup'
+import { FormComposerMode } from '~/components/FormComposer/FormComposer'
+import FormComposerLayout from '~/components/FormComposer/FormComposerLayout'
+import Icon from '~/components/Icon'
+import InputAddress from '~/components/InputAddress'
+import { InputAddressValueType } from '~/components/InputAddress/InputAddress'
+import InputImage from '~/components/InputImage'
+import { InputImageValueType } from '~/components/InputImage/InputImage'
 import InputSelect, {
-  InputSelectItem
-} from "~/components/InputSelect/InputSelect";
-import { fetchAPI } from "~/lib/fetch";
-import * as masks from "~/lib/form/masks";
-import Yup from "~/lib/form/yup";
-import { causeToSelectItem } from "~/lib/utils/form";
-import OrganizationComposerCard from "../components/OrganizationComposerCard";
-import { defineMessages, WithIntlProps } from "react-intl";
-import { withIntl } from "~/lib/intl";
+  InputSelectItem,
+} from '~/components/InputSelect/InputSelect'
+import { fetchAPI } from '~/lib/fetch'
+import * as masks from '~/lib/form/masks'
+import Yup from '~/lib/form/yup'
+import { causeToSelectItem } from '~/lib/utils/form'
+import OrganizationComposerCard from '../components/OrganizationComposerCard'
+import { defineMessages, WithIntlProps } from 'react-intl'
+import { withIntl } from '~/lib/intl'
 
-const RE_CNPJ = /^[0-9]{2}.[0-9]{3}.[0-9]{3}\/[0-9]{4}-[0-9]{2}$/;
+const RE_CNPJ = /^[0-9]{2}.[0-9]{3}.[0-9]{3}\/[0-9]{4}-[0-9]{2}$/
 const OrganizationBasicsFormSchema = Yup.object().shape({
   name: Yup.string()
     .min(4)
@@ -37,7 +37,7 @@ const OrganizationBasicsFormSchema = Yup.object().shape({
     .nullable(true)
     .shape({
       payload: Yup.object().required(),
-      fetching: Yup.boolean().notOneOf([false])
+      fetching: Yup.boolean().notOneOf([false]),
     })
     .required(),
   addressComplement: Yup.string().max(160),
@@ -46,51 +46,51 @@ const OrganizationBasicsFormSchema = Yup.object().shape({
     .nullable(true)
     .required(),
   cnpj: Yup.string()
-    .matches(RE_CNPJ, "Este CNPJ está no formato incorreto")
-    .test("is-valid", "Este CNPJ não é valido ou já está sendo usado", function(
-      value
+    .matches(RE_CNPJ, 'Este CNPJ está no formato incorreto')
+    .test('is-valid', 'Este CNPJ não é valido ou já está sendo usado', function(
+      value,
     ) {
       if (!value) {
-        return true;
+        return true
       }
 
       if (!RE_CNPJ.test(value)) {
-        return true;
+        return true
       }
 
       if (value === this.parent.defaultCnpj) {
-        return true;
+        return true
       }
 
       return fetchAPI<{ taken?: boolean; invalid?: boolean }>(
-        `/organizations/check-doc/${value.replace(/[^0-9]/g, "")}`
+        `/organizations/check-doc/${value.replace(/[^0-9]/g, '')}`,
       )
         .then(payload => !payload.taken && !payload.invalid)
-        .catch(() => false);
-    })
-});
+        .catch(() => false)
+    }),
+})
 
 export interface Values {
-  readonly name: string;
-  readonly benefitedPeople: string;
-  readonly description: string;
-  readonly image?: InputImageValueType;
-  readonly address?: InputAddressValueType;
-  readonly addressComplement: string;
-  readonly causes: InputSelectItem[];
-  readonly cnpj: string;
-  readonly defaultCnpj: string;
-  readonly show_address: boolean;
+  readonly name: string
+  readonly benefitedPeople: string
+  readonly description: string
+  readonly image?: InputImageValueType
+  readonly address?: InputAddressValueType
+  readonly addressComplement: string
+  readonly causes: InputSelectItem[]
+  readonly cnpj: string
+  readonly defaultCnpj: string
+  readonly show_address: boolean
 }
 
 interface OrganizationComposerBasicsProps {
-  readonly className?: string;
-  readonly isComposerSubmitting?: boolean;
-  readonly mode: FormComposerMode;
-  readonly onSubmit: (values: Values) => void;
-  readonly onChange: (values: Values) => void;
-  readonly defaultValue?: Values;
-  readonly causesSelectItems: InputSelectItem[];
+  readonly className?: string
+  readonly isComposerSubmitting?: boolean
+  readonly mode: FormComposerMode
+  readonly onSubmit: (values: Values) => void
+  readonly onChange: (values: Values) => void
+  readonly defaultValue?: Values
+  readonly causesSelectItems: InputSelectItem[]
 }
 
 const {
@@ -112,89 +112,90 @@ const {
   CAUSAS,
   CAUSAS_HINT,
   BENEFICIADOS,
-  BENEFICIADOS_HINT
+  BENEFICIADOS_HINT,
 } = defineMessages({
   COMO_SERA_VISTA: {
-    id: "COMO_SERA_VISTA",
-    defaultMessage: "Como sua ONG será vista:"
+    id: 'COMO_SERA_VISTA',
+    defaultMessage: 'Como sua ONG será vista:',
   },
   ETAPA1: {
-    id: "ETAPA1",
-    defaultMessage: "Descreva as atividades que o voluntário (a) irá realizar;"
+    id: 'ETAPA1',
+    defaultMessage: 'Descreva as atividades que o voluntário (a) irá realizar;',
   },
   SUA_ONG: {
-    id: "SUA_ONG",
-    defaultMessage: "Sua ONG"
+    id: 'SUA_ONG',
+    defaultMessage: 'Sua ONG',
   },
   PREENCHA: {
-    id: "PREENCHA",
-    defaultMessage: "Preencha as informações abaixo:"
+    id: 'PREENCHA',
+    defaultMessage: 'Preencha as informações abaixo:',
   },
   NOME: {
-    id: "NOME",
-    defaultMessage: "Nome da ONG"
+    id: 'NOME',
+    defaultMessage: 'Nome da ONG',
   },
   RESUMO: {
-    id: "RESUMO",
-    defaultMessage: "Resumo da ONG"
+    id: 'RESUMO',
+    defaultMessage: 'Resumo da ONG',
   },
   RESUMO_HINT: {
-    id: "RESUMO_HINT",
-    defaultMessage: "Faça uma descrição atrativa e resumida do trabalho da ONG!"
+    id: 'RESUMO_HINT',
+    defaultMessage:
+      'Faça uma descrição atrativa e resumida do trabalho da ONG!',
   },
   RESUMO_PLACEHOLDER: {
-    id: "RESUMO_PLACEHOLDER",
+    id: 'RESUMO_PLACEHOLDER',
     defaultMessage:
-      "Ex.: Somos uma rede que tem como objetivo aumentar o impacto das organizações sociais por meio da mobilização de pessoas."
+      'Ex.: Somos uma rede que tem como objetivo aumentar o impacto das organizações sociais por meio da mobilização de pessoas.',
   },
   IMAGEM: {
-    id: "IMAGEM",
-    defaultMessage: "Imagem"
+    id: 'IMAGEM',
+    defaultMessage: 'Imagem',
   },
   IMAGEM_HINT: {
-    id: "IMAGEM_HINT",
+    id: 'IMAGEM_HINT',
     defaultMessage:
-      "Insira o logo da sua ONG. Caso não tenha, coloque uma foto que melhor a represente."
+      'Insira o logo da sua ONG. Caso não tenha, coloque uma foto que melhor a represente.',
   },
   IMAGEM_HINT2: {
-    id: "IMAGEM_HINT2",
+    id: 'IMAGEM_HINT2',
     defaultMessage:
-      "Carregue uma imagem no formato JPG, JPEG, PNG ou GIF de no máximo 2MB. Prefira imagens no formato quadrado, caso contrário a imagem será cortada e centralizada para melhor visualização."
+      'Carregue uma imagem no formato JPG, JPEG, PNG ou GIF de no máximo 2MB. Prefira imagens no formato quadrado, caso contrário a imagem será cortada e centralizada para melhor visualização.',
   },
   ENDERECO: {
-    id: "ENDERECO",
-    defaultMessage: "Endereço"
+    id: 'ENDERECO',
+    defaultMessage: 'Endereço',
   },
   ENDERECO_HINT: {
-    id: "ENDERECO_HINT",
-    defaultMessage: "Comece a escrever e selecione uma opção"
+    id: 'ENDERECO_HINT',
+    defaultMessage: 'Comece a escrever e selecione uma opção',
   },
   COMPLEMENTO: {
-    id: "COMPLEMENTO",
-    defaultMessage: "Complemento"
+    id: 'COMPLEMENTO',
+    defaultMessage: 'Complemento',
   },
   ENDERECO_PLACEHOLDER: {
-    id: "ENDERECO_PLACEHOLDER",
-    defaultMessage: "Mostrar endereço na página da ONG"
+    id: 'ENDERECO_PLACEHOLDER',
+    defaultMessage: 'Mostrar endereço na página da ONG',
   },
   CAUSAS: {
-    id: "CAUSAS",
-    defaultMessage: "Causas"
+    id: 'CAUSAS',
+    defaultMessage: 'Causas',
   },
   CAUSAS_HINT: {
-    id: "CAUSAS_HINT",
+    id: 'CAUSAS_HINT',
     defaultMessage:
-      "Selecione até 3 causas que melhor definam o trabalho da ONGs"
+      'Selecione até 3 causas que melhor definam o trabalho da ONGs',
   },
   BENEFICIADOS: {
-    id: "BENEFICIADOS",
-    defaultMessage: "Número de beneficiados"
+    id: 'BENEFICIADOS',
+    defaultMessage: 'Número de beneficiados',
   },
   BENEFICIADOS_HINT: {
-    id: "BENEFICIADOS_HINT",
-    defaultMessage: "Estimativa do número de pessoas impactadas"
-  }
-});
+    id: 'BENEFICIADOS_HINT',
+    defaultMessage: 'Estimativa do número de pessoas impactadas',
+  },
+})
 
 class OrganizationComposerBasics extends React.Component<
   OrganizationComposerBasicsProps &
@@ -204,57 +205,57 @@ class OrganizationComposerBasics extends React.Component<
     >
 > {
   public static isValidValue = (values: Values): Promise<boolean> => {
-    return OrganizationBasicsFormSchema.isValid(values);
-  };
+    return OrganizationBasicsFormSchema.isValid(values)
+  }
 
-  public draftTimeout: number;
+  public draftTimeout: number
   public handleBlur = (event: React.FocusEvent) => {
-    const { handleBlur } = this.props;
-    handleBlur(event);
-    this.saveDraft();
-  };
+    const { handleBlur } = this.props
+    handleBlur(event)
+    this.saveDraft()
+  }
 
   public saveDraft = () => {
-    const { onChange } = this.props;
+    const { onChange } = this.props
 
     if (this.draftTimeout) {
-      clearTimeout(this.draftTimeout);
+      clearTimeout(this.draftTimeout)
     }
 
     this.draftTimeout = window.setTimeout(() => {
       onChange({
         ...this.props.values,
-        cnpj: ""
-      });
-    }, 1000);
-  };
+        cnpj: '',
+      })
+    }, 1000)
+  }
 
   public handleAddressBlur = () => {
-    this.props.setFieldTouched("address");
-    this.saveDraft();
-  };
+    this.props.setFieldTouched('address')
+    this.saveDraft()
+  }
 
   public handleAddressChange = (newValue: InputAddressValueType) => {
-    this.props.setFieldValue("address", newValue);
-  };
+    this.props.setFieldValue('address', newValue)
+  }
 
   public handleCausesBlur = () => {
-    this.props.setFieldTouched("causes");
-    this.saveDraft();
-  };
+    this.props.setFieldTouched('causes')
+    this.saveDraft()
+  }
 
   public handleCausesChange = (newValue: InputSelectItem[]) => {
-    this.props.setFieldValue("causes", newValue);
-  };
+    this.props.setFieldValue('causes', newValue)
+  }
 
   public handleImageBlur = () => {
-    this.props.setFieldTouched("image");
-    this.saveDraft();
-  };
+    this.props.setFieldTouched('image')
+    this.saveDraft()
+  }
 
   public handleImageChange = (newValue: InputImageValueType) => {
-    this.props.setFieldValue("image", newValue);
-  };
+    this.props.setFieldValue('image', newValue)
+  }
 
   public render() {
     const {
@@ -268,8 +269,8 @@ class OrganizationComposerBasics extends React.Component<
       handleSubmit,
       causesSelectItems,
       isComposerSubmitting,
-      intl
-    } = this.props;
+      intl,
+    } = this.props
 
     return (
       <FormComposerLayout
@@ -457,42 +458,42 @@ class OrganizationComposerBasics extends React.Component<
           />
         </FormGroup>
       </FormComposerLayout>
-    );
+    )
   }
 }
 
 const defaultValue: Values = {
-  name: "",
-  description: "",
+  name: '',
+  description: '',
   causes: [],
-  cnpj: "",
-  defaultCnpj: "",
-  addressComplement: "",
+  cnpj: '',
+  defaultCnpj: '',
+  addressComplement: '',
   show_address: true,
-  benefitedPeople: ""
-};
+  benefitedPeople: '',
+}
 
 const mapStateToProps = ({ startup }) => ({
-  causesSelectItems: startup.causes.map(causeToSelectItem)
-});
+  causesSelectItems: startup.causes.map(causeToSelectItem),
+})
 
 export default connect(mapStateToProps)(
   withFormik<OrganizationComposerBasicsProps, Values>({
-    displayName: "OrganizationComposerBasicsForm",
+    displayName: 'OrganizationComposerBasicsForm',
     handleSubmit: (values, { props: { onSubmit } }) => {
-      onSubmit(values);
+      onSubmit(values)
     },
     isInitialValid: (props: OrganizationComposerBasicsProps) => {
       if (props.mode === FormComposerMode.EDIT) {
-        return true;
+        return true
       }
 
       return props.defaultValue
         ? OrganizationBasicsFormSchema.isValidSync({
             ...props.defaultValue,
-            cnpj: undefined
+            cnpj: undefined,
           })
-        : false;
+        : false
     },
     validationSchema: OrganizationBasicsFormSchema,
     mapPropsToValues: ({ defaultValue: value = defaultValue }) => ({
@@ -505,7 +506,7 @@ export default connect(mapStateToProps)(
       image: value.image || null,
       cnpj: value.cnpj,
       defaultCnpj: value.cnpj,
-      show_address: value.show_address
-    })
-  })(withIntl(OrganizationComposerBasics))
-);
+      show_address: value.show_address,
+    }),
+  })(withIntl(OrganizationComposerBasics)),
+)

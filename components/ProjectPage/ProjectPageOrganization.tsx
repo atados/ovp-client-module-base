@@ -1,15 +1,15 @@
-import Link from "next/link";
-import React from "react";
-import styled from "styled-components";
-import { Project } from "~/redux/ducks/project";
-import Icon from "../Icon";
-import { Page, PageAs } from "~/common";
-import { defineMessages } from "react-intl";
-import useIntl from "~/hooks/use-intl";
+import Link from 'next/link'
+import React from 'react'
+import styled from 'styled-components'
+import { Project } from '~/redux/ducks/project'
+import Icon from '../Icon'
+import { Page, PageAs } from '~/common'
+import { defineMessages } from 'react-intl'
+import { useIntl } from 'react-intl'
 
 const Wrapper = styled.div`
   padding-left: 120px;
-`;
+`
 
 const Thumbnail = styled.div`
   width: 100px;
@@ -21,26 +21,26 @@ const Thumbnail = styled.div`
   margin-left: -120px;
   float: left;
   box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.05);
-`;
+`
 
 const { REALIZADA } = defineMessages({
   REALIZADA: {
-    id: "REALIZADA",
-    defaultMessage: "Realizada pela ONG"
-  }
-});
+    id: 'REALIZADA',
+    defaultMessage: 'Realizada pela ONG',
+  },
+})
 
 interface ProjectPageOrganizationProps {
-  readonly project: Project;
+  readonly project: Project
 }
 
 const ProjectPageOrganization: React.FC<ProjectPageOrganizationProps> = ({
-  project
+  project,
 }) => {
-  const intl = useIntl();
+  const intl = useIntl()
 
   if (!project.organization) {
-    return null;
+    return null
   }
 
   return (
@@ -52,7 +52,7 @@ const ProjectPageOrganization: React.FC<ProjectPageOrganizationProps> = ({
         <Link
           href={Page.Organization}
           as={PageAs.Organization({
-            organizationSlug: project.organization.slug
+            organizationSlug: project.organization.slug,
           })}
         >
           <a className="tc-base td-hover-none">
@@ -60,9 +60,9 @@ const ProjectPageOrganization: React.FC<ProjectPageOrganizationProps> = ({
               style={
                 project.organization.image
                   ? {
-                      backgroundImage: `url('${project.organization.image.image_url}')`
+                      backgroundImage: `url('${project.organization.image.image_url}')`,
                     }
-                  : { backgroundColor: "#eee" }
+                  : { backgroundColor: '#eee' }
               }
             />
             <span className="h5">{project.organization.name}</span>
@@ -77,9 +77,9 @@ const ProjectPageOrganization: React.FC<ProjectPageOrganizationProps> = ({
         )}
       </Wrapper>
     </>
-  );
-};
+  )
+}
 
-ProjectPageOrganization.displayName = "ProjectPageOrganization";
+ProjectPageOrganization.displayName = 'ProjectPageOrganization'
 
-export default React.memo(ProjectPageOrganization);
+export default React.memo(ProjectPageOrganization)

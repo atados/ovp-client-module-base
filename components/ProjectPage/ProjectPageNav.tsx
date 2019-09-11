@@ -1,24 +1,24 @@
-import Link from "next/link";
-import React, { useCallback, useMemo, useState } from "react";
-import { connect } from "react-redux";
-import { Waypoint } from "react-waypoint";
-import styled, { StyledProps } from "styled-components";
-import { Page, PageAs } from "~/common";
-import useTriggerableFetchApi from "~/hooks/use-trigglerable-fetch-api";
-import { Project, updateProject } from "~/redux/ducks/project";
-import { User } from "~/redux/ducks/user";
-import { RootState } from "~/redux/root-reducer";
-import { ProjectPageNavId } from "~/types/project";
-import Authentication from "../Authentication";
-import Icon from "../Icon";
-import VolunteerIcon from "../Icon/VolunteerIcon";
-import { useModal } from "../Modal";
-import { channel } from "~/base/common/constants";
-import { defineMessages } from "react-intl";
-import useIntl from "~/hooks/use-intl";
+import Link from 'next/link'
+import React, { useCallback, useMemo, useState } from 'react'
+import { connect } from 'react-redux'
+import { Waypoint } from 'react-waypoint'
+import styled, { StyledProps } from 'styled-components'
+import { Page, PageAs } from '~/common'
+import useTriggerableFetchApi from '~/hooks/use-trigglerable-fetch-api'
+import { Project, updateProject } from '~/redux/ducks/project'
+import { User } from '~/redux/ducks/user'
+import { RootState } from '~/redux/root-reducer'
+import { ProjectPageNavId } from '~/types/project'
+import Authentication from '../Authentication'
+import Icon from '../Icon'
+import VolunteerIcon from '../Icon/VolunteerIcon'
+import { useModal } from '../Modal'
+import { channel } from '~/base/common/constants'
+import { defineMessages } from 'react-intl'
+import { useIntl } from 'react-intl'
 
 interface NavProps {
-  fixed?: boolean;
+  fixed?: boolean
 }
 const Nav = styled.div`
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
@@ -86,7 +86,7 @@ const Nav = styled.div`
   `
     }
   `};
-`;
+`
 
 const ActionButton = styled.a`
   position: relative;
@@ -98,44 +98,44 @@ const ActionButton = styled.a`
   @media (min-width: 768px) {
     min-width: 352px;
   }
-`;
+`
 
 const { GERENCIAR_VAGA, VAGA, QUERO_INSCREVER, VER_INSCRICAO } = defineMessages(
   {
     GERENCIAR_VAGA: {
-      id: "GERENCIAR_VAGA",
-      defaultMessage: "Gerenciar vaga"
+      id: 'GERENCIAR_VAGA',
+      defaultMessage: 'Gerenciar vaga',
     },
     VAGA: {
-      id: "VAGA",
-      defaultMessage: "Vaga"
+      id: 'VAGA',
+      defaultMessage: 'Vaga',
     },
     QUERO_INSCREVER: {
-      id: "QUERO_INSCREVER",
-      defaultMessage: "Quero me inscrever"
+      id: 'QUERO_INSCREVER',
+      defaultMessage: 'Quero me inscrever',
     },
     VER_INSCRICAO: {
-      id: "VER_INSCRICAO",
-      defaultMessage: "Ver minha inscrição"
-    }
-  }
-);
+      id: 'VER_INSCRICAO',
+      defaultMessage: 'Ver minha inscrição',
+    },
+  },
+)
 export interface ProjectPageNavItem {
-  id: string;
-  name: string;
+  id: string
+  name: string
 }
 
 interface ProjectPageNavProps {
-  readonly className?: string;
-  readonly project: Project;
-  readonly isOwner?: boolean;
-  readonly onNavItemClick: (id: string, event: React.MouseEvent<any>) => void;
-  readonly activeNavItemId?: string;
-  readonly viewer?: User | null;
-  readonly onApply: () => void;
+  readonly className?: string
+  readonly project: Project
+  readonly isOwner?: boolean
+  readonly onNavItemClick: (id: string, event: React.MouseEvent<any>) => void
+  readonly activeNavItemId?: string
+  readonly viewer?: User | null
+  readonly onApply: () => void
   readonly dispatchProjectChange: (
-    changes: Partial<Project> & { slug: string }
-  ) => void;
+    changes: Partial<Project> & { slug: string },
+  ) => void
 }
 
 const ProjectPageNav: React.FC<ProjectPageNavProps> = ({
@@ -145,76 +145,76 @@ const ProjectPageNav: React.FC<ProjectPageNavProps> = ({
   activeNavItemId,
   dispatchProjectChange,
   onApply,
-  onNavItemClick
+  onNavItemClick,
 }) => {
-  const [fixed, setFixed] = useState(false);
+  const [fixed, setFixed] = useState(false)
   const nav: ProjectPageNavItem[] = useMemo(() => {
     return [
       project.posts.length > 0 && {
         id: ProjectPageNavId.Stories,
-        name: "Histórias"
+        name: 'Histórias',
       },
       {
         id: ProjectPageNavId.Overview,
-        name: "Visão Geral"
+        name: 'Visão Geral',
       },
       {
         id: ProjectPageNavId.Organization,
-        name: "ONG"
+        name: 'ONG',
       },
       {
         id: ProjectPageNavId.Disponibility,
         name:
-          project.disponibility && project.disponibility.type === "work"
-            ? "Horários"
-            : "Datas"
+          project.disponibility && project.disponibility.type === 'work'
+            ? 'Horários'
+            : 'Datas',
       },
       {
         id: ProjectPageNavId.Address,
-        name: "Ver no mapa"
-      }
-    ].filter(Boolean) as ProjectPageNavItem[];
-  }, [project]);
+        name: 'Ver no mapa',
+      },
+    ].filter(Boolean) as ProjectPageNavItem[]
+  }, [project])
   const handleWaypointPositionChange = useCallback(
     (waypointState: Waypoint.CallbackArgs) => {
       if (fixed !== (waypointState.currentPosition === Waypoint.above)) {
-        setFixed(waypointState.currentPosition === Waypoint.above);
+        setFixed(waypointState.currentPosition === Waypoint.above)
       }
     },
-    [fixed]
-  );
+    [fixed],
+  )
   const bookmarkTrigger = useTriggerableFetchApi(
     `/projects/${project.slug}/${
-      project.is_bookmarked ? "unbookmark" : "bookmark"
+      project.is_bookmarked ? 'unbookmark' : 'bookmark'
     }/`,
     {
-      method: "POST"
-    }
-  );
+      method: 'POST',
+    },
+  )
   const openAuthentication = useModal({
-    id: "Authentication",
+    id: 'Authentication',
     component: Authentication,
-    cardClassName: "p-5"
-  });
+    cardClassName: 'p-5',
+  })
   const handleBookmarkToggle = () => {
     if (!viewer) {
-      openAuthentication();
-      return;
+      openAuthentication()
+      return
     }
 
     bookmarkTrigger.trigger().then(() =>
       dispatchProjectChange({
         slug: project.slug,
-        is_bookmarked: !project.is_bookmarked
-      })
-    );
-  };
+        is_bookmarked: !project.is_bookmarked,
+      }),
+    )
+  }
 
   const handleApplication = (event: React.MouseEvent) => {
-    event.preventDefault();
-    onApply();
-  };
-  const intl = useIntl();
+    event.preventDefault()
+    onApply()
+  }
+  const intl = useIntl()
 
   return (
     <div>
@@ -231,7 +231,7 @@ const ProjectPageNav: React.FC<ProjectPageNavProps> = ({
               project.organization
                 ? PageAs.OrganizationDashboardProject({
                     organizationSlug: project.organization.slug,
-                    projectSlug: project.slug
+                    projectSlug: project.slug,
                   })
                 : PageAs.ViewerProjectDashboard({ projectSlug: project.slug })
             }
@@ -245,15 +245,15 @@ const ProjectPageNav: React.FC<ProjectPageNavProps> = ({
         ) : project.closed || project.canceled ? (
           <ActionButton as="span" className="btn btn-outline-error btn--size-3">
             {`${intl.formatMessage(VAGA)} `}
-            {project.closed ? "encerrada" : "cancelada"}
+            {project.closed ? 'encerrada' : 'cancelada'}
           </ActionButton>
         ) : (
           <ActionButton
             as="button"
             className={`btn ${
               project.current_user_is_applied
-                ? "btn-outline-primary"
-                : "btn-primary"
+                ? 'btn-outline-primary'
+                : 'btn-primary'
             } btn--size-3 flex-grow mr-2`}
             onClick={handleApplication}
           >
@@ -277,10 +277,10 @@ const ProjectPageNav: React.FC<ProjectPageNavProps> = ({
           className="btn btn-muted btn--size-3 text-truncate"
         >
           <Icon
-            name={project.is_bookmarked ? "favorite" : "favorite_outline"}
-            className={`mr-2 ${project.is_bookmarked ? "tc-error" : ""}`}
+            name={project.is_bookmarked ? 'favorite' : 'favorite_outline'}
+            className={`mr-2 ${project.is_bookmarked ? 'tc-error' : ''}`}
           />
-          {project.is_bookmarked ? "Favoritado" : "Favoritar"}
+          {project.is_bookmarked ? 'Favoritado' : 'Favoritar'}
         </button>
       </div>
       <Nav className="mb-4" fixed={fixed}>
@@ -292,7 +292,7 @@ const ProjectPageNav: React.FC<ProjectPageNavProps> = ({
                   <a
                     href={`#${item.id}`}
                     className={`nav-link ${
-                      item.id === activeNavItemId ? "active" : ""
+                      item.id === activeNavItemId ? 'active' : ''
                     }`}
                     onClick={event => onNavItemClick(item.id, event)}
                   >
@@ -312,13 +312,13 @@ const ProjectPageNav: React.FC<ProjectPageNavProps> = ({
                 >
                   <Icon
                     name={
-                      project.is_bookmarked ? "favorite" : "favorite_outline"
+                      project.is_bookmarked ? 'favorite' : 'favorite_outline'
                     }
                     className={`mr-2 ${
-                      project.is_bookmarked ? "tc-error" : ""
+                      project.is_bookmarked ? 'tc-error' : ''
                     }`}
                   />
-                  {project.is_bookmarked ? "Favoritado" : "Favoritar"}
+                  {project.is_bookmarked ? 'Favoritado' : 'Favoritar'}
                 </button>
               </li>
               <li>
@@ -333,10 +333,10 @@ const ProjectPageNav: React.FC<ProjectPageNavProps> = ({
                       project.organization
                         ? PageAs.OrganizationDashboardProject({
                             organizationSlug: project.organization.slug,
-                            projectSlug: project.slug
+                            projectSlug: project.slug,
                           })
                         : PageAs.ViewerProjectDashboard({
-                            projectSlug: project.slug
+                            projectSlug: project.slug,
                           })
                     }
                     passHref
@@ -351,16 +351,16 @@ const ProjectPageNav: React.FC<ProjectPageNavProps> = ({
                     as="span"
                     className="btn btn-outline-error btn--size-3"
                   >
-                    {intl.formatMessage(VAGA)}{" "}
-                    {project.closed ? "encerrada" : "cancelada"}
+                    {intl.formatMessage(VAGA)}{' '}
+                    {project.closed ? 'encerrada' : 'cancelada'}
                   </ActionButton>
                 ) : (
                   <ActionButton
                     as="button"
                     className={`btn ${
                       project.current_user_is_applied
-                        ? "btn-outline-primary"
-                        : "btn-primary"
+                        ? 'btn-outline-primary'
+                        : 'btn-primary'
                     } btn--size-3`}
                     onClick={handleApplication}
                   >
@@ -383,14 +383,14 @@ const ProjectPageNav: React.FC<ProjectPageNavProps> = ({
         </div>
       </Nav>
     </div>
-  );
-};
+  )
+}
 
-ProjectPageNav.displayName = "ProjectPageNav";
+ProjectPageNav.displayName = 'ProjectPageNav'
 
 export default React.memo(
   connect(
     (state: RootState) => ({ viewer: state.user }),
-    { dispatchProjectChange: updateProject }
-  )(ProjectPageNav)
-);
+    { dispatchProjectChange: updateProject },
+  )(ProjectPageNav),
+)

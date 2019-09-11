@@ -1,25 +1,25 @@
-import { NextPageContext } from "next";
-import Link from "next/link";
-import React from "react";
-import { connect } from "react-redux";
-import styled from "styled-components";
-import GoogleMap from "~/components/GoogleMap";
-import Icon from "~/components/Icon";
-import Layout from "~/components/Layout";
-import MapMark from "~/components/MapMark";
-import Markdown from "~/components/Markdown";
-import OrganizationApplies from "~/components/OrganizationApplies";
-import OrganizationPageLayout from "~/components/OrganizationLayout/OrganizationPageLayout";
-import { NotFoundPageError } from "~/lib/next/errors";
-import { throwActionError } from "~/lib/utils/redux";
-import { fetchOrganization, Organization } from "~/redux/ducks/organization";
-import { fetchOrganizationApplies } from "~/redux/ducks/organization-applies";
-import { User } from "~/redux/ducks/user";
-import { RootState } from "~/redux/root-reducer";
-import { PageAs, Page } from "~/common";
-import { channel } from "../common/constants";
-import { withIntl } from "~/lib/intl";
-import { defineMessages, InjectedIntlProps } from "react-intl";
+import { NextPageContext } from 'next'
+import Link from 'next/link'
+import React from 'react'
+import { connect } from 'react-redux'
+import styled from 'styled-components'
+import GoogleMap from '~/components/GoogleMap'
+import Icon from '~/components/Icon'
+import Layout from '~/components/Layout'
+import MapMark from '~/components/MapMark'
+import Markdown from '~/components/Markdown'
+import OrganizationApplies from '~/components/OrganizationApplies'
+import OrganizationPageLayout from '~/components/OrganizationLayout/OrganizationPageLayout'
+import { NotFoundPageError } from '~/lib/next/errors'
+import { throwActionError } from '~/lib/utils/redux'
+import { fetchOrganization, Organization } from '~/redux/ducks/organization'
+import { fetchOrganizationApplies } from '~/redux/ducks/organization-applies'
+import { User } from '~/redux/ducks/user'
+import { RootState } from '~/redux/root-reducer'
+import { PageAs, Page } from '~/common'
+import { channel } from '../common/constants'
+import { withIntl } from '~/lib/intl'
+import { defineMessages, WithIntlProps } from 'react-intl'
 
 const Row = styled.div`
   margin: 0 -7px;
@@ -29,29 +29,29 @@ const Row = styled.div`
     padding-left: 7px;
     padding-right: 7px;
   }
-`;
+`
 
 const Info = styled.ul`
   margin: 0;
   padding: 0;
   list-style: none;
-`;
+`
 
 const InfoItem = styled.div`
   padding: 5px 10px 5px 30px;
   font-size: 16px;
-`;
+`
 
 const InfoItemIcon = styled(Icon)`
   float: left;
   margin-left: -30px;
   color: #6a6c75;
   font-size: 18px;
-`;
+`
 
 const Map = styled(GoogleMap)`
   height: 300px;
-`;
+`
 
 const CauseIndicator = styled.span`
   display: inline-block;
@@ -61,14 +61,14 @@ const CauseIndicator = styled.span`
   border-radius: 50%;
   background: #999;
   margin: 7px 5px 0 0;
-`;
+`
 
 const Rating = styled.div`
   padding-left: 52px;
   line-height: 1.3;
   font-size: 14px;
   min-height: 66px;
-`;
+`
 
 const RatingIndicator = styled.span`
   display: inline-block;
@@ -81,78 +81,78 @@ const RatingIndicator = styled.span`
   text-align: center;
   padding: 12px 0;
   margin-left: -52px;
-`;
+`
 
 interface OrganizationPageProps {
-  readonly isCurrentUserMember: boolean;
-  readonly className?: string;
-  readonly organization: Organization;
-  readonly authenticatedUser: User | null;
+  readonly isCurrentUserMember: boolean
+  readonly className?: string
+  readonly organization: Organization
+  readonly authenticatedUser: User | null
 }
 
 const { SOBRE_A_ONG, ENDERECO, AVALIACOES, COM_BASE, CAUSAS } = defineMessages({
   SOBRE_A_ONG: {
-    id: "SOBRE_A_ONG",
-    defaultMessage: "Sobre a ONG"
+    id: 'SOBRE_A_ONG',
+    defaultMessage: 'Sobre a ONG',
   },
   ENDERECO: {
-    id: "ENDERECO",
-    defaultMessage: "Endereço"
+    id: 'ENDERECO',
+    defaultMessage: 'Endereço',
   },
   AVALIACOES: {
-    id: "AVALIACOES",
-    defaultMessage: "Avaliações"
+    id: 'AVALIACOES',
+    defaultMessage: 'Avaliações',
   },
   COM_BASE: {
-    id: "COM_BASE",
-    defaultMessage: "Com base na opinião dos voluntários"
+    id: 'COM_BASE',
+    defaultMessage: 'Com base na opinião dos voluntários',
   },
   CAUSAS: {
-    id: "CAUSAS",
-    defaultMessage: "Causas"
-  }
-});
+    id: 'CAUSAS',
+    defaultMessage: 'Causas',
+  },
+})
 
 class OrganizationPage extends React.Component<
-  OrganizationPageProps & InjectedIntlProps
+  OrganizationPageProps & WithIntlProps<any>
 > {
   public static async getInitialProps({
     store,
     query: { organizationSlug: slug },
-    req
+    req,
   }: NextPageContext): Promise<Partial<OrganizationPageProps>> {
-    const { user } = store.getState();
-    if (typeof slug !== "string") {
-      throw new NotFoundPageError();
+    const { user } = store.getState()
+    if (typeof slug !== 'string') {
+      throw new NotFoundPageError()
     }
 
     try {
-      await store.dispatch(fetchOrganization(slug)).then(throwActionError);
-      const appliesPromise = store.dispatch(fetchOrganizationApplies(slug));
+      await store.dispatch(fetchOrganization(slug)).then(throwActionError)
+      const appliesPromise = store.dispatch(fetchOrganizationApplies(slug))
 
       if (req) {
-        await appliesPromise;
+        await appliesPromise
       }
 
       return {
         isCurrentUserMember: Boolean(
-          user && user.organizations.some(o => o.slug === slug)
-        )
-      };
+          user && user.organizations.some(o => o.slug === slug),
+        ),
+      }
     } catch (error) {
       if (error.status === 404) {
-        throw new NotFoundPageError();
+        throw new NotFoundPageError()
       }
 
-      throw error;
+      throw error
     }
   }
 
   public render() {
-    const { organization, isCurrentUserMember, intl } = this.props;
+    const { organization, isCurrentUserMember, intl } = this.props
 
     if (!organization) {
-      return <Layout toolbarProps={{ fixed: true }} disableFooter />;
+      return <Layout toolbarProps={{ fixed: true }} disableFooter />
     }
 
     return (
@@ -181,7 +181,7 @@ class OrganizationPage extends React.Component<
                 <Map
                   defaultCenter={{
                     lat: organization.address.lat,
-                    lng: organization.address.lng
+                    lng: organization.address.lng,
                   }}
                   disableChildrenMaping
                 >
@@ -194,7 +194,7 @@ class OrganizationPage extends React.Component<
                   }
                 </Map>
                 <p className="tc-muted-dark ts-small mt-3">
-                  {organization.address.typed_address} -{" "}
+                  {organization.address.typed_address} -{' '}
                   {organization.address.typed_address2}
                 </p>
               </section>
@@ -228,7 +228,7 @@ class OrganizationPage extends React.Component<
                 >
                   <a
                     className={`block tc-base ${
-                      i !== organization.causes.length - 1 ? "mb-1" : ""
+                      i !== organization.causes.length - 1 ? 'mb-1' : ''
                     }`}
                   >
                     <CauseIndicator
@@ -246,7 +246,7 @@ class OrganizationPage extends React.Component<
                 {organization.address && !organization.hidden_address && (
                   <InfoItem>
                     <InfoItemIcon name="place" />
-                    {organization.address.typed_address} -{" "}
+                    {organization.address.typed_address} -{' '}
                     {organization.address.typed_address2}
                   </InfoItem>
                 )}
@@ -276,15 +276,15 @@ class OrganizationPage extends React.Component<
           </div>
         </Row>
       </OrganizationPageLayout>
-    );
+    )
   }
 }
 const mapStateToProps = ({
   user,
-  organization
+  organization,
 }: RootState): Partial<OrganizationPageProps> => ({
   authenticatedUser: user,
-  organization: organization.node
-});
+  organization: organization.node,
+})
 
-export default connect(mapStateToProps)(withIntl(OrganizationPage));
+export default connect(mapStateToProps)(withIntl(OrganizationPage))

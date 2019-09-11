@@ -10,12 +10,14 @@ export function withQuery<Props, InitialProps = Props>(
     <Component {...props} />
   )
 
-  if (Component.getInitialProps) {
-    WrapperComponent.getInitialProps = async ctx => {
-      Object.assign(ctx.query, query)
+  WrapperComponent.getInitialProps = async ctx => {
+    Object.assign(ctx.query, query)
 
-      return Component.getInitialProps!(ctx)
+    if (Component.getInitialProps) {
+      return Component.getInitialProps(ctx)
     }
+
+    return {} as InitialProps
   }
 
   return WrapperComponent

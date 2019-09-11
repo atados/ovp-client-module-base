@@ -1,22 +1,22 @@
-import Link from "next/link";
-import React from "react";
-import { Waypoint } from "react-waypoint";
-import styled, { keyframes } from "styled-components";
-import { Page, PageAs } from "~/common";
-import Icon from "~/components/Icon";
-import OrganizationCard from "~/components/OrganizationCard";
-import ProjectCard from "~/components/ProjectCard";
-import { range } from "~/lib/utils/array";
-import { Organization } from "~/redux/ducks/organization";
-import { Project } from "~/redux/ducks/project";
+import Link from 'next/link'
+import React from 'react'
+import { Waypoint } from 'react-waypoint'
+import styled, { keyframes } from 'styled-components'
+import { Page, PageAs } from '~/common'
+import Icon from '~/components/Icon'
+import OrganizationCard from '~/components/OrganizationCard'
+import ProjectCard from '~/components/ProjectCard'
+import { range } from '~/lib/utils/array'
+import { Organization } from '~/redux/ducks/organization'
+import { Project } from '~/redux/ducks/project'
 import {
   BaseFiltersJSON,
   NodeKind,
   SearchSource,
-  SearchType
-} from "~/redux/ducks/search";
-import { defineMessages } from "react-intl";
-import useIntl from "~/hooks/use-intl";
+  SearchType,
+} from '~/redux/ducks/search'
+import { defineMessages } from 'react-intl'
+import { useIntl } from 'react-intl'
 
 const blink = keyframes`
   0% {
@@ -30,7 +30,7 @@ const blink = keyframes`
   100% {
   opacity: 1;
  }
-`;
+`
 const NodePlaceholder = styled.span`
   display: block;
   height: 380px;
@@ -38,18 +38,18 @@ const NodePlaceholder = styled.span`
   background: #eee;
   border-radius: 3px;
   animation: ${blink} 1s ease-in-out 0s infinite normal;
-`;
+`
 
 const SectionTitle = styled.h2`
   font-size: 24px;
   color: #484848;
   margin-bottom: 2px;
-`;
+`
 
 const SectionSubtitle = styled.p`
   font-size: 16px;
   color: #666;
-`;
+`
 
 const {
   APROXIMADAMENTE,
@@ -64,78 +64,78 @@ const {
   ERROR_L3,
   REMOVER_FILTROS,
   NAO_ENCONTROU,
-  BUSQUE
+  BUSQUE,
 } = defineMessages({
   APROXIMADAMENTE: {
-    id: "APROXIMADAMENTE",
-    defaultMessage: "Aproximadamente"
+    id: 'APROXIMADAMENTE',
+    defaultMessage: 'Aproximadamente',
   },
   ONGS: {
-    id: "ONGS",
-    defaultMessage: "ONGs"
+    id: 'ONGS',
+    defaultMessage: 'ONGs',
   },
   VAGAS: {
-    id: "VAGAS",
-    defaultMessage: "Vagas"
+    id: 'VAGAS',
+    defaultMessage: 'Vagas',
   },
   VER_TUDO: {
-    id: "VER_TUDO",
-    defaultMessage: "Ver tudo"
+    id: 'VER_TUDO',
+    defaultMessage: 'Ver tudo',
   },
   VAGAS_ABERTAS: {
-    id: "VAGAS_ABERTAS",
-    defaultMessage: "vagas abertas"
+    id: 'VAGAS_ABERTAS',
+    defaultMessage: 'vagas abertas',
   },
   ERROR_TITLE: {
-    id: "ERROR_TITLE",
-    defaultMessage: "Infelizmente não encontramos nada "
+    id: 'ERROR_TITLE',
+    defaultMessage: 'Infelizmente não encontramos nada ',
   },
   ERROR_SUBTITLE: {
-    id: "ERROR_SUBTITLE",
-    defaultMessage: "Tente ajustar a sua busca. Aqui estão algumas ideias:"
+    id: 'ERROR_SUBTITLE',
+    defaultMessage: 'Tente ajustar a sua busca. Aqui estão algumas ideias:',
   },
   ERROR_L1: {
-    id: "ERROR_L1",
-    defaultMessage: "Altere os filtros"
+    id: 'ERROR_L1',
+    defaultMessage: 'Altere os filtros',
   },
   ERROR_L2: {
-    id: "ERROR_L2",
-    defaultMessage: "Busque por uma cidade, endereço ou ponto específico"
+    id: 'ERROR_L2',
+    defaultMessage: 'Busque por uma cidade, endereço ou ponto específico',
   },
   ERROR_L3: {
-    id: "ERROR_L3",
-    defaultMessage: "Busque vagas à distância"
+    id: 'ERROR_L3',
+    defaultMessage: 'Busque vagas à distância',
   },
   REMOVER_FILTROS: {
-    id: "REMOVER_FILTROS",
-    defaultMessage: "Remover todos os filtros"
+    id: 'REMOVER_FILTROS',
+    defaultMessage: 'Remover todos os filtros',
   },
   NAO_ENCONTROU: {
-    id: "NAO_ENCONTROU",
-    defaultMessage: "Ainda não encontrou a vaga certa?"
+    id: 'NAO_ENCONTROU',
+    defaultMessage: 'Ainda não encontrou a vaga certa?',
   },
   BUSQUE: {
-    id: "BUSQUE",
-    defaultMessage: "Busque somente vagas a distância."
-  }
-});
+    id: 'BUSQUE',
+    defaultMessage: 'Busque somente vagas a distância.',
+  },
+})
 
 export enum SearchSourcesSize {
-  Large
+  Large,
 }
 
 interface SearchSourcesProps {
-  readonly className?: string;
-  readonly size?: SearchSourcesSize;
-  readonly sources: Array<SearchSource<Project | Organization>>;
-  readonly page: number;
-  readonly fetching?: boolean;
-  readonly searchType?: SearchType;
-  readonly filtersQueryObject: BaseFiltersJSON;
+  readonly className?: string
+  readonly size?: SearchSourcesSize
+  readonly sources: Array<SearchSource<Project | Organization>>
+  readonly page: number
+  readonly fetching?: boolean
+  readonly searchType?: SearchType
+  readonly filtersQueryObject: BaseFiltersJSON
   readonly onNextWaypointPositionChange?: (
-    waypointState: Waypoint.CallbackArgs
-  ) => any;
-  readonly refWaypoint?: (ref: HTMLDivElement | null) => any;
+    waypointState: Waypoint.CallbackArgs,
+  ) => any
+  readonly refWaypoint?: (ref: HTMLDivElement | null) => any
 }
 
 const SearchSources: React.FC<SearchSourcesProps> = ({
@@ -146,31 +146,31 @@ const SearchSources: React.FC<SearchSourcesProps> = ({
   page,
   filtersQueryObject,
   refWaypoint,
-  onNextWaypointPositionChange
+  onNextWaypointPositionChange,
 }) => {
-  const intl = useIntl();
+  const intl = useIntl()
 
   const areAllSourcesEmpty =
-    !fetching && !sources.some(source => source.nodes.length > 0);
+    !fetching && !sources.some(source => source.nodes.length > 0)
   const hasNextPage = sources.some(source => {
     if (
       searchType === SearchType.Any &&
       source.nodeKind === NodeKind.Organization
     ) {
-      return false;
+      return false
     }
 
-    return !!source.nextURI;
-  });
+    return !!source.nextURI
+  })
 
   return (
     <>
       {!(fetching && page <= 1) &&
         sources.map((source, sourceIndex) => {
-          const isLastSource = sourceIndex === sources.length - 1;
+          const isLastSource = sourceIndex === sources.length - 1
 
           if (!source.nodes.length) {
-            return null;
+            return null
           }
 
           if (
@@ -191,7 +191,7 @@ const SearchSources: React.FC<SearchSourcesProps> = ({
                       <div
                         key={node.slug}
                         className={`col-6 col-md-3 mb-4 ${
-                          size === SearchSourcesSize.Large ? "" : "col-lg-2"
+                          size === SearchSourcesSize.Large ? '' : 'col-lg-2'
                         }`}
                       >
                         {isLastSource &&
@@ -200,7 +200,7 @@ const SearchSources: React.FC<SearchSourcesProps> = ({
                           )}
                         <OrganizationCard organization={node} />
                       </div>
-                    )
+                    ),
                   )}
                 </div>
                 {searchType === SearchType.Any && source.count > 4 && (
@@ -209,26 +209,26 @@ const SearchSources: React.FC<SearchSourcesProps> = ({
                       pathname: Page.SearchOrganizations,
                       query: {
                         ...(filtersQueryObject as any),
-                        searchType: SearchType.Organizations
-                      }
+                        searchType: SearchType.Organizations,
+                      },
                     }}
                     as={{
                       pathname: PageAs.SearchOrganizations(),
                       query: {
                         ...(filtersQueryObject as any),
-                        searchType: SearchType.Organizations
-                      }
+                        searchType: SearchType.Organizations,
+                      },
                     }}
                   >
                     <a className="tc-secondary-500 ts-medium">
                       {intl.formatMessage(VER_TUDO)}
-                      {source.count > 6 && `(+ ${source.count - 6})`}{" "}
+                      {source.count > 6 && `(+ ${source.count - 6})`}{' '}
                       <Icon name="arrow_forward" />
                     </a>
                   </Link>
                 )}
               </div>
-            );
+            )
           }
 
           if (
@@ -249,7 +249,7 @@ const SearchSources: React.FC<SearchSourcesProps> = ({
                       <div
                         key={node.slug}
                         className={`col-sm-6 col-lg-${
-                          size === SearchSourcesSize.Large ? "4" : "3"
+                          size === SearchSourcesSize.Large ? '4' : '3'
                         } mb-4`}
                       >
                         {isLastSource &&
@@ -258,7 +258,7 @@ const SearchSources: React.FC<SearchSourcesProps> = ({
                           )}
                         <ProjectCard {...node} />
                       </div>
-                    )
+                    ),
                   )}
                 </div>
                 {searchType === SearchType.Any &&
@@ -269,26 +269,26 @@ const SearchSources: React.FC<SearchSourcesProps> = ({
                         pathname: Page.SearchProjects,
                         query: {
                           ...(filtersQueryObject as any),
-                          searchType: SearchType.Projects
-                        }
+                          searchType: SearchType.Projects,
+                        },
                       }}
                       as={{
                         pathname: PageAs.SearchProjects(),
                         query: {
                           ...(filtersQueryObject as any),
-                          searchType: SearchType.Projects
-                        }
+                          searchType: SearchType.Projects,
+                        },
                       }}
                     >
                       <a className="tc-secondary-500 ts-medium">
                         {intl.formatMessage(VER_TUDO)}
-                        {source.count > 6 && `(+ ${source.count - 6})`}{" "}
+                        {source.count > 6 && `(+ ${source.count - 6})`}{' '}
                         <Icon name="arrow_forward" />
                       </a>
                     </Link>
                   )}
               </div>
-            );
+            )
           }
         })}
 
@@ -298,11 +298,11 @@ const SearchSources: React.FC<SearchSourcesProps> = ({
             <>
               <NodePlaceholder
                 className="mb-2"
-                style={{ width: "25%", height: "28px" }}
+                style={{ width: '25%', height: '28px' }}
               />
               <NodePlaceholder
                 className="mb-3"
-                style={{ width: "50%", height: "24px" }}
+                style={{ width: '50%', height: '24px' }}
               />
             </>
           )}
@@ -316,10 +316,10 @@ const SearchSources: React.FC<SearchSourcesProps> = ({
                 className={
                   searchType === SearchType.Organizations
                     ? `col-6 col-md-3 mb-4${
-                        size === SearchSourcesSize.Large ? "" : " col-lg-2"
+                        size === SearchSourcesSize.Large ? '' : ' col-lg-2'
                       }`
                     : `col-sm-6 col-lg-${
-                        size === SearchSourcesSize.Large ? "4" : "3"
+                        size === SearchSourcesSize.Large ? '4' : '3'
                       } mb-4`
                 }
               >
@@ -333,7 +333,7 @@ const SearchSources: React.FC<SearchSourcesProps> = ({
       {areAllSourcesEmpty && (
         <div className="py-5">
           <h1 className="tw-normal h2">{`${intl.formatMessage(
-            ERROR_TITLE
+            ERROR_TITLE,
           )} :(`}</h1>
           <p>{intl.formatMessage(ERROR_SUBTITLE)}</p>
           <ul className="mb-3">
@@ -349,7 +349,7 @@ const SearchSources: React.FC<SearchSourcesProps> = ({
                   : searchType === SearchType.Projects
                   ? Page.SearchProjects
                   : Page.SearchOrganizations,
-              query: { searchType }
+              query: { searchType },
             }}
             as={
               searchType === SearchType.Any
@@ -376,7 +376,7 @@ const SearchSources: React.FC<SearchSourcesProps> = ({
               <Link
                 href={{
                   pathname: Page.Search,
-                  query: { searchType, remoteOnly: true }
+                  query: { searchType, remoteOnly: true },
                 }}
                 as={`${
                   searchType === SearchType.Any
@@ -392,8 +392,8 @@ const SearchSources: React.FC<SearchSourcesProps> = ({
           </>
         )}
     </>
-  );
-};
-SearchSources.displayName = "SearchSources";
+  )
+}
+SearchSources.displayName = 'SearchSources'
 
-export default SearchSources;
+export default SearchSources

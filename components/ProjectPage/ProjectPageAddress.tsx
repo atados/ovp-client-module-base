@@ -1,34 +1,34 @@
-import React from "react";
-import styled from "styled-components";
-import GoogleMap from "~/components/GoogleMap/BlockedGoogleMap";
-import { Project } from "~/redux/ducks/project";
-import MapMark from "../MapMark";
-import { defineMessages } from "react-intl";
-import useIntl from "~/hooks/use-intl";
+import React from 'react'
+import styled from 'styled-components'
+import GoogleMap from '~/components/GoogleMap/BlockedGoogleMap'
+import { Project } from '~/redux/ducks/project'
+import MapMark from '../MapMark'
+import { defineMessages } from 'react-intl'
+import { useIntl } from 'react-intl'
 
 const Map = styled(GoogleMap)`
   height: 500px;
-`;
+`
 interface ProjectPageAddressProps {
-  readonly project: Project;
+  readonly project: Project
 }
 
 const { ENDERECO, COMPLEMENTO } = defineMessages({
   ENDERECO: {
-    id: "ENDERECO",
-    defaultMessage: "Endereço da vaga"
+    id: 'ENDERECO',
+    defaultMessage: 'Endereço da vaga',
   },
   COMPLEMENTO: {
-    id: "COMPLEMENTO",
-    defaultMessage: "Complemento:"
-  }
-});
+    id: 'COMPLEMENTO',
+    defaultMessage: 'Complemento:',
+  },
+})
 
 const ProjectPageAddress: React.FC<ProjectPageAddressProps> = ({ project }) => {
-  const intl = useIntl();
+  const intl = useIntl()
 
   if (!project.address) {
-    return null;
+    return null
   }
 
   return (
@@ -40,8 +40,8 @@ const ProjectPageAddress: React.FC<ProjectPageAddressProps> = ({ project }) => {
         {project.address.typed_address}
         {project.address.typed_address2 && (
           <>
-            {" "}
-            <b>{intl.formatMessage(COMPLEMENTO)}</b>{" "}
+            {' '}
+            <b>{intl.formatMessage(COMPLEMENTO)}</b>{' '}
             {project.address.typed_address2}
           </>
         )}
@@ -49,16 +49,16 @@ const ProjectPageAddress: React.FC<ProjectPageAddressProps> = ({ project }) => {
       <Map
         defaultCenter={{
           lat: project.address.lat,
-          lng: project.address.lng
+          lng: project.address.lng,
         }}
       >
         <MapMark lat={project.address.lat} lng={project.address.lng} />
       </Map>
       <hr className="mt-4 mb-4" />
     </>
-  );
-};
+  )
+}
 
-ProjectPageAddress.displayName = "ProjectPageAddress";
+ProjectPageAddress.displayName = 'ProjectPageAddress'
 
-export default React.memo(ProjectPageAddress);
+export default React.memo(ProjectPageAddress)
