@@ -8,6 +8,28 @@ export default (app: next.Server | null, server: Express): void => {
     return
   }
 
+  server.use((req, res, skip) => {
+    const userAgent = req.headers['user-agent']
+    console.info(userAgent)
+    if (
+      userAgent &&
+      // Old IE or IE 11
+      (userAgent.indexOf('MSIE') >= 0 ||
+        (/rv:[0-9]{1,2}\.[0-9]/.test(userAgent) &&
+          /Trident\/[0-9].[0-9]/.test(userAgent))) &&
+      req.path !== '/browsers'
+    ) {
+      res.redirect('/browsers')
+      return
+    }
+
+    skip()
+  })
+
+  server.get('/browsers', (req, res) => {
+    app.render(req, res, '/base/browsers')
+  })
+
   server.get('/sou-uma-ong/:stepId?', (req, res) => {
     const { stepId } = req.params
 

@@ -12,6 +12,7 @@ import { Organization } from '~/redux/ducks/organization'
 import { RootState } from '~/redux/root-reducer'
 import { DocumentDict, Post } from '~/types/api'
 import { bookmark, unbookmark } from './bookmark'
+import { CatalogueSectionType } from './catalogue'
 import {
   ApplicationMeta,
   applyToProject,
@@ -28,7 +29,7 @@ export interface Section {
 
 export interface Catalogue {
   slug: string
-  sections: Section[]
+  sections: CatalogueSectionType[]
 }
 
 export interface Address {
