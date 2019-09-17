@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import React from 'react'
-import { WithIntlProps } from 'react-intl'
+import { WithIntlProps, defineMessages } from 'react-intl'
 import styled from 'styled-components'
 import { Page, PageAs } from '~/common'
 import { APP_URL, channel } from '~/common/constants'
@@ -132,6 +132,13 @@ const Pill = styled.span`
   }
 `
 
+const m = defineMessages({
+  by: {
+    id: 'projectCard.by',
+    defaultMessage: 'por',
+  },
+})
+
 export const styles = {
   Name,
   Description,
@@ -247,7 +254,7 @@ class ProjectCard extends React.Component<
           )}
           {organization && (
             <>
-              {!closed && 'por '}
+              {!closed && intl.formatMessage(m.by)}{' '}
               {organization && this.linkOrganization(organization.name)}
             </>
           )}

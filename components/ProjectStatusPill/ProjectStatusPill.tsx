@@ -2,6 +2,7 @@ import cx from 'classnames'
 import React from 'react'
 import styled from 'styled-components'
 import { Project } from '~/redux/ducks/project'
+import { defineMessages, useIntl } from 'react-intl'
 
 const Indicator = styled.span`
   display: inline-block;
@@ -40,6 +41,25 @@ const Pill = styled.span`
   }
 `
 
+const m = defineMessages({
+  closed: {
+    id: 'projectStatusPill.closed',
+    defaultMessage: 'Encerrada',
+  },
+  canceled: {
+    id: 'projectStatusPill.canceled',
+    defaultMessage: 'Cancelada',
+  },
+  unpublished: {
+    id: 'projectStatusPill.unpublished',
+    defaultMessage: 'Em revisão',
+  },
+  published: {
+    id: 'projectStatusPill.published',
+    defaultMessage: 'Publicada',
+  },
+})
+
 interface ProjectStatusPillProps {
   readonly className?: string
   readonly project: Project
@@ -48,23 +68,28 @@ interface ProjectStatusPillProps {
 const ProjectStatusPill: React.FC<ProjectStatusPillProps> = ({
   className,
   project,
-}) => (
-  <Pill
-    className={cx(className, {
-      'status-default': !project.published && !project.closed,
-      'status-closed': project.closed || project.canceled,
-    })}
-  >
-    <Indicator className="mr-1" />{' '}
-    {project.closed
-      ? 'Encerrada'
-      : project.canceled
-      ? 'Cancelada'
-      : !project.published
-      ? 'Em revisão'
-      : 'Publicada'}
-  </Pill>
-)
+}) => {
+  const intl = useIntl()
+  return (
+    <Pill
+      className={cx(className, {
+        'status-default': !project.published && !project.closed,
+        'status-closed': project.closed || project.canceled,
+      })}
+    >
+      <Indicator className="mr-1" />{' '}
+      {intl.formatMessage(
+        project.closed
+          ? m.closed
+          : project.canceled
+          ? m.canceled
+          : !project.published
+          ? m.unpublished
+          : m.published,
+      )}
+    </Pill>
+  )
+}
 
 ProjectStatusPill.displayName = 'ProjectStatusPill'
 

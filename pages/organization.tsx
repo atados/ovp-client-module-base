@@ -71,7 +71,8 @@ const Rating = styled.div`
 `
 
 const RatingIndicator = styled.span`
-  display: inline-block;
+  display: block;
+  float: left;
   width: 42px;
   height: 42px;
   background: ${channel.theme.color.primary[500]};

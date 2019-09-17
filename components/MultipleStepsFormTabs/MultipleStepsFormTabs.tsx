@@ -6,6 +6,7 @@ import useMultipleStepsForm from '~/hooks/use-multiple-steps-form'
 import { FormComposerMode } from '../FormComposer/FormComposer'
 import Icon from '../Icon'
 import { Page, PageAs } from '~/base/common'
+import { useIntl } from 'react-intl'
 
 const Container = styled.div`
   height: 64px;
@@ -48,6 +49,7 @@ const MultipleStepsFormTabs: React.FC<MultipleStepsFormTabsProps> = ({
   pageName,
   query,
 }) => {
+  const intl = useIntl()
   const {
     steps,
     currentStepId,
@@ -66,7 +68,10 @@ const MultipleStepsFormTabs: React.FC<MultipleStepsFormTabsProps> = ({
         <Link
           key={step.id}
           href={Page[pageName]}
-          as={PageAs[pageName](query)`${
+          as={`${PageAs[pageName]({
+            ...query,
+            stepId: step.id,
+          })}${
             query && query.draftIndex !== undefined
               ? `?draftIndex=${query.draftIndex}`
               : ''
@@ -82,7 +87,9 @@ const MultipleStepsFormTabs: React.FC<MultipleStepsFormTabsProps> = ({
             {step.done && (
               <Icon name="check_circle" className="tc-success mr-2" />
             )}
-            {step.options.label}
+            {typeof step.options.label === 'string'
+              ? step.options.label
+              : step.options.label(intl)}
           </Tab>
         </Link>
       ))}

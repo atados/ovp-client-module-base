@@ -22,8 +22,10 @@ import { pushToDataLayer } from '~/lib/tag-manager'
 import { throwActionError } from '~/lib/utils/redux'
 import { fetchProject, Project, updateProject } from '~/redux/ducks/project'
 import { User, UserOrganization } from '~/redux/ducks/user'
+import BeforeActionAuth from '~/components/BeforeActionAuth'
 import { RootState } from '~/redux/root-reducer'
 import { Page, PageAs, RequiredPagesMap } from '~/common'
+import { FormattedMessage } from 'react-intl'
 
 const PageStyled = styled.div`
   background: #eef0f3;
@@ -89,7 +91,7 @@ interface ProjectComposerPageProps {
   readonly organization?: UserOrganization
   readonly mode?: FormComposerMode
   readonly projectSlug?: string
-  readonly user: User
+  readonly viewer: User
   readonly project?: Project
   readonly onUpdateProject: (
     changes: Partial<Project> & { slug: string },
@@ -108,7 +110,7 @@ const ProjectComposerPage: NextPage<
   mode,
   project,
   projectSlug,
-  user,
+  viewer,
   draftIndex,
   onUpdateProject,
 }) => {
@@ -151,7 +153,7 @@ const ProjectComposerPage: NextPage<
           `/projects/${projectSlug}/`,
           {
             method: 'PATCH',
-            sessionToken: user.token,
+            sessionToken: viewer.token,
             body,
           },
         )
@@ -172,7 +174,7 @@ const ProjectComposerPage: NextPage<
 
       const newProject: Project = await fetchAPI('/projects/', {
         method: 'POST',
-        sessionToken: user.token,
+        sessionToken: viewer.token,
         body,
       })
 
@@ -191,7 +193,7 @@ const ProjectComposerPage: NextPage<
       drafts.update(drafts.value.filter((_, index) => index !== draftIndex))
       return newProject
     },
-    [drafts, projectSlug, onUpdateProject],
+    [drafts, projectSlug, viewer, onUpdateProject],
   )
 
   const pageName = getRouteName(mode, organization)
@@ -215,7 +217,7 @@ const ProjectComposerPage: NextPage<
         })}?${pathSearch}`,
       )
     },
-    [organization, draftIndex, mode, projectSlug, pageName],
+    [organization, draftIndex, viewer, mode, projectSlug, pageName],
   )
 
   const handleStepSubmit = useCallback(
@@ -273,7 +275,7 @@ const ProjectComposerPage: NextPage<
         return false
       })
     },
-    [drafts, draft],
+    [drafts, draft, viewer],
   )
   const defaultValue = useMemo(() => {
     if (mode === FormComposerMode.CREATE) {
@@ -326,9 +328,17 @@ const ProjectComposerPage: NextPage<
                 />
                 <div className="media-body ml-3">
                   <span className="block tc-primary-500 tw-medium ts-small">
-                    {mode === FormComposerMode.EDIT
-                      ? 'EDITANDO VAGA'
-                      : 'DUPLICANDO VAGA'}
+                    {mode === FormComposerMode.EDIT ? (
+                      <FormattedMessage
+                        id="pages.projectComposer.editModeTitle"
+                        defaultMessage="EDITANDO VAGA"
+                      />
+                    ) : (
+                      <FormattedMessage
+                        id="pages.projectComposer.duplicateModeTitle"
+                        defaultMessage="DUPLICANDO VAGA"
+                      />
+                    )}
                   </span>
                   <span className="tw-medium block text-truncate">
                     {project.name}
@@ -361,6 +371,30 @@ const ProjectComposerPage: NextPage<
     </MultipleStepsForm>
   )
 
+  if (!viewer) {
+    return (
+      <PageStyled>
+        <Meta title="Nova vaga" />
+        <Layout disableFooter>
+          <BeforeActionAuth
+            title={
+              <FormattedMessage
+                id="projectComposer.beforeAuth.title"
+                defaultMessage="Entre na sua conta antes de criar uma vaga"
+              />
+            }
+            subtitle={
+              <FormattedMessage
+                id="projectComposer.beforeAuth.subtitle"
+                defaultMessage="Além de poder criar uma vaga, você pode receber recomendações das melhores vagas"
+              />
+            }
+          />
+        </Layout>
+      </PageStyled>
+    )
+  }
+
   return (
     <PageStyled>
       <Meta title="Nova vaga" />
@@ -383,10 +417,6 @@ ProjectComposerPage.displayName = 'ProjectComposerPage'
 ProjectComposerPage.getInitialProps = async ({ query, store }) => {
   const { user } = store.getState()
   const { organizationSlug, projectSlug } = query
-
-  if (!user) {
-    throw new NotFoundPageError()
-  }
 
   let organization: UserOrganization | null | undefined
   if (organizationSlug) {
@@ -433,7 +463,7 @@ ProjectComposerPage.getInitialProps = async ({ query, store }) => {
 
 export default connect(
   (state: RootState, ownProps: ProjectComposerPageProps) => ({
-    user: state.user!,
+    viewer: state.user!,
     project:
       ownProps.projectSlug === state.project.slug
         ? state.project.node

@@ -49,7 +49,7 @@ const {
   VAGA_DESTINADA,
 } = defineMessages({
   RECORRENTE: {
-    id: 'RECORRENTE',
+    id: 'disponibilityInput.recurrent',
     defaultMessage: 'Recorrente',
   },
   EXIGE_COMPROMETIMENTO: {

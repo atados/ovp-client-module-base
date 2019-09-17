@@ -1,9 +1,8 @@
 import cx from 'classnames'
-import Link from 'next/link'
 import React from 'react'
 import { defineMessages } from 'react-intl'
 import styled from 'styled-components'
-import { Page, PageAs, Asset } from '~/common'
+import { Asset } from '~/common'
 import { useIntl } from 'react-intl'
 
 const Brand = styled.a`
@@ -22,21 +21,24 @@ const messages = defineMessages({
 interface ToolbarBrandProps {
   readonly className?: string
   readonly brand?: string
+  readonly href?: string
 }
 
-const ToolbarBrand: React.FC<ToolbarBrandProps> = ({ className, brand }) => {
+const ToolbarBrand: React.FC<ToolbarBrandProps> = ({
+  className,
+  href,
+  brand,
+}) => {
   const intl = useIntl()
 
   return (
-    <Link href={Page.Home} as={PageAs.Home()}>
-      <Brand href="/" className={cx(className, 'navbar-brand')}>
-        {brand || Asset.ToolbarBrand ? (
-          <img src={brand || Asset.ToolbarBrand} alt="" />
-        ) : (
-          intl.formatMessage(messages.appName)
-        )}
-      </Brand>
-    </Link>
+    <Brand href={href} className={cx(className, 'navbar-brand')}>
+      {brand || Asset.ToolbarBrand ? (
+        <img src={brand || Asset.ToolbarBrand} alt="" />
+      ) : (
+        intl.formatMessage(messages.appName)
+      )}
+    </Brand>
   )
 }
 

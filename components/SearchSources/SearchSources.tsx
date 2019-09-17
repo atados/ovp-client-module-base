@@ -221,7 +221,7 @@ const SearchSources: React.FC<SearchSourcesProps> = ({
                     }}
                   >
                     <a className="tc-secondary-500 ts-medium">
-                      {intl.formatMessage(VER_TUDO)}
+                      {intl.formatMessage(VER_TUDO)}{' '}
                       {source.count > 6 && `(+ ${source.count - 6})`}{' '}
                       <Icon name="arrow_forward" />
                     </a>

@@ -218,6 +218,20 @@ export const generateCSS = (channel: Channel) => {
 
       ${generateCSSWithColorMap(
         channel.theme.color[colorName],
+        `.border-${colorName}`,
+        'border-color',
+      )}
+
+
+      ${generateCSSWithColorMap(
+        channel.theme.color[colorName],
+        `.hover\\:border-${colorName}`,
+        'border-color',
+        ':hover',
+      )}
+
+      ${generateCSSWithColorMap(
+        channel.theme.color[colorName],
         `.hover\\:tc-${colorName}`,
         'color',
         ':hover',

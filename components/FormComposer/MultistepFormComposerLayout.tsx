@@ -4,6 +4,7 @@ import useMultipleStepsForm from '~/hooks/use-multiple-steps-form'
 import ActivityIndicator from '../ActivityIndicator'
 import Icon from '../Icon'
 import { FormComposerMode } from './FormComposer'
+import { useIntl, defineMessages } from 'react-intl'
 
 const Body = styled.div`
   display: flex;
@@ -73,6 +74,21 @@ const Form = styled.form`
   }
 `
 
+const m = defineMessages({
+  save: {
+    id: 'multistepFormComposerLayout.save',
+    defaultMessage: 'Salvar alterações',
+  },
+  complete: {
+    id: 'multistepFormComposerLayout.complete',
+    defaultMessage: 'Concluir',
+  },
+  continue: {
+    id: 'multistepFormComposerLayout.continue',
+    defaultMessage: 'Continuar',
+  },
+})
+
 interface FormComposerLayoutProps {
   readonly className?: string
   readonly helpPanelChildren?: React.ReactNode
@@ -96,6 +112,7 @@ const FormComposerLayout: React.FC<FormComposerLayoutProps> = ({
   disabled,
   noForm,
 }) => {
+  const intl = useIntl()
   const {
     steps,
     currentStepId,
@@ -128,16 +145,17 @@ const FormComposerLayout: React.FC<FormComposerLayoutProps> = ({
                     onClick={noForm ? () => onSubmit() : undefined}
                   >
                     {mode === FormComposerMode.EDIT ? (
-                      'Salvar alterações'
+                      intl.formatMessage(m.save)
                     ) : (
                       <>
                         {isLastStep && doneSteps.length >= steps.length - 1 ? (
                           <>
-                            Concluir <Icon name="check" className="ml-2" />
+                            {intl.formatMessage(m.complete)}{' '}
+                            <Icon name="check" className="ml-2" />
                           </>
                         ) : (
                           <>
-                            Continuar{' '}
+                            {intl.formatMessage(m.continue)}{' '}
                             <Icon name="arrow_forward" className="ml-2" />
                           </>
                         )}

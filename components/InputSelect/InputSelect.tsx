@@ -3,6 +3,8 @@ import styled from 'styled-components'
 import Dropdown, { DropdownMenu } from '../Dropdown'
 import { DropdownDirection } from '../Dropdown/Dropdown'
 import Icon from '../Icon'
+import { withIntl } from '~/base/lib/intl'
+import { WithIntlProps, defineMessages } from 'react-intl'
 
 const InputWrapper = styled.div`
   height: auto !important;
@@ -90,6 +92,13 @@ const Placeholder = styled.button`
   }
 `
 
+const m = defineMessages({
+  placeholder: {
+    id: 'inputSelect.placeholder',
+    defaultMessage: 'Seleciona as opções',
+  },
+})
+
 export interface InputSelectItem {
   value: any
   label: React.ReactNode
@@ -113,13 +122,9 @@ interface InputSelectState {
 }
 
 class InputSelect extends React.PureComponent<
-  InputSelectProps,
+  InputSelectProps & WithIntlProps<any>,
   InputSelectState
 > {
-  public static defaultProps = {
-    placeholder: 'Selecione as opções',
-  }
-
   public static getDerivedStateFromProps(
     props: InputSelectProps,
     state?: InputSelectState,
@@ -191,12 +196,13 @@ class InputSelect extends React.PureComponent<
   }
 
   public render() {
+    const intl = this.props.intl
     const {
       className,
       inputClassName,
       items,
       direction,
-      placeholder,
+      placeholder = intl.formatMessage(m.placeholder),
     } = this.props
     const { selectedItems, open } = this.state
 
@@ -263,4 +269,4 @@ class InputSelect extends React.PureComponent<
   }
 }
 
-export default InputSelect
+export default withIntl(InputSelect)

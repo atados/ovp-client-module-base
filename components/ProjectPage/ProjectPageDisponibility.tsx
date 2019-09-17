@@ -161,12 +161,12 @@ const ProjectPageDisponibility: React.FC<ProjectPageDisponibilityProps> = ({
             </p>
             <p className="ts-large">
               <Icon name="access_time" className="mr-2" />
-              {project.disponibility.work.weekly_hours}
+              {project.disponibility.work.weekly_hours}{' '}
               {intl.formatMessage(HORAS_SEMANAIS)}
             </p>
             {project.disponibility.work.can_be_done_remotely && (
               <p className="ts-large">
-                <Icon name="public" className="mr-2" />
+                <Icon name="public" className="mr-2" />{' '}
                 {intl.formatMessage(DISTANCIA)}
               </p>
             )}

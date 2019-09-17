@@ -11,6 +11,7 @@ import {
 import ActivityIndicator from '../ActivityIndicator'
 import FormGroup from '../Form/FormGroup'
 import Icon from '../Icon'
+import { useIntl, defineMessages } from 'react-intl'
 
 enum Status {
   Success,
@@ -47,6 +48,37 @@ interface Values {
   city: string
 }
 
+const m = defineMessages({
+  name: {
+    id: 'newsletterForm.name',
+    defaultMessage: 'Nome',
+  },
+  email: {
+    id: 'newsletterForm.email',
+    defaultMessage: 'Email',
+  },
+  city: {
+    id: 'newsletterForm.city',
+    defaultMessage: 'Cidade',
+  },
+  success: {
+    id: 'newsletterForm.success',
+    defaultMessage: 'Inscrição feit com sucesso',
+  },
+  submit: {
+    id: 'newsletterForm.submit',
+    defaultMessage: 'Inscrever-se',
+  },
+  title: {
+    id: 'newsletterForm.title',
+    defaultMessage: 'Newsletter',
+  },
+  description: {
+    id: 'newsletterForm.description',
+    defaultMessage: 'Quer receber as melhores vagas da semana no seu email?',
+  },
+})
+
 interface NewsletterFormProps {
   readonly className?: string
   readonly onSubmit: (values: NewsletterSubscriptionPayload) => any
@@ -65,79 +97,80 @@ const NewsletterForm: React.FC<
   handleReset,
   isSubmitting,
   status,
-}) => (
-  <form action="" method="post" className={className} onSubmit={handleSubmit}>
-    <h4 className="ts-normal">Newsletter</h4>
-    <p className="ts-small">
-      Quer receber as melhores vagas da semana no seu email?
-    </p>
-    <Card className="card mb-3">
-      <FormGroup
-        className="card-item ts-small"
-        error={touched.name ? errors.name : ''}
-      >
-        <input
-          name="name"
-          type="text"
-          placeholder="Nome"
-          className="input"
-          value={values.name}
-          onChange={handleChange}
-          onBlur={handleBlur}
-        />
-      </FormGroup>
-      <FormGroup
-        className="card-item ts-small"
-        error={touched.email ? errors.email : ''}
-      >
-        <input
-          name="email"
-          type="text"
-          placeholder="Email"
-          className="input"
-          value={values.email}
-          onChange={handleChange}
-          onBlur={handleBlur}
-        />
-      </FormGroup>
-      <FormGroup
-        className="card-item ts-small"
-        error={touched.city ? errors.city : ''}
-      >
-        <input
-          name="city"
-          type="text"
-          placeholder="Cidade"
-          className="input"
-          value={values.city}
-          onChange={handleChange}
-          onBlur={handleBlur}
-        />
-      </FormGroup>
-    </Card>
-    {status === Status.Success ? (
-      <button
-        type="button"
-        className="btn btn-success btn--block"
-        onClick={handleReset}
-      >
-        <Icon name="check" className="mr-1" />
-        Inscrito com sucesso
-      </button>
-    ) : (
-      <button
-        type="submit"
-        className="btn btn--block btn-primary"
-        disabled={isSubmitting}
-      >
-        Inscrever-se
-        {isSubmitting && (
-          <ActivityIndicator fill="#fff" size={24} className="ml-2" />
-        )}
-      </button>
-    )}
-  </form>
-)
+}) => {
+  const intl = useIntl()
+  return (
+    <form action="" method="post" className={className} onSubmit={handleSubmit}>
+      <h4 className="ts-normal">{intl.formatMessage(m.title)}</h4>
+      <p className="ts-small">{intl.formatMessage(m.description)}</p>
+      <Card className="card mb-3">
+        <FormGroup
+          className="card-item ts-small"
+          error={touched.name ? errors.name : ''}
+        >
+          <input
+            name="name"
+            type="text"
+            placeholder={intl.formatMessage(m.name)}
+            className="input"
+            value={values.name}
+            onChange={handleChange}
+            onBlur={handleBlur}
+          />
+        </FormGroup>
+        <FormGroup
+          className="card-item ts-small"
+          error={touched.email ? errors.email : ''}
+        >
+          <input
+            name="email"
+            type="text"
+            placeholder={intl.formatMessage(m.email)}
+            className="input"
+            value={values.email}
+            onChange={handleChange}
+            onBlur={handleBlur}
+          />
+        </FormGroup>
+        <FormGroup
+          className="card-item ts-small"
+          error={touched.city ? errors.city : ''}
+        >
+          <input
+            name="city"
+            type="text"
+            placeholder={intl.formatMessage(m.city)}
+            className="input"
+            value={values.city}
+            onChange={handleChange}
+            onBlur={handleBlur}
+          />
+        </FormGroup>
+      </Card>
+      {status === Status.Success ? (
+        <button
+          type="button"
+          className="btn btn-success btn--block"
+          onClick={handleReset}
+        >
+          <Icon name="check" className="mr-1" />
+          {intl.formatMessage(m.success)}
+        </button>
+      ) : (
+        <button
+          type="submit"
+          className="btn btn--block btn-primary"
+          disabled={isSubmitting}
+        >
+          {intl.formatMessage(m.submit)}
+          {isSubmitting && (
+            <ActivityIndicator fill="#fff" size={24} className="ml-2" />
+          )}
+        </button>
+      )}
+    </form>
+  )
+}
 
 NewsletterForm.displayName = 'NewsletterForm'
 

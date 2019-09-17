@@ -18,7 +18,7 @@ const { ETAPA1, ACESSO, CRIE_CONTA } = defineMessages({
   },
   ACESSO: {
     id: 'ACESSO',
-    defaultMessage: 'ou arraste pra cá',
+    defaultMessage: 'Acesso',
   },
   CRIE_CONTA: {
     id: 'CRIE_CONTA',

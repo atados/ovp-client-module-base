@@ -9,7 +9,7 @@ import asFormStep, {
   InjectedMultipleStepsFormProps,
 } from '~/components/MultipleStepsForm/as-form-step'
 import Yup from '~/lib/form/yup'
-import { defineMessages } from 'react-intl'
+import { defineMessages, FormattedMessage } from 'react-intl'
 import { useIntl } from 'react-intl'
 
 const ProjectAboutFormSchema = Yup.object().shape({
@@ -169,7 +169,12 @@ ProjectComposerAbout.displayName = 'ProjectComposerAbout'
 export default asFormStep(
   'sobre',
   {
-    label: 'Sobre a vaga',
+    label: () => (
+      <FormattedMessage
+        id="projectComposerAbout.stepTitle"
+        defaultMessage="Sobre a vaga"
+      />
+    ),
     isDone: (value: any) =>
       ProjectAboutFormSchema.isValidSync({ body: value && value.details }),
   },

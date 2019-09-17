@@ -100,26 +100,70 @@ const ActionButton = styled.a`
   }
 `
 
-const { GERENCIAR_VAGA, VAGA, QUERO_INSCREVER, VER_INSCRICAO } = defineMessages(
-  {
-    GERENCIAR_VAGA: {
-      id: 'GERENCIAR_VAGA',
-      defaultMessage: 'Gerenciar vaga',
-    },
-    VAGA: {
-      id: 'VAGA',
-      defaultMessage: 'Vaga',
-    },
-    QUERO_INSCREVER: {
-      id: 'QUERO_INSCREVER',
-      defaultMessage: 'Quero me inscrever',
-    },
-    VER_INSCRICAO: {
-      id: 'VER_INSCRICAO',
-      defaultMessage: 'Ver minha inscrição',
-    },
+const {
+  GERENCIAR_VAGA,
+  VAGA,
+  QUERO_INSCREVER,
+  VER_INSCRICAO,
+  BOOKMARK,
+  BOOKMARKED,
+  STORIES,
+  OVERVIEW,
+  HOURS,
+  DATES,
+  ORGANIZATION,
+  MAP,
+} = defineMessages({
+  GERENCIAR_VAGA: {
+    id: 'GERENCIAR_VAGA',
+    defaultMessage: 'Gerenciar vaga',
   },
-)
+  VAGA: {
+    id: 'VAGA',
+    defaultMessage: 'Vaga',
+  },
+  QUERO_INSCREVER: {
+    id: 'QUERO_INSCREVER',
+    defaultMessage: 'Quero me inscrever',
+  },
+  VER_INSCRICAO: {
+    id: 'VER_INSCRICAO',
+    defaultMessage: 'Ver minha inscrição',
+  },
+  BOOKMARK: {
+    id: 'projectPageNav.bookmark',
+    defaultMessage: 'Favoritar',
+  },
+  BOOKMARKED: {
+    id: 'projectPageNav.bookmarked',
+    defaultMessage: 'Favoritado',
+  },
+  ORGANIZATION: {
+    id: 'projectPageNav.ngo',
+    defaultMessage: 'ONG',
+  },
+  STORIES: {
+    id: 'projectPageNav.stories',
+    defaultMessage: 'Histórias',
+  },
+  OVERVIEW: {
+    id: 'projectPageNav.overview',
+    defaultMessage: 'Visão geral',
+  },
+
+  HOURS: {
+    id: 'projectPageNav.hours',
+    defaultMessage: 'Horários',
+  },
+  DATES: {
+    id: 'projectPageNav.dates',
+    defaultMessage: 'Datas',
+  },
+  MAP: {
+    id: 'projectPageNav.map',
+    defaultMessage: 'Ver no mapa',
+  },
+})
 export interface ProjectPageNavItem {
   id: string
   name: string
@@ -147,31 +191,32 @@ const ProjectPageNav: React.FC<ProjectPageNavProps> = ({
   onApply,
   onNavItemClick,
 }) => {
+  const intl = useIntl()
   const [fixed, setFixed] = useState(false)
   const nav: ProjectPageNavItem[] = useMemo(() => {
     return [
       project.posts.length > 0 && {
         id: ProjectPageNavId.Stories,
-        name: 'Histórias',
+        name: intl.formatMessage(STORIES),
       },
       {
         id: ProjectPageNavId.Overview,
-        name: 'Visão Geral',
+        name: intl.formatMessage(OVERVIEW),
       },
       {
         id: ProjectPageNavId.Organization,
-        name: 'ONG',
+        name: intl.formatMessage(ORGANIZATION),
       },
       {
         id: ProjectPageNavId.Disponibility,
         name:
           project.disponibility && project.disponibility.type === 'work'
-            ? 'Horários'
-            : 'Datas',
+            ? intl.formatMessage(HOURS)
+            : intl.formatMessage(DATES),
       },
       {
         id: ProjectPageNavId.Address,
-        name: 'Ver no mapa',
+        name: intl.formatMessage(MAP),
       },
     ].filter(Boolean) as ProjectPageNavItem[]
   }, [project])
@@ -214,7 +259,6 @@ const ProjectPageNav: React.FC<ProjectPageNavProps> = ({
     event.preventDefault()
     onApply()
   }
-  const intl = useIntl()
 
   return (
     <div>
@@ -280,7 +324,9 @@ const ProjectPageNav: React.FC<ProjectPageNavProps> = ({
             name={project.is_bookmarked ? 'favorite' : 'favorite_outline'}
             className={`mr-2 ${project.is_bookmarked ? 'tc-error' : ''}`}
           />
-          {project.is_bookmarked ? 'Favoritado' : 'Favoritar'}
+          {project.is_bookmarked
+            ? intl.formatMessage(BOOKMARKED)
+            : intl.formatMessage(BOOKMARK)}
         </button>
       </div>
       <Nav className="mb-4" fixed={fixed}>
@@ -318,7 +364,9 @@ const ProjectPageNav: React.FC<ProjectPageNavProps> = ({
                       project.is_bookmarked ? 'tc-error' : ''
                     }`}
                   />
-                  {project.is_bookmarked ? 'Favoritado' : 'Favoritar'}
+                  {project.is_bookmarked
+                    ? intl.formatMessage(BOOKMARKED)
+                    : intl.formatMessage(BOOKMARK)}
                 </button>
               </li>
               <li>

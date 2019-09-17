@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import { PopupCenter } from '~/base/lib/utils/dom'
 import Icon from '../Icon'
 import { AuthenticationAction } from './Authentication'
+import { useIntl, defineMessages } from 'react-intl'
 
 const AuthButton = styled.button`
   padding: 12px 10px 12px 38px;
@@ -60,6 +61,21 @@ const AuthIcon = styled.span`
   }
 `
 
+const m = defineMessages({
+  email: {
+    id: 'authenticationButtons.email',
+    defaultMessage: 'Continuar com Email',
+  },
+  facebook: {
+    id: 'authenticationButtons.facebook',
+    defaultMessage: 'Continuar com Facebook',
+  },
+  google: {
+    id: 'authenticationButtons.google',
+    defaultMessage: 'Continuar com Google',
+  },
+})
+
 interface AuthenticationButtonsProps {
   readonly className?: string
   readonly dispatch: Dispatch<AuthenticationAction>
@@ -69,6 +85,7 @@ const AuthenticationButtons: React.FC<AuthenticationButtonsProps> = ({
   className,
   dispatch,
 }) => {
+  const intl = useIntl()
   const popupRef = useRef<Window | null>(null)
   const handleFacebookAuth = useCallback(
     (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -103,17 +120,17 @@ const AuthenticationButtons: React.FC<AuthenticationButtonsProps> = ({
     <div className={className}>
       <AuthButton
         type="button"
-        className="btn btn--block btn--size-4 mb-2 ta-left auth-email"
+        className="btn btn--block btn--size-4 mb-2 ta-left auth-email text-truncate"
         onClick={handleEmailAuth}
       >
         <AuthIcon>
           <Icon name="mail_outline" />
         </AuthIcon>
-        Continuar com email
+        {intl.formatMessage(m.email)}
       </AuthButton>
       <AuthButton
         type="button"
-        className="btn btn--block btn--size-4 mb-2 ta-left auth-facebook"
+        className="btn btn--block btn--size-4 mb-2 ta-left auth-facebook text-truncate"
         onClick={handleFacebookAuth}
       >
         <AuthIcon>
@@ -135,11 +152,11 @@ const AuthenticationButtons: React.FC<AuthenticationButtonsProps> = ({
             />
           </svg>
         </AuthIcon>
-        Continuar com o Facebook
+        {intl.formatMessage(m.facebook)}
       </AuthButton>
       <AuthButton
         type="button"
-        className="btn btn--block btn--size-4 ta-left auth-google"
+        className="btn btn--block btn--size-4 ta-left auth-google text-truncate"
         onClick={handleGoogleAuth}
       >
         <AuthIcon>
@@ -170,7 +187,7 @@ const AuthenticationButtons: React.FC<AuthenticationButtonsProps> = ({
             </g>
           </svg>
         </AuthIcon>
-        Continuar com o Google
+        {intl.formatMessage(m.google)}
       </AuthButton>
     </div>
   )

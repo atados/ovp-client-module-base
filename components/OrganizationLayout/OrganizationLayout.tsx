@@ -9,6 +9,7 @@ import Layout from '../Layout'
 import { LayoutProps } from '../Layout/Layout'
 import Meta from '../Meta'
 import { Page, PageAs } from '~/common'
+import { useIntl, defineMessages } from 'react-intl'
 
 const Body = styled.div`
   &.p-toolbar-nav {
@@ -94,6 +95,24 @@ const CurrentOrganizationImage = styled.figure`
   margin: auto;
 `
 
+const m = defineMessages({
+  page: { id: 'organizationLayout.page', defaultMessage: 'Página' },
+  newProject: {
+    id: 'organizationLayout.newProject',
+    defaultMessage: 'Criar vaga',
+  },
+  manageProjects: {
+    id: 'organizationLayout.manageProjects',
+    defaultMessage: 'Gerenciar vagas',
+  },
+  members: { id: 'organizationLayout.members', defaultMessage: 'Membros' },
+  editOrganization: {
+    id: 'organizationLayout.editOrganization',
+    defaultMessage: 'Editar ONG',
+  },
+  inbox: { id: 'organizationLayout.inbox', defaultMessage: 'Caixa de Entrada' },
+})
+
 interface OrganizationLayoutProps {
   readonly className?: string
   readonly organization: {
@@ -118,6 +137,7 @@ const OrganizationLayout: React.FC<OrganizationLayoutProps> = ({
   layoutProps,
 }) => {
   const { pathname } = useRouter() || { pathname: '' }
+  const intl = useIntl()
 
   return (
     <div className={className}>
@@ -171,7 +191,7 @@ const OrganizationLayout: React.FC<OrganizationLayoutProps> = ({
                           organizationSlug: organization.slug,
                         })}
                       >
-                        <a className="nav-link">Página</a>
+                        <a className="nav-link">{intl.formatMessage(m.page)}</a>
                       </Link>
                     </li>
                     <li
@@ -186,7 +206,9 @@ const OrganizationLayout: React.FC<OrganizationLayoutProps> = ({
                           stepId: 'inicio',
                         })}
                       >
-                        <a className="nav-link">Criar vaga</a>
+                        <a className="nav-link">
+                          {intl.formatMessage(m.newProject)}
+                        </a>
                       </Link>
                     </li>
                     <li
@@ -203,7 +225,9 @@ const OrganizationLayout: React.FC<OrganizationLayoutProps> = ({
                           organizationSlug: organization.slug,
                         })}
                       >
-                        <a className="nav-link">Gerenciar vagas</a>
+                        <a className="nav-link">
+                          {intl.formatMessage(m.manageProjects)}
+                        </a>
                       </Link>
                     </li>
                     <li
@@ -219,7 +243,9 @@ const OrganizationLayout: React.FC<OrganizationLayoutProps> = ({
                           organizationSlug: organization.slug,
                         })}
                       >
-                        <a className="nav-link">Membros</a>
+                        <a className="nav-link">
+                          {intl.formatMessage(m.members)}
+                        </a>
                       </Link>
                     </li>
                     <li
@@ -233,7 +259,9 @@ const OrganizationLayout: React.FC<OrganizationLayoutProps> = ({
                           organizationSlug: organization.slug,
                         })}
                       >
-                        <a className="nav-link">Editar ONG</a>
+                        <a className="nav-link">
+                          {intl.formatMessage(m.editOrganization)}
+                        </a>
                       </Link>
                     </li>
                     {channel.config.chat.enabled &&
@@ -244,7 +272,9 @@ const OrganizationLayout: React.FC<OrganizationLayoutProps> = ({
                             href={Page.Inbox}
                             as={PageAs.Inbox({ slug: organization.slug })}
                           >
-                            <a className="nav-link">Caixa de entrada</a>
+                            <a className="nav-link">
+                              {intl.formatMessage(m.inbox)}
+                            </a>
                           </Link>
                         </li>
                       )}

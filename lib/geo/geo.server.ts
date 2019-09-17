@@ -1,16 +1,28 @@
-import * as geoip from 'geoip-lite'
+import maxmind, { CountryResponse } from 'maxmind'
 import { IncomingMessage } from 'http'
-import { channel } from '~/common/constants'
+import { channel, dev } from '~/common/constants'
 import { Geolocation } from '~/redux/ducks/geo'
+import { Config } from '~/base/common'
+import * as path from 'path'
 
 export interface InjectedGeoProps {
   geo: Geolocation
 }
-
-export function createGeolocationObject(req: IncomingMessage): Geolocation {
+let lookup
+export async function createGeolocationObject(
+  req: IncomingMessage,
+): Promise<Geolocation> {
   try {
+    if (!lookup) {
+      lookup = maxmind.openSync<CountryResponse>(
+        dev
+          ? path.resolve('base', 'lib', 'geo', 'GeoLite2-Country.mmdb')
+          : path.join(__dirname, 'GeoLite2-Country.mmdb'),
+      )
+    }
+
     const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress
-    const geo = geoip.lookup(ip)
+    const geo = ip && lookup.get(ip)
 
     // Lookup region (e.g. SP) into current channel's regions
     if (
@@ -21,7 +33,12 @@ export function createGeolocationObject(req: IncomingMessage): Geolocation {
           region => String(geo.region) === region,
         ))
     ) {
-      return { region: String(geo.region), lat: geo.ll[0], lng: geo.ll[1] }
+      return {
+        country: String(geo.country).toUpperCase(),
+        region: String(geo.region).toUpperCase(),
+        lat: geo.ll[0],
+        lng: geo.ll[1],
+      }
     }
   } catch (error) {
     console.error(
@@ -30,5 +47,5 @@ export function createGeolocationObject(req: IncomingMessage): Geolocation {
     )
   }
 
-  return channel.config.geo.default
+  return Config.geo.default
 }

@@ -137,14 +137,18 @@ export default async function generatePageFiles() {
           ? `${pathname.substr(1)}.tsx`
           : `${pathname.substr(1)}/index.tsx`
       const output = path.resolve('pages', relativeFilePath)
-      // tslint:disable-next-line:no-console
-      console.log(`> Created ${relativeFilePath}`)
-      await createDir(path.dirname(output))
-      await writeFile(
-        output,
-        typeof pageBuildShape === 'string'
-          ? `export { default } from '${pageBuildShape}'`.trim()
-          : `
+
+      try {
+        fs.statSync(output)
+      } catch (error) {
+        // tslint:disable-next-line:no-console
+        console.log(`> Created ${relativeFilePath}`)
+        await createDir(path.dirname(output))
+        await writeFile(
+          output,
+          typeof pageBuildShape === 'string'
+            ? `export { default } from '${pageBuildShape}'`.trim()
+            : `
 import Page from '${pageBuildShape.importPath}'
 import { withQuery } from '~/base/lib/utils/next'
 
@@ -152,7 +156,8 @@ export default withQuery(
   Page as any,
   ${JSON.stringify(pageBuildShape.query, null, 2)})
       `.trim(),
-      )
+        )
+      }
     }),
   )
 }

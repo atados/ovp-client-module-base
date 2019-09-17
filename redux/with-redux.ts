@@ -9,6 +9,7 @@ import { channel, DEFAULT_LOCALE, dev } from '~/common/constants'
 import getMessages from '~/lib/intl/get-messages'
 import { User } from '~/redux/ducks/user'
 import rootReducer, { RootState } from '~/redux/root-reducer'
+import accepts from 'accepts'
 
 declare global {
   interface Window {
@@ -24,7 +25,9 @@ interface MyStoreCreatorOptions {
 }
 
 function createIntlObject(req: IncomingMessage): NextIntl {
-  const { locale = DEFAULT_LOCALE } = nextCookies({ req })
+  const accept = accepts(req)
+  const reqLanguage = accept.language(['pt-br', 'en-us', 'es-ar'])
+  const { locale = reqLanguage || DEFAULT_LOCALE } = nextCookies({ req })
 
   let messages = {}
 

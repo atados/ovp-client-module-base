@@ -2,7 +2,12 @@ import escapeRegExp from 'escape-string-regexp'
 import Router from 'next/router'
 import queryString from 'query-string'
 import React from 'react'
-import { defineMessages, WithIntlProps } from 'react-intl'
+import {
+  defineMessages,
+  WithIntlProps,
+  FormattedMessage,
+  IntlShape,
+} from 'react-intl'
 import { connect } from 'react-redux'
 import styled, { StyledProps } from 'styled-components'
 import { withIntl } from '~/base/lib/intl'
@@ -23,7 +28,21 @@ import {
 import { StartupData } from '~/redux/ducks/startup'
 import { RootState } from '~/redux/root-reducer'
 
-function resolveDefaultOptions(startupData: StartupData): SearchOption[] {
+const m = defineMessages({
+  placeholder: {
+    id: 'searchForm.placeholder',
+    defaultMessage: 'Busque vagas de voluntariado ou ONGs',
+  },
+  remote: {
+    id: 'searchForm.remote',
+    defaultMessage: 'Buscar vagas à distância',
+  },
+})
+
+function resolveDefaultOptions(
+  intl: IntlShape,
+  startupData: StartupData,
+): SearchOption[] {
   const { search } = channel.config
 
   return [
@@ -42,7 +61,7 @@ function resolveDefaultOptions(startupData: StartupData): SearchOption[] {
     {
       id: 'remote',
       kind: 'remote',
-      label: 'Buscar vagas à distância',
+      label: intl.formatMessage(m.remote),
     },
   ]
 }
@@ -238,13 +257,6 @@ const Highlight = styled.strong`
   background: #ffeee3;
 `
 
-const { placeholder } = defineMessages({
-  placeholder: {
-    id: 'searchForm.placeholder',
-    defaultMessage: 'Busque vagas de voluntariado ou ONGs',
-  },
-})
-
 interface SearchFormProps {
   readonly startupData: StartupData
   readonly geo: Geolocation
@@ -282,7 +294,7 @@ class SearchForm extends React.Component<
     super(props)
 
     const inputValue = props.defaultValue
-    let options = resolveDefaultOptions(props.startupData)
+    let options = resolveDefaultOptions(props.intl, props.startupData)
 
     if (inputValue.length > 1) {
       options = [
@@ -490,7 +502,7 @@ class SearchForm extends React.Component<
         })
       }
 
-      options.push(...resolveDefaultOptions(startupData))
+      options.push(...resolveDefaultOptions(this.props.intl, startupData))
       this.setState({
         focused: true,
         inputValue,
@@ -650,7 +662,7 @@ class SearchForm extends React.Component<
             className={`input border-transparent ${
               theme === 'light' ? 'bg-black-100' : 'bg-white'
             }`}
-            placeholder={intl.formatMessage(placeholder)}
+            placeholder={intl.formatMessage(m.placeholder)}
             onChange={this.handleInputChange}
             onKeyDown={this.handleInputKeyDown}
             onFocus={this.open}
@@ -683,14 +695,33 @@ class SearchForm extends React.Component<
                     name={this.resolveOptionIcon(option.kind)}
                     className="icon"
                   />
-                  {option.kind === 'remove-query'
-                    ? 'Remover pesquisa por termo'
-                    : option.label}
+                  {option.kind === 'remove-query' ? (
+                    <FormattedMessage
+                      id="searchForm.removeTermsSearch"
+                      defaultMessage="Remover pesquisa por termo"
+                    />
+                  ) : (
+                    option.label
+                  )}
                   {option.kind === 'cause' && (
-                    <span className="tc-muted"> - Causa</span>
+                    <span className="tc-muted">
+                      {' '}
+                      -{' '}
+                      <FormattedMessage
+                        id="searchForm.cause"
+                        defaultMessage="Causa"
+                      />
+                    </span>
                   )}
                   {option.kind === 'skill' && (
-                    <span className="tc-muted"> - Habilidade</span>
+                    <span className="tc-muted">
+                      {' '}
+                      -{' '}
+                      <FormattedMessage
+                        id="searchForm.skill"
+                        defaultMessage="Habilidade"
+                      />
+                    </span>
                   )}
                 </OptionItem>
               ))}

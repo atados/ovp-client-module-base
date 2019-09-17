@@ -64,12 +64,16 @@ export interface AuthenticationProps {
   readonly className?: string
   readonly defaultPage?: AuthenticationPageName
   readonly onAuthenticate?: () => void
+  readonly title?: React.ReactNode
+  readonly subtitle?: React.ReactNode
 }
 
 const Authentication: React.FC<AuthenticationProps> = ({
   className,
   defaultPage,
   onAuthenticate,
+  title,
+  subtitle,
 }) => {
   const modalManager = useModalManager()
   const viewer = useSelector((reduxState: RootState) => reduxState.user)
@@ -122,7 +126,14 @@ const Authentication: React.FC<AuthenticationProps> = ({
     )
   }
 
-  return <AuthenticationOptions className={className} dispatch={dispatch} />
+  return (
+    <AuthenticationOptions
+      title={title}
+      subtitle={subtitle}
+      className={className}
+      dispatch={dispatch}
+    />
+  )
 }
 
 Authentication.displayName = 'Authentication'

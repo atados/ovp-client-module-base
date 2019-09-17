@@ -77,3 +77,7 @@ export function formatToBRDate(value: string) {
   const [year, month, day] = value.split('-')
   return `${day}/${month}/${year}`
 }
+
+export function getExtension(str: string) {
+  return str.substr(str.lastIndexOf('.') + 1)
+}

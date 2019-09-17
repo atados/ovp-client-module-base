@@ -69,6 +69,10 @@ const m = defineMessages({
     id: 'authentication.email.newAccount.optionsLink',
     defaultMessage: 'Ver todas opções de acesso',
   },
+  addressHint: {
+    id: 'ENDERECO_HINT',
+    defaultMessage: 'Comece a escrever e selecione uma opção',
+  },
 })
 
 const AuthenticationEmailNewAccount: React.FC<
@@ -168,13 +172,13 @@ const AuthenticationEmailNewAccount: React.FC<
           label={intl.formatMessage(m.city)}
           error={touched.city ? errors.city : undefined}
           className="mb-3"
-          hint="Comece a escrever e selecione uma opção"
+          hint={intl.formatMessage(m.addressHint)}
         >
           <InputAddress
             id="register-input-city"
             name="city"
             className="input input--size-3"
-            placeholder="Cidade"
+            placeholder={intl.formatMessage(m.city)}
             address={values.city}
             onChange={newAddressValue => setFieldValue('city', newAddressValue)}
             onBlur={() => setFieldTouched('city', true)}
@@ -241,10 +245,10 @@ export default withFormik<AuthenticationEmailNewAccountProps, Values>({
     } catch (error) {
       if (error.payload && error.payload.email) {
         setFieldError('email', 'Este email já está sendo utilizado')
-        return
+      } else {
+        setStatus({ error })
       }
 
-      setStatus({ error })
       setSubmitting(false)
     }
   },

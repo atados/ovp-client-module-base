@@ -2,7 +2,7 @@ import Link from 'next/link'
 import React, { useCallback } from 'react'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
-import { APP_SHARE_URL, channel } from '~/common/constants'
+import { APP_SHARE_URL } from '~/common/constants'
 import useFetchAPI from '~/hooks/use-fetch-api'
 import { fetchAPI } from '~/lib/fetch/fetch.client'
 import { download } from '~/lib/utils/dom'
@@ -15,6 +15,7 @@ import { useModal } from '../Modal'
 import Popover from '../Popover/Popover'
 import { ShareList } from '../Share'
 import { Page, PageAs } from '~/base/common'
+import { FormattedMessage } from 'react-intl'
 
 const Avatar = styled.span`
   width: 24px;
@@ -177,7 +178,10 @@ const ProjectManagePageVolunteers: React.FC<
             className="float-right btn btn-outline-primary tc-primary-500 mt-3 mb-3 mt-md-0 mb-md-0"
           >
             <Icon name="get_app" className="mr-2" />
-            Exportar planilha de voluntários
+            <FormattedMessage
+              id="projectManagePageVolunteers.exportApplies"
+              defaultMessage="Exportar planilha de voluntários"
+            />
           </button>
         </CardButtonPopover>
       </div>
@@ -191,7 +195,6 @@ const ProjectManagePageVolunteers: React.FC<
                 <th>Telefone</th>
                 <th>Cargo</th>
                 <th>Status</th>
-                <th>Avaliação</th>
               </tr>
             </thead>
             <tbody>
@@ -247,13 +250,6 @@ const ProjectManagePageVolunteers: React.FC<
                       <span className="tw-medium tc-primary-500">Inscrito</span>
                     )}
                   </td>
-                  <td>
-                    <span className="badge bg-primary-500">
-                      <Icon name={channel.theme.iconRating} className="mr-1" />
-                      {application.user &&
-                        String((application.user.rating || 0) * 5).substr(0, 3)}
-                    </span>
-                  </td>
                 </tr>
               ))}
             </tbody>
@@ -288,8 +284,11 @@ const ProjectManagePageVolunteers: React.FC<
       {applications.length > 0 && (
         <div className="px-4 card-item py-3">
           <span className="tc-muted-dark">
-            <Icon name="info" className="mr-2" /> É muito importante que você
-            faça contato com os voluntários
+            <Icon name="info" className="mr-2" />{' '}
+            <FormattedMessage
+              id="projectManagePageVolunteers.hint"
+              defaultMessage="É muito importante que você faça contato com os voluntários"
+            />
           </span>
         </div>
       )}

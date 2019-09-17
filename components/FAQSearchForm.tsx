@@ -4,6 +4,7 @@ import Icon from './Icon'
 import { useRouter } from 'next/router'
 import debounce from 'debounce'
 import { Page } from '../common'
+import { useIntl, defineMessages } from 'react-intl'
 
 const FAQSearchFormStyled = styled.form`
   > .icon {
@@ -40,10 +41,22 @@ interface FAQSearchFormState {
   hintEnabled: boolean
 }
 
+const m = defineMessages({
+  placeholder: {
+    id: 'faqSearchForm.placeholder',
+    defaultMessage: 'Busque sua dúvida...',
+  },
+  enter: {
+    id: 'faqSearchForm.enter',
+    defaultMessage: 'Pressione ENTER para pesquisar',
+  },
+})
+
 const FAQSearchForm: React.FC<FAQSearchFormProps> = ({
   className,
   defaultValue,
 }) => {
+  const intl = useIntl()
   const router = useRouter()
   const [state, setState] = useState<FAQSearchFormState>({
     inputValue: defaultValue || '',
@@ -78,13 +91,13 @@ const FAQSearchForm: React.FC<FAQSearchFormProps> = ({
       <Input
         type="text"
         className="input bg-white rounded-full border-transparent shadow"
-        placeholder="Busque sua dúvida..."
+        placeholder={intl.formatMessage(m.placeholder)}
         onChange={handelInputChange}
         value={state.inputValue}
       />
       {state.hintEnabled && (
         <Hint className="tc-light animate-slideInUp block mt-2 absolute left-0 right-0">
-          Pressione ENTER para pesquisar
+          {intl.formatMessage(m.enter)}
         </Hint>
       )}
       <Icon

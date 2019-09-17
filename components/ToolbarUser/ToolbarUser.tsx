@@ -12,8 +12,9 @@ import { User, logout } from '~/redux/ducks/user'
 import ToolbarApplications from '../Toolbar/ToolbarApplications'
 import AppNotificationWatcher from './components/AppNotificationWatcher'
 import ToolbarMessagesDropdown from './components/ToolbarMessagesDropdown'
-import { Page } from '~/base/common'
+import { Page, PageAs } from '~/base/common'
 import Router from 'next/router'
+import { defineMessages, useIntl } from 'react-intl'
 
 interface ToolbarUserProps {
   readonly user: User | null
@@ -105,6 +106,41 @@ const UserDropdown = styled(Dropdown)`
   }
 `
 
+const m = defineMessages({
+  login: {
+    id: 'toolbarUser.login',
+    defaultMessage: 'Entrar',
+  },
+  profile: {
+    id: 'toolbarUser.profile',
+    defaultMessage: 'Meu perfil de voluntário',
+  },
+  logout: {
+    id: 'toolbarUser.logout',
+    defaultMessage: 'Sair',
+  },
+  newOrganization: {
+    id: 'toolbarUser.newOrganization',
+    defaultMessage: 'Registrar nova ONG',
+  },
+  organizations: {
+    id: 'toolbarUser.organizations',
+    defaultMessage: 'ONGs que participo',
+  },
+  newProject: {
+    id: 'toolbarUser.newProject',
+    defaultMessage: 'Criar vaga',
+  },
+  settings: {
+    id: 'toolbarUser.settings',
+    defaultMessage: 'Configurações',
+  },
+  manageMyProjects: {
+    id: 'toolbarUser.manageMyProjects',
+    defaultMessage: 'Gerenciar minhas vagas',
+  },
+})
+
 interface ToolbarUserProps {
   readonly className?: string
   readonly theme?: 'dark' | 'light'
@@ -139,6 +175,8 @@ const ToolbarUser: React.FC<ToolbarUserProps> = ({
     dispatchToRedux(logout())
   }
 
+  const intl = useIntl()
+
   if (user) {
     return (
       <div className="nav">
@@ -163,29 +201,33 @@ const ToolbarUser: React.FC<ToolbarUserProps> = ({
             <Link href={Page.Viewer} passHref>
               <DropdownAnchor>
                 <Icon name="person" />
-                Meu perfil de voluntário
+                {intl.formatMessage(m.profile)}
               </DropdownAnchor>
             </Link>
 
             <Link href={Page.ViewerSettings} passHref>
               <DropdownAnchor>
                 <Icon name="settings" />
-                Configurações
+                {intl.formatMessage(m.settings)}
               </DropdownAnchor>
             </Link>
             <hr className="my-1" />
             {channel.config.user.createProject === true && (
               <>
-                <Link href={Page.NewProject} passHref>
+                <Link
+                  href={Page.NewProject}
+                  as={PageAs.NewProject({ stepId: 'inicio' })}
+                  passHref
+                >
                   <DropdownAnchor>
                     <Icon name="add" />
-                    Criar vaga
+                    {intl.formatMessage(m.newProject)}
                   </DropdownAnchor>
                 </Link>
                 <Link href={Page.ViewerProjects} passHref>
                   <DropdownAnchor href="/minhas-vagas">
                     <Icon name="group" />
-                    Gerenciar minhas vagas
+                    {intl.formatMessage(m.manageMyProjects)}
                   </DropdownAnchor>
                 </Link>
               </>
@@ -195,13 +237,13 @@ const ToolbarUser: React.FC<ToolbarUserProps> = ({
                 <Link href={Page.ViewerOrganizations} passHref>
                   <DropdownAnchor>
                     <Icon name="group" />
-                    ONGs que participo
+                    {intl.formatMessage(m.organizations)}
                   </DropdownAnchor>
                 </Link>
                 <Link href={Page.NewOrganization}>
                   <DropdownAnchor>
                     <Icon name="add" />
-                    Registrar nova ONG
+                    {intl.formatMessage(m.newOrganization)}
                   </DropdownAnchor>
                 </Link>
               </>
@@ -210,7 +252,7 @@ const ToolbarUser: React.FC<ToolbarUserProps> = ({
             <Link href={Page.Home} passHref>
               <DropdownAnchor onClick={handleLogout}>
                 <Icon name="exit_to_app" />
-                Sair
+                {intl.formatMessage(m.logout)}
               </DropdownAnchor>
             </Link>
           </Menu>
@@ -227,7 +269,7 @@ const ToolbarUser: React.FC<ToolbarUserProps> = ({
         cardClassName="p-5"
       >
         <a id="toolbar-auth-button" href={Page.Login} className="nav-link">
-          Entrar
+          {intl.formatMessage(m.login)}
         </a>
       </ModalLink>
     </div>

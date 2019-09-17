@@ -4,11 +4,28 @@ import styled from 'styled-components'
 import { JobDate } from '~/redux/ducks/project'
 import Icon from '../Icon'
 import DisponibilityJobDateForm from './DisponibilityJobDateForm'
+import { withIntl } from '~/base/lib/intl'
+import { defineMessages, WithIntlProps } from 'react-intl'
 
 const JobIcon = styled(Icon)`
   font-size: 24px;
   margin-right: 14px;
 `
+
+const m = defineMessages({
+  addDate: {
+    id: 'disponibilityJobform.addDate',
+    defaultMessage: 'Adicionar data',
+  },
+  edit: {
+    id: 'disponibilityJobform.edit',
+    defaultMessage: 'Editar data',
+  },
+  remove: {
+    id: 'disponibilityJobform.remove',
+    defaultMessage: 'Remover data',
+  },
+})
 
 interface DisponibilityJobFormProps {
   readonly className?: string
@@ -24,7 +41,7 @@ interface DisponibilityJobFormState {
 }
 
 class DisponibilityJobForm extends React.Component<
-  DisponibilityJobFormProps,
+  DisponibilityJobFormProps & WithIntlProps<any>,
   DisponibilityJobFormState
 > {
   public static getDerivedStateFromProps(
@@ -95,6 +112,7 @@ class DisponibilityJobForm extends React.Component<
   }
 
   public render() {
+    const { intl } = this.props
     const { dates, editingDate, renderForm } = this.state
 
     return (
@@ -112,14 +130,14 @@ class DisponibilityJobForm extends React.Component<
                     onClick={() => this.editDate(index)}
                     className="btn btn--size-1 btn-default"
                   >
-                    Editar
+                    {intl.formatMessage(m.edit)}
                   </button>
                   <button
                     type="button"
                     onClick={() => this.removeDate(index)}
                     className="btn btn--size-1 btn-default tc-error"
                   >
-                    Remover
+                    {intl.formatMessage(m.remove)}
                   </button>
                 </span>
                 <p className="ts-small tw-medium mb-0 tc-muted-dark">
@@ -144,7 +162,7 @@ class DisponibilityJobForm extends React.Component<
           ) : (
             <button className="btn btn-primary" onClick={this.enableForm}>
               <Icon name="add" className="mr-1" />
-              Adicionar data
+              {intl.formatMessage(m.addDate)}
             </button>
           )}
         </div>
@@ -153,4 +171,4 @@ class DisponibilityJobForm extends React.Component<
   }
 }
 
-export default DisponibilityJobForm
+export default withIntl(DisponibilityJobForm)

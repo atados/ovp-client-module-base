@@ -23,6 +23,7 @@ import { Project } from '~/redux/ducks/project'
 import { ApiPagination } from '~/redux/ducks/search'
 import { UserOrganization } from '~/redux/ducks/user'
 import { Page, PageAs } from '~/common'
+import { useIntl, defineMessages } from 'react-intl'
 
 const PageStyled = styled.div`
   min-height: 100vh;
@@ -127,6 +128,69 @@ const Header = styled.div`
   color: #fff;
 `
 
+const m = defineMessages({
+  title: {
+    id: 'pages.manageableProjectList.title',
+    defaultMessage: 'Gerenciar vagas',
+  },
+  searchPlaceholder: {
+    id: 'pages.manageableProjectList.searchPlaceholder',
+    defaultMessage: 'Buscar vagas',
+  },
+  filterAll: {
+    id: 'pages.manageableProjectList.filter.all',
+    defaultMessage: 'Todas as vagas',
+  },
+  filterOpen: {
+    id: 'pages.manageableProjectList.filter.open',
+    defaultMessage: 'Apenas vagas abertas',
+  },
+  filterClosed: {
+    id: 'pages.manageableProjectList.filter.closed',
+    defaultMessage: 'Apenas vagas fechadas',
+  },
+  filterPublished: {
+    id: 'pages.manageableProjectList.filter.published',
+    defaultMessage: 'Apenas vagas publicadas',
+  },
+  filterRevision: {
+    id: 'pages.manageableProjectList.filter.revision',
+    defaultMessage: 'Apenas vagas em revisão',
+  },
+  manageProject: {
+    id: 'pages.manageableProjectList.manageProject',
+    defaultMessage: 'Gerenciar vaga',
+  },
+  editProject: {
+    id: 'pages.manageableProjectList.editProject',
+    defaultMessage: 'Editar vaga',
+  },
+  duplicateProject: {
+    id: 'pages.manageableProjectList.duplicateProject',
+    defaultMessage: 'Duplicar vaga',
+  },
+  viewProject: {
+    id: 'pages.manageableProjectList.viewProject',
+    defaultMessage: 'Visualizar vaga',
+  },
+  loading: {
+    id: 'CARREGANDO',
+    defaultMessage: 'Carregando...',
+  },
+  projectsCount: {
+    id: 'pages.manageableProjectList.projectsCount',
+    defaultMessage: '{value} vagas no total',
+  },
+  loadingProjects: {
+    id: 'pages.manageableProjectList.loadingProjects',
+    defaultMessage: 'Carregando vagas...',
+  },
+  noProjects: {
+    id: 'pages.manageableProjectList.noProjects',
+    defaultMessage: 'Não há mais vagas',
+  },
+})
+
 interface ManageableProjectsListProps {
   readonly organization?: UserOrganization
   readonly filters: {
@@ -139,6 +203,7 @@ const ManageableProjectsList: NextPage<ManageableProjectsListProps> = ({
   organization,
   filters,
 }) => {
+  const intl = useIntl()
   const [searchInputValue, setSearchInputValue] = useState<string>(
     filters.query,
   )
@@ -238,18 +303,20 @@ const ManageableProjectsList: NextPage<ManageableProjectsListProps> = ({
     <div className="container">
       <Card>
         <Header className="px-4 py-3 bg-primary-700">
-          <h1 className="h2">Gerenciar vagas</h1>
+          <h1 className="h2">{intl.formatMessage(m.title)}</h1>
           <span className="mb-4 block tc-light">
             {queryResult.data
-              ? `${queryResult.data.count} vagas no total`
-              : 'Carregando...'}
+              ? intl.formatMessage(m.projectsCount, {
+                  value: queryResult.data.count,
+                })
+              : intl.formatMessage(m.loading)}
           </span>
           <FiltersForm>
             <SearchForm className="mr-2">
               <input
                 type="text"
                 className="input h-10 rounded-full border-transparent"
-                placeholder="Buscar vagas"
+                placeholder={intl.formatMessage(m.searchPlaceholder)}
                 onChange={handleSearchInputChange}
                 value={searchInputValue}
               />
@@ -260,11 +327,15 @@ const ManageableProjectsList: NextPage<ManageableProjectsListProps> = ({
               value={filters.status}
               onChange={handleClosedFilterInputChange}
             >
-              <option value="both">Todas as vagas</option>
-              <option value="false">Apenas vagas abertas</option>
-              <option value="true">Apenas vagas fechadas</option>
-              <option value="published">Apenas vagas publicadas</option>
-              <option value="unpublished">Apenas vagas em revisão</option>
+              <option value="both">{intl.formatMessage(m.filterAll)}</option>
+              <option value="false">{intl.formatMessage(m.filterOpen)}</option>
+              <option value="true">{intl.formatMessage(m.filterClosed)}</option>
+              <option value="published">
+                {intl.formatMessage(m.filterPublished)}
+              </option>
+              <option value="unpublished">
+                {intl.formatMessage(m.filterRevision)}
+              </option>
             </ClosedFilterInput>
           </FiltersForm>
         </Header>
@@ -305,18 +376,20 @@ const ManageableProjectsList: NextPage<ManageableProjectsListProps> = ({
                             />
                             <span className="ts-medium tw-medium block">
                               {project.name}
+
+                              {project.published_date && (
+                                <span className="ts-small tw-normal tc-gray-500">
+                                  {' '}
+                                  - Publicada{' '}
+                                  {moment(project.published_date).fromNow()}
+                                </span>
+                              )}
                             </span>
                           </a>
                         </Link>
                         <span className="ts-small tc-muted-dark block mb-1">
                           {project.description}
                         </span>
-                        {project.published_date && (
-                          <span className="block ts-small tc-muted">
-                            <Icon name="access_time" className="mr-1" />
-                            Publicada {moment(project.published_date).fromNow()}
-                          </span>
-                        )}
                       </ProjectHead>
                     </td>
                     <td style={{ width: 100 }} className="ta-right">
@@ -342,7 +415,7 @@ const ManageableProjectsList: NextPage<ManageableProjectsListProps> = ({
                           }
                         >
                           <a className="btn btn-outline-primary">
-                            Gerenciar vaga
+                            {intl.formatMessage(m.manageProject)}
                           </a>
                         </Link>
                         <DropdownWithContext>
@@ -373,7 +446,7 @@ const ManageableProjectsList: NextPage<ManageableProjectsListProps> = ({
                               passHref
                             >
                               <DropdownAnchor className="dropdown-item">
-                                Editar vaga
+                                {intl.formatMessage(m.editProject)}
                               </DropdownAnchor>
                             </Link>
                             <Link
@@ -397,7 +470,7 @@ const ManageableProjectsList: NextPage<ManageableProjectsListProps> = ({
                               passHref
                             >
                               <DropdownAnchor className="dropdown-item">
-                                Duplicar vaga
+                                {intl.formatMessage(m.duplicateProject)}
                               </DropdownAnchor>
                             </Link>
 
@@ -407,7 +480,7 @@ const ManageableProjectsList: NextPage<ManageableProjectsListProps> = ({
                               passHref
                             >
                               <DropdownAnchor className="dropdown-item">
-                                Visualizar vaga
+                                {intl.formatMessage(m.viewProject)}
                               </DropdownAnchor>
                             </Link>
                           </ContextMenu>
@@ -424,14 +497,16 @@ const ManageableProjectsList: NextPage<ManageableProjectsListProps> = ({
             <div className="card-item p-5 ta-center">
               <Waypoint onEnter={handleLoadMoreProjectsCallback} />
               <ActivityIndicator size={64} className="mb-2" />
-              <span className="block tc-muted">Carregando vagas...</span>
+              <span className="block tc-muted">
+                {intl.formatMessage(m.loadingProjects)}
+              </span>
             </div>
           )}
           {!queryResult.loading &&
             queryResult.data &&
             !queryResult.data.next && (
               <div className="card-item p-5 ta-center tc-muted">
-                Não há mais vagas
+                {intl.formatMessage(m.noProjects)}
               </div>
             )}
         </div>

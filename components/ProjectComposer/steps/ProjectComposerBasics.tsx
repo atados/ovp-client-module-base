@@ -30,7 +30,7 @@ import { hasQuerySucceeded } from '~/lib/utils/graphql'
 import { Project } from '~/redux/ducks/project'
 import { User } from '~/redux/ducks/user'
 import { OrganizationMember } from '~/types/api'
-import { defineMessages } from 'react-intl'
+import { defineMessages, FormattedMessage } from 'react-intl'
 import { useIntl } from 'react-intl'
 
 const ProjectBasicsFormSchema = Yup.object().shape({
@@ -107,6 +107,7 @@ const {
   RESPONSIBLE,
   RESPONSIBLE_HINT,
   SELECIONE_MEMBRO,
+  ENDERECO_COMPLEMENTO,
 } = defineMessages({
   COMO_VAI: {
     id: 'COMO_VAI',
@@ -172,6 +173,10 @@ const {
   ENDERECO_HINT: {
     id: 'ENDERECO_HINT',
     defaultMessage: 'Comece a escrever e selecione uma opção',
+  },
+  ENDERECO_COMPLEMENTO: {
+    id: 'ENDERECO_COMPLEMENTO',
+    defaultMessage: 'Complemento',
   },
   CAUSAS: {
     id: 'CAUSAS',
@@ -385,7 +390,7 @@ const ProjectComposerBasics: React.FC<
         type="text"
         name="addressComplement"
         className="input input--size-4 w-1/2 mb-3"
-        placeholder="Complemento"
+        placeholder={intl.formatMessage(ENDERECO_COMPLEMENTO)}
         value={values.addressComplement}
         onChange={handleChange}
         onBlur={handleBlur}
@@ -521,7 +526,12 @@ const mapPropsToValues = ({
 export default asFormStep(
   'geral',
   {
-    label: 'Informações Gerais',
+    label: () => (
+      <FormattedMessage
+        id="projectComposerBasics.stepTitle"
+        defaultMessage="Informações Gerais"
+      />
+    ),
     isDone: (value: Partial<Project>) =>
       ProjectBasicsFormSchema.isValidSync(
         mapPropsToValues({ formContext: {}, value } as any),

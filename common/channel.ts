@@ -162,6 +162,7 @@ export interface ChannelConfig {
   geo: {
     regions: string[]
     default: {
+      country: string
       region: string
       lat: number
       lng: number

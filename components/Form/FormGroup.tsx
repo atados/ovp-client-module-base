@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
+import { FormattedMessage } from 'react-intl'
 
 const Hint = styled.span`
   font-size: 14px;
@@ -46,7 +47,14 @@ const FormGroup: React.FC<FormGroupProps> = ({
           <label htmlFor={labelFor} className="tw-medium mb-0">
             {label}
             {!required ? (
-              <span className="tc-muted tw-normal"> - Opcional</span>
+              <span className="tc-muted tw-normal">
+                {' '}
+                -{' '}
+                <FormattedMessage
+                  id="formGroup.optional"
+                  defaultMessage="Opcional"
+                />
+              </span>
             ) : null}
           </label>
         )}

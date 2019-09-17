@@ -34,29 +34,34 @@ const m = defineMessages({
 const LanguageDropdown: React.FC<LanguageDropdownProps> = ({ className }) => {
   const intl = useIntl()
   const locale = useSelector((state: RootState) => state.intl.locale)
+  const messages = {
+    'pt-br': intl.formatMessage(m.portuguese),
+    'en-us': intl.formatMessage(m.english),
+    'es-ar': intl.formatMessage(m.spanish),
+  }
 
   return (
     <DropdownWithContext className={className}>
       <hr />
       <DropdownToggler>
-        <button className="btn-text p-0 border-0">
+        <button className="btn tw-normal ts-small no-background py-1 border-gray-500 cursor-pointer btn--block ta-left rounded">
           <Icon name="language" className="mr-2" />
-          Alterar lingua
+          {messages[locale]}
           <Icon name="keyboard_arrow_down" className="ml-2 inline-block" />
         </button>
       </DropdownToggler>
       <DropdownMenu>
         <div className="py-2">
           <LanguageDropdownItem locale="pt-br" active={locale === 'pt-br'}>
-            {intl.formatMessage(m.portuguese)}
+            {messages['pt-br']}
           </LanguageDropdownItem>
 
           <LanguageDropdownItem locale="en-us" active={locale === 'en-us'}>
-            {intl.formatMessage(m.english)}
+            {messages['en-us']}
           </LanguageDropdownItem>
 
           <LanguageDropdownItem locale="es-ar" active={locale === 'es-ar'}>
-            {intl.formatMessage(m.spanish)}
+            {messages['es-ar']}
           </LanguageDropdownItem>
         </div>
       </DropdownMenu>

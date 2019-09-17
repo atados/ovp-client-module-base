@@ -1,6 +1,6 @@
 import React from 'react'
 import Layout from '../Layout'
-import { defineMessages, useIntl } from 'react-intl'
+import { defineMessages, useIntl, FormattedMessage } from 'react-intl'
 import ToolbarBrand from '../Toolbar/ToolbarBrand'
 import FAQSearchForm from '../FAQSearchForm'
 import styled from 'styled-components'
@@ -44,12 +44,14 @@ const FAQLayout: React.FC<FAQLayoutProps> = ({
         float: true,
         className: 'no-background',
         brand: (
-          <>
-            <ToolbarBrand />
-            <span className="tc-toolbar border-l border-color-white pl-2">
-              {intl.formatMessage(m.title)}
-            </span>
-          </>
+          <Link href={Page.Home}>
+            <a>
+              <ToolbarBrand />
+              <span className="tc-toolbar border-l border-color-white pl-2">
+                {intl.formatMessage(m.title)}
+              </span>
+            </a>
+          </Link>
         ),
       }}
     >
@@ -63,11 +65,19 @@ const FAQLayout: React.FC<FAQLayoutProps> = ({
                     <Icon name="arrow_back" />
                   </button>
                 )}
-                Central de Ajuda
+                <FormattedMessage
+                  id="faqLayout.title"
+                  defaultMessage="Central de Ajuda"
+                />
               </h1>
             </a>
           </Link>
-          <p className="tc-light ts-large ta-center">Como podemos te ajudar?</p>
+          <p className="tc-light ts-large ta-center">
+            <FormattedMessage
+              id="faqLayout.subtitle"
+              defaultMessage="Como podemos te ajudar?"
+            />
+          </p>
           <div className="ta-center mt-4">
             <FAQSearchFormStyled defaultValue={defaultSearchFormValue} />
           </div>

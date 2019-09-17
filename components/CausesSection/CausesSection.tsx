@@ -5,6 +5,7 @@ import styled from 'styled-components'
 import { Page, PageAs } from '~/common'
 import { Cause } from '~/common/channel'
 import { RootState } from '~/redux/root-reducer'
+import { FormattedMessage } from 'react-intl'
 
 export interface CausesSectionProps {
   readonly causes: Cause[]
@@ -74,9 +75,17 @@ const CausesSection: React.FC<CausesSectionProps> = ({ causes, ...props }) => {
 
   return (
     <Container {...props}>
-      <SectionTitle>Encontre sua causa</SectionTitle>
+      <SectionTitle>
+        <FormattedMessage
+          id="causesSection.title"
+          defaultMessage="Encontre sua causa"
+        />
+      </SectionTitle>
       <SectionSubtitle>
-        Clique numa causa e encontre vagas relacionadas
+        <FormattedMessage
+          id="causesSection.subtitle"
+          defaultMessage="Clique numa causa e encontre vagas relacionadas"
+        />
       </SectionSubtitle>
 
       <div className="row">

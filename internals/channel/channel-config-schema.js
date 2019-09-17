@@ -157,11 +157,13 @@ const ChannelConfigSchema = Yup.object().shape({
         .shape({
           default: Yup.object()
             .shape({
+              country: Yup.string().required(),
               region: Yup.string().required(),
               lat: Yup.number().required(),
               lng: Yup.number().required(),
             })
             .default({
+              country: 'BR',
               region: 'SP',
               lat: -23.5283838,
               lng: -46.6021955,

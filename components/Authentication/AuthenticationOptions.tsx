@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import React, { useEffect, Dispatch } from 'react'
-import { defineMessages } from 'react-intl'
+import { defineMessages, FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 import { useIntl } from 'react-intl'
 import { Page, Asset, PageAs } from '~/common'
@@ -32,6 +32,8 @@ const Footer = styled.footer`
 
 interface AuthenticationOptionsProps {
   readonly className?: string
+  readonly title?: React.ReactNode
+  readonly subtitle?: React.ReactNode
   readonly dispatch: Dispatch<AuthenticationAction>
 }
 
@@ -45,11 +47,28 @@ const m = defineMessages({
     defaultMessage:
       'Faça login para receber recomendações personalizadas de voluntariado, se inscrever em ações e fazer parte da comunidade',
   },
+  terms: {
+    id: 'authenticationOptions.terms',
+    defaultMessage:
+      'Ao cadastrar-se você assume que leu e que concorda com nossos {privacy} e {services}',
+  },
+
+  privacyTerms: {
+    id: 'authenticationOptions.privacy',
+    defaultMessage: 'Termos de privacidade',
+  },
+
+  serviceTerms: {
+    id: 'authenticationOptions.service',
+    defaultMessage: 'Termos de serviço',
+  },
 })
 
 const AuthenticationOptions: React.FC<AuthenticationOptionsProps> = ({
   className,
   dispatch,
+  title,
+  subtitle,
 }) => {
   const modalManager = useModalManager()
   const intl = useIntl()
@@ -96,8 +115,8 @@ const AuthenticationOptions: React.FC<AuthenticationOptionsProps> = ({
           height="42"
           className="block mx-auto"
         />
-        <h1 className="h2 mb-3">{intl.formatMessage(m.title)}</h1>
-        <p>{intl.formatMessage(m.subtitle)}</p>
+        <h1 className="h2 mb-3">{title || intl.formatMessage(m.title)}</h1>
+        <p>{subtitle || intl.formatMessage(m.subtitle)}</p>
       </Header>
       <Body className="ta-center">
         <AuthenticationButtons dispatch={dispatch} />
@@ -109,20 +128,26 @@ const AuthenticationOptions: React.FC<AuthenticationOptionsProps> = ({
           href={PageAs.NewAccount()}
           className="tc-base block tw-normal py-2"
         >
-          Ainda não possui uma conta?
+          <FormattedMessage
+            id="authenticationOptions.newAccount"
+            defaultMessage="Ainda não possui uma conta?"
+          />
         </a>
       </div>
       <Footer>
         <span className="block ta-center tc-muted-dark mt-3">
-          Ao cadastrar-se você assume que leu e que concorda com nossos{' '}
-          <Link href={Page.PrivacyTerms}>
-            <a>Termos de privacidade</a>
-          </Link>{' '}
-          e{' '}
-          <Link href={Page.UsageTerms}>
-            <a>Termos de serviço</a>
-          </Link>
-          .
+          {intl.formatMessage(m.terms, {
+            privacy: (
+              <Link key="privacy" href={Page.PrivacyTerms}>
+                <a>{intl.formatMessage(m.privacyTerms)}</a>
+              </Link>
+            ),
+            services: (
+              <Link key="usage" href={Page.UsageTerms}>
+                <a>{intl.formatMessage(m.serviceTerms)}</a>
+              </Link>
+            ),
+          })}
         </span>
       </Footer>
     </div>

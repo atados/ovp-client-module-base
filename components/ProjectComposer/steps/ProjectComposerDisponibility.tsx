@@ -9,7 +9,7 @@ import asFormStep, {
   InjectedMultipleStepsFormProps,
 } from '~/components/MultipleStepsForm/as-form-step'
 import Yup from '~/lib/form/yup'
-import { defineMessages } from 'react-intl'
+import { defineMessages, FormattedMessage } from 'react-intl'
 import { useIntl } from 'react-intl'
 
 const ProjectDisponibilityFormSchema = Yup.object().shape({
@@ -187,7 +187,12 @@ ProjectComposerDisponibility.displayName = 'ProjectComposerDisponibility'
 export default asFormStep(
   'disponibilidade',
   {
-    label: 'Disponibilidade',
+    label: () => (
+      <FormattedMessage
+        id="projectComposerDisponibility.stepTitle"
+        defaultMessage="Disponibilidade"
+      />
+    ),
     isDone: (value: any) => {
       return ProjectDisponibilityFormSchema.isValidSync({
         disponibility: value &&

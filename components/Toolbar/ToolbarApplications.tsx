@@ -13,6 +13,7 @@ import VolunteerIcon from '../Icon/VolunteerIcon'
 import { useModal } from '../Modal'
 import ProjectApplicationFinish from '../ProjectApplication/ProjectApplicationFinish'
 import ToolbarApplicationsItem from './ToolbarApplicationsItem'
+import { FormattedMessage } from 'react-intl'
 
 const Menu: React.FC<{ className?: string }> = styled(DropdownMenu)`
   left: auto;
@@ -99,17 +100,15 @@ const ToolbarApplications: React.FC<ToolbarApplicationsProps> = ({
       <Menu className="mt-1 bg-muted">
         <div className="">
           <Header className="px-2 shadow-sm relative bg-white rounded-t-lg shadow">
-            <h4 className="ts-medium mb-0">Minhas inscrições</h4>
+            <h4 className="ts-medium mb-0">
+              <FormattedMessage
+                id="toolbarApplications.title"
+                defaultMessage="Minhas inscrições"
+              />
+            </h4>
           </Header>
           <Body className="absolute bottom-0 left-0 right-0">
             <div className="shadow-sm">
-              {applications.length !== 0 && (
-                <div className="px-2 bg-white">
-                  <span className="tc-muted ts-small tw-medium">
-                    VAGAS ABERTAS
-                  </span>
-                </div>
-              )}
               {applications.map(application => (
                 <ToolbarApplicationsItem
                   key={application.id}

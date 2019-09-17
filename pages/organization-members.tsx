@@ -14,6 +14,7 @@ import { User, UserOrganization } from '~/redux/ducks/user'
 import { RootState } from '~/redux/root-reducer'
 import { OrganizationMember } from '~/types/api'
 import { Page, PageAs } from '../common'
+import { FormattedMessage } from 'react-intl'
 
 const PageStyled = styled.div`
   min-height: 100vh;
@@ -77,9 +78,17 @@ const OrganizationMembersPage: NextPage<
         <div className="container">
           <Card className="card">
             <div className="p-4">
-              <h4 className="tw-normal mb-1">Membros da ONG</h4>
+              <h4 className="tw-normal mb-1">
+                <FormattedMessage
+                  id="pages.organizationMembers.title"
+                  defaultMessage="Membros da ONG"
+                />
+              </h4>
               <p className="tc-muted mb-0">
-                Gerencie os membros que podem administrar o perfil da ONG.
+                <FormattedMessage
+                  id="pages.organizationMembers.description"
+                  defaultMessage="Gerencie os membros que podem administrar o perfil da ONG."
+                />
               </p>
             </div>
             <TableWrapper>
@@ -115,7 +124,10 @@ const OrganizationMembersPage: NextPage<
                             className="btn btn-muted btn--size-2 tc-error"
                           >
                             <Icon name="close" className="mr-2" />
-                            Remover acesso
+                            <FormattedMessage
+                              id="pages.organizationMembers.removeMember"
+                              defaultMessage="Remover membro"
+                            />
                           </button>
                         )}
                       </td>
@@ -131,7 +143,10 @@ const OrganizationMembersPage: NextPage<
                 onClick={() => openAddMemberModal()}
               >
                 <Icon name="add" className="mr-2" />
-                Adicionar membro
+                <FormattedMessage
+                  id="pages.organizationMembers.add"
+                  defaultMessage="Adicionar membro"
+                />
               </button>
             </div>
           </Card>

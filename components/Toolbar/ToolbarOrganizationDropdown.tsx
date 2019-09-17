@@ -81,12 +81,43 @@ const m = defineMessages({
     id: 'toolbar.dropdown.organization.title',
     defaultMessage: 'Sou uma ONG',
   },
+  page: {
+    id: 'toolbarOrganizationDropdown.page',
+    defaultMessage: 'Página da ONG',
+  },
+  newProject: {
+    id: 'toolbarOrganizationDropdown.newProject',
+    defaultMessage: 'Criar vaga',
+  },
+  manageProjects: {
+    id: 'toolbarOrganizationDropdown.manageProjects',
+    defaultMessage: 'Gerenciar vagas',
+  },
+  members: {
+    id: 'toolbarOrganizationDropdown.members',
+    defaultMessage: 'Membros',
+  },
+  editOrganization: {
+    id: 'toolbarOrganizationDropdown.editOrganization',
+    defaultMessage: 'Editar ONG',
+  },
 })
 
 const ToolbarOrganizationDropdown: React.FC<
   ToolbarOrganizationDropdownProps
 > = ({ className, organization }) => {
   const intl = useIntl()
+
+  if (!organization) {
+    return (
+      <Link
+        href={Page.NewOrganization}
+        as={PageAs.NewOrganization({ stepId: StepIds.Introduction })}
+      >
+        <a className="nav-link">{intl.formatMessage(m.imOrganization)}</a>
+      </Link>
+    )
+  }
 
   return (
     <ToolbarDropdownStyled
@@ -131,19 +162,20 @@ const ToolbarOrganizationDropdown: React.FC<
             >
               <a className="hover:text-primary hover:bg-muted block py-1 px-4 tc-base td-hover-none">
                 <Icon name="visibility" />
-                Página da ONG
+                {intl.formatMessage(m.page)}
               </a>
             </Link>
             <hr className="my-1" />
             <Link
               href={Page.OrganizationNewProject}
               as={PageAs.OrganizationNewProject({
+                stepId: 'inicio',
                 organizationSlug: organization.slug,
               })}
             >
               <a className="hover:text-primary hover:bg-muted block py-1 px-4 tc-base td-hover-none">
                 <Icon name="add" />
-                Criar vaga
+                {intl.formatMessage(m.newProject)}
               </a>
             </Link>
             <Link
@@ -154,7 +186,7 @@ const ToolbarOrganizationDropdown: React.FC<
             >
               <a className="hover:text-primary hover:bg-muted block py-1 px-4 tc-base td-hover-none">
                 <Icon name="settings" />
-                Gerenciar vagas
+                {intl.formatMessage(m.manageProjects)}
               </a>
             </Link>
             <hr className="my-1" />
@@ -166,7 +198,7 @@ const ToolbarOrganizationDropdown: React.FC<
             >
               <a className="hover:text-primary hover:bg-muted block py-1 px-4 tc-base td-hover-none">
                 <Icon name="group" />
-                Membros
+                {intl.formatMessage(m.members)}
               </a>
             </Link>
             <Link
@@ -177,7 +209,7 @@ const ToolbarOrganizationDropdown: React.FC<
             >
               <a className="hover:text-primary hover:bg-muted block py-1 px-4 tc-base td-hover-none">
                 <Icon name="edit" />
-                Editar perfil da ONG
+                {intl.formatMessage(m.editOrganization)}
               </a>
             </Link>
           </div>

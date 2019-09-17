@@ -4,7 +4,7 @@ import { withFormik, FormikProps } from 'formik'
 import FormGroup from '~/components/Form/FormGroup'
 import Yup from '~/lib/form/yup'
 import { AuthenticationAction } from './Authentication'
-import { useIntl, defineMessages } from 'react-intl'
+import { useIntl, defineMessages, FormattedMessage } from 'react-intl'
 import Link from 'next/link'
 import { Page, Asset } from '~/base/common'
 import ActivityIndicator from '../ActivityIndicator'
@@ -33,6 +33,14 @@ const m = defineMessages({
     id: 'authentication.email.subtitle',
     defaultMessage:
       'Insira o endereço de email associado a sua conta de acesso.',
+  },
+  email: {
+    id: 'input.label.email',
+    defaultMessage: 'Email',
+  },
+  password: {
+    id: 'input.label.password',
+    defaultMessage: 'Senha',
   },
 })
 
@@ -70,7 +78,19 @@ const AuthenticationEmailLogin: React.FC<
   return (
     <form className={cx('', className)} onSubmit={handleSubmit}>
       {status && status.error && (
-        <Status level={StatusLevel.Error} message={status.error.message} />
+        <>
+          {status.error.payload &&
+          status.error.payload.error === 'invalid_grant' ? (
+            <div className="ta-center mb-3 animate-slideInUp">
+              <span className="bg-error tc-white px-2 py-1 rounded-full inline-block">
+                <Icon name="error" className="mr-2" />
+                Email ou senha invalidos
+              </span>
+            </div>
+          ) : (
+            <Status level={StatusLevel.Error} message={status.error.message} />
+          )}
+        </>
       )}
       <div className="max-w-sm mx-auto">
         <div className="ta-center">
@@ -86,7 +106,7 @@ const AuthenticationEmailLogin: React.FC<
         </div>
         <FormGroup
           labelFor="authentication-login-input-email"
-          label="Email"
+          label={intl.formatMessage(m.email)}
           error={touched.email ? errors.email : undefined}
           className="mb-4"
         >
@@ -100,7 +120,7 @@ const AuthenticationEmailLogin: React.FC<
         </FormGroup>
         <FormGroup
           labelFor="authentication-login-input-password"
-          label="Senha"
+          label={intl.formatMessage(m.password)}
           error={touched.password ? errors.password : undefined}
         >
           <input
@@ -113,7 +133,12 @@ const AuthenticationEmailLogin: React.FC<
         </FormGroup>
         <div className="ta-right my-3">
           <Link href={Page.ForgotPassword}>
-            <a>Esqueceu sua senha?</a>
+            <a>
+              <FormattedMessage
+                id="authenticationEmailLogin.forgotPassword"
+                defaultMessage="Esquece sua senha?"
+              />
+            </a>
           </Link>
         </div>
         <button
@@ -121,7 +146,10 @@ const AuthenticationEmailLogin: React.FC<
           className="btn btn-primary btn--size-3 btn--block mb-3"
           disabled={isSubmitting}
         >
-          Entrar
+          <FormattedMessage
+            id="authenticationEmailLogin.login"
+            defaultMessage="Entrar"
+          />
           {isSubmitting && (
             <ActivityIndicator size={24} fill="#fff" className="ml-1" />
           )}
@@ -131,8 +159,16 @@ const AuthenticationEmailLogin: React.FC<
           className="btn btn-text tw-normal btn--block btn--size-3"
           onClick={handleRegisterClick}
         >
-          Ainda não possui uma conta?{' '}
-          <span className="tc-link">Cadastre-se</span>
+          <FormattedMessage
+            id="authenticationEmailLogin.newAccount"
+            defaultMessage="Ainda não possui uma conta?"
+          />{' '}
+          <span className="tc-link">
+            <FormattedMessage
+              id="authenticationEmailLogin.signup"
+              defaultMessage="Cadastrar-se"
+            />
+          </span>
         </a>
         <hr className="my-2" />
         <a
@@ -140,7 +176,11 @@ const AuthenticationEmailLogin: React.FC<
           className="btn btn-text tw-normal btn--block btn--size-3 ta-left tc-gray-600"
           onClick={handleOptionsClick}
         >
-          <Icon name="arrow_back" /> Ver todas opções de acesso
+          <Icon name="arrow_back" />{' '}
+          <FormattedMessage
+            id="authenticationEmailLogin.options"
+            defaultMessage="Ver todas as opções de acesso"
+          />
         </a>
       </div>
     </form>
@@ -159,6 +199,7 @@ export default withFormik<AuthenticationEmailLoginProps, Values>({
     values,
     { props: { onLoginBySessionToken }, setStatus, setSubmitting },
   ) => {
+    setStatus(null)
     try {
       const sessionToken = await generateSessionTokenWithEmail(
         values.email,

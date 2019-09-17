@@ -5,6 +5,8 @@ import MaskedTextInput from 'react-text-mask'
 import * as masks from '~/lib/form/masks'
 import Yup from '~/lib/form/yup'
 import FormGroup from '../Form/FormGroup'
+import { defineMessages, WithIntlProps } from 'react-intl'
+import { withIntl } from '~/base/lib/intl'
 
 export interface Values {
   description: string
@@ -21,8 +23,24 @@ interface DisponibilityWorkFormProps {
   }) => any
 }
 
+const { HORARIOS_DICA, DESCRICAO_HORARIOS, HORAS_SEMANAIS } = defineMessages({
+  DESCRICAO_HORARIOS: {
+    id: 'DESCRICAO_HORARIOS',
+    defaultMessage: 'Descrição dos horários',
+  },
+  HORARIOS_DICA: {
+    id: 'HORARIOS_DICA',
+    defaultMessage:
+      'Descreva os horários em que o projeto poderá ser realizado pelos voluntários',
+  },
+  HORAS_SEMANAIS: {
+    id: 'HORAS_SEMANAIS',
+    defaultMessage: 'Horas semanais',
+  },
+})
+
 class DisponibilityWorkForm extends React.PureComponent<
-  InjectedFormikProps<DisponibilityWorkFormProps, Values>
+  InjectedFormikProps<DisponibilityWorkFormProps, Values> & WithIntlProps<any>
 > {
   public componentDidUpdate(
     oldProps: InjectedFormikProps<DisponibilityWorkFormProps, Values>,
@@ -42,17 +60,20 @@ class DisponibilityWorkForm extends React.PureComponent<
   }
 
   public render() {
-    const { handleChange, touched, errors, values, isDonation } = this.props
+    const {
+      intl,
+      handleChange,
+      touched,
+      errors,
+      values,
+      isDonation,
+    } = this.props
 
     return (
       <>
         <FormGroup
-          hint="Descreva os horários em que o projeto poderá ser realizado pelos voluntários"
-          label={
-            isDonation
-              ? 'Descrição dos horários para doar'
-              : 'Descrição dos horários'
-          }
+          hint={intl.formatMessage(HORARIOS_DICA)}
+          label={intl.formatMessage(DESCRICAO_HORARIOS)}
           className="mb-3"
           error={touched.description ? errors.description : undefined}
         >
@@ -66,7 +87,7 @@ class DisponibilityWorkForm extends React.PureComponent<
         </FormGroup>
         {!isDonation && (
           <FormGroup
-            label="Horas semanais"
+            label={intl.formatMessage(HORAS_SEMANAIS)}
             error={touched.weekly_hours ? errors.weekly_hours : undefined}
           >
             <MaskedTextInput
@@ -96,16 +117,18 @@ const DisponibilityWorkFormSchema = Yup.object().shape({
     .required(),
 })
 
-export default withFormik<DisponibilityWorkFormProps, Values>({
-  displayName: 'DisponibilityWorkForm',
-  validationSchema: DisponibilityWorkFormSchema,
-  mapPropsToValues: ({ defaultValue, isDonation }) => ({
-    description: (defaultValue && defaultValue.description) || '',
-    weekly_hours: isDonation
-      ? '10'
-      : (defaultValue && defaultValue.weekly_hours) || '0',
-  }),
-  handleSubmit: () => {
-    // ...
-  },
-})(DisponibilityWorkForm)
+export default withIntl(
+  withFormik<DisponibilityWorkFormProps, Values>({
+    displayName: 'DisponibilityWorkForm',
+    validationSchema: DisponibilityWorkFormSchema,
+    mapPropsToValues: ({ defaultValue, isDonation }) => ({
+      description: (defaultValue && defaultValue.description) || '',
+      weekly_hours: isDonation
+        ? '10'
+        : (defaultValue && defaultValue.weekly_hours) || '0',
+    }),
+    handleSubmit: () => {
+      // ...
+    },
+  })(DisponibilityWorkForm),
+)

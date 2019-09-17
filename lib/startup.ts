@@ -3,18 +3,7 @@ import { fetchAPI } from '~/lib/fetch'
 import { Cause, Skill } from '~/common/channel'
 import { StartupData } from '~/redux/ducks/startup'
 
-let lastTimeFetched: number = 0
-let cachedStartupData: StartupData | undefined
-
-export async function getStartupData(): Promise<StartupData> {
-  // Update channel every request in development environment
-  // On production, update every 6 hours
-  if (!dev && cachedStartupData && Date.now() - lastTimeFetched < 21600) {
-    return cachedStartupData
-  }
-
-  lastTimeFetched = Date.now()
-
+export async function getStartupData(locale?: string): Promise<StartupData> {
   try {
     const {
       causes,
@@ -26,8 +15,12 @@ export async function getStartupData(): Promise<StartupData> {
       nonprofit_count: number
       causes: Cause[]
       skills: Skill[]
-    }>('/startup/')
-    cachedStartupData = {
+    }>('/startup/', {
+      headers: {
+        'Accept-Language': locale,
+      },
+    })
+    return {
       skills,
       causes: causes
         .map((cause, i) => ({
@@ -48,18 +41,12 @@ export async function getStartupData(): Promise<StartupData> {
     }
   }
 
-  if (!cachedStartupData) {
-    cachedStartupData = {
-      skills: [],
-      causes: [],
-      stats: {
-        volunteers: 0,
-        organizations: 0,
-      },
-    }
-
-    return cachedStartupData
+  return {
+    skills: [],
+    causes: [],
+    stats: {
+      volunteers: 0,
+      organizations: 0,
+    },
   }
-
-  return cachedStartupData
 }

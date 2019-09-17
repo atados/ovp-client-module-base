@@ -13,7 +13,7 @@ import Yup from '~/lib/form/yup'
 import { Project, ProjectRole } from '~/redux/ducks/project'
 import RoleForm from '../components/RoleForm'
 import { channel } from '~/base/common/constants'
-import { defineMessages } from 'react-intl'
+import { defineMessages, FormattedMessage } from 'react-intl'
 import { useIntl } from 'react-intl'
 
 const Role = styled.button`
@@ -151,7 +151,7 @@ const {
       'Insira as funções que o voluntário irá exercer nesta ação.',
   },
   EDITAR: {
-    id: 'EDITAR',
+    id: 'projectComposerRoles.edit',
     defaultMessage: 'Editar',
   },
   DESCRICAO: {
@@ -359,7 +359,12 @@ ProjectComposerRoles.displayName = 'ProjectComposerRoles'
 export default asFormStep(
   'funcoes',
   {
-    label: 'Funções',
+    label: () => (
+      <FormattedMessage
+        id="projectComposerRoles.stepTitle"
+        defaultMessage="Funções"
+      />
+    ),
     isDone: (value: Partial<Project>) =>
       ProjectComposerRolesSchema.isValidSync(value),
   },

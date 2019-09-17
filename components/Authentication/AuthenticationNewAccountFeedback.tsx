@@ -1,6 +1,6 @@
 import React from 'react'
 import { Asset, Page } from '~/base/common'
-import { useIntl, defineMessages } from 'react-intl'
+import { useIntl, defineMessages, FormattedMessage } from 'react-intl'
 import { useSelector } from 'react-redux'
 import { RootState } from '~/base/redux/root-reducer'
 import Icon from '../Icon'
@@ -50,8 +50,10 @@ const AuthenticationNewAccountFeedback: React.FC<
             </div>
             <h5>{viewer.name}</h5>
             <span className="block mb-3 tc-gray-700">
-              Continue para completar o seu perfil e receber indicações de vagas
-              mais compatíveis com suas causas.
+              <FormattedMessage
+                id="authenticationNewAccountFeedback.nextStepDescription"
+                defaultMessage="Continue para completar o seu perfil e receber indicações de vagas mais compatíveis com suas causas."
+              />
             </span>
             <Link href={Page.Home}>
               <a

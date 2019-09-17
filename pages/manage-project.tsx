@@ -52,7 +52,8 @@ const { ENCERRAR_VAGA, ENCERRAR_VAGA_TEXT } = defineMessages({
   },
   ENCERRAR_VAGA_TEXT: {
     id: 'ENCERRAR_VAGA_TEXT',
-    defaultMessage: 'Encerrar vaga',
+    defaultMessage:
+      'Ao encerrar a vaga você não poderá mais reabri-la, ela sairá da listagem na plataforma e não poderá receber mais inscrições.',
   },
 })
 

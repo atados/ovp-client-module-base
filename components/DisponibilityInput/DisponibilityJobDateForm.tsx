@@ -7,6 +7,7 @@ import { RE_DATE, RE_HOUR } from '~/lib/form/regex'
 import Yup from '~/lib/form/yup'
 import { JobDate } from '~/redux/ducks/project'
 import FormGroup from '../Form/FormGroup'
+import { useIntl, defineMessages } from 'react-intl'
 
 interface Values {
   name: string
@@ -14,6 +15,33 @@ interface Values {
   start_hour: string
   end_hour: string
 }
+
+const m = defineMessages({
+  date: {
+    id: 'disponibilityJobDate.date',
+    defaultMessage: 'Dia',
+  },
+  startHour: {
+    id: 'disponibilityJobDate.startHour',
+    defaultMessage: 'Início',
+  },
+  endHour: {
+    id: 'disponibilityJobDate.endHour',
+    defaultMessage: 'Término',
+  },
+  eventName: {
+    id: 'disponibilityJobDate.eventName',
+    defaultMessage: 'Evento do dia',
+  },
+  submit: {
+    id: 'disponibilityJobDate.submit',
+    defaultMessage: 'Adicionar',
+  },
+  cancel: {
+    id: 'disponibilityJobDate.cancel',
+    defaultMessage: 'Cancelar',
+  },
+})
 
 interface DisponibilityJobDateFormProps {
   readonly className?: string
@@ -32,96 +60,98 @@ const DisponibilityJobDateForm: React.FC<
   handleChange,
   handleBlur,
   handleSubmit,
-}) => (
-  <>
-    {' '}
-    <div className="row">
-      <div className="col-md-4">
-        <FormGroup
-          label="Dia"
-          className="mb-3"
-          error={touched.date ? errors.date : undefined}
-        >
-          <MaskedTextInput
-            name="date"
-            type="text"
-            className="input"
-            placeholder="__/__/____"
-            mask={masks.date}
-            value={values.date}
-            onChange={handleChange}
-            onBlur={handleBlur}
-          />
-        </FormGroup>
+}) => {
+  const intl = useIntl()
+  return (
+    <>
+      <div className="row">
+        <div className="col-md-4">
+          <FormGroup
+            label={intl.formatMessage(m.date)}
+            className="mb-3"
+            error={touched.date ? errors.date : undefined}
+          >
+            <MaskedTextInput
+              name="date"
+              type="text"
+              className="input"
+              placeholder="__/__/____"
+              mask={masks.date}
+              value={values.date}
+              onChange={handleChange}
+              onBlur={handleBlur}
+            />
+          </FormGroup>
+        </div>
+        <div className="col-md-3">
+          <FormGroup
+            label={intl.formatMessage(m.startHour)}
+            className="mb-3"
+            error={touched.start_hour ? errors.start_hour : undefined}
+          >
+            <MaskedTextInput
+              name="start_hour"
+              type="text"
+              className="input"
+              placeholder="__:__"
+              mask={masks.hour}
+              value={values.start_hour}
+              onChange={handleChange}
+              onBlur={handleBlur}
+            />
+          </FormGroup>
+        </div>
+        <div className="col-md-3">
+          <FormGroup
+            label={intl.formatMessage(m.endHour)}
+            className="mb-3"
+            error={touched.end_hour ? errors.end_hour : undefined}
+          >
+            <MaskedTextInput
+              name="end_hour"
+              type="text"
+              className="input"
+              placeholder="__:__"
+              mask={masks.hour}
+              value={values.end_hour}
+              onChange={handleChange}
+              onBlur={handleBlur}
+            />
+          </FormGroup>
+        </div>
       </div>
-      <div className="col-md-3">
-        <FormGroup
-          label="Início"
-          className="mb-3"
-          error={touched.start_hour ? errors.start_hour : undefined}
-        >
-          <MaskedTextInput
-            name="start_hour"
-            type="text"
-            className="input"
-            placeholder="__:__"
-            mask={masks.hour}
-            value={values.start_hour}
-            onChange={handleChange}
-            onBlur={handleBlur}
-          />
-        </FormGroup>
-      </div>
-      <div className="col-md-3">
-        <FormGroup
-          label="Término"
-          className="mb-3"
-          error={touched.end_hour ? errors.end_hour : undefined}
-        >
-          <MaskedTextInput
-            name="end_hour"
-            type="text"
-            className="input"
-            placeholder="__:__"
-            mask={masks.hour}
-            value={values.end_hour}
-            onChange={handleChange}
-            onBlur={handleBlur}
-          />
-        </FormGroup>
-      </div>
-    </div>
-    <FormGroup
-      label="Evento do dia"
-      className="mb-3"
-      error={touched.name ? errors.name : undefined}
-    >
-      <input
-        name="name"
-        type="text"
-        className="input"
-        placeholder="Ex.: Capacitação"
-        value={values.name}
-        onChange={handleChange}
-        onBlur={handleBlur}
-      />
-    </FormGroup>
-    <button
-      type="button"
-      onClick={() => handleSubmit()}
-      className="btn btn-primary btn--size-2 mr-2"
-    >
-      Adicionar
-    </button>
-    <button
-      onClick={onCancel}
-      type="button"
-      className="btn btn-text-muted-dark btn--size-2"
-    >
-      Cancelar
-    </button>
-  </>
-)
+      <FormGroup
+        label={intl.formatMessage(m.eventName)}
+        className="mb-3"
+        error={touched.name ? errors.name : undefined}
+      >
+        <input
+          name="name"
+          type="text"
+          className="input"
+          placeholder="Ex.: Capacitação"
+          value={values.name}
+          onChange={handleChange}
+          onBlur={handleBlur}
+        />
+      </FormGroup>
+      <button
+        type="button"
+        onClick={() => handleSubmit()}
+        className="btn btn-primary btn--size-2 mr-2"
+      >
+        {intl.formatMessage(m.submit)}
+      </button>
+      <button
+        onClick={onCancel}
+        type="button"
+        className="btn btn-text-muted-dark btn--size-2"
+      >
+        {intl.formatMessage(m.cancel)}
+      </button>
+    </>
+  )
+}
 
 DisponibilityJobDateForm.displayName = 'DisponibilityJobDateForm'
 
