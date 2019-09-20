@@ -8,13 +8,17 @@ import { channel } from '../common/constants'
 import { NextPage } from 'next'
 import { createAccentFriendlyRegexp } from '../lib/regex/utils'
 import Icon from '../components/Icon'
+import { useSelector } from 'react-redux'
+import { RootState } from '../redux/root-reducer'
+import { FormattedMessage } from 'react-intl'
 
 interface FAQPageProps {
   readonly filterQuery: string
 }
 
 const FaqPage: NextPage<FAQPageProps> = ({ filterQuery }) => {
-  const faqQuery = useFetchAPI<Question[]>('/faq/')
+  const intl = useSelector((reduxState: RootState) => reduxState.intl)
+  const faqQuery = useFetchAPI<Question[]>(`/faq/?language=${intl.locale}`)
   const questions = useMemo(() => {
     if (faqQuery.data) {
       if (filterQuery) {
@@ -66,6 +70,20 @@ const FaqPage: NextPage<FAQPageProps> = ({ filterQuery }) => {
               </div>
             )}
             <div className="row">
+              {categories.length === 0 && (
+                <div className="max-w-md mx-auto py-4 ta-center">
+                  <Icon
+                    name="import_contacts"
+                    className="text-6xl tc-gray-600"
+                  />
+                  <h2 className="text-2xl tw-normal leading-relaxed">
+                    <FormattedMessage
+                      id="pages.faq.noRegisteredQuestions.title"
+                      defaultMessage="Ainda não há perguntas registradas nessa lingua"
+                    />
+                  </h2>
+                </div>
+              )}
               {categories.map(category => (
                 <div key={category.id} className="col-lg-4">
                   <h5 className="tw-medium block px-2">{category.name}</h5>

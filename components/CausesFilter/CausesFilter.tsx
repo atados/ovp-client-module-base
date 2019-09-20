@@ -6,6 +6,7 @@ import SearchFilter from '~/components/SearchFilters/SearchFilter'
 import { pushToDataLayer } from '~/lib/tag-manager'
 import { Cause } from '~/common/channel'
 import { RootState } from '~/redux/root-reducer'
+import { FormattedMessage } from 'react-intl'
 
 const Menu = styled(DropdownMenu)`
   left: 10px;
@@ -78,7 +79,9 @@ class CausesFilter extends React.Component<CausesFilterProps> {
       value = [],
     } = this.props
     const children: React.ReactNode[][] = [[], []]
-    let label: string = 'Causas'
+    let label: string | React.ReactNode = (
+      <FormattedMessage id="causesFilter.value" defaultMessage="Causas" />
+    )
 
     if (value.length === 1) {
       const cause = causes.find(item => item.id === value[0])
@@ -120,7 +123,12 @@ class CausesFilter extends React.Component<CausesFilterProps> {
         label={label}
       >
         <div className="p-3">
-          <h4 className="tw-normal ts-medium mb-3">Filtrar por causa</h4>
+          <h4 className="tw-normal ts-medium mb-3">
+            <FormattedMessage
+              id="causesFilter.title"
+              defaultMessage="Filtrar por causa"
+            />
+          </h4>
           <div className="row">
             {children.map((child, i) => (
               <div className="col-sm-6" key={i}>

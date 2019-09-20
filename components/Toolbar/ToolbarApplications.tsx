@@ -138,10 +138,17 @@ const ToolbarApplications: React.FC<ToolbarApplicationsProps> = ({
             </div>
             {applications.length === 0 && (
               <div className="p-5 ta-center">
-                <h4>Nenhuma inscrição encontrada</h4>
+                <h4>
+                  <FormattedMessage
+                    id="toolbarApplications.noApplicationsFound.title"
+                    defaultMessage="Nenhuma inscrição encontrada"
+                  />
+                </h4>
                 <span className="block mb-3 tc-muted-dark">
-                  Ainda não encontrou nenhuma vaga pra você? <br /> Tente usar
-                  os filtros
+                  <FormattedMessage
+                    id="toolbarApplications.noApplicationsFound.text"
+                    defaultMessage="Ainda não encontrou nenhuma vaga pra você? Tente usar os filtros"
+                  />
                 </span>
                 <Link
                   href={{
@@ -151,7 +158,11 @@ const ToolbarApplications: React.FC<ToolbarApplicationsProps> = ({
                   as={PageAs.SearchProjects()}
                 >
                   <a className="btn btn-primary">
-                    Ver vagas de voluntariado <Icon name="arrow_forward" />
+                    <FormattedMessage
+                      id="toolbarApplications.noApplicationsFound.button"
+                      defaultMessage="Ver vagas de voluntariado"
+                    />{' '}
+                    <Icon name="arrow_forward" />
                   </a>
                 </Link>
               </div>

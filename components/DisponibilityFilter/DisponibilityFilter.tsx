@@ -4,7 +4,7 @@ import { DropdownMenu } from '~/components/Dropdown'
 import SearchFilter from '~/components/SearchFilters/SearchFilter'
 import { pushToDataLayer } from '~/lib/tag-manager'
 import { DisponibilityFilterValue } from '~/redux/ducks/search'
-import { defineMessages, WithIntlProps } from 'react-intl'
+import { defineMessages, WithIntlProps, FormattedMessage } from 'react-intl'
 import { withIntl } from '~/lib/intl'
 
 const Menu = styled(DropdownMenu)`
@@ -57,20 +57,10 @@ const Indicator = styled.span.attrs({ className: 'checkbox-indicator' })`
   margin-left: -30px;
 `
 
-const {
-  FILTRAR,
-  RECORRENTE,
-  VAGAS_QUE_EXIGEM,
-  PONTUAIS,
-  NECESSARIO,
-} = defineMessages({
+const { FILTRAR, VAGAS_QUE_EXIGEM, PONTUAIS, NECESSARIO } = defineMessages({
   FILTRAR: {
     id: 'FILTRAR',
     defaultMessage: 'Filtrar por tipo',
-  },
-  RECORRENTE: {
-    id: 'RECORRENTE',
-    defaultMessage: 'Recorrentes',
   },
   VAGAS_QUE_EXIGEM: {
     id: 'VAGAS_QUE_EXIGEM',
@@ -169,14 +159,34 @@ class DisponibilityFilter extends React.Component<
   public render() {
     const { onCommit, className, onOpenStateChange, intl } = this.props
     const { checked } = this.state
-    let label: string = 'Disponibilidade'
+    let label = (
+      <FormattedMessage
+        id="disponibilityFilter.value.disponibility"
+        defaultMessage="Recorrente"
+      />
+    )
 
     if (checked.job && checked.work) {
-      label = 'Recorrentes e Pontuais'
+      label = (
+        <FormattedMessage
+          id="disponibilityFilter.value.both"
+          defaultMessage="Recorrentes e Pontuais"
+        />
+      )
     } else if (checked.job) {
-      label = 'Pontuais'
+      label = (
+        <FormattedMessage
+          id="disponibilityFilter.value.job"
+          defaultMessage="Recorrentes e Pontuais"
+        />
+      )
     } else if (checked.work) {
-      label = 'Recorrentes'
+      label = (
+        <FormattedMessage
+          id="disponibilityFilter.value.work"
+          defaultMessage="Recorrentes"
+        />
+      )
     }
 
     return (
@@ -204,7 +214,12 @@ class DisponibilityFilter extends React.Component<
                   checked={checked.work}
                 />
                 <Indicator />
-                <ItemName>{intl.formatMessage(RECORRENTE)}</ItemName>
+                <ItemName>
+                  <FormattedMessage
+                    id="disponibilityFilter.recurrent"
+                    defaultMessage="Recorrente"
+                  />
+                </ItemName>
                 <ItemDescription>
                   {intl.formatMessage(VAGAS_QUE_EXIGEM)}
                 </ItemDescription>

@@ -98,6 +98,7 @@ const OrganizationComposerConclusion: React.FC<
               href={Page.OrganizationNewProject}
               as={PageAs.OrganizationNewProject({
                 organizationSlug: formContext.organization.slug,
+                stepId: 'inicio',
               })}
             >
               <a className="btn btn-primary btn--size-3 ml-4">

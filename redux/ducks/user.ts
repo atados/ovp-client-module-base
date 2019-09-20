@@ -1,7 +1,7 @@
 import cookie from 'js-cookie'
 import deserializeUser from '~/base/lib/auth/deserialize-user'
 import { Cause, Skill } from '~/common/channel'
-import { editOrganization } from './organization-composer'
+import { editOrganization, addOrganization } from './organization-composer'
 import { sendRating } from './ratings'
 import { updateUser } from './user-update'
 import { fetchAPI } from '~/base/lib/fetch/fetch.server'
@@ -128,6 +128,17 @@ export interface UserProfile {
 export type UserState = User | null
 
 export default (user: User | null = null, action): UserState => {
+  if (action.type === addOrganization.type) {
+    if (user && action.payload && !action.error) {
+      return {
+        ...user,
+        organizations: [...user.organizations, action.payload],
+      }
+    }
+
+    return user
+  }
+
   if (action.type === 'LOGOUT') {
     return null
   }

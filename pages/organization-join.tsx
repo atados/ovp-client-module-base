@@ -138,7 +138,7 @@ class OrganizationMembersPage extends React.Component<
               )}
               {failed && (
                 <ErrorMessage className="mt-2">
-                  Falha ao conectarse com o servidor
+                  Falha ao se conectar com o servidor
                 </ErrorMessage>
               )}
             </div>

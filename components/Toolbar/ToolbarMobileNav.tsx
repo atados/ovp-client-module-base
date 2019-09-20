@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import React from 'react'
-import { defineMessages } from 'react-intl'
-import { useSelector } from 'react-redux'
+import { defineMessages, FormattedMessage } from 'react-intl'
+import { useSelector, useDispatch } from 'react-redux'
 import styled from 'styled-components'
 import { useIntl } from 'react-intl'
 import { RootState } from '~/redux/root-reducer'
@@ -10,6 +10,8 @@ import Collapse from '../Collapse'
 import Icon from '../Icon'
 import { useModal } from '../Modal'
 import { Page, PageAs } from '~/common'
+import Router from 'next/router'
+import { logout } from '~/base/redux/ducks/user'
 
 const MobileCollapse = styled(Collapse)`
   a {
@@ -53,6 +55,12 @@ const ToolbarMobileNav: React.FC<ToolbarMobileNavProps> = ({ collapsed }) => {
     component: Authentication,
     cardClassName: 'p-5',
   })
+  const dispatchToRedux = useDispatch()
+  const handleLogout = (e: React.MouseEvent<any>) => {
+    e.preventDefault()
+    Router.push(Page.Home)
+    dispatchToRedux(logout())
+  }
 
   return (
     <MobileCollapse
@@ -65,7 +73,7 @@ const ToolbarMobileNav: React.FC<ToolbarMobileNavProps> = ({ collapsed }) => {
         className="hover:bg-muted td-hover-none block px-3 py-2 tc-base ts-medium"
       >
         <Icon name="home" />
-        Início
+        <FormattedMessage id="toolbarMobileNav.home" defaultMessage="Início" />
       </a>
       <Link href={Page.SearchProjects}>
         <a className="hover:bg-muted td-hover-none block px-3 py-2 tc-base ts-medium">
@@ -111,7 +119,10 @@ const ToolbarMobileNav: React.FC<ToolbarMobileNavProps> = ({ collapsed }) => {
               <div className="flex-grow">
                 {organization.name}
                 <span className="ts-small block tc-muted">
-                  Clique gerenciar essa ONG
+                  <FormattedMessage
+                    id="toolbarMobileNav.manage"
+                    defaultMessage="Clique gerenciar essa ONG"
+                  />
                 </span>
               </div>
             </a>
@@ -125,26 +136,37 @@ const ToolbarMobileNav: React.FC<ToolbarMobileNavProps> = ({ collapsed }) => {
           <Link href={Page.Viewer}>
             <a className="hover:bg-muted td-hover-none block px-3 py-2 tc-base ts-medium">
               <Icon name="person" />
-              Meu perfil como voluntário
+              <FormattedMessage
+                id="toolbarMobileNav.profile"
+                defaultMessage="Meu perfil como voluntário"
+              />
             </a>
           </Link>
           <Link href={Page.ViewerSettings}>
             <a className="hover:bg-muted td-hover-none block px-3 py-2 tc-base ts-medium">
               <Icon name="settings" />
-              Configurações
+              <FormattedMessage
+                id="toolbarMobileNav.settings"
+                defaultMessage="Configurações"
+              />
             </a>
           </Link>
         </>
       )}
       <hr className="hr-muted w-full my-1" />
       {viewer && (
-        <a
-          href="/sair"
-          className="hover:bg-muted td-hover-none block px-3 py-2 tc-base ts-medium"
-        >
-          <Icon name="exit_to_app" />
-          Sair
-        </a>
+        <Link href={Page.Home} passHref>
+          <a
+            className="hover:bg-muted td-hover-none block px-3 py-2 tc-base ts-medium"
+            onClick={handleLogout}
+          >
+            <Icon name="exit_to_app" />
+            <FormattedMessage
+              id="toolbarMobileNav.logout"
+              defaultMessage="Sair"
+            />
+          </a>
+        </Link>
       )}
       {!viewer && (
         <a
@@ -156,7 +178,10 @@ const ToolbarMobileNav: React.FC<ToolbarMobileNavProps> = ({ collapsed }) => {
           }}
         >
           <Icon name="person" />
-          Entrar
+          <FormattedMessage
+            id="toolbarMobileNav.login"
+            defaultMessage="Entrar"
+          />
         </a>
       )}
     </MobileCollapse>

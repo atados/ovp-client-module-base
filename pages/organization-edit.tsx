@@ -33,7 +33,7 @@ class OrganizationComposerPage extends React.Component<
 > {
   public static async getInitialProps({
     store,
-    query: { slug, stepId },
+    query: { organizationSlug: slug, stepId },
   }: NextPageContext) {
     const { user } = store.getState()
     if (

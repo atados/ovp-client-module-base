@@ -31,6 +31,27 @@ export const phone = value => {
     numberLength = numbers.join('').length
   }
 
+  if (numberLength > 11) {
+    return [
+      '(',
+      /[1-9]/,
+      /[1-9]/,
+      /[1-9]/,
+      ')',
+      ' ',
+      /\d/,
+      /\d/,
+      /\d/,
+      /\d/,
+      /\d/,
+      '-',
+      /\d/,
+      /\d/,
+      /\d/,
+      /\d/,
+    ]
+  }
+
   if (numberLength > 10) {
     return [
       '(',

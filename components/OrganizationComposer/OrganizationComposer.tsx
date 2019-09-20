@@ -25,6 +25,7 @@ import FormComposer, {
   StepIds,
   StepIdType,
 } from '../FormComposer/FormComposer'
+import { useIntl, defineMessages } from 'react-intl'
 
 const Container = styled.div`
   .step-intro {
@@ -44,6 +45,57 @@ export interface Values {
   contact: ContactValues
   about: AboutValues
 }
+
+const m = defineMessages({
+  authDescription: {
+    id: 'organizationComposer.auth.description',
+    defaultMessage: 'Preencha com as informações básicas da ONG',
+  },
+  authTitle: {
+    id: 'organizationComposer.auth.title',
+    defaultMessage: 'Começar pelo basico',
+  },
+  authName: {
+    id: 'organizationComposer.auth.name',
+    defaultMessage: 'Acesso',
+  },
+  basicsDescription: {
+    id: 'organizationComposer.basics.description',
+    defaultMessage: 'Preencha com as informações básicas da ONG',
+  },
+  basicsTitle: {
+    id: 'organizationComposer.basics.title',
+    defaultMessage: 'Começar pelo basico',
+  },
+  basicsName: {
+    id: 'organizationComposer.basics.name',
+    defaultMessage: 'Informações gerais',
+  },
+  contactDescription: {
+    id: 'organizationComposer.contact.description',
+    defaultMessage: 'Informações de contato da ONG',
+  },
+  contactTitle: {
+    id: 'organizationComposer.contact.title',
+    defaultMessage: 'Contato',
+  },
+  contactName: {
+    id: 'organizationComposer.contact.name',
+    defaultMessage: 'Contato',
+  },
+  aboutDescription: {
+    id: 'organizationComposer.about.description',
+    defaultMessage: 'Escreva sobre sua ONG',
+  },
+  aboutTitle: {
+    id: 'organizationComposer.about.title',
+    defaultMessage: 'Sobre a ONG',
+  },
+  aboutName: {
+    id: 'organizationComposer.about.name',
+    defaultMessage: 'a ONG',
+  },
+})
 
 interface OrganizationComposerProps {
   readonly stepId: StepIdType
@@ -78,38 +130,39 @@ const OrganizationComposer: React.FC<OrganizationComposerProps> = ({
   skipingDisabled,
   children,
 }) => {
+  const intl = useIntl()
   const steps = [
     {
       id: 'auth',
       defaultValue: {},
-      description: 'Preencha com as informações básicas da ONG',
-      title: 'Começar pelo basico',
-      name: 'Acesso',
+      description: intl.formatMessage(m.authDescription),
+      title: intl.formatMessage(m.authTitle),
+      name: intl.formatMessage(m.authName),
       // @ts-ignore
       component: OrganizationComposerAuth,
     },
     {
       id: 'basics',
       defaultValue: {},
-      description: 'Preencha com as informações básicas da ONG',
-      title: 'Começar pelo basico',
-      name: 'Informações gerais',
+      description: intl.formatMessage(m.basicsDescription),
+      title: intl.formatMessage(m.basicsTitle),
+      name: intl.formatMessage(m.basicsName),
       component: OrganizationComposerBasics,
     },
     {
       id: 'contact',
       defaultValue: {},
-      description: 'Informações de contato da ONG',
-      title: 'Contato',
-      name: 'Contato',
+      description: intl.formatMessage(m.contactDescription),
+      title: intl.formatMessage(m.contactTitle),
+      name: intl.formatMessage(m.contactName),
       component: OrganizationComposerContact,
     },
     {
       id: 'about',
       defaultValue: {},
-      description: 'Escreva sobre sua ONG',
-      title: 'Sobre a ONG',
-      name: 'Sobre a ONG',
+      description: intl.formatMessage(m.aboutDescription),
+      title: intl.formatMessage(m.aboutTitle),
+      name: intl.formatMessage(m.aboutName),
       component: OrganizationComposerAbout,
     },
   ]

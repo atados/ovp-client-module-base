@@ -40,7 +40,7 @@ export default class Document extends NextDocument<DocumentProps> {
     const polyfill = `https://cdn.polyfill.io/v3/polyfill.min.js?features=Intl.~locale.${this.props.locale}`
 
     return (
-      <html>
+      <html lang={this.props.locale}>
         <Head>
           <meta
             name="viewport"

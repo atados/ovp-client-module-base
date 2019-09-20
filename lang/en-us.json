@@ -402,5 +402,17 @@
   "projectComposer.beforeAuth.title": "Login to your account before creating a project",
   "projectComposer.beforeAuth.subtitle": "Besides being able to create a vacancy, you can receive recommendations of the best projects of the month",
   "catalogueSection.section.recent.title": "Recent projects",
-  "toolbar.about": "About"
+  "toolbar.about": "About",
+  "pages.about.title": "About the event",
+  "pages.about.subtitle": "108 countries worldwide have taken part in Good Deeds Day. Here’s the story and mission of the global annual event:",
+  "pages.about.body.nutshell.title": "IN A NUTSHELL",
+  "pages.about.body.nutshell.body": "Good Deeds Day is an annual tradition of good deeds. All over the world, hundreds of thousands choose to volunteer and help others, putting into practice the simple idea that every single person can do something good, be it large or small, to improve the lives of others and positively change the world.",
+  "pages.about.body.vision.title": "THE VISION",
+  "pages.about.body.vision.text": "Good Deeds Day was initiated in 2007 by businesswoman and philanthropist, Shari Arison, and launched and organized by Ruach Tova (NGO), a part of The Ted Arison Family Foundation, the philanthropic arm of the Arison Group. “I believe that if people will think good, speak good and do good, the circles of goodness will grow in the world. Good Deeds Day has become the leading day of giving and this year individuals, school children, students, soldiers and employees from many businesses are joining in for the annual Good Deeds Day with the aim of doing a good deed for others,” says Shari Arison.",
+  "pages.about.body.evolution.title": "THE EVOLUTION OF GOOD DEEDS DAY",
+  "pages.about.body.evolution.body.1": "Good Deeds Day is taking over the world!",
+  "pages.about.evolution.text": "Since its launch in 2007, this annual tradition of good has grown from 7,000 participants in 2007 in Israel to almost 1 million in 2015. Going global in 2011 with 10 international cities, including many in the USA, Good Deeds Day began uniting people all over the world. In 2012, we reached Europe and teamed up with MTV Global for a six-week-campaign on its online and TV platforms, exposing the message to 24 million viewers around the world. In 2013, 16,000 volunteers from 50 countries took part in hundreds of projects, including a kick off with ABC Network in NYC. Next, Good Deeds Day doubled in reach in 2014, partnering for the second year in a row with ABC Network NYC, and collaborating with leading volunteer organizations as part of a grand scale campaign involving TV, radio, and social media. 500,000 people took part in Israel and some 35,000 globally. Good Deeds Day continued to gain momentum and held its largest day yet on April 7, 2019. 3,900,000 participants from 108 countries took part in Good Deeds Day, totaling over 7.8 million hours of service.",
+  "pages.about.roadmap.volunteers": "volunteers",
+  "pages.about.roadmap.projects": "projects",
+  "pages.about.roadmap.countries": "countries"
 }
