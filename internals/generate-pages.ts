@@ -52,7 +52,7 @@ const PageBuildShape: PagesBuilderMap = {
   OrganizationDashboardProjectsList: '~/base/pages/manageable-projects-list',
   OrganizationDashboardMembers: '~/base/pages/organization-members',
   OrganizationProjects: '~/base/pages/organization-projects',
-  OrganizationEdit: '~/base/pages/organization-composer',
+  OrganizationEdit: '~/base/pages/organization-edit',
   OrganizationJoin: '~/base/pages/organization-join',
   OrganizationNewProject: '~/base/pages/project-composer',
   OrganizationEditProject: {
