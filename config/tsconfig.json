@@ -29,6 +29,13 @@
     "esModuleInterop": true,
     "isolatedModules": true
   },
-  "exclude": ["tmp", "node_modules", "base/node_modules", ".next", ".dist"],
+  "exclude": [
+    "tmp",
+    "node_modules",
+    "base/node_modules",
+    "base/cypress",
+    ".next",
+    ".dist"
+  ],
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"]
 }
