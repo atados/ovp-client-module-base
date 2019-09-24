@@ -12,7 +12,8 @@ const Header = styled.div`
   position: relative;
   border-radius: 3px;
   background: #eee;
-  background-size: cover;
+  background-size: contain;
+  background-repeat: no-repeat;
   background-position: center;
   margin-bottom: 8px;
 `
