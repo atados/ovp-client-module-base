@@ -9,12 +9,20 @@ import { promisify } from 'util'
 const glob = promisify(prevGlob)
 
 export default async function createLangFile() {
-  const langs = (await glob(path.resolve('channel', 'lang', '*.json'))).map(
-    filename => path.basename(filename, path.extname(filename)),
-  )
+  const langs = new Set<string>()
+  await glob(path.resolve('base', 'lang', '*.json')).then(filenames => {
+    filenames.forEach(filename =>
+      langs.add(path.basename(filename, path.extname(filename))),
+    )
+  })
+  await glob(path.resolve('channel', 'lang', '*.json')).then(filenames => {
+    filenames.forEach(filename =>
+      langs.add(path.basename(filename, path.extname(filename))),
+    )
+  })
 
   return Promise.all(
-    langs.map(async lang => {
+    Array.from(langs).map(async lang => {
       const appMessages = {}
       const extractedMessagesFiles = await glob(
         path.resolve('channel', 'generated', '.messages', '**', '*.json'),
@@ -36,6 +44,8 @@ export default async function createLangFile() {
         channelMessages = flat(
           require(path.resolve('channel', 'lang', `${lang}.json`)),
         )
+      } catch (error) {
+        // ...
       } finally {
         Object.assign(definedMessages, flat(channelMessages))
       }
@@ -50,19 +60,30 @@ export default async function createLangFile() {
         definedMessageId => !appMessages[definedMessageId],
       )
 
-      console.log(lang)
-      extraDefinedMessagesIds.forEach(extraDefinedMessageId => {
-        console.log(chalk.green(`${extraDefinedMessageId}`))
-      })
-      missingMessagesIds.forEach(missingDefinedMessageId => {
-        console.log(
-          chalk.red(
-            `  ${missingDefinedMessageId}: ${JSON.stringify(
-              appMessages[missingDefinedMessageId],
-            )}`,
-          ),
-        )
-      })
+      console.log(
+        `${chalk.bold(lang)} ${chalk.gray(
+          `- ${missingMessagesIds.length} missing . ${extraDefinedMessagesIds.length} unused`,
+        )}`,
+      )
+      if (extraDefinedMessagesIds.length) {
+        console.log(`${chalk.cyan.bold('Unused defined messages:')}`)
+        extraDefinedMessagesIds.forEach(extraDefinedMessageId => {
+          console.log(chalk.cyan(`${extraDefinedMessageId}`))
+        })
+      }
+      if (missingMessagesIds.length) {
+        console.log(`\n${chalk.red.bold('Missing messages')}`)
+        missingMessagesIds.forEach(missingDefinedMessageId => {
+          console.log(
+            chalk.red(
+              `"${missingDefinedMessageId}": ${JSON.stringify(
+                appMessages[missingDefinedMessageId],
+              )}`,
+            ),
+          )
+        })
+      }
+      console.log('\n')
     }),
   )
 }
