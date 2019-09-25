@@ -27,11 +27,9 @@ export default async function createLangFile() {
         })
       })
 
-      const definedMessages = require(path.resolve(
-        'base',
-        'lang',
-        `${lang}.json`,
-      ))
+      const definedMessages: object = flat(
+        require(path.resolve('base', 'lang', `${lang}.json`)),
+      )
       let channelMessages = {}
 
       try {

@@ -7,8 +7,7 @@
     "placeholder": "Busque vagas de voluntariado ou ONGs"
   },
   "disponibility": {
-    "work": "Recorrente",
-    "job": "Pontual"
+    "work": "Recorrente"
   },
   "meta": {
     "title": "Title",
@@ -17,7 +16,6 @@
   },
   "toolbar": {
     "im_organization": "Sou uma ONG",
-    "explore": "Vagas de voluntariado",
     "mobile": {
       "explore": "Busque vagas de voluntariado"
     }

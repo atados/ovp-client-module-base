@@ -444,5 +444,6 @@
   "toolbarMobileNav.settings": "Ajustes",
   "toolbarMobileNav.logout": "Dejar",
   "toolbarMobileNav.login": "Iniciar sesión",
-  "pages.faq.noRegisteredQuestions.title": "No hay preguntas registradas en este idioma"
+  "pages.faq.noRegisteredQuestions.title": "No hay preguntas registradas en este idioma",
+  "projectCard.by": "por"
 }
