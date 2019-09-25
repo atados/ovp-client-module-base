@@ -31,6 +31,7 @@ const Avatar = styled.figure`
   height: 200px;
   background-color: #fff;
   background-size: contain;
+  background-repeat: no-repeat;
   background-position: center;
   box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.05);
   border-radius: 3px;

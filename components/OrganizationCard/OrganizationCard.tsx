@@ -14,6 +14,7 @@ const Header = styled.div`
   background: #eee;
   background-size: contain;
   background-position: center;
+  background-repeat: no-repeat;
   margin-bottom: 8px;
 `
 const HeaderInner = styled.div`
