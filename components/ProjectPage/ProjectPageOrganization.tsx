@@ -14,7 +14,8 @@ const Wrapper = styled.div`
 const Thumbnail = styled.div`
   width: 100px;
   height: 100px;
-  background-size: cover;
+  background-size: contain;
+  background-repeat: no-repeat;
   background-position: center;
   background-color: #ddd;
   border-radius: 10px;

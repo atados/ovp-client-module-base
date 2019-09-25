@@ -1,6 +1,6 @@
 import React from 'react'
 import Footer, { FooterProps } from '~/components/Footer/Footer'
-import Toolbar, { ToolbarProps } from '~/components/Toolbar'
+import Toolbar, { ToolbarProps } from '~/components/Toolbar/Toolbar'
 
 export interface LayoutProps {
   readonly className?: string

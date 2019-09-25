@@ -85,7 +85,7 @@ const CurrentOrganizationLink = styled.a`
 const CurrentOrganizationImage = styled.figure`
   width: 32px;
   height: 32px;
-  background-size: cover;
+  background-size: contain;
   background-position: center;
   border-radius: 50%;
   position: absolute;
