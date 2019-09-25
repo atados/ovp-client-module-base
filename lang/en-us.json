@@ -423,5 +423,6 @@
   "toolbarMobileNav.settings": "Settings",
   "toolbarMobileNav.logout": "Get out",
   "toolbarMobileNav.login": "Log in",
-  "pages.faq.noRegisteredQuestions.title": "No questions registered in this language"
+  "pages.faq.noRegisteredQuestions.title": "No questions registered in this language",
+  "toolbar.help": "Help"
 }

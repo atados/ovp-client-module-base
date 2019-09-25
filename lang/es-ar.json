@@ -423,5 +423,6 @@
   "newsletterForm.success": "Éxito suscrito al boletín",
   "newsletterForm.submit": "Suscribir",
   "newsletterForm.title": "Boletin informativo",
-  "newsletterForm.description": "¿Quieres recibir los mejores proyectos de la semana en su correo electrónico?"
+  "newsletterForm.description": "¿Quieres recibir los mejores proyectos de la semana en su correo electrónico?",
+  "toolbar.help": "Ayuda"
 }

@@ -11,6 +11,7 @@ import ToolbarMobileNav from './ToolbarMobileNav'
 import ToolbarOrganizationDropdown from './ToolbarOrganizationDropdown'
 import ToolbarVolunteerDropdown from './ToolbarVolunteerDropdown'
 import { Page, PageAs } from '~/base/common'
+import { FormattedMessage } from 'react-intl'
 
 const ToolbarStyled = styled.div`
   height: ${channel.theme.toolbarHeight}px;
@@ -128,7 +129,9 @@ const Toolbar: React.FC<ToolbarProps> = ({
             </li>
             <li>
               <Link href={Page.FAQ} as={PageAs.FAQ()}>
-                <a className="nav-link">Ajuda</a>
+                <a className="nav-link">
+                  <FormattedMessage id="toolbar.help" defaultMessage="Ajuda" />
+                </a>
               </Link>
             </li>
           </Nav>
