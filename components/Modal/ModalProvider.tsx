@@ -9,6 +9,7 @@ import React, {
 } from 'react'
 import ReactDOM from 'react-dom'
 import styled, { keyframes } from 'styled-components'
+import Icon from '../Icon'
 
 export enum ModalSize {
   Default,
@@ -128,6 +129,19 @@ const CardWrapper = styled.div`
       z-index: 10;
     }
   }
+`
+const CloseButton = styled.button.attrs({ className: 'btn' })`
+  border-radius: 50%;
+  padding: 5px;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  color: #fff;
+  background: rgba(0, 0, 0, 0.4);
+  font-size: 20px;
+  width: 42px;
+  height: 42px;
+  z-index: 100;
 `
 
 interface ModalModalProviderProps {
@@ -270,6 +284,9 @@ const ModalProvider: React.FC<ModalModalProviderProps> = ({ children }) => {
         {children}
         {modals.length > 0 && (
           <Backdrop onClick={handleBackdropClick}>
+            <CloseButton type="button">
+              <Icon name="clear" />
+            </CloseButton>
             <Container>
               <div className="relative">
                 {modals.map((modal, i) => {

@@ -7,6 +7,7 @@ import { updateUser } from './user-update'
 import { fetchAPI } from '~/base/lib/fetch/fetch.server'
 import { AUTH_CLIENT_ID, AUTH_CLIENT_SECRET } from '~/base/common/constants'
 import { ThunkDispatch } from 'redux-thunk'
+import { pushToDataLayer } from '~/base/lib/tag-manager'
 
 interface NewAccountPayload {
   name: string
@@ -52,19 +53,25 @@ export const generateSessionTokenWithEmail = (
   }).then(session => session.access_token)
 }
 
-export const login = (user: User) => {
+export const login = (user: User, method: string) => {
+  pushToDataLayer({
+    event: 'login',
+    userId: user.uuid,
+    method,
+  })
+
   return (dispatch: ThunkDispatch<any, any, any>) => {
     cookie.set('sessionToken', user.token)
     dispatch({ type: 'LOGIN', payload: user })
   }
 }
 
-export const loginWithSessionToken = (sessionToken: string) => {
+export const loginWithSessionToken = (sessionToken: string, method: string) => {
   return async (dispatch: ThunkDispatch<any, any, any>) => {
     try {
       const user = await deserializeUser(sessionToken)
       user.token = sessionToken
-      dispatch(login(user))
+      dispatch(login(user, method))
     } catch (error) {
       if (error.payload && error.payload.detail) {
         cookie.remove('sessionToken')

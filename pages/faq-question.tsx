@@ -6,8 +6,8 @@ import { Question } from '~/redux/ducks/faq'
 import styled from 'styled-components'
 import Link from 'next/link'
 import { Page } from '~/common/page'
-import FAQLayout from '../components/FAQ/FAQLayout'
-import Icon from '../components/Icon'
+import FAQLayout from '~/components/FAQ/FAQLayout'
+import Icon from '~/components/Icon'
 import { channel } from '../common/constants'
 
 const Answer = styled.div`

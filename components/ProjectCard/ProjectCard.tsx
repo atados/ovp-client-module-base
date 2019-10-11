@@ -2,7 +2,7 @@ import Link from 'next/link'
 import React from 'react'
 import { WithIntlProps, defineMessages } from 'react-intl'
 import styled from 'styled-components'
-import { Page, PageAs } from '~/common'
+import { Page, PageAs, Color } from '~/common'
 import { APP_URL, channel } from '~/common/constants'
 import Icon from '~/components/Icon'
 import { withIntl } from '~/lib/intl'
@@ -10,7 +10,17 @@ import { formatDisponibility } from '~/lib/project/utils'
 import { pushToDataLayer } from '~/lib/tag-manager'
 import { Project } from '~/redux/ducks/project'
 
-const Container = styled.div``
+const Container = styled.div`
+  background: none;
+  transition: background 0.1s, box-shadow 0.1s;
+  box-shadow: 0 0 transparent;
+  border-radius: 10px;
+
+  &:hover {
+    background: ${Color.gray[200]};
+    box-shadow: 0 0 0 10px ${Color.gray[200]};
+  }
+`
 const Header = styled.div`
   position: relative;
   border-radius: 3px;
@@ -50,23 +60,6 @@ const Description = styled.p`
   overflow: hidden;
   margin-bottom: 1rem;
   font-size: 14px;
-`
-
-const Info = styled.span`
-  display: inline-block;
-  font-size: 12px;
-  border-radius: 4px;
-  padding: 2px 6px;
-  font-weight: 500;
-  vertical-align: top;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  border-radius: 1000px;
-
-  > span {
-    vertical-align: top;
-  }
 `
 
 const Footer = styled.div`
@@ -145,7 +138,6 @@ export const styles = {
   Header,
   HeaderInner,
   Author,
-  Info,
   Footer,
   Counter,
   Pill,
@@ -212,7 +204,7 @@ class ProjectCard extends React.Component<
       <Container className={className}>
         {this.link(
           <Header
-            className="ratio"
+            className="ratio rounded-lg"
             style={{
               backgroundImage: image
                 ? `url('${image.image_medium_url}')`
@@ -264,24 +256,24 @@ class ProjectCard extends React.Component<
         <Footer className="row">
           {address && (
             <div className="col-md-6 mb-2 mb-md-0">
-              <Info
+              <span
                 title={`${address.city_state && `${address.city_state}, `} ${
                   address.typed_address
                 }`}
-                className="block bg-primary-200 tc-primary-700"
+                className="ts-small block tc-gray-600 text-truncate tw-medium"
               >
                 <Icon name="place" />{' '}
                 {address.city_state && `${address.city_state}, `}
                 {address.typed_address}
-              </Info>
+              </span>
             </div>
           )}
           {disponibility && (
             <div className="col-md-6">
-              <Info className="bg-primary-200 tc-primary-700">
+              <span className="ts-small block tc-secondary-600 text-truncate tw-medium">
                 <Icon name="date_range" />{' '}
                 {formatDisponibility(disponibility, intl)}
-              </Info>
+              </span>
             </div>
           )}
         </Footer>

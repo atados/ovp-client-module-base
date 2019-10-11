@@ -277,7 +277,10 @@ export const generateCSS = (channel: Channel) => {
     ['.btn-text-primary'],
     channel.theme.color.primary[500],
   )}
-  `
+
+  .shadow-active {
+    box-shadow: inset 0 -3px ${channel.theme.color.primary[500]};
+  }`
 
   return css
 }

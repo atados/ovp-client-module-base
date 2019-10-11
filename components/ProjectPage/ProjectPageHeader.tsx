@@ -106,6 +106,7 @@ const Pill = styled.span`
 
 const Showcase = styled.div`
   min-width: 352px;
+  max-width: 352px;
   margin-left: 32px;
   border-radius: 10px;
 `
@@ -129,9 +130,6 @@ const OwnerAvatar = styled.figure`
 `
 
 const {
-  CANCELADA,
-  ENCERRADA,
-  VAGA,
   INSCRITO,
   INSCRITOS,
   PODE_SER,
@@ -139,18 +137,6 @@ const {
   VOLUNTARIOS,
   REALIZADO,
 } = defineMessages({
-  CANCELADA: {
-    id: 'CANCELADA',
-    defaultMessage: 'CANCELADA',
-  },
-  ENCERRADA: {
-    id: 'ENCERRADA',
-    defaultMessage: 'ENCERRADA',
-  },
-  VAGA: {
-    id: 'VAGA',
-    defaultMessage: 'VAGA',
-  },
   INSCRITO: {
     id: 'INSCRITO',
     defaultMessage: 'inscrito',
@@ -194,14 +180,6 @@ const ProjectPageHeader: React.FC<ProjectPageHeaderProps> = ({
     <div className={`container pt-5${className ? ` ${className}` : ''}`}>
       <div className="flex">
         <div className="flex-grow">
-          {(project.closed || project.canceled) && (
-            <span className="tc-error tw-medium">
-              {`${intl.formatMessage(VAGA)} `}
-              {project.canceled
-                ? intl.formatMessage(CANCELADA)
-                : intl.formatMessage(ENCERRADA)}{' '}
-            </span>
-          )}
           <h1 id="geral">{project.name}</h1>
           <h2 className="tw-normal ts-medium tl-base">{project.description}</h2>
           {project.address && (

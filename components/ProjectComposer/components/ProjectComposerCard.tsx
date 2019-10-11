@@ -47,7 +47,7 @@ const DescriptionPlaceholder = styled.div`
   }
 `
 
-const { Author, Footer, Header, HeaderInner, Info, Description, Name } = styles
+const { Author, Footer, Header, HeaderInner, Description, Name } = styles
 
 interface ProjectComposerCardProps {
   readonly className?: string
@@ -102,9 +102,12 @@ const ProjectComposerCard: React.FC<ProjectComposerCardProps> = ({
       <Footer className="row">
         {address && (
           <div className="col-6">
-            <Info title={address.node.description} className="w-full">
+            <span
+              title={address.node.description}
+              className="w-full text-truncate"
+            >
               <Icon name="place" /> {address.node.description}
-            </Info>
+            </span>
           </div>
         )}
       </Footer>

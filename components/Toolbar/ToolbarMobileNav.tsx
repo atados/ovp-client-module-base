@@ -9,17 +9,22 @@ import Authentication from '../Authentication'
 import Collapse from '../Collapse'
 import Icon from '../Icon'
 import { useModal } from '../Modal'
-import { Page, PageAs } from '~/common'
+import { Page, PageAs, Color } from '~/common'
 import Router from 'next/router'
 import { logout } from '~/base/redux/ducks/user'
+import VolunteerIcon from '../Icon/VolunteerIcon'
+import ViewerApplications from '../ViewerApplications'
+import { StepIds } from '../FormComposer/FormComposer'
 
 const MobileCollapse = styled(Collapse)`
-  a {
+  a,
+  button {
     vertical-align: middle;
 
-    .icon {
+    > .icon,
+    > svg {
       font-size: 20px;
-      color: #666;
+      color: ${Color.gray[700]};
       margin-right: 14px;
       width: 32px;
       text-align: center;
@@ -55,6 +60,13 @@ const ToolbarMobileNav: React.FC<ToolbarMobileNavProps> = ({ collapsed }) => {
     component: Authentication,
     cardClassName: 'p-5',
   })
+  const openApplicationsModal = useModal({
+    id: 'ViewerApplications',
+    component: ViewerApplications,
+    componentProps: {
+      scroll: false,
+    },
+  })
   const dispatchToRedux = useDispatch()
   const handleLogout = (e: React.MouseEvent<any>) => {
     e.preventDefault()
@@ -89,7 +101,10 @@ const ToolbarMobileNav: React.FC<ToolbarMobileNavProps> = ({ collapsed }) => {
         </a>
       </Link>
       {viewerOrganizations.length === 0 && (
-        <Link href={Page.NewOrganization}>
+        <Link
+          href={Page.NewOrganization}
+          as={PageAs.NewOrganization({ stepId: StepIds.Introduction })}
+        >
           <a className="hover:bg-muted td-hover-none block px-3 py-2 tc-base ts-medium">
             <Icon name="favorite_outline" />
             {intl.formatMessage(messages.imOrganization)}
@@ -135,13 +150,37 @@ const ToolbarMobileNav: React.FC<ToolbarMobileNavProps> = ({ collapsed }) => {
         <>
           <Link href={Page.Viewer}>
             <a className="hover:bg-muted td-hover-none block px-3 py-2 tc-base ts-medium">
-              <Icon name="person" />
+              <div
+                className="icon w-8 h-8 bg-gray-200 rounded-circle inline-block vertical-align-middle bg-contain"
+                style={
+                  viewer.avatar
+                    ? {
+                        backgroundImage: `url('${viewer.avatar.image_url}')`,
+                        backgroundColor: 'none',
+                      }
+                    : undefined
+                }
+              >
+                {!viewer.avatar && (
+                  <Icon name="person" className="tc-gray-400" />
+                )}
+              </div>
               <FormattedMessage
                 id="toolbarMobileNav.profile"
                 defaultMessage="Meu perfil como voluntário"
               />
             </a>
           </Link>
+          <button
+            className="hover:bg-muted bg-white border-0 td-hover-none block px-3 py-2 tc-base ts-medium ta-left cursor-pointer"
+            onClick={() => openApplicationsModal()}
+          >
+            <VolunteerIcon width={20} height={20} fill={Color.gray[700]} />
+            <FormattedMessage
+              id="toolbarMobileNav.applications"
+              defaultMessage="Minhas inscrições"
+            />
+          </button>
           <Link href={Page.ViewerSettings}>
             <a className="hover:bg-muted td-hover-none block px-3 py-2 tc-base ts-medium">
               <Icon name="settings" />

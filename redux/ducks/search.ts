@@ -11,6 +11,7 @@ import { ensureHttpsUri, generateRandomId } from '~/lib/utils/string'
 import { Organization } from '~/redux/ducks/organization'
 import { Project } from '~/redux/ducks/project'
 import { RootState } from '~/redux/root-reducer'
+import { ParsedUrlQueryInput } from 'querystring'
 
 export enum SearchType {
   Any,
@@ -36,6 +37,15 @@ export interface BaseFiltersJSON {
   skills?: string | string[]
 }
 
+export interface AddressSearchFilter {
+  id?: string
+  description?: string
+  address_components: Array<{
+    types: string[]
+    long_name: string
+  }>
+}
+
 export interface BaseFilters {
   ordering?: string
   published?: 'true' | 'both' | 'false'
@@ -48,14 +58,7 @@ export interface BaseFilters {
   query?: string
   causes?: number[]
   skills?: number[]
-  address?: {
-    id?: string
-    description?: string
-    address_components: Array<{
-      types: string[]
-      long_name: string
-    }>
-  }
+  address?: AddressSearchFilter
 }
 
 export interface SearchAnyFilters extends BaseFilters {
@@ -130,8 +133,8 @@ export const mapQueryToFilters = (json: BaseFiltersJSON): BaseFilters => {
 
 export const mapFiltersToQueryObject = (
   filters?: BaseFilters,
-): BaseFiltersJSON => {
-  const json: BaseFiltersJSON = {}
+): ParsedUrlQueryInput => {
+  const json: ParsedUrlQueryInput = {}
 
   if (!filters) {
     return json

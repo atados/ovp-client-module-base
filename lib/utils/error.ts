@@ -1,6 +1,11 @@
 import * as Sentry from '@sentry/browser'
 import { dev } from '~/common/constants'
 
+let sentryUser: Sentry.User | undefined
+export function setupSentryUser(user: Sentry.User) {
+  sentryUser = user
+}
+
 export function reportError(error: any): void {
   if (dev) {
     console.error(error)
@@ -8,6 +13,10 @@ export function reportError(error: any): void {
   }
 
   Sentry.configureScope(scope => {
+    if (sentryUser) {
+      scope.setUser(sentryUser)
+    }
+
     if (error.payload) {
       scope.setExtra('response.status', error.status)
       scope.setExtra('response.payload', error.payload)

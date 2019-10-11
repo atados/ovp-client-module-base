@@ -125,7 +125,7 @@ const ManageProjectPage: NextPage<
 
   if (organization) {
     return (
-      <OrganizationLayout organization={organization} isCurrentUserMember>
+      <OrganizationLayout organization={organization} isViewerMember>
         {children}
       </OrganizationLayout>
     )

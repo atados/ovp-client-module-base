@@ -6,7 +6,7 @@ import queryString from 'querystring'
 import React, { useCallback, useMemo, useRef, useState } from 'react'
 import { Waypoint } from 'react-waypoint'
 import styled from 'styled-components'
-import { channel, dev } from '~/common/constants'
+import { channel } from '~/common/constants'
 import ActivityIndicator from '~/components/ActivityIndicator'
 import {
   DropdownMenu,
@@ -24,6 +24,7 @@ import { ApiPagination } from '~/redux/ducks/search'
 import { UserOrganization } from '~/redux/ducks/user'
 import { Page, PageAs } from '~/common'
 import { useIntl, defineMessages } from 'react-intl'
+import { fetchMoreProjects } from '../lib/utils/project'
 
 const PageStyled = styled.div`
   min-height: 100vh;
@@ -234,20 +235,7 @@ const ManageableProjectsList: NextPage<ManageableProjectsListProps> = ({
   }, [queryResult])
 
   const handleLoadMoreProjectsCallback = useCallback(() => {
-    queryResult.fetchMore(result => {
-      if (!result.loading && result.data && result.data.next) {
-        const { next: nextPageURI } = result.data
-
-        return {
-          uri: dev ? nextPageURI : nextPageURI.replace('http://', 'https://'),
-          updateData: (nextData, prevData) => ({
-            ...nextData,
-            next: nextData.next,
-            results: [...prevData.results, ...nextData.results],
-          }),
-        }
-      }
-    })
+    queryResult.fetchMore(fetchMoreProjects)
   }, [])
 
   const searchInputDebounceRef = useRef<number | null>(null)
@@ -519,7 +507,7 @@ const ManageableProjectsList: NextPage<ManageableProjectsListProps> = ({
       {organization ? (
         <OrganizationLayout
           layoutProps={{ disableFooter: true }}
-          isCurrentUserMember
+          isViewerMember
           organization={organization}
         >
           {body}

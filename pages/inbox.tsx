@@ -121,7 +121,7 @@ const InboxPage: NextPage<InboxPageProps> = ({
   return viewer.kind === InboxViewerKind.Organization ? (
     <OrganizationLayout
       layoutProps={{ disableFooter: true }}
-      isCurrentUserMember
+      isViewerMember
       organization={viewer.node}
     >
       {children}

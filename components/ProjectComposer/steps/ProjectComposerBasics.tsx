@@ -26,12 +26,12 @@ import useFetchAPI from '~/hooks/use-fetch-api'
 import * as masks from '~/lib/form/masks'
 import Yup from '~/lib/form/yup'
 import { causeToSelectItem, skillToSelectItem } from '~/lib/utils/form'
-import { hasQuerySucceeded } from '~/lib/utils/graphql'
 import { Project } from '~/redux/ducks/project'
 import { User } from '~/redux/ducks/user'
 import { OrganizationMember } from '~/types/api'
 import { defineMessages, FormattedMessage } from 'react-intl'
 import { useIntl } from 'react-intl'
+import { isQueryReady } from '~/base/lib/apollo'
 
 const ProjectBasicsFormSchema = Yup.object().shape({
   name: Yup.string()
@@ -283,7 +283,7 @@ const ProjectComposerBasics: React.FC<
   )
 
   const members: OrganizationMember[] = useMemo(() => {
-    return (hasQuerySucceeded(queryMembers) && queryMembers.data!) || []
+    return isQueryReady(queryMembers!) ? queryMembers.data || [] : []
   }, [queryMembers])
 
   return (

@@ -7,6 +7,9 @@ import { login, User, loginWithSessionToken } from '~/base/redux/ducks/user'
 import AuthenticationNewAccountFeedback from './AuthenticationNewAccountFeedback'
 import { RootState } from '~/base/redux/root-reducer'
 import useModalManager from '~/base/hooks/use-modal-manager'
+import Router from 'next/router'
+import { Page } from '~/base/common'
+import { pushToDataLayer } from '~/base/lib/tag-manager'
 
 export type AuthenticationPageName =
   | 'options'
@@ -68,6 +71,11 @@ export interface AuthenticationProps {
   readonly subtitle?: React.ReactNode
 }
 
+export type AuthenticateBySessionTokenFn = (
+  sessionToken: string,
+  method: 'facebook' | 'google' | 'email',
+) => any
+
 const Authentication: React.FC<AuthenticationProps> = ({
   className,
   defaultPage,
@@ -82,8 +90,13 @@ const Authentication: React.FC<AuthenticationProps> = ({
     history: [],
   })
   const dispatchToRedux = useDispatch()
-  const handleLogin = async (user: User) => {
-    await dispatchToRedux(login(user))
+  const handleRegistration = async (user: User) => {
+    await dispatchToRedux(login(user, 'email'))
+    pushToDataLayer({
+      event: 'user.new',
+      method: 'email',
+    })
+
     dispatch({
       type: 'SetPage',
       payload: 'new-account-feedback',
@@ -93,12 +106,24 @@ const Authentication: React.FC<AuthenticationProps> = ({
       onAuthenticate()
     }
   }
-  const handleLoginBySessionToken = async (sessionToken: string) => {
-    await dispatchToRedux(loginWithSessionToken(sessionToken))
+
+  const handleLoginBySessionToken: AuthenticateBySessionTokenFn = async (
+    sessionToken,
+    method,
+  ) => {
+    await dispatchToRedux(loginWithSessionToken(sessionToken, method))
     modalManager.close()
 
     if (onAuthenticate) {
       onAuthenticate()
+    }
+
+    if (Router.pathname === Page.Login) {
+      Router.push(Page.Home)
+    }
+
+    if (modalManager.isModalOpen('Authentication')) {
+      modalManager.close('Authentication')
     }
   }
 
@@ -121,7 +146,7 @@ const Authentication: React.FC<AuthenticationProps> = ({
       <AuthenticationEmailNewAccount
         className={className}
         dispatch={dispatch}
-        onLogin={handleLogin}
+        onRegister={handleRegistration}
       />
     )
   }
@@ -132,6 +157,7 @@ const Authentication: React.FC<AuthenticationProps> = ({
       subtitle={subtitle}
       className={className}
       dispatch={dispatch}
+      onLoginBySessionToken={handleLoginBySessionToken}
     />
   )
 }

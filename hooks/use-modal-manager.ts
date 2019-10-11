@@ -1,5 +1,5 @@
 import { useContext } from 'react'
-import { ModalContext } from '../components/Modal/ModalProvider'
+import { ModalContext } from '~/components/Modal/ModalProvider'
 
 export default function useModalManager() {
   const value = useContext(ModalContext)

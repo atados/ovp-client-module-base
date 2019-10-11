@@ -159,7 +159,7 @@ const ProjectComposerPage: NextPage<
         )
 
         pushToDataLayer({
-          event: 'update_project',
+          event: 'project.update',
           type: 'cause',
           text: updatedProject.name,
           slug: updatedProject.slug,
@@ -179,12 +179,11 @@ const ProjectComposerPage: NextPage<
       })
 
       pushToDataLayer({
-        event: 'new_project',
-        type: 'cause',
+        event: 'project.new',
         text: newProject.name,
         slug: newProject.slug,
-        organization_id: newProject.organization
-          ? newProject.organization.id!
+        organizationSlug: newProject.organization
+          ? newProject.organization.slug!
           : null,
       })
 
@@ -401,7 +400,7 @@ const ProjectComposerPage: NextPage<
       {organization ? (
         <OrganizationLayout
           layoutProps={{ disableFooter: true }}
-          isCurrentUserMember
+          isViewerMember
           organization={organization}
         >
           {form}

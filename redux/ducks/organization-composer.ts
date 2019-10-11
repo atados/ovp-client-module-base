@@ -2,6 +2,7 @@ import { createAction, createReducer } from 'redux-handy'
 import { fetchAPI } from '~/lib/fetch'
 import { RootState } from '../root-reducer'
 import { Organization } from './organization'
+import { pushToDataLayer } from '~/base/lib/tag-manager'
 
 interface OrganizationPayload {
   name: string
@@ -24,18 +25,26 @@ interface OrganizationPayload {
 
 export const addOrganization = createAction<OrganizationPayload, Organization>(
   'ORGANIZATION_ADD',
-  (payload, { getState }) => {
+  async (payload, { getState }) => {
     const { user } = getState() as RootState
 
     if (!user) {
       throw new Error('You must be logged in')
     }
 
-    return fetchAPI('/organizations/', {
+    const organization = await fetchAPI('/organizations/', {
       method: 'POST',
       body: payload,
       sessionToken: user.token,
     })
+
+    pushToDataLayer({
+      event: 'organization.new',
+      text: organization.name,
+      slug: organization.slug,
+    })
+
+    return organization
   },
 )
 

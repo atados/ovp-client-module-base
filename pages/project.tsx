@@ -22,6 +22,7 @@ import {
   ProjectPageOrganization,
   ProjectPageRoles,
   ProjectPageStories,
+  ProjectPageStatus,
 } from '~/components/ProjectPage'
 import { NotFoundPageError } from '~/lib/next/errors'
 import { doesUserHaveAccessToProject } from '~/lib/utils/project'
@@ -96,7 +97,9 @@ const ProjectPage: NextPage<ProjectPageProps, ProjectPageInitialProps> = ({
         return
       }
 
-      openAuthenticationModal()
+      openAuthenticationModal({
+        onAuthenticate: () => openApplicationModal({ roleId, project }),
+      })
     },
     [isOwner, openApplicationModal, project, viewer],
   )
@@ -141,7 +144,7 @@ const ProjectPage: NextPage<ProjectPageProps, ProjectPageInitialProps> = ({
         description={project.description}
         image={project.image && project.image.image_url}
       />
-
+      <ProjectPageStatus project={project} />
       <ProjectPageHeader className="mb-3" project={project} isOwner={isOwner} />
       <ProjectPageNav
         project={project}

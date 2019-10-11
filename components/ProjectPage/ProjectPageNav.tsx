@@ -102,7 +102,6 @@ const ActionButton = styled.a`
 
 const {
   GERENCIAR_VAGA,
-  VAGA,
   QUERO_INSCREVER,
   VER_INSCRICAO,
   BOOKMARK,
@@ -117,10 +116,6 @@ const {
   GERENCIAR_VAGA: {
     id: 'GERENCIAR_VAGA',
     defaultMessage: 'Gerenciar vaga',
-  },
-  VAGA: {
-    id: 'VAGA',
-    defaultMessage: 'Vaga',
   },
   QUERO_INSCREVER: {
     id: 'QUERO_INSCREVER',
@@ -286,12 +281,7 @@ const ProjectPageNav: React.FC<ProjectPageNavProps> = ({
               {intl.formatMessage(GERENCIAR_VAGA)}
             </ActionButton>
           </Link>
-        ) : project.closed || project.canceled ? (
-          <ActionButton as="span" className="btn btn-outline-error btn--size-3">
-            {`${intl.formatMessage(VAGA)} `}
-            {project.closed ? 'encerrada' : 'cancelada'}
-          </ActionButton>
-        ) : (
+        ) : !project.closed && !project.canceled ? (
           <ActionButton
             as="button"
             className={`btn ${
@@ -313,7 +303,7 @@ const ProjectPageNav: React.FC<ProjectPageNavProps> = ({
               </>
             )}
           </ActionButton>
-        )}
+        ) : null}
         <button
           type="button"
           onClick={handleBookmarkToggle}
@@ -394,36 +384,31 @@ const ProjectPageNav: React.FC<ProjectPageNavProps> = ({
                       {intl.formatMessage(GERENCIAR_VAGA)}
                     </ActionButton>
                   </Link>
-                ) : project.closed || project.canceled ? (
-                  <ActionButton
-                    as="span"
-                    className="btn btn-outline-error btn--size-3"
-                  >
-                    {intl.formatMessage(VAGA)}{' '}
-                    {project.closed ? 'encerrada' : 'cancelada'}
-                  </ActionButton>
                 ) : (
-                  <ActionButton
-                    as="button"
-                    className={`btn ${
-                      project.current_user_is_applied
-                        ? 'btn-outline-primary'
-                        : 'btn-primary'
-                    } btn--size-3`}
-                    onClick={handleApplication}
-                  >
-                    {!project.current_user_is_applied ? (
-                      <>
-                        <VolunteerIcon width={20} height={20} fill="#fff" />
-                        {intl.formatMessage(QUERO_INSCREVER)}
-                      </>
-                    ) : (
-                      <>
-                        <Icon name="assignment" className="mr-2" />
-                        {intl.formatMessage(VER_INSCRICAO)}
-                      </>
-                    )}
-                  </ActionButton>
+                  !project.closed &&
+                  !project.canceled && (
+                    <ActionButton
+                      as="button"
+                      className={`btn ${
+                        project.current_user_is_applied
+                          ? 'btn-outline-primary'
+                          : 'btn-primary'
+                      } btn--size-3`}
+                      onClick={handleApplication}
+                    >
+                      {!project.current_user_is_applied ? (
+                        <>
+                          <VolunteerIcon width={20} height={20} fill="#fff" />
+                          {intl.formatMessage(QUERO_INSCREVER)}
+                        </>
+                      ) : (
+                        <>
+                          <Icon name="assignment" className="mr-2" />
+                          {intl.formatMessage(VER_INSCRICAO)}
+                        </>
+                      )}
+                    </ActionButton>
+                  )
                 )}
               </li>
             </ul>

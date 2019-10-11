@@ -3,7 +3,7 @@ import React from 'react'
 import { defineMessages } from 'react-intl'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
-import { Page, PageAs } from '~/common'
+import { Page, PageAs, Asset } from '~/common'
 import { channel } from '~/common/constants'
 import NewsletterForm from '~/components/NewsletterForm'
 import SocialMediaIcon from '~/components/SocialMediaIcon/SocialMediaIcon'
@@ -138,12 +138,15 @@ const Footer: React.FC<FooterProps> = ({ causes, className }) => {
         <div className="py-2 flex">
           <Link href={Page.Home} as={PageAs.Home()}>
             <a>
-              {channel.assets.FooterBrand && (
-                <img src={channel.assets.FooterBrand} alt="" height="42" />
+              {Asset.FooterBrand && (
+                <img
+                  src={Asset.FooterBrand}
+                  alt=""
+                  height="42"
+                  className="mr-3"
+                />
               )}
-              <span className="ml-3 ts-medium">
-                {intl.formatMessage(appName)}
-              </span>
+              <span className="ts-medium">{intl.formatMessage(appName)}</span>
             </a>
           </Link>
           <div className="mr-auto" />

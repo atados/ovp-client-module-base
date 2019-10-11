@@ -72,7 +72,7 @@ const OrganizationMembersPage: NextPage<
     <PageStyled className="bg-muted">
       <OrganizationLayout
         layoutProps={{ disableFooter: true }}
-        isCurrentUserMember
+        isViewerMember
         organization={organization}
       >
         <div className="container">

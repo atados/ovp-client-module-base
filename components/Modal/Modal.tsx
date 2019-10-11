@@ -40,6 +40,7 @@ const CloseButton = styled.button.attrs({ className: 'btn' })`
   font-size: 20px;
   width: 42px;
   height: 42px;
+  z-index: 100;
 `
 
 interface ModalProps {

@@ -80,7 +80,7 @@ class OrganizationComposerPage extends React.Component<
     return (
       <OrganizationLayout
         layoutProps={{ disableFooter: true }}
-        isCurrentUserMember
+        isViewerMember
         organization={organization}
       >
         {

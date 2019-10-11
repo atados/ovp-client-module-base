@@ -28,11 +28,12 @@ const ToolbarBrand: React.FC<ToolbarBrandProps> = ({
   className,
   href,
   brand,
+  ...props
 }) => {
   const intl = useIntl()
 
   return (
-    <Brand href={href} className={cx(className, 'navbar-brand')}>
+    <Brand {...props} href={href} className={cx(className, 'navbar-brand')}>
       {brand || Asset.ToolbarBrand ? (
         <img src={brand || Asset.ToolbarBrand} alt="" />
       ) : (

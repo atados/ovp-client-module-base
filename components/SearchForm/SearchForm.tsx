@@ -27,6 +27,7 @@ import {
 } from '~/redux/ducks/search'
 import { StartupData } from '~/redux/ducks/startup'
 import { RootState } from '~/redux/root-reducer'
+import { MaterialIconName } from '../Icon/Icon'
 
 const m = defineMessages({
   placeholder: {
@@ -340,7 +341,7 @@ class SearchForm extends React.Component<
     return undefined
   }
 
-  public resolveOptionIcon = (kind: string): string => {
+  public resolveOptionIcon = (kind: string): MaterialIconName => {
     if (kind === 'skill') {
       return 'school'
     }
@@ -358,7 +359,7 @@ class SearchForm extends React.Component<
     }
 
     if (kind === 'cause') {
-      return 'favorite_border'
+      return 'favorite_outline'
     }
 
     return 'search'

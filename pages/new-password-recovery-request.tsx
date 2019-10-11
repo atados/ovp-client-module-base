@@ -2,7 +2,7 @@ import React from 'react'
 import Layout from '~/components/Layout'
 import Meta from '~/components/Meta'
 import { useIntl, defineMessages } from 'react-intl'
-import AuthenticationRecover from '../components/Authentication/AuthenticationRecover'
+import AuthenticationRecover from '~/components/Authentication/AuthenticationRecover'
 
 const m = defineMessages({
   title: {

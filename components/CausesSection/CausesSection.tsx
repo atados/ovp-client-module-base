@@ -6,9 +6,12 @@ import { Page, PageAs } from '~/common'
 import { Cause } from '~/common/channel'
 import { RootState } from '~/redux/root-reducer'
 import { FormattedMessage } from 'react-intl'
+import PageLink from '../PageLink'
+import Icon from '../Icon'
 
 export interface CausesSectionProps {
   readonly causes: Cause[]
+  readonly className?: string
 }
 
 const Container = styled.div``
@@ -120,6 +123,11 @@ const CausesSection: React.FC<CausesSectionProps> = ({ causes, ...props }) => {
           </Link>
         ))}
       </div>
+      <PageLink href="Cause" params={{ slug: causes[0].slug }}>
+        <a className="text-xl">
+          Veja todas as causas <Icon name="arrow_forward" className="ml-1" />
+        </a>
+      </PageLink>
     </Container>
   )
 }

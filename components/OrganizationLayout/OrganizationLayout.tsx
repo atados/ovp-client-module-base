@@ -7,9 +7,10 @@ import { channel } from '~/common/constants'
 import { NotFoundPageError } from '~/lib/next/errors'
 import Layout from '../Layout'
 import { LayoutProps } from '../Layout/Layout'
-import Meta from '../Meta'
 import { Page, PageAs } from '~/common'
 import { useIntl, defineMessages } from 'react-intl'
+import { UserOrganization } from '~/base/redux/ducks/user'
+import { Organization } from '~/base/redux/ducks/organization'
 
 const Body = styled.div`
   &.p-toolbar-nav {
@@ -115,16 +116,8 @@ const m = defineMessages({
 
 interface OrganizationLayoutProps {
   readonly className?: string
-  readonly organization: {
-    slug: string
-    name: string
-    description: string
-    image?: {
-      image_url: string
-    }
-    chat_enabled?: boolean
-  }
-  readonly isCurrentUserMember: boolean
+  readonly isViewerMember?: boolean
+  readonly organization?: UserOrganization | Organization
   readonly layoutProps?: LayoutProps
   readonly children: React.ReactNode
 }
@@ -132,22 +125,17 @@ interface OrganizationLayoutProps {
 const OrganizationLayout: React.FC<OrganizationLayoutProps> = ({
   className,
   organization,
-  isCurrentUserMember,
   children,
   layoutProps,
+  isViewerMember,
 }) => {
   const { pathname } = useRouter() || { pathname: '' }
   const intl = useIntl()
 
   return (
     <div className={className}>
-      <Meta
-        title={organization.name}
-        description={organization.description}
-        image={organization.image && organization.image.image_url}
-      />
       <Layout toolbarProps={{ flat: true, fixed: true }} {...layoutProps}>
-        {isCurrentUserMember && (
+        {isViewerMember && organization && (
           <DashboardNav>
             <DashboardNavInner>
               <div className="navbar navbar-expand navbar-light">
@@ -180,6 +168,7 @@ const OrganizationLayout: React.FC<OrganizationLayoutProps> = ({
                     <li
                       className={
                         pathname === Page.Organization ||
+                        pathname === Page.OrganizationAbout ||
                         pathname === Page.OrganizationProjects
                           ? 'active'
                           : ''
@@ -284,7 +273,7 @@ const OrganizationLayout: React.FC<OrganizationLayoutProps> = ({
             </DashboardNavInner>
           </DashboardNav>
         )}
-        <Body className={isCurrentUserMember ? 'p-toolbar-nav' : 'p-toolbar'}>
+        <Body className={isViewerMember ? 'p-toolbar-nav' : 'p-toolbar'}>
           {children}
         </Body>
       </Layout>

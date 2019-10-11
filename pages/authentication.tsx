@@ -1,8 +1,8 @@
 import React from 'react'
-import Layout from '../components/Layout'
-import Meta from '../components/Meta'
-import Authentication from '../components/Authentication'
-import { AuthenticationPageName } from '../components/Authentication/Authentication'
+import Layout from '~/components/Layout'
+import Meta from '~/components/Meta'
+import Authentication from '~/components/Authentication'
+import { AuthenticationPageName } from '~/components/Authentication/Authentication'
 import { defineMessages, useIntl } from 'react-intl'
 import { NextPage } from 'next'
 

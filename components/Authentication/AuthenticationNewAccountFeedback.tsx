@@ -37,7 +37,7 @@ const AuthenticationNewAccountFeedback: React.FC<
         {viewer ? (
           <div className="ta-center">
             <img
-              src={Asset.Logo}
+              src={Asset.LogoLight}
               alt=""
               width="42"
               height="42"

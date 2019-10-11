@@ -23,6 +23,8 @@ module.exports = withCSS({
     AUTH_CLIENT_ID: process.env.AUTH_CLIENT_ID,
     AUTH_CLIENT_SECRET: process.env.AUTH_CLIENT_SECRET,
     APP_SHARE_URL: process.env.APP_SHARE_URL || 'http://localhost:3000',
+    NOW_GITHUB_DEPLOYMENT: process.env.NOW_GITHUB_DEPLOYMENT,
+    NOW_GITHUB_COMMIT_SHA: process.env.NOW_GITHUB_COMMIT_SHA,
   },
   webpack(config, { dev }) {
     if (dev) {

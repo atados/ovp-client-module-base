@@ -142,10 +142,7 @@ export interface Project {
   published_date?: string
   galleries: Gallery[]
   documents: DocumentDict[]
-  image?: {
-    image_url: string
-    image_medium_url: string
-  }
+  image?: ImageDict
 }
 
 interface ProjectFetchMeta {

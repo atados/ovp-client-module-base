@@ -28,7 +28,7 @@ interface AuthenticationEmailNewAccountProps {
   readonly className?: string
   readonly defaultValues?: Values
   readonly dispatch: Dispatch<AuthenticationAction>
-  readonly onLogin: (user: User) => void
+  readonly onRegister: (user: User) => void
 }
 
 const m = defineMessages({
@@ -113,7 +113,7 @@ const AuthenticationEmailNewAccount: React.FC<
       <div className="max-w-sm mx-auto">
         <div className="ta-center">
           <img
-            src={Asset.Logo}
+            src={Asset.LogoLight}
             alt=""
             width="42"
             height="42"
@@ -225,7 +225,7 @@ export default withFormik<AuthenticationEmailNewAccountProps, Values>({
   }),
   handleSubmit: async (
     values,
-    { setFieldError, props: { onLogin }, setSubmitting, setStatus },
+    { setFieldError, props: { onRegister }, setSubmitting, setStatus },
   ) => {
     try {
       const user = await createNewUser({
@@ -241,7 +241,7 @@ export default withFormik<AuthenticationEmailNewAccountProps, Values>({
         values.password,
       )
       user.token = sessionToken
-      onLogin(user as User)
+      onRegister(user as User)
     } catch (error) {
       if (error.payload && error.payload.email) {
         setFieldError('email', 'Este email já está sendo utilizado')

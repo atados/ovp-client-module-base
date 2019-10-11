@@ -4,7 +4,6 @@ import '../../channel/generated/styles/channel.css'
 import * as Sentry from '@sentry/browser'
 import moment from 'moment'
 import nextCookies from 'next-cookies'
-import { AppContextType } from 'next-server/dist/lib/utils'
 import NextApp, { AppProps as NextAppProps } from 'next/app'
 import Head from 'next/head'
 import { Router } from 'next/router'
@@ -25,6 +24,8 @@ import withRedux from '~/redux/with-redux'
 import { getStartupData } from '../lib/startup'
 import { loginWithSessionToken } from '../redux/ducks/user'
 import { Asset, Config, Theme } from '~/common'
+import { setupSentryUser } from '../lib/utils/error'
+import { AppContextType } from 'next/dist/next-server/lib/utils'
 
 declare global {
   interface Window {
@@ -32,9 +33,16 @@ declare global {
   }
 }
 
+const { NOW_GITHUB_DEPLOYMENT, NOW_GITHUB_COMMIT_SHA } = process.env
+
 // Only run Sentry on production
 if (!dev && Config.sentry) {
-  Sentry.init(Config.sentry)
+  Sentry.init({
+    ...Config.sentry,
+    environment: `${
+      NOW_GITHUB_DEPLOYMENT ? `now@${NOW_GITHUB_COMMIT_SHA}` : ''
+    }`,
+  })
 }
 
 // Register React Intl's locale data for the user's locale in the browser. This
@@ -69,7 +77,7 @@ class App extends NextApp<AppProps> {
     const { startup, user } = ctx.store.getState() as RootState
 
     if (sessionToken && !user) {
-      await ctx.store.dispatch(loginWithSessionToken(sessionToken))
+      await ctx.store.dispatch(loginWithSessionToken(sessionToken, '@app'))
     }
 
     if (!startup) {
@@ -99,6 +107,12 @@ class App extends NextApp<AppProps> {
       Router.events.on('routeChangeStart', this.progressBar.start)
       Router.events.on('routeChangeComplete', this.progressBar.done)
       Router.events.on('routeChangeError', this.progressBar.done)
+    }
+
+    const { user } = this.props.store.getState()
+
+    if (user) {
+      setupSentryUser(user)
     }
 
     if (Config.googleTagManager) {

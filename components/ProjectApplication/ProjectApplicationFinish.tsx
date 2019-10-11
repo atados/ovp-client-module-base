@@ -203,7 +203,9 @@ const ProjectApplicationFinish: React.FC<ProjectApplicationFinishProps> = ({
         <div className="p-4">
           {project.disponibility && (
             <>
-              <h4 className="ts-large mb-2">{DESCRICAO_HORARIOS}</h4>
+              <h4 className="ts-large mb-2">
+                {intl.formatMessage(DESCRICAO_HORARIOS)}
+              </h4>
               <div className="tc-muted-dark">
                 {project.disponibility.type === 'work' ? (
                   <>

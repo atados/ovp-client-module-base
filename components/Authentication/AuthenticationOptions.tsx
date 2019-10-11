@@ -4,11 +4,10 @@ import { defineMessages, FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 import { useIntl } from 'react-intl'
 import { Page, Asset, PageAs } from '~/common'
-import { useDispatch } from 'react-redux'
-import { loginWithSessionToken } from '~/redux/ducks/user'
-import Router from 'next/router'
-import useModalManager from '~/hooks/use-modal-manager'
-import { AuthenticationAction } from './Authentication'
+import {
+  AuthenticationAction,
+  AuthenticateBySessionTokenFn,
+} from './Authentication'
 import AuthenticationButtons from './AuthenticationButtons'
 
 const Body = styled.div`
@@ -35,6 +34,7 @@ interface AuthenticationOptionsProps {
   readonly title?: React.ReactNode
   readonly subtitle?: React.ReactNode
   readonly dispatch: Dispatch<AuthenticationAction>
+  readonly onLoginBySessionToken: AuthenticateBySessionTokenFn
 }
 
 const m = defineMessages({
@@ -69,10 +69,9 @@ const AuthenticationOptions: React.FC<AuthenticationOptionsProps> = ({
   dispatch,
   title,
   subtitle,
+  onLoginBySessionToken,
 }) => {
-  const modalManager = useModalManager()
   const intl = useIntl()
-  const dispatchToReduxStore = useDispatch()
 
   const handleRegisterClick = (event: React.MouseEvent<HTMLAnchorElement>) => {
     event.preventDefault()
@@ -86,17 +85,10 @@ const AuthenticationOptions: React.FC<AuthenticationOptionsProps> = ({
         return
       }
 
-      const [key, sessionToken] = event.data.split('=')
+      const { method, sessionToken } = JSON.parse(event.data)
 
-      if (key === 'sessionToken') {
-        dispatchToReduxStore(loginWithSessionToken(sessionToken))
-        if (Router.pathname === Page.Login) {
-          Router.push(Page.Home, PageAs.Home())
-        }
-
-        if (modalManager.isModalOpen('Authentication')) {
-          modalManager.close('Authentication')
-        }
+      if (sessionToken) {
+        onLoginBySessionToken(sessionToken, method)
       }
     }
 
@@ -109,7 +101,7 @@ const AuthenticationOptions: React.FC<AuthenticationOptionsProps> = ({
     <div className={className}>
       <Header className="ta-center mb-4">
         <img
-          src={Asset.Logo}
+          src={Asset.LogoLight}
           alt=""
           width="42"
           height="42"
