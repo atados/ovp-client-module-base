@@ -4,12 +4,11 @@ import { FormattedMessage } from 'react-intl'
 import ToolbarApplicationsItem from './Toolbar/ToolbarApplicationsItem'
 import { useSelector } from 'react-redux'
 import { RootState } from '../redux/root-reducer'
-import { useModal } from './Modal'
-import ProjectApplicationFinish from './ProjectApplication/ProjectApplicationFinish'
 import useFetchAPI from '../hooks/use-fetch-api'
 import { PublicUser } from '../redux/ducks/public-user'
 import PageLink from './PageLink'
 import Icon from './Icon'
+import { useProjectApplication } from '../hooks/project-application-hooks'
 
 const Body = styled.div`
   top: 50px;
@@ -37,16 +36,15 @@ const ViewerApplications: React.FC<ViewerApplicationsProps> = ({
   scroll = true,
 }) => {
   const viewer = useSelector((reduxState: RootState) => reduxState.user)
-  const openApplicationModal = useModal({
-    id: 'Application',
-    component: ProjectApplicationFinish,
-    cardClassName: 'p-4',
-  })
+  const openProjectApplication = useProjectApplication()
   const [state, setState] = useState<ViewerApplicationsState>({
     focused: false,
   })
   const currentUserProfile = useFetchAPI<PublicUser>(
     `/public-users/${viewer!.slug}/`,
+    {
+      skip: !state.focused,
+    },
   )
   const applications = currentUserProfile.data
     ? currentUserProfile.data.applies
@@ -83,10 +81,7 @@ const ViewerApplications: React.FC<ViewerApplicationsProps> = ({
                 setState({ ...state, selectedItemId: application.id })
               }}
               onOpenApplication={() => {
-                openApplicationModal({
-                  project: application.project,
-                  application,
-                })
+                openProjectApplication(application.project)
               }}
             />
           ))}

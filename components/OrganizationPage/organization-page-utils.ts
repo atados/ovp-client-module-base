@@ -22,7 +22,7 @@ export const getOrganizationPageInitialProps = async ({
       viewer && viewer.organizations.some(o => o.slug === slug),
     )
     // Throw a 404 page if the organization not published and
-    // an current user's organizations doesn't have access to it
+    // an current user's organizations don't have access to it
     if (!organization.published && (!viewer || !isViewerMember)) {
       throw new NotFoundPageError()
     }
@@ -32,11 +32,10 @@ export const getOrganizationPageInitialProps = async ({
       isViewerMember,
     }
   } catch (error) {
-    if (error.status === 404) {
-      throw new NotFoundPageError()
+    if (error.statusCode !== 404) {
+      reportError(error)
     }
 
-    reportError(error)
     throw error
   }
 }

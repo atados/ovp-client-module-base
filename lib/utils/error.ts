@@ -1,9 +1,44 @@
 import * as Sentry from '@sentry/browser'
-import { dev } from '~/common/constants'
+import { User } from '~/redux/ducks/user'
+import {
+  dev,
+  NOW_GITHUB_COMMIT_SHA,
+  NOW_GITHUB_COMMIT_DIRTY,
+} from '~/common/constants'
+import { Config } from '~/base/common'
 
-let sentryUser: Sentry.User | undefined
-export function setupSentryUser(user: Sentry.User) {
-  sentryUser = user
+export function setSentryUser(user: User | null) {
+  Sentry.configureScope(scope => {
+    scope.setUser(
+      user && {
+        name: user.name,
+        email: user.email,
+        slug: user.slug,
+        organizations: user.organizations
+          ? user.organizations.map(o => ({
+              name: o.name,
+              slug: o.slug,
+            }))
+          : [],
+      },
+    )
+  })
+}
+
+export function setupErrorMonitoring() {
+  // Only run Sentry on production
+  if (Config.sentry) {
+    Sentry.init({
+      ...Config.sentry,
+      environment: `${process.env.NODE_ENV || 'development'}${
+        NOW_GITHUB_COMMIT_SHA
+          ? `_now_${NOW_GITHUB_COMMIT_SHA}${
+              NOW_GITHUB_COMMIT_DIRTY === 'true' ? '_dirty' : ''
+            }`
+          : ''
+      }`,
+    })
+  }
 }
 
 export function reportError(error: any): void {
@@ -13,12 +48,8 @@ export function reportError(error: any): void {
   }
 
   Sentry.configureScope(scope => {
-    if (sentryUser) {
-      scope.setUser(sentryUser)
-    }
-
     if (error.payload) {
-      scope.setExtra('response.status', error.status)
+      scope.setExtra('response.statusCode', error.statusCode)
       scope.setExtra('response.payload', error.payload)
     }
 

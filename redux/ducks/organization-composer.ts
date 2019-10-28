@@ -42,6 +42,7 @@ export const addOrganization = createAction<OrganizationPayload, Organization>(
       event: 'organization.new',
       text: organization.name,
       slug: organization.slug,
+      address: organization.address && organization.address.typed_address,
     })
 
     return organization

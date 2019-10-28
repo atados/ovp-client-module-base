@@ -174,7 +174,7 @@ export const fetchProject = createAction<string, Project, ProjectFetchMeta>(
       }
 
       throw new FetchJSONError(
-        { status: 404, url: `/project/${slug}` },
+        { statusCode: 404, url: `/project/${slug}` },
         undefined,
       )
     }
@@ -182,7 +182,7 @@ export const fetchProject = createAction<string, Project, ProjectFetchMeta>(
     const project = await fetchAPI<Project>(`/projects/${slug}/`, {
       sessionToken: user ? user.token : undefined,
     }).catch(error => {
-      if (error && error.status !== 404) {
+      if (error && error.statusCode !== 404) {
         reportError(error)
       }
 

@@ -110,7 +110,7 @@ const CausePage: NextPage<
         }
       >
         <div className="relative z-50">
-          <div className="container pt-10 pb-5 ta-center">
+          <div className="container pt-5 ta-center">
             <span className="w-16 h-16 bg-white rounded-circle block mb-3 mx-auto py-2">
               <VolunteerIcon
                 width={32}

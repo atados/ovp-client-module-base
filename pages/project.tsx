@@ -1,16 +1,12 @@
-import { User } from '@sentry/types'
 import { NextPage } from 'next'
 import Router from 'next/router'
 import queryString from 'query-string'
 import React, { useCallback, useEffect, useState } from 'react'
-import { connect } from 'react-redux'
+import { useSelector } from 'react-redux'
 import styled from 'styled-components'
 import { channel } from '~/common/constants'
-import Authentication from '~/components/Authentication'
 import Layout from '~/components/Layout'
 import Meta from '~/components/Meta'
-import { useModal } from '~/components/Modal'
-import ProjectApplication from '~/components/ProjectApplication/ProjectApplication'
 import {
   ProjectPageAbout,
   ProjectPageAddress,
@@ -27,9 +23,11 @@ import {
 import { NotFoundPageError } from '~/lib/next/errors'
 import { doesUserHaveAccessToProject } from '~/lib/utils/project'
 import { throwActionError } from '~/lib/utils/redux'
-import { fetchProject, Project } from '~/redux/ducks/project'
+import { fetchProject } from '~/redux/ducks/project'
 import { RootState } from '~/redux/root-reducer'
 import { ProjectPageNavId, ProjectPageSubPage } from '~/types/project'
+import { useProjectApplication } from '../hooks/project-application-hooks'
+import { useSetStatus } from '../hooks/status-hooks'
 
 const Sidebar = styled.div`
   min-width: 352px;
@@ -37,32 +35,32 @@ const Sidebar = styled.div`
   margin-left: 32px;
 `
 
-interface ProjectPageReduxProps {
-  readonly isOwner: boolean
-  readonly viewer: User | null
-  readonly project?: Project
-}
-
-interface ProjectPageInitialProps {
+interface ProjectPageProps {
   readonly subpage?: string
   readonly defaultRoleId?: number
 }
 
-interface ProjectPageProps
-  extends ProjectPageReduxProps,
-    ProjectPageInitialProps {}
-
-const ProjectPage: NextPage<ProjectPageProps, ProjectPageInitialProps> = ({
-  project,
-  isOwner,
-  subpage,
-  viewer,
-}) => {
+const ProjectPage: NextPage<ProjectPageProps> = ({ subpage }) => {
   const [activeNavItemId, setActiveNavItemId] = useState<ProjectPageNavId>(
     subpage === ProjectPageSubPage.Stories
       ? ProjectPageNavId.Stories
       : ProjectPageNavId.Overview,
   )
+  const { isOwner, project } = useSelector((state: RootState) => {
+    const stateProject = state.project.node
+    return {
+      isOwner: Boolean(
+        state.user &&
+          stateProject &&
+          ((stateProject.organization &&
+            state.user.organizations.some(
+              organization => stateProject.organization!.id === organization.id,
+            )) ||
+            state.user.uuid === stateProject.owner.uuid),
+      ),
+      project: stateProject,
+    }
+  })
 
   useEffect(() => {
     if (
@@ -79,29 +77,18 @@ const ProjectPage: NextPage<ProjectPageProps, ProjectPageInitialProps> = ({
     return <Layout disableFooter />
   }
 
-  const openApplicationModal = useModal({
-    id: 'Application',
-    component: ProjectApplication,
-    cardClassName: 'no-shadow no-background',
-  })
-  const openAuthenticationModal = useModal({
-    id: 'Authentication',
-    component: Authentication,
-    cardClassName: 'p-5',
-  })
+  const openProjectApplication = useProjectApplication()
+  const [setStatusMessage] = useSetStatus()
 
   const onApply = useCallback(
     (roleId?: number) => {
-      if (viewer) {
-        openApplicationModal({ roleId, project })
-        return
+      try {
+        openProjectApplication(project, roleId)
+      } catch (error) {
+        setStatusMessage(error)
       }
-
-      openAuthenticationModal({
-        onAuthenticate: () => openApplicationModal({ roleId, project }),
-      })
     },
-    [isOwner, openApplicationModal, project, viewer],
+    [project],
   )
 
   const handleNavItemClick = useCallback(
@@ -217,7 +204,7 @@ ProjectPage.getInitialProps = async ({
         : undefined,
     }
   } catch (error) {
-    if (error.status === 404) {
+    if (error.statusCode === 404) {
       throw new NotFoundPageError()
     }
 
@@ -225,21 +212,4 @@ ProjectPage.getInitialProps = async ({
   }
 }
 
-const mapStateToProps = ({
-  user: viewer,
-  project: { node: project },
-}: RootState): ProjectPageReduxProps => ({
-  isOwner: Boolean(
-    viewer &&
-      project &&
-      ((project.organization &&
-        viewer.organizations.some(
-          organization => project.organization!.id === organization.id,
-        )) ||
-        viewer.uuid === project.owner.uuid),
-  ),
-  viewer,
-  project,
-})
-
-export default connect(mapStateToProps)(ProjectPage)
+export default ProjectPage

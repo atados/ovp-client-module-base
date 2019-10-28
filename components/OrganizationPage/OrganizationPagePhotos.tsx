@@ -66,7 +66,7 @@ const OrganizationPagePhotos: React.FC<OrganizationPagePhotosProps> = ({
             <g
               id="Artboard"
               stroke="none"
-              stroke-width="1"
+              strokeWidth="1"
               fill="none"
               fillRule="evenodd"
             >

@@ -1,5 +1,6 @@
 const dotenv = require('dotenv')
 const loadChannelConfig = require('../internals/channel/load-channel-config')
+const syncBasePackage = require('../internals/channel/sync-base-package')
 const withCSS = require('@zeit/next-css')
 
 const channel = loadChannelConfig()
@@ -12,9 +13,6 @@ module.exports = withCSS({
   target: 'serverless',
   env: {
     LOGGING: process.env.NODE_LOGGING,
-    STATIC_DIST_DIRNAME: `${Math.random()
-      .toString(36)
-      .substring(7)}-${Date.now()}`,
     CHANNEL_JSON: JSON.stringify(channel),
     SOCKET_API_URL: process.env.SOCKET_API_URL || 'http://localhost:3002',
     SOCKET_API_WS_URL: process.env.SOCKET_API_WS_URL || 'ws://localhost:3002',
@@ -23,8 +21,8 @@ module.exports = withCSS({
     AUTH_CLIENT_ID: process.env.AUTH_CLIENT_ID,
     AUTH_CLIENT_SECRET: process.env.AUTH_CLIENT_SECRET,
     APP_SHARE_URL: process.env.APP_SHARE_URL || 'http://localhost:3000',
-    NOW_GITHUB_DEPLOYMENT: process.env.NOW_GITHUB_DEPLOYMENT,
-    NOW_GITHUB_COMMIT_SHA: process.env.NOW_GITHUB_COMMIT_SHA,
+    NOW_GITHUB_COMMIT_SHA: process.env.NOW_GITHUB_COMMIT_SHA || '',
+    NOW_GITHUB_COMMIT_DIRTY: process.env.NOW_GITHUB_COMMIT_DIRTY || '',
   },
   webpack(config, { dev }) {
     if (dev) {
@@ -32,6 +30,8 @@ module.exports = withCSS({
       config.plugins = config.plugins.filter(
         plugin => plugin.constructor.name !== 'ForkTsCheckerWebpackPlugin',
       )
+
+      syncBasePackage()
     }
 
     // Add alias to webpack so we can import by: ~/components, ~/lib, etc..

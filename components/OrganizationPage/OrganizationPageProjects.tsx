@@ -50,6 +50,11 @@ const OrganizationPageProjects: React.FC<OrganizationPageProjectsProps> = ({
 
     return [open, closed]
   }, [projects])
+
+  if (!projectsQuery.loading && !projects.length) {
+    return null
+  }
+
   return (
     <div
       className={cx('bg-white border border-gray-200 rounded-lg', className)}
@@ -84,16 +89,18 @@ const OrganizationPageProjects: React.FC<OrganizationPageProjectsProps> = ({
           className={cx('mb-4', itemClassName)}
         />
       ))}
-      <div className="px-3 pb-3">
-        <PageLink
-          href="OrganizationProjects"
-          params={{ organizationSlug: organization.slug }}
-        >
-          <a className="btn bg-gray-200 py-2 tc-gray-700 hover:bg-gray-300 btn--block">
-            Ver todas as vagas
-          </a>
-        </PageLink>
-      </div>
+      {!projectsQuery.loading && (
+        <div className="px-3 pb-3">
+          <PageLink
+            href="OrganizationProjects"
+            params={{ organizationSlug: organization.slug }}
+          >
+            <a className="btn bg-gray-200 py-2 tc-gray-700 hover:bg-gray-300 btn--block">
+              Ver todas as vagas
+            </a>
+          </PageLink>
+        </div>
+      )}
     </div>
   )
 }

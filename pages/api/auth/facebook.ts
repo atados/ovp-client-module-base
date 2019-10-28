@@ -65,10 +65,12 @@ function createFacebookAPIRoute() {
           `
           <p>Loading...</p>
           <script>
-            window.opener.postMessage(${JSON.stringify({
-              method: 'facebook',
-              sessionToken: payload.access_token,
-            })})
+            window.opener.postMessage(${JSON.stringify(
+              JSON.stringify({
+                method: 'facebook',
+                sessionToken: payload.access_token,
+              }),
+            )}, "*")
           </script>
           `,
         )

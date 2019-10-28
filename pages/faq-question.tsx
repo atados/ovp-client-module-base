@@ -8,7 +8,7 @@ import Link from 'next/link'
 import { Page } from '~/common/page'
 import FAQLayout from '~/components/FAQ/FAQLayout'
 import Icon from '~/components/Icon'
-import { channel } from '../common/constants'
+import FAQSupport from '../components/FAQ/FAQSupport'
 
 const Answer = styled.div`
   font-size: 18px;
@@ -28,37 +28,30 @@ const FaqQuestionPage: NextPage<FaqQuestionPageProps> = ({ questionId }) => {
       <Meta />
       <div className="bg-gray-200 py-5">
         <div className="container">
-          <div className="bg-white rounded-lg p-5 shadow">
+          <div className="bg-white rounded-lg px-3 py-5 px-md-5 shadow">
             {question && (
-              <div className="container container--md py-5">
+              <div className="container container--md">
                 <div className="mb-3 text-truncate">
                   <Link href={Page.FAQ}>
                     <a className="tc-gray-500">FAQ</a>
                   </Link>
                   <Icon name="chevron_right" className="tc-gray-500 mx-1" />
-                  <span className="tc-gray-500">ONGs</span>
+                  <span className="tc-gray-500">{question.category.name}</span>
                   <Icon name="chevron_right" className="tc-gray-500 mx-1" />
                   <span className="tc-gray-500">{question.question}</span>
                 </div>
-                <h1>{question.question}</h1>
+                <h1 className="text-3xl mb-3 leading-relaxed">
+                  {question.question}
+                </h1>
                 <Answer
                   dangerouslySetInnerHTML={{ __html: question.answer }}
                   className="mb-5"
                 />
-                {channel.config.supportURL && (
-                  <div className="bg-gray-200 p-5 rounded-lg ta-center">
-                    <p className="tc-gray-500">Ainda precisa de ajuda?</p>
-                    <a
-                      href={channel.config.supportURL}
-                      target="__blank"
-                      className="btn bg-gray-400 hover:bg-gray-500 tc-gray-600 hover:tc-gray-700"
-                    >
-                      Entre em contato com nosso suporte
-                    </a>
-                  </div>
-                )}
               </div>
             )}
+          </div>
+          <div className="container container--md mt-4">
+            <FAQSupport />
           </div>
         </div>
       </div>

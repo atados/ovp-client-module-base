@@ -56,7 +56,7 @@ const OrganizationPageHeader: React.FC<OrganizationPageHeaderProps> = ({
             <g
               id="Artboard"
               stroke="none"
-              stroke-width="1"
+              strokeWidth="1"
               fill="none"
               fillRule="evenodd"
             >

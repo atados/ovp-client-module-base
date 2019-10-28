@@ -2,18 +2,29 @@ import React from 'react'
 import styled from 'styled-components'
 import { Project } from '~/redux/ducks/project'
 import ProjectStatusPill from '../ProjectStatusPill'
+import { Color } from '~/base/common'
 
 const Thumbnail = styled.figure`
-  width: 100px;
-  height: 100px;
-  border-radius: 10px;
-  margin-left: -120px;
-  float: left;
+  height: 180px;
+  margin: -52px -1rem 2rem;
+
+  @media (min-width: 768px) {
+    width: 140px;
+    height: 100px;
+    margin: 0 0 0 -140px;
+    float: left;
+
+    > span {
+      border-radius: 10px;
+    }
+  }
 `
 
 const Body = styled.div`
-  padding-left: 120px;
-  min-height: 100px;
+  @media (min-width: 768px) {
+    padding-left: 140px;
+    min-height: 100px;
+  }
 `
 
 interface ProjectManagePageHeaderProps {
@@ -23,19 +34,21 @@ interface ProjectManagePageHeaderProps {
 const ProjectManagePageHeader: React.FC<ProjectManagePageHeaderProps> = ({
   project,
 }) => (
-  <div className="pt-5 bg-white">
+  <div className="bg-white">
     <div className="container">
       <div className="py-4">
         <ProjectStatusPill project={project} className="float-right" />
         <Body>
-          <Thumbnail
-            className="mr-3 bg-cover bg-gray-200"
-            style={
-              project.image
-                ? { backgroundImage: `url('${project.image.image_url}')` }
-                : { backgroundColor: '#ddd' }
-            }
-          />
+          <Thumbnail className="mr-lg-4">
+            <span
+              className="block bg-cover h-full"
+              style={
+                project.image
+                  ? { backgroundImage: `url('${project.image.image_url}')` }
+                  : { backgroundColor: Color.gray[500] }
+              }
+            />
+          </Thumbnail>
           <h1 className="h4 mb-2">{project.name}</h1>
           <p className="mb-0">{project.description}</p>
         </Body>

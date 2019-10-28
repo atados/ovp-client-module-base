@@ -8,7 +8,10 @@ import PageLink from './PageLink'
 import ProjectDisponibility from './ProjectDisponibility/ProjectDisponibility'
 
 const Wrapper = styled.div`
-  padding-left: 9rem;
+  @media (min-width: 768px) {
+    padding-left: 9rem;
+  }
+
   padding-right: 4rem;
   min-height: 6rem;
 `
@@ -19,8 +22,18 @@ const Side = styled.div`
 `
 
 const ProjectPhoto = styled.div`
-  margin-left: -9rem;
-  float: left;
+  margin-bottom: 1rem;
+
+  @media (max-width: 767px) {
+    width: 50% !important;
+  }
+
+  @media (min-width: 768px) {
+    margin-left: -9rem;
+    margin-bottom: 0;
+    float: left;
+  }
+
   margin-top: 4px;
 
   .ratio-body {

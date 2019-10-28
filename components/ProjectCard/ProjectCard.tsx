@@ -145,6 +145,8 @@ export const styles = {
 
 interface ProjectCardProps extends Project {
   readonly className?: string
+  readonly nameClassName?: string
+  readonly descriptionClassName?: string
 }
 
 class ProjectCard extends React.Component<
@@ -198,6 +200,8 @@ class ProjectCard extends React.Component<
       organization,
       className,
       closed,
+      nameClassName,
+      descriptionClassName,
     } = this.props
 
     return (
@@ -251,8 +255,14 @@ class ProjectCard extends React.Component<
             </>
           )}
         </Author>
-        {this.link(<Name className="text-truncate">{name}</Name>)}
-        <Description>{description}</Description>
+        {this.link(
+          <Name className={`text-truncate ${nameClassName || ''}`}>
+            {name}
+          </Name>,
+        )}
+        <Description className={descriptionClassName}>
+          {description}
+        </Description>
         <Footer className="row">
           {address && (
             <div className="col-md-6 mb-2 mb-md-0">
@@ -260,7 +270,7 @@ class ProjectCard extends React.Component<
                 title={`${address.city_state && `${address.city_state}, `} ${
                   address.typed_address
                 }`}
-                className="ts-small block tc-gray-600 text-truncate tw-medium"
+                className="ts-small block tc-gray-600 text-truncate"
               >
                 <Icon name="place" />{' '}
                 {address.city_state && `${address.city_state}, `}
@@ -270,7 +280,7 @@ class ProjectCard extends React.Component<
           )}
           {disponibility && (
             <div className="col-md-6">
-              <span className="ts-small block tc-secondary-600 text-truncate tw-medium">
+              <span className="ts-small block tc-secondary-600 text-truncate">
                 <Icon name="date_range" />{' '}
                 {formatDisponibility(disponibility, intl)}
               </span>

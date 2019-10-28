@@ -15,6 +15,7 @@ import GoogleMap from '../GoogleMap'
 import Icon from '../Icon'
 import MapMark from '../MapMark'
 import { defineMessages } from 'react-intl'
+import useModalManager from '~/base/hooks/use-modal-manager'
 
 const Avatar = styled.span`
   width: 40px;
@@ -41,7 +42,7 @@ const Map = styled(GoogleMap)`
   border-radius: 0 0 10px 10px;
 `
 
-interface ProjectApplicationFinishProps {
+interface ProjectApplicationRegistryProps {
   readonly className?: string
   readonly project: Project
   readonly viewer: User
@@ -128,7 +129,7 @@ const {
   },
 })
 
-const ProjectApplicationFinish: React.FC<ProjectApplicationFinishProps> = ({
+const ProjectApplicationRegistry: React.FC<ProjectApplicationRegistryProps> = ({
   viewer,
   project,
   application,
@@ -140,12 +141,21 @@ const ProjectApplicationFinish: React.FC<ProjectApplicationFinishProps> = ({
     `/projects/${project.slug}/applies/unapply/`,
     { method: 'POST' },
   )
+  const modalManager = useModalManager()
   const handleUnapplication = useCallback(async () => {
-    await unapplyTrigger.trigger()
+    try {
+      await unapplyTrigger.trigger()
+    } catch (error) {
+      // ...
+    }
     onUpdateProject({
       slug: project.slug,
       applies: project.applies.filter(apply => apply !== application),
+      current_user_is_applied: false,
     })
+    if (modalManager.isModalOpen('ProjectApplicationRegistry')) {
+      modalManager.close('ProjectApplicationRegistry')
+    }
   }, [unapplyTrigger, application])
 
   return (
@@ -278,9 +288,9 @@ const ProjectApplicationFinish: React.FC<ProjectApplicationFinishProps> = ({
   )
 }
 
-ProjectApplicationFinish.displayName = 'ProjectApplicationFinish'
+ProjectApplicationRegistry.displayName = 'ProjectApplicationRegistry'
 
 export default connect(
   (state: RootState) => ({ viewer: state.user }),
   { onUpdateProject: updateProject },
-)(ProjectApplicationFinish)
+)(ProjectApplicationRegistry)

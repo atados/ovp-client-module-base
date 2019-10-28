@@ -7,10 +7,10 @@ import Meta from '~/components/Meta'
 import {
   OrganizationPageLayout,
   OrganizationPageDetails,
-  OrganizationPagePhotos,
 } from '~/components/OrganizationPage'
 import { getOrganizationPageInitialProps } from '~/components/OrganizationPage/organization-page-utils'
 import Markdown from '../components/Markdown'
+import { FormattedMessage } from 'react-intl'
 
 interface OrganizationAboutPageProps {
   readonly organizationSlug: string
@@ -59,16 +59,16 @@ const OrganizationAboutPage: NextPage<OrganizationAboutPageProps> = ({
             <div className="row">
               <div className="col-md-7">
                 <div className="bg-white shadow rounded-lg p-4">
-                  <h3 className="ts-medium tw-medium">Sobre ONG</h3>
+                  <h3 className="ts-large tw-medium mb-3">
+                    <FormattedMessage
+                      id="pages.organizationAbout.title"
+                      defaultMessage="Sobre a ONG"
+                    />
+                  </h3>
                   <Markdown value={organization.details} />
                 </div>
               </div>
               <div className="col-md-5 hidden md:block">
-                <OrganizationPagePhotos
-                  className="mb-4"
-                  organization={organization}
-                  isViewerMember={isViewerMember}
-                />
                 <OrganizationPageDetails organization={organization} />
               </div>
             </div>

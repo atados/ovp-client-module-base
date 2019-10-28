@@ -58,7 +58,7 @@ export const fetchOrganization = createAction<
       }
 
       throw new FetchJSONError(
-        { status: 404, url: `/organization/${slug}` },
+        { statusCode: 404, url: `/organization/${slug}` },
         undefined,
       )
     }
@@ -69,7 +69,7 @@ export const fetchOrganization = createAction<
         sessionToken: user ? user.token : undefined,
       },
     ).catch(error => {
-      if (error && error.status !== 404) {
+      if (error && error.statusCode !== 404) {
         reportError(error)
       }
 

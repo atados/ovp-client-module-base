@@ -1,6 +1,7 @@
 import React from 'react'
-import { NextPage } from 'next'
+import { NextPage, NextPageContext } from 'next'
 import { ParsedUrlQuery } from 'querystring'
+import Router from 'next/router'
 
 export function withQuery<Props, InitialProps = Props>(
   Component: NextPage<Props, InitialProps>,
@@ -21,4 +22,16 @@ export function withQuery<Props, InitialProps = Props>(
   }
 
   return WrapperComponent
+}
+
+export const redirect = (context: NextPageContext, target: string) => {
+  if (context.res) {
+    // server
+    // 303: "See other"
+    context.res.writeHead(303, { Location: target })
+    context.res.end()
+  } else {
+    // In the browser, we just pretend like this never even happened ;)
+    Router.replace(target)
+  }
 }

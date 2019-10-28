@@ -59,7 +59,7 @@ class OrganizationComposerPage extends React.Component<
         stepId: stepId || 'basics',
       }
     } catch (error) {
-      if (error.status === 404) {
+      if (error.statusCode === 404) {
         throw new NotFoundPageError()
       }
 

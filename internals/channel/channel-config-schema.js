@@ -149,6 +149,7 @@ const ChannelConfigSchema = Yup.object().shape({
       RecoverPassword: PageSchema.default('/recuperar-senha'),
       ForgotPassword: PageSchema.default('/esqueci-minha-senha'),
       ViewerOrganizations: PageSchema.default('/eu/ongs'),
+      ViewerSettingsNewsletter: PageSchema.default('/eu/newsletter'),
       ViewerSettingsPassword: PageSchema.default('/eu/alterar-senha'),
       ViewerSettings: PageSchema.default('/eu/configuracoes'),
       PrivacyTerms: PageSchema.default('/termos/privacidade'),
@@ -183,6 +184,7 @@ const ChannelConfigSchema = Yup.object().shape({
   ).default([]),
   config: Yup.object()
     .shape({
+      useDeviceLanguage: Yup.boolean().default(true),
       popover: Yup.object()
         .shape({
           backgroundColor: Yup.string(),

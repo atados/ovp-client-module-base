@@ -283,7 +283,13 @@ const ProjectComposerBasics: React.FC<
   )
 
   const members: OrganizationMember[] = useMemo(() => {
-    return isQueryReady(queryMembers!) ? queryMembers.data || [] : []
+    const arr = isQueryReady(queryMembers!) ? queryMembers.data || [] : []
+
+    if (!Array.isArray(arr)) {
+      return []
+    }
+
+    return arr
   }, [queryMembers])
 
   return (

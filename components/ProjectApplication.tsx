@@ -2,12 +2,11 @@ import { InjectedFormikProps, withFormik } from 'formik'
 import React from 'react'
 import { connect } from 'react-redux'
 import Textarea from 'react-textarea-autosize'
-import { PayloadAction } from 'redux-handy'
 import styled from 'styled-components'
 import ActivityIndicator from '~/components/ActivityIndicator'
 import FormGroup from '~/components/Form/FormGroup'
 import Yup from '~/lib/form/yup'
-import { Project, ProjectRole } from '~/redux/ducks/project'
+import { Project } from '~/redux/ducks/project'
 import {
   ApplicationPayload,
   applyToProject,
@@ -15,6 +14,8 @@ import {
 import { Page } from '~/base/common'
 import { defineMessages } from 'react-intl'
 import { useIntl } from 'react-intl'
+import Icon from '~/components/Icon'
+import { FormattedMessage } from 'react-intl'
 
 const RoleButton = styled.button`
   width: 100%;
@@ -33,13 +34,11 @@ const RoleBody = styled.div`
   border-top: 1px solid #ccc;
 `
 
-export interface ProjectApplicationFormProps {
+export interface ProjectApplicationProps {
   readonly className?: string
-  readonly roles: ProjectRole[]
-  readonly roleId: number
+  readonly defaultRoleId?: number
   readonly project: Project
-  readonly onSubmit: (payload: ApplicationPayload) => PayloadAction<boolean>
-  readonly onFinish?: () => any
+  readonly next?: () => any
 }
 
 interface Values {
@@ -105,7 +104,7 @@ const {
 })
 
 const ProjectApplicationFormProps: React.FC<
-  InjectedFormikProps<ProjectApplicationFormProps, Values>
+  InjectedFormikProps<ProjectApplicationProps, Values>
 > = ({
   className,
   touched,
@@ -113,10 +112,10 @@ const ProjectApplicationFormProps: React.FC<
   handleBlur,
   errors,
   values,
-  roles,
   isSubmitting,
   handleSubmit,
   setFieldValue,
+  project,
 }) => {
   const intl = useIntl()
 
@@ -129,11 +128,11 @@ const ProjectApplicationFormProps: React.FC<
       <h4 className="tw-normal">{intl.formatMessage(FORMULARIO)}</h4>
       <hr />
 
-      {roles && roles.length > 0 && (
+      {project.roles && project.roles.length > 0 && (
         <>
           <b className="block mb-2">{intl.formatMessage(FUNCAO)}</b>
           <div className="card mb-4">
-            {roles.map(role => (
+            {project.roles.map(role => (
               <div key={role.id} className="card-item">
                 <RoleButton
                   type="button"
@@ -203,7 +202,7 @@ const ProjectApplicationFormProps: React.FC<
       </FormGroup>
       <button
         type="submit"
-        className="btn btn--size-3 btn-primary mb-3"
+        className="btn btn--size-4 btn-primary mb-3 btn--block"
         disabled={isSubmitting}
       >
         {intl.formatMessage(CONFIRMAR)}
@@ -213,13 +212,24 @@ const ProjectApplicationFormProps: React.FC<
       </button>
       <p className="tc-muted ts-small">{intl.formatMessage(AO_CONFIRMAR)}</p>
 
-      <div className="card p-2 bg-outline-primary">
-        {intl.formatMessage(MANTENHA)}{' '}
+      <div className="p-2 bg-gray-200 rounded-lg">
+        <Icon name="info" />{' '}
+        <b>
+          <FormattedMessage
+            id="projectApplicationForm.tip"
+            defaultMessage="Não se esqueça de manter suas informações atualizadas"
+          />
+          !
+        </b>{' '}
+        <span className="block mb-3 ts-small tc-gray-600">
+          {intl.formatMessage(MANTENHA)}{' '}
+        </span>
         <a
           href={Page.ViewerSettings}
           target="__blank"
-          className="tc-base td-underline"
+          className="btn bg-gray-400 hover:bg-gray-500 tc-gray-700 td-underline"
         >
+          <Icon name="edit" className="mr-2" />
           {intl.formatMessage(ATUALIZAR)}
         </a>
       </div>
@@ -245,18 +255,25 @@ export default connect(
   undefined,
   mapDispatchToProps,
 )(
-  withFormik<ProjectApplicationFormProps, Values>({
-    displayName: 'ProjectApplicationFormProps',
-    mapPropsToValues: ({ roleId, roles }: ProjectApplicationFormProps) => ({
+  withFormik<
+    ProjectApplicationProps & ReturnType<typeof mapDispatchToProps>,
+    Values
+  >({
+    displayName: 'ProjectApplication',
+    mapPropsToValues: ({
+      defaultRoleId,
+      project,
+    }: ProjectApplicationProps) => ({
       terms: false,
-      roleId: roleId || (roles.length ? roles[0].id : -1),
+      roleId:
+        defaultRoleId || (project.roles.length ? project.roles[0].id : -1),
       message: '',
     }),
     handleSubmit: async (
       values,
-      { props: { project, roles, onSubmit, onFinish }, setSubmitting },
+      { props: { project, onSubmit, next }, setSubmitting },
     ) => {
-      const role = roles.find(r => r.id === values.roleId)
+      const role = project.roles.find(r => r.id === values.roleId)
 
       const { payload: success } = await onSubmit({
         project,
@@ -265,8 +282,8 @@ export default connect(
       })
       setSubmitting(false)
 
-      if (success && onFinish) {
-        onFinish()
+      if (success && next) {
+        next()
       }
     },
     validationSchema: ProjectApplicationFormSchema,

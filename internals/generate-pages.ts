@@ -88,6 +88,7 @@ const PageBuildShape: PagesBuilderMap = {
   ViewerProjectDashboard: '~/pages/manage-project',
   ViewerProjects: '~/pages/manageable-projects-list',
   ViewerSettings: '~/pages/settings-user',
+  ViewerSettingsNewsletter: '~/pages/settings-newsletter',
   ViewerOrganizations: '~/pages/settings-organizations',
   ViewerSettingsPassword: '~/pages/settings-password',
 }

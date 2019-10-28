@@ -65,6 +65,7 @@ const authenticationReducer: Reducer<AuthenticationState, Action> = (
 
 export interface AuthenticationProps {
   readonly className?: string
+  readonly nextPagePathname?: string
   readonly defaultPage?: AuthenticationPageName
   readonly onAuthenticate?: () => void
   readonly title?: React.ReactNode
@@ -82,6 +83,7 @@ const Authentication: React.FC<AuthenticationProps> = ({
   onAuthenticate,
   title,
   subtitle,
+  nextPagePathname,
 }) => {
   const modalManager = useModalManager()
   const viewer = useSelector((reduxState: RootState) => reduxState.user)
@@ -97,14 +99,14 @@ const Authentication: React.FC<AuthenticationProps> = ({
       method: 'email',
     })
 
+    if (onAuthenticate) {
+      onAuthenticate()
+    }
+
     dispatch({
       type: 'SetPage',
       payload: 'new-account-feedback',
     })
-
-    if (onAuthenticate) {
-      onAuthenticate()
-    }
   }
 
   const handleLoginBySessionToken: AuthenticateBySessionTokenFn = async (
@@ -119,7 +121,7 @@ const Authentication: React.FC<AuthenticationProps> = ({
     }
 
     if (Router.pathname === Page.Login) {
-      Router.push(Page.Home)
+      Router.push(nextPagePathname || Page.Home)
     }
 
     if (modalManager.isModalOpen('Authentication')) {

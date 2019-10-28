@@ -158,11 +158,12 @@ const ProjectComposerIntro: React.FC<ProjectComposerIntroProps> = ({
         orderedDrafts.map((draft, draftIndex) => (
           <Link
             key={draftIndex}
-            href={Page[pageName]}
+            href={{ pathname: Page[pageName], query: { draftIndex } }}
             as={`${PageAs[pageName]({
               stepId: firstStep.id,
               organizationSlug,
-            })}?draftIndex=${draftIndex}`}
+            })}/?draftIndex=${draftIndex}`}
+            passHref
           >
             <Option className="animate-slideInUp mb-3">
               <figure

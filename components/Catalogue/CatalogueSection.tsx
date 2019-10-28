@@ -5,12 +5,14 @@ import { CatalogueSectionType } from '~/redux/ducks/catalogue'
 
 interface CatalogueSectionProps {
   readonly className?: string
+  readonly name?: React.ReactNode
   readonly section: CatalogueSectionType
 }
 
 const CatalogueSection: React.FC<CatalogueSectionProps> = ({
   className,
   section,
+  name,
 }) => {
   const nodes =
     section.type === 'organizations' ? section.organizations : section.projects
@@ -21,7 +23,7 @@ const CatalogueSection: React.FC<CatalogueSectionProps> = ({
 
   return (
     <div className={className}>
-      <h4 className="mb-3">{section.name}</h4>
+      <h4 className="mb-3">{name || section.name}</h4>
       <div className="row">
         {section.type === 'organizations'
           ? section.organizations.map(organization => (

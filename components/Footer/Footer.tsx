@@ -91,7 +91,7 @@ const Footer: React.FC<FooterProps> = ({ causes, className }) => {
                       <a className="nav-link">{link.label}</a>
                     </Link>
                   ) : (
-                    <a href={link.href} className="nav-link">
+                    <a href={link.href} target="__blank" className="nav-link">
                       {link.label}
                     </a>
                   )}

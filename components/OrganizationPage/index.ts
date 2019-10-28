@@ -16,3 +16,6 @@ export {
 export {
   default as OrganizationPageLayout,
 } from '~/components/OrganizationPage/OrganizationPageLayout'
+export {
+  default as OrganizationPageAbout,
+} from '~/components/OrganizationPage/OrganizationPageAbout'

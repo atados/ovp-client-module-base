@@ -312,11 +312,13 @@ const ProjectPageNav: React.FC<ProjectPageNavProps> = ({
         >
           <Icon
             name={project.is_bookmarked ? 'favorite' : 'favorite_outline'}
-            className={`mr-2 ${project.is_bookmarked ? 'tc-error' : ''}`}
+            className={project.is_bookmarked ? 'tc-error' : ''}
           />
-          {project.is_bookmarked
-            ? intl.formatMessage(BOOKMARKED)
-            : intl.formatMessage(BOOKMARK)}
+          <span className="hidden ml-2">
+            {project.is_bookmarked
+              ? intl.formatMessage(BOOKMARKED)
+              : intl.formatMessage(BOOKMARK)}
+          </span>
         </button>
       </div>
       <Nav className="mb-4" fixed={fixed}>

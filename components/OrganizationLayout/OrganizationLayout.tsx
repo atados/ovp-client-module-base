@@ -185,7 +185,10 @@ const OrganizationLayout: React.FC<OrganizationLayoutProps> = ({
                     </li>
                     <li
                       className={
-                        pathname === '/project-composer' ? 'active' : ''
+                        pathname === Page.NewProject ||
+                        pathname === Page.OrganizationNewProject
+                          ? 'active'
+                          : ''
                       }
                     >
                       <Link

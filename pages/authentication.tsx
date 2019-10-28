@@ -5,9 +5,11 @@ import Authentication from '~/components/Authentication'
 import { AuthenticationPageName } from '~/components/Authentication/Authentication'
 import { defineMessages, useIntl } from 'react-intl'
 import { NextPage } from 'next'
+import { redirect } from '../lib/utils/next'
 
 interface AuthenticationPageProps {
   readonly defaultPage?: AuthenticationPageName
+  readonly nextPagePathname?: string
 }
 
 const m = defineMessages({
@@ -19,6 +21,7 @@ const m = defineMessages({
 
 const AuthenticationPage: NextPage<AuthenticationPageProps> = ({
   defaultPage,
+  nextPagePathname,
 }) => {
   const intl = useIntl()
 
@@ -28,7 +31,10 @@ const AuthenticationPage: NextPage<AuthenticationPageProps> = ({
       <div className="py-5 bg-muted">
         <div className="container container--sm">
           <div className="card rounded-lg p-5">
-            <Authentication defaultPage={defaultPage} />
+            <Authentication
+              defaultPage={defaultPage}
+              nextPagePathname={nextPagePathname}
+            />
           </div>
         </div>
       </div>
@@ -39,7 +45,15 @@ const AuthenticationPage: NextPage<AuthenticationPageProps> = ({
 AuthenticationPage.displayName = 'AuthenticationPage'
 AuthenticationPage.getInitialProps = async ctx => {
   const defaultPage = String(ctx.query.defaultPage)
+  const next = ctx.query.next ? String(ctx.query.next) : '/'
+
+  if (ctx.store.getState().user) {
+    redirect(ctx, next)
+    return {}
+  }
+
   return {
+    nextPagePathname: next,
     defaultPage:
       defaultPage === 'options' ||
       defaultPage === 'new-account' ||

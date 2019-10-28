@@ -12,6 +12,7 @@ import { Organization } from '~/redux/ducks/organization'
 import { Project } from '~/redux/ducks/project'
 import { RootState } from '~/redux/root-reducer'
 import { ParsedUrlQueryInput } from 'querystring'
+import { reportError } from '~/base/lib/utils/error'
 
 export enum SearchType {
   Any,
@@ -111,7 +112,11 @@ export const mapQueryToFilters = (json: BaseFiltersJSON): BaseFilters => {
       }
 
       if (key === 'address') {
-        filters.address = JSON.parse(json.address as string)
+        try {
+          filters.address = JSON.parse(json.address as string)
+        } catch (error) {
+          // ...
+        }
         return
       }
 
@@ -218,14 +223,19 @@ async function searchNodes<P>(
     fetchAPI<ApiPagination<P>>(apiPath, {
       query,
       sessionToken: user ? user.token : undefined,
-    }).then(resp => ({
-      id: generateRandomId(),
-      nodeKind,
-      channelId: channel.id,
-      nextURI: resp.next ? ensureHttpsUri(resp.next) : undefined,
-      count: resp.count,
-      nodes: resp.results as P[],
-    })),
+    })
+      .then(resp => ({
+        id: generateRandomId(),
+        nodeKind,
+        channelId: channel.id,
+        nextURI: resp.next ? ensureHttpsUri(resp.next) : undefined,
+        count: resp.count,
+        nodes: resp.results as P[],
+      }))
+      .catch(error => {
+        reportError(error)
+        throw error
+      }),
   )
 
   if (channel.integrations) {
@@ -269,7 +279,7 @@ export const searchProjects = createAction<
     }
 
     return searchNodes<Project>(
-      '/search/projects',
+      '/search/projects/',
       filters,
       NodeKind.Project,
       getState as () => RootState,
@@ -291,7 +301,7 @@ export const searchOrganizations = createAction<
   'SEARCH_ORGANIZATIONS',
   (filters, { getState }) => {
     return searchNodes<Organization>(
-      '/search/organizations',
+      '/search/organizations/',
       filters,
       NodeKind.Organization,
       getState as () => RootState,
@@ -327,14 +337,14 @@ export const search = createAction<
     }
 
     const projectSources = await searchNodes<Project>(
-      '/search/projects',
+      '/search/projects/',
       { ...filters, length: projectsLength },
       NodeKind.Project,
       getState as () => RootState,
     )
 
     const organizationSources = await searchNodes<Organization>(
-      '/search/organizations',
+      '/search/organizations/',
       { ...filters, length: organizationsLength },
       NodeKind.Organization,
       getState as () => RootState,

@@ -10,7 +10,7 @@ const writeFile = promisify(fs.writeFile)
 const readFile = promisify(fs.readFile)
 const mkdirp = promisify(prevMkdirp)
 
-export default async function createLangFile() {
+export default async function generateIntlMessagesFiles() {
   const langs = (await glob(path.resolve('base', 'lang', '*.json'))).map(
     filename => path.basename(filename, path.extname(filename)),
   )

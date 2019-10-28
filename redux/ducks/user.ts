@@ -8,6 +8,10 @@ import { fetchAPI } from '~/base/lib/fetch/fetch.server'
 import { AUTH_CLIENT_ID, AUTH_CLIENT_SECRET } from '~/base/common/constants'
 import { ThunkDispatch } from 'redux-thunk'
 import { pushToDataLayer } from '~/base/lib/tag-manager'
+import { setSentryUser } from '~/base/lib/utils/error'
+import { createAction } from 'redux-handy'
+
+export const USER_TOKEN_COOKIE = 'sessionToken'
 
 interface NewAccountPayload {
   name: string
@@ -54,6 +58,7 @@ export const generateSessionTokenWithEmail = (
 }
 
 export const login = (user: User, method: string) => {
+  setSentryUser(user)
   pushToDataLayer({
     event: 'login',
     userId: user.uuid,
@@ -61,7 +66,7 @@ export const login = (user: User, method: string) => {
   })
 
   return (dispatch: ThunkDispatch<any, any, any>) => {
-    cookie.set('sessionToken', user.token)
+    cookie.set(USER_TOKEN_COOKIE, user.token)
     dispatch({ type: 'LOGIN', payload: user })
   }
 }
@@ -73,8 +78,9 @@ export const loginWithSessionToken = (sessionToken: string, method: string) => {
       user.token = sessionToken
       dispatch(login(user, method))
     } catch (error) {
+      cookie.remove(USER_TOKEN_COOKIE)
+
       if (error.payload && error.payload.detail) {
-        cookie.remove('sessionToken')
         return
       }
 
@@ -84,16 +90,21 @@ export const loginWithSessionToken = (sessionToken: string, method: string) => {
 }
 
 export const logout = () => {
-  cookie.remove('sessionToken')
+  setSentryUser(null)
+  cookie.remove(USER_TOKEN_COOKIE)
 
   return {
     type: 'LOGOUT',
   }
 }
 
+export const updateViewer = createAction<Partial<User>>('UPDATE_USER')
+
 export interface User {
   uuid: string
+  email: string
   name: string
+  is_subscribed_to_newsletter: boolean
   slug: string
   token: string
   profile: UserProfile
@@ -135,6 +146,13 @@ export interface UserProfile {
 export type UserState = User | null
 
 export default (user: User | null = null, action): UserState => {
+  if (action.type === updateViewer.type) {
+    return {
+      ...user,
+      ...action.payload,
+    }
+  }
+
   if (action.type === addOrganization.type) {
     if (user && action.payload && !action.error) {
       return {
@@ -151,7 +169,14 @@ export default (user: User | null = null, action): UserState => {
   }
 
   if (action.type === 'LOGIN') {
-    return action.payload
+    if (!action.payload) {
+      return null
+    }
+
+    return {
+      ...action.payload,
+      organizations: action.payload.organizations || [],
+    }
   }
 
   if (user && action.type === sendRating.type && !action.pending) {

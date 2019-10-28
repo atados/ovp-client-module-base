@@ -2,8 +2,8 @@ import { NextPage } from 'next'
 import Link from 'next/link'
 import Router from 'next/router'
 import queryString from 'query-string'
-import React, { useCallback, useMemo, useRef } from 'react'
-import { connect } from 'react-redux'
+import React, { useCallback, useRef } from 'react'
+import { useSelector } from 'react-redux'
 import styled from 'styled-components'
 import { channel } from '~/common/constants'
 import ActivityIndicator from '~/components/ActivityIndicator'
@@ -20,8 +20,8 @@ import { fetchAPI } from '~/lib/fetch/fetch.client'
 import { NotFoundPageError } from '~/lib/next/errors'
 import { pushToDataLayer } from '~/lib/tag-manager'
 import { throwActionError } from '~/lib/utils/redux'
-import { fetchProject, Project, updateProject } from '~/redux/ducks/project'
-import { User, UserOrganization } from '~/redux/ducks/user'
+import { fetchProject, Project } from '~/redux/ducks/project'
+import { UserOrganization } from '~/redux/ducks/user'
 import BeforeActionAuth from '~/components/BeforeActionAuth'
 import { RootState } from '~/redux/root-reducer'
 import { Page, PageAs, RequiredPagesMap } from '~/common'
@@ -91,8 +91,6 @@ interface ProjectComposerPageProps {
   readonly organization?: UserOrganization
   readonly mode?: FormComposerMode
   readonly projectSlug?: string
-  readonly viewer: User
-  readonly project?: Project
   readonly onUpdateProject: (
     changes: Partial<Project> & { slug: string },
   ) => any
@@ -108,12 +106,15 @@ const ProjectComposerPage: NextPage<
   stepId,
   organization,
   mode,
-  project,
   projectSlug,
-  viewer,
   draftIndex,
   onUpdateProject,
 }) => {
+  const { viewer, project } = useSelector((state: RootState) => ({
+    viewer: state.user!,
+    project:
+      projectSlug === state.project.slug ? state.project.node : undefined,
+  }))
   const drafts = useLocalStorage<ProjectComposerDraft[]>(
     '@project-composer/drafts',
     [],
@@ -160,11 +161,10 @@ const ProjectComposerPage: NextPage<
 
         pushToDataLayer({
           event: 'project.update',
-          type: 'cause',
           text: updatedProject.name,
           slug: updatedProject.slug,
-          organization_id: updatedProject.organization
-            ? updatedProject.organization.id!
+          organizationSlug: updatedProject.organization
+            ? updatedProject.organization.slug
             : null,
         })
 
@@ -276,13 +276,6 @@ const ProjectComposerPage: NextPage<
     },
     [drafts, draft, viewer],
   )
-  const defaultValue = useMemo(() => {
-    if (mode === FormComposerMode.CREATE) {
-      return draft ? draft.value : undefined
-    }
-
-    return project
-  }, [draft, mode])
 
   const form = drafts.loading ? (
     <div className="ta-center">
@@ -290,9 +283,10 @@ const ProjectComposerPage: NextPage<
     </div>
   ) : (
     <MultipleStepsForm
-      key={draftIndex === undefined ? -1 : draftIndex}
+      key={`${draftIndex === undefined ? -1 : draftIndex}${project &&
+        project.slug}`}
       stepId={stepId}
-      defaultValue={defaultValue}
+      defaultValue={draft ? draft.value : project}
       onSubmit={handleSubmit}
       onStepIdChange={handleStepChange}
       onStepSubmit={handleStepSubmit}
@@ -460,13 +454,4 @@ ProjectComposerPage.getInitialProps = async ({ query, store }) => {
   }
 }
 
-export default connect(
-  (state: RootState, ownProps: ProjectComposerPageProps) => ({
-    viewer: state.user!,
-    project:
-      ownProps.projectSlug === state.project.slug
-        ? state.project.node
-        : undefined,
-  }),
-  { onUpdateProject: updateProject },
-)(ProjectComposerPage)
+export default ProjectComposerPage

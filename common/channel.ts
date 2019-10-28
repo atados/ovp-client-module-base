@@ -105,6 +105,7 @@ export interface RequiredPagesMap {
   ViewerProjectDashboard: string
   ViewerProjects: string
   ViewerSettings: string
+  ViewerSettingsNewsletter: string
   ViewerOrganizations: string
   ViewerSettingsPassword: string
 }
@@ -125,6 +126,7 @@ export interface ChannelTheme {
 }
 
 export interface ChannelConfig {
+  useDeviceLanguage: boolean
   search: {
     defaultOptions: any
   }

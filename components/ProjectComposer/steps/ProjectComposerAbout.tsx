@@ -78,8 +78,7 @@ const {
   },
   PLACEHOLDER: {
     id: 'PLACEHOLDER',
-    defaultMessage:
-      'Faça uma descrição completa e deixa um bom convite. Isso garante que mais voluntários se candidatem a esta vaga.',
+    defaultMessage: 'Faça uma descrição completa e deixa um bom convite.',
   },
 })
 

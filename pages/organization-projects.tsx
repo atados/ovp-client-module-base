@@ -75,10 +75,14 @@ const OrganizationProjectsPage: NextPage<OrganizationProjectsPageProps> = ({
             <div className="bg-white shadow rounded-lg p-4">
               {isQueryReady(projectsQuery) && (
                 <div className="float-right tc-gray-500">
-                  {projectsQuery.data!.count} vagas de voluntariado
+                  <FormattedMessage
+                    id="pages.organizationProjects.count"
+                    defaultMessage="{value} vagas de voluntariado"
+                    values={{ value: projectsQuery.data!.count }}
+                  />
                 </div>
               )}
-              <h3 className="ts-large tw-normal mb-4">
+              <h3 className="ts-large tw-medium mb-4">
                 <FormattedMessage
                   id="pages.organizationProjects.title"
                   defaultMessage="Vagas de voluntariado"

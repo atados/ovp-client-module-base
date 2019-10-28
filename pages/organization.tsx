@@ -7,8 +7,8 @@ import Meta from '~/components/Meta'
 import {
   OrganizationPageLayout,
   OrganizationPageDetails,
+  OrganizationPageAbout,
   OrganizationPageProjects,
-  OrganizationPagePhotos,
 } from '~/components/OrganizationPage'
 import { getOrganizationPageInitialProps } from '~/components/OrganizationPage/organization-page-utils'
 
@@ -56,12 +56,11 @@ const OrganizationPage: NextPage<OrganizationPageProps> = ({
             />
           </div>
           <div className="col-md-5 hidden md:block">
-            <OrganizationPagePhotos
+            <OrganizationPageDetails
               organization={organization}
-              className="mb-3"
-              isViewerMember={isViewerMember}
+              className="mb-4"
             />
-            <OrganizationPageDetails organization={organization} />
+            <OrganizationPageAbout organization={organization} />
           </div>
         </div>
       </div>
