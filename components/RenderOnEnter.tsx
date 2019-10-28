@@ -1,13 +1,13 @@
 import React, { useState } from 'react'
 import { Waypoint } from 'react-waypoint'
 
-interface WaypointSectionProps {
+interface RenderOnEnterProps {
   readonly className?: string
   readonly component?: any
   readonly waypointStyle?: React.CSSProperties
 }
 
-const WaypointSection: React.FC<WaypointSectionProps> = ({
+const RenderOnEnter: React.FC<RenderOnEnterProps> = ({
   className,
   waypointStyle,
   component: Component,
@@ -23,6 +23,6 @@ const WaypointSection: React.FC<WaypointSectionProps> = ({
   return <Component className={className} />
 }
 
-WaypointSection.displayName = 'WaypointSection'
+RenderOnEnter.displayName = 'RenderOnEnter'
 
-export default WaypointSection
+export default RenderOnEnter
