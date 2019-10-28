@@ -250,7 +250,7 @@ const PostFormPage: NextPage<PostFormPageProps, PostFormPageInitialProps> = ({
     return (
       <OrganizationLayout
         organization={organization}
-        isCurrentUserMember
+        isViewerMember
         layoutProps={{ disableFooter: true }}
       >
         {children}

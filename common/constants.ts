@@ -6,9 +6,10 @@ export const APP_SHARE_URL = process.env.APP_SHARE_URL!
 export const SOCKET_API_URL = process.env.SOCKET_API_URL!
 export const SOCKET_API_WS_URL = process.env.SOCKET_API_WS_URL!
 export const NOW_URL = process.env.NOW_URL!
-export const STATIC_DIST_DIRNAME = process.env.STATIC_DIST_DIRNAME!
 export const AUTH_CLIENT_ID = process.env.AUTH_CLIENT_ID!
 export const AUTH_CLIENT_SECRET = process.env.AUTH_CLIENT_SECRET!
+export const NOW_GITHUB_COMMIT_SHA = process.env.NOW_GITHUB_COMMIT_SHA
+export const NOW_GITHUB_COMMIT_DIRTY = process.env.NOW_GITHUB_COMMIT_DIRTY
 
 export const dev = process.env.NODE_ENV !== 'production'
 export const meta = (pageMeta: { title?: string } = {}) => ({

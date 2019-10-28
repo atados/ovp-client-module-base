@@ -1,11 +1,9 @@
 import '../../channel/generated/styles/index.css'
 import '../../channel/generated/styles/channel.css'
 
-import * as Sentry from '@sentry/browser'
 import moment from 'moment'
 import nextCookies from 'next-cookies'
-import { AppContextType } from 'next-server/dist/lib/utils'
-import NextApp, { AppProps as NextAppProps } from 'next/app'
+import NextApp, { AppProps as NextAppProps, AppContext } from 'next/app'
 import Head from 'next/head'
 import { Router } from 'next/router'
 import React from 'react'
@@ -13,7 +11,7 @@ import { IntlProvider } from 'react-intl'
 import { Provider } from 'react-redux'
 import { Store } from 'redux'
 import styled, { ThemeProvider } from 'styled-components'
-import { channel, dev } from '~/common/constants'
+import { channel } from '~/common/constants'
 import { ModalProvider } from '~/components/Modal'
 import ProgressBar from '~/components/ProgressBar'
 import { StatusProvider } from '~/components/Status'
@@ -25,6 +23,7 @@ import withRedux from '~/redux/with-redux'
 import { getStartupData } from '../lib/startup'
 import { loginWithSessionToken } from '../redux/ducks/user'
 import { Asset, Config, Theme } from '~/common'
+import { setupErrorMonitoring, setSentryUser } from '../lib/utils/error'
 
 declare global {
   interface Window {
@@ -32,10 +31,7 @@ declare global {
   }
 }
 
-// Only run Sentry on production
-if (!dev && Config.sentry) {
-  Sentry.init(Config.sentry)
-}
+setupErrorMonitoring()
 
 // Register React Intl's locale data for the user's locale in the browser. This
 // locale data was added to the page by `pages/_document.js`. This only happens
@@ -60,16 +56,16 @@ interface AppProps extends NextAppProps {
   readonly channelPages: string[]
 }
 
-const intlHash = Date.now()
+// const intlHash = Date.now()
 class App extends NextApp<AppProps> {
-  public static async getInitialProps({ Component, ctx }: AppContextType) {
+  public static async getInitialProps({ Component, ctx }: AppContext) {
     let pageProps = {}
 
     const { sessionToken } = nextCookies(ctx)
     const { startup, user } = ctx.store.getState() as RootState
 
     if (sessionToken && !user) {
-      await ctx.store.dispatch(loginWithSessionToken(sessionToken))
+      await ctx.store.dispatch(loginWithSessionToken(sessionToken, '@app'))
     }
 
     if (!startup) {
@@ -89,7 +85,8 @@ class App extends NextApp<AppProps> {
   public progressBar: ProgressBar | null = null
 
   public componentWillMount() {
-    const { intl } = this.props.store.getState()
+    const { intl, user } = this.props.store.getState()
+    setSentryUser(user)
 
     moment.locale(intl!.locale)
   }
@@ -119,7 +116,7 @@ class App extends NextApp<AppProps> {
               <ModalProvider>
                 <Head>
                   <meta name="theme-color" content={Theme.color.primary[500]} />
-                  <script src={`/api/intl/${intlHash}/${intl.locale}`} />
+                  {/* <script src={`/api/intl/${intlHash}/${intl.locale}`} /> */}
                   {Config.maps.key && (
                     <script
                       src={`https://maps.googleapis.com/maps/api/js?key=${Config.maps.key}&libraries=places&language=${intl.locale}`}

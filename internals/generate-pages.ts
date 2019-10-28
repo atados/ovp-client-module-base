@@ -20,75 +20,77 @@ type PagesBuilderMap = {
 }
 
 const PageBuildShape: PagesBuilderMap = {
-  Home: '~/base/pages/home',
-  Project: '~/base/pages/project',
-  Organization: '~/base/pages/organization',
+  Home: '~/pages/home',
+  Project: '~/pages/project',
+  Organization: '~/pages/organization',
   NewAccount: {
-    importPath: '~/base/pages/authentication',
+    importPath: '~/pages/authentication',
     query: {
       defaultPage: 'new-account',
     },
   },
-  Cause: '~/base/pages/cause',
-  Login: '~/base/pages/authentication',
-  Search: '~/base/pages/explore',
+  Cause: '~/pages/cause',
+  Login: '~/pages/authentication',
+  Search: '~/pages/explore',
   SearchProjects: {
-    importPath: '~/base/pages/explore',
+    importPath: '~/pages/explore',
     query: {
       searchType: '1',
     },
   },
   SearchOrganizations: {
-    importPath: '~/base/pages/explore',
+    importPath: '~/pages/explore',
     query: {
       searchType: '2',
     },
   },
-  Inbox: '~/base/pages/inbox',
-  FAQ: '~/base/pages/faq',
-  FAQQuestion: '~/base/pages/faq-question',
-  ProjectDashboard: '~/base/pages/manage-project',
-  OrganizationDashboardProject: '~/base/pages/manage-project',
-  OrganizationDashboardProjectsList: '~/base/pages/manageable-projects-list',
-  OrganizationDashboardMembers: '~/base/pages/organization-members',
-  OrganizationProjects: '~/base/pages/organization-projects',
-  OrganizationEdit: '~/base/pages/organization-edit',
-  OrganizationJoin: '~/base/pages/organization-join',
-  OrganizationNewProject: '~/base/pages/project-composer',
+  Inbox: '~/pages/inbox',
+  FAQ: '~/pages/faq',
+  FAQQuestion: '~/pages/faq-question',
+  ProjectDashboard: '~/pages/manage-project',
+  OrganizationDashboardProject: '~/pages/manage-project',
+  OrganizationDashboardProjectsList: '~/pages/manageable-projects-list',
+  OrganizationDashboardMembers: '~/pages/organization-members',
+  OrganizationProjects: '~/pages/organization-projects',
+  OrganizationAbout: '~/pages/organization-about',
+  OrganizationEdit: '~/pages/organization-edit',
+  OrganizationJoin: '~/pages/organization-join',
+  OrganizationNewProject: '~/pages/project-composer',
   OrganizationEditProject: {
-    importPath: '~/base/pages/project-composer',
+    importPath: '~/pages/project-composer',
     query: {
       mode: 'EDIT',
     },
   },
-  OrganizationDuplicateProject: '~/base/pages/project-composer',
-  OrganizationProjectNewPost: '~/base/pages/post-form',
-  OrganizationProjectEditPost: '~/base/pages/post-form',
-  ProjectNewPost: '~/base/pages/post-form',
-  ProjectEditPost: '~/base/pages/post-form',
-  NewOrganization: '~/base/pages/organization-composer',
-  NewProject: '~/base/pages/project-composer',
+  OrganizationDuplicateProject: '~/pages/project-composer',
+  OrganizationProjectNewPost: '~/pages/post-form',
+  OrganizationProjectEditPost: '~/pages/post-form',
+  ProjectNewPost: '~/pages/post-form',
+  ProjectEditPost: '~/pages/post-form',
+  NewOrganization: '~/pages/organization-composer',
+  NewProject: '~/pages/project-composer',
   EditProject: {
-    importPath: '~/base/pages/project-composer',
+    importPath: '~/pages/project-composer',
     query: {
       mode: 'EDIT',
     },
   },
-  DuplicateProject: '~/base/pages/project-composer',
-  PublicUser: '~/base/pages/public-user',
-  RecoverPassword: '~/base/pages/recover-password',
-  PrivacyTerms: '~/base/pages/privacy-terms',
-  VolunteerTerms: '~/base/pages/volunteer-terms',
-  UsageTerms: '~/base/pages/volunteer-terms',
-  ApprovalTerms: '~/base/pages/approval-terms',
-  TermsList: '~/base/pages/terms-list',
-  Viewer: '~/base/pages/viewer',
-  ForgotPassword: '~/base/pages/new-password-recovery-request',
-  ViewerProjectDashboard: '~/base/pages/manage-project',
-  ViewerProjects: '~/base/pages/manageable-projects-list',
-  ViewerSettings: '~/base/pages/settings-user',
-  ViewerOrganizations: '~/base/pages/settings-organizations',
-  ViewerSettingsPassword: '~/base/pages/settings-password',
+  DuplicateProject: '~/pages/project-composer',
+  PublicUser: '~/pages/public-user',
+  RecoverPassword: '~/pages/recover-password',
+  PrivacyTerms: '~/pages/privacy-terms',
+  VolunteerTerms: '~/pages/volunteer-terms',
+  UsageTerms: '~/pages/volunteer-terms',
+  ApprovalTerms: '~/pages/approval-terms',
+  TermsList: '~/pages/terms-list',
+  Viewer: '~/pages/viewer',
+  ForgotPassword: '~/pages/new-password-recovery-request',
+  ViewerProjectDashboard: '~/pages/manage-project',
+  ViewerProjects: '~/pages/manageable-projects-list',
+  ViewerSettings: '~/pages/settings-user',
+  ViewerSettingsNewsletter: '~/pages/settings-newsletter',
+  ViewerOrganizations: '~/pages/settings-organizations',
+  ViewerSettingsPassword: '~/pages/settings-password',
 }
 
 const nextPages = ['_app', '_document', '_error']
@@ -102,7 +104,7 @@ async function generateNextPages() {
       console.log(`> Created ${nextPage}.tsx`)
       return writeFile(
         filepath,
-        `export { default } from '~/base/pages/${nextPage}'`,
+        `export { default } from '~/pages/${nextPage}'`,
       )
     }
   })
@@ -150,7 +152,7 @@ export default async function generatePageFiles() {
             ? `export { default } from '${pageBuildShape}'`.trim()
             : `
 import Page from '${pageBuildShape.importPath}'
-import { withQuery } from '~/base/lib/utils/next'
+import { withQuery } from '~/lib/utils/next'
 
 export default withQuery(
   Page as any,

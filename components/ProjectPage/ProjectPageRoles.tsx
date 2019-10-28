@@ -152,7 +152,7 @@ const {
   },
   PRE_REQUISITOS: {
     id: 'PRE_REQUISITOS',
-    defaultMessage: 'PRÉ-REQUISITOSÇÃO',
+    defaultMessage: 'PRÉ-REQUISITOS',
   },
   VAGAS_ESGOTADAS: {
     id: 'VAGAS_ESGOTADAS',

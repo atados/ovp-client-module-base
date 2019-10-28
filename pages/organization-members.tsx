@@ -3,7 +3,6 @@ import Link from 'next/link'
 import React from 'react'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
-import { channel } from '~/common/constants'
 import Icon from '~/components/Icon'
 import InviteMember from '~/components/InviteMember'
 import { useModal } from '~/components/Modal'
@@ -15,18 +14,6 @@ import { RootState } from '~/redux/root-reducer'
 import { OrganizationMember } from '~/types/api'
 import { Page, PageAs } from '../common'
 import { FormattedMessage } from 'react-intl'
-
-const PageStyled = styled.div`
-  min-height: 100vh;
-`
-
-const Card = styled.div`
-  border-radius: 10px 10px 0 0;
-  /* min-height: calc (full_height - toolbar_height - nav_height - margin_top) */
-  min-height: calc(100vh - ${channel.theme.toolbarHeight}px - 50px - 20px);
-  border-bottom-width: 0;
-  margin-top: 20px;
-`
 
 const TableWrapper = styled.div`
   overflow-x: auto;
@@ -69,21 +56,21 @@ const OrganizationMembersPage: NextPage<
   const members = queryResult.data || []
 
   return (
-    <PageStyled className="bg-muted">
+    <div className="bg-muted">
       <OrganizationLayout
         layoutProps={{ disableFooter: true }}
-        isCurrentUserMember
+        isViewerMember
         organization={organization}
       >
-        <div className="container">
-          <Card className="card">
-            <div className="p-4">
-              <h4 className="tw-normal mb-1">
+        <div className="container py-4">
+          <div className="shadow bg-white rounded-lg">
+            <div className="py-3 px-4">
+              <h1 className="text-2xl tw-medium">
                 <FormattedMessage
                   id="pages.organizationMembers.title"
                   defaultMessage="Membros da ONG"
                 />
-              </h4>
+              </h1>
               <p className="tc-muted mb-0">
                 <FormattedMessage
                   id="pages.organizationMembers.description"
@@ -149,10 +136,10 @@ const OrganizationMembersPage: NextPage<
                 />
               </button>
             </div>
-          </Card>
+          </div>
         </div>
       </OrganizationLayout>
-    </PageStyled>
+    </div>
   )
 }
 

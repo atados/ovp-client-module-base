@@ -6,7 +6,7 @@ import queryString from 'querystring'
 import React, { useCallback, useMemo, useRef, useState } from 'react'
 import { Waypoint } from 'react-waypoint'
 import styled from 'styled-components'
-import { channel, dev } from '~/common/constants'
+import { channel } from '~/common/constants'
 import ActivityIndicator from '~/components/ActivityIndicator'
 import {
   DropdownMenu,
@@ -24,16 +24,11 @@ import { ApiPagination } from '~/redux/ducks/search'
 import { UserOrganization } from '~/redux/ducks/user'
 import { Page, PageAs } from '~/common'
 import { useIntl, defineMessages } from 'react-intl'
+import { fetchMoreProjects } from '../lib/utils/project'
+import Meta from '../components/Meta'
 
 const PageStyled = styled.div`
   min-height: 100vh;
-`
-
-const Card = styled.div`
-  border-radius: 10px 10px 0 0;
-  /* min-height: calc (full_height - toolbar_height - nav_height ) */
-  min-height: calc(100vh - ${channel.theme.toolbarHeight}px - 50px);
-  border-bottom-width: 0;
 `
 
 const Thumbnail = styled.figure`
@@ -96,7 +91,6 @@ const ProjectHead = styled.div`
 
 const ClosedFilterInput = styled.select`
   width: 230px;
-  border-color: transparent;
   font-weight: 500;
 `
 
@@ -122,10 +116,6 @@ const ContextMenu = styled(DropdownMenu)`
   width: 200px;
   text-align: left;
   padding: 5px 0;
-`
-
-const Header = styled.div`
-  color: #fff;
 `
 
 const m = defineMessages({
@@ -234,20 +224,7 @@ const ManageableProjectsList: NextPage<ManageableProjectsListProps> = ({
   }, [queryResult])
 
   const handleLoadMoreProjectsCallback = useCallback(() => {
-    queryResult.fetchMore(result => {
-      if (!result.loading && result.data && result.data.next) {
-        const { next: nextPageURI } = result.data
-
-        return {
-          uri: dev ? nextPageURI : nextPageURI.replace('http://', 'https://'),
-          updateData: (nextData, prevData) => ({
-            ...nextData,
-            next: nextData.next,
-            results: [...prevData.results, ...nextData.results],
-          }),
-        }
-      }
-    })
+    queryResult.fetchMore(fetchMoreProjects)
   }, [])
 
   const searchInputDebounceRef = useRef<number | null>(null)
@@ -267,10 +244,7 @@ const ManageableProjectsList: NextPage<ManageableProjectsListProps> = ({
             closed: filters.status,
             query: value,
           })}`,
-          `${Router.asPath!.substr(
-            0,
-            Router.asPath!.indexOf('?'),
-          )}?${queryString.stringify({
+          `${Router.asPath!.split('?')[0]}?${queryString.stringify({
             closed: filters.status,
             query: value,
           })}`,
@@ -300,11 +274,12 @@ const ManageableProjectsList: NextPage<ManageableProjectsListProps> = ({
   }, [])
 
   const body = (
-    <div className="container">
-      <Card>
-        <Header className="px-4 py-3 bg-primary-700">
-          <h1 className="h2">{intl.formatMessage(m.title)}</h1>
-          <span className="mb-4 block tc-light">
+    <div className="container py-4">
+      <Meta title={intl.formatMessage(m.title)} />
+      <div className="rounded-lg bg-white shadow">
+        <div className="px-4 py-3 rounded-t-lg">
+          <h1 className="text-2xl tw-medium">{intl.formatMessage(m.title)}</h1>
+          <span className="mb-4 block tc-gray-600">
             {queryResult.data
               ? intl.formatMessage(m.projectsCount, {
                   value: queryResult.data.count,
@@ -315,7 +290,7 @@ const ManageableProjectsList: NextPage<ManageableProjectsListProps> = ({
             <SearchForm className="mr-2">
               <input
                 type="text"
-                className="input h-10 rounded-full border-transparent"
+                className="input h-10 rounded-full"
                 placeholder={intl.formatMessage(m.searchPlaceholder)}
                 onChange={handleSearchInputChange}
                 value={searchInputValue}
@@ -323,7 +298,7 @@ const ManageableProjectsList: NextPage<ManageableProjectsListProps> = ({
               <Icon name="search" />
             </SearchForm>
             <ClosedFilterInput
-              className="input h-10 bg-white-200 input-dark tc-white rounded-full px-3 border-transparent"
+              className="input h-10 rounded-full px-3"
               value={filters.status}
               onChange={handleClosedFilterInputChange}
             >
@@ -338,179 +313,175 @@ const ManageableProjectsList: NextPage<ManageableProjectsListProps> = ({
               </option>
             </ClosedFilterInput>
           </FiltersForm>
-        </Header>
-        <div className="bg-white shadow rounded-b-lg">
-          <TableWrapper>
-            <Table className="table table-default borderless">
-              <tbody>
-                {projects.map(project => (
-                  <tr key={project.slug}>
-                    <td className="pl-4">
-                      <ProjectHead>
-                        <Link
-                          href={
-                            organization
-                              ? Page.OrganizationDashboardProject
-                              : Page.ViewerProjectDashboard
-                          }
-                          as={
-                            organization
-                              ? PageAs.OrganizationDashboardProject({
-                                  organizationSlug: organization.slug,
-                                  projectSlug: project.slug,
-                                })
-                              : PageAs.ViewerProjectDashboard({
-                                  projectSlug: project.slug,
-                                })
-                          }
-                        >
-                          <a>
-                            <Thumbnail
-                              style={
-                                project.image
-                                  ? {
-                                      backgroundImage: `url('${project.image.image_medium_url}')`,
-                                    }
-                                  : undefined
-                              }
-                            />
-                            <span className="ts-medium tw-medium block">
-                              {project.name}
-
-                              {project.published_date && (
-                                <span className="ts-small tw-normal tc-gray-500">
-                                  {' '}
-                                  - Publicada{' '}
-                                  {moment(project.published_date).fromNow()}
-                                </span>
-                              )}
-                            </span>
-                          </a>
-                        </Link>
-                        <span className="ts-small tc-muted-dark block mb-1">
-                          {project.description}
-                        </span>
-                      </ProjectHead>
-                    </td>
-                    <td style={{ width: 100 }} className="ta-right">
-                      <ProjectStatusPill project={project} />
-                    </td>
-                    <td style={{ width: 230 }} className="pr-4">
-                      <div className="btn-group float-right">
-                        <Link
-                          href={
-                            organization
-                              ? Page.OrganizationDashboardProject
-                              : Page.ViewerProjectDashboard
-                          }
-                          as={
-                            organization
-                              ? PageAs.OrganizationDashboardProject({
-                                  organizationSlug: organization.slug,
-                                  projectSlug: project.slug,
-                                })
-                              : PageAs.ViewerProjectDashboard({
-                                  projectSlug: project.slug,
-                                })
-                          }
-                        >
-                          <a className="btn btn-outline-primary">
-                            {intl.formatMessage(m.manageProject)}
-                          </a>
-                        </Link>
-                        <DropdownWithContext>
-                          <DropdownToggler>
-                            <button className="btn btn-outline-primary px-1">
-                              <Icon name="keyboard_arrow_down" />
-                            </button>
-                          </DropdownToggler>
-                          <ContextMenu>
-                            <Link
-                              href={
-                                organization
-                                  ? Page.OrganizationEditProject
-                                  : Page.EditProject
-                              }
-                              as={
-                                organization
-                                  ? PageAs.OrganizationEditProject({
-                                      projectSlug: project.slug,
-                                      organizationSlug: organization.slug,
-                                      stepId: 'geral',
-                                    })
-                                  : PageAs.EditProject({
-                                      projectSlug: project.slug,
-                                      stepId: 'geral',
-                                    })
-                              }
-                              passHref
-                            >
-                              <DropdownAnchor className="dropdown-item">
-                                {intl.formatMessage(m.editProject)}
-                              </DropdownAnchor>
-                            </Link>
-                            <Link
-                              href={
-                                organization
-                                  ? Page.OrganizationDuplicateProject
-                                  : Page.DuplicateProject
-                              }
-                              as={
-                                organization
-                                  ? PageAs.OrganizationDuplicateProject({
-                                      projectSlug: project.slug,
-                                      organizationSlug: organization.slug,
-                                      stepId: 'geral',
-                                    })
-                                  : PageAs.DuplicateProject({
-                                      projectSlug: project.slug,
-                                      stepId: 'geral',
-                                    })
-                              }
-                              passHref
-                            >
-                              <DropdownAnchor className="dropdown-item">
-                                {intl.formatMessage(m.duplicateProject)}
-                              </DropdownAnchor>
-                            </Link>
-
-                            <Link
-                              href={Page.Project}
-                              as={PageAs.Project({ projectSlug: project.slug })}
-                              passHref
-                            >
-                              <DropdownAnchor className="dropdown-item">
-                                {intl.formatMessage(m.viewProject)}
-                              </DropdownAnchor>
-                            </Link>
-                          </ContextMenu>
-                        </DropdownWithContext>
-                      </div>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </Table>
-          </TableWrapper>
-          {(queryResult.loading ||
-            (queryResult.data && queryResult.data.next)) && (
-            <div className="card-item p-5 ta-center">
-              <Waypoint onEnter={handleLoadMoreProjectsCallback} />
-              <ActivityIndicator size={64} className="mb-2" />
-              <span className="block tc-muted">
-                {intl.formatMessage(m.loadingProjects)}
-              </span>
-            </div>
-          )}
-          {!queryResult.loading &&
-            queryResult.data &&
-            !queryResult.data.next && (
-              <div className="card-item p-5 ta-center tc-muted">
-                {intl.formatMessage(m.noProjects)}
-              </div>
-            )}
         </div>
-      </Card>
+        <TableWrapper>
+          <Table className="table table-default borderless">
+            <tbody>
+              {projects.map(project => (
+                <tr key={project.slug}>
+                  <td className="pl-4">
+                    <ProjectHead>
+                      <Link
+                        href={
+                          organization
+                            ? Page.OrganizationDashboardProject
+                            : Page.ViewerProjectDashboard
+                        }
+                        as={
+                          organization
+                            ? PageAs.OrganizationDashboardProject({
+                                organizationSlug: organization.slug,
+                                projectSlug: project.slug,
+                              })
+                            : PageAs.ViewerProjectDashboard({
+                                projectSlug: project.slug,
+                              })
+                        }
+                      >
+                        <a>
+                          <Thumbnail
+                            style={
+                              project.image
+                                ? {
+                                    backgroundImage: `url('${project.image.image_medium_url}')`,
+                                  }
+                                : undefined
+                            }
+                          />
+                          <span className="ts-medium tw-medium block">
+                            {project.name}
+
+                            {project.published_date && (
+                              <span className="ts-small tw-normal tc-gray-500">
+                                {' '}
+                                - Publicada{' '}
+                                {moment(project.published_date).fromNow()}
+                              </span>
+                            )}
+                          </span>
+                        </a>
+                      </Link>
+                      <span className="ts-small tc-muted-dark block mb-1">
+                        {project.description}
+                      </span>
+                    </ProjectHead>
+                  </td>
+                  <td style={{ width: 100 }} className="ta-right">
+                    <ProjectStatusPill project={project} />
+                  </td>
+                  <td style={{ width: 230 }} className="pr-4">
+                    <div className="btn-group float-right">
+                      <Link
+                        href={
+                          organization
+                            ? Page.OrganizationDashboardProject
+                            : Page.ViewerProjectDashboard
+                        }
+                        as={
+                          organization
+                            ? PageAs.OrganizationDashboardProject({
+                                organizationSlug: organization.slug,
+                                projectSlug: project.slug,
+                              })
+                            : PageAs.ViewerProjectDashboard({
+                                projectSlug: project.slug,
+                              })
+                        }
+                      >
+                        <a className="btn btn-outline-primary">
+                          {intl.formatMessage(m.manageProject)}
+                        </a>
+                      </Link>
+                      <DropdownWithContext>
+                        <DropdownToggler>
+                          <button className="btn btn-outline-primary px-1">
+                            <Icon name="keyboard_arrow_down" />
+                          </button>
+                        </DropdownToggler>
+                        <ContextMenu>
+                          <Link
+                            href={
+                              organization
+                                ? Page.OrganizationEditProject
+                                : Page.EditProject
+                            }
+                            as={
+                              organization
+                                ? PageAs.OrganizationEditProject({
+                                    projectSlug: project.slug,
+                                    organizationSlug: organization.slug,
+                                    stepId: 'geral',
+                                  })
+                                : PageAs.EditProject({
+                                    projectSlug: project.slug,
+                                    stepId: 'geral',
+                                  })
+                            }
+                            passHref
+                          >
+                            <DropdownAnchor className="dropdown-item">
+                              {intl.formatMessage(m.editProject)}
+                            </DropdownAnchor>
+                          </Link>
+                          <Link
+                            href={
+                              organization
+                                ? Page.OrganizationDuplicateProject
+                                : Page.DuplicateProject
+                            }
+                            as={
+                              organization
+                                ? PageAs.OrganizationDuplicateProject({
+                                    projectSlug: project.slug,
+                                    organizationSlug: organization.slug,
+                                    stepId: 'geral',
+                                  })
+                                : PageAs.DuplicateProject({
+                                    projectSlug: project.slug,
+                                    stepId: 'geral',
+                                  })
+                            }
+                            passHref
+                          >
+                            <DropdownAnchor className="dropdown-item">
+                              {intl.formatMessage(m.duplicateProject)}
+                            </DropdownAnchor>
+                          </Link>
+
+                          <Link
+                            href={Page.Project}
+                            as={PageAs.Project({ projectSlug: project.slug })}
+                            passHref
+                          >
+                            <DropdownAnchor className="dropdown-item">
+                              {intl.formatMessage(m.viewProject)}
+                            </DropdownAnchor>
+                          </Link>
+                        </ContextMenu>
+                      </DropdownWithContext>
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </Table>
+        </TableWrapper>
+        {(queryResult.loading ||
+          (queryResult.data && queryResult.data.next)) && (
+          <div className="card-item p-5 ta-center">
+            <Waypoint onEnter={handleLoadMoreProjectsCallback} />
+            <ActivityIndicator size={64} className="mb-2" />
+            <span className="block tc-muted">
+              {intl.formatMessage(m.loadingProjects)}
+            </span>
+          </div>
+        )}
+        {!queryResult.loading && queryResult.data && !queryResult.data.next && (
+          <div className="card-item p-5 ta-center tc-muted">
+            {intl.formatMessage(m.noProjects)}
+          </div>
+        )}
+      </div>
     </div>
   )
 
@@ -519,7 +490,7 @@ const ManageableProjectsList: NextPage<ManageableProjectsListProps> = ({
       {organization ? (
         <OrganizationLayout
           layoutProps={{ disableFooter: true }}
-          isCurrentUserMember
+          isViewerMember
           organization={organization}
         >
           {body}

@@ -1,5 +1,5 @@
 import { InjectedFormikProps, withFormik } from 'formik'
-import { NextPageContext, NextPage } from 'next'
+import { NextPage } from 'next'
 import React from 'react'
 import { connect } from 'react-redux'
 import ActivityIndicator from '~/components/ActivityIndicator'
@@ -8,16 +8,26 @@ import FormGroup from '~/components/Form/FormGroup'
 import { InputSelectItem } from '~/components/InputSelect/InputSelect'
 import Meta from '~/components/Meta'
 import PublicUserLayout from '~/components/PublicUserLayout'
-import { getPublicUserLayoutInitialProps } from '~/components/PublicUserLayout/PublicUserLayout'
-import UserSettingsNav from '~/components/UserSettings/UserSettingsNav'
 import Yup from '~/lib/form/yup'
-import { NotFoundPageError } from '~/lib/next/errors'
 import { User } from '~/redux/ducks/user'
 import {
   PasswordUpdatePayload,
   updatePassword,
 } from '~/redux/ducks/user-update'
 import { RootState } from '~/redux/root-reducer'
+import {
+  ViewerSettingsLayout,
+  getViewerSettingsInitialProps,
+} from '../components/ViewerSettings'
+import Icon from '../components/Icon'
+import { useIntl, defineMessages } from 'react-intl'
+
+const m = defineMessages({
+  title: {
+    id: 'pages.settingsPassword.title',
+    defaultMessage: 'Alterar senha',
+  },
+})
 
 interface SettingsPasswordProps {
   readonly currentUser?: User
@@ -46,112 +56,109 @@ const SettingsPassword: NextPage<
   handleSubmit,
   status,
 }) => {
+  const intl = useIntl()
+
   if (!currentUser) {
     return <PublicUserLayout />
   }
 
   return (
-    <PublicUserLayout sidebar={<UserSettingsNav />}>
-      <Meta title={currentUser.name} />
-      <form method="POST" action="/settings/profile" onSubmit={handleSubmit}>
-        <h4 className="tw-normal">Alterar senha</h4>
-        <hr />
-        <div className="row">
-          <div className="col-lg-7">
-            <FormGroup
-              labelFor="profile-input-current-password"
-              label="Senha atual"
-              error={
-                touched.currentPassword ? errors.currentPassword : undefined
-              }
-              length={values.currentPassword.length}
-              className="mb-4"
-            >
-              <input
-                id="profile-input-current-password"
-                name="currentPassword"
-                value={values.currentPassword}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                type="password"
-                className="input input--size-3"
-              />
-            </FormGroup>
-            <FormGroup
-              labelFor="profile-input-new-password"
-              label="Nova senha"
-              error={touched.newPassword ? errors.newPassword : undefined}
-              length={values.newPassword.length}
-              className="mb-4"
-            >
-              <input
-                id="profile-input-new-password"
-                name="newPassword"
-                value={values.newPassword}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                type="password"
-                className="input input--size-3"
-              />
-            </FormGroup>
-            <FormGroup
-              labelFor="profile-input-confirm-new-password"
-              label="Confirmar nova senha"
-              error={
-                touched.confirmNewPassword
-                  ? errors.confirmNewPassword
-                  : undefined
-              }
-              length={values.confirmNewPassword.length}
-              className="mb-4"
-            >
-              <input
-                id="profile-input-confirm-new-password"
-                name="confirmNewPassword"
-                value={values.confirmNewPassword}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                type="password"
-                className="input input--size-3"
-              />
-            </FormGroup>
-            <button
-              type="submit"
-              className="btn btn--size-3 btn-primary"
-              disabled={isSubmitting}
-            >
-              Salvar alterações
-              {isSubmitting && (
-                <ActivityIndicator size={36} fill="white" className="ml-1" />
-              )}
-            </button>
-            {status && (
-              <ErrorMessage className="mt-2">
-                {status.payload && status.payload.current_password
-                  ? 'Senha atual inválida'
-                  : 'Falha ao conectar-se com o servidor'}
-              </ErrorMessage>
-            )}
-          </div>
+    <ViewerSettingsLayout>
+      <Meta title={intl.formatMessage(m.title)} />
+      <div className="bg-white rounded-lg shadow">
+        <div className="py-3 px-3">
+          <h4 className="tw-normal mb-0 text-xl leading-loose">
+            <Icon
+              name="lock"
+              className="bg-gray-200 rounded-full w-10 h-10 ta-center mr-3"
+            />
+            {intl.formatMessage(m.title)}
+          </h4>
         </div>
-      </form>
-    </PublicUserLayout>
+        <form
+          method="POST"
+          action="/settings/profile"
+          onSubmit={handleSubmit}
+          className="max-w-xl mx-auto p-5"
+        >
+          <FormGroup
+            labelFor="profile-input-current-password"
+            label="Senha atual"
+            error={touched.currentPassword ? errors.currentPassword : undefined}
+            length={values.currentPassword.length}
+            className="mb-4"
+          >
+            <input
+              id="profile-input-current-password"
+              name="currentPassword"
+              value={values.currentPassword}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              type="password"
+              className="input input--size-3"
+            />
+          </FormGroup>
+          <FormGroup
+            labelFor="profile-input-new-password"
+            label="Nova senha"
+            error={touched.newPassword ? errors.newPassword : undefined}
+            length={values.newPassword.length}
+            className="mb-4"
+          >
+            <input
+              id="profile-input-new-password"
+              name="newPassword"
+              value={values.newPassword}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              type="password"
+              className="input input--size-3"
+            />
+          </FormGroup>
+          <FormGroup
+            labelFor="profile-input-confirm-new-password"
+            label="Confirmar nova senha"
+            error={
+              touched.confirmNewPassword ? errors.confirmNewPassword : undefined
+            }
+            length={values.confirmNewPassword.length}
+            className="mb-4"
+          >
+            <input
+              id="profile-input-confirm-new-password"
+              name="confirmNewPassword"
+              value={values.confirmNewPassword}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              type="password"
+              className="input input--size-3"
+            />
+          </FormGroup>
+          <button
+            type="submit"
+            className="btn btn--size-3 btn-primary w-full block"
+            disabled={isSubmitting}
+          >
+            Salvar alterações
+            {isSubmitting && (
+              <ActivityIndicator size={36} fill="white" className="ml-1" />
+            )}
+          </button>
+          {status && (
+            <ErrorMessage className="mt-2">
+              {status.payload && status.payload.current_password
+                ? 'Senha atual inválida'
+                : 'Falha ao conectar-se com o servidor'}
+            </ErrorMessage>
+          )}
+        </form>
+      </div>
+    </ViewerSettingsLayout>
   )
 }
 
 SettingsPassword.displayName = 'SettingsPassword'
-SettingsPassword.getInitialProps = async (context: NextPageContext) => {
-  const { user: viewer } = context.store.getState()
-
-  if (!viewer) {
-    throw new NotFoundPageError()
-  }
-
-  context.query.slug = viewer.slug
-  await getPublicUserLayoutInitialProps(context)
-
-  return {}
-}
+SettingsPassword.getInitialProps = getViewerSettingsInitialProps
 
 const mapStateToProps = ({ user }: RootState) => ({
   currentUser: user,

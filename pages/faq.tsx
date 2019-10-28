@@ -3,14 +3,14 @@ import FAQPageQuestionItem from '~/components/FAQPageQuestionItem'
 import Meta from '~/components/Meta'
 import useFetchAPI from '~/hooks/use-fetch-api'
 import { Question, QuestionCategory } from '~/redux/ducks/faq'
-import FAQLayout from '../components/FAQ/FAQLayout'
-import { channel } from '../common/constants'
+import FAQLayout from '~/components/FAQ/FAQLayout'
 import { NextPage } from 'next'
 import { createAccentFriendlyRegexp } from '../lib/regex/utils'
-import Icon from '../components/Icon'
+import Icon from '~/components/Icon'
 import { useSelector } from 'react-redux'
 import { RootState } from '../redux/root-reducer'
 import { FormattedMessage } from 'react-intl'
+import FAQSupport from '../components/FAQ/FAQSupport'
 
 interface FAQPageProps {
   readonly filterQuery: string
@@ -55,7 +55,7 @@ const FaqPage: NextPage<FAQPageProps> = ({ filterQuery }) => {
       <Meta />
       <div className="py-5 bg-gray-300">
         <div className="container">
-          <div className="bg-white rounded-lg p-5 shadow">
+          <div className="bg-white rounded-lg px-3 py-5 px-md-5 shadow">
             {filterQuery && (
               <div className="mb-5 px-2 text-truncate block">
                 <div className="media">
@@ -85,7 +85,7 @@ const FaqPage: NextPage<FAQPageProps> = ({ filterQuery }) => {
                 </div>
               )}
               {categories.map(category => (
-                <div key={category.id} className="col-lg-4">
+                <div key={category.id} className="col-lg-4 mb-4">
                   <h5 className="tw-medium block px-2">{category.name}</h5>
                   {questions
                     .filter(question => question.category.id === category.id)
@@ -100,19 +100,8 @@ const FaqPage: NextPage<FAQPageProps> = ({ filterQuery }) => {
             </div>
           </div>
         </div>
-        <div className="container container--md mt-5">
-          {channel.config.supportURL && (
-            <div className="bg-gray-200 p-5 rounded-lg ta-center">
-              <p className="tc-gray-500">Ainda precisa de ajuda?</p>
-              <a
-                href={channel.config.supportURL}
-                target="__blank"
-                className="btn bg-gray-400 hover:bg-gray-500 tc-gray-600 hover:tc-gray-700"
-              >
-                Entre em contato com nosso suporte
-              </a>
-            </div>
-          )}
+        <div className="container container--md mt-4">
+          <FAQSupport />
         </div>
       </div>
     </FAQLayout>

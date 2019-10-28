@@ -24,15 +24,19 @@ interface ToolbarBrandProps {
   readonly href?: string
 }
 
-const ToolbarBrand: React.FC<ToolbarBrandProps> = ({
-  className,
-  href,
-  brand,
-}) => {
+const ToolbarBrand: React.FC<ToolbarBrandProps> = React.forwardRef<
+  HTMLAnchorElement,
+  ToolbarBrandProps
+>(({ className, href, brand, ...props }, ref) => {
   const intl = useIntl()
 
   return (
-    <Brand href={href} className={cx(className, 'navbar-brand')}>
+    <Brand
+      {...props}
+      ref={ref}
+      href={href}
+      className={cx(className, 'navbar-brand')}
+    >
       {brand || Asset.ToolbarBrand ? (
         <img src={brand || Asset.ToolbarBrand} alt="" />
       ) : (
@@ -40,7 +44,7 @@ const ToolbarBrand: React.FC<ToolbarBrandProps> = ({
       )}
     </Brand>
   )
-}
+})
 
 ToolbarBrand.displayName = 'ToolbarBrand'
 

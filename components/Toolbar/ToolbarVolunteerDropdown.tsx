@@ -1,9 +1,29 @@
 import React from 'react'
-import { defineMessages } from 'react-intl'
+import { defineMessages, FormattedMessage } from 'react-intl'
 import { useIntl } from 'react-intl'
 import ToolbarDropdown from './ToolbarDropdown'
 import Icon from '../Icon'
-import { Page } from '~/base/common'
+import { Page, Color } from '~/base/common'
+import PageLink from '../PageLink'
+import VolunteerIcon from '../Icon/VolunteerIcon'
+import styled from 'styled-components'
+
+const ToolbarDropdownStyled = styled(ToolbarDropdown)`
+  .dropdown-menu {
+    height: auto;
+  }
+`
+
+const Anchor = styled.a`
+  > .icon,
+  > svg {
+    width: 24px;
+    margin-right: 10px;
+    display: inline-block;
+    text-align: center;
+    font-size: 18px;
+  }
+`
 
 interface VolunteerDropdownProps {
   readonly className?: string
@@ -20,7 +40,7 @@ const VolunteerDropdown: React.FC<VolunteerDropdownProps> = ({ className }) => {
   const intl = useIntl()
 
   return (
-    <ToolbarDropdown
+    <ToolbarDropdownStyled
       href={Page.SearchProjects}
       className={className}
       title={
@@ -30,15 +50,32 @@ const VolunteerDropdown: React.FC<VolunteerDropdownProps> = ({ className }) => {
       }
     >
       <div className="p-4">
-        <a href="/" className="block tc-base rounded-lg p-2 bg-muted">
-          <b className="block">Vagas de voluntariado</b>
-          <span className="block tc-muted ts-small">
-            Veja vagas de voluntariado perto de você. Você pode usar nossos
-            filtros para encontrar a vaga que mais de encaixa com você.
-          </span>
-        </a>
+        <PageLink href="SearchProjects" passHref>
+          <Anchor className="block tc-base rounded-lg px-2 py-1 leading-loose h-12 bg-primary-100 hover:bg-primary-200 mb-2 tw-medium">
+            <VolunteerIcon
+              fill={Color.primary[500]}
+              className="vertical-align-middle icon"
+              width={20}
+              height={20}
+            />
+            <FormattedMessage
+              id="toolbarVolunteerDropdown.findProjects"
+              defaultMessage="Encontre vagas de voluntariado"
+            />
+          </Anchor>
+        </PageLink>
+
+        <PageLink href="SearchOrganizations" passHref>
+          <Anchor className="block tc-base rounded-lg px-2 py-1 h-12 leading-loose bg-secondary-100 hover:bg-secondary-200 tw-medium">
+            <Icon name="explore" className="tc-secondary-600" />
+            <FormattedMessage
+              id="toolbarVolunteerDropdown.findOrganizations"
+              defaultMessage="Encontre ONGs"
+            />
+          </Anchor>
+        </PageLink>
       </div>
-    </ToolbarDropdown>
+    </ToolbarDropdownStyled>
   )
 }
 VolunteerDropdown.displayName = 'VolunteerDropdown'

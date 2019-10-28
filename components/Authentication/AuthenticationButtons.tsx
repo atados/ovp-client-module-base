@@ -1,9 +1,11 @@
-import React, { useCallback, useRef, Dispatch } from 'react'
+import React, { useCallback, useRef, Dispatch, useEffect } from 'react'
 import styled from 'styled-components'
 import { PopupCenter } from '~/base/lib/utils/dom'
 import Icon from '../Icon'
 import { AuthenticationAction } from './Authentication'
 import { useIntl, defineMessages } from 'react-intl'
+import { useSelector } from 'react-redux'
+import { RootState } from '~/base/redux/root-reducer'
 
 const AuthButton = styled.button`
   padding: 12px 10px 12px 38px;
@@ -87,6 +89,7 @@ const AuthenticationButtons: React.FC<AuthenticationButtonsProps> = ({
 }) => {
   const intl = useIntl()
   const popupRef = useRef<Window | null>(null)
+  const viewer = useSelector((state: RootState) => state.user)
   const handleFacebookAuth = useCallback(
     (event: React.MouseEvent<HTMLButtonElement>) => {
       event.preventDefault()
@@ -94,21 +97,21 @@ const AuthenticationButtons: React.FC<AuthenticationButtonsProps> = ({
         popupRef.current.close()
       }
 
-      popupRef.current = PopupCenter('/api/facebook/auth', 'Facebook', 400, 500)
+      popupRef.current = PopupCenter('/api/facebook/auth', 'Facebook', 600, 500)
     },
     [],
   )
-  const handleGoogleAuth = useCallback(
-    (event: React.MouseEvent<HTMLButtonElement>) => {
-      event.preventDefault()
-      if (popupRef.current) {
-        popupRef.current.close()
-      }
+  // const handleGoogleAuth = useCallback(
+  //   (event: React.MouseEvent<HTMLButtonElement>) => {
+  //     event.preventDefault()
+  //     if (popupRef.current) {
+  //       popupRef.current.close()
+  //     }
 
-      popupRef.current = PopupCenter('/api/google/auth', 'Google', 400, 500)
-    },
-    [],
-  )
+  //     popupRef.current = PopupCenter('/api/google/auth', 'Google', 400, 500)
+  //   },
+  //   [],
+  // )
   const handleEmailAuth = useCallback(
     (event: React.MouseEvent<HTMLButtonElement>) => {
       event.preventDefault()
@@ -116,6 +119,11 @@ const AuthenticationButtons: React.FC<AuthenticationButtonsProps> = ({
     },
     [],
   )
+  useEffect(() => {
+    if (viewer && popupRef.current) {
+      popupRef.current.close()
+    }
+  }, [viewer])
   return (
     <div className={className}>
       <AuthButton
@@ -154,7 +162,7 @@ const AuthenticationButtons: React.FC<AuthenticationButtonsProps> = ({
         </AuthIcon>
         {intl.formatMessage(m.facebook)}
       </AuthButton>
-      <AuthButton
+      {/* <AuthButton
         type="button"
         className="btn btn--block btn--size-4 ta-left auth-google text-truncate"
         onClick={handleGoogleAuth}
@@ -188,7 +196,7 @@ const AuthenticationButtons: React.FC<AuthenticationButtonsProps> = ({
           </svg>
         </AuthIcon>
         {intl.formatMessage(m.google)}
-      </AuthButton>
+      </AuthButton> */}
     </div>
   )
 }

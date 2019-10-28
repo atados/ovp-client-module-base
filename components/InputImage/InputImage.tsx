@@ -7,6 +7,7 @@ import Icon from '../Icon'
 import { UploadError } from './errors'
 import { defineMessages, WithIntlProps } from 'react-intl'
 import { withIntl } from '~/lib/intl'
+import cx from 'classnames'
 
 const RE_VALID_TYPE = /image\/(jpe?g|png)/gi
 
@@ -230,11 +231,14 @@ class InputImage extends React.Component<
   }
 
   public render() {
-    const { id, hint, ratio, onBlur, intl } = this.props
+    const { id, hint, ratio, onBlur, intl, className } = this.props
     const { value } = this.state
 
     const input = (
-      <InputWrapper value={value} className="ratio inputFileWrapper">
+      <InputWrapper
+        value={value}
+        className={cx('ratio inputFileWrapper', className)}
+      >
         <span className="ratio-fill" style={{ paddingTop: `${ratio}%` }} />
         <div className="ratio-body">
           {!value ? (

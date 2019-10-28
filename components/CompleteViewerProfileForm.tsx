@@ -26,7 +26,7 @@ interface ProjectApplicationUserFormProps {
   readonly className?: string
   readonly currentPublicUser: PublicUser
   readonly onSubmit: (values: UserOverrides) => any
-  readonly onFinish: () => any
+  readonly next: () => any
 }
 
 interface Values {
@@ -281,7 +281,7 @@ export default connect(
     }),
     handleSubmit: async (
       values,
-      { setSubmitting, props: { onSubmit, onFinish } },
+      { setSubmitting, props: { onSubmit, next } },
     ) => {
       await onSubmit({
         phone: values.phone,
@@ -297,7 +297,7 @@ export default connect(
         },
       })
 
-      onFinish()
+      next()
       setSubmitting(false)
     },
     validationSchema: ProjectApplicationUserFormSchema,

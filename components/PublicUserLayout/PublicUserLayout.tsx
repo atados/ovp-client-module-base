@@ -135,7 +135,7 @@ export const getPublicUserLayoutInitialProps = async ({
 
     return {}
   } catch (error) {
-    if (error.status === 404) {
+    if (error.statusCode === 404) {
       throw new NotFoundPageError()
     }
 

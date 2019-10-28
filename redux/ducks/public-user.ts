@@ -64,7 +64,7 @@ export const fetchPublicUser = createAction<
       }
 
       throw new FetchJSONError(
-        { status: 404, url: `/public-users/${slug}` },
+        { statusCode: 404, url: `/public-users/${slug}` },
         undefined,
       )
     }

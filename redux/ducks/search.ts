@@ -11,6 +11,8 @@ import { ensureHttpsUri, generateRandomId } from '~/lib/utils/string'
 import { Organization } from '~/redux/ducks/organization'
 import { Project } from '~/redux/ducks/project'
 import { RootState } from '~/redux/root-reducer'
+import { ParsedUrlQueryInput } from 'querystring'
+import { reportError } from '~/base/lib/utils/error'
 
 export enum SearchType {
   Any,
@@ -36,6 +38,15 @@ export interface BaseFiltersJSON {
   skills?: string | string[]
 }
 
+export interface AddressSearchFilter {
+  id?: string
+  description?: string
+  address_components: Array<{
+    types: string[]
+    long_name: string
+  }>
+}
+
 export interface BaseFilters {
   ordering?: string
   published?: 'true' | 'both' | 'false'
@@ -48,14 +59,7 @@ export interface BaseFilters {
   query?: string
   causes?: number[]
   skills?: number[]
-  address?: {
-    id?: string
-    description?: string
-    address_components: Array<{
-      types: string[]
-      long_name: string
-    }>
-  }
+  address?: AddressSearchFilter
 }
 
 export interface SearchAnyFilters extends BaseFilters {
@@ -108,7 +112,11 @@ export const mapQueryToFilters = (json: BaseFiltersJSON): BaseFilters => {
       }
 
       if (key === 'address') {
-        filters.address = JSON.parse(json.address as string)
+        try {
+          filters.address = JSON.parse(json.address as string)
+        } catch (error) {
+          // ...
+        }
         return
       }
 
@@ -130,8 +138,8 @@ export const mapQueryToFilters = (json: BaseFiltersJSON): BaseFilters => {
 
 export const mapFiltersToQueryObject = (
   filters?: BaseFilters,
-): BaseFiltersJSON => {
-  const json: BaseFiltersJSON = {}
+): ParsedUrlQueryInput => {
+  const json: ParsedUrlQueryInput = {}
 
   if (!filters) {
     return json
@@ -215,14 +223,19 @@ async function searchNodes<P>(
     fetchAPI<ApiPagination<P>>(apiPath, {
       query,
       sessionToken: user ? user.token : undefined,
-    }).then(resp => ({
-      id: generateRandomId(),
-      nodeKind,
-      channelId: channel.id,
-      nextURI: resp.next ? ensureHttpsUri(resp.next) : undefined,
-      count: resp.count,
-      nodes: resp.results as P[],
-    })),
+    })
+      .then(resp => ({
+        id: generateRandomId(),
+        nodeKind,
+        channelId: channel.id,
+        nextURI: resp.next ? ensureHttpsUri(resp.next) : undefined,
+        count: resp.count,
+        nodes: resp.results as P[],
+      }))
+      .catch(error => {
+        reportError(error)
+        throw error
+      }),
   )
 
   if (channel.integrations) {
@@ -266,7 +279,7 @@ export const searchProjects = createAction<
     }
 
     return searchNodes<Project>(
-      '/search/projects',
+      '/search/projects/',
       filters,
       NodeKind.Project,
       getState as () => RootState,
@@ -288,7 +301,7 @@ export const searchOrganizations = createAction<
   'SEARCH_ORGANIZATIONS',
   (filters, { getState }) => {
     return searchNodes<Organization>(
-      '/search/organizations',
+      '/search/organizations/',
       filters,
       NodeKind.Organization,
       getState as () => RootState,
@@ -324,14 +337,14 @@ export const search = createAction<
     }
 
     const projectSources = await searchNodes<Project>(
-      '/search/projects',
+      '/search/projects/',
       { ...filters, length: projectsLength },
       NodeKind.Project,
       getState as () => RootState,
     )
 
     const organizationSources = await searchNodes<Organization>(
-      '/search/organizations',
+      '/search/organizations/',
       { ...filters, length: organizationsLength },
       NodeKind.Organization,
       getState as () => RootState,

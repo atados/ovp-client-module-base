@@ -134,6 +134,7 @@ interface InputAddressProps {
     types?: string[]
   }
   readonly address?: InputAddressValueType
+  readonly defaultValue?: InputAddressValueType
   readonly placeholder?: string
 }
 
@@ -160,7 +161,7 @@ class InputAddress extends React.Component<
         props.address === undefined
           ? state
             ? state.address
-            : null
+            : props.defaultValue || null
           : props.address,
     }
   }
@@ -276,7 +277,7 @@ class InputAddress extends React.Component<
   }
 
   public render() {
-    const { className, containerClassName, ...props } = this.props
+    const { className, containerClassName, defaultValue, ...props } = this.props
     const { inputValue, address, nodes, open } = this.state
     const dropdownOpen = open && nodes.length > 0 && !address
 
@@ -291,21 +292,24 @@ class InputAddress extends React.Component<
             {address.node.description}
           </Overlay>
         )}
-        <Input
+        {
           // @ts-ignore
-          ref={this.refInput}
-          {...props}
-          type="text"
-          onChange={this.handleInputChange}
-          onFocus={this.open}
-          autoComplete="false"
-          className={`${address ? 'has-address ' : ''}${
-            dropdownOpen ? 'open' : ''
-          }${className ? ` ${className}` : ''}`}
-          value={inputValue}
-        />
-        <InputIcon name="place" className={address ? 'active' : ''} />
-        {address && <InputIcon name="close" className="right" />}
+          <Input
+            // @ts-ignore
+            ref={this.refInput}
+            {...props}
+            type="text"
+            onChange={this.handleInputChange}
+            onFocus={this.open}
+            autoComplete="false"
+            className={`${address ? 'has-address ' : ''}${
+              dropdownOpen ? 'open' : ''
+            }${className ? ` ${className}` : ''}`}
+            value={inputValue}
+          />
+        }
+        <InputIcon name="place" className={`${address ? 'active' : ''} z-50`} />
+        {address && <InputIcon name="close" className="right z-50" />}
         <Menu id="input-address-options">
           {nodes.map((node, i) => (
             <Option

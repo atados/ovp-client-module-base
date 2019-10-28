@@ -1,9 +1,7 @@
 import isPlainObject from 'is-plain-object'
 import isoFetch from 'isomorphic-fetch'
 import queryString from 'query-string'
-import { API_URL, channel, dev } from '~/common/constants'
-
-const LOG_ALL = process.env.LOGGING === 'ALL'
+import { API_URL, channel } from '~/common/constants'
 
 export interface Options {
   asJSON?: boolean
@@ -15,22 +13,22 @@ export interface Options {
 }
 
 export class FetchJSONError extends Error {
-  public status: number
+  public statusCode: number
   public response: any
   public payload: any
 
   constructor(
-    response: { url: string; status: number },
+    response: { url: string; statusCode: number },
     payload: any,
     fixedUrl?: string,
   ) {
     super(
-      `Failed to fetch ${fixedUrl || response.url}${
-        dev || LOG_ALL ? `\nPayload = ${JSON.stringify(payload)}` : ''
-      }`,
+      `Failed to fetch ${fixedUrl || response.url}\nPayload = ${JSON.stringify(
+        payload,
+      )}`,
     )
 
-    this.status = response.status
+    this.statusCode = response.statusCode
     this.response = response
     this.payload = payload
   }
@@ -83,14 +81,14 @@ export function fetchJSON<Payload>(
 ): Promise<Payload> {
   return fetch(url, options)
     .then(response => {
-      if (response.status === 204) {
+      if (response.statusCode === 204) {
         return null
       }
 
       return response.json()
     })
     .catch(response => {
-      if (response.status === 204) {
+      if (response.statusCode === 204) {
         return null
       }
 

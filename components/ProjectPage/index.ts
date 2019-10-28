@@ -31,3 +31,6 @@ export {
 export {
   default as ProjectPageDocuments,
 } from '~/components/ProjectPage/ProjectPageDocuments'
+export {
+  default as ProjectPageStatus,
+} from '~/components/ProjectPage/ProjectPageStatus'

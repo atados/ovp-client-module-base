@@ -1,7 +1,7 @@
 import { InjectedFormikProps, withFormik } from 'formik'
-import { NextPageContext, NextPage } from 'next'
-import React from 'react'
-import { connect } from 'react-redux'
+import { NextPage } from 'next'
+import React, { useEffect } from 'react'
+import { connect, useSelector } from 'react-redux'
 import MaskedTextInput from 'react-text-mask'
 import Textarea from 'react-textarea-autosize'
 import ActivityIndicator from '~/components/ActivityIndicator'
@@ -16,28 +16,48 @@ import { InputImageValueType } from '~/components/InputImage/InputImage'
 import InputSelect from '~/components/InputSelect'
 import { InputSelectItem } from '~/components/InputSelect/InputSelect'
 import Meta from '~/components/Meta'
-import PublicUserLayout from '~/components/PublicUserLayout'
-import { getPublicUserLayoutInitialProps } from '~/components/PublicUserLayout/PublicUserLayout'
-import UserSettingsNav from '~/components/UserSettings/UserSettingsNav'
 import * as masks from '~/lib/form/masks'
 import { RE_DATE, RE_PHONE } from '~/lib/form/regex'
 import Yup from '~/lib/form/yup'
-import { NotFoundPageError } from '~/lib/next/errors'
 import { causeToSelectItem, skillToSelectItem } from '~/lib/utils/form'
 import { formatToBRDate, formatToUSDate } from '~/lib/utils/string'
 import { PublicUser } from '~/redux/ducks/public-user'
-import { User } from '~/redux/ducks/user'
 import { updateUser, UserOverrides } from '~/redux/ducks/user-update'
 import { RootState } from '~/redux/root-reducer'
+import Icon from '../components/Icon'
+import {
+  ViewerSettingsLayout,
+  getViewerSettingsInitialProps,
+} from '~/components/ViewerSettings'
+import { FormattedMessage } from 'react-intl'
+import { Color } from '../common'
+import useFetchAPI from '../hooks/use-fetch-api'
 
 interface SettingsUserPageProps {
-  readonly isAuthenticatedUser?: boolean
-  readonly publicUser?: PublicUser
-  readonly currentUser?: User
   readonly onSubmit: (values: UserOverrides) => any
-  readonly causesSelectItems: InputSelectItem[]
-  readonly skillsSelectItems: InputSelectItem[]
 }
+
+const publicUserToValues = ({
+  name,
+  avatar,
+  phone = '',
+  profile,
+}: PublicUser): Values => ({
+  name,
+  phone,
+  description: profile.about || '',
+  gender: profile.gender,
+  skills: profile.skills ? profile.skills.map(skillToSelectItem) : [],
+  causes: profile.causes ? profile.causes.map(causeToSelectItem) : [],
+  avatar: avatar ? { previewURI: avatar.image_url } : null,
+  city: profile.address
+    ? {
+        kind: AddressKind.WEAK,
+        node: { description: profile.address.typed_address },
+      }
+    : null,
+  birthdate: profile.birthday_date ? formatToBRDate(profile.birthday_date) : '',
+})
 
 interface Values {
   readonly name: string
@@ -55,271 +75,272 @@ const SettingsUserPage: NextPage<
   InjectedFormikProps<SettingsUserPageProps, Values>,
   {}
 > = ({
-  publicUser,
   touched,
   handleChange,
   setFieldTouched,
   setFieldValue,
+  setValues,
   handleBlur,
   errors,
   values,
   isSubmitting,
   handleSubmit,
-  causesSelectItems,
-  skillsSelectItems,
   status,
 }) => {
+  const { viewer, causesSelectItems, skillsSelectItems } = useSelector(
+    (state: RootState) => ({
+      viewer: state.user!,
+      causesSelectItems: state.startup.causes.map(causeToSelectItem),
+      skillsSelectItems: state.startup.skills.map(skillToSelectItem),
+    }),
+  )
+  const publicUserQuery = useFetchAPI<PublicUser>(
+    `/public-users/${viewer && viewer.slug}/`,
+    { skip: !viewer },
+  )
+  const publicUser = publicUserQuery.data
+  useEffect(() => {
+    if (publicUser) {
+      setValues(publicUserToValues({ ...viewer, ...publicUser }))
+    }
+  }, [publicUser])
   if (!publicUser) {
-    return <PublicUserLayout />
+    return (
+      <ViewerSettingsLayout>
+        <div className="bg-white rounded-lg shadow p-5 ta-center">
+          <ActivityIndicator fill={Color.gray[500]} size={52} />
+        </div>
+      </ViewerSettingsLayout>
+    )
   }
 
   return (
-    <PublicUserLayout sidebar={<UserSettingsNav />}>
+    <ViewerSettingsLayout>
       <Meta title={publicUser.name} description={publicUser.profile.about} />
-      <form method="POST" action="/settings/profile" onSubmit={handleSubmit}>
-        <h4 className="tw-normal">Perfil publico</h4>
-        <hr />
-        <div className="row">
-          <div className="col-lg-7 order-2 order-lg-1">
-            <FormGroup
-              labelFor="profile-input-name"
-              label="Seu nome"
-              error={touched.name ? errors.name : undefined}
-              length={values.name.length}
-              maxLength={150}
-              className="mb-4"
-            >
-              <input
-                id="profile-input-name"
-                name="name"
-                value={values.name}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                type="text"
-                className="input input--size-3"
-              />
-            </FormGroup>
-
-            <FormGroup
-              labelFor="profile-input-description"
-              label="Sobre você"
-              error={touched.description ? errors.description : undefined}
-              length={values.description.length}
-              maxLength={200}
-              className="mb-4"
-              required={false}
-            >
-              <Textarea
-                id="profile-input-description"
-                name="description"
-                minRows={3}
-                value={values.description}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                className="input input--size-3"
-              />
-            </FormGroup>
-
-            <FormGroup
-              labelFor="profile-input-phone"
-              label="Telefone"
-              error={touched.phone ? errors.phone : undefined}
-              length={values.phone.length}
-              className="mb-4"
-              hint="Essa informação é obrigatória para se inscrever numa ação"
-            >
-              <MaskedTextInput
-                id="profile-input-phone"
-                name="phone"
-                value={values.phone}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                className="input input--size-3"
-                mask={masks.phone}
-                placeholder="(__) ____-____"
-                guide={false}
-              />
-            </FormGroup>
-
-            <FormGroup
-              labelFor="profile-input-birthdate"
-              label="Data de nascimento"
-              error={touched.birthdate ? errors.birthdate : undefined}
-              length={values.birthdate.length}
-              className="mb-4"
-              hint="Essa informação é obrigatória para se inscrever numa ação"
-            >
-              <MaskedTextInput
-                id="profile-input-birthdate"
-                name="birthdate"
-                value={values.birthdate}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                className="input input--size-3"
-                mask={masks.date}
-                placeholder="__/__/____"
-                guide={false}
-              />
-            </FormGroup>
-
-            <FormGroup
-              labelFor="profile-input-gender"
-              label="Gênero"
-              error={touched.gender ? errors.gender : undefined}
-              length={values.gender.length}
-              className="mb-4"
-              required={false}
-            >
-              <select
-                id="profile-input-gender"
-                name="gender"
-                value={values.gender}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                className="input input--size-3"
-              >
-                <option value="unspecified">Não especificado</option>
-                <option value="male">Homem</option>
-                <option value="female">Mulher</option>
-              </select>
-            </FormGroup>
-
-            <FormGroup
-              label="Cidade"
-              labelFor="recover-input-city"
-              error={touched.city ? errors.city : undefined}
-              className="mb-4"
-              hint="Comece a escrever e selecione uma opção"
-            >
-              <InputAddress
-                id="recover-input-city"
-                name="input-address"
-                className="input input--size-3"
-                placeholder="Cidade"
-                address={values.city}
-                onChange={newAddressValue =>
-                  setFieldValue('city', newAddressValue)
-                }
-                onBlur={() => setFieldTouched('city', true)}
-                options={{
-                  types: ['(cities)'],
-                }}
-              />
-            </FormGroup>
-
-            <FormGroup
-              labelFor="profile-input-causes"
-              label="Causas"
-              error={
-                touched.causes ? ((errors.causes as any) as string) : undefined
-              }
-              className="mb-4"
-              maxLength={3}
-              length={values.causes.length}
-            >
-              <InputSelect
-                inputClassName="input--size-3"
-                selectedItems={values.causes}
-                onChange={selectedItems =>
-                  setFieldValue('causes', selectedItems)
-                }
-                onBlur={() => setFieldTouched('causes', true)}
-                items={causesSelectItems}
-              />
-            </FormGroup>
-
-            <FormGroup
-              labelFor="profile-input-skills"
-              label="Habilidades"
-              error={
-                touched.skills ? ((errors.skills as any) as string) : undefined
-              }
-              className="mb-4"
-              maxLength={3}
-              length={values.skills.length}
-            >
-              <InputSelect
-                inputClassName="input--size-3"
-                selectedItems={values.skills}
-                onChange={selectedItems =>
-                  setFieldValue('skills', selectedItems)
-                }
-                onBlur={() => setFieldTouched('skills', true)}
-                items={skillsSelectItems}
-              />
-            </FormGroup>
-
-            <p className="tc-muted ts-small">
-              Todos os campos preenchidos nesta página podem ser excluídos a
-              qualquer momento mediante solicitação, ao preenchê-los, você
-              afirma estar ciente de estar nos dando direito de compartilhar
-              estes dados e sua imagem em seu perfil e qualquer local que ele
-              for vinculado. Por favor leia nossos termos de privacidade para
-              saber mais como utilizamos suas informações.
-            </p>
-            <button
-              type="submit"
-              className="btn btn--size-3 btn-primary"
-              disabled={isSubmitting}
-            >
-              Salvar alterações
-              {isSubmitting && (
-                <ActivityIndicator size={36} fill="white" className="ml-1" />
-              )}
-            </button>
-            {status && (
-              <ErrorMessage className="mt-2">
-                Falha ao conectar-se com o servidor
-              </ErrorMessage>
-            )}
-          </div>
-          <div className="col-lg-4 offset-lg-1 mb-3 mb-lg-0 order-1 order-lg-2">
-            <label htmlFor="profile-input-avatar" className="tw-medium">
-              Foto de perfil
-            </label>
+      <div className="bg-white rounded-lg shadow">
+        <div className="py-3 px-3">
+          <h4 className="tw-normal mb-0 text-xl leading-loose">
+            <Icon
+              name="person"
+              className="bg-gray-200 rounded-full w-10 h-10 ta-center mr-3"
+            />
+            <FormattedMessage
+              id="pages.settingsUser.title"
+              defaultMessage="Meu perfil de voluntário"
+            />
+          </h4>
+        </div>
+        <form
+          method="POST"
+          action="/settings/profile"
+          onSubmit={handleSubmit}
+          className="max-w-xl mx-auto p-5"
+        >
+          <div className="w-48 mx-auto mb-4">
             <InputImage
               id="profile-input-avatar"
               value={values.avatar}
               ratio={100}
               onChange={newImageValue => setFieldValue('avatar', newImageValue)}
               onBlur={() => setFieldTouched('avatar')}
+              className="rounded-full"
             />
           </div>
-        </div>
-      </form>
-    </PublicUserLayout>
+          <FormGroup
+            labelFor="profile-input-name"
+            label="Seu nome"
+            error={touched.name ? errors.name : undefined}
+            length={values.name.length}
+            maxLength={150}
+            className="mb-4"
+          >
+            <input
+              id="profile-input-name"
+              name="name"
+              value={values.name}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              type="text"
+              className="input input--size-3"
+            />
+          </FormGroup>
+
+          <FormGroup
+            labelFor="profile-input-description"
+            label="Sobre você"
+            error={touched.description ? errors.description : undefined}
+            length={values.description.length}
+            maxLength={200}
+            className="mb-4"
+            required={false}
+          >
+            <Textarea
+              id="profile-input-description"
+              name="description"
+              minRows={3}
+              value={values.description}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              className="input input--size-3"
+            />
+          </FormGroup>
+
+          <FormGroup
+            labelFor="profile-input-phone"
+            label="Telefone"
+            error={touched.phone ? errors.phone : undefined}
+            length={values.phone.length}
+            className="mb-4"
+            hint="Essa informação é obrigatória para se inscrever numa ação"
+          >
+            <MaskedTextInput
+              id="profile-input-phone"
+              name="phone"
+              value={values.phone}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              className="input input--size-3"
+              mask={masks.phone}
+              placeholder="(__) ____-____"
+              guide={false}
+            />
+          </FormGroup>
+
+          <FormGroup
+            labelFor="profile-input-birthdate"
+            label="Data de nascimento"
+            error={touched.birthdate ? errors.birthdate : undefined}
+            length={values.birthdate.length}
+            className="mb-4"
+            hint="Essa informação é obrigatória para se inscrever numa ação"
+          >
+            <MaskedTextInput
+              id="profile-input-birthdate"
+              name="birthdate"
+              value={values.birthdate}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              className="input input--size-3"
+              mask={masks.date}
+              placeholder="__/__/____"
+              guide={false}
+            />
+          </FormGroup>
+
+          <FormGroup
+            labelFor="profile-input-gender"
+            label="Gênero"
+            error={touched.gender ? errors.gender : undefined}
+            length={values.gender.length}
+            className="mb-4"
+            required={false}
+          >
+            <select
+              id="profile-input-gender"
+              name="gender"
+              value={values.gender}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              className="input input--size-3"
+            >
+              <option value="unspecified">Não especificado</option>
+              <option value="male">Homem</option>
+              <option value="female">Mulher</option>
+            </select>
+          </FormGroup>
+
+          <FormGroup
+            label="Cidade"
+            labelFor="recover-input-city"
+            error={touched.city ? errors.city : undefined}
+            className="mb-4"
+            hint="Comece a escrever e selecione uma opção"
+          >
+            <InputAddress
+              id="recover-input-city"
+              name="input-address"
+              className="input input--size-3"
+              placeholder="Cidade"
+              address={values.city}
+              onChange={newAddressValue =>
+                setFieldValue('city', newAddressValue)
+              }
+              onBlur={() => setFieldTouched('city', true)}
+              options={{
+                types: ['(cities)'],
+              }}
+            />
+          </FormGroup>
+
+          <FormGroup
+            labelFor="profile-input-causes"
+            label="Causas"
+            error={
+              touched.causes ? ((errors.causes as any) as string) : undefined
+            }
+            className="mb-4"
+            maxLength={3}
+            length={values.causes.length}
+          >
+            <InputSelect
+              inputClassName="input--size-3"
+              selectedItems={values.causes}
+              onChange={selectedItems => setFieldValue('causes', selectedItems)}
+              onBlur={() => setFieldTouched('causes', true)}
+              items={causesSelectItems}
+            />
+          </FormGroup>
+
+          <FormGroup
+            labelFor="profile-input-skills"
+            label="Habilidades"
+            error={
+              touched.skills ? ((errors.skills as any) as string) : undefined
+            }
+            className="mb-4"
+            maxLength={3}
+            length={values.skills.length}
+          >
+            <InputSelect
+              inputClassName="input--size-3"
+              selectedItems={values.skills}
+              onChange={selectedItems => setFieldValue('skills', selectedItems)}
+              onBlur={() => setFieldTouched('skills', true)}
+              items={skillsSelectItems}
+            />
+          </FormGroup>
+
+          <p className="tc-muted ts-small">
+            Todos os campos preenchidos nesta página podem ser excluídos a
+            qualquer momento mediante solicitação, ao preenchê-los, você afirma
+            estar ciente de estar nos dando direito de compartilhar estes dados
+            e sua imagem em seu perfil e qualquer local que ele for vinculado.
+            Por favor leia nossos termos de privacidade para saber mais como
+            utilizamos suas informações.
+          </p>
+          <button
+            type="submit"
+            className="btn px-2 text-lg py-2 rounded btn-primary w-full"
+            disabled={isSubmitting}
+          >
+            Salvar alterações
+            {isSubmitting && (
+              <ActivityIndicator size={36} fill="white" className="ml-1" />
+            )}
+          </button>
+          {status && (
+            <ErrorMessage className="mt-2">
+              Falha ao conectar-se com o servidor
+            </ErrorMessage>
+          )}
+        </form>
+      </div>
+    </ViewerSettingsLayout>
   )
 }
 
 SettingsUserPage.displayName = 'SettingsUserPage'
-SettingsUserPage.getInitialProps = async (context: NextPageContext) => {
-  const { user: viewer } = context.store.getState()
-
-  if (!viewer) {
-    throw new NotFoundPageError()
-  }
-
-  context.query.slug = viewer.slug
-  await getPublicUserLayoutInitialProps(context)
-
-  return {}
-}
-
-const mapStateToProps = ({ startup, user, publicUser }: RootState) => ({
-  isAuthenticatedUser: !!(
-    publicUser.node &&
-    user &&
-    user.slug === publicUser.node.slug
-  ),
-  currentUser: user,
-  publicUser: publicUser.node,
-  causesSelectItems: startup.causes.map(causeToSelectItem),
-  skillsSelectItems: startup.skills.map(skillToSelectItem),
-})
-
-const mapDispatchToProps = dispatch => ({
-  onSubmit: (values: UserOverrides) => dispatch(updateUser(values)),
-})
+SettingsUserPage.getInitialProps = getViewerSettingsInitialProps
 
 const PublicUserEditSchema = Yup.object().shape({
   gender: Yup.string().required(),
@@ -341,45 +362,22 @@ const PublicUserEditSchema = Yup.object().shape({
 })
 
 export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
+  undefined,
+  { updateUser },
 )(
   withFormik<SettingsUserPageProps, Values>({
     displayName: 'SettingsUserPageEdit',
-    mapPropsToValues: ({ currentUser, publicUser }: SettingsUserPageProps) => ({
-      name: (publicUser && publicUser.name) || '',
-      description: (publicUser && publicUser.profile.about) || '',
-      phone: (currentUser && currentUser.phone) || '',
-      gender: (publicUser && publicUser.profile.gender) || '',
+    mapPropsToValues: () => ({
+      name: '',
+      description: '',
+      phone: '',
+      gender: '',
       image: null,
-      skills:
-        (publicUser &&
-          publicUser.profile.skills &&
-          publicUser.profile.skills.map(skillToSelectItem)) ||
-        [],
-      causes:
-        (publicUser &&
-          publicUser.profile.causes &&
-          publicUser.profile.causes.map(causeToSelectItem)) ||
-        [],
-      avatar:
-        publicUser && publicUser.avatar
-          ? {
-              previewURI: publicUser.avatar.image_url,
-            }
-          : null,
-      city:
-        (publicUser &&
-          publicUser.profile.address && {
-            kind: AddressKind.WEAK,
-            node: { description: publicUser.profile.address.typed_address },
-          }) ||
-        null,
-      birthdate:
-        (publicUser &&
-          publicUser.profile.birthday_date &&
-          formatToBRDate(publicUser.profile.birthday_date)) ||
-        '',
+      skills: [],
+      causes: [],
+      avatar: null,
+      city: null,
+      birthdate: '',
     }),
     validationSchema: PublicUserEditSchema,
     handleSubmit: async (

@@ -1,12 +1,13 @@
 import * as Sentry from '@sentry/browser'
 import { SearchOption } from '~/components/SearchForm/SearchForm'
 import { ColorMap } from '~/base/types/global'
+import { MaterialIconName } from '../components/Icon/Icon'
 
 export interface ImageDict {
   id: number
   image_url: string
-  small_image_url: string
-  medium_image_url: string
+  image_small_url: string
+  image_medium_url: string
   image_medium: string
 }
 
@@ -24,7 +25,8 @@ export interface Cause {
 }
 
 interface ChannelAssets {
-  Logo?: string
+  LogoDark?: string
+  LogoLight?: string
   ToolbarBrand?: string
   Favicon?: string
   FooterBrand?: string
@@ -77,6 +79,7 @@ export interface RequiredPagesMap {
   OrganizationDashboardProjectsList: string
   OrganizationDashboardMembers: string
   OrganizationProjects: string
+  OrganizationAbout: string
   OrganizationEdit: string
   OrganizationJoin: string
   OrganizationNewProject: string
@@ -102,6 +105,7 @@ export interface RequiredPagesMap {
   ViewerProjectDashboard: string
   ViewerProjects: string
   ViewerSettings: string
+  ViewerSettingsNewsletter: string
   ViewerOrganizations: string
   ViewerSettingsPassword: string
 }
@@ -110,7 +114,7 @@ export interface ChannelTheme {
   color: {
     [colorName: string]: ColorMap
   }
-  iconRating: string
+  iconRating: MaterialIconName
   primaryButtonBackground?: string
   darkIcons?: boolean
   toolbarBackground?: string
@@ -122,6 +126,7 @@ export interface ChannelTheme {
 }
 
 export interface ChannelConfig {
+  useDeviceLanguage: boolean
   search: {
     defaultOptions: any
   }

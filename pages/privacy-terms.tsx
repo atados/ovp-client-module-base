@@ -3,10 +3,10 @@ import Layout from '~/components/Layout'
 import styled from 'styled-components'
 import { useIntl } from 'react-intl'
 import { defineMessages } from 'react-intl'
-import Icon from '../components/Icon'
+import Icon from '~/components/Icon'
 import Link from 'next/link'
 import { Page, PageAs } from '../common'
-import Meta from '../components/Meta'
+import Meta from '~/components/Meta'
 
 const PageStyled = styled.div`
   background: #edf2f7;

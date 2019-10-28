@@ -3,9 +3,9 @@ import { getRandomColor } from '~/lib/color/manager'
 import { fetchAPI } from '~/lib/fetch'
 import { FetchJSONError } from '~/lib/fetch/fetch.client'
 import { reportError } from '~/lib/utils/error'
-import { Address } from '~/redux/ducks/project'
+import { Address, Gallery } from '~/redux/ducks/project'
 import { RootState } from '~/redux/root-reducer'
-import { Cause } from '~/common/channel'
+import { Cause, ImageDict } from '~/common/channel'
 import { editOrganization } from './organization-composer'
 
 export interface Organization {
@@ -25,15 +25,13 @@ export interface Organization {
   address?: Address
   website?: string
   facebook_page?: string
-
+  chat_enabled: boolean
   benefited_people: number
-  image?: {
-    id: number
-    image_url: string
-    image_small_url: string
-    image_medium_url: string
-  }
+  image?: ImageDict
+  cover?: ImageDict
   rating: number
+  verified: boolean
+  galleries: Gallery[]
 }
 
 interface OrganizationFetchMeta {
@@ -60,7 +58,7 @@ export const fetchOrganization = createAction<
       }
 
       throw new FetchJSONError(
-        { status: 404, url: `/organization/${slug}` },
+        { statusCode: 404, url: `/organization/${slug}` },
         undefined,
       )
     }
@@ -71,7 +69,7 @@ export const fetchOrganization = createAction<
         sessionToken: user ? user.token : undefined,
       },
     ).catch(error => {
-      if (error && error.status !== 404) {
+      if (error && error.statusCode !== 404) {
         reportError(error)
       }
 

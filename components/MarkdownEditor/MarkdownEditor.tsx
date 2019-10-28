@@ -13,6 +13,7 @@ import { unwrapLink, wrapLink } from './commands'
 import MarkdownEditorHoverMenu from './MarkdownEditorHoverMenu'
 import serializer from './serializer'
 import { channel } from '~/base/common/constants'
+import { MaterialIconName } from '../Icon/Icon'
 
 const plugins = [PasteLinkify()]
 
@@ -49,7 +50,7 @@ const Control = styled.button`
 export interface EditorControlType {
   label: string
   type: string
-  icon: string
+  icon: MaterialIconName
   prompt?: {
     placeholder?: string
     onSubmit: (input: string) => any

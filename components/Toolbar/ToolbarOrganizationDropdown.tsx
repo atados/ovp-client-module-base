@@ -2,9 +2,8 @@ import Link from 'next/link'
 import React from 'react'
 import { defineMessages } from 'react-intl'
 import styled from 'styled-components'
-import { channel } from '~/base/common/constants'
 import { UserOrganization } from '~/base/redux/ducks/user'
-import { Page, PageAs } from '~/common'
+import { Page, PageAs, Color } from '~/common'
 import { useIntl } from 'react-intl'
 import Icon from '../Icon'
 import ToolbarDropdown from './ToolbarDropdown'
@@ -53,20 +52,25 @@ const NavPills = styled.div`
   width: 300px;
 
   a {
-    padding: 7px 16px !important;
-    border-radius: 4px;
+    padding: 7px 5px 7px 16px !important;
   }
 
   a .icon {
     font-size: 18px;
     vertical-align: middle;
     margin-right: 10px;
-    width: 20px;
-    color: #666;
+    width: 32px;
+    height: 32px;
+    text-align: center;
+    color: ${Color.gray[700]};
+    background: ${Color.gray[200]};
+    border-radius: 50%;
+    line-height: 1.8;
   }
 
   a:hover .icon {
-    color: ${channel.theme.color.primary[500]};
+    color: ${Color.primary[700]};
+    background-color: ${Color.gray[300]};
   }
 `
 
@@ -152,67 +156,65 @@ const ToolbarOrganizationDropdown: React.FC<
       }
     >
       {organization && (
-        <NavPills>
-          <div className="p-2">
-            <Link
-              href={Page.Organization}
-              as={PageAs.Organization({
-                organizationSlug: organization.slug,
-              })}
-            >
-              <a className="hover:text-primary hover:bg-muted block py-1 px-4 tc-base td-hover-none">
-                <Icon name="visibility" />
-                {intl.formatMessage(m.page)}
-              </a>
-            </Link>
-            <hr className="my-1" />
-            <Link
-              href={Page.OrganizationNewProject}
-              as={PageAs.OrganizationNewProject({
-                stepId: 'inicio',
-                organizationSlug: organization.slug,
-              })}
-            >
-              <a className="hover:text-primary hover:bg-muted block py-1 px-4 tc-base td-hover-none">
-                <Icon name="add" />
-                {intl.formatMessage(m.newProject)}
-              </a>
-            </Link>
-            <Link
-              href={Page.OrganizationDashboardProjectsList}
-              as={PageAs.OrganizationDashboardProjectsList({
-                organizationSlug: organization.slug,
-              })}
-            >
-              <a className="hover:text-primary hover:bg-muted block py-1 px-4 tc-base td-hover-none">
-                <Icon name="settings" />
-                {intl.formatMessage(m.manageProjects)}
-              </a>
-            </Link>
-            <hr className="my-1" />
-            <Link
-              href={Page.OrganizationDashboardMembers}
-              as={PageAs.OrganizationDashboardMembers({
-                organizationSlug: organization.slug,
-              })}
-            >
-              <a className="hover:text-primary hover:bg-muted block py-1 px-4 tc-base td-hover-none">
-                <Icon name="group" />
-                {intl.formatMessage(m.members)}
-              </a>
-            </Link>
-            <Link
-              href={Page.OrganizationEdit}
-              as={PageAs.OrganizationEdit({
-                organizationSlug: organization.slug,
-              })}
-            >
-              <a className="hover:text-primary hover:bg-muted block py-1 px-4 tc-base td-hover-none">
-                <Icon name="edit" />
-                {intl.formatMessage(m.editOrganization)}
-              </a>
-            </Link>
-          </div>
+        <NavPills className="py-2">
+          <Link
+            href={Page.Organization}
+            as={PageAs.Organization({
+              organizationSlug: organization.slug,
+            })}
+          >
+            <a className="hover:text-primary hover:bg-gray-200 block py-1 px-4 tc-base td-hover-none">
+              <Icon name="visibility" />
+              {intl.formatMessage(m.page)}
+            </a>
+          </Link>
+          <hr className="my-1" />
+          <Link
+            href={Page.OrganizationNewProject}
+            as={PageAs.OrganizationNewProject({
+              stepId: 'inicio',
+              organizationSlug: organization.slug,
+            })}
+          >
+            <a className="hover:text-primary hover:bg-gray-200 block py-1 px-4 tc-base td-hover-none">
+              <Icon name="add" />
+              {intl.formatMessage(m.newProject)}
+            </a>
+          </Link>
+          <Link
+            href={Page.OrganizationDashboardProjectsList}
+            as={PageAs.OrganizationDashboardProjectsList({
+              organizationSlug: organization.slug,
+            })}
+          >
+            <a className="hover:text-primary hover:bg-gray-200 block py-1 px-4 tc-base td-hover-none">
+              <Icon name="settings" />
+              {intl.formatMessage(m.manageProjects)}
+            </a>
+          </Link>
+          <hr className="my-1" />
+          <Link
+            href={Page.OrganizationDashboardMembers}
+            as={PageAs.OrganizationDashboardMembers({
+              organizationSlug: organization.slug,
+            })}
+          >
+            <a className="hover:text-primary hover:bg-gray-200 block py-1 px-4 tc-base td-hover-none">
+              <Icon name="group" />
+              {intl.formatMessage(m.members)}
+            </a>
+          </Link>
+          <Link
+            href={Page.OrganizationEdit}
+            as={PageAs.OrganizationEdit({
+              organizationSlug: organization.slug,
+            })}
+          >
+            <a className="hover:text-primary hover:bg-gray-200 block py-1 px-4 tc-base td-hover-none">
+              <Icon name="edit" />
+              {intl.formatMessage(m.editOrganization)}
+            </a>
+          </Link>
         </NavPills>
       )}
       {!organization && <div className="p-4">Faça o cadastro da sua ONG</div>}

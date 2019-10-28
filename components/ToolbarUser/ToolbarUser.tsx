@@ -12,7 +12,7 @@ import { User, logout } from '~/redux/ducks/user'
 import ToolbarApplications from '../Toolbar/ToolbarApplications'
 import AppNotificationWatcher from './components/AppNotificationWatcher'
 import ToolbarMessagesDropdown from './components/ToolbarMessagesDropdown'
-import { Page, PageAs } from '~/base/common'
+import { Page, PageAs, Color } from '~/base/common'
 import Router from 'next/router'
 import { defineMessages, useIntl } from 'react-intl'
 
@@ -72,8 +72,13 @@ const DropdownAnchor = styled.a`
     font-size: 18px;
     vertical-align: middle;
     margin-right: 10px;
-    width: 20px;
-    color: #666;
+    width: 32px;
+    height: 32px;
+    text-align: center;
+    color: ${Color.gray[700]};
+    background: ${Color.gray[200]};
+    border-radius: 50%;
+    line-height: 1.8;
   }
 
   &:hover,

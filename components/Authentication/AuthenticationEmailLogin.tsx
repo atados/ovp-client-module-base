@@ -3,7 +3,10 @@ import cx from 'classnames'
 import { withFormik, FormikProps } from 'formik'
 import FormGroup from '~/components/Form/FormGroup'
 import Yup from '~/lib/form/yup'
-import { AuthenticationAction } from './Authentication'
+import {
+  AuthenticationAction,
+  AuthenticateBySessionTokenFn,
+} from './Authentication'
 import { useIntl, defineMessages, FormattedMessage } from 'react-intl'
 import Link from 'next/link'
 import { Page, Asset } from '~/base/common'
@@ -21,7 +24,7 @@ interface AuthenticationEmailLoginProps {
   readonly className?: string
   readonly defaultValues?: Values
   readonly dispatch: Dispatch<AuthenticationAction>
-  readonly onLoginBySessionToken: (sessionToken: string) => any
+  readonly onLoginBySessionToken: AuthenticateBySessionTokenFn
 }
 
 const m = defineMessages({
@@ -95,7 +98,7 @@ const AuthenticationEmailLogin: React.FC<
       <div className="max-w-sm mx-auto">
         <div className="ta-center">
           <img
-            src={Asset.Logo}
+            src={Asset.LogoLight}
             alt=""
             width="42"
             height="42"
@@ -205,7 +208,7 @@ export default withFormik<AuthenticationEmailLoginProps, Values>({
         values.email,
         values.password,
       )
-      onLoginBySessionToken(sessionToken)
+      onLoginBySessionToken(sessionToken, 'email')
     } catch (error) {
       setStatus({ error })
       setSubmitting(false)

@@ -1,19 +1,11 @@
-import Link from 'next/link'
-import React, { useCallback, useState } from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
-import { PageAs, Page } from '~/common'
 import { channel } from '~/common/constants'
-import useFetchAPI from '~/hooks/use-fetch-api'
-import { PublicUser } from '~/redux/ducks/public-user'
-import { SearchType } from '~/redux/ducks/search'
 import { User } from '~/redux/ducks/user'
 import { DropdownMenu, DropdownToggler, DropdownWithContext } from '../Dropdown'
-import Icon from '../Icon'
 import VolunteerIcon from '../Icon/VolunteerIcon'
-import { useModal } from '../Modal'
-import ProjectApplicationFinish from '../ProjectApplication/ProjectApplicationFinish'
-import ToolbarApplicationsItem from './ToolbarApplicationsItem'
-import { FormattedMessage } from 'react-intl'
+import ViewerApplications from '~/components/ViewerApplications'
+import { Color } from '~/base/common'
 
 const Menu: React.FC<{ className?: string }> = styled(DropdownMenu)`
   left: auto;
@@ -21,59 +13,21 @@ const Menu: React.FC<{ className?: string }> = styled(DropdownMenu)`
   min-height: 500px;
 `
 
-const Body = styled.div`
-  top: 50px;
-  overflow-y: auto;
-`
-
-const Header = styled.div`
-  height: 50px;
-  padding-top: 14px;
-  padding-bottom: 14px;
-`
-
-interface ToolbarApplicationsState {
-  readonly focused: boolean
-  readonly selectedItemId?: number
-}
-
 interface ToolbarApplicationsProps {
   readonly className?: string
   readonly viewer: User
   readonly theme?: 'dark' | 'light'
 }
 
-const ToolbarApplications: React.FC<ToolbarApplicationsProps> = ({
-  viewer,
-  theme,
-}) => {
-  const openApplicationModal = useModal({
-    id: 'Application',
-    component: ProjectApplicationFinish,
-    cardClassName: 'p-4',
-  })
-  const [state, setState] = useState<ToolbarApplicationsState>({
-    focused: false,
-  })
-  const currentUserProfile = useFetchAPI<PublicUser>(
-    `/public-users/${viewer.slug}/`,
-  )
-  const applications = currentUserProfile.data
-    ? currentUserProfile.data.applies
-    : []
-
-  const handleOpenStateChange = useCallback(
-    (isOpen: boolean) =>
-      setState(prevState => ({ ...prevState, focused: isOpen })),
-    [],
-  )
+const ToolbarApplications: React.FC<ToolbarApplicationsProps> = ({ theme }) => {
+  const [open, setOpen] = useState(false)
 
   return (
-    <DropdownWithContext onOpenStateChange={handleOpenStateChange}>
+    <DropdownWithContext onOpenStateChange={setOpen}>
       <DropdownToggler>
         <button
           className={`rounded-circle w-10 h-10 no-border mr-2 btn-light ${
-            state.focused
+            open
               ? theme === 'light'
                 ? 'bg-primary-500'
                 : 'bg-white text-white'
@@ -87,88 +41,18 @@ const ToolbarApplications: React.FC<ToolbarApplicationsProps> = ({
             height={20}
             fill={
               theme === 'light'
-                ? state.focused
+                ? open
                   ? '#fff'
                   : '#333'
-                : state.focused
+                : open
                 ? channel.theme.color.primary[500]
-                : '#fff'
+                : Color.gray[700]
             }
           />
         </button>
       </DropdownToggler>
       <Menu className="mt-1 bg-muted">
-        <div className="">
-          <Header className="px-2 shadow-sm relative bg-white rounded-t-lg shadow">
-            <h4 className="ts-medium mb-0">
-              <FormattedMessage
-                id="toolbarApplications.title"
-                defaultMessage="Minhas inscrições"
-              />
-            </h4>
-          </Header>
-          <Body className="absolute bottom-0 left-0 right-0">
-            <div className="shadow-sm">
-              {applications.map(application => (
-                <ToolbarApplicationsItem
-                  key={application.id}
-                  application={application}
-                  active={application.id === state.selectedItemId}
-                  className={
-                    application.id === state.selectedItemId
-                      ? 'bg-white my-2 transition'
-                      : 'bg-white'
-                  }
-                  onClick={event => {
-                    event.preventDefault()
-                    if (state.selectedItemId === application.id) {
-                      setState({ ...state, selectedItemId: undefined })
-                      return
-                    }
-                    setState({ ...state, selectedItemId: application.id })
-                  }}
-                  onOpenApplication={() => {
-                    openApplicationModal({
-                      project: application.project,
-                      application,
-                    })
-                  }}
-                />
-              ))}
-            </div>
-            {applications.length === 0 && (
-              <div className="p-5 ta-center">
-                <h4>
-                  <FormattedMessage
-                    id="toolbarApplications.noApplicationsFound.title"
-                    defaultMessage="Nenhuma inscrição encontrada"
-                  />
-                </h4>
-                <span className="block mb-3 tc-muted-dark">
-                  <FormattedMessage
-                    id="toolbarApplications.noApplicationsFound.text"
-                    defaultMessage="Ainda não encontrou nenhuma vaga pra você? Tente usar os filtros"
-                  />
-                </span>
-                <Link
-                  href={{
-                    pathname: Page.SearchProjects,
-                    query: { searchType: SearchType.Projects },
-                  }}
-                  as={PageAs.SearchProjects()}
-                >
-                  <a className="btn btn-primary">
-                    <FormattedMessage
-                      id="toolbarApplications.noApplicationsFound.button"
-                      defaultMessage="Ver vagas de voluntariado"
-                    />{' '}
-                    <Icon name="arrow_forward" />
-                  </a>
-                </Link>
-              </div>
-            )}
-          </Body>
-        </div>
+        <ViewerApplications />
       </Menu>
     </DropdownWithContext>
   )

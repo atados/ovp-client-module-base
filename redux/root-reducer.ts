@@ -14,7 +14,6 @@ import project, { ProjectReducerState } from '~/redux/ducks/project'
 import publicUser, { PublicUserReducerState } from '~/redux/ducks/public-user'
 import search, { SearchReducerState } from '~/redux/ducks/search'
 import user, { UserState } from '~/redux/ducks/user'
-import blog, { BlogReducerState } from './ducks/blog'
 import catalogue, { CatalogueReducerState } from './ducks/catalogue'
 import faq, { FAQReducerState } from './ducks/faq'
 import geo, { GeolocationReducerState } from './ducks/geo'
@@ -46,7 +45,6 @@ export interface BaseRootState {
   readonly user: UserState
   readonly inbox: InboxReducerState
   readonly inboxViewers: InboxViewersReducerState
-  readonly blog: BlogReducerState
   readonly catalogue: CatalogueReducerState
   readonly intl: IntlReducerState
   readonly project: ProjectReducerState
@@ -80,7 +78,6 @@ export const baseReducers = {
   faq,
   user,
   geo,
-  blog,
   catalogue,
   intl,
   project,

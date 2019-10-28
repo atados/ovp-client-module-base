@@ -12,6 +12,7 @@ import ToolbarOrganizationDropdown from './ToolbarOrganizationDropdown'
 import ToolbarVolunteerDropdown from './ToolbarVolunteerDropdown'
 import { Page, PageAs } from '~/base/common'
 import { FormattedMessage } from 'react-intl'
+import PageLink from '../PageLink'
 
 const ToolbarStyled = styled.div`
   height: ${channel.theme.toolbarHeight}px;
@@ -84,9 +85,13 @@ const Toolbar: React.FC<ToolbarProps> = ({
       <Navbar className={`h-full navbar navbar-expand-lg px-0 navbar-${theme}`}>
         <div className="container w-full">
           {brand || (
-            <ToolbarBrand
-              className={state.searchFormFocused ? 'hidden md:block' : ''}
-            />
+            <PageLink href="Home" passHref>
+              <ToolbarBrand
+                className={`mr-2 ${
+                  state.searchFormFocused ? 'hidden md:block' : ''
+                }`}
+              />
+            </PageLink>
           )}
           {searchFormEnabled && (
             // @ts-ignore
