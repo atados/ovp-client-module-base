@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import { PublicUserApplication } from '~/redux/ducks/public-user'
 import Icon from '../Icon'
 import { Page, PageAs } from '~/base/common'
+import { FormattedMessage } from 'react-intl'
 
 const Actions = styled.div`
   button {
@@ -31,7 +32,7 @@ const ToolbarApplicationsItem: React.FC<ToolbarApplicationsItemProps> = ({
   className,
   onClick,
   onOpenApplication,
-  application: { project },
+  application,
   active,
 }) => {
   const handleClick = useCallback(
@@ -44,6 +45,8 @@ const ToolbarApplicationsItem: React.FC<ToolbarApplicationsItemProps> = ({
     },
     [onOpenApplication],
   )
+
+  const { project } = application
 
   return (
     <div
@@ -89,20 +92,28 @@ const ToolbarApplicationsItem: React.FC<ToolbarApplicationsItemProps> = ({
         <>
           <hr className="my-0" />
           <Actions className="py-1 animate-slideInUp">
-            <button
-              onClick={handleClick}
-              className="btn btn--block py-1 px-2 ta-left hover:bg-muted"
-            >
-              <Icon name="assignment" className="mr-2" />
-              Ver minha inscrição
-            </button>
+            {!application.canceled && (
+              <button
+                onClick={handleClick}
+                className="btn btn--block py-1 px-2 ta-left hover:bg-muted"
+              >
+                <Icon name="assignment" className="mr-2" />
+                <FormattedMessage
+                  id="toolbarApplicationsItem.viewApplication"
+                  defaultMessage="Ver minha inscrição"
+                />
+              </button>
+            )}
             <Link
               href={Page.Project}
               as={PageAs.Project({ slug: project.slug })}
             >
               <a className="btn btn--block py-1 px-2 ta-left hover:bg-muted tc-base tw-normal">
                 <Icon name="launch" className="mr-2" />
-                Ir para página da vaga
+                <FormattedMessage
+                  id="toolbarApplicationsItem.viewPage"
+                  defaultMessage="Ir para página da vaga"
+                />
               </a>
             </Link>
           </Actions>

@@ -266,7 +266,8 @@ export default connect(
     }: ProjectApplicationProps) => ({
       terms: false,
       roleId:
-        defaultRoleId || (project.roles.length ? project.roles[0].id : -1),
+        defaultRoleId ||
+        (project.roles && project.roles.length ? project.roles[0].id : -1),
       message: '',
     }),
     handleSubmit: async (

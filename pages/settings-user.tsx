@@ -29,13 +29,56 @@ import {
   ViewerSettingsLayout,
   getViewerSettingsInitialProps,
 } from '~/components/ViewerSettings'
-import { FormattedMessage } from 'react-intl'
+import { FormattedMessage, defineMessages, useIntl } from 'react-intl'
 import { Color } from '../common'
 import useFetchAPI from '../hooks/use-fetch-api'
 
 interface SettingsUserPageProps {
   readonly onSubmit: (values: UserOverrides) => any
 }
+
+const m = defineMessages({
+  'Seu nome': {
+    id: 'settingsUser.name',
+    defaultMessage: 'Seu nome',
+  },
+  'Sobre você': {
+    id: 'settingsUser.about',
+    defaultMessage: 'Sobre você',
+  },
+  Telefone: {
+    id: 'settingsUser.phone',
+    defaultMessage: 'Telefone',
+  },
+  'Data de nascimento': {
+    id: 'settingsUser.birthdate',
+    defaultMessage: 'Data de nascimento',
+  },
+  Gênero: {
+    id: 'settingsUser.gender',
+    defaultMessage: 'Gênero',
+  },
+  Cidade: {
+    id: 'settingsUser.city',
+    defaultMessage: 'Cidade',
+  },
+  Causas: {
+    id: 'settingsUser.causes',
+    defaultMessage: 'Causas',
+  },
+  Habilidades: {
+    id: 'settingsUser.skills',
+    defaultMessage: 'Habilidades',
+  },
+  requiredToSubscribe: {
+    id: 'settingsUser.requiredToSubscribe',
+    defaultMessage: 'Essa informação é obrigatória para se inscrever numa ação',
+  },
+  inputAddressHint: {
+    id: 'settingsUser.inputAddressHint',
+    defaultMessage: 'Comece a escrever e selecione uma opção',
+  },
+})
 
 const publicUserToValues = ({
   name,
@@ -94,6 +137,7 @@ const SettingsUserPage: NextPage<
       skillsSelectItems: state.startup.skills.map(skillToSelectItem),
     }),
   )
+  const intl = useIntl()
   const publicUserQuery = useFetchAPI<PublicUser>(
     `/public-users/${viewer && viewer.slug}/`,
     { skip: !viewer },
@@ -148,7 +192,7 @@ const SettingsUserPage: NextPage<
           </div>
           <FormGroup
             labelFor="profile-input-name"
-            label="Seu nome"
+            label={intl.formatMessage(m['Seu nome'])}
             error={touched.name ? errors.name : undefined}
             length={values.name.length}
             maxLength={150}
@@ -167,7 +211,7 @@ const SettingsUserPage: NextPage<
 
           <FormGroup
             labelFor="profile-input-description"
-            label="Sobre você"
+            label={intl.formatMessage(m['Sobre você'])}
             error={touched.description ? errors.description : undefined}
             length={values.description.length}
             maxLength={200}
@@ -187,11 +231,11 @@ const SettingsUserPage: NextPage<
 
           <FormGroup
             labelFor="profile-input-phone"
-            label="Telefone"
+            label={intl.formatMessage(m.Telefone)}
             error={touched.phone ? errors.phone : undefined}
             length={values.phone.length}
             className="mb-4"
-            hint="Essa informação é obrigatória para se inscrever numa ação"
+            hint={intl.formatMessage(m.requiredToSubscribe)}
           >
             <MaskedTextInput
               id="profile-input-phone"
@@ -208,11 +252,11 @@ const SettingsUserPage: NextPage<
 
           <FormGroup
             labelFor="profile-input-birthdate"
-            label="Data de nascimento"
+            label={intl.formatMessage(m['Data de nascimento'])}
             error={touched.birthdate ? errors.birthdate : undefined}
             length={values.birthdate.length}
             className="mb-4"
-            hint="Essa informação é obrigatória para se inscrever numa ação"
+            hint={intl.formatMessage(m.requiredToSubscribe)}
           >
             <MaskedTextInput
               id="profile-input-birthdate"
@@ -229,7 +273,7 @@ const SettingsUserPage: NextPage<
 
           <FormGroup
             labelFor="profile-input-gender"
-            label="Gênero"
+            label={intl.formatMessage(m.Gênero)}
             error={touched.gender ? errors.gender : undefined}
             length={values.gender.length}
             className="mb-4"
@@ -243,18 +287,33 @@ const SettingsUserPage: NextPage<
               onBlur={handleBlur}
               className="input input--size-3"
             >
-              <option value="unspecified">Não especificado</option>
-              <option value="male">Homem</option>
-              <option value="female">Mulher</option>
+              <option value="unspecified">
+                <FormattedMessage
+                  id="NAO_ESPECIFICADO"
+                  defaultMessage="Não especificado"
+                />
+              </option>
+              <option value="male">
+                <FormattedMessage
+                  id="settingsUser.gender.male"
+                  defaultMessage="Masculino"
+                />
+              </option>
+              <option value="female">
+                <FormattedMessage
+                  id="settingsUser.gender.female"
+                  defaultMessage="Feminino"
+                />
+              </option>
             </select>
           </FormGroup>
 
           <FormGroup
-            label="Cidade"
+            label={intl.formatMessage(m.Cidade)}
             labelFor="recover-input-city"
             error={touched.city ? errors.city : undefined}
             className="mb-4"
-            hint="Comece a escrever e selecione uma opção"
+            hint={intl.formatMessage(m.inputAddressHint)}
           >
             <InputAddress
               id="recover-input-city"
@@ -274,7 +333,7 @@ const SettingsUserPage: NextPage<
 
           <FormGroup
             labelFor="profile-input-causes"
-            label="Causas"
+            label={intl.formatMessage(m.Causas)}
             error={
               touched.causes ? ((errors.causes as any) as string) : undefined
             }
@@ -293,7 +352,7 @@ const SettingsUserPage: NextPage<
 
           <FormGroup
             labelFor="profile-input-skills"
-            label="Habilidades"
+            label={intl.formatMessage(m.Habilidades)}
             error={
               touched.skills ? ((errors.skills as any) as string) : undefined
             }
@@ -311,26 +370,35 @@ const SettingsUserPage: NextPage<
           </FormGroup>
 
           <p className="tc-muted ts-small">
-            Todos os campos preenchidos nesta página podem ser excluídos a
+            <FormattedMessage
+              id="settingsUser.text"
+              defaultMessage="Todos os campos preenchidos nesta página podem ser excluídos a
             qualquer momento mediante solicitação, ao preenchê-los, você afirma
             estar ciente de estar nos dando direito de compartilhar estes dados
             e sua imagem em seu perfil e qualquer local que ele for vinculado.
             Por favor leia nossos termos de privacidade para saber mais como
-            utilizamos suas informações.
+            utilizamos suas informações."
+            />
           </p>
           <button
             type="submit"
             className="btn px-2 text-lg py-2 rounded btn-primary w-full"
             disabled={isSubmitting}
           >
-            Salvar alterações
+            <FormattedMessage
+              id="settingsUser.submit"
+              defaultMessage="Salvar alterações"
+            />
             {isSubmitting && (
               <ActivityIndicator size={36} fill="white" className="ml-1" />
             )}
           </button>
           {status && (
             <ErrorMessage className="mt-2">
-              Falha ao conectar-se com o servidor
+              <FormattedMessage
+                id="settingsUser.error"
+                defaultMessage="Falha ao conectar-se com o servidor"
+              />
             </ErrorMessage>
           )}
         </form>

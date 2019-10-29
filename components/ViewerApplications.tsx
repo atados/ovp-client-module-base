@@ -40,15 +40,8 @@ const ViewerApplications: React.FC<ViewerApplicationsProps> = ({
   const [state, setState] = useState<ViewerApplicationsState>({
     focused: false,
   })
-  const currentUserProfile = useFetchAPI<PublicUser>(
-    `/public-users/${viewer!.slug}/`,
-    {
-      skip: !state.focused,
-    },
-  )
-  const applications = currentUserProfile.data
-    ? currentUserProfile.data.applies
-    : []
+  const profileQuery = useFetchAPI<PublicUser>(`/public-users/${viewer!.slug}/`)
+  const applications = profileQuery.data ? profileQuery.data.applies : []
 
   return (
     <div className={className}>
@@ -80,13 +73,13 @@ const ViewerApplications: React.FC<ViewerApplicationsProps> = ({
                 }
                 setState({ ...state, selectedItemId: application.id })
               }}
-              onOpenApplication={() => {
+              onOpenApplication={() =>
                 openProjectApplication(application.project)
-              }}
+              }
             />
           ))}
         </div>
-        {applications.length === 0 && (
+        {!profileQuery.loading && applications.length === 0 && (
           <div className="p-5 ta-center">
             <h4>
               <FormattedMessage

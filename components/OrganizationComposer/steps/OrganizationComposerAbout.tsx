@@ -70,7 +70,7 @@ const {
     defaultMessage: '4. A importância do trabalho da ONG.',
   },
   SOBRE: {
-    id: 'SOBRE',
+    id: 'organizationComposerAbout.title',
     defaultMessage: 'Sobre a ONG',
   },
   ETAPA3: {

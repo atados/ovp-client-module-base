@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import { reportError } from '~/lib/utils/error'
 import ActivityIndicator from '../ActivityIndicator'
 import { channel } from '~/base/common/constants'
+import { FormattedMessage } from 'react-intl'
 
 const Container = styled.div`
   background: #f4f5f6;
@@ -557,7 +558,10 @@ class FormComposer extends React.Component<
                             fill="#fff"
                             className="mr-1"
                           />
-                          Salvando rascunho
+                          <FormattedMessage
+                            id="formComposer.saving"
+                            defaultMessage="Salvando rascunho"
+                          />
                         </DraftedIndicator>
                       )}
                       <StepsNav>

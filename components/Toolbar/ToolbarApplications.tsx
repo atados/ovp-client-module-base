@@ -51,9 +51,7 @@ const ToolbarApplications: React.FC<ToolbarApplicationsProps> = ({ theme }) => {
           />
         </button>
       </DropdownToggler>
-      <Menu className="mt-1 bg-muted">
-        <ViewerApplications />
-      </Menu>
+      <Menu className="mt-1 bg-muted">{open && <ViewerApplications />}</Menu>
     </DropdownWithContext>
   )
 }

@@ -215,10 +215,14 @@ export const fetchProject = createAction<string, Project, ProjectFetchMeta>(
     const projectRolesMap: { [id: number]: ProjectRole } = {}
 
     project.max_applies_from_roles = 0
-    project.roles.forEach(role => {
-      project.max_applies_from_roles += role.vacancies
-      projectRolesMap[role.id] = role
-    })
+    if (project.roles) {
+      project.roles.forEach(role => {
+        project.max_applies_from_roles += role.vacancies
+        projectRolesMap[role.id] = role
+      })
+    } else {
+      project.roles = []
+    }
     project.applies.forEach(application => {
       const role = application.role && projectRolesMap[application.role.id]
       if (role) {

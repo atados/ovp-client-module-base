@@ -174,7 +174,7 @@ const ProjectPageRoles: React.FC<ProjectPageRolesProps> = ({
 }) => {
   const intl = useIntl()
 
-  if (!project.roles.length) {
+  if (!project.roles || !project.roles.length) {
     return null
   }
 

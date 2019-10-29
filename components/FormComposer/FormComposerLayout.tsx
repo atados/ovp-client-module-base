@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import ActivityIndicator from '../ActivityIndicator'
 import Icon from '../Icon'
 import { FormComposerContext, FormComposerMode } from './FormComposer'
+import { FormattedMessage } from 'react-intl'
 
 const Body = styled.div`
   display: flex;
@@ -114,7 +115,10 @@ const FormComposerLayout: React.FC<FormComposerLayoutProps> = ({
                       className={`btn btn--size-4 btn-text`}
                     >
                       <Icon name="arrow_back" className="mr-2" />
-                      Voltar
+                      <FormattedMessage
+                        id="formComposerLayout.back"
+                        defaultMessage="Voltar"
+                      />
                     </button>
                   )}
                   <div className="mr-auto" />
@@ -128,16 +132,26 @@ const FormComposerLayout: React.FC<FormComposerLayoutProps> = ({
                       onClick={onSubmit}
                     >
                       {mode === FormComposerMode.EDIT ? (
-                        'Salvar alterações'
+                        <FormattedMessage
+                          id="formComposerLayout.save"
+                          defaultMessage="Salvar alterações"
+                        />
                       ) : (
                         <>
                           {submittedStepIds.length >= stepIds.length - 1 ? (
                             <>
-                              Concluir <Icon name="check" className="ml-2" />
+                              <FormattedMessage
+                                id="formComposerLayout.submit"
+                                defaultMessage="Concluir"
+                              />{' '}
+                              <Icon name="check" className="ml-2" />
                             </>
                           ) : (
                             <>
-                              Continuar{' '}
+                              <FormattedMessage
+                                id="formComposerLayout.next"
+                                defaultMessage="Continuar"
+                              />{' '}
                               <Icon name="arrow_forward" className="ml-2" />
                             </>
                           )}

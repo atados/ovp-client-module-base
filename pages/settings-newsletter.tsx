@@ -71,14 +71,25 @@ const SettingsNewsletterPage: NextPage<{}> = () => {
           </h4>
           <div className="border rounded-lg mt-5 max-w-sm p-3 mx-auto mb-5">
             <h4 className="tw-normal ts-large ta-center">
-              {isSubscribed
-                ? 'Você está inscrito na newsletter'
-                : 'Inscreva-se na newsletter'}
+              {isSubscribed ? (
+                <FormattedMessage
+                  id="settingsNewsletter.subscribed"
+                  defaultMessage="Você está inscrito na newsletter"
+                />
+              ) : (
+                <FormattedMessage
+                  id="settingsNewsletter.subscribeTitle"
+                  defaultMessage="Inscreva-se na newsletter"
+                />
+              )}
             </h4>
             <p>
-              Enviamos uma newsletter semanal para o seu email (
-              <b>{viewer.email}</b>) com as vagas da semana que mais se encaixam
-              com o seu perfil.
+              <FormattedMessage
+                id="settingsNewsletter.description"
+                defaultMessage="Enviamos uma newsletter semanal para o seu email ({email}) com as
+                vagas da semana que mais se encaixam com o seu perfil."
+                values={{ email: <b>{viewer.email}</b> }}
+              />
             </p>
             <button
               type="button"
@@ -92,11 +103,19 @@ const SettingsNewsletterPage: NextPage<{}> = () => {
             >
               {isSubscribed ? (
                 <>
-                  Não quero mais receber <Icon name="close" className="ml-1" />
+                  <FormattedMessage
+                    id="settingsNewsletter.unsubscribe"
+                    defaultMessage="Não quero mais receber"
+                  />{' '}
+                  <Icon name="close" className="ml-1" />
                 </>
               ) : (
                 <>
-                  Quero começar a receber <Icon name="email" className="ml-1" />
+                  <FormattedMessage
+                    id="settingsNewsletter.subscribe"
+                    defaultMessage="Quero começar a receber"
+                  />{' '}
+                  <Icon name="email" className="ml-1" />
                 </>
               )}
             </button>

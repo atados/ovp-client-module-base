@@ -20,12 +20,24 @@ import {
   getViewerSettingsInitialProps,
 } from '../components/ViewerSettings'
 import Icon from '../components/Icon'
-import { useIntl, defineMessages } from 'react-intl'
+import { useIntl, defineMessages, FormattedMessage } from 'react-intl'
 
 const m = defineMessages({
   title: {
     id: 'pages.settingsPassword.title',
     defaultMessage: 'Alterar senha',
+  },
+  'Senha atual': {
+    id: 'settingsPassword.password',
+    defaultMessage: 'Senha atual',
+  },
+  'Nova senha': {
+    id: 'settingsPassword.prevPassword',
+    defaultMessage: 'Nova senha',
+  },
+  'Confirmar nova senha': {
+    id: 'settingsPassword.confirmPassword',
+    defaultMessage: 'Confirmar nova senha',
   },
 })
 
@@ -83,7 +95,7 @@ const SettingsPassword: NextPage<
         >
           <FormGroup
             labelFor="profile-input-current-password"
-            label="Senha atual"
+            label={intl.formatMessage(m['Senha atual'])}
             error={touched.currentPassword ? errors.currentPassword : undefined}
             length={values.currentPassword.length}
             className="mb-4"
@@ -100,7 +112,7 @@ const SettingsPassword: NextPage<
           </FormGroup>
           <FormGroup
             labelFor="profile-input-new-password"
-            label="Nova senha"
+            label={intl.formatMessage(m['Nova senha'])}
             error={touched.newPassword ? errors.newPassword : undefined}
             length={values.newPassword.length}
             className="mb-4"
@@ -117,7 +129,7 @@ const SettingsPassword: NextPage<
           </FormGroup>
           <FormGroup
             labelFor="profile-input-confirm-new-password"
-            label="Confirmar nova senha"
+            label={intl.formatMessage(m['Confirmar nova senha'])}
             error={
               touched.confirmNewPassword ? errors.confirmNewPassword : undefined
             }
@@ -139,16 +151,27 @@ const SettingsPassword: NextPage<
             className="btn btn--size-3 btn-primary w-full block"
             disabled={isSubmitting}
           >
-            Salvar alterações
+            <FormattedMessage
+              id="settingsPassword.submit"
+              defaultMessage="Salvar alterações"
+            />
             {isSubmitting && (
               <ActivityIndicator size={36} fill="white" className="ml-1" />
             )}
           </button>
           {status && (
             <ErrorMessage className="mt-2">
-              {status.payload && status.payload.current_password
-                ? 'Senha atual inválida'
-                : 'Falha ao conectar-se com o servidor'}
+              {status.payload && status.payload.current_password ? (
+                <FormattedMessage
+                  id="settingsPassword.invalidPassword"
+                  defaultMessage="Senha atual inválida"
+                />
+              ) : (
+                <FormattedMessage
+                  id="settingsPassword.error"
+                  defaultMessage="Falha ao conectar-se com o servidor"
+                />
+              )}
             </ErrorMessage>
           )}
         </form>
