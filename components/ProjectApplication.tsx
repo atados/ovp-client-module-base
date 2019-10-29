@@ -274,7 +274,8 @@ export default connect(
       values,
       { props: { project, onSubmit, next }, setSubmitting },
     ) => {
-      const role = project.roles.find(r => r.id === values.roleId)
+      const role =
+        project.roles && project.roles.find(r => r.id === values.roleId)
 
       const { payload: success } = await onSubmit({
         project,
