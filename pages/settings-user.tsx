@@ -32,6 +32,7 @@ import {
 import { FormattedMessage, defineMessages, useIntl } from 'react-intl'
 import { Color } from '../common'
 import useFetchAPI from '../hooks/use-fetch-api'
+import { reportError } from '../lib/utils/error'
 
 interface SettingsUserPageProps {
   readonly onSubmit: (values: UserOverrides) => any
@@ -77,6 +78,12 @@ const m = defineMessages({
   inputAddressHint: {
     id: 'settingsUser.inputAddressHint',
     defaultMessage: 'Comece a escrever e selecione uma opção',
+  },
+  notSpecified: { id: 'NAO_ESPECIFICADO', defaultMessage: 'Não especificado' },
+  genderMale: { id: 'settingsUser.gender.male', defaultMessage: 'Masculino' },
+  genderFemale: {
+    id: 'settingsUser.gender.female',
+    defaultMessage: 'Feminino',
   },
 })
 
@@ -288,22 +295,11 @@ const SettingsUserPage: NextPage<
               className="input input--size-3"
             >
               <option value="unspecified">
-                <FormattedMessage
-                  id="NAO_ESPECIFICADO"
-                  defaultMessage="Não especificado"
-                />
+                {intl.formatMessage(m.notSpecified)}
               </option>
-              <option value="male">
-                <FormattedMessage
-                  id="settingsUser.gender.male"
-                  defaultMessage="Masculino"
-                />
-              </option>
+              <option value="male">{intl.formatMessage(m.genderMale)}</option>
               <option value="female">
-                <FormattedMessage
-                  id="settingsUser.gender.female"
-                  defaultMessage="Feminino"
-                />
+                {intl.formatMessage(m.genderFemale)}
               </option>
             </select>
           </FormGroup>
@@ -431,7 +427,7 @@ const PublicUserEditSchema = Yup.object().shape({
 
 export default connect(
   undefined,
-  { updateUser },
+  { onSubmit: updateUser },
 )(
   withFormik<SettingsUserPageProps, Values>({
     displayName: 'SettingsUserPageEdit',
@@ -483,6 +479,7 @@ export default connect(
 
         setSubmitting(false)
       } catch (error) {
+        reportError(error)
         setStatus(error)
       }
     },

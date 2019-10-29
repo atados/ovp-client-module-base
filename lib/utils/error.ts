@@ -43,7 +43,7 @@ export function setupErrorMonitoring() {
 
 export function reportError(error: any): void {
   if (dev) {
-    console.error(error)
+    console.error(`REPORTED: `, error)
     return
   }
 
