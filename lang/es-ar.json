@@ -389,7 +389,7 @@
   "projectComposer.beforeAuth.subtitle": "Además de ser capaz de crear una vacante, puede recibir recomendaciones de los mejores proyectos del mes",
   "causesFilter.value": "Causas",
   "causesFilter.title": "Filtrar por habilidad",
-  "disponibilityFilter.value.disponibility": "Recurrente",
+  "disponibilityFilter.value.disponibility": "Disponibilidad",
   "disponibilityFilter.value.both": "Recurrente y puntual",
   "disponibilityFilter.value.job": "Recurrente y puntual",
   "disponibilityFilter.value.work": "Recurrente",

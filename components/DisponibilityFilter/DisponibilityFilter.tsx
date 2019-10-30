@@ -162,7 +162,7 @@ class DisponibilityFilter extends React.Component<
     let label = (
       <FormattedMessage
         id="disponibilityFilter.value.disponibility"
-        defaultMessage="Recorrente"
+        defaultMessage="Disponbilidade"
       />
     )
 

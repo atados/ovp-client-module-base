@@ -136,18 +136,24 @@ const ProjectPageDisponibility: React.FC<ProjectPageDisponibilityProps> = ({
               {intl.formatMessage(VAGA_DESCRICAO)}
             </p>
 
-            {project.disponibility.job.dates.map((jobDate, i) => (
-              <EventDate key={`${jobDate.name}${i}`} className="mb-3">
-                <EventCalendarDate>
-                  {moment(jobDate.start_date).date()}
-                </EventCalendarDate>
-                <EventDateText>
-                  {moment(jobDate.start_date).format('LL')}
-                </EventDateText>
-                <h4>{jobDate.name}</h4>
-                <p />
-              </EventDate>
-            ))}
+            {project.disponibility.job.dates.map((jobDate, i) => {
+              const momentStartDate = moment(jobDate.start_date)
+              const momentEndDate = moment(jobDate.end_date)
+              return (
+                <EventDate key={`${jobDate.name}${i}`} className="mb-3">
+                  <EventCalendarDate>
+                    {momentStartDate.date()}
+                  </EventCalendarDate>
+                  <EventDateText>{momentStartDate.format('LL')}</EventDateText>
+                  <h4>{jobDate.name}</h4>
+                  <p className="ts-small tc-gray-700">
+                    {momentStartDate.format('LT')}
+                    <Icon name="arrow_forward" className="mx-1" />
+                    {momentEndDate.format('LT')}
+                  </p>
+                </EventDate>
+              )
+            })}
           </>
         )}
         {project.disponibility.type === 'work' && (
