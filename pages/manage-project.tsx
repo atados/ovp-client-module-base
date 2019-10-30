@@ -66,6 +66,10 @@ const ManageProjectPage: NextPage<
   const openClosureModal = useModal({
     id: 'CloseProject',
     component: CloseProjectForm as any,
+    componentProps: {
+      projectSlug: project.slug,
+    },
+    onClosePropName: 'onCancel',
     cardClassName: 'p-5',
   })
   const children = (
@@ -112,7 +116,7 @@ const ManageProjectPage: NextPage<
             </span>
             <button
               type="button"
-              onClick={openClosureModal}
+              onClick={() => openClosureModal()}
               className="btn btn-error"
             >
               {intl.formatMessage(ENCERRAR_VAGA)}

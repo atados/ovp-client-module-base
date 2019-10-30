@@ -44,7 +44,6 @@ export function setupErrorMonitoring() {
 export function reportError(error: any): void {
   if (dev) {
     console.error(`REPORTED: `, error)
-    return
   }
 
   Sentry.configureScope(scope => {

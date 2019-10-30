@@ -28,6 +28,7 @@ import { RootState } from '~/redux/root-reducer'
 import { ProjectPageNavId, ProjectPageSubPage } from '~/types/project'
 import { useProjectApplication } from '../hooks/project-application-hooks'
 import { useSetStatus } from '../hooks/status-hooks'
+import { reportError } from '../lib/utils/error'
 
 const Sidebar = styled.div`
   min-width: 352px;
@@ -177,6 +178,7 @@ ProjectPage.displayName = 'ProjectPage'
 ProjectPage.getInitialProps = async ({
   store,
   query: { slug, subpage, defaultRoleId },
+  req,
 }) => {
   if (typeof slug !== 'string') {
     throw new NotFoundPageError()
@@ -194,6 +196,11 @@ ProjectPage.getInitialProps = async ({
       !project.published &&
       (!viewer || !doesUserHaveAccessToProject(viewer, project))
     ) {
+      if (!project.published && !req) {
+        reportError(
+          `Project ${project.slug} is not published but was acessed via platform.`,
+        )
+      }
       throw new NotFoundPageError()
     }
 

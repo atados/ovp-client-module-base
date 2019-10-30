@@ -169,7 +169,7 @@ const AuthenticationRecoverSchema = Yup.object().shape({
     .max(100)
     .required(),
   confirmPassword: Yup.string()
-    .equals('password', 'A senhas não são iguais')
+    .equals('password')
     .min(8)
     .max(100)
     .required(),

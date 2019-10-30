@@ -18,7 +18,7 @@ import { InputSelectItem } from '~/components/InputSelect/InputSelect'
 import Meta from '~/components/Meta'
 import * as masks from '~/lib/form/masks'
 import { RE_DATE, RE_PHONE } from '~/lib/form/regex'
-import Yup from '~/lib/form/yup'
+import Yup, { YupDateErrorMessage, YupPhoneErrorMessage } from '~/lib/form/yup'
 import { causeToSelectItem, skillToSelectItem } from '~/lib/utils/form'
 import { formatToBRDate, formatToUSDate } from '~/lib/utils/string'
 import { PublicUser } from '~/redux/ducks/public-user'
@@ -412,6 +412,7 @@ const PublicUserEditSchema = Yup.object().shape({
     .min(4)
     .max(200),
   causes: Yup.array().max(3),
+  skills: Yup.array().max(3),
   name: Yup.string()
     .min(4)
     .max(150)
@@ -420,9 +421,9 @@ const PublicUserEditSchema = Yup.object().shape({
     .nullable(true)
     .required(),
   phone: Yup.string()
-    .matches(RE_PHONE, 'Esse número de telefone não é válido')
+    .matches(RE_PHONE, YupPhoneErrorMessage)
     .required(),
-  birthday_date: Yup.string().matches(RE_DATE, 'Essa data não é valida'),
+  birthdate: Yup.string().matches(RE_DATE, YupDateErrorMessage),
 })
 
 export default connect(

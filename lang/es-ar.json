@@ -485,5 +485,26 @@
   "settingsUser.gender.female": "Hembra",
   "settingsUser.text": "Todos los campos rellenados en esta página se pueden eliminar en cualquier momento a petición. Al rellenar estos campos, usted afirma que usted es consciente de que nos está dando el derecho de compartir esta imagen en su perfil de datos y y cualquier lugar en el que está vinculado. Por favor, lea nuestras condiciones de privacidad para aprender más sobre cómo utilizamos su información.",
   "settingsUser.submit": "Guardar cambios",
-  "settingsUser.error": "Error al conectar con el servidor"
+  "settingsUser.error": "Error al conectar con el servidor",
+
+  "closeProjectForm.title": "¿Estás seguro de que quieres cerrar este proyecto?",
+  "closeProjectForm.subtitle": "Una vez que haya cerrado esta vacante, ya no podrá volver a abrirla, ya no aparecerá en la plataforma.",
+  "closeProjectForm.cancel": "Cancelar",
+  "closeProjectForm.submit": "Cerrar este proyecto",
+  "form.error.required": "Este campo es obligatorio",
+  "form.error.invalid": "Este tipo no es valido",
+  "form.error.string_min": "Debe contener al menos {min} caracteres",
+  "form.error.string_max": "Debe contener como máximo {max} caracteres",
+  "form.error.string_email": "Asegúrese de que este es un correo electrónico válido",
+  "form.error.string_url": "Esta no es una url válida.",
+  "form.error.array_min": "Esta lista debe contener al menos {min} elementos",
+  "form.error.array_max": "Esta lista debe contener como máximo {max} elementos",
+  "form.error.number_min": "El número debe ser al menos {min}",
+  "form.error.number_max": "El número debe ser como máximo {max}",
+  "form.error.unknown": "Campo inválido",
+  "form.error.equals": "Los valores no son iguales.",
+  "form.error.invalid_phone": "Este telefono no es valido",
+  "form.error.invalid_date": "Esta fecha no es válida",
+  "form.error.invalid_hour": "Este tiempo no es valido",
+  "form.error.terms": "Debe aceptar nuestros términos antes de continuar"
 }

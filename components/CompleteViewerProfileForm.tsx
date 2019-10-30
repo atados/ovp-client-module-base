@@ -12,7 +12,7 @@ import {
 } from '~/components/InputAddress/InputAddress'
 import * as masks from '~/lib/form/masks'
 import { RE_DATE, RE_PHONE } from '~/lib/form/regex'
-import Yup from '~/lib/form/yup'
+import Yup, { YupDateErrorMessage, YupPhoneErrorMessage } from '~/lib/form/yup'
 import { formatToBRDate, formatToUSDate } from '~/lib/utils/string'
 import { PublicUser } from '~/redux/ducks/public-user'
 import { User } from '~/redux/ducks/user'
@@ -245,10 +245,10 @@ const ProjectApplicationUserFormSchema = Yup.object().shape({
     .nullable(true)
     .required(),
   phone: Yup.string()
-    .matches(RE_PHONE, 'Esse número de telefone não é válido')
+    .matches(RE_PHONE, YupPhoneErrorMessage)
     .required(),
   birthday_date: Yup.string()
-    .matches(RE_DATE, 'Essa data não é valida')
+    .matches(RE_DATE, YupDateErrorMessage)
     .required(),
 })
 

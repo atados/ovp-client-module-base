@@ -82,6 +82,7 @@ const AuthenticationEmailNewAccount: React.FC<
   values,
   touched,
   handleChange,
+  handleBlur,
   handleSubmit,
   errors,
   isSubmitting,
@@ -136,6 +137,7 @@ const AuthenticationEmailNewAccount: React.FC<
             className="input input--size-3"
             value={values.name}
             onChange={handleChange}
+            onBlur={handleBlur}
           />
         </FormGroup>
         <FormGroup
@@ -151,6 +153,7 @@ const AuthenticationEmailNewAccount: React.FC<
             placeholder={intl.formatMessage(m.emailPlaceholder)}
             value={values.email}
             onChange={handleChange}
+            onBlur={handleBlur}
           />
         </FormGroup>
         <FormGroup
@@ -165,6 +168,7 @@ const AuthenticationEmailNewAccount: React.FC<
             className="input input--size-3"
             value={values.password}
             onChange={handleChange}
+            onBlur={handleBlur}
           />
         </FormGroup>
         <FormGroup

@@ -226,6 +226,7 @@ const ProjectComposerBasics: React.FC<
   values,
   touched,
   handleSubmit,
+  handleBlur,
   causesSelectItems,
   skillsSelectItems,
   isFormSubmitting,
@@ -234,7 +235,7 @@ const ProjectComposerBasics: React.FC<
   currentUser,
   formContext: { organization, mode },
 }) => {
-  const handleBlur = useCallback(() => {
+  const handleCausesBlur = useCallback(() => {
     setFieldTouched('causes')
   }, [setFieldTouched])
   const handleAddressBlur = useCallback(() => {
@@ -242,9 +243,6 @@ const ProjectComposerBasics: React.FC<
   }, [setFieldTouched])
   const handleImageBlur = useCallback(() => {
     setFieldTouched('image')
-  }, [setFieldTouched])
-  const handleCausesBlur = useCallback(() => {
-    setFieldTouched('causes')
   }, [setFieldTouched])
   const handleSkillsBlur = useCallback(() => {
     setFieldTouched('skills')

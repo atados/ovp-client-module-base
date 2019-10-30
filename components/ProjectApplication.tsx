@@ -241,10 +241,11 @@ ProjectApplicationFormProps.displayName = 'ProjectApplicationFormProps'
 
 const ProjectApplicationFormSchema = Yup.object().shape({
   roleId: Yup.string().required(),
-  terms: Yup.boolean().oneOf(
-    [true],
-    'Você deve aceitar os termos de voluntariado',
-  ),
+  terms: Yup.boolean().oneOf([true], () => ({
+    code: 'terms',
+    message: 'Você deve aceitar os termos de voluntariado',
+    values: {},
+  })),
 })
 
 const mapDispatchToProps = dispatch => ({

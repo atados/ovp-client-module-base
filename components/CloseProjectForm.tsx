@@ -5,12 +5,13 @@ import { Project, updateProject } from '~/redux/ducks/project'
 import { User } from '~/redux/ducks/user'
 import ActivityIndicator from './ActivityIndicator'
 import Icon from './Icon'
+import { FormattedMessage } from 'react-intl'
 
 interface CloseProjectFormProps {
   readonly className?: string
   readonly viewer: User
   readonly projectSlug: string
-  readonly onCancel: () => void
+  readonly onCancel?: () => void
   readonly onUpdateProject: (
     changes: Partial<Project> & { slug: string },
   ) => any
@@ -23,20 +24,35 @@ const CloseProjectForm: React.FC<CloseProjectFormProps> = ({
   onUpdateProject,
 }) => {
   const { trigger, loading } = useTriggerableFetchApi(
-    `/projects/${projectSlug}/`,
+    `/projects/${projectSlug}/close/`,
+    {
+      method: 'POST',
+    },
   )
   const onSubmit = useCallback(async () => {
     await trigger()
     onUpdateProject({ closed: true, slug: projectSlug })
+
+    if (onCancel) {
+      onCancel()
+    }
   }, [trigger])
   return (
     <div className={className}>
-      <h4 className="tw-normal">Tem certeza que deseja encerrar essa vaga</h4>
+      <h4 className="tw-normal">
+        <FormattedMessage
+          id="closeProjectForm.title"
+          defaultMessage="Tem certeza que deseja encerrar essa vaga"
+        />
+      </h4>
 
       <hr />
       <p>
-        Ao encerrar a vaga você não poderá mais reabri-la, ela sairá da listagem
-        na plataforma e não poderá receber mais inscrições.
+        <FormattedMessage
+          id="closeProjectForm.subtitle"
+          defaultMessage="Ao encerrar a vaga você não poderá mais reabri-la, ela sairá da listagem
+          na plataforma e não poderá receber mais inscrições."
+        />
       </p>
       <div className="flex">
         <button
@@ -45,7 +61,10 @@ const CloseProjectForm: React.FC<CloseProjectFormProps> = ({
           className="btn btn-muted btb--size-3"
           disabled={loading}
         >
-          Cancelar
+          <FormattedMessage
+            id="closeProjectForm.cancel"
+            defaultMessage="Cancelar"
+          />
         </button>
         <div className="mr-auto" />
         <button
@@ -55,7 +74,10 @@ const CloseProjectForm: React.FC<CloseProjectFormProps> = ({
           disabled={loading}
         >
           <Icon name="close" className="mr-2" />
-          Encerrar essa vaga
+          <FormattedMessage
+            id="closeProjectForm.submit"
+            defaultMessage="Encerrar essa vaga"
+          />
           {loading && (
             <ActivityIndicator size={40} fill="#fff" className="ml-1" />
           )}

@@ -109,7 +109,11 @@ class App extends NextApp<AppProps> {
     const intl = reduxState.intl!
 
     return (
-      <IntlProvider locale={intl.locale} messages={intl.messages}>
+      <IntlProvider
+        locale={intl.locale}
+        defaultLocale="pt-br"
+        messages={intl.messages}
+      >
         <Provider store={store}>
           <ThemeProvider theme={Theme}>
             <StatusProvider>

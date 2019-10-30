@@ -1,6 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
+import { YupError } from '~/base/lib/form/yup'
+import FormErrorMessage from '~/components/FormErrorMessage'
 
 const Hint = styled.span`
   font-size: 14px;
@@ -18,7 +20,7 @@ interface FormGroupProps {
   readonly label?: string
   readonly className?: string
   readonly hint?: React.ReactNode
-  readonly error?: string
+  readonly error?: YupError | string
   readonly length?: number
   readonly required?: boolean
   readonly maxLength?: number
@@ -35,47 +37,51 @@ const FormGroup: React.FC<FormGroupProps> = ({
   className,
   labelFor,
   required,
-}) => (
-  <div
-    className={`form-group${error ? ` form-group-error` : ''}${
-      className ? ` ${className}` : ''
-    }`}
-  >
-    {(label || maxLength) && (
-      <div className="flex mb-2">
-        {label && (
-          <label htmlFor={labelFor} className="tw-medium mb-0">
-            {label}
-            {!required ? (
-              <span className="tc-muted tw-normal">
-                {' '}
-                -{' '}
-                <FormattedMessage
-                  id="formGroup.optional"
-                  defaultMessage="Opcional"
-                />
-              </span>
-            ) : null}
-          </label>
-        )}
-        <div className="mr-auto" />
-        {maxLength && length !== undefined && (
-          <Length
-            className={length > maxLength ? 'tc-error tw-medium' : undefined}
-          >
-            {length}/{maxLength}
-          </Length>
-        )}
-      </div>
-    )}
-    {children}
-    {(error || hint) && (
-      <Hint className={`form-group-hint${error ? ' tc-error tw-medium' : ''}`}>
-        {error ? error : hint}
-      </Hint>
-    )}
-  </div>
-)
+}) => {
+  return (
+    <div
+      className={`form-group${error ? ` form-group-error` : ''}${
+        className ? ` ${className}` : ''
+      }`}
+    >
+      {(label || maxLength) && (
+        <div className="flex mb-2">
+          {label && (
+            <label htmlFor={labelFor} className="tw-medium mb-0">
+              {label}
+              {!required ? (
+                <span className="tc-muted tw-normal">
+                  {' '}
+                  -{' '}
+                  <FormattedMessage
+                    id="formGroup.optional"
+                    defaultMessage="Opcional"
+                  />
+                </span>
+              ) : null}
+            </label>
+          )}
+          <div className="mr-auto" />
+          {maxLength && length !== undefined && (
+            <Length
+              className={length > maxLength ? 'tc-error tw-medium' : undefined}
+            >
+              {length}/{maxLength}
+            </Length>
+          )}
+        </div>
+      )}
+      {children}
+      {(error || hint) && (
+        <Hint
+          className={`form-group-hint${error ? ' tc-error tw-medium' : ''}`}
+        >
+          {error ? <FormErrorMessage error={error} /> : hint}
+        </Hint>
+      )}
+    </div>
+  )
+}
 
 FormGroup.displayName = 'FormGroup'
 FormGroup.defaultProps = {

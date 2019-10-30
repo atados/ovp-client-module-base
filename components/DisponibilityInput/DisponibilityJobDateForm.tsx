@@ -4,7 +4,7 @@ import React from 'react'
 import MaskedTextInput from 'react-text-mask'
 import * as masks from '~/lib/form/masks'
 import { RE_DATE, RE_HOUR } from '~/lib/form/regex'
-import Yup from '~/lib/form/yup'
+import Yup, { YupDateErrorMessage, YupHourErrorMessage } from '~/lib/form/yup'
 import { JobDate } from '~/redux/ducks/project'
 import FormGroup from '../Form/FormGroup'
 import { useIntl, defineMessages } from 'react-intl'
@@ -161,13 +161,13 @@ const DisponibilityJobDateFormSchema = Yup.object().shape({
     .max(20)
     .required(),
   date: Yup.string()
-    .matches(RE_DATE, 'Essa data não é valida')
+    .matches(RE_DATE, YupDateErrorMessage)
     .required(),
   start_hour: Yup.string()
-    .matches(RE_HOUR, 'Esse horário não é válido')
+    .matches(RE_HOUR, YupHourErrorMessage)
     .required(),
   end_hour: Yup.string()
-    .matches(RE_HOUR, 'Esse horário não é válido')
+    .matches(RE_HOUR, YupHourErrorMessage)
     .test(
       'is-greater-than-start',
       'A data de término deve ser maior que a de início',

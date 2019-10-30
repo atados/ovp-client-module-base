@@ -49,21 +49,26 @@ export default function useModal<Props>({
         throw new Error(`Missing ${id ? 'component' : 'id'} in useModal`)
       }
 
-      if (modalManager.isModalOpen(id)) {
-        return
-      }
-
-      const close = () => {
-        modalManager.close(id)
-      }
-
-      modalManager!.push(id!, component!, {
+      const modalOptions = {
         ...options,
         ...overrideOptions,
         componentProps: options
-          ? { ...options.componentProps, [onClosePropName]: close, ...props }
+          ? {
+              ...options.componentProps,
+              [onClosePropName]: () => {
+                modalManager.close(id)
+              },
+              ...props,
+            }
           : props,
-      })
+      }
+
+      if (modalManager.isModalOpen(id)) {
+        modalManager.replace(id, component, id, modalOptions)
+        return
+      }
+
+      modalManager!.push(id!, component!, modalOptions)
     },
     [component, modalManager.push],
   )

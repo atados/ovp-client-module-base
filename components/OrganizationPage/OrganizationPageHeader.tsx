@@ -87,7 +87,7 @@ const OrganizationPageHeader: React.FC<OrganizationPageHeaderProps> = ({
         <p className="tc-gray-700 ts-medium">{organization.description}</p>
         <div>
           {organization.causes.map(cause => (
-            <PageLink href="Cause" params={{ slug: cause.slug }}>
+            <PageLink key={cause.id} href="Cause" params={{ slug: cause.slug }}>
               <a className="tc-gray-600 mr-3">
                 <span
                   className="w-2 h-2 inline-block mr-2 rounded-circle vertical-align-middle"

@@ -201,7 +201,7 @@ const PublicUserEditSchema = Yup.object().shape({
     .max(100)
     .required(),
   confirmNewPassword: Yup.string()
-    .equals('newPassword', 'A senhas não são iguais')
+    .equals('newPassword')
     .min(8)
     .max(100)
     .required(),
