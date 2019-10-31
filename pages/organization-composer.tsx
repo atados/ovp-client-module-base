@@ -2,7 +2,7 @@ import { NextPageContext } from 'next'
 import Router from 'next/router'
 import React from 'react'
 import styled from 'styled-components'
-import { StepIds, StepIdType } from '~/components/FormComposer/FormComposer'
+import { StepIdType } from '~/components/FormComposer/FormComposer'
 import Meta from '~/components/Meta'
 import OrganizationComposer from '~/components/OrganizationComposer'
 import Toolbar from '~/components/Toolbar'
@@ -21,7 +21,7 @@ class OrganizationComposerPage extends React.Component<
   OrganizationComposerPageProps
 > {
   public static getInitialProps = ({ query: { stepId } }: NextPageContext) => ({
-    stepId: stepId || StepIds.Introduction,
+    stepId: stepId || 'auth',
   })
 
   public handleStepChange = (stepId: StepIdType) => {

@@ -248,7 +248,9 @@ const ToolbarUser: React.FC<ToolbarUserProps> = ({
                 <Link href={Page.NewOrganization}>
                   <DropdownAnchor>
                     <Icon name="add" />
-                    {intl.formatMessage(m.newOrganization)}
+                    {intl.formatMessage(m.newOrganization, {
+                      stepId: 'inicio',
+                    })}
                   </DropdownAnchor>
                 </Link>
               </>
