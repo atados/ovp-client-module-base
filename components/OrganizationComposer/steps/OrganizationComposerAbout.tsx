@@ -149,6 +149,7 @@ class OrganizationComposerContact extends React.Component<
         className={className}
         onBack={onBack}
         isSubmitting={isComposerSubmitting}
+        mode={mode}
         helpPanelChildren={
           <div className="p-5">
             <HelpCard className="card pr-4 pb-4 pl-4 pt-2">

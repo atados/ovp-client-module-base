@@ -485,5 +485,18 @@
   "settingsUser.gender.female": "Hembra",
   "settingsUser.text": "Todos los campos rellenados en esta página se pueden eliminar en cualquier momento a petición. Al rellenar estos campos, usted afirma que usted es consciente de que nos está dando el derecho de compartir esta imagen en su perfil de datos y y cualquier lugar en el que está vinculado. Por favor, lea nuestras condiciones de privacidad para aprender más sobre cómo utilizamos su información.",
   "settingsUser.submit": "Guardar cambios",
-  "settingsUser.error": "Error al conectar con el servidor"
+  "settingsUser.error": "Error al conectar con el servidor",
+  "organizationOnboarding.metaTitle": "Registra tu ONG",
+  "organizationOnboarding.metaDescription": "Si su ONG, movimiento colectivo o social está buscando voluntarios para colaborar con su causa, cuente con nosotros.",
+  "organizationOnboarding.heroTitle": "Se parte de nuestra red",
+  "organizationOnboarding.start": "Registra mi ONG",
+  "organizationOnboarding.info.1.title": "Tell your story",
+  "organizationOnboarding.info.1.text": "Have a page to tell your story. This helps volunteers connect with their purpose.",
+  "organizationOnboarding.info.2.title": "Sea parte de la red",
+  "organizationOnboarding.info.2.text": "Publique sus puestos de voluntario. Trabajamos para garantizar que su proyecto reciba presentaciones",
+  "organizationOnboarding.info.3.title": "Consigue tus voluntarios",
+  "organizationOnboarding.info.3.text": "Es muy importante que después de recibir las solicitudes, su ONG se ponga en contacto con voluntarios.",
+  "newProject.metaTitle": "Crear un proyecto",
+  "organizationOnboarding.volunteersToEngage": "Crear un proyecto",
+  "formComposer.commitedChanges": "Los cambios se realizaron con éxito."
 }

@@ -485,5 +485,18 @@
   "settingsUser.gender.female": "Female",
   "settingsUser.text": "All fields filled in on this page may be deleted at any time upon request. By filling in these fields, you state that you are aware that you are giving us the right to share this data and your image on your profile and any place where it is linked. Please read our privacy terms to learn more about how we use your information.",
   "settingsUser.submit": "Save changes",
-  "settingsUser.error": "Failed to connect to the server"
+  "settingsUser.error": "Failed to connect to the server",
+  "organizationOnboarding.metaTitle": "Register your NGO",
+  "organizationOnboarding.metaDescription": "If your NGO, collective or social movement is looking for volunteers to collaborate with your cause, count on us.",
+  "organizationOnboarding.heroTitle": "Be a part of our network",
+  "organizationOnboarding.start": "Register my NGO",
+  "organizationOnboarding.info.1.title": "Tell your story",
+  "organizationOnboarding.info.1.text": "Have a page to tell your story. This helps volunteers connect with their purpose.",
+  "organizationOnboarding.info.2.title": "Be part of the network",
+  "organizationOnboarding.info.2.text": "Post your volunteer positions. We work to ensure your project receives submissions",
+  "organizationOnboarding.info.3.title": "Welcome volunteers",
+  "organizationOnboarding.info.3.text": "It is very important that after receiving applications, your NGO will contact volunteers",
+  "newProject.metaTitle": "Create a project",
+  "organizationOnboarding.volunteersToEngage": "Volunteers to engage",
+  "formComposer.commitedChanges": "The changes were made successfully"
 }

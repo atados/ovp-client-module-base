@@ -15,6 +15,7 @@ import ToolbarMessagesDropdown from './components/ToolbarMessagesDropdown'
 import { Page, PageAs, Color } from '~/base/common'
 import Router from 'next/router'
 import { defineMessages, useIntl } from 'react-intl'
+import PageLink from '../PageLink'
 
 interface ToolbarUserProps {
   readonly user: User | null
@@ -245,12 +246,12 @@ const ToolbarUser: React.FC<ToolbarUserProps> = ({
                     {intl.formatMessage(m.organizations)}
                   </DropdownAnchor>
                 </Link>
-                <Link href={Page.NewOrganization}>
+                <PageLink href="OrganizationOnboarding">
                   <DropdownAnchor>
                     <Icon name="add" />
                     {intl.formatMessage(m.newOrganization)}
                   </DropdownAnchor>
-                </Link>
+                </PageLink>
               </>
             )}
             <hr className="my-1" />

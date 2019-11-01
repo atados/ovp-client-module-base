@@ -90,6 +90,7 @@ export interface RequiredPagesMap {
   ProjectNewPost: string
   ProjectEditPost: string
   NewOrganization: string
+  OrganizationOnboarding: string
   NewProject: string
   EditProject: string
   DuplicateProject: string

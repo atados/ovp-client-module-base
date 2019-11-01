@@ -249,6 +249,7 @@ const OrganizationLayout: React.FC<OrganizationLayoutProps> = ({
                         href={Page.OrganizationEdit}
                         as={PageAs.OrganizationEdit({
                           organizationSlug: organization.slug,
+                          stepId: 'basics',
                         })}
                       >
                         <a className="nav-link">

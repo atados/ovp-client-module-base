@@ -69,8 +69,11 @@ class OrganizationComposerPage extends React.Component<
 
   public handleStepChange = (stepId: StepIdType) => {
     Router.push(
-      `${'/organization-edit'}?stepId=${stepId}&slug=${this.props.slug}`,
-      `/ong/${this.props.slug}/editar/${stepId}`,
+      `${Page.OrganizationEdit}?stepId=${stepId}&slug=${this.props.slug}`,
+      `${PageAs.OrganizationEdit({
+        stepId,
+        organizationSlug: this.props.slug,
+      })}`,
     )
   }
 
@@ -90,6 +93,7 @@ class OrganizationComposerPage extends React.Component<
             stepId={stepId}
             onStepChange={this.handleStepChange}
             intro={false}
+            auth={false}
             mode={FormComposerMode.EDIT}
             defaultValues={defaultValues}
             offsetTop={channel.theme.toolbarHeight + 50}

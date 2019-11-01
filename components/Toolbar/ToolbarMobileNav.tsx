@@ -14,7 +14,6 @@ import Router from 'next/router'
 import { logout } from '~/base/redux/ducks/user'
 import VolunteerIcon from '../Icon/VolunteerIcon'
 import ViewerApplications from '../ViewerApplications'
-import { StepIds } from '../FormComposer/FormComposer'
 
 const MobileCollapse = styled(Collapse)`
   a,
@@ -101,10 +100,7 @@ const ToolbarMobileNav: React.FC<ToolbarMobileNavProps> = ({ collapsed }) => {
         </a>
       </Link>
       {viewerOrganizations.length === 0 && (
-        <Link
-          href={Page.NewOrganization}
-          as={PageAs.NewOrganization({ stepId: StepIds.Introduction })}
-        >
+        <Link href={Page.OrganizationOnboarding}>
           <a className="hover:bg-muted td-hover-none block px-3 py-2 tc-base ts-medium">
             <Icon name="favorite_outline" />
             {intl.formatMessage(messages.imOrganization)}

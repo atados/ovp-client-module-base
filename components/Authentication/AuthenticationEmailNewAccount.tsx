@@ -244,7 +244,7 @@ export default withFormik<AuthenticationEmailNewAccountProps, Values>({
       onRegister(user as User)
     } catch (error) {
       if (error.payload && error.payload.email) {
-        setFieldError('email', 'Este email já está sendo utilizado')
+        setFieldError('email', 'email_taken')
       } else {
         setStatus({ error })
       }

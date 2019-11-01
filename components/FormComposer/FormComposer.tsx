@@ -3,7 +3,8 @@ import styled from 'styled-components'
 import { reportError } from '~/lib/utils/error'
 import ActivityIndicator from '../ActivityIndicator'
 import { channel } from '~/base/common/constants'
-import { FormattedMessage } from 'react-intl'
+import { FormattedMessage, defineMessages, WithIntlProps } from 'react-intl'
+import { withIntl } from '~/base/lib/intl'
 
 const Container = styled.div`
   background: #f4f5f6;
@@ -169,6 +170,13 @@ export enum FormComposerMode {
   DUPLICATE = 'DUPLICATE',
 }
 
+const m = defineMessages({
+  commitedChanges: {
+    id: 'formComposer.commitedChanges',
+    defaultMessage: 'As alterações foram feitas com sucesso',
+  },
+})
+
 export interface FormComposerProps {
   readonly header?: false | React.ReactNode
   readonly skipingDisabled?: boolean
@@ -204,7 +212,7 @@ interface FormComposerState {
 }
 
 class FormComposer extends React.Component<
-  FormComposerProps,
+  FormComposerProps & WithIntlProps<any>,
   FormComposerState
 > {
   public static defaultProps = {
@@ -339,7 +347,7 @@ class FormComposer extends React.Component<
           this.setState({ submitted: true })
         } else if (mode === FormComposerMode.EDIT) {
           this.setState({
-            statusMessage: 'As alterações foram feitas com sucesso',
+            statusMessage: this.props.intl.formatMessage(m.commitedChanges),
           })
 
           if (this.statusTimeout) {
@@ -637,4 +645,4 @@ class FormComposer extends React.Component<
   }
 }
 
-export default FormComposer
+export default withIntl(FormComposer)
