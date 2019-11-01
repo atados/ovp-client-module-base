@@ -506,5 +506,18 @@
   "form.error.invalid_phone": "Este telefono no es valido",
   "form.error.invalid_date": "Esta fecha no es válida",
   "form.error.invalid_hour": "Este tiempo no es valido",
-  "form.error.terms": "Debe aceptar nuestros términos antes de continuar"
+  "form.error.terms": "Debe aceptar nuestros términos antes de continuar",
+  "organizationOnboarding.metaTitle": "Registra tu ONG",
+  "organizationOnboarding.metaDescription": "Si su ONG, movimiento colectivo o social está buscando voluntarios para colaborar con su causa, cuente con nosotros.",
+  "organizationOnboarding.heroTitle": "Se parte de nuestra red",
+  "organizationOnboarding.start": "Registra mi ONG",
+  "organizationOnboarding.info.1.title": "Tell your story",
+  "organizationOnboarding.info.1.text": "Have a page to tell your story. This helps volunteers connect with their purpose.",
+  "organizationOnboarding.info.2.title": "Sea parte de la red",
+  "organizationOnboarding.info.2.text": "Publique sus puestos de voluntario. Trabajamos para garantizar que su proyecto reciba presentaciones",
+  "organizationOnboarding.info.3.title": "Consigue tus voluntarios",
+  "organizationOnboarding.info.3.text": "Es muy importante que después de recibir las solicitudes, su ONG se ponga en contacto con voluntarios.",
+  "newProject.metaTitle": "Crear un proyecto",
+  "organizationOnboarding.volunteersToEngage": "Crear un proyecto",
+  "formComposer.commitedChanges": "Los cambios se realizaron con éxito."
 }

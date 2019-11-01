@@ -68,6 +68,7 @@ const PageBuildShape: PagesBuilderMap = {
   ProjectNewPost: '~/pages/post-form',
   ProjectEditPost: '~/pages/post-form',
   NewOrganization: '~/pages/organization-composer',
+  OrganizationOnboarding: '~/pages/organization-orboarding',
   NewProject: '~/pages/project-composer',
   EditProject: {
     importPath: '~/pages/project-composer',

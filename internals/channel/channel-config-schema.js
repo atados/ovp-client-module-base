@@ -123,7 +123,9 @@ const ChannelConfigSchema = Yup.object().shape({
       ),
       OrganizationProjects: PageSchema.default('/ong/[organizationSlug]/vagas'),
       OrganizationAbout: PageSchema.default('/ong/[organizationSlug]/sobre'),
-      OrganizationEdit: PageSchema.default('/ong/[organizationSlug]/editar'),
+      OrganizationEdit: PageSchema.default(
+        '/ong/[organizationSlug]/editar/[stepId]',
+      ),
       OrganizationJoin: PageSchema.default(
         '/ong/[organizationSlug]/participar',
       ),
@@ -137,6 +139,7 @@ const ChannelConfigSchema = Yup.object().shape({
       OrganizationEditProject: PageSchema.default(
         '/ong/[organizationSlug]/gerenciar/vaga/[projectSlug]/editar/[stepId]',
       ),
+      OrganizationOnboarding: PageSchema.default('/sou-uma-ong'),
       NewOrganization: PageSchema.default('/sou-uma-ong/[stepId]'),
       NewProject: PageSchema.default('/criar-vaga/[stepId]'),
       DuplicateProject: PageSchema.default(

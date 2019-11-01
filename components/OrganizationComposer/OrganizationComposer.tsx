@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
 import OrganizationComposerAbout, {
@@ -12,7 +12,6 @@ import OrganizationComposerConclusion from '~/components/OrganizationComposer/st
 import OrganizationComposerContact, {
   Values as ContactValues,
 } from '~/components/OrganizationComposer/steps/OrganizationComposerContact'
-import OrganizationComposerIntro from '~/components/OrganizationComposer/steps/OrganizationComposerIntro'
 import { throwActionError } from '~/lib/utils/redux'
 import { Organization } from '~/redux/ducks/organization'
 import {
@@ -22,7 +21,6 @@ import {
 import { RootState } from '~/redux/root-reducer'
 import FormComposer, {
   FormComposerMode,
-  StepIds,
   StepIdType,
 } from '../FormComposer/FormComposer'
 import { useIntl, defineMessages } from 'react-intl'
@@ -115,15 +113,16 @@ interface OrganizationComposerProps {
   readonly mode?: FormComposerMode
   readonly onSubmit: (values: Values) => any
   readonly intro?: React.ComponentType<any> | false
+  readonly auth?: false
 }
 
 const OrganizationComposer: React.FC<OrganizationComposerProps> = ({
   stepId,
+  auth,
   onStepChange,
   onSubmit,
   isSubmitting,
   organization,
-  intro,
   mode,
   isAuthenticated,
   defaultValues,
@@ -131,49 +130,53 @@ const OrganizationComposer: React.FC<OrganizationComposerProps> = ({
   children,
 }) => {
   const intl = useIntl()
-  const steps = [
-    {
-      id: 'auth',
-      defaultValue: {},
-      description: intl.formatMessage(m.authDescription),
-      title: intl.formatMessage(m.authTitle),
-      name: intl.formatMessage(m.authName),
-      // @ts-ignore
-      component: OrganizationComposerAuth,
-    },
-    {
-      id: 'basics',
-      defaultValue: {},
-      description: intl.formatMessage(m.basicsDescription),
-      title: intl.formatMessage(m.basicsTitle),
-      name: intl.formatMessage(m.basicsName),
-      component: OrganizationComposerBasics,
-    },
-    {
-      id: 'contact',
-      defaultValue: {},
-      description: intl.formatMessage(m.contactDescription),
-      title: intl.formatMessage(m.contactTitle),
-      name: intl.formatMessage(m.contactName),
-      component: OrganizationComposerContact,
-    },
-    {
-      id: 'about',
-      defaultValue: {},
-      description: intl.formatMessage(m.aboutDescription),
-      title: intl.formatMessage(m.aboutTitle),
-      name: intl.formatMessage(m.aboutName),
-      component: OrganizationComposerAbout,
-    },
-  ]
+  const steps = useMemo(() => {
+    const allSteps = [
+      {
+        id: 'auth',
+        defaultValue: {},
+        description: intl.formatMessage(m.authDescription),
+        title: intl.formatMessage(m.authTitle),
+        name: intl.formatMessage(m.authName),
+        // @ts-ignore
+        component: OrganizationComposerAuth,
+      },
+      {
+        id: 'basics',
+        defaultValue: {},
+        description: intl.formatMessage(m.basicsDescription),
+        title: intl.formatMessage(m.basicsTitle),
+        name: intl.formatMessage(m.basicsName),
+        component: OrganizationComposerBasics,
+      },
+      {
+        id: 'contact',
+        defaultValue: {},
+        description: intl.formatMessage(m.contactDescription),
+        title: intl.formatMessage(m.contactTitle),
+        name: intl.formatMessage(m.contactName),
+        component: OrganizationComposerContact,
+      },
+      {
+        id: 'about',
+        defaultValue: {},
+        description: intl.formatMessage(m.aboutDescription),
+        title: intl.formatMessage(m.aboutTitle),
+        name: intl.formatMessage(m.aboutName),
+        component: OrganizationComposerAbout,
+      },
+    ]
+
+    if (auth === false) {
+      return allSteps.slice(1)
+    }
+
+    return allSteps
+  }, [auth])
 
   return (
     <Container>
       <FormComposer
-        className={stepId === StepIds.Introduction ? 'step-intro' : ''}
-        introduction={
-          intro === false ? undefined : intro || OrganizationComposerIntro
-        }
         conclusion={OrganizationComposerConclusion}
         context={{ organization }}
         stepId={stepId}
@@ -191,7 +194,6 @@ const OrganizationComposer: React.FC<OrganizationComposerProps> = ({
           (!isAuthenticated || skipingDisabled) &&
           mode !== FormComposerMode.EDIT
         }
-        header={stepId === StepIds.Introduction ? false : undefined}
       >
         {children}
       </FormComposer>

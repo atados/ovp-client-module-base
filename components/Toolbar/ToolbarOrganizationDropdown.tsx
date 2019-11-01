@@ -7,7 +7,6 @@ import { Page, PageAs, Color } from '~/common'
 import { useIntl } from 'react-intl'
 import Icon from '../Icon'
 import ToolbarDropdown from './ToolbarDropdown'
-import { StepIds } from '../FormComposer/FormComposer'
 
 const ToolbarDropdownStyled = styled(ToolbarDropdown)`
   .toolbar-dropdown-anchor {
@@ -114,10 +113,7 @@ const ToolbarOrganizationDropdown: React.FC<
 
   if (!organization) {
     return (
-      <Link
-        href={Page.NewOrganization}
-        as={PageAs.NewOrganization({ stepId: StepIds.Introduction })}
-      >
+      <Link href={Page.OrganizationOnboarding}>
         <a className="nav-link">{intl.formatMessage(m.imOrganization)}</a>
       </Link>
     )
@@ -125,11 +121,11 @@ const ToolbarOrganizationDropdown: React.FC<
 
   return (
     <ToolbarDropdownStyled
-      href={organization ? Page.Organization : Page.NewOrganization}
+      href={organization ? Page.Organization : Page.OrganizationOnboarding}
       linkAs={
         organization
           ? PageAs.Organization({ organizationSlug: organization.slug })
-          : PageAs.NewOrganization({ stepId: StepIds.Introduction })
+          : undefined
       }
       className={className}
       anchorClassName={organization ? 'toolbar-dropdown-anchor bg-white' : ''}
@@ -208,6 +204,7 @@ const ToolbarOrganizationDropdown: React.FC<
             href={Page.OrganizationEdit}
             as={PageAs.OrganizationEdit({
               organizationSlug: organization.slug,
+              stepId: 'basics',
             })}
           >
             <a className="hover:text-primary hover:bg-gray-200 block py-1 px-4 tc-base td-hover-none">
