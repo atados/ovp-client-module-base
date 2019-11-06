@@ -146,8 +146,16 @@ const ProjectComposerDisponibility: React.FC<
           touched.disponibility
             ? errors.disponibility
               ? (errors.disponibility as any).work
-                ? intl.formatMessage(PREENCHA_CAMPOS)
-                : intl.formatMessage(INSIRA_DATA)
+                ? {
+                    translated: true,
+                    message: intl.formatMessage(PREENCHA_CAMPOS),
+                    values: {},
+                  }
+                : {
+                    translated: true,
+                    message: intl.formatMessage(INSIRA_DATA),
+                    values: {},
+                  }
               : undefined
             : undefined
         }

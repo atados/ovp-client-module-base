@@ -1,7 +1,6 @@
 import { createAction, createReducer, PromiseAction } from 'redux-handy'
 import { getRandomColor } from '~/lib/color/manager'
 import { fetchAPI } from '~/lib/fetch'
-import { FetchJSONError } from '~/lib/fetch/fetch.client'
 import { reportError } from '~/lib/utils/error'
 import { Address, Gallery } from '~/redux/ducks/project'
 import { RootState } from '~/redux/root-reducer'
@@ -50,17 +49,9 @@ export const fetchOrganization = createAction<
       organization: currentState,
     }: RootState = getState()
 
-    if (slug === currentState.slug) {
+    if (slug === currentState.slug && currentState.node) {
       prevent()
-
-      if (currentState.node) {
-        return currentState.node
-      }
-
-      throw new FetchJSONError(
-        { statusCode: 404, url: `/organization/${slug}` },
-        undefined,
-      )
+      return currentState.node
     }
 
     const organization = await fetchAPI<Organization>(

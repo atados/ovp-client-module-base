@@ -87,7 +87,11 @@ class CausesFilter extends React.Component<CausesFilterProps> {
       const cause = causes.find(item => item.id === value[0])
       label = cause ? cause.name : '-'
     } else if (value.length > 1) {
-      label += ` · ${value.length}`
+      label = (
+        <>
+          {label} · {value.length}
+        </>
+      )
     }
 
     causes.forEach((cause, i) => {

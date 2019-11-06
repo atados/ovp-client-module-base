@@ -21,7 +21,7 @@ const SettingsNewsletterPage: NextPage<{}> = () => {
   const updateViewerTrigger = useTriggerableFetchApi('/users/current-user/', {
     method: 'PATCH',
   })
-  const isSubscribed = viewer.is_subscribed_to_newsletter
+  const isSubscribed = viewer && viewer.is_subscribed_to_newsletter
   const handleNewsletterToggle = async () => {
     if (!updateViewerTrigger.loading) {
       await updateViewerTrigger.trigger({
@@ -37,6 +37,10 @@ const SettingsNewsletterPage: NextPage<{}> = () => {
         }),
       )
     }
+  }
+
+  if (!viewer) {
+    return null
   }
 
   return (

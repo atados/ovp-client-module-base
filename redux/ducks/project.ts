@@ -5,7 +5,6 @@ import {
   PromiseAction,
 } from 'redux-handy'
 import { fetchAPI } from '~/lib/fetch'
-import { FetchJSONError } from '~/lib/fetch/fetch.client'
 import { reportError } from '~/lib/utils/error'
 import { Cause, ImageDict, Skill } from '~/common/channel'
 import { Organization } from '~/redux/ducks/organization'
@@ -166,17 +165,10 @@ export const fetchProject = createAction<string, Project, ProjectFetchMeta>(
       project: currentState,
     }: RootState = getState()
 
-    if (slug === currentState.slug) {
+    if (slug === currentState.slug && currentState.node) {
       prevent()
 
-      if (currentState.node) {
-        return currentState.node
-      }
-
-      throw new FetchJSONError(
-        { statusCode: 404, url: `/project/${slug}` },
-        undefined,
-      )
+      return currentState.node
     }
 
     const project = await fetchAPI<Project>(`/projects/${slug}/`, {

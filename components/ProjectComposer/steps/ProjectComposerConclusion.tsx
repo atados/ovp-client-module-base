@@ -73,10 +73,7 @@ const ProjectComposerConclusion: React.FC<ProjectComposerConclusionProps> = ({
         {intl.formatMessage(PODE_ACESSAR)}
       </p>
       {project && (
-        <Link
-          href={Page.Project}
-          as={PageAs.Project({ projectSlug: project.slug })}
-        >
+        <Link href={Page.Project} as={PageAs.Project({ slug: project.slug })}>
           <a className="btn btn-primary btn--size-3">
             {intl.formatMessage(VISITAR_PAGINA)}
           </a>

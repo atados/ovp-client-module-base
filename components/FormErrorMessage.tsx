@@ -1,6 +1,10 @@
 import React, { useEffect } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
-import { YupError } from '~/lib/form/yup'
+import {
+  YupError,
+  YupErrorTranslatable,
+  YupErrorTranslated,
+} from '~/lib/form/yup'
 import { reportError } from '~/base/lib/utils/error'
 
 const m = defineMessages({
@@ -68,6 +72,10 @@ const m = defineMessages({
     id: 'form.error.terms',
     defaultMessage: 'Você deve aceitar os termos para prosseguir',
   },
+  email_taken: {
+    id: 'form.error.email_taken',
+    defaultMessage: 'Este email já esta sendo utilizado',
+  },
 })
 
 interface FormErrorMessageProps {
@@ -78,7 +86,7 @@ interface FormErrorMessageProps {
 const FormErrorMessage: React.FC<FormErrorMessageProps> = ({ error }) => {
   const intl = useIntl()
   const isString = typeof error === 'string'
-  const errorCode = isString ? undefined : (error as YupError).code
+  const errorCode = isString ? undefined : (error as YupErrorTranslatable).code
 
   useEffect(() => {
     let reportedError
@@ -88,7 +96,11 @@ const FormErrorMessage: React.FC<FormErrorMessageProps> = ({ error }) => {
       )
     }
 
-    if (errorCode && !m[errorCode]) {
+    if (
+      errorCode &&
+      !(error as YupErrorTranslated).translated &&
+      !m[errorCode]
+    ) {
       reportedError = new Error(
         `Yup error with code '${errorCode}' is not translated`,
       )
@@ -98,7 +110,7 @@ const FormErrorMessage: React.FC<FormErrorMessageProps> = ({ error }) => {
       reportedError.name = 'YupTranslationError'
       reportError(reportedError)
     }
-  }, [isString ? error : (error as YupError).code])
+  }, [isString ? error : (error as YupErrorTranslatable).message, errorCode])
 
   if (isString) {
     return <>{error}</>

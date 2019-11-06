@@ -18,7 +18,7 @@ export class FetchJSONError extends Error {
   public payload: any
 
   constructor(
-    response: { url: string; statusCode: number },
+    response: { url: string; status: number },
     payload: any,
     fixedUrl?: string,
   ) {
@@ -28,7 +28,7 @@ export class FetchJSONError extends Error {
       )}`,
     )
 
-    this.statusCode = response.statusCode
+    this.statusCode = response.status
     this.response = response
     this.payload = payload
   }

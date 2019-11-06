@@ -77,7 +77,11 @@ class SkillsFilter extends React.Component<SkillsFilterProps> {
       const skill = skills.find(item => item.id === value[0])
       label = skill ? skill.name : '-'
     } else if (value.length > 1) {
-      label += ` · ${value.length}`
+      label = (
+        <>
+          {label} · {value.length}
+        </>
+      )
     }
 
     skills.forEach((skill, i) => {

@@ -6,6 +6,7 @@ import { User } from '~/redux/ducks/user'
 import ActivityIndicator from './ActivityIndicator'
 import Icon from './Icon'
 import { FormattedMessage } from 'react-intl'
+import { pushToDataLayer } from '../lib/tag-manager'
 
 interface CloseProjectFormProps {
   readonly className?: string
@@ -31,6 +32,10 @@ const CloseProjectForm: React.FC<CloseProjectFormProps> = ({
   )
   const onSubmit = useCallback(async () => {
     await trigger()
+    pushToDataLayer({
+      event: 'project.close',
+      slug: projectSlug,
+    })
     onUpdateProject({ closed: true, slug: projectSlug })
 
     if (onCancel) {

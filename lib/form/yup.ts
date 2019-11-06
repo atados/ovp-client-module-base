@@ -1,10 +1,19 @@
 import * as Yup from 'yup'
 
-export interface YupError {
-  code: string
+export interface YupErrorTranslated {
   message: string
+  translated?: true
   values: { [key: string]: any }
 }
+
+export interface YupErrorTranslatable {
+  code: string
+  message: string
+  translated?: false
+  values: { [key: string]: any }
+}
+
+export type YupError = YupErrorTranslated | YupErrorTranslatable
 
 Yup.addMethod(
   Yup.string,

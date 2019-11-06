@@ -58,7 +58,8 @@ const OrganizationOnboardingPage: React.FC<
       <div
         className="bg-primary-500 bg-cover"
         style={{
-          backgroundImage: 'url("/static/organization-onboarding-banner.jpg")',
+          backgroundImage:
+            'url("/static/banners/organization-onboarding-hero.jpg")',
         }}
       >
         <BannerOverlay className="p-toolbar">

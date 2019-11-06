@@ -1,6 +1,5 @@
 import { createAction, createReducer, PromiseAction } from 'redux-handy'
 import { getRandomColor } from '~/lib/color/manager'
-import { FetchJSONError } from '~/lib/fetch/fetch.client'
 import { fetchAPI } from '~/lib/fetch/fetch.server'
 import { Project, ProjectRole } from '~/redux/ducks/project'
 import { RootState } from '../root-reducer'
@@ -56,17 +55,10 @@ export const fetchPublicUser = createAction<
       publicUser: currentState,
     } = getState() as RootState
 
-    if (slug === currentState.slug) {
+    if (slug === currentState.slug && currentState.node) {
       prevent()
 
-      if (currentState.node) {
-        return currentState.node
-      }
-
-      throw new FetchJSONError(
-        { statusCode: 404, url: `/public-users/${slug}` },
-        undefined,
-      )
+      return currentState.node
     }
 
     if (user && slug === user.slug && currentUserProfile.node) {

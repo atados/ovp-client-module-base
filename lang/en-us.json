@@ -506,6 +506,7 @@
   "form.error.invalid_date": "This date is not valid",
   "form.error.invalid_hour": "This time is not valid",
   "form.error.terms": "You must agree to our terms before going forward",
+  "form.error.email_taken": "This email already in use",
   "organizationOnboarding.metaTitle": "Register your NGO",
   "organizationOnboarding.metaDescription": "If your NGO, collective or social movement is looking for volunteers to collaborate with your cause, count on us.",
   "organizationOnboarding.heroTitle": "Be a part of our network",
@@ -518,5 +519,13 @@
   "organizationOnboarding.info.3.text": "It is very important that after receiving applications, your NGO will contact volunteers",
   "newProject.metaTitle": "Create a project",
   "organizationOnboarding.volunteersToEngage": "Volunteers to engage",
-  "formComposer.commitedChanges": "The changes were made successfully"
+  "formComposer.commitedChanges": "The changes were made successfully",
+  "organizationJoin.metaTitle": "Convite para ser membro",
+  "organizationJoin.title": "<span class=\"tw-normal\">An invitation by</span> {organizationName}",
+  "organizationJoin.description": "You have been invited to join this NGO. By participating you will be able to create and manage vacancies and edit the NGO.",
+  "organizationJoin.differentAccount": "You are not logged in as <b>{firstName}</b>",
+  "organizationJoin.changeAccount": "Switch account",
+  "organizationJoin.login": "Log in to your account",
+  "organizationJoin.accept": "Accept invitation to be a member",
+  "organizationJoin.deny": "I'm not interested"
 }

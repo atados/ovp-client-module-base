@@ -507,6 +507,7 @@
   "form.error.invalid_date": "Esta fecha no es válida",
   "form.error.invalid_hour": "Este tiempo no es valido",
   "form.error.terms": "Debe aceptar nuestros términos antes de continuar",
+  "form.error.email_taken": "Este correo electrónico ya está en uso",
   "organizationOnboarding.metaTitle": "Registra tu ONG",
   "organizationOnboarding.metaDescription": "Si su ONG, movimiento colectivo o social está buscando voluntarios para colaborar con su causa, cuente con nosotros.",
   "organizationOnboarding.heroTitle": "Se parte de nuestra red",
@@ -519,5 +520,13 @@
   "organizationOnboarding.info.3.text": "Es muy importante que después de recibir las solicitudes, su ONG se ponga en contacto con voluntarios.",
   "newProject.metaTitle": "Crear un proyecto",
   "organizationOnboarding.volunteersToEngage": "Crear un proyecto",
-  "formComposer.commitedChanges": "Los cambios se realizaron con éxito."
+  "formComposer.commitedChanges": "Los cambios se realizaron con éxito.",
+  "organizationJoin.metaTitle": "Invitación para ser miembro",
+  "organizationJoin.title": "<span class=\"tw-normal\">Una invitación de</span> {organizationName}",
+  "organizationJoin.description": "Se le ha invitado a participar en esta ONG. Al participar, podrá crear y administrar vacantes y editar la ONG.",
+  "organizationJoin.differentAccount": "No has iniciado sesión como <b>{firstName}</b>",
+  "organizationJoin.changeAccount": "Cambiar cuenta",
+  "organizationJoin.login": "Inicie sesión en su cuenta",
+  "organizationJoin.accept": "Aceptar invitación para ser miembro",
+  "organizationJoin.deny": "No tengo interes"
 }

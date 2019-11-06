@@ -7,14 +7,14 @@ import FormComposerLayout from '~/components/FormComposer/FormComposerLayout'
 import HelpCard from '~/components/HelpCard'
 import * as masks from '~/lib/form/masks'
 import { RE_PHONE } from '~/lib/form/regex'
-import Yup from '~/lib/form/yup'
+import Yup, { YupPhoneErrorMessage } from '~/lib/form/yup'
 import { ensureHttpsUri } from '~/lib/utils/string'
 import { defineMessages, WithIntlProps } from 'react-intl'
 import { withIntl } from '~/lib/intl'
 
 const OrganizationContactFormSchema = Yup.object().shape({
   phone: Yup.string()
-    .matches(RE_PHONE, 'Esse número de telefone não é válido')
+    .matches(RE_PHONE, YupPhoneErrorMessage)
     .required(),
   contact_email: Yup.string()
     .email()
