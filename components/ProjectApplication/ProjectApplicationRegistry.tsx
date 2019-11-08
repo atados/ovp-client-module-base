@@ -150,7 +150,9 @@ const ProjectApplicationRegistry: React.FC<ProjectApplicationRegistryProps> = ({
     }
     onUpdateProject({
       slug: project.slug,
-      applies: project.applies.filter(apply => apply !== application),
+      applies: project.applies
+        ? project.applies.filter(apply => apply !== application)
+        : [],
       current_user_is_applied: false,
     })
     if (modalManager.isModalOpen('ProjectApplicationRegistry')) {

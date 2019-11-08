@@ -3,7 +3,7 @@ import Link from 'next/link'
 import Router from 'next/router'
 import queryString from 'query-string'
 import React, { useCallback, useRef } from 'react'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import styled from 'styled-components'
 import { channel } from '~/common/constants'
 import ActivityIndicator from '~/components/ActivityIndicator'
@@ -20,7 +20,7 @@ import { fetchAPI } from '~/lib/fetch/fetch.client'
 import { NotFoundPageError } from '~/lib/next/errors'
 import { pushToDataLayer } from '~/lib/tag-manager'
 import { throwActionError } from '~/lib/utils/redux'
-import { fetchProject, Project } from '~/redux/ducks/project'
+import { fetchProject, Project, updateProject } from '~/redux/ducks/project'
 import { UserOrganization } from '~/redux/ducks/user'
 import BeforeActionAuth from '~/components/BeforeActionAuth'
 import { RootState } from '~/redux/root-reducer'
@@ -91,9 +91,6 @@ interface ProjectComposerPageProps {
   readonly organization?: UserOrganization
   readonly mode?: FormComposerMode
   readonly projectSlug?: string
-  readonly onUpdateProject: (
-    changes: Partial<Project> & { slug: string },
-  ) => any
 }
 
 const ProjectComposerPage: NextPage<
@@ -102,14 +99,8 @@ const ProjectComposerPage: NextPage<
     ProjectComposerPageProps,
     'draftIndex' | 'organization' | 'organization' | 'projectSlug'
   >
-> = ({
-  stepId,
-  organization,
-  mode,
-  projectSlug,
-  draftIndex,
-  onUpdateProject,
-}) => {
+> = ({ stepId, organization, mode, projectSlug, draftIndex }) => {
+  const dispatchToRedux = useDispatch()
   const { viewer, project } = useSelector((state: RootState) => ({
     viewer: state.user!,
     project:
@@ -168,7 +159,7 @@ const ProjectComposerPage: NextPage<
             : null,
         })
 
-        onUpdateProject(updatedProject)
+        dispatchToRedux(updateProject(updatedProject))
         return updatedProject
       }
 
@@ -192,7 +183,7 @@ const ProjectComposerPage: NextPage<
       drafts.update(drafts.value.filter((_, index) => index !== draftIndex))
       return newProject
     },
-    [drafts, projectSlug, viewer, onUpdateProject],
+    [drafts, projectSlug, viewer, dispatchToRedux],
   )
 
   const pageName = getRouteName(mode, organization)

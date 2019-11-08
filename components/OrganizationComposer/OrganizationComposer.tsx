@@ -91,7 +91,7 @@ const m = defineMessages({
   },
   aboutName: {
     id: 'organizationComposer.about.name',
-    defaultMessage: 'a ONG',
+    defaultMessage: 'Sobre a ONG',
   },
 })
 

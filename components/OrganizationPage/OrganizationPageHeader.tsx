@@ -1,9 +1,16 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Organization } from '~/base/redux/ducks/organization'
 import styled from 'styled-components'
 import Avatar from '~/components/Avatar'
 import OrganizationVerificationBadge from '../OrganizationVerificationBadge'
 import PageLink from '../PageLink'
+import Icon from '../Icon'
+import { FormattedMessage } from 'react-intl'
+import { useImageUpload } from '~/base/hooks/use-image-upload'
+import ActivityIndicator from '../ActivityIndicator'
+import { ImageDict } from '~/base/common'
+import { useDispatch } from 'react-redux'
+import { editOrganization } from '~/base/redux/ducks/organization-composer'
 
 const Photo = styled(Avatar)`
   border: 6px solid #fff;
@@ -27,6 +34,20 @@ const Cover = styled.div`
   }
 `
 
+const UpdateCoverButton = styled.div`
+  position: absolute;
+  right: 12px;
+  top: 12px;
+  z-index: 50;
+  display: inline-block;
+`
+
+interface NewCoverState {
+  source: string
+  image?: ImageDict
+  uploading?: boolean
+}
+
 interface OrganizationPageHeaderProps {
   readonly className?: string
   readonly organization: Organization
@@ -36,17 +57,88 @@ const OrganizationPageHeader: React.FC<OrganizationPageHeaderProps> = ({
   className,
   organization,
 }) => {
+  const [newCover, setNewCover] = useState<NewCoverState | null>(null)
+  const uploadImageFile = useImageUpload()
+  const handleCoverInputFileChange = async (
+    event: React.ChangeEvent<HTMLInputElement>,
+  ) => {
+    const file = event.target.files ? event.target.files[0] : null
+
+    if (file) {
+      try {
+        const image = await uploadImageFile(file, {
+          onLoadPreview: previewSource => {
+            setNewCover({ source: previewSource, uploading: true })
+          },
+        })
+
+        setNewCover({ source: image.image_url, image })
+      } catch (error) {
+        // ...
+      }
+    }
+  }
+  const dispatchToRedux = useDispatch()
+  const handleNewCoverSubmit = async () => {
+    if (newCover && newCover.image) {
+      await dispatchToRedux(
+        editOrganization({
+          cover_id: newCover.image.id,
+          slug: organization.slug,
+        }),
+      )
+      setNewCover(null)
+    }
+  }
+
   return (
     <div className={className}>
       <div className="container">
         <Cover
-          className="bg-gray-300 mb-3 rounded-b-lg bg-cover"
+          className="bg-gray-300 mb-3 rounded-b-lg bg-cover relative"
           style={{
-            backgroundImage: organization.cover
-              ? `url('${organization.cover.image_url}')`
-              : undefined,
+            backgroundImage:
+              organization.cover || newCover
+                ? `url('${
+                    newCover
+                      ? newCover.source
+                      : organization.cover && organization.cover.image_url
+                  }')`
+                : undefined,
           }}
         >
+          {newCover ? (
+            // @ts-ignore
+            <UpdateCoverButton
+              as="button"
+              type="button"
+              className="btn bg-green-500 tc-white absolute shadow"
+              disabled={newCover.uploading}
+              onClick={handleNewCoverSubmit}
+            >
+              <Icon name="save" className="mr-2" />
+              <FormattedMessage
+                id="organizationPageHeader.saveNewCover"
+                defaultMessage="Salvar alteração da capa"
+              />
+              {newCover.uploading && (
+                <ActivityIndicator size={24} fill="#fff" className="ml-2" />
+              )}
+            </UpdateCoverButton>
+          ) : (
+            <UpdateCoverButton className="btn bg-white absolute shadow inputFileWrapper">
+              <input
+                name="cover"
+                type="file"
+                onChange={handleCoverInputFileChange}
+              />
+              <Icon name="edit" className="mr-2" />
+              <FormattedMessage
+                id="organizationPageHeader.editCover"
+                defaultMessage="Alterar capa"
+              />
+            </UpdateCoverButton>
+          )}
           <svg
             viewBox="0 0 1100 40"
             version="1.1"

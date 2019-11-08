@@ -528,5 +528,8 @@
   "organizationJoin.changeAccount": "Cambiar cuenta",
   "organizationJoin.login": "Inicie sesión en su cuenta",
   "organizationJoin.accept": "Aceptar invitación para ser miembro",
-  "organizationJoin.deny": "No tengo interes"
+  "organizationJoin.deny": "No tengo interes",
+  "organizationPageHeader.saveNewCover": "Guardar cambio de cobertura",
+  "organizationPageHeader.editCover": "Cambiar cobertura",
+  "toolbarApplicationsItem.applied": "Suscrito"
 }

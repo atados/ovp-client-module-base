@@ -83,6 +83,18 @@ const ToolbarApplicationsItem: React.FC<ToolbarApplicationsItemProps> = ({
               {project.name}
             </span>
             <span className="tc-muted ts-small text-truncate block">
+              {application.status === 'applied' && (
+                <>
+                  <span className="tc-green-500 tw-medium bg-green-100 px-1">
+                    <FormattedMessage
+                      id="toolbarApplicationsItem.applied"
+                      defaultMessage="Inscrito"
+                    />
+                  </span>
+                  <span className="tc-gray-500"> . </span>
+                </>
+              )}
+
               {project.description}
             </span>
           </div>
@@ -92,7 +104,7 @@ const ToolbarApplicationsItem: React.FC<ToolbarApplicationsItemProps> = ({
         <>
           <hr className="my-0" />
           <Actions className="py-1 animate-slideInUp">
-            {!application.canceled && (
+            {application.status === 'applied' && (
               <button
                 onClick={handleClick}
                 className="btn btn--block py-1 px-2 ta-left hover:bg-muted"

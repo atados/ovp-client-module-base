@@ -31,30 +31,25 @@ export const applyToProject = createAction<
       throw new Error('You must be logged in')
     }
 
-    await fetchAPI(`/projects/${project.slug}/applies/apply/`, {
-      method: 'POST',
-      body: {
-        role: role && role.id,
-        phone: user.phone,
-        message,
+    const application = await fetchAPI(
+      `/projects/${project.slug}/applies/apply/`,
+      {
+        method: 'POST',
+        body: {
+          role: role && role.id,
+          phone: user.phone,
+          message,
+        },
+        sessionToken: user.token,
       },
-      sessionToken: user.token,
-    }).catch(catchErrorAndReport)
+    ).catch(catchErrorAndReport)
 
     pushToDataLayer({
       event: 'project.apply',
       slug: project.slug,
     })
 
-    return {
-      id: 10000,
-      date: String(new Date()),
-      phone: user.phone as string,
-      canceled: false,
-      project,
-      user,
-      role,
-    }
+    return application
   },
   payload => ({
     projectSlug: payload.project.slug,

@@ -450,7 +450,7 @@ const ManageableProjectsList: NextPage<ManageableProjectsListProps> = ({
 
                           <Link
                             href={Page.Project}
-                            as={PageAs.Project({ projectSlug: project.slug })}
+                            as={PageAs.Project({ slug: project.slug })}
                             passHref
                           >
                             <DropdownAnchor className="dropdown-item">

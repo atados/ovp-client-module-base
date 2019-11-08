@@ -214,6 +214,7 @@ export type MaterialIconName =
   | 'visibility_off'
   | 'watch_later'
   | 'work'
+  | 'work_outline'
   | 'youtube_searched_for'
   | 'zoom_in'
   | 'zoom_out'

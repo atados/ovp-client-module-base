@@ -5,7 +5,7 @@ import ToolbarApplicationsItem from './Toolbar/ToolbarApplicationsItem'
 import { useSelector } from 'react-redux'
 import { RootState } from '../redux/root-reducer'
 import useFetchAPI from '../hooks/use-fetch-api'
-import { PublicUser } from '../redux/ducks/public-user'
+import { PublicUser, PublicUserApplication } from '../redux/ducks/public-user'
 import PageLink from './PageLink'
 import Icon from './Icon'
 import { useProjectApplication } from '../hooks/project-application-hooks'
@@ -55,7 +55,7 @@ const ViewerApplications: React.FC<ViewerApplicationsProps> = ({
       </Header>
       <Body className={scroll ? 'absolute bottom-0 left-0 right-0' : ''}>
         <div className="shadow-sm">
-          {applications.map(application => (
+          {applications.map((application: PublicUserApplication) => (
             <ToolbarApplicationsItem
               key={application.id}
               application={application}
@@ -74,7 +74,10 @@ const ViewerApplications: React.FC<ViewerApplicationsProps> = ({
                 setState({ ...state, selectedItemId: application.id })
               }}
               onOpenApplication={() =>
-                openProjectApplication(application.project)
+                openProjectApplication({
+                  ...application.project,
+                  current_user_is_applied: application.status === 'applied',
+                })
               }
             />
           ))}

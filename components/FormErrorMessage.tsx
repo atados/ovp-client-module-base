@@ -91,6 +91,10 @@ const FormErrorMessage: React.FC<FormErrorMessageProps> = ({ error }) => {
   useEffect(() => {
     let reportedError
     if (isString) {
+      if (m[error as string]) {
+        return
+      }
+
       reportedError = new Error(
         `Yup error as string "${error}" is not translated`,
       )
@@ -113,7 +117,9 @@ const FormErrorMessage: React.FC<FormErrorMessageProps> = ({ error }) => {
   }, [isString ? error : (error as YupErrorTranslatable).message, errorCode])
 
   if (isString) {
-    return <>{error}</>
+    return (
+      <>{m[error as string] ? intl.formatMessage(m[error as string]) : error}</>
+    )
   }
 
   return (

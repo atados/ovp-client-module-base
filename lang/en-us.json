@@ -527,5 +527,8 @@
   "organizationJoin.changeAccount": "Switch account",
   "organizationJoin.login": "Log in to your account",
   "organizationJoin.accept": "Accept invitation to be a member",
-  "organizationJoin.deny": "I'm not interested"
+  "organizationJoin.deny": "I'm not interested",
+  "organizationPageHeader.saveNewCover": "Save new cover",
+  "organizationPageHeader.editCover": "Update cover",
+  "toolbarApplicationsItem.applied": "Subscribed"
 }

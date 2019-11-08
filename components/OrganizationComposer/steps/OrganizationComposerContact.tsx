@@ -21,6 +21,7 @@ const OrganizationContactFormSchema = Yup.object().shape({
     .required(),
   website: Yup.string().url(),
   facebook_page: Yup.string().url(),
+  instagram_user: Yup.string(),
 })
 
 export interface Values {
@@ -28,6 +29,7 @@ export interface Values {
   readonly website: string
   readonly contact_email: string
   readonly facebook_page: string
+  readonly instagram_user: string
 }
 
 interface OrganizationComposerContactProps {
@@ -224,6 +226,24 @@ class OrganizationComposerContact extends React.Component<
             placeholder="https://facebook.com/ong"
           />
         </FormGroup>
+
+        <FormGroup
+          labelFor="ong-input-instagram_user"
+          label="Instagram"
+          error={touched.instagram_user ? errors.instagram_user : undefined}
+          className="mb-4"
+          required={false}
+        >
+          <input
+            id="ong-input-instagram_user"
+            name="instagram_user"
+            value={values.instagram_user}
+            onChange={handleChange}
+            onBlur={this.handleBlur}
+            className="input input--size-3"
+            placeholder="@ong"
+          />
+        </FormGroup>
       </FormComposerLayout>
     )
   }
@@ -234,6 +254,7 @@ const defaultValue: Values = {
   website: '',
   contact_email: '',
   facebook_page: '',
+  instagram_user: '',
 }
 
 export default withFormik<OrganizationComposerContactProps, Values>({
@@ -255,5 +276,6 @@ export default withFormik<OrganizationComposerContactProps, Values>({
     website: value.website || '',
     contact_email: value.contact_email || '',
     facebook_page: value.facebook_page || '',
+    instagram_user: value.instagram_user || '',
   }),
 })(withIntl(OrganizationComposerContact))

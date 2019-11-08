@@ -24,6 +24,7 @@ export interface Organization {
   address?: Address
   website?: string
   facebook_page?: string
+  instagram_user?: string
   chat_enabled: boolean
   benefited_people: number
   image?: ImageDict

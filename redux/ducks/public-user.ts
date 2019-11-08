@@ -13,6 +13,7 @@ export interface PublicUserApplication {
   dateYear?: number
   project: Project
   canceled: boolean
+  status: 'applied' | 'canceled'
   role?: ProjectRole
   project_rating?: RatingProject
 }

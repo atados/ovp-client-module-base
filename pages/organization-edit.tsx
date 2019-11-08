@@ -164,6 +164,7 @@ const mapStateToProps = ({
         contact_email: node.contact_email,
         website: node.website || '',
         facebook_page: node.facebook_page || '',
+        instagram_user: node.instagram_user || '',
       },
       about: {
         content: node.details,

@@ -16,6 +16,7 @@ interface OrganizationPayload {
   hidden_address: boolean
   document?: string
   image_id: number
+  cover_id?: number
   contact_phone: string
   contact_email: string
   facebook_page?: string
@@ -50,7 +51,7 @@ export const addOrganization = createAction<OrganizationPayload, Organization>(
 )
 
 export const editOrganization = createAction<
-  OrganizationPayload & { slug: string },
+  Partial<OrganizationPayload> & { slug: string },
   Organization
 >('ORGANIZATION_EDIT', (payload, { getState }) => {
   const { user } = getState() as RootState
