@@ -21,9 +21,13 @@ import { setupDataLayer } from '~/lib/tag-manager'
 import { RootState } from '~/redux/root-reducer'
 import withRedux from '~/redux/with-redux'
 import { getStartupData } from '../lib/startup'
-import { loginWithSessionToken } from '../redux/ducks/user'
+import { loginWithSessionToken, logout } from '../redux/ducks/user'
 import { Asset, Config, Theme } from '~/common'
-import { setupErrorMonitoring, setSentryUser } from '../lib/utils/error'
+import {
+  setupErrorMonitoring,
+  setSentryUser,
+  reportError,
+} from '../lib/utils/error'
 
 declare global {
   interface Window {
@@ -65,7 +69,12 @@ class App extends NextApp<AppProps> {
     const { startup, user } = ctx.store.getState() as RootState
 
     if (sessionToken && !user) {
-      await ctx.store.dispatch(loginWithSessionToken(sessionToken, '@app'))
+      try {
+        await ctx.store.dispatch(loginWithSessionToken(sessionToken, '@app'))
+      } catch (error) {
+        reportError(error)
+        await ctx.store.dispatch(logout())
+      }
     }
 
     if (!startup) {

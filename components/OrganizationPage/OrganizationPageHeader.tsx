@@ -51,11 +51,13 @@ interface NewCoverState {
 interface OrganizationPageHeaderProps {
   readonly className?: string
   readonly organization: Organization
+  readonly isViewerMember: boolean
 }
 
 const OrganizationPageHeader: React.FC<OrganizationPageHeaderProps> = ({
   className,
   organization,
+  isViewerMember,
 }) => {
   const [newCover, setNewCover] = useState<NewCoverState | null>(null)
   const uploadImageFile = useImageUpload()
@@ -126,18 +128,20 @@ const OrganizationPageHeader: React.FC<OrganizationPageHeaderProps> = ({
               )}
             </UpdateCoverButton>
           ) : (
-            <UpdateCoverButton className="btn bg-white absolute shadow inputFileWrapper">
-              <input
-                name="cover"
-                type="file"
-                onChange={handleCoverInputFileChange}
-              />
-              <Icon name="edit" className="mr-2" />
-              <FormattedMessage
-                id="organizationPageHeader.editCover"
-                defaultMessage="Alterar capa"
-              />
-            </UpdateCoverButton>
+            isViewerMember && (
+              <UpdateCoverButton className="btn bg-white absolute shadow inputFileWrapper">
+                <input
+                  name="cover"
+                  type="file"
+                  onChange={handleCoverInputFileChange}
+                />
+                <Icon name="edit" className="mr-2" />
+                <FormattedMessage
+                  id="organizationPageHeader.editCover"
+                  defaultMessage="Alterar capa"
+                />
+              </UpdateCoverButton>
+            )
           )}
           <svg
             viewBox="0 0 1100 40"

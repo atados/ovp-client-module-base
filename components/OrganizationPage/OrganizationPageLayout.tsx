@@ -7,18 +7,24 @@ import {
 
 interface OrganizationPageLayoutProps {
   readonly organization: Organization
+  readonly isViewerMember: boolean
   readonly className?: string
 }
 
 const OrganizationPageLayout: React.FC<OrganizationPageLayoutProps> = ({
   className,
   organization,
+  isViewerMember,
   children,
 }) => {
   return (
     <div className={className}>
       <div className="shadow-sm bg-white">
-        <OrganizationPageHeader organization={organization} className="mb-4" />
+        <OrganizationPageHeader
+          organization={organization}
+          isViewerMember={isViewerMember}
+          className="mb-4"
+        />
         <div className="container">
           <OrganizationPageNav organization={organization} />
         </div>

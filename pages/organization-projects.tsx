@@ -70,7 +70,10 @@ const OrganizationProjectsPage: NextPage<OrganizationProjectsPageProps> = ({
     >
       {meta}
       {organization && (
-        <OrganizationPageLayout organization={organization}>
+        <OrganizationPageLayout
+          organization={organization}
+          isViewerMember={isViewerMember}
+        >
           <div className="container py-4">
             <div className="bg-white shadow rounded-lg p-4">
               {isQueryReady(projectsQuery) && (

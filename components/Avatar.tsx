@@ -1,6 +1,7 @@
 import React from 'react'
 import { ImageDict } from '../common'
 import styled from 'styled-components'
+import cx from 'classnames'
 
 const ImageBackground = styled.div`
   background-position: center;
@@ -21,7 +22,7 @@ const Avatar: React.FC<AvatarProps> = ({
 }) => {
   return (
     <ImageBackground
-      className={`${className}${!image ? ` ${fallBackClassName}` : ''}`}
+      className={cx(className, !image && fallBackClassName)}
       style={
         image
           ? {

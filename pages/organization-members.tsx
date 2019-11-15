@@ -56,7 +56,7 @@ const OrganizationMembersPage: NextPage<
   const members = queryResult.data || []
 
   return (
-    <div className="bg-muted">
+    <div className="bg-gray-200 min-h-screen">
       <OrganizationLayout
         layoutProps={{ disableFooter: true }}
         isViewerMember

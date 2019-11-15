@@ -22,6 +22,15 @@ export class FetchJSONError extends Error {
     payload: any,
     fixedUrl?: string,
   ) {
+    if (response instanceof Error) {
+      super(response.message)
+
+      this.payload = response
+      this.statusCode = response.status
+      this.response = response
+      return
+    }
+
     super(
       `Failed to fetch ${fixedUrl || response.url}\nPayload = ${JSON.stringify(
         payload,

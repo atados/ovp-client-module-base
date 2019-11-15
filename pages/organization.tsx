@@ -46,7 +46,10 @@ const OrganizationPage: NextPage<OrganizationPageProps> = ({
     />
   )
   const children = organization && (
-    <OrganizationPageLayout organization={organization}>
+    <OrganizationPageLayout
+      organization={organization}
+      isViewerMember={isViewerMember}
+    >
       <div className="container py-4">
         <div className="row">
           <div className="col-md-7">

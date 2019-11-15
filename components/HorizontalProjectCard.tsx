@@ -96,6 +96,7 @@ const HorizontalProjectCard: React.FC<HorizontalProjectCardProps> = ({
               <Avatar
                 image={project.image}
                 className="ratio-body rounded-lg bg-cover"
+                fallBackClassName="bg-gray-200"
               />
             </ProjectPhoto>
             <Side>
