@@ -3,9 +3,13 @@ import microAuthFacebook from 'microauth-facebook'
 import { NextApiRequest, NextApiResponse } from 'next'
 import { Page } from '~/base/common'
 import convertAuthenticationToken from '~/base/lib/auth/convert-token'
-import { reportError } from '~/base/lib/utils/error'
 import { APP_URL, dev } from '~/common/constants'
+import {
+  setupErrorMonitoringOnServer,
+  reportNodeError,
+} from '~/base/lib/sentry/sentry.node'
 
+setupErrorMonitoringOnServer()
 type AuthResponse =
   | { err: Error; result: undefined }
   | {
@@ -45,7 +49,7 @@ function createFacebookAPIRoute() {
 
       if (auth.err) {
         // Error handler
-        console.error(auth.err)
+        reportNodeError(auth.err)
         return send(res, 403, 'Forbidden')
       }
 
@@ -75,8 +79,8 @@ function createFacebookAPIRoute() {
           `,
         )
       } catch (error) {
+        reportNodeError(error)
         if (!dev) {
-          reportError(error)
           res.statusCode = 500
           res.end('Internal server error. Please try again')
         }
