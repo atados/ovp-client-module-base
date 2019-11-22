@@ -1,43 +1,34 @@
-import maxmind, { CountryResponse } from 'maxmind'
+import maxmind from 'maxmind'
 import { IncomingMessage } from 'http'
-import { channel, dev } from '~/common/constants'
 import { Geolocation } from '~/redux/ducks/geo'
 import { Config } from '~/base/common'
-import * as path from 'path'
+import * as geolite2 from 'geolite2'
 
 export interface InjectedGeoProps {
   geo: Geolocation
 }
-let lookup
+let lookup: maxmind.Reader<any> | undefined
 export async function createGeolocationObject(
   req: IncomingMessage,
 ): Promise<Geolocation> {
   try {
     if (!lookup) {
-      lookup = maxmind.openSync<CountryResponse>(
-        dev
-          ? path.resolve('base', 'lib', 'geo', 'GeoLite2-Country.mmdb')
-          : path.join(__dirname, 'GeoLite2-Country.mmdb'),
-      )
+      lookup = maxmind.openSync(geolite2.paths.city)
     }
 
     const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress
-    const geo = ip && lookup.get(ip)
+    const geo = ip && lookup.get(String(ip))
 
     // Lookup region (e.g. SP) into current channel's regions
-    if (
-      geo &&
-      geo.region &&
-      (!channel.config.geo.regions ||
-        channel.config.geo.regions.some(
-          region => String(geo.region) === region,
-        ))
-    ) {
+    if (geo) {
       return {
-        country: String(geo.country).toUpperCase(),
-        region: String(geo.region).toUpperCase(),
-        lat: geo.ll[0],
-        lng: geo.ll[1],
+        country: String(geo.country.iso_code).toUpperCase(),
+        region:
+          geo.subdivisions && geo.subdivisions.length
+            ? geo.subdivisions[0].iso_code
+            : undefined,
+        lat: geo.location.latitude,
+        lng: geo.location.longitude,
       }
     }
   } catch (error) {

@@ -1,3 +1,5 @@
+import { AnyAction } from 'redux'
+
 export interface Geolocation {
   country: string
   region: string
@@ -7,11 +9,10 @@ export interface Geolocation {
 
 export type GeolocationReducerState = Geolocation
 
-export default (
-  geo: Geolocation = {
-    country: 'BR',
-    region: 'SP',
-    lat: -23.5283838,
-    lng: -46.6021955,
-  },
-) => geo
+export default (geo: Geolocation, action: AnyAction) => {
+  if (action.type === 'GEO') {
+    return action.payload
+  }
+
+  return geo || null
+}

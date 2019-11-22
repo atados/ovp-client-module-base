@@ -28,6 +28,7 @@ import {
   setSentryUser,
   reportError,
 } from '../lib/utils/error'
+import { createGeolocationObject } from '../lib/geo'
 
 declare global {
   interface Window {
@@ -81,6 +82,13 @@ class App extends NextApp<AppProps> {
       ctx.store.dispatch({
         type: 'STARTUP',
         payload: await getStartupData(),
+      })
+    }
+
+    if (ctx.req) {
+      ctx.store.dispatch({
+        type: 'GEO',
+        payload: await createGeolocationObject(ctx.req),
       })
     }
 

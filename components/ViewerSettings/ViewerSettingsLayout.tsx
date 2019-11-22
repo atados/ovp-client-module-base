@@ -64,6 +64,17 @@ const ViewerSettingsLayout: React.FC<
                 />
               </ViewerSettingsNavItem>
             </PageLink>
+            <PageLink href="ViewerDeleteAccount" passHref>
+              <ViewerSettingsNavItem
+                icon="close"
+                active={router.pathname === Page.ViewerDeleteAccount}
+              >
+                <FormattedMessage
+                  id="viewerSettings.deleteAccount"
+                  defaultMessage="Desativar minha conta"
+                />
+              </ViewerSettingsNavItem>
+            </PageLink>
           </div>
           <div className="col-md-9">{children}</div>
         </div>

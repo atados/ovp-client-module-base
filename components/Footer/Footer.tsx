@@ -3,7 +3,7 @@ import React from 'react'
 import { defineMessages } from 'react-intl'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
-import { Page, PageAs, Asset } from '~/common'
+import { Page, PageAs, Asset, Color } from '~/common'
 import { channel } from '~/common/constants'
 import NewsletterForm from '~/components/NewsletterForm'
 import SocialMediaIcon from '~/components/SocialMediaIcon/SocialMediaIcon'
@@ -14,7 +14,7 @@ import FooterNav from './FooterNav'
 import LanguageDropdown from '~/components/LanguageDropdown/LanguageDropdown'
 
 const Container = styled.div`
-  background: ${props => props.theme.footerBackground || '#f5f6f7'};
+  background: ${props => props.theme.footerBackground || Color.gray[200]};
   ${props =>
     props.theme.footerTheme === 'dark'
       ? `

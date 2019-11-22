@@ -92,6 +92,7 @@ const PageBuildShape: PagesBuilderMap = {
   ViewerSettingsNewsletter: '~/pages/settings-newsletter',
   ViewerOrganizations: '~/pages/settings-organizations',
   ViewerSettingsPassword: '~/pages/settings-password',
+  ViewerDeleteAccount: '~/pages/settings-delete-account',
 }
 
 const nextPages = ['_app', '_document', '_error']

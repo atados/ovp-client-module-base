@@ -10,9 +10,12 @@ import Yup from '~/lib/form/yup'
 import { throwActionError } from '~/lib/utils/redux'
 import { recoverPassword } from '~/redux/ducks/recover-password'
 import { Page } from '../common'
+import { reportError } from '../lib/utils/error'
+import { FormattedMessage } from 'react-intl'
 
 enum Status {
   EqualsEmail,
+  PasswordTooSimilar,
   Success,
   Error,
 }
@@ -68,11 +71,6 @@ class AuthenticationRecover extends React.Component<
         <Container className={className}>
           <div className="ta-center">
             <h2 className="tw-medium mb-1">Senha recuperada</h2>
-            <p className="mb-4 text-muted">
-              Verifique no seu email um link para redefinir sua senha. Se não
-              aparecer dentro de alguns minutos, verifique sua pasta de spam.
-            </p>
-
             <Link href={Page.Login}>
               <a className="btn btn-primary tw-normal btn--block btn--size-4">
                 Ir para o login
@@ -137,12 +135,26 @@ class AuthenticationRecover extends React.Component<
             </button>
             {status === Status.EqualsEmail && (
               <span className="d-Block ta-center tc-error mt-3">
-                A senha é muito parecida com o email
+                <FormattedMessage
+                  id="page.recoverPassword.error.equalEmail"
+                  defaultMessage="A senha é muito parecida com o email"
+                />
+              </span>
+            )}
+            {status === Status.PasswordTooSimilar && (
+              <span className="d-Block ta-center tc-error mt-3">
+                <FormattedMessage
+                  id="page.recoverPassword.error.tooSimiliar"
+                  defaultMessage="A senha é muito parecida com o email o a senha antiga"
+                />
               </span>
             )}
             {status === Status.Error && (
               <span className="d-Block ta-center tc-error mt-3">
-                Falha ao conectar com o servidor
+                <FormattedMessage
+                  id="page.recoverPassword.error.internal"
+                  defaultMessage="Falha ao conectar com o servidor"
+                />
               </span>
             )}
           </form>
@@ -200,11 +212,18 @@ export default connect(
           error &&
           error.payload &&
           error.payload.errors &&
-          error.payload.errors.length &&
-          /email/.test(error.payload.errors)
+          error.payload.errors.length
         ) {
-          setStatus(Status.EqualsEmail)
+          if (/email/.test(error.payload.errors)) {
+            setStatus(Status.EqualsEmail)
+          } else if (
+            error.payload.errors[0] &&
+            error.payload.errors[0][0] === 'password_too_similar'
+          ) {
+            setStatus(Status.PasswordTooSimilar)
+          }
         } else {
+          reportError(error)
           setStatus(Status.Error)
         }
       }

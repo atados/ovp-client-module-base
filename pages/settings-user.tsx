@@ -90,13 +90,13 @@ const m = defineMessages({
 const publicUserToValues = ({
   name,
   avatar,
-  phone = '',
+  phone,
   profile,
 }: PublicUser): Values => ({
   name,
-  phone,
+  phone: phone || '',
   description: profile.about || '',
-  gender: profile.gender,
+  gender: profile.gender || '',
   skills: profile.skills ? profile.skills.map(skillToSelectItem) : [],
   causes: profile.causes ? profile.causes.map(causeToSelectItem) : [],
   avatar: avatar ? { previewURI: avatar.image_url } : null,

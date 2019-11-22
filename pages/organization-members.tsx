@@ -1,6 +1,6 @@
 import { NextPage } from 'next'
 import Link from 'next/link'
-import React from 'react'
+import React, { useState } from 'react'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
 import Icon from '~/components/Icon'
@@ -13,7 +13,21 @@ import { User, UserOrganization } from '~/redux/ducks/user'
 import { RootState } from '~/redux/root-reducer'
 import { OrganizationMember } from '~/types/api'
 import { Page, PageAs } from '../common'
-import { FormattedMessage } from 'react-intl'
+import { FormattedMessage, useIntl, defineMessages } from 'react-intl'
+import Meta from '../components/Meta'
+import useTriggerableFetchApi from '../hooks/use-trigglerable-fetch-api'
+import ActivityIndicator from '~/components/ActivityIndicator'
+
+const m = defineMessages({
+  title: {
+    id: 'pages.organizationMembers.title',
+    defaultMessage: 'Membros da ONG',
+  },
+  areYouSure: {
+    id: 'areYouSure',
+    defaultMessage: 'Tem certeza?',
+  },
+})
 
 const TableWrapper = styled.div`
   overflow-x: auto;
@@ -42,6 +56,7 @@ const OrganizationMembersPage: NextPage<
   OrganizationMembersPageProps,
   OrganizationMembersPageInitialProps
 > = ({ organization, viewer }) => {
+  const intl = useIntl()
   const queryResult = useFetchAPI<OrganizationMember[]>(
     `/organizations/${organization.slug}/members/`,
   )
@@ -54,9 +69,25 @@ const OrganizationMembersPage: NextPage<
     cardClassName: 'p-5',
   })
   const members = queryResult.data || []
+  const [deletingMemberId, setDeletingMemberId] = useState<null | number>(null)
+  const removeMemberTrigger = useTriggerableFetchApi(
+    `/organizations/${organization.slug}/remove_member/`,
+    {
+      method: 'POST',
+    },
+  )
+  const handleRemoveMember = (member: OrganizationMember) => {
+    if (!confirm(intl.formatMessage(m.areYouSure))) {
+      return
+    }
+
+    setDeletingMemberId(member.id)
+    removeMemberTrigger.trigger({ email: member.email })
+  }
 
   return (
     <div className="bg-gray-200 min-h-screen">
+      <Meta title={intl.formatMessage(m.title)} />
       <OrganizationLayout
         layoutProps={{ disableFooter: true }}
         isViewerMember
@@ -66,10 +97,7 @@ const OrganizationMembersPage: NextPage<
           <div className="shadow bg-white rounded-lg">
             <div className="py-3 px-4">
               <h1 className="text-2xl tw-medium">
-                <FormattedMessage
-                  id="pages.organizationMembers.title"
-                  defaultMessage="Membros da ONG"
-                />
+                {intl.formatMessage(m.title)}
               </h1>
               <p className="tc-muted mb-0">
                 <FormattedMessage
@@ -109,12 +137,25 @@ const OrganizationMembersPage: NextPage<
                           <button
                             type="button"
                             className="btn btn-muted btn--size-2 tc-error"
+                            onClick={() => handleRemoveMember(member)}
+                            disabled={
+                              removeMemberTrigger.loading &&
+                              deletingMemberId === member.id
+                            }
                           >
                             <Icon name="close" className="mr-2" />
                             <FormattedMessage
                               id="pages.organizationMembers.removeMember"
                               defaultMessage="Remover membro"
                             />
+                            {removeMemberTrigger.loading &&
+                              deletingMemberId === member.id && (
+                                <ActivityIndicator
+                                  size={24}
+                                  fill="#fff"
+                                  className="ml-2"
+                                />
+                              )}
                           </button>
                         )}
                       </td>

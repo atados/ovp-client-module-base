@@ -155,6 +155,7 @@ const ChannelConfigSchema = Yup.object().shape({
       ViewerSettingsNewsletter: PageSchema.default('/eu/newsletter'),
       ViewerSettingsPassword: PageSchema.default('/eu/alterar-senha'),
       ViewerSettings: PageSchema.default('/eu/configuracoes'),
+      ViewerDeleteAccount: PageSchema.default('/eu/encerrar'),
       PrivacyTerms: PageSchema.default('/termos/privacidade'),
       VolunteerTerms: PageSchema.default('/termos/voluntariado'),
       UsageTerms: PageSchema.default('/termos/uso'),

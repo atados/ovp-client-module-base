@@ -106,6 +106,7 @@ export interface RequiredPagesMap {
   ViewerProjectDashboard: string
   ViewerProjects: string
   ViewerSettings: string
+  ViewerDeleteAccount: string
   ViewerSettingsNewsletter: string
   ViewerOrganizations: string
   ViewerSettingsPassword: string
