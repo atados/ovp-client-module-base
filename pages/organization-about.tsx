@@ -58,11 +58,11 @@ const OrganizationAboutPage: NextPage<OrganizationAboutPageProps> = ({
           organization={organization}
           isViewerMember={isViewerMember}
         >
-          <div className="container py-4">
-            <div className="row">
-              <div className="col-md-7">
+          <div className="container px-2 py-5">
+            <div className="flex flex-wrap -mx-2">
+              <div className="w-full md:w-7/12 px-2">
                 <div className="bg-white shadow rounded-lg p-4">
-                  <h3 className="ts-large tw-medium mb-3">
+                  <h3 className="text-xl font-medium mb-4">
                     <FormattedMessage
                       id="pages.organizationAbout.title"
                       defaultMessage="Sobre a ONG"
@@ -71,7 +71,7 @@ const OrganizationAboutPage: NextPage<OrganizationAboutPageProps> = ({
                   <Markdown value={organization.details} />
                 </div>
               </div>
-              <div className="col-md-5 hidden md:block">
+              <div className="w-full md:w-5/12 hidden md:block px-2">
                 <OrganizationPageDetails organization={organization} />
               </div>
             </div>

@@ -24,6 +24,7 @@ import { RootState } from '~/redux/root-reducer'
 import { PageAs, Page, Color } from '~/common'
 import { channel } from '../common/constants'
 import VolunteerIcon from '~/components/Icon/VolunteerIcon'
+import { FormattedMessage } from 'react-intl'
 
 const BannerOverlay = styled.div`
   position: relative;
@@ -63,7 +64,7 @@ const Sidebar = styled.div`
   min-width: 250px;
   max-width: 250px;
   padding-right: 40px;
-  margin-right: 40px;
+  margin-right: 20px;
   border-right: 1px solid #eee;
 `
 
@@ -95,14 +96,14 @@ const CausePage: NextPage<
     <Layout
       toolbarProps={{
         flat: true,
-        className: 'no-background',
+        className: 'bg-none',
         float: true,
       }}
     >
       <Meta title={cause.name} />
 
       <BannerOverlay
-        className="p-toolbar bg-cover bg-secondary-400"
+        className="p-toolbar bg-cover bg-center bg-secondary-400"
         style={
           cause.image
             ? { backgroundImage: `url('${cause.image.image_url}')` }
@@ -110,16 +111,18 @@ const CausePage: NextPage<
         }
       >
         <div className="relative z-50">
-          <div className="container pt-5 ta-center">
-            <span className="w-16 h-16 bg-white rounded-circle block mb-3 mx-auto py-2">
+          <div className="container px-2 pt-8 text-center">
+            <span className="w-16 h-16 bg-white rounded-full block mb-4 mx-auto py-3">
               <VolunteerIcon
                 width={32}
                 height={32}
                 fill={Color.secondary[500]}
               />
             </span>
-            <span className="block tc-light text-2xl">Lute pela causa</span>
-            <h1 className="display-1 ta-center tc-white p-3 rounded-lg cursor-pointer w-auto inline-block">
+            <span className="block text-white-alpha-80 text-2xl">
+              Lute pela causa
+            </span>
+            <h1 className="display-1 text-center text-white p-3 rounded-lg cursor-pointer w-auto inline-block">
               {cause.name}
             </h1>
           </div>
@@ -140,35 +143,42 @@ const CausePage: NextPage<
           </svg>
         </div>
       </BannerOverlay>
-      <div className="flex container py-5">
-        <Sidebar className="hidden md:block">
-          <h4 className="ts-medium nav-link">Causas</h4>
-          {causes.map(c => (
-            <Link
-              key={c.id}
-              as={PageAs.Cause({ slug: c.slug })}
-              href={Page.Cause}
-            >
-              <CauseLink
-                href={`/causa/${c.slug}`}
-                className={`text-truncate block nav-link${
-                  c.id === cause.id ? ' active' : ''
-                }`}
+      <div className="container px-2 py-8">
+        <div className="md:flex md:-mx-2">
+          <Sidebar className="hidden md:block px-2">
+            <h4 className="text-lg nav-link">
+              <FormattedMessage
+                id="pages.cause.sidebar.title"
+                defaultMessage="Causas"
+              />
+            </h4>
+            {causes.map(c => (
+              <Link
+                key={c.id}
+                as={PageAs.Cause({ slug: c.slug })}
+                href={Page.Cause}
               >
-                {c.name}
-              </CauseLink>
-            </Link>
-          ))}
-        </Sidebar>
-        <div className="flex-grow">
-          <SearchSources
-            size={SearchSourcesSize.Large}
-            page={page}
-            sources={sources}
-            searchType={searchType}
-            fetching={fetching}
-            filtersQueryObject={filtersQueryObject}
-          />
+                <CauseLink
+                  href={`/causa/${c.slug}`}
+                  className={`truncate block nav-link${
+                    c.id === cause.id ? ' active' : ''
+                  }`}
+                >
+                  {c.name}
+                </CauseLink>
+              </Link>
+            ))}
+          </Sidebar>
+          <div className="px-2">
+            <SearchSources
+              size={SearchSourcesSize.Large}
+              page={page}
+              sources={sources}
+              searchType={searchType}
+              fetching={fetching}
+              filtersQueryObject={filtersQueryObject}
+            />
+          </div>
         </div>
       </div>
     </Layout>

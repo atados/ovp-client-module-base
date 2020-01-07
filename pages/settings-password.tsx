@@ -78,11 +78,11 @@ const SettingsPassword: NextPage<
     <ViewerSettingsLayout>
       <Meta title={intl.formatMessage(m.title)} />
       <div className="bg-white rounded-lg shadow">
-        <div className="py-3 px-3">
-          <h4 className="tw-normal mb-0 text-xl leading-loose">
+        <div className="py-4 px-4">
+          <h4 className="font-normal mb-0 text-xl leading-loose">
             <Icon
               name="lock"
-              className="bg-gray-200 rounded-full w-10 h-10 ta-center mr-3"
+              className="bg-gray-200 rounded-full w-10 h-10 text-center mr-4"
             />
             {intl.formatMessage(m.title)}
           </h4>
@@ -98,7 +98,7 @@ const SettingsPassword: NextPage<
             label={intl.formatMessage(m['Senha atual'])}
             error={touched.currentPassword ? errors.currentPassword : undefined}
             length={values.currentPassword.length}
-            className="mb-4"
+            className="mb-6"
           >
             <input
               id="profile-input-current-password"
@@ -115,7 +115,7 @@ const SettingsPassword: NextPage<
             label={intl.formatMessage(m['Nova senha'])}
             error={touched.newPassword ? errors.newPassword : undefined}
             length={values.newPassword.length}
-            className="mb-4"
+            className="mb-6"
           >
             <input
               id="profile-input-new-password"
@@ -134,7 +134,7 @@ const SettingsPassword: NextPage<
               touched.confirmNewPassword ? errors.confirmNewPassword : undefined
             }
             length={values.confirmNewPassword.length}
-            className="mb-4"
+            className="mb-6"
           >
             <input
               id="profile-input-confirm-new-password"

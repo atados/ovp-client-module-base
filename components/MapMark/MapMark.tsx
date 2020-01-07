@@ -282,7 +282,7 @@ class MapMark extends React.Component<MapMarkProps, MapMarkState> {
               }}
             />
             <span
-              className="ratio-body bg-cover"
+              className="ratio-body bg-cover bg-center"
               style={
                 node.image
                   ? {
@@ -312,17 +312,17 @@ class MapMark extends React.Component<MapMarkProps, MapMarkState> {
                   `${node.address.city_state}, `} ${
                   node.address.typed_address
                 }`}
-                className="w-full tc-secondary-500"
+                className="w-full text-secondary-500"
               >
                 {node.address.city_state && `${node.address.city_state}, `}
                 {node.address.typed_address}
               </Info>
             )
           ) : (
-            <Author className="text-truncate">
+            <Author className="truncate">
               {closed && (
                 <>
-                  <span className="tc-error tw-medium">ENCERRADA</span> -{' '}
+                  <span className="text-red-600 font-medium">ENCERRADA</span> -{' '}
                 </>
               )}
               {!closed && 'por '}
@@ -330,7 +330,7 @@ class MapMark extends React.Component<MapMarkProps, MapMarkState> {
             </Author>
           )}
 
-          {this.link(<Name className="text-truncate">{node.name}</Name>)}
+          {this.link(<Name className="truncate">{node.name}</Name>)}
           <Description className="m-0">{node.description}</Description>
         </div>
       </>
@@ -348,7 +348,7 @@ class MapMark extends React.Component<MapMarkProps, MapMarkState> {
               <Icon name="close" />
             </CloseButton>
             {fetchingNode ? (
-              <ActivityIndicator size={64} className="pos-absolute-center" />
+              <ActivityIndicator size={64} className="absolute-center" />
             ) : (
               renderedNode
             )}

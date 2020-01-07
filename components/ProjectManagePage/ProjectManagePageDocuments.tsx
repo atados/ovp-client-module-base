@@ -2,12 +2,12 @@ import nanoid from 'nanoid'
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
-import useTriggerableFetchApi from '~/hooks/use-trigglerable-fetch-api'
+import useFetchAPIMutation from '~/base/hooks/use-fetch-api-mutation'
 import { fetchAPI } from '~/lib/fetch/fetch.client'
 import { Project, updateProject } from '~/redux/ducks/project'
 import { User } from '~/redux/ducks/user'
 import { RootState } from '~/redux/root-reducer'
-import { DocumentDict } from '~/types/api'
+import { API } from '~/base/types/api'
 import ActivityIndicator from '../ActivityIndicator'
 import Icon from '../Icon'
 import { defineMessages } from 'react-intl'
@@ -41,7 +41,7 @@ interface DocumentItem {
   isDraft?: boolean
   uploading?: boolean
   removed?: boolean
-  document?: DocumentDict
+  document?: API.DocumentDict
 }
 
 interface ProjectManagePageDocumentsProps {
@@ -146,7 +146,7 @@ const ProjectManagePageDocuments: React.FC<ProjectManagePageDocumentsProps> = ({
         return
       }
 
-      const promises: Array<Promise<DocumentDict>> = []
+      const promises: Array<Promise<API.DocumentDict>> = []
       const newItems: DocumentItem[] = []
       Array.from(files).map(file => {
         const formData = new FormData()
@@ -194,12 +194,10 @@ const ProjectManagePageDocuments: React.FC<ProjectManagePageDocumentsProps> = ({
     },
     [],
   )
-  const updateProjectTrigger = useTriggerableFetchApi(
-    `/projects/${project.slug}/`,
-    {
-      method: 'PATCH',
-    },
-  )
+  const updateProjectMutation = useFetchAPIMutation(() => ({
+    endpoint: `/projects/${project.slug}/`,
+    method: 'PATCH',
+  }))
 
   const [isDrafting, isUploading] = useMemo(() => {
     let drafting = false
@@ -217,14 +215,14 @@ const ProjectManagePageDocuments: React.FC<ProjectManagePageDocumentsProps> = ({
     return [drafting, uploading]
   }, [state.items])
   const handleSubmitChanges = useCallback(async () => {
-    if (isUploading || updateProjectTrigger.loading) {
+    if (isUploading || updateProjectMutation.loading) {
       return
     }
 
     const documents = state.items
       .filter(item => item.document && !item.removed)
       .map(item => item.document!)
-    await updateProjectTrigger.trigger({
+    await updateProjectMutation.mutate({
       documents,
     })
     onUpdateProject({
@@ -253,7 +251,7 @@ const ProjectManagePageDocuments: React.FC<ProjectManagePageDocumentsProps> = ({
   return (
     <div
       id="documentos"
-      className={`radius-10 bg-white shadow mb-4${
+      className={`rounded-lg bg-white shadow mb-6${
         className ? ` ${className}` : ''
       }`}
     >
@@ -272,25 +270,25 @@ const ProjectManagePageDocuments: React.FC<ProjectManagePageDocumentsProps> = ({
               type="button"
               className="btn btn-primary mr-2"
               onClick={handleSubmitChanges}
-              disabled={isUploading || updateProjectTrigger.loading}
+              disabled={isUploading || updateProjectMutation.loading}
             >
               <Icon name="save" className="mr-2" />
               {intl.formatMessage(SALVAR)}
-              {updateProjectTrigger.loading && (
+              {updateProjectMutation.loading && (
                 <ActivityIndicator size={24} fill="#fff" className="ml-2" />
               )}
             </button>
           </div>
         )}
-        <h4 className="tw-normal mb-0">{intl.formatMessage(DOCUMENTOS)}</h4>
+        <h4 className="font-normal mb-0">{intl.formatMessage(DOCUMENTOS)}</h4>
       </div>
       {!hasDocuments && (
-        <div className="px-3 pb-5 ta-center">
+        <div className="px-4 pb-8 text-center">
           <PlaceholderIcon name="file_copy" />
-          <span className="h4 block tw-normal mb-2">
+          <span className="h4 block font-normal mb-2">
             {intl.formatMessage(DOCUMENTOS_DA_VAGA)}
           </span>
-          <span className="tc-muted block mb-3">
+          <span className="text-gray-600 block mb-4">
             {intl.formatMessage(DOCUMENTOS_HINT)}
           </span>
           <div className="btn btn-outline-primary inputFileWrapper">
@@ -301,8 +299,8 @@ const ProjectManagePageDocuments: React.FC<ProjectManagePageDocumentsProps> = ({
       )}
       {hasDocuments && (
         <>
-          <div className="px-3 py-1 card-item">
-            <span className="ts-small tw-medium">
+          <div className="px-4 py-2 card-item">
+            <span className="text-sm font-medium">
               {intl.formatMessage(ARQUIVO)}
             </span>
           </div>
@@ -317,7 +315,7 @@ const ProjectManagePageDocuments: React.FC<ProjectManagePageDocumentsProps> = ({
                   <Icon name="close" />
                 </ButtonRemove>
               )}
-              <div className="text-truncate p-3 media">
+              <div className="truncate p-3 media">
                 <Icon
                   name={item.removed ? 'delete_outline' : 'insert_drive_file'}
                   className="mr-2"
@@ -325,21 +323,23 @@ const ProjectManagePageDocuments: React.FC<ProjectManagePageDocumentsProps> = ({
                 <div className="media-body">
                   {item.document ? (
                     <a
-                      className={item.removed ? 'tc-muted td-line-through' : ''}
+                      className={
+                        item.removed ? 'text-gray-600 td-line-through' : ''
+                      }
                       href={item.document.document_url}
                       target="__blank"
                     >
                       {item.document.document_url}
                     </a>
                   ) : (
-                    <span className="tc-muted">
+                    <span className="text-gray-600">
                       {intl.formatMessage(CARREGANDO)}
                     </span>
                   )}
                   {item.isDraft && (
                     <>
                       <br />
-                      <span className="badge bg-error">
+                      <span className="text-sm rounded p-1 text-white bg-red-600">
                         {intl.formatMessage(NOVO)}
                       </span>
                     </>
@@ -365,8 +365,7 @@ const ProjectManagePageDocuments: React.FC<ProjectManagePageDocumentsProps> = ({
 ProjectManagePageDocuments.displayName = 'ProjectManagePageDocuments'
 
 export default React.memo(
-  connect(
-    (state: RootState) => ({ viewer: state.user! }),
-    { onUpdateProject: updateProject },
-  )(ProjectManagePageDocuments),
+  connect((state: RootState) => ({ viewer: state.user! }), {
+    onUpdateProject: updateProject,
+  })(ProjectManagePageDocuments),
 )

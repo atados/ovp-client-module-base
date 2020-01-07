@@ -20,13 +20,13 @@ const ProjectPageStories: React.FC<ProjectPageStoryProps> = ({ project }) => {
   return (
     <>
       {project.posts.map((post, i) => (
-        <Post key={`${post.id}${i}`} className="mb-4">
-          <span className="tc-muted mb-2 block">
+        <Post key={`${post.id}${i}`} className="mb-6">
+          <span className="text-gray-600 mb-2 block">
             {moment(post.created_date).format('LL')}
           </span>
-          <h2 className="tw-normal mb-3">{post.title || 'Atualizações'}</h2>
-          <Markdown value={post.content} className="ts-medium" />
-          <hr className="mt-4 mb-4" />
+          <h2 className="font-normal mb-4">{post.title || 'Atualizações'}</h2>
+          <Markdown value={post.content} className="text-lg" />
+          <hr className="mt-6 mb-6" />
         </Post>
       ))}
     </>

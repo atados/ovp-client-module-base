@@ -49,8 +49,8 @@ const BlockedGoogleMap: React.FC<BlockedGoogleMapProps> = ({
           onClick={() => setEnabled(!enabled)}
           className="absolute left-0 border-0 right-0 top-0 bottom-0 btn--block mx-auto"
         >
-          <Icon name="map" className="block mb-3" />
-          <span className="tw-medium rounded-full px-3 py-2 bg-white">
+          <Icon name="map" className="block mb-4" />
+          <span className="font-medium rounded-full px-4 py-3 bg-white">
             {intl.formatMessage(m.view)}
           </span>
         </Overlay>

@@ -28,31 +28,31 @@ const SettingsNewsletterPage: NextPage<{}> = () => {
       <Meta title={intl.formatMessage(m.title)} />
       <div className="bg-white shadow rounded-lg">
         <div className="p-3">
-          <h4 className="tw-normal mb-0 text-xl leading-loose">
+          <h4 className="font-normal mb-0 text-xl leading-loose">
             <Icon
               name="group"
-              className="bg-gray-200 rounded-full w-10 h-10 ta-center mr-3"
+              className="bg-gray-200 rounded-full w-10 h-10 text-center mr-4"
             />
             {intl.formatMessage(m.title)}
           </h4>
-          <div className="row py-3">
+          <div className="row py-4">
             {viewer.organizations.map(o => (
-              <div key={o.slug} className="col-md-4 mb-4">
+              <div key={o.slug} className="col-md-4 mb-6">
                 <PageLink
                   href="Organization"
                   params={{ organizationSlug: o.slug }}
                 >
-                  <a className="block border rounded-lg p-3 td-hover-none mb-4">
+                  <a className="block border rounded-lg p-3 td-hover-none mb-6">
                     <figure
-                      className="w-16 h-16 rounded-circle block bg-cover"
+                      className="w-16 h-16 rounded-full block bg-cover bg-center"
                       style={
                         o.image
                           ? { backgroundImage: `url('${o.image.image_url}')` }
                           : { backgroundColor: Color.gray[500] }
                       }
                     ></figure>
-                    <b className="tc-gray-800">{o.name}</b>
-                    <span className="tc-gray-600 text-sm block">
+                    <b className="text-gray-800">{o.name}</b>
+                    <span className="text-gray-600 text-sm block">
                       {o.description}
                     </span>
                   </a>

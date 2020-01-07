@@ -25,26 +25,26 @@ const TermsPage: React.FC<{}> = () => {
   return (
     <Layout>
       <PageStyled>
-        <div className="container container--md py-5">
+        <div className="container max-w-3xl py-8">
           <div className="bg-white rounded-lg p-5 shadow-lg">
-            <h1 className="h3 mb-4">
+            <h1 className="h3 mb-6">
               Termos - {intl.formatMessage(m.appName)}
             </h1>
 
             <Link href={Page.ApprovalTerms}>
-              <a className="ts-large rounded-lg bg-muted p-2 block mb-3 tc-base">
+              <a className="text-xl rounded-lg bg-muted p-2 block mb-4 text-gray-800">
                 <Icon name="insert_drive_file" className="mr-2" />
                 Termos de Aprovação
               </a>
             </Link>
             <Link href={Page.PrivacyTerms}>
-              <a className="ts-large rounded-lg bg-muted p-2 block mb-3 tc-base">
+              <a className="text-xl rounded-lg bg-muted p-2 block mb-4 text-gray-800">
                 <Icon name="insert_drive_file" className="mr-2" />
                 Termos de Privacidade
               </a>
             </Link>
             <Link href={Page.VolunteerTerms}>
-              <a className="ts-large rounded-lg bg-muted p-2 block tc-base">
+              <a className="text-xl rounded-lg bg-muted p-2 block text-gray-800">
                 <Icon name="insert_drive_file" className="mr-2" />
                 Termos de Voluntariado
               </a>

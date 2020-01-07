@@ -16,7 +16,7 @@ import {
   ProjectManagePageNav,
   ProjectManagePagePhotos,
   ProjectManagePagePosts,
-  ProjectManagePageVolunteers,
+  ProjectManagePageApplications,
 } from '~/components/ProjectManagePage'
 import { NotFoundPageError } from '~/lib/next/errors'
 import { doesUserHaveAccessToProject } from '~/lib/utils/project'
@@ -73,7 +73,7 @@ const ManageProjectPage: NextPage<
     cardClassName: 'p-5',
   })
   const children = (
-    <div className="pb-5 bg-muted">
+    <div className="pb-8 bg-muted">
       <Meta
         title={project.name}
         description={project.description}
@@ -83,35 +83,35 @@ const ManageProjectPage: NextPage<
       <ProjectManagePageNav
         project={project}
         organization={organization}
-        className="mb-4"
+        className="mb-6"
       />
-      <div className="container">
+      <div className="container px-2">
         <ProjectManagePageInfos project={project} />
-        <ProjectManagePageVolunteers project={project} />
+        <ProjectManagePageApplications project={project} />
         {channel.config.project.posts && (
           <ProjectManagePagePosts
             project={project}
             organizationSlug={organization && organization.slug}
           />
         )}
-        <div className="row">
+        <div className="flex flex-wrap -mx-2">
           {channel.config.project.galleries && (
-            <div className="col-lg-6">
+            <div className="w-full lg:w-1/2 px-2">
               <ProjectManagePagePhotos project={project} />
             </div>
           )}
           {channel.config.project.documents && (
-            <div className="col-lg-6">
+            <div className="w-full lg:w-1/2 px-2">
               <ProjectManagePageDocuments project={project} />
             </div>
           )}
         </div>
         {!project.closed && (
-          <div className="radius-10 shadow bg-error-light p-4">
-            <h4 className="tw-normal mb-0">
+          <div className="rounded-lg shadow bg-red-200 p-4">
+            <h4 className="font-normal mb-0">
               {intl.formatMessage(ENCERRAR_VAGA)}
             </h4>
-            <span className="tc-muted-dark mb-0 block mb-3">
+            <span className="text-gray-700 mb-0 block mb-4">
               {intl.formatMessage(ENCERRAR_VAGA_TEXT)}
             </span>
             <button

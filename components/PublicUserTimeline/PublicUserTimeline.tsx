@@ -232,8 +232,8 @@ class PublicUserTimeline extends React.Component<
         <Waypoint
           onPositionChange={this.handleTimelineWaypointPositionChange}
         />
-        <h4 className="ts-medium mb-1">Linha do tempo</h4>
-        <p className="tc-muted ts-small">
+        <h4 className="text-lg mb-1">Linha do tempo</h4>
+        <p className="text-gray-600 text-sm">
           {applies.length} participações voluntárias
         </p>
         <Timeline>

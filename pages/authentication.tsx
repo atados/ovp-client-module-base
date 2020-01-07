@@ -28,8 +28,8 @@ const AuthenticationPage: NextPage<AuthenticationPageProps> = ({
   return (
     <Layout>
       <Meta title={intl.formatMessage(m.title)} />
-      <div className="py-5 bg-muted">
-        <div className="container container--sm">
+      <div className="py-8 bg-muted">
+        <div className="container px-2 max-w-lg">
           <div className="card rounded-lg p-5">
             <Authentication
               defaultPage={defaultPage}

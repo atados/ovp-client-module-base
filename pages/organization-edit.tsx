@@ -98,7 +98,7 @@ class OrganizationComposerPage extends React.Component<
             defaultValues={defaultValues}
             offsetTop={channel.theme.toolbarHeight + 50}
           >
-            <div className="mb-4">
+            <div className="mb-6">
               <Link
                 href={Page.Organization}
                 as={PageAs.Organization({
@@ -109,7 +109,7 @@ class OrganizationComposerPage extends React.Component<
                   Ir à página da ONG <Icon name="arrow_forward" />
                 </a>
               </Link>
-              <h4 className="ts-normal tw-normal">
+              <h4 className="text-base font-normal">
                 <b>Editando:</b> {organization.name}
               </h4>
             </div>

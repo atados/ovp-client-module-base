@@ -59,10 +59,10 @@ const ShareList: React.FC<ShareListProps> = ({
 
   return (
     <div className={className}>
-      <h2 className="tw-medium">{title}</h2>
-      {subtitle && <p className="text-truncate">{subtitle}</p>}
+      <h2 className="font-medium">{title}</h2>
+      {subtitle && <p className="truncate">{subtitle}</p>}
       <ShareButton network="facebook" url={url}>
-        <Item className="mt-4">
+        <Item className="mt-6">
           <ItemIcon
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 216 216"
@@ -84,7 +84,7 @@ const ShareList: React.FC<ShareListProps> = ({
           <span>Facebook</span>
         </Item>
       </ShareButton>
-      <hr className="my-3" />
+      <hr className="my-4" />
       <ShareButton network="twitter" url={url} meta={meta}>
         <Item>
           <ItemIcon
@@ -105,7 +105,7 @@ const ShareList: React.FC<ShareListProps> = ({
           <span>Twitter</span>
         </Item>
       </ShareButton>
-      <hr className="my-3" />
+      <hr className="my-4" />
       <ShareButton network="whatsapp" url={url} meta={meta}>
         <Item>
           <ItemIcon
@@ -128,7 +128,7 @@ const ShareList: React.FC<ShareListProps> = ({
           <span>WhatsApp</span>
         </Item>
       </ShareButton>
-      <hr className="my-3" />
+      <hr className="my-4" />
       <ShareButton network="messenger" url={url} meta={meta}>
         <Item className="d-mhidden">
           <ItemIcon
@@ -149,7 +149,7 @@ const ShareList: React.FC<ShareListProps> = ({
           <span>Messenger</span>
         </Item>
       </ShareButton>
-      <hr className="my-3 d-mhidden" />
+      <hr className="my-4 d-mhidden" />
       <ShareButton network="linkedin" url={url} meta={meta}>
         <Item>
           <ItemIcon

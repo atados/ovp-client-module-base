@@ -121,8 +121,8 @@ class DisponibilityJobForm extends React.Component<
           const startDate = moment(date.start_date)
           const endDate = moment(date.end_date)
           return (
-            <div key={index} className="card-item py-3 px-2 media">
-              <JobIcon name="event" className="tc-primary-500" />
+            <div key={index} className="card-item py-4 px-3 media">
+              <JobIcon name="event" className="text-primary-500" />
               <div className="media-body">
                 <span className="btn-group float-right">
                   <button
@@ -135,16 +135,16 @@ class DisponibilityJobForm extends React.Component<
                   <button
                     type="button"
                     onClick={() => this.removeDate(index)}
-                    className="btn btn--size-1 btn-default tc-error"
+                    className="btn btn--size-1 btn-default text-red-600"
                   >
                     {intl.formatMessage(m.remove)}
                   </button>
                 </span>
-                <p className="ts-small tw-medium mb-0 tc-muted-dark">
+                <p className="text-sm font-medium mb-0 text-gray-700">
                   {startDate.format('L')}
                 </p>
-                <h5 className="tw-normal ts-medium mb-1">{date.name}</h5>
-                <span className="tc-muted ts-small">
+                <h5 className="font-normal text-lg mb-1">{date.name}</h5>
+                <span className="text-gray-600 text-sm">
                   {startDate.format('LT')} <Icon name="chevron_right" />{' '}
                   {endDate.format('LT')}
                 </span>

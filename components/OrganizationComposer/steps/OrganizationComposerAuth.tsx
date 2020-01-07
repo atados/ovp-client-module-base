@@ -41,9 +41,9 @@ class OrganizationComposerAuth extends React.Component<
     const { intl, onSubmit } = this.props
     return (
       <FormComposerLayout disabled formProps={{ as: 'div' }}>
-        <h4 className="tc-muted ts-small">{intl.formatMessage(ETAPA1)}</h4>
-        <h1 className="tw-light mb-1">{intl.formatMessage(ACESSO)}</h1>
-        <p className="ts-medium tc-muted-dark mb-4">
+        <h4 className="text-gray-600 text-sm">{intl.formatMessage(ETAPA1)}</h4>
+        <h1 className="font-light mb-1">{intl.formatMessage(ACESSO)}</h1>
+        <p className="text-lg text-gray-700 mb-6">
           {intl.formatMessage(CRIE_CONTA)}
         </p>
         <Authentication onAuthenticate={onSubmit} />

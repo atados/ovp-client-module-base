@@ -83,7 +83,7 @@ const RoleForm: React.FC<InjectedFormikProps<RoleFormProps, Values>> = ({
   const intl = useIntl()
   return (
     <form onSubmit={handleSubmit}>
-      <h4 className="tw-normal">
+      <h4 className="font-normal">
         {defaultValue
           ? intl.formatMessage(m.editRoleTitle)
           : intl.formatMessage(m.newRoleTitle)}
@@ -91,7 +91,7 @@ const RoleForm: React.FC<InjectedFormikProps<RoleFormProps, Values>> = ({
       <hr />
       <FormGroup
         label={intl.formatMessage(m.roleName)}
-        className="mb-3"
+        className="mb-4"
         length={values.name.length}
         maxLength={150}
         error={touched.name ? errors.name : undefined}
@@ -107,7 +107,7 @@ const RoleForm: React.FC<InjectedFormikProps<RoleFormProps, Values>> = ({
       </FormGroup>
       <FormGroup
         label={intl.formatMessage(m.roleDescription)}
-        className="mb-3"
+        className="mb-4"
         length={values.details.length}
         maxLength={300}
         error={touched.details ? errors.details : undefined}
@@ -124,7 +124,7 @@ const RoleForm: React.FC<InjectedFormikProps<RoleFormProps, Values>> = ({
       </FormGroup>
       <FormGroup
         label={intl.formatMessage(m.roleRequirements)}
-        className="mb-3"
+        className="mb-4"
         length={values.prerequisites.length}
         maxLength={150}
         error={touched.prerequisites ? errors.prerequisites : undefined}
@@ -140,7 +140,7 @@ const RoleForm: React.FC<InjectedFormikProps<RoleFormProps, Values>> = ({
       </FormGroup>
       <FormGroup
         label={intl.formatMessage(m.roleVaccancies)}
-        className="mb-3"
+        className="mb-4"
         error={touched.vacancies ? errors.vacancies : undefined}
       >
         <MaskedTextInput
@@ -168,7 +168,7 @@ const RoleForm: React.FC<InjectedFormikProps<RoleFormProps, Values>> = ({
           <button
             type="button"
             onClick={onRemove}
-            className="btn btn-default tc-error btn--block btn--size-3"
+            className="btn btn-default text-red-600 btn--block btn--size-3"
           >
             {intl.formatMessage(m.remove)}
           </button>

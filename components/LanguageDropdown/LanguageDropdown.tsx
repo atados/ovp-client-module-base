@@ -44,14 +44,14 @@ const LanguageDropdown: React.FC<LanguageDropdownProps> = ({ className }) => {
     <DropdownWithContext className={className}>
       <hr />
       <DropdownToggler>
-        <button className="btn tw-normal ts-small no-background py-1 border-gray-500 cursor-pointer btn--block ta-left rounded">
+        <button className="btn font-normal text-sm bg-none py-2 border-gray-500 cursor-pointer btn--block text-left rounded">
           <Icon name="language" className="mr-2" />
           {messages[locale]}
           <Icon name="keyboard_arrow_down" className="ml-2 inline-block" />
         </button>
       </DropdownToggler>
       <DropdownMenu>
-        <div className="py-2">
+        <div className="py-3">
           <LanguageDropdownItem locale="pt-br" active={locale === 'pt-br'}>
             {messages['pt-br']}
           </LanguageDropdownItem>

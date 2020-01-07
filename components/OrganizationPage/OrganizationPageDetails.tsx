@@ -30,40 +30,41 @@ interface OrganizationPageLastProjectsProps {
   readonly organization: Organization
 }
 
-const OrganizationPageLastProjects: React.FC<
-  OrganizationPageLastProjectsProps
-> = ({ className, organization }) => {
+const OrganizationPageLastProjects: React.FC<OrganizationPageLastProjectsProps> = ({
+  className,
+  organization,
+}) => {
   return (
     <div className={cx(className, 'bg-white p-3 rounded-lg shadow')}>
-      <h4 className="ts-medium tw-medium mb-3">Contato</h4>
+      <h4 className="text-lg font-medium mb-4">Contato</h4>
       <InfoList>
         {organization.address && !organization.hidden_address && (
           <li className="leading-tight">
             <Icon name="place" />
-            <span className="block tc-gray-600 tw-medium ts-tiny mb-1 tt-upper">
+            <span className="block text-gray-600 font-medium text-xs mb-1 tt-upper">
               ENDEREÇO
             </span>
-            <span className="ts-base tc-gray-900">
+            <span className="ts-base text-gray-900">
               {organization.address.typed_address}
             </span>
           </li>
         )}
         <li className="leading-tight">
           <Icon name="email" />
-          <span className="block tc-gray-600 tw-medium ts-tiny tt-upper mb-1">
+          <span className="block text-gray-600 font-medium text-xs tt-upper mb-1">
             Email de contato
           </span>
-          <span className="ts-basetc-gray-900 ">
+          <span className="ts-basetext-gray-900 ">
             {organization.contact_email}
           </span>
         </li>
         {organization.website && (
           <li className="leading-tight">
             <Icon name="public" />
-            <span className="block tc-gray-600 tw-medium ts-tiny tt-upper mb-1">
+            <span className="block text-gray-600 font-medium text-xs tt-upper mb-1">
               Website
             </span>
-            <a href={organization.website} className="tc-gray-900 ts-small">
+            <a href={organization.website} className="text-gray-900 text-sm">
               {organization.website}
             </a>
           </li>

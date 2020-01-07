@@ -89,7 +89,7 @@ const ProjectPage: NextPage<ProjectPageProps> = ({ subpage }) => {
         setStatusMessage(error)
       }
     },
-    [project],
+    [project, openProjectApplication, setStatusMessage],
   )
 
   const handleNavItemClick = useCallback(
@@ -133,7 +133,7 @@ const ProjectPage: NextPage<ProjectPageProps> = ({ subpage }) => {
         image={project.image && project.image.image_url}
       />
       <ProjectPageStatus project={project} />
-      <ProjectPageHeader className="mb-3" project={project} isOwner={isOwner} />
+      <ProjectPageHeader className="mb-4" project={project} isOwner={isOwner} />
       <ProjectPageNav
         project={project}
         isOwner={isOwner}
@@ -143,11 +143,11 @@ const ProjectPage: NextPage<ProjectPageProps> = ({ subpage }) => {
       />
       {channel.config.project.posts &&
       subpage === ProjectPageSubPage.Stories ? (
-        <div className="container py-4">
+        <div className="container px-2 py-5">
           <ProjectPageStories project={project} />
         </div>
       ) : (
-        <div className="container flex py-4">
+        <div className="container px-2 flex py-5">
           <div className="flex-grow">
             <ProjectPageAbout project={project} />
             <ProjectPageDisponibility project={project} />

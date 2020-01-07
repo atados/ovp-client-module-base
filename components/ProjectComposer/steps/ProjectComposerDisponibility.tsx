@@ -98,9 +98,10 @@ interface ProjectComposerDisponibilityProps
   readonly className?: string
 }
 
-const ProjectComposerDisponibility: React.FC<
-  InjectedFormikProps<ProjectComposerDisponibilityProps, Values>
-> = ({
+const ProjectComposerDisponibility: React.FC<InjectedFormikProps<
+  ProjectComposerDisponibilityProps,
+  Values
+>> = ({
   className,
   handleChange,
   isValid,
@@ -134,10 +135,10 @@ const ProjectComposerDisponibility: React.FC<
       isSubmitting={isFormSubmitting}
     >
       {mode !== FormComposerMode.EDIT && (
-        <h4 className="tc-muted ts-small">{intl.formatMessage(ETAPA2)}</h4>
+        <h4 className="text-gray-600 text-sm">{intl.formatMessage(ETAPA2)}</h4>
       )}
-      <h1 className="tw-light mb-1">{intl.formatMessage(DISPONIBILIDADE)}</h1>
-      <p className="ts-medium tc-muted-dark mb-4">
+      <h1 className="font-light mb-1">{intl.formatMessage(DISPONIBILIDADE)}</h1>
+      <p className="text-lg text-gray-700 mb-6">
         {intl.formatMessage(PREENCHA_INFORMACOES)}
       </p>
 
@@ -159,7 +160,7 @@ const ProjectComposerDisponibility: React.FC<
               : undefined
             : undefined
         }
-        className="mb-4"
+        className="mb-6"
       >
         <DisponibilityInput
           value={values.disponibility}
@@ -167,7 +168,7 @@ const ProjectComposerDisponibility: React.FC<
           onBlur={handleDisponibilityBlur}
         />
       </FormGroup>
-      <label htmlFor="ong-input-canBeDoneRemotely" className="mb-3">
+      <label htmlFor="ong-input-canBeDoneRemotely" className="mb-4">
         <div className="media">
           <input
             id="ong-input-canBeDoneRemotely"
@@ -180,7 +181,7 @@ const ProjectComposerDisponibility: React.FC<
           />
           <div className="media-body">
             {intl.formatMessage(VAGA_DISTANCIA)}
-            <span className="tc-muted block ts-tiny">
+            <span className="text-gray-600 block text-xs">
               {intl.formatMessage(MARQUE_CASO)}
             </span>
           </div>

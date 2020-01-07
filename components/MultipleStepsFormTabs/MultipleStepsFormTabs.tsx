@@ -85,7 +85,7 @@ const MultipleStepsFormTabs: React.FC<MultipleStepsFormTabsProps> = ({
             onClick={onTabClick}
           >
             {step.done && (
-              <Icon name="check_circle" className="tc-success mr-2" />
+              <Icon name="check_circle" className="text-green-600 mr-2" />
             )}
             {typeof step.options.label === 'string'
               ? step.options.label

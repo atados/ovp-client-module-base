@@ -53,16 +53,16 @@ const ToolbarLangDropdown: React.FC<ToolbarLangDropdownProps> = ({
       }
     >
       <div className="p-2">
-        <button className="btn btn-text ta-left tw-medium mb-2 btn--block text-truncate tc-primary-500">
+        <button className="btn btn-text text-left font-medium mb-2 btn--block truncate text-primary-500">
           Português
         </button>
-        <button className="btn btn-text ta-left tw-normal btn--block text-truncate">
+        <button className="btn btn-text text-left font-normal btn--block truncate">
           Espanhol
         </button>
-        <button className="btn btn-text ta-left tw-normal mb-2 btn--block text-truncate">
+        <button className="btn btn-text text-left font-normal mb-2 btn--block truncate">
           Inglês
         </button>
-        <button className="btn btn-text ta-left tw-normal btn--block text-truncate">
+        <button className="btn btn-text text-left font-normal btn--block truncate">
           Português de Portugal
         </button>
       </div>

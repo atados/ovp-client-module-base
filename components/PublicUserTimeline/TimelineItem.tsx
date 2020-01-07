@@ -66,11 +66,11 @@ const TimelineItem: React.FC<TimelineItemProps> = ({
     <ItemIcon>
       <img src="/static/base/icons/volunteer.svg" alt="Voluntário" />
     </ItemIcon>
-    <div className="bg-muted radius-10">
-      <div className="py-2 flex px-3">
+    <div className="bg-muted rounded-lg">
+      <div className="py-3 flex px-4">
         <div className="flex-grow">
           <Timestamp>{moment(application.date).format('LL')}</Timestamp>
-          <h4 className="tw-normal ts-medium mb-1">
+          <h4 className="font-normal text-lg mb-1">
             {onGoing ? 'Está participando da ação ' : 'Participou da ação '}
             <Link
               href={Page.Project}
@@ -79,7 +79,9 @@ const TimelineItem: React.FC<TimelineItemProps> = ({
               <a>{application.project.name}</a>
             </Link>
           </h4>
-          <p className="tc-muted mb-0">{application.project.description}</p>
+          <p className="text-gray-600 mb-0">
+            {application.project.description}
+          </p>
         </div>
         <Link
           href={Page.Project}
@@ -87,7 +89,7 @@ const TimelineItem: React.FC<TimelineItemProps> = ({
           passHref
         >
           <Image
-            className="bg-cover"
+            className="bg-cover bg-center"
             style={{
               backgroundImage: application.project.image
                 ? `url('${application.project.image.image_medium_url}')`
@@ -97,8 +99,8 @@ const TimelineItem: React.FC<TimelineItemProps> = ({
         </Link>
       </div>
       {application.role && (
-        <div className="card-item py-2 px-3">
-          <span className="block ts-small tc-secondary-500">
+        <div className="card-item py-3 px-4">
+          <span className="block text-sm text-secondary-500">
             {application.role.name}
           </span>
         </div>

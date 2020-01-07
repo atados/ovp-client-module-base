@@ -75,9 +75,8 @@ const m = defineMessages({
   },
 })
 
-const AuthenticationEmailNewAccount: React.FC<
-  AuthenticationEmailNewAccountProps & FormikProps<Values>
-> = ({
+const AuthenticationEmailNewAccount: React.FC<AuthenticationEmailNewAccountProps &
+  FormikProps<Values>> = ({
   className,
   values,
   touched,
@@ -112,7 +111,7 @@ const AuthenticationEmailNewAccount: React.FC<
         <Status level={StatusLevel.Error} message={status.error.message} />
       )}
       <div className="max-w-sm mx-auto">
-        <div className="ta-center">
+        <div className="text-center">
           <img
             src={Asset.LogoLight}
             alt=""
@@ -127,7 +126,7 @@ const AuthenticationEmailNewAccount: React.FC<
           labelFor="register-input-name"
           label={intl.formatMessage(m.name)}
           error={touched.name ? errors.name : undefined}
-          className="mb-4"
+          className="mb-6"
           length={values.name.length}
           maxLength={160}
         >
@@ -144,7 +143,7 @@ const AuthenticationEmailNewAccount: React.FC<
           labelFor="register-input-email"
           label={intl.formatMessage(m.email)}
           error={touched.email ? errors.email : undefined}
-          className="mb-4"
+          className="mb-6"
         >
           <input
             name="email"
@@ -160,7 +159,7 @@ const AuthenticationEmailNewAccount: React.FC<
           labelFor="register-input-password"
           label={intl.formatMessage(m.password)}
           error={touched.password ? errors.password : undefined}
-          className="mb-3"
+          className="mb-4"
         >
           <input
             name="password"
@@ -175,7 +174,7 @@ const AuthenticationEmailNewAccount: React.FC<
           labelFor="register-input-password"
           label={intl.formatMessage(m.city)}
           error={touched.city ? errors.city : undefined}
-          className="mb-3"
+          className="mb-4"
           hint={intl.formatMessage(m.addressHint)}
         >
           <InputAddress
@@ -193,7 +192,7 @@ const AuthenticationEmailNewAccount: React.FC<
         </FormGroup>
         <button
           type="submit"
-          className="btn btn-primary btn--size-3 btn--block mb-3"
+          className="btn btn-primary btn--size-3 btn--block mb-4"
           disabled={isSubmitting}
         >
           {intl.formatMessage(m.submit)}
@@ -205,7 +204,7 @@ const AuthenticationEmailNewAccount: React.FC<
         <hr className="my-2" />
         <a
           href={Page.Login}
-          className="btn btn-text tw-normal btn--block btn--size-3 ta-left tc-gray-600"
+          className="btn btn-text font-normal btn--block btn--size-3 text-left text-gray-600"
           onClick={handleOptionsClick}
         >
           <Icon name="arrow_back" /> {intl.formatMessage(m.optionsLink)}
@@ -262,8 +261,8 @@ export default withFormik<AuthenticationEmailNewAccountProps, Values>({
       .max(160)
       .required(),
     password: Yup.string()
-      .min(8)
-      .max(100)
+      .min(6)
+      .max(200)
       .required(),
     email: Yup.string()
       .email()

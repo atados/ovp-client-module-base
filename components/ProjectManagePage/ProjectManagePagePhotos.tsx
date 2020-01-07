@@ -33,9 +33,7 @@ const Photos = styled.div`
     margin: 0 -5px;
   }
 
-  .col-4,
-  .col-sm-3,
-  .col-lg-2 {
+  .photo-col {
     padding: 0 5px;
   }
 `
@@ -353,9 +351,9 @@ const ProjectManagePagePhotos: React.FC<ProjectManagePagePhotosProps> = ({
 
   return (
     <Container
-      className={`radius-10 bg-white shadow mb-4 ${isDrafting ? 'active' : ''}${
-        className ? ` ${className}` : ''
-      }`}
+      className={`rounded-lg bg-white shadow mb-6 ${
+        isDrafting ? 'active' : ''
+      }${className ? ` ${className}` : ''}`}
     >
       <div className="p-4 relative">
         {isDrafting ? (
@@ -382,20 +380,20 @@ const ProjectManagePagePhotos: React.FC<ProjectManagePagePhotosProps> = ({
           </>
         ) : (
           items.length !== 0 && (
-            <div className="btn btn-outline-primary tc-primary-500 float-right inputFileWrapper">
+            <div className="btn btn-outline-primary text-primary-500 float-right inputFileWrapper">
               <input type="file" onChange={handleInputFileChange} multiple />
               <Icon name="add" className="mr-2" />
               {intl.formatMessage(ADICIONAR)}
             </div>
           )
         )}
-        <h4 className="tw-normal mb-0">{intl.formatMessage(FOTOS)}</h4>
+        <h4 className="font-normal mb-0">{intl.formatMessage(FOTOS)}</h4>
       </div>
       {items.length > 0 && (
-        <Photos className="px-4 pb-4">
-          <div className="row">
+        <Photos className="px-5 pb-5">
+          <div className="flex flex-wrap -mx-2">
             {items.map(item => (
-              <div key={item.id} className="col-4">
+              <div key={item.id} className="photo-col w-1/2 md:w-1/3 px-2">
                 <Photo className="ratio">
                   <span className="ratio-fill" style={{ paddingTop: '100%' }} />
                   <Tooltip
@@ -424,7 +422,7 @@ const ProjectManagePagePhotos: React.FC<ProjectManagePagePhotosProps> = ({
               </div>
             ))}
             {isDrafting && (
-              <div className="col-4">
+              <div className="photo-col w-1/2 md:w-1/3 px-2">
                 <Photo className="ratio">
                   <span className="ratio-fill" style={{ paddingTop: '100%' }} />
                   <PhotoImage className="ratio-body">
@@ -436,7 +434,7 @@ const ProjectManagePagePhotos: React.FC<ProjectManagePagePhotosProps> = ({
                       />
                       <PhotoImageInputLabel>
                         <Icon name="add_circle" className="mb-2" />
-                        <span className="block ts-small tl-base">
+                        <span className="block text-sm leading-normal">
                           {intl.formatMessage(CLIQUE)}
                           <br />
                           {intl.formatMessage(ADICIONAR_FOTOS)}
@@ -451,12 +449,12 @@ const ProjectManagePagePhotos: React.FC<ProjectManagePagePhotosProps> = ({
         </Photos>
       )}
       {items.length === 0 && (
-        <div className="pb-5 px-3 ta-center">
+        <div className="pb-8 px-4 text-center">
           <PlaceholderIcon name="image" />
-          <span className="h4 block tw-normal mb-2">
+          <span className="h4 block font-normal mb-2">
             {intl.formatMessage(FOTOS_VAGA)}
           </span>
-          <span className="tc-muted block mb-3">
+          <span className="text-gray-600 block mb-4">
             {intl.formatMessage(VAGA_ATRATIVA)}
           </span>
 

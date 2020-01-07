@@ -18,9 +18,11 @@ export enum ModalSize {
   Large,
 }
 export interface ModalOptions<Props> {
-  size?: ModalSize
   componentProps?: Props
   cardClassName?: string
+  cardWrapperClassName?: string
+  containerClassName?: string
+  disableCloseButton?: boolean
 }
 
 export interface ModalContextType {
@@ -130,18 +132,16 @@ const CardWrapper = styled.div`
     }
   }
 `
-const CloseButton = styled.button.attrs({ className: 'btn' })`
-  border-radius: 50%;
-  padding: 5px;
-  position: absolute;
+const CloseButton = styled.button`
   top: 10px;
   right: 10px;
   color: #fff;
-  background: rgba(0, 0, 0, 0.4);
-  font-size: 20px;
-  width: 42px;
-  height: 42px;
-  z-index: 100;
+  z-index: 999;
+  background: rgba(0, 0, 0, 0.1);
+
+  &:hover {
+    background: rgba(0, 0, 0, 0.2);
+  }
 `
 
 interface ModalModalProviderProps {
@@ -277,6 +277,7 @@ const ModalProvider: React.FC<ModalModalProviderProps> = ({ children }) => {
       }
     }
   }, [])
+  const frontModal = modals[modals.length - 1]
 
   return (
     <ModalContext.Provider value={contextValue}>
@@ -284,10 +285,17 @@ const ModalProvider: React.FC<ModalModalProviderProps> = ({ children }) => {
         {children}
         {modals.length > 0 && (
           <Backdrop onClick={handleBackdropClick}>
-            <CloseButton type="button">
-              <Icon name="clear" />
-            </CloseButton>
-            <Container>
+            {frontModal && frontModal.options.disableCloseButton !== true && (
+              <CloseButton
+                type="button"
+                className="w-10 h-10 rounded-full absolute text-2xl animated fadeInUp faster"
+              >
+                <Icon name="clear" />
+              </CloseButton>
+            )}
+            <Container
+              className={frontModal && frontModal.options.containerClassName}
+            >
               <div className="relative">
                 {modals.map((modal, i) => {
                   const styleDiff = modals.length - (i + 1)
@@ -295,12 +303,15 @@ const ModalProvider: React.FC<ModalModalProviderProps> = ({ children }) => {
                   return (
                     <CardWrapper
                       key={modal.id}
-                      className={cx({
-                        idle: i !== modals.length - 1,
-                        stopAnimation:
-                          i === modals.length - 1 &&
-                          !shouldRunAnimationRef.current,
-                      })}
+                      className={cx(
+                        {
+                          idle: i !== modals.length - 1,
+                          stopAnimation:
+                            i === modals.length - 1 &&
+                            !shouldRunAnimationRef.current,
+                        },
+                        modal.options.cardWrapperClassName,
+                      )}
                       style={
                         i !== modals.length - 1
                           ? {

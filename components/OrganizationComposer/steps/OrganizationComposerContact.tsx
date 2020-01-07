@@ -135,11 +135,11 @@ class OrganizationComposerContact extends React.Component<
         isSubmitting={isComposerSubmitting}
         helpPanelChildren={
           <div className="p-5">
-            <HelpCard className="card pr-4 pb-4 pl-4 pt-2">
-              <h4 className="ts-medium tw-medium">
+            <HelpCard className="card pr-5 pb-5 pl-5 pt-3">
+              <h4 className="text-lg font-medium">
                 {intl.formatMessage(A_COMUNICACAO)}
               </h4>
-              <p className="tc-muted-dark mb-0">
+              <p className="text-gray-700 mb-0">
                 {intl.formatMessage(FUNDAMENTAL)}
               </p>
             </HelpCard>
@@ -147,10 +147,12 @@ class OrganizationComposerContact extends React.Component<
         }
       >
         {mode !== FormComposerMode.EDIT && (
-          <h4 className="tc-muted ts-small">{intl.formatMessage(ETAPA2)}</h4>
+          <h4 className="text-gray-600 text-sm">
+            {intl.formatMessage(ETAPA2)}
+          </h4>
         )}
-        <h1 className="tw-light mb-1">{intl.formatMessage(CONTATO)}</h1>
-        <p className="ts-medium tc-muted-dark mb-4">
+        <h1 className="font-light mb-1">{intl.formatMessage(CONTATO)}</h1>
+        <p className="text-lg text-gray-700 mb-6">
           {intl.formatMessage(PREENCHA)}
         </p>
 
@@ -158,7 +160,7 @@ class OrganizationComposerContact extends React.Component<
           labelFor="ong-input-phone"
           label="Telefone"
           error={touched.phone ? errors.phone : undefined}
-          className="mb-4"
+          className="mb-6"
         >
           <MaskedTextInput
             id="ong-input-phone"
@@ -177,7 +179,7 @@ class OrganizationComposerContact extends React.Component<
           labelFor="ong-input-email"
           label={intl.formatMessage(EMAIL)}
           error={touched.contact_email ? errors.contact_email : undefined}
-          className="mb-4"
+          className="mb-6"
           hint={intl.formatMessage(EMAIL_HINT)}
         >
           <input
@@ -195,7 +197,7 @@ class OrganizationComposerContact extends React.Component<
           labelFor="ong-input-website"
           label="Website"
           error={touched.website ? errors.website : undefined}
-          className="mb-4"
+          className="mb-6"
           required={false}
         >
           <input
@@ -213,7 +215,7 @@ class OrganizationComposerContact extends React.Component<
           labelFor="ong-input-facebook_page"
           label="Facebook"
           error={touched.facebook_page ? errors.facebook_page : undefined}
-          className="mb-4"
+          className="mb-6"
           required={false}
         >
           <input
@@ -231,7 +233,7 @@ class OrganizationComposerContact extends React.Component<
           labelFor="ong-input-instagram_user"
           label="Instagram"
           error={touched.instagram_user ? errors.instagram_user : undefined}
-          className="mb-4"
+          className="mb-6"
           required={false}
         >
           <input

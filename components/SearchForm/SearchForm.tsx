@@ -335,7 +335,7 @@ class SearchForm extends React.Component<
 
   public resolveOptionClassName = (kind: string): string | undefined => {
     if (kind === 'remote') {
-      return 'tc-secondary-500'
+      return 'text-secondary-500'
     }
 
     return undefined
@@ -661,7 +661,7 @@ class SearchForm extends React.Component<
             id="search-form-input"
             type="text"
             className={`input border-transparent ${
-              theme === 'light' ? 'bg-black-100' : 'bg-white'
+              theme === 'light' ? 'bg-black-alpha:10' : 'bg-white'
             }`}
             placeholder={intl.formatMessage(m.placeholder)}
             onChange={this.handleInputChange}
@@ -705,7 +705,7 @@ class SearchForm extends React.Component<
                     option.label
                   )}
                   {option.kind === 'cause' && (
-                    <span className="tc-muted">
+                    <span className="text-gray-600">
                       {' '}
                       -{' '}
                       <FormattedMessage
@@ -715,7 +715,7 @@ class SearchForm extends React.Component<
                     </span>
                   )}
                   {option.kind === 'skill' && (
-                    <span className="tc-muted">
+                    <span className="text-gray-600">
                       {' '}
                       -{' '}
                       <FormattedMessage

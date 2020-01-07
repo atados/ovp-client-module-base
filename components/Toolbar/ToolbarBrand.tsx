@@ -20,6 +20,7 @@ const messages = defineMessages({
 
 interface ToolbarBrandProps {
   readonly className?: string
+  readonly innerClassName?: string
   readonly brand?: string
   readonly href?: string
 }
@@ -27,7 +28,7 @@ interface ToolbarBrandProps {
 const ToolbarBrand: React.FC<ToolbarBrandProps> = React.forwardRef<
   HTMLAnchorElement,
   ToolbarBrandProps
->(({ className, href, brand, ...props }, ref) => {
+>(({ className, href, brand, children, innerClassName, ...props }, ref) => {
   const intl = useIntl()
 
   return (
@@ -38,10 +39,15 @@ const ToolbarBrand: React.FC<ToolbarBrandProps> = React.forwardRef<
       className={cx(className, 'navbar-brand')}
     >
       {brand || Asset.ToolbarBrand ? (
-        <img src={brand || Asset.ToolbarBrand} alt="" />
+        <img
+          src={brand || Asset.ToolbarBrand}
+          alt=""
+          className={innerClassName}
+        />
       ) : (
         intl.formatMessage(messages.appName)
       )}
+      {children}
     </Brand>
   )
 })

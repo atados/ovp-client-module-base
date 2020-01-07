@@ -11,6 +11,14 @@ import MarkdownEditor from '~/components/MarkdownEditor'
 import Yup from '~/lib/form/yup'
 import { defineMessages, WithIntlProps } from 'react-intl'
 import { withIntl } from '~/lib/intl'
+import styled from 'styled-components'
+
+const MarkdownEditorFormGroup = styled(FormGroup)`
+  .max-length-indicator {
+    top: 10px;
+    right: 0;
+  }
+`
 
 const OrganizationContactFormSchema = Yup.object().shape({
   content: Yup.string()
@@ -152,11 +160,11 @@ class OrganizationComposerContact extends React.Component<
         mode={mode}
         helpPanelChildren={
           <div className="p-5">
-            <HelpCard className="card pr-4 pb-4 pl-4 pt-2">
-              <h4 className="ts-medium tw-medium">
+            <HelpCard className="card pr-5 pb-5 pl-5 pt-3">
+              <h4 className="text-lg font-medium">
                 {intl.formatMessage(DICAS)}
               </h4>
-              <p className="tc-muted-dark mb-0">
+              <p className="text-gray-700 mb-0">
                 {intl.formatMessage(DICAS_HEADER)}
                 <br />
                 <br />
@@ -173,19 +181,22 @@ class OrganizationComposerContact extends React.Component<
         }
       >
         {mode !== FormComposerMode.EDIT && (
-          <h4 className="tc-muted ts-small">{intl.formatMessage(ETAPA3)}</h4>
+          <h4 className="text-gray-600 text-sm">
+            {intl.formatMessage(ETAPA3)}
+          </h4>
         )}
-        <h1 className="tw-light mb-1">{intl.formatMessage(SOBRE)}</h1>
-        <p className="ts-medium tc-muted-dark mb-4">
+        <h1 className="font-light mb-1">{intl.formatMessage(SOBRE)}</h1>
+        <p className="text-lg text-gray-700 mb-6">
           {intl.formatMessage(DESCREVA)}
         </p>
 
-        <FormGroup
+        <MarkdownEditorFormGroup
           labelFor="ong-input-content"
           error={touched.content ? errors.content : undefined}
-          className="mb-4"
+          className="mb-6 relative"
           length={values.content.length}
           maxLength={3000}
+          maxLengthClassName="max-length-indicator absolute"
         >
           {renderEditor && (
             <MarkdownEditor
@@ -195,7 +206,7 @@ class OrganizationComposerContact extends React.Component<
               defaultValue={values.content}
             />
           )}
-        </FormGroup>
+        </MarkdownEditorFormGroup>
       </FormComposerLayout>
     )
   }

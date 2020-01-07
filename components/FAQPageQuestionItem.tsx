@@ -46,9 +46,9 @@ const FAQPageQuestionItem: React.FC<FAQPageQuestionItemProps> = ({
     <Anchor
       className={`${className || ''} block hover:bg-primary-100 rounded-lg p-2`}
     >
-      <span className="tc-primary-500 tw-medium">{question.question}</span>
+      <span className="text-primary-500 font-medium">{question.question}</span>
       <Description
-        className="tc-muted m-0"
+        className="text-gray-600 m-0"
         dangerouslySetInnerHTML={{ __html: stripTags(question.answer) }}
       />
     </Anchor>

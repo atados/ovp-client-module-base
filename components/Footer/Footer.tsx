@@ -12,6 +12,7 @@ import { Cause } from '~/common/channel'
 import { RootState } from '~/redux/root-reducer'
 import FooterNav from './FooterNav'
 import LanguageDropdown from '~/components/LanguageDropdown/LanguageDropdown'
+import Tooltip from '../Tooltip'
 
 const Container = styled.div`
   background: ${props => props.theme.footerBackground || Color.gray[200]};
@@ -36,7 +37,6 @@ const SocialMedia = styled.a`
   height: 36px;
   cursor: pointer;
   margin-left: 10px;
-  padding: 8px 0;
   text-align: center;
 
   &.facebook {
@@ -77,9 +77,9 @@ const Footer: React.FC<FooterProps> = ({ causes, className }) => {
 
   return (
     <Container className={className}>
-      <div className="container py-5">
-        <div className="row">
-          <div className="col-md-3 mb-3 mb-md-0">
+      <div className="container px-2 py-8">
+        <div className="lg:flex -mx-2">
+          <div className="md:w-1/4 px-2 mb-4 md:mb-0">
             <FooterNav title={intl.formatMessage(appName)}>
               {channel.config.footer.links.length === 0 && (
                 <span>{intl.formatMessage(messages.appDescription)}</span>
@@ -102,10 +102,10 @@ const Footer: React.FC<FooterProps> = ({ causes, className }) => {
               </li>
             </FooterNav>
           </div>
-          <div className="col-md-3 mb-3 mb-md-0">
+          <div className="md:w-1/4 px-2 mb-4 md:mb-0">
             <FooterNav title="Causas">
               {causes.slice(0, 8).map(cause => (
-                <span key={cause.slug}>
+                <span key={cause.id}>
                   <Link
                     as={PageAs.Cause({ slug: cause.slug })}
                     href={Page.Cause}
@@ -116,7 +116,7 @@ const Footer: React.FC<FooterProps> = ({ causes, className }) => {
               ))}
             </FooterNav>
           </div>
-          <div className="col-md-3 mb-3 mb-md-0">
+          <div className="md:w-1/4 px-2 mb-4 md:mb-0">
             <FooterNav title="+">
               {causes.slice(8, 16).map(cause => (
                 <span key={cause.slug}>
@@ -130,12 +130,12 @@ const Footer: React.FC<FooterProps> = ({ causes, className }) => {
               ))}
             </FooterNav>
           </div>
-          <div className="col-md-3">
+          <div className="md:w-1/4 px-2">
             <NewsletterForm />
           </div>
         </div>
-        <hr className="mt-4" />
-        <div className="py-2 flex">
+        <hr className="mt-6" />
+        <div className="py-3 flex">
           <Link href={Page.Home} as={PageAs.Home()}>
             <a>
               {Asset.FooterBrand && (
@@ -143,29 +143,33 @@ const Footer: React.FC<FooterProps> = ({ causes, className }) => {
                   src={Asset.FooterBrand}
                   alt=""
                   height="42"
-                  className="mr-3"
+                  className="mr-4"
                 />
               )}
-              <span className="ts-medium">{intl.formatMessage(appName)}</span>
+              <span className="text-lg">{intl.formatMessage(appName)}</span>
             </a>
           </Link>
           <div className="mr-auto" />
           {channel.social.map(social => (
-            <SocialMedia
-              key={social.kind}
-              href={social.url}
-              target="__blank"
-              className={`tooltiped tooltiped-hover ${social.kind}`}
-            >
-              <span className="tooltip">
-                {social.kind === 'facebook'
+            <Tooltip
+              key={social.url}
+              value={
+                social.kind === 'facebook'
                   ? 'Facebook'
                   : social.kind === 'instagram'
                   ? 'Instagram'
-                  : 'Github'}
-              </span>
-              <SocialMediaIcon social={social} />
-            </SocialMedia>
+                  : 'Github'
+              }
+            >
+              <SocialMedia
+                key={social.kind}
+                href={social.url}
+                target="__blank"
+                className={`${social.kind} leading-loose`}
+              >
+                <SocialMediaIcon social={social} />
+              </SocialMedia>
+            </Tooltip>
           ))}
         </div>
       </div>

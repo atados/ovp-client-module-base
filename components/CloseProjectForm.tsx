@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react'
 import { connect } from 'react-redux'
-import useTriggerableFetchApi from '~/hooks/use-trigglerable-fetch-api'
+import useFetchAPIMutation from '~/base/hooks/use-fetch-api-mutation'
 import { Project, updateProject } from '~/redux/ducks/project'
 import { User } from '~/redux/ducks/user'
 import ActivityIndicator from './ActivityIndicator'
@@ -24,14 +24,12 @@ const CloseProjectForm: React.FC<CloseProjectFormProps> = ({
   onCancel,
   onUpdateProject,
 }) => {
-  const { trigger, loading } = useTriggerableFetchApi(
-    `/projects/${projectSlug}/close/`,
-    {
-      method: 'POST',
-    },
-  )
+  const { mutate, loading } = useFetchAPIMutation(() => ({
+    endpoint: `/projects/${projectSlug}/close/`,
+    method: 'POST',
+  }))
   const onSubmit = useCallback(async () => {
-    await trigger()
+    await mutate()
     pushToDataLayer({
       event: 'project.close',
       slug: projectSlug,
@@ -41,10 +39,10 @@ const CloseProjectForm: React.FC<CloseProjectFormProps> = ({
     if (onCancel) {
       onCancel()
     }
-  }, [trigger])
+  }, [mutate])
   return (
     <div className={className}>
-      <h4 className="tw-normal">
+      <h4 className="font-normal">
         <FormattedMessage
           id="closeProjectForm.title"
           defaultMessage="Tem certeza que deseja encerrar essa vaga"
@@ -94,7 +92,6 @@ const CloseProjectForm: React.FC<CloseProjectFormProps> = ({
 
 CloseProjectForm.displayName = 'CloseProjectForm'
 
-export default connect(
-  undefined,
-  { onUpdateProject: updateProject },
-)(CloseProjectForm)
+export default connect(undefined, { onUpdateProject: updateProject })(
+  CloseProjectForm,
+)

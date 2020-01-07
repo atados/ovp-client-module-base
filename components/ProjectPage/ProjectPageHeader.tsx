@@ -5,7 +5,7 @@ import { colors, channel } from '~/common/constants'
 import { Project } from '~/redux/ducks/project'
 import Icon from '../Icon'
 import ProjectStatusPill from '../ProjectStatusPill'
-import { Page, PageAs } from '~/common'
+import { Page, PageAs, Color } from '~/common'
 import { defineMessages } from 'react-intl'
 import { useIntl } from 'react-intl'
 
@@ -95,14 +95,9 @@ const ProgressValue = styled.div`
   height: 5px;
 `
 
-const Pill = styled.span`
-  display: inline-block;
-  height: 32px;
-  border-radius: 16px;
-  padding: 5px 16px;
-  margin: 5px;
-  white-space: nowrap;
-`
+// Before: const Pill = styled.span`
+export const pillClassName =
+  'inline-block rounded-full px-3 py-1 leading-relaxed m-1 white-space-nowrap'
 
 const Showcase = styled.div`
   min-width: 352px;
@@ -127,6 +122,12 @@ const OwnerAvatar = styled.figure`
   height: 40px;
   min-width: 40px;
   border-radius: 3px;
+`
+
+const MobileThumbnail = styled.div`
+  height: 180px;
+  margin-top: -52px;
+  border-radius: 0 0 10px 10px;
 `
 
 const {
@@ -163,27 +164,40 @@ const {
   },
 })
 
-interface ProjectPageHeaderProps {
+export interface ProjectPageHeaderProps {
   readonly className?: string
   readonly project: Project
   readonly isOwner?: boolean
+  readonly pills?: React.ReactNode
 }
 
 const ProjectPageHeader: React.FC<ProjectPageHeaderProps> = ({
   className,
   project,
   isOwner,
+  pills,
 }) => {
   const intl = useIntl()
 
   return (
-    <div className={`container pt-5${className ? ` ${className}` : ''}`}>
+    <div className={`container px-2 pt-8${className ? ` ${className}` : ''}`}>
+      <MobileThumbnail
+        className="block bg-cover bg-center lg:hidden -mx-2 mb-4"
+        style={
+          project.image
+            ? { backgroundImage: `url('${project.image.image_url}')` }
+            : { backgroundColor: Color.gray[500] }
+        }
+      />
       <div className="flex">
         <div className="flex-grow">
+          {isOwner && <ProjectStatusPill project={project} horizontal />}
           <h1 id="geral">{project.name}</h1>
-          <h2 className="tw-normal ts-medium tl-base">{project.description}</h2>
+          <h2 className="font-normal text-lg leading-normal">
+            {project.description}
+          </h2>
           {project.address && (
-            <p className="tc-muted">
+            <p className="text-gray-600">
               {project.address.typed_address}
               {project.address.typed_address2 && (
                 <>
@@ -238,30 +252,32 @@ const ProjectPageHeader: React.FC<ProjectPageHeaderProps> = ({
               )}
             </div>
             <div className="mr-auto" />
-            <Pills className="ta-xl-right ta-left mt-2 mt-xl-0">
+            <Pills className="xl:text-right text-left mt-2 xl:mt-0">
               {project.disponibility &&
                 project.disponibility.type === 'work' &&
                 project.disponibility.work.can_be_done_remotely && (
-                  <Pill className="bg-secondary-100 tc-secondary-500">
+                  <span
+                    className={`${pillClassName} bg-secondary-100 text-secondary-500`}
+                  >
                     <Icon name="public" className="mr-2" />
                     {intl.formatMessage(PODE_SER)}
-                  </Pill>
+                  </span>
                 )}
               {!project.closed &&
                 project.max_applies_from_roles - project.applied_count > 0 && (
-                  <Pill className="bg-primary-100 tc-primary-500">
+                  <span
+                    className={`${pillClassName} bg-primary-100 text-primary-500`}
+                  >
                     <Icon name="person" className="mr-2" />
                     {`${intl.formatMessage(FALTAM)} `}
                     {project.max_applies_from_roles - project.applied_count}
                     {` ${intl.formatMessage(VOLUNTARIOS)}`}
-                  </Pill>
+                  </span>
                 )}
-              {isOwner && (
-                <ProjectStatusPill project={project} className="ml-2" />
-              )}
+              {pills}
             </Pills>
           </div>
-          <Progress className="mb-3 mt-3">
+          <Progress className="mb-4 mt-4">
             <ProgressValue
               style={{
                 width: `${Math.min(
@@ -301,22 +317,23 @@ const ProjectPageHeader: React.FC<ProjectPageHeaderProps> = ({
                 project.image
                   ? {
                       backgroundImage: `url('${project.image.image_medium_url}')`,
+                      backgroundColor: 'transparent',
                     }
                   : undefined
               }
             />
           </Thumbnail>
           {project.organization && (
-            <div className="mt-4">
+            <div className="mt-6">
               <Link
                 href={Page.Organization}
                 as={PageAs.Organization({
                   organizationSlug: project.organization.slug,
                 })}
               >
-                <a className="media tc-base text-truncate">
+                <a className="media text-base truncate">
                   <OwnerAvatar
-                    className="bg-cover mb-0 mr-2"
+                    className="bg-cover bg-center mb-0 mr-2"
                     style={
                       project.organization.image
                         ? {
@@ -328,10 +345,10 @@ const ProjectPageHeader: React.FC<ProjectPageHeaderProps> = ({
                     }
                   />
                   <div className="media-body tl-heading">
-                    <span className="tc-muted block ts-small mb-1">
+                    <span className="text-gray-600 block text-sm">
                       {intl.formatMessage(REALIZADO)}
                     </span>
-                    <span className="text-truncate tw-medium text-truncate block">
+                    <span className="truncate font-medium text-gray-700 block">
                       {project.organization.name}
                     </span>
                   </div>

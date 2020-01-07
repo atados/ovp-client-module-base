@@ -14,9 +14,9 @@ interface OrganizationVerificationBadgeProps {
   readonly className?: string
 }
 
-const OrganizationVerificationBadge: React.FC<
-  OrganizationVerificationBadgeProps
-> = ({ className }) => {
+const OrganizationVerificationBadge: React.FC<OrganizationVerificationBadgeProps> = ({
+  className,
+}) => {
   const intl = useIntl()
   return (
     <Tooltip value={intl.formatMessage(m.verified)}>

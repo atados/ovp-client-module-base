@@ -25,9 +25,10 @@ export default function asFormStep<
   options: Options<Value> & { [key: string]: any },
   Component: React.ComponentType<any>,
 ) {
-  const WrapperComponent: React.FC<
-    Omit<Props, keyof InjectedMultipleStepsFormProps<any, any, any>>
-  > = props => {
+  const WrapperComponent: React.FC<Omit<
+    Props,
+    keyof InjectedMultipleStepsFormProps<any, any, any>
+  >> = props => {
     const {
       submit,
       register,

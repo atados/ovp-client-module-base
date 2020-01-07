@@ -16,9 +16,9 @@ interface MultipleStepsFormErrorReportProps {
   readonly className?: string
 }
 
-const MultipleStepsFormErrorReport: React.FC<
-  MultipleStepsFormErrorReportProps
-> = ({ className }) => {
+const MultipleStepsFormErrorReport: React.FC<MultipleStepsFormErrorReportProps> = ({
+  className,
+}) => {
   const { payload, failedToSubmit } = useMultipleStepsForm()
   return failedToSubmit ? (
     <Container className={className}>

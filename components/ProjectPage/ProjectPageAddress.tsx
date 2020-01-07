@@ -36,7 +36,7 @@ const ProjectPageAddress: React.FC<ProjectPageAddressProps> = ({ project }) => {
       <h4 id="endereco" className="mb-2">
         {intl.formatMessage(ENDERECO)}
       </h4>
-      <p className="tw-normal ts-medium mb-4">
+      <p className="font-normal text-lg mb-6">
         {project.address.typed_address}
         {project.address.typed_address2 && (
           <>
@@ -54,7 +54,7 @@ const ProjectPageAddress: React.FC<ProjectPageAddressProps> = ({ project }) => {
       >
         <MapMark lat={project.address.lat} lng={project.address.lng} />
       </Map>
-      <hr className="mt-4 mb-4" />
+      <hr className="mt-6 mb-6" />
     </>
   )
 }

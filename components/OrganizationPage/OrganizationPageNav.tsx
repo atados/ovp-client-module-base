@@ -19,16 +19,16 @@ const OrganizationPageNav: React.FC<OrganizationPageNavProps> = ({
   return (
     <div className={className}>
       <div className="flex h-16 border-t border-gray-200">
-        <div className="leading-loose flex flex-grow">
+        <div className="truncate leading-loose flex flex-grow">
           <PageLink
             href="Organization"
             params={{ organizationSlug: organization.slug }}
           >
             <a
-              className={`block py-3 px-2 ${
+              className={`block py-4 px-3 ${
                 router && router.pathname === Page.Organization
-                  ? 'shadow-active tc-primary-500'
-                  : 'tc-gray-700'
+                  ? 'shadow-active text-primary-500'
+                  : 'text-gray-700'
               }`}
             >
               <FormattedMessage
@@ -42,10 +42,10 @@ const OrganizationPageNav: React.FC<OrganizationPageNavProps> = ({
             params={{ organizationSlug: organization.slug }}
           >
             <a
-              className={`block py-3 px-2 ${
+              className={`block py-4 px-3 ${
                 router && router.pathname === Page.OrganizationAbout
-                  ? 'shadow-active tc-primary-500'
-                  : 'tc-gray-700'
+                  ? 'shadow-active text-primary-500'
+                  : 'text-gray-700'
               }`}
             >
               <FormattedMessage
@@ -59,10 +59,10 @@ const OrganizationPageNav: React.FC<OrganizationPageNavProps> = ({
             params={{ organizationSlug: organization.slug }}
           >
             <a
-              className={`block py-3 px-2 ${
+              className={`block py-4 px-3 ${
                 router && router.pathname === Page.OrganizationProjects
-                  ? 'shadow-active tc-primary-500'
-                  : 'tc-gray-700'
+                  ? 'shadow-active text-primary-500'
+                  : 'text-gray-700'
               }`}
             >
               <FormattedMessage

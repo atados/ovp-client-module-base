@@ -50,18 +50,18 @@ const OrganizationPage: NextPage<OrganizationPageProps> = ({
       organization={organization}
       isViewerMember={isViewerMember}
     >
-      <div className="container py-4">
-        <div className="row">
-          <div className="col-md-7">
+      <div className="container px-2 py-5">
+        <div className="flex flex-wrap -mx-2">
+          <div className="w-full md:w-7/12 px-2">
             <OrganizationPageProjects
               organization={organization}
-              itemClassName="px-3"
+              itemClassName="px-4"
             />
           </div>
-          <div className="col-md-5 hidden md:block">
+          <div className="w-full md:w-5/12 hidden md:block px-2">
             <OrganizationPageDetails
               organization={organization}
-              className="mb-4"
+              className="mb-6"
             />
             <OrganizationPageAbout organization={organization} />
           </div>

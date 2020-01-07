@@ -78,7 +78,7 @@ const InboxConversationHeader: React.FC<InboxConversationHeaderProps> = ({
   thread,
 }) => (
   <Container className={className}>
-    <div className="tl-1">
+    <div className="leading-none">
       <div className="media">
         <Link
           href={`/inbox?viewerSlug=${viewer.slug}`}
@@ -92,7 +92,7 @@ const InboxConversationHeader: React.FC<InboxConversationHeaderProps> = ({
           </BackButton>
         </Link>
         <div className="media-body">
-          <h1 className="ts-normal tw-medium mb-0">
+          <h1 className="text-base font-medium mb-0">
             {thread.threadableNode.name}
           </h1>
           <Status>

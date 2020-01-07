@@ -64,8 +64,8 @@ const ProjectComposerConclusion: React.FC<ProjectComposerConclusionProps> = ({
 
   return (
     <FormComposerLayout className={className} onSubmit={handleSubmit}>
-      <CheckIcon name="check_circle_outline" className="tc-success" />
-      <h2 className="tw-normal mb-4">{intl.formatMessage(VAGA_ENVIADA)}</h2>
+      <CheckIcon name="check_circle_outline" className="text-green-600" />
+      <h2 className="font-normal mb-6">{intl.formatMessage(VAGA_ENVIADA)}</h2>
       <p style={{ maxWidth: '500px' }}>
         {intl.formatMessage(NOSSA_EQUIPE)}
         <br />

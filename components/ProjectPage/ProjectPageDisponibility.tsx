@@ -16,18 +16,7 @@ const EventCalendarDate = styled.span`
   font-size: 32px;
   font-weight: 500;
   text-align: center;
-  padding-top: 15px;
-
-  &::before {
-    content: '';
-    border-radius: 10px 10px 0 0;
-    background: #e05167;
-    position: absolute;
-    left: 0;
-    right: 0;
-    top: 0;
-    height: 18px;
-  }
+  line-height: 1.3;
 `
 
 const EventDate = styled.div`
@@ -51,6 +40,10 @@ const EventDateText = styled.span`
   font-weight: 500;
   margin-bottom: 2px;
   display: block;
+`
+
+const EventCalendarMonth = styled.div`
+  padding: 2px 0;
 `
 
 const {
@@ -118,7 +111,7 @@ const ProjectPageDisponibility: React.FC<ProjectPageDisponibilityProps> = ({
       <>
         <span
           id="como-participar"
-          className="tc-secondary-500 tw-medium block mb-1"
+          className="text-secondary-500 font-medium block mb-1"
         >
           {intl.formatMessage(VAGA)}{' '}
           {project.disponibility.type === 'work'
@@ -132,7 +125,7 @@ const ProjectPageDisponibility: React.FC<ProjectPageDisponibilityProps> = ({
         </h4>
         {project.disponibility.type === 'job' && (
           <>
-            <p className="mb-4 tc-muted">
+            <p className="mb-6 text-gray-600">
               {intl.formatMessage(VAGA_DESCRICAO)}
             </p>
 
@@ -140,13 +133,16 @@ const ProjectPageDisponibility: React.FC<ProjectPageDisponibilityProps> = ({
               const momentStartDate = moment(jobDate.start_date)
               const momentEndDate = moment(jobDate.end_date)
               return (
-                <EventDate key={`${jobDate.name}${i}`} className="mb-3">
+                <EventDate key={`${jobDate.name}${i}`} className="mb-4">
                   <EventCalendarDate>
+                    <EventCalendarMonth className="bg-red-500 rounded-t-lg text-red-200 text-xs">
+                      {momentStartDate.format('MMMM').substr(0, 3)}
+                    </EventCalendarMonth>
                     {momentStartDate.date()}
                   </EventCalendarDate>
                   <EventDateText>{momentStartDate.format('LL')}</EventDateText>
                   <h4>{jobDate.name}</h4>
-                  <p className="ts-small tc-gray-700">
+                  <p className="text-sm text-gray-700">
                     {momentStartDate.format('LT')}
                     <Icon name="arrow_forward" className="mx-1" />
                     {momentEndDate.format('LT')}
@@ -158,27 +154,27 @@ const ProjectPageDisponibility: React.FC<ProjectPageDisponibilityProps> = ({
         )}
         {project.disponibility.type === 'work' && (
           <>
-            <p className="tc-muted mb-4">
+            <p className="text-gray-600 mb-6">
               {intl.formatMessage(DESCRICAO_HORARIO)}
             </p>
-            <p className="ts-large">
+            <p className="text-xl">
               <Icon name="event" className="mr-2" />
               {project.disponibility.work.description}
             </p>
-            <p className="ts-large">
+            <p className="text-xl">
               <Icon name="access_time" className="mr-2" />
               {project.disponibility.work.weekly_hours}{' '}
               {intl.formatMessage(HORAS_SEMANAIS)}
             </p>
             {project.disponibility.work.can_be_done_remotely && (
-              <p className="ts-large">
+              <p className="text-xl">
                 <Icon name="public" className="mr-2" />{' '}
                 {intl.formatMessage(DISTANCIA)}
               </p>
             )}
           </>
         )}
-        <hr className="mt-4 mb-4" />
+        <hr className="mt-6 mb-6" />
       </>
     )
   )

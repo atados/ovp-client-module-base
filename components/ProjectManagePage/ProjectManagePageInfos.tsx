@@ -43,7 +43,7 @@ const Infos = styled.div`
       display: none;
     }
 
-    .col-md-6 {
+    .md:w-1\/2 {
       padding-left: 0;
       display: inline-block;
       width: auto;
@@ -120,8 +120,8 @@ const ProjectManagePageInfos: React.FC<ProjectManagePageInfosProps> = ({
   const intl = useIntl()
 
   return (
-    <Infos className={`row mb-4${className ? ` ${className}` : ''}`}>
-      <div className="col-md-6 col-lg-3 mb-md-3 mb-lg-0">
+    <Infos className={`flex -mx-2 mb-6${className ? ` ${className}` : ''}`}>
+      <div className="w-full md:w-1/2 px-2 md:mb-4 lg:mb-0">
         <Info className="ratio">
           <div className="ratio-fill" style={{ paddingTop: '70%' }} />
           <div style={{ backgroundColor: colors[0] }} className="ratio-body">
@@ -133,16 +133,16 @@ const ProjectManagePageInfos: React.FC<ProjectManagePageInfosProps> = ({
             />
             <InfoValue>
               {project.applied_count}{' '}
-              <span className="tw-normal tc-light ts-large">
+              <span className="font-normal text-white-alpha-80 text-xl">
                 / {project.max_applies_from_roles}
               </span>
             </InfoValue>
             <InfoLabel>{intl.formatMessage(INSCRITOS)}</InfoLabel>
             <hr />
-            <span className="ts-small tc-light">
+            <span className="text-sm text-white-alpha-80">
               {project.applied_count > project.max_applies_from_roles ? (
                 <>
-                  <span className="tc-white">
+                  <span className="text-white">
                     +{project.applied_count - project.max_applies_from_roles}
                   </span>{' '}
                   {intl.formatMessage(ACIMA)}
@@ -155,7 +155,7 @@ const ProjectManagePageInfos: React.FC<ProjectManagePageInfosProps> = ({
           </div>
         </Info>
       </div>
-      <div className="col-md-6 col-lg-3 mb-md-3 mb-lg-0">
+      <div className="w-full md:w-1/2 px-2 md:mb-4 lg:mb-0">
         <Info className="ratio">
           <div className="ratio-fill" style={{ paddingTop: '70%' }} />
           <div style={{ backgroundColor: colors[1] }} className="ratio-body">
@@ -163,24 +163,24 @@ const ProjectManagePageInfos: React.FC<ProjectManagePageInfosProps> = ({
             <InfoValue>{project.bookmark_count}</InfoValue>
             <InfoLabel>{intl.formatMessage(FAVORITADAS)}</InfoLabel>
             <hr />
-            <span className="ts-small tc-light">
+            <span className="text-sm text-white-alpha-80">
               {intl.formatMessage(PESSOAS_FAV)}
             </span>
           </div>
         </Info>
       </div>
-      <div className="col-md-6 col-lg-3">
+      <div className="w-full md:w-1/2 px-2">
         <Info className="ratio">
           <div className="ratio-fill" style={{ paddingTop: '70%' }} />
           <div style={{ backgroundColor: colors[2] }} className="ratio-body">
             <Icon name="event" className="mb-2" />
-            <InfoValue className="text-truncate">
+            <InfoValue className="truncate">
               {project.disponibility &&
                 formatDisponibility(project.disponibility, intl)}
             </InfoValue>
             <InfoLabel>{intl.formatMessage(DISPONIBILIDADE)}</InfoLabel>
             <hr />
-            <span className="block mt-1 ts-small text-truncate tc-light">
+            <span className="block mt-1 text-sm truncate text-white-alpha-80">
               {project.disponibility &&
                 (project.disponibility.type === 'work'
                   ? project.disponibility.work.description
@@ -189,18 +189,18 @@ const ProjectManagePageInfos: React.FC<ProjectManagePageInfosProps> = ({
           </div>
         </Info>
       </div>
-      <div className="col-md-6 col-lg-3">
+      <div className="w-full md:w-1/2 px-2">
         <Info className="ratio">
           <div className="ratio-fill" style={{ paddingTop: '70%' }} />
           <div style={{ backgroundColor: colors[3] }} className="ratio-body">
             <Icon name="place" className="mb-2" />
-            <InfoValue className="text-truncate">
+            <InfoValue className="truncate">
               {project.address &&
                 (project.address.city_state || project.address.typed_address)}
             </InfoValue>
             <InfoLabel>{intl.formatMessage(ENDERECO)}</InfoLabel>
             <hr />
-            <span className="text-truncate ts-small tc-light">
+            <span className="truncate text-sm text-white-alpha-80">
               {(project.address && project.address.typed_address2) || '...'}
             </span>
           </div>

@@ -8,7 +8,7 @@ export enum DropdownDirection {
 }
 
 export const DropdownMenu = styled.div.attrs({
-  className: 'dropdown-menu shadow-xl',
+  className: 'dropdown-menu shadow-3xl',
 })`
   background: #fff;
   border-radius: 10px;

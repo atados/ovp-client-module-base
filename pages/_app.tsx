@@ -1,6 +1,3 @@
-import '../../channel/generated/styles/index.css'
-import '../../channel/generated/styles/channel.css'
-
 import moment from 'moment'
 import nextCookies from 'next-cookies'
 import NextApp, { AppProps as NextAppProps, AppContext } from 'next/app'
@@ -16,7 +13,7 @@ import { ModalProvider } from '~/components/Modal'
 import ProgressBar from '~/components/ProgressBar'
 import { StatusProvider } from '~/components/Status'
 import GTMScripts from '~/components/TagManager/GTMScripts'
-import withApollo from '~/lib/apollo/with-apollo'
+import { withFetch } from '~/base/lib/apollo/with-fetch'
 import { setupDataLayer } from '~/lib/tag-manager'
 import { RootState } from '~/redux/root-reducer'
 import withRedux from '~/redux/with-redux'
@@ -29,6 +26,7 @@ import {
   reportError,
 } from '../lib/utils/error'
 import { createGeolocationObject } from '../lib/geo'
+import ToastsProvider from '~/components/Toasts/ToastsProvider'
 
 declare global {
   interface Window {
@@ -133,42 +131,47 @@ class App extends NextApp<AppProps> {
       >
         <Provider store={store}>
           <ThemeProvider theme={Theme}>
-            <StatusProvider>
-              <ModalProvider>
-                <Head>
-                  <meta name="theme-color" content={Theme.color.primary[500]} />
-                  {/* <script src={`/api/intl/${intlHash}/${intl.locale}`} /> */}
-                  {Config.maps.key && (
-                    <script
-                      src={`https://maps.googleapis.com/maps/api/js?key=${Config.maps.key}&libraries=places&language=${intl.locale}`}
+            <ToastsProvider>
+              <StatusProvider>
+                <ModalProvider>
+                  <Head>
+                    <meta
+                      name="theme-color"
+                      content={Theme.color.primary[500]}
                     />
-                  )}
-                  {Asset.Favicon && (
-                    <link
-                      rel="shortcut icon"
-                      href={channel.assets.Favicon}
-                      type="image/x-icon"
-                    />
-                  )}
-                  {channel.head.scripts.map((script, i) => (
-                    <script key={i} {...script} />
-                  ))}
-                  {channel.head.links.map((link, i) => (
-                    <link key={i} {...link} />
-                  ))}
-                </Head>
+                    {/* <script src={`/api/intl/${intlHash}/${intl.locale}`} /> */}
+                    {Config.maps.key && (
+                      <script
+                        src={`https://maps.googleapis.com/maps/api/js?key=${Config.maps.key}&libraries=places&language=${intl.locale}`}
+                      />
+                    )}
+                    {Asset.Favicon && (
+                      <link
+                        rel="shortcut icon"
+                        href={channel.assets.Favicon}
+                        type="image/x-icon"
+                      />
+                    )}
+                    {channel.head.scripts.map((script, i) => (
+                      <script key={i} {...script} />
+                    ))}
+                    {channel.head.links.map((link, i) => (
+                      <link key={i} {...link} />
+                    ))}
+                  </Head>
 
-                {Config.googleTagManager && (
-                  <GTMScripts {...Config.googleTagManager} />
-                )}
-                <GlobalProgressBar
-                  ref={ref => {
-                    this.progressBar = ref as ProgressBar
-                  }}
-                />
-                <Component {...pageProps} />
-              </ModalProvider>
-            </StatusProvider>
+                  {Config.googleTagManager && (
+                    <GTMScripts {...Config.googleTagManager} />
+                  )}
+                  <GlobalProgressBar
+                    ref={ref => {
+                      this.progressBar = ref as ProgressBar
+                    }}
+                  />
+                  <Component {...pageProps} />
+                </ModalProvider>
+              </StatusProvider>
+            </ToastsProvider>
           </ThemeProvider>
         </Provider>
       </IntlProvider>
@@ -179,4 +182,4 @@ class App extends NextApp<AppProps> {
 const mapStateToProps = ({ user }: RootState) => ({
   authToken: user ? user.name : null,
 })
-export default withApollo(withRedux(mapStateToProps)(App as any))
+export default withFetch(withRedux(mapStateToProps)(App as any))

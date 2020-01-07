@@ -35,7 +35,7 @@ const OrganizationPageProjects: React.FC<OrganizationPageProjectsProps> = ({
       viewerIsMember ? 'both' : 'true'
     }&closed=both`,
   )
-  const projects = (projectsQuery.data && projectsQuery.data.results) || []
+  const projects = projectsQuery.data?.results || []
   const [openProjects, closedProjects] = useMemo(() => {
     const open: Project[] = []
     const closed: Project[] = []
@@ -60,42 +60,42 @@ const OrganizationPageProjects: React.FC<OrganizationPageProjectsProps> = ({
       className={cx('bg-white border border-gray-200 rounded-lg', className)}
     >
       {projectsQuery.loading && (
-        <div className="p-5 ta-center">
+        <div className="p-5 text-center">
           <ActivityIndicator size={48} fill={Color.gray[500]} />
         </div>
       )}
       {openProjects.length > 0 && (
-        <div className="pt-3 px-3">
-          <h4 className="ts-medium">Vagas abertas</h4>
+        <div className="pt-4 px-4">
+          <h4 className="text-lg">Vagas abertas</h4>
         </div>
       )}
       {openProjects.map(p => (
         <HorizontalProjectCard
           key={p.slug}
           project={p}
-          className={cx('mb-4', itemClassName)}
+          className={cx('mb-6', itemClassName)}
         />
       ))}
 
       {closedProjects.length > 0 && (
-        <div className="pt-3 px-3">
-          <h4 className="ts-medium">Vagas encerradas</h4>
+        <div className="pt-4 px-4">
+          <h4 className="text-lg">Vagas encerradas</h4>
         </div>
       )}
       {closedProjects.map(p => (
         <HorizontalProjectCard
           key={p.slug}
           project={p}
-          className={cx('mb-4', itemClassName)}
+          className={cx('mb-6', itemClassName)}
         />
       ))}
       {!projectsQuery.loading && (
-        <div className="px-3 pb-3">
+        <div className="px-4 pb-4">
           <PageLink
             href="OrganizationProjects"
             params={{ organizationSlug: organization.slug }}
           >
-            <a className="btn bg-gray-200 py-2 tc-gray-700 hover:bg-gray-300 btn--block">
+            <a className="btn bg-gray-200 py-3 text-gray-700 hover:bg-gray-300 btn--block">
               Ver todas as vagas
             </a>
           </PageLink>

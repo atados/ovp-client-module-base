@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { Waypoint } from 'react-waypoint'
 import styled, { StyledProps } from 'styled-components'
 import { Page, PageAs } from '~/common'
-import useTriggerableFetchApi from '~/hooks/use-trigglerable-fetch-api'
+import useFetchAPIMutation from '~/base/hooks/use-fetch-api-mutation'
 import { Project, updateProject } from '~/redux/ducks/project'
 import { User } from '~/redux/ducks/user'
 import { RootState } from '~/redux/root-reducer'
@@ -223,14 +223,12 @@ const ProjectPageNav: React.FC<ProjectPageNavProps> = ({
     },
     [fixed],
   )
-  const bookmarkTrigger = useTriggerableFetchApi(
-    `/projects/${project.slug}/${
+  const bookmarkMutation = useFetchAPIMutation(() => ({
+    endpoint: `/projects/${project.slug}/${
       project.is_bookmarked ? 'unbookmark' : 'bookmark'
     }/`,
-    {
-      method: 'POST',
-    },
-  )
+    method: 'POST',
+  }))
   const openAuthentication = useModal({
     id: 'Authentication',
     component: Authentication,
@@ -242,7 +240,7 @@ const ProjectPageNav: React.FC<ProjectPageNavProps> = ({
       return
     }
 
-    bookmarkTrigger.trigger().then(() =>
+    bookmarkMutation.mutate().then(() =>
       dispatchProjectChange({
         slug: project.slug,
         is_bookmarked: !project.is_bookmarked,
@@ -258,7 +256,7 @@ const ProjectPageNav: React.FC<ProjectPageNavProps> = ({
   return (
     <div>
       <Waypoint onPositionChange={handleWaypointPositionChange} />
-      <div className="container mb-3 flex lg:hidden">
+      <div className="container px-2 mb-4 flex lg:hidden">
         {isOwner ? (
           <Link
             href={
@@ -307,12 +305,12 @@ const ProjectPageNav: React.FC<ProjectPageNavProps> = ({
         <button
           type="button"
           onClick={handleBookmarkToggle}
-          disabled={bookmarkTrigger.loading}
-          className="btn btn-muted btn--size-3 text-truncate"
+          disabled={bookmarkMutation.loading}
+          className="btn btn-muted btn--size-3 truncate"
         >
           <Icon
             name={project.is_bookmarked ? 'favorite' : 'favorite_outline'}
-            className={project.is_bookmarked ? 'tc-error' : ''}
+            className={project.is_bookmarked ? 'text-red-600' : ''}
           />
           <span className="hidden ml-2">
             {project.is_bookmarked
@@ -321,9 +319,9 @@ const ProjectPageNav: React.FC<ProjectPageNavProps> = ({
           </span>
         </button>
       </div>
-      <Nav className="mb-4" fixed={fixed}>
+      <Nav className="mb-6" fixed={fixed}>
         <div className="navbar navbar-expand navbar-light px-0">
-          <div className="container">
+          <div className="container px-2">
             <ul className="navbar-nav">
               {nav.map(item => (
                 <li key={item.id}>
@@ -345,7 +343,7 @@ const ProjectPageNav: React.FC<ProjectPageNavProps> = ({
                 <button
                   type="button"
                   onClick={handleBookmarkToggle}
-                  disabled={bookmarkTrigger.loading}
+                  disabled={bookmarkMutation.loading}
                   className="btn btn-muted btn--size-3 mr-2"
                 >
                   <Icon
@@ -353,7 +351,7 @@ const ProjectPageNav: React.FC<ProjectPageNavProps> = ({
                       project.is_bookmarked ? 'favorite' : 'favorite_outline'
                     }
                     className={`mr-2 ${
-                      project.is_bookmarked ? 'tc-error' : ''
+                      project.is_bookmarked ? 'text-red-600' : ''
                     }`}
                   />
                   {project.is_bookmarked
@@ -424,8 +422,7 @@ const ProjectPageNav: React.FC<ProjectPageNavProps> = ({
 ProjectPageNav.displayName = 'ProjectPageNav'
 
 export default React.memo(
-  connect(
-    (state: RootState) => ({ viewer: state.user }),
-    { dispatchProjectChange: updateProject },
-  )(ProjectPageNav),
+  connect((state: RootState) => ({ viewer: state.user }), {
+    dispatchProjectChange: updateProject,
+  })(ProjectPageNav),
 )

@@ -269,8 +269,8 @@ const ProjectComposerPage: NextPage<
   )
 
   const form = drafts.loading ? (
-    <div className="ta-center">
-      <ActivityIndicator size={84} className="mt-4" />
+    <div className="text-center">
+      <ActivityIndicator size={84} className="mt-6" />
     </div>
   ) : (
     <MultipleStepsForm
@@ -283,7 +283,7 @@ const ProjectComposerPage: NextPage<
       onStepSubmit={handleStepSubmit}
       context={{ organization, mode }}
     >
-      <div className="container pt-2">
+      <div className="container px-2 pt-3">
         {project && (
           <>
             <Link
@@ -296,22 +296,22 @@ const ProjectComposerPage: NextPage<
                 organization
                   ? PageAs.OrganizationDashboardProject({
                       organizationSlug: organization.slug,
-                      slug: project.slug,
+                      projectSlug: project.slug,
                     })
-                  : PageAs.ViewerProjectDashboard({ slug: project.slug })
+                  : PageAs.ViewerProjectDashboard({ projectSlug: project.slug })
               }
             >
-              <a className="media tc-base">
+              <a className="media text-gray-800">
                 <ProjectThumbnail
-                  className="bg-cover"
+                  className="bg-cover bg-center"
                   style={
                     project.image
                       ? { backgroundImage: `url('${project.image.image_url}')` }
                       : { backgroundColor: '#ddd' }
                   }
                 />
-                <div className="media-body ml-3">
-                  <span className="block tc-primary-500 tw-medium ts-small">
+                <div className="media-body ml-4">
+                  <span className="block text-primary-500 font-medium text-sm">
                     {mode === FormComposerMode.EDIT ? (
                       <FormattedMessage
                         id="pages.projectComposer.editModeTitle"
@@ -324,7 +324,7 @@ const ProjectComposerPage: NextPage<
                       />
                     )}
                   </span>
-                  <span className="tw-medium block text-truncate">
+                  <span className="font-medium block truncate">
                     {project.name}
                   </span>
                 </div>

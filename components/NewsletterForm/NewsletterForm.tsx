@@ -84,9 +84,10 @@ interface NewsletterFormProps {
   readonly onSubmit: (values: NewsletterSubscriptionPayload) => any
 }
 
-const NewsletterForm: React.FC<
-  InjectedFormikProps<NewsletterFormProps, Values>
-> = ({
+const NewsletterForm: React.FC<InjectedFormikProps<
+  NewsletterFormProps,
+  Values
+>> = ({
   className,
   values,
   touched,
@@ -101,11 +102,11 @@ const NewsletterForm: React.FC<
   const intl = useIntl()
   return (
     <form action="" method="post" className={className} onSubmit={handleSubmit}>
-      <h4 className="ts-normal">{intl.formatMessage(m.title)}</h4>
-      <p className="ts-small">{intl.formatMessage(m.description)}</p>
-      <Card className="card mb-3">
+      <h4 className="text-base">{intl.formatMessage(m.title)}</h4>
+      <p className="text-sm">{intl.formatMessage(m.description)}</p>
+      <Card className="card mb-4">
         <FormGroup
-          className="card-item ts-small"
+          className="card-item text-sm"
           error={touched.name ? errors.name : ''}
         >
           <input
@@ -119,7 +120,7 @@ const NewsletterForm: React.FC<
           />
         </FormGroup>
         <FormGroup
-          className="card-item ts-small"
+          className="card-item text-sm"
           error={touched.email ? errors.email : ''}
         >
           <input
@@ -133,7 +134,7 @@ const NewsletterForm: React.FC<
           />
         </FormGroup>
         <FormGroup
-          className="card-item ts-small"
+          className="card-item text-sm"
           error={touched.city ? errors.city : ''}
         >
           <input

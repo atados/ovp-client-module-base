@@ -19,8 +19,8 @@ const LanguageDropdownItem: React.FC<LanguageDropdownItemProps> = ({
 
   return (
     <button
-      className={`btn btn--block ta-left ${
-        active ? 'tc-primary-500 tw-medium' : 'hover:bg-gray-200'
+      className={`btn btn--block text-left ${
+        active ? 'text-primary-500 font-medium' : 'hover:bg-gray-200'
       } rounded-b-lg`}
       onClick={handleClick}
     >

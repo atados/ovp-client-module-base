@@ -114,7 +114,9 @@ const Gallery: React.FC<GalleryProps> = ({
         {images.map(image => (
           <Item
             key={image.id}
-            className={`bg-cover ${activeImageId === image.id ? 'active' : ''}`}
+            className={`bg-cover bg-center ${
+              activeImageId === image.id ? 'active' : ''
+            }`}
             style={{
               backgroundImage: `url('${image.image_url ||
                 image.image_medium}')`,

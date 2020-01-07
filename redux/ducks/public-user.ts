@@ -1,7 +1,11 @@
 import { createAction, createReducer, PromiseAction } from 'redux-handy'
 import { getRandomColor } from '~/lib/color/manager'
 import { fetchAPI } from '~/lib/fetch/fetch.server'
-import { Project, ProjectRole } from '~/redux/ducks/project'
+import {
+  Project,
+  ProjectRole,
+  ProjectApplicationStatus,
+} from '~/redux/ducks/project'
 import { RootState } from '../root-reducer'
 import { RatingProject } from './ratings'
 import { UserProfile } from './user'
@@ -13,7 +17,7 @@ export interface PublicUserApplication {
   dateYear?: number
   project: Project
   canceled: boolean
-  status: 'applied' | 'canceled'
+  status: ProjectApplicationStatus
   role?: ProjectRole
   project_rating?: RatingProject
 }

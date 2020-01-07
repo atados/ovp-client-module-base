@@ -100,8 +100,10 @@ const ToolbarMessagesThread: React.FC<ToolbarMessagesThreadProps> = ({
               {lastMessageMoment.fromNow()}
             </Timestamp>
           )}
-          <Name className="block tw-medium">{thread.threadableNode.name}</Name>
-          <LastMessageText className="block tc-muted-dark text-truncate">
+          <Name className="block font-medium">
+            {thread.threadableNode.name}
+          </Name>
+          <LastMessageText className="block text-gray-700 truncate">
             {thread.lastMessage && thread.lastMessage.body}
           </LastMessageText>
         </Body>

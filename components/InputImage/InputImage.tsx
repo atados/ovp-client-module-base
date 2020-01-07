@@ -247,7 +247,7 @@ class InputImage extends React.Component<
                 <Icon name="cloud_upload" className="mr-2" />
                 {intl.formatMessage(CARREGUE)}
               </span>
-              <span className="block ta-center mt-2 tc-muted-dark">
+              <span className="block text-center mt-2 text-gray-700">
                 {intl.formatMessage(ARRASTE)}
               </span>
             </InputWrapperInner>
@@ -285,14 +285,14 @@ class InputImage extends React.Component<
     }
 
     return (
-      <div className="row">
-        <div className="col-sm-6 mb-3 mb-sm-0">{input}</div>
-        <div className="col-sm-6">
+      <div className="flex flex-wrap -mx-2">
+        <div className="px-2 w-full sm:w-1/2 mb-4 sm:mb-0">{input}</div>
+        <div className="px-2 w-full sm:w-1/2">
           <Icon
             name="lightbulb_outline"
-            className="block tc-secondary-500 ts-medium"
+            className="block text-secondary-500 text-lg"
           />
-          <span className="tc-muted ts-small">{hint}</span>
+          <span className="text-gray-600 text-sm">{hint}</span>
         </div>
       </div>
     )

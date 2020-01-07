@@ -281,10 +281,10 @@ class OrganizationComposerBasics extends React.Component<
         mode={mode}
         helpPanelChildren={
           <div className="p-5">
-            <h4 className="tw-normal ts-normal tc-muted-dark mb-4">
+            <h4 className="font-normal text-base text-gray-700 mb-6">
               <Icon
                 name="lightbulb_outline"
-                className="mr-1 tc-secondary-500"
+                className="mr-1 text-secondary-500"
               />
               {intl.formatMessage(COMO_SERA_VISTA)}
             </h4>
@@ -293,10 +293,12 @@ class OrganizationComposerBasics extends React.Component<
         }
       >
         {mode !== FormComposerMode.EDIT && (
-          <h4 className="tc-muted ts-small">{intl.formatMessage(ETAPA1)}</h4>
+          <h4 className="text-gray-600 text-sm">
+            {intl.formatMessage(ETAPA1)}
+          </h4>
         )}
-        <h1 className="tw-light mb-1">{intl.formatMessage(SUA_ONG)}</h1>
-        <p className="ts-medium tc-muted-dark mb-4">
+        <h1 className="font-light mb-1">{intl.formatMessage(SUA_ONG)}</h1>
+        <p className="text-lg text-gray-700 mb-6">
           {intl.formatMessage(PREENCHA)}
         </p>
 
@@ -306,7 +308,7 @@ class OrganizationComposerBasics extends React.Component<
           error={touched.name ? errors.name : undefined}
           length={values.name.length}
           maxLength={150}
-          className="mb-4"
+          className="mb-6"
         >
           <input
             id="ong-input-name"
@@ -325,7 +327,7 @@ class OrganizationComposerBasics extends React.Component<
           error={touched.description ? errors.description : undefined}
           length={values.description.length}
           maxLength={160}
-          className="mb-4"
+          className="mb-6"
           hint={intl.formatMessage(RESUMO_HINT)}
         >
           <Textarea
@@ -348,7 +350,7 @@ class OrganizationComposerBasics extends React.Component<
               ? errors.image && ((errors.image as any).payload || errors.image)
               : undefined
           }
-          className="mb-4"
+          className="mb-6"
           hint={<>{intl.formatMessage(IMAGEM_HINT)}</>}
         >
           <InputImage
@@ -364,7 +366,7 @@ class OrganizationComposerBasics extends React.Component<
           labelFor="ong-input-address"
           label={intl.formatMessage(ENDERECO)}
           error={touched.address ? (errors.address as string) : undefined}
-          className="mb-3"
+          className="mb-4"
           hint={intl.formatMessage(ENDERECO_HINT)}
         >
           <InputAddress
@@ -379,13 +381,13 @@ class OrganizationComposerBasics extends React.Component<
         <input
           type="text"
           name="addressComplement"
-          className="input input--size-3 w-1/2 mb-3"
+          className="input input--size-3 w-1/2 mb-4"
           placeholder={intl.formatMessage(COMPLEMENTO)}
           value={values.addressComplement}
           onChange={handleChange}
           onBlur={this.handleBlur}
         />
-        <label htmlFor="ong-input-hide-address" className="mb-4">
+        <label htmlFor="ong-input-hide-address" className="block mb-6">
           <input
             id="ong-input-hide-address"
             name="show_address"
@@ -405,7 +407,7 @@ class OrganizationComposerBasics extends React.Component<
             touched.causes ? ((errors.causes as any) as string) : undefined
           }
           length={values.causes.length}
-          className="mb-4"
+          className="mb-6"
           maxLength={3}
           hint={intl.formatMessage(CAUSAS_HINT)}
         >
@@ -422,7 +424,7 @@ class OrganizationComposerBasics extends React.Component<
         <FormGroup
           labelFor="ong-input-benefited-people"
           label={intl.formatMessage(BENEFICIADOS)}
-          className="mb-3"
+          className="mb-4"
           hint={intl.formatMessage(BENEFICIADOS_HINT)}
           required={false}
         >

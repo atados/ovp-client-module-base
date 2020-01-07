@@ -96,9 +96,10 @@ const {
   },
 })
 
-const ProjectApplicationUserFormProps: React.FC<
-  InjectedFormikProps<ProjectApplicationUserFormProps, Values>
-> = ({
+const ProjectApplicationUserFormProps: React.FC<InjectedFormikProps<
+  ProjectApplicationUserFormProps,
+  Values
+>> = ({
   className,
   handleSubmit,
   touched,
@@ -115,9 +116,9 @@ const ProjectApplicationUserFormProps: React.FC<
   return (
     <form
       onSubmit={handleSubmit}
-      className={`${className || ''} card no-border radius-10 shadow-xl p-5`}
+      className={`${className || ''} card no-border rounded-lg shadow-3xl p-5`}
     >
-      <h4 className="tw-normal">{intl.formatMessage(PREENCHA)}</h4>
+      <h4 className="font-normal">{intl.formatMessage(PREENCHA)}</h4>
       <hr />
 
       <FormGroup
@@ -125,7 +126,7 @@ const ProjectApplicationUserFormProps: React.FC<
         label={intl.formatMessage(TELEFONE)}
         error={touched.phone ? errors.phone : undefined}
         length={values.phone.length}
-        className="mb-4"
+        className="mb-6"
         hint={intl.formatMessage(HINT)}
       >
         <MaskedTextInput
@@ -146,7 +147,7 @@ const ProjectApplicationUserFormProps: React.FC<
         label={intl.formatMessage(NASCIMENTO)}
         error={touched.birthday_date ? errors.birthday_date : undefined}
         length={values.birthday_date.length}
-        className="mb-4"
+        className="mb-6"
         hint={intl.formatMessage(HINT)}
       >
         <MaskedTextInput
@@ -166,7 +167,7 @@ const ProjectApplicationUserFormProps: React.FC<
         labelFor="profile-input-city"
         label={intl.formatMessage(CIDADE)}
         error={touched.city ? errors.city : undefined}
-        className="mb-4"
+        className="mb-6"
       >
         <InputAddress
           id="register-input-city"
@@ -192,7 +193,7 @@ const ProjectApplicationUserFormProps: React.FC<
         label={intl.formatMessage(GENERO)}
         error={touched.gender ? errors.gender : undefined}
         length={values.gender.length}
-        className="mb-4"
+        className="mb-6"
         required={false}
       >
         <select
@@ -211,9 +212,9 @@ const ProjectApplicationUserFormProps: React.FC<
         </select>
       </FormGroup>
 
-      <p className="tc-muted ts-small">{intl.formatMessage(PODE_EDITAR)}</p>
+      <p className="text-gray-600 text-sm">{intl.formatMessage(PODE_EDITAR)}</p>
 
-      <div className="ta-right">
+      <div className="text-right">
         <button
           type="submit"
           className="btn btn--size-3 btn-primary"
@@ -252,10 +253,7 @@ const ProjectApplicationUserFormSchema = Yup.object().shape({
     .required(),
 })
 
-export default connect(
-  mapStateToProps,
-  { onSubmit: updateUser },
-)(
+export default connect(mapStateToProps, { onSubmit: updateUser })(
   withFormik<ProjectApplicationUserFormProps, Values>({
     displayName: 'ProjectApplicationUserFormProps',
     mapPropsToValues: ({ currentUser, currentPublicUser }) => ({

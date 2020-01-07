@@ -9,31 +9,30 @@ interface ViewerPageNavItemProps {
   readonly active?: boolean
 }
 
-const ViewerSettingsNavItem: React.FC<
+const ViewerSettingsNavItem: React.FC<ViewerPageNavItemProps> = React.forwardRef<
+  HTMLAnchorElement,
   ViewerPageNavItemProps
-> = React.forwardRef<HTMLAnchorElement, ViewerPageNavItemProps>(
-  ({ className, icon, children, active, ...props }) => {
-    return (
-      <a
-        {...props}
+>(({ className, icon, children, active, ...props }) => {
+  return (
+    <a
+      {...props}
+      className={cx(
+        'rounded-full px-3 py-2 block leading-loose text-gray-800',
+        active ? 'text-primary-500' : 'hover:bg-gray-300',
+        className,
+      )}
+    >
+      <Icon
+        name={icon}
         className={cx(
-          'rounded-full px-2 py-1 block leading-loose tc-gray-800',
-          active ? 'tc-primary-500' : 'hover:bg-gray-300',
-          className,
+          'rounded-full w-8 h-8 text-center mr-4 text-lg leading-relaxed',
+          active ? 'bg-primary-500 text-white' : 'bg-gray-300',
         )}
-      >
-        <Icon
-          name={icon}
-          className={cx(
-            'rounded-full w-8 h-8 ta-center mr-3 text-lg leading-relaxed',
-            active ? 'bg-primary-500 tc-white' : 'bg-gray-300',
-          )}
-        />
-        {children}
-      </a>
-    )
-  },
-)
+      />
+      {children}
+    </a>
+  )
+})
 
 ViewerSettingsNavItem.displayName = 'ViewerPageNavItem'
 

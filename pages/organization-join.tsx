@@ -99,16 +99,16 @@ const OrganizationJoinPage: NextPage<OrganizationJoinPageProps> = ({
   return (
     <Layout className="bg-gray-300">
       <Meta title={intl.formatMessage(m.metaTitle)} />
-      <div className="py-10 container">
+      <div className="py-32 container">
         <div className="bg-white max-w-lg rounded-lg shadow-lg p-5 mx-auto">
           {!organization && (
             <ActivityIndicator size={32} fill="rgba(0,0,0,.5)" />
           )}
           {organization && user && (
             <>
-              <div className="ta-center mb-4">
+              <div className="text-center mb-6">
                 <figure
-                  className="w-16 h-16 rounded-full inline-block vertical-align-middle mb-0"
+                  className="w-16 h-16 rounded-full inline-block align-middle mb-0"
                   style={
                     user.avatar
                       ? {
@@ -119,12 +119,9 @@ const OrganizationJoinPage: NextPage<OrganizationJoinPageProps> = ({
                       : { backgroundColor: Color.gray[300] }
                   }
                 />
-                <Icon
-                  name="add"
-                  className="text-3xl vertical-align-middle mx-3"
-                />
+                <Icon name="add" className="text-3xl align-middle mx-4" />
                 <figure
-                  className="w-16 h-16 rounded-full inline-block vertical-align-middle mb-0"
+                  className="w-16 h-16 rounded-full inline-block align-middle mb-0"
                   style={
                     organization.image
                       ? {
@@ -136,14 +133,14 @@ const OrganizationJoinPage: NextPage<OrganizationJoinPageProps> = ({
                   }
                 />
               </div>
-              <h2 className="ta-center">
+              <h2 className="text-center">
                 <FormattedHTMLMessage
                   id="organizationJoin.title"
-                  defaultMessage={`<span class="tw-normal">Um convite por</span> {organizationName}`}
+                  defaultMessage={`<span class="font-normal">Um convite por</span> {organizationName}`}
                   values={{ organizationName: organization.name }}
                 />
               </h2>
-              <p className="mb-3 ta-center">
+              <p className="mb-4 text-center">
                 <FormattedMessage
                   id="organizationJoin.description"
                   defaultMessage="
@@ -152,7 +149,7 @@ const OrganizationJoinPage: NextPage<OrganizationJoinPageProps> = ({
                 />
               </p>
               {viewer && viewer.slug !== userSlug && (
-                <span className="tc-red-700 mb-2 block ta-center">
+                <span className="text-red-700 mb-2 block text-center">
                   <FormattedHTMLMessage
                     id="organizationJoin.differentAccount"
                     defaultMessage="Você não esta logado como <b>{firstName}</b>"
@@ -166,9 +163,9 @@ const OrganizationJoinPage: NextPage<OrganizationJoinPageProps> = ({
                   viewer && viewer.slug === userSlug
                     ? 'btn-success'
                     : viewer
-                    ? 'btn-outline-error'
+                    ? 'text-red-500 border-red-500'
                     : 'btn-outline-primary'
-                } mb-3`}
+                } mb-4`}
                 onClick={handleClick}
                 disabled={state.loading}
               >
@@ -202,7 +199,7 @@ const OrganizationJoinPage: NextPage<OrganizationJoinPageProps> = ({
               </button>
               {viewer && userSlug !== viewer.slug}
               <Link href="/">
-                <a className="tc-muted tw-normal btn--size-3 btn btn--block btn-text">
+                <a className="text-gray-600 font-normal btn--size-3 btn btn--block btn-text">
                   <FormattedMessage
                     id="organizationJoin.deny"
                     defaultMessage="Não tenho interesse"
@@ -210,7 +207,7 @@ const OrganizationJoinPage: NextPage<OrganizationJoinPageProps> = ({
                 </a>
               </Link>
               {state.error && (
-                <span className="block tc-red-700 mt-3 rounded-lg bg-red-200 p-3">
+                <span className="block text-red-700 mt-4 rounded-lg bg-red-200 p-3">
                   <Icon name="error" className="mr-1" />
                   {state.error}
                 </span>

@@ -15,15 +15,13 @@ interface NewPasswordRecoveryRequestProps {
   readonly className?: string
 }
 
-const NewPasswordRecoveryRequest: React.FC<
-  NewPasswordRecoveryRequestProps
-> = () => {
+const NewPasswordRecoveryRequest: React.FC<NewPasswordRecoveryRequestProps> = () => {
   const intl = useIntl()
 
   return (
     <Layout>
       <Meta title={intl.formatMessage(m.title)} />
-      <div className="py-5 bg-muted">
+      <div className="py-8 bg-muted">
         <div className="container container--sm">
           <div className="card rounded-lg p-5">
             <AuthenticationRecover />

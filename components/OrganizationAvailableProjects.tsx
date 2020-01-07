@@ -5,9 +5,9 @@ interface OrganizationAvailableProjectsProps {
   readonly className?: string
 }
 
-const OrganizationAvailableProjects: React.FC<
-  OrganizationAvailableProjectsProps
-> = ({ className }) => {
+const OrganizationAvailableProjects: React.FC<OrganizationAvailableProjectsProps> = ({
+  className,
+}) => {
   return <div className={cx(className, '')} />
 }
 

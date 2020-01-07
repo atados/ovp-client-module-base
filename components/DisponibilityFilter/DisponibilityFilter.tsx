@@ -200,7 +200,7 @@ class DisponibilityFilter extends React.Component<
         onReset={this.reset}
       >
         <div className="p-3">
-          <h4 className="tw-normal ts-medium mb-3">
+          <h4 className="font-normal text-lg mb-4">
             {intl.formatMessage(FILTRAR)}
           </h4>
           <List>

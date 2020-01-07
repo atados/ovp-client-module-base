@@ -104,7 +104,7 @@ const InboxConversationBody: React.FC<InboxConversationBodyProps> = ({
               <InboxMessage
                 key={message.id}
                 className={
-                  lastFromSegment && i !== messages.length - 1 ? 'mb-3' : ''
+                  lastFromSegment && i !== messages.length - 1 ? 'mb-4' : ''
                 }
                 sent={sentByViewer}
                 firstFromSegment={firstFromSegment}

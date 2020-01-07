@@ -186,7 +186,7 @@ const InboxFilters: React.FC<InboxFiltersProps> = ({
                   : { backgroundColor: user.profile.color }
               }
             />
-            <OptionName className="text-truncate block">Eu</OptionName>
+            <OptionName className="truncate block">Eu</OptionName>
           </Option>
         </Link>
         {user.organizations.map(organization => {
@@ -216,7 +216,7 @@ const InboxFilters: React.FC<InboxFiltersProps> = ({
                         : undefined
                     }
                   />
-                  <OptionName className="text-truncate block">
+                  <OptionName className="truncate block">
                     {organization.name}
                   </OptionName>
                   <OptionDropButton
@@ -240,7 +240,7 @@ const InboxFilters: React.FC<InboxFiltersProps> = ({
                       as={`/mensaagens/${organization.slug}/?filter=${filter.id}`}
                     >
                       <ChildOption active>
-                        <span className="text-truncate block">
+                        <span className="truncate block">
                           Voluntários por brumadinho
                         </span>
                       </ChildOption>

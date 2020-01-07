@@ -51,10 +51,10 @@ const VolunteerDropdown: React.FC<VolunteerDropdownProps> = ({ className }) => {
     >
       <div className="p-4">
         <PageLink href="SearchProjects" passHref>
-          <Anchor className="block tc-base rounded-lg px-2 py-1 leading-loose h-12 bg-primary-100 hover:bg-primary-200 mb-2 tw-medium">
+          <Anchor className="block text-gray-800 rounded-lg px-3 py-2 leading-loose h-12 bg-primary-100 hover:bg-primary-200 mb-2 font-medium">
             <VolunteerIcon
               fill={Color.primary[500]}
-              className="vertical-align-middle icon"
+              className="align-middle icon"
               width={20}
               height={20}
             />
@@ -66,8 +66,8 @@ const VolunteerDropdown: React.FC<VolunteerDropdownProps> = ({ className }) => {
         </PageLink>
 
         <PageLink href="SearchOrganizations" passHref>
-          <Anchor className="block tc-base rounded-lg px-2 py-1 h-12 leading-loose bg-secondary-100 hover:bg-secondary-200 tw-medium">
-            <Icon name="explore" className="tc-secondary-600" />
+          <Anchor className="block text-gray-800 rounded-lg px-3 py-2 h-12 leading-loose bg-secondary-100 hover:bg-secondary-200 font-medium">
+            <Icon name="explore" className="text-secondary-600" />
             <FormattedMessage
               id="toolbarVolunteerDropdown.findOrganizations"
               defaultMessage="Encontre ONGs"

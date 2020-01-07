@@ -181,16 +181,16 @@ const ProjectPageRoles: React.FC<ProjectPageRolesProps> = ({
   if (project.closed || project.canceled) {
     return (
       <div className={className}>
-        <div className="card radius-10 p-4">
-          <span className="ts-large block">
+        <div className="card rounded-lg p-4">
+          <span className="text-xl block">
             {intl.formatMessage(VAGA_ENCERRADA)}
           </span>
-          <span className="ts-small tc-muted">
+          <span className="text-sm text-gray-600">
             {intl.formatMessage(VAGA_ENCERRADA_TEXT)}
           </span>
           <hr />
           <Link href={Page.SearchProjects}>
-            <a className="btn btn-white tc-primary-500 btn--size-3 btn--block">
+            <a className="btn bg-white text-primary-500 btn--size-3 btn--block">
               {intl.formatMessage(BUSCAR_MAIS)}
             </a>
           </Link>
@@ -201,12 +201,12 @@ const ProjectPageRoles: React.FC<ProjectPageRolesProps> = ({
 
   return (
     <div className={className}>
-      <h4 className="mb-4">{intl.formatMessage(COMO_CONTRIBUIR)}</h4>
+      <h4 className="mb-6">{intl.formatMessage(COMO_CONTRIBUIR)}</h4>
       {project.roles.map(role => (
         <Role
           key={role.id}
           type="button"
-          className="mb-4"
+          className="mb-6"
           onClick={onApply ? () => onApply(role.id) : undefined}
         >
           <RoleApply>
@@ -223,7 +223,7 @@ const ProjectPageRoles: React.FC<ProjectPageRolesProps> = ({
           </RoleSectionTitle>
           <RoleText>{role.prerequisites}</RoleText>
           <div className="flex">
-            <span className="tw-medium mr-2">
+            <span className="font-medium mr-2">
               {role.applied_count}/{role.vacancies}
             </span>
             <div className="mr-auto" />

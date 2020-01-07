@@ -54,13 +54,13 @@ const ToolbarApplicationsItem: React.FC<ToolbarApplicationsItemProps> = ({
     >
       <Link href={Page.Project} as={PageAs.Project({ slug: project.slug })}>
         <a
-          className={`tc-base td-hover-none block p-2 pl-5 ${
-            active ? '' : 'hover:bg-muted'
+          className={`text-base td-hover-none block p-2 pl-8 ${
+            active ? '' : 'hover:bg-gray-200'
           }`}
           onClick={onClick}
         >
           <div
-            className={`w-12 h-12 block rounded -ml-3 float-left bg-cover mr-3 ${
+            className={`w-12 h-12 block rounded -ml-4 float-left bg-cover bg-center mr-4 ${
               !project.image ? 'bg-muted' : ''
             }`}
             style={
@@ -74,24 +74,24 @@ const ToolbarApplicationsItem: React.FC<ToolbarApplicationsItemProps> = ({
           <div className="flex-grow">
             <button
               className={`btn btn-muted w-10 h-10 rounded-full p-0 float-right ${
-                active ? 'bg-primary-500 tc-white' : ''
+                active ? 'bg-primary-500 text-white' : ''
               }`}
             >
               <Icon name={active ? 'check' : 'keyboard_arrow_down'} />
             </button>
-            <span className="ts-medium tw-medium text-truncate block">
+            <span className="text-lg font-medium truncate block">
               {project.name}
             </span>
-            <span className="tc-muted ts-small text-truncate block">
+            <span className="text-gray-600 text-sm truncate block">
               {application.status === 'applied' && (
                 <>
-                  <span className="tc-green-500 tw-medium bg-green-100 px-1">
+                  <span className="text-green-500 font-medium bg-green-100 px-2">
                     <FormattedMessage
                       id="toolbarApplicationsItem.applied"
                       defaultMessage="Inscrito"
                     />
                   </span>
-                  <span className="tc-gray-500"> . </span>
+                  <span className="text-gray-500"> . </span>
                 </>
               )}
 
@@ -103,11 +103,11 @@ const ToolbarApplicationsItem: React.FC<ToolbarApplicationsItemProps> = ({
       {active && (
         <>
           <hr className="my-0" />
-          <Actions className="py-1 animate-slideInUp">
+          <Actions className="py-2 animate-slideInUp">
             {application.status === 'applied' && (
               <button
                 onClick={handleClick}
-                className="btn btn--block py-1 px-2 ta-left hover:bg-muted"
+                className="btn btn--block py-2 px-3 text-left hover:bg-gray-200"
               >
                 <Icon name="assignment" className="mr-2" />
                 <FormattedMessage
@@ -120,7 +120,7 @@ const ToolbarApplicationsItem: React.FC<ToolbarApplicationsItemProps> = ({
               href={Page.Project}
               as={PageAs.Project({ slug: project.slug })}
             >
-              <a className="btn btn--block py-1 px-2 ta-left hover:bg-muted tc-base tw-normal">
+              <a className="btn btn--block py-2 px-3 text-left hover:bg-gray-200 text-base font-normal">
                 <Icon name="launch" className="mr-2" />
                 <FormattedMessage
                   id="toolbarApplicationsItem.viewPage"

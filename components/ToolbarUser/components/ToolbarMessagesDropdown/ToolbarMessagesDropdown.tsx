@@ -141,7 +141,7 @@ const ToolbarMessagesDropdown: React.FC<ToolbarMessagesDropdownProps> = ({
   return (
     <ToolbarDropdown className={className} title="Mensagens" href="/mensagens">
       <Header>
-        <Icon name="email" className="tc-primary-500" />
+        <Icon name="email" className="text-primary-500" />
         <ViewerSelector>
           <Viewer
             className={`btn btn-${

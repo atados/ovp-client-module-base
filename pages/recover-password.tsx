@@ -69,10 +69,10 @@ class AuthenticationRecover extends React.Component<
     if (status === Status.Success) {
       children = (
         <Container className={className}>
-          <div className="ta-center">
-            <h2 className="tw-medium mb-1">Senha recuperada</h2>
+          <div className="text-center">
+            <h2 className="font-medium mb-1">Senha recuperada</h2>
             <Link href={Page.Login}>
-              <a className="btn btn-primary tw-normal btn--block btn--size-4">
+              <a className="btn btn-primary font-normal btn--block btn--size-4">
                 Ir para o login
               </a>
             </Link>
@@ -87,12 +87,12 @@ class AuthenticationRecover extends React.Component<
             method="POST"
             onSubmit={handleSubmit}
           >
-            <h2 className="tw-medium mb-3 ta-center">Recuperar senha</h2>
+            <h2 className="font-medium mb-4 text-center">Recuperar senha</h2>
             <FormGroup
               label="Nova senha"
               labelFor="recover-input-password"
               error={touched.password ? errors.password : undefined}
-              className="mb-4"
+              className="mb-6"
             >
               <input
                 id="recover-input-password"
@@ -111,7 +111,7 @@ class AuthenticationRecover extends React.Component<
               error={
                 touched.confirmPassword ? errors.confirmPassword : undefined
               }
-              className="mb-4"
+              className="mb-6"
             >
               <input
                 id="recover-input-confirm-password"
@@ -134,7 +134,7 @@ class AuthenticationRecover extends React.Component<
               {isSubmitting ? 'Enviando...' : 'Enviar'}
             </button>
             {status === Status.EqualsEmail && (
-              <span className="d-Block ta-center tc-error mt-3">
+              <span className="d-Block text-center text-red-600 mt-4">
                 <FormattedMessage
                   id="page.recoverPassword.error.equalEmail"
                   defaultMessage="A senha é muito parecida com o email"
@@ -142,7 +142,7 @@ class AuthenticationRecover extends React.Component<
               </span>
             )}
             {status === Status.PasswordTooSimilar && (
-              <span className="d-Block ta-center tc-error mt-3">
+              <span className="d-Block text-center text-red-600 mt-4">
                 <FormattedMessage
                   id="page.recoverPassword.error.tooSimiliar"
                   defaultMessage="A senha é muito parecida com o email o a senha antiga"
@@ -150,7 +150,7 @@ class AuthenticationRecover extends React.Component<
               </span>
             )}
             {status === Status.Error && (
-              <span className="d-Block ta-center tc-error mt-3">
+              <span className="d-Block text-center text-red-600 mt-4">
                 <FormattedMessage
                   id="page.recoverPassword.error.internal"
                   defaultMessage="Falha ao conectar com o servidor"
@@ -165,7 +165,7 @@ class AuthenticationRecover extends React.Component<
     return (
       <Layout>
         <Meta title="Recuperar senha" />
-        <div className="py-5 bg-muted">
+        <div className="py-8 bg-muted">
           <div className="container container--sm">
             <div className="card p-5">{children}</div>
           </div>
@@ -177,13 +177,13 @@ class AuthenticationRecover extends React.Component<
 
 const AuthenticationRecoverSchema = Yup.object().shape({
   password: Yup.string()
-    .min(8)
-    .max(100)
+    .min(6)
+    .max(200)
     .required(),
   confirmPassword: Yup.string()
     .equals('password')
-    .min(8)
-    .max(100)
+    .min(6)
+    .max(200)
     .required(),
 })
 const mapDispatchToProps = dispatch => ({

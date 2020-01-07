@@ -22,9 +22,9 @@ interface AuthenticationNewAccountFeedbackProps {
   readonly className?: string
 }
 
-const AuthenticationNewAccountFeedback: React.FC<
-  AuthenticationNewAccountFeedbackProps
-> = ({ className }) => {
+const AuthenticationNewAccountFeedback: React.FC<AuthenticationNewAccountFeedbackProps> = ({
+  className,
+}) => {
   const modalManager = useModalManager()
   const viewer = useSelector((state: RootState) => state.user)
   const intl = useIntl()
@@ -35,7 +35,7 @@ const AuthenticationNewAccountFeedback: React.FC<
     <div className={className}>
       <div className="max-w-sm mx-auto">
         {viewer ? (
-          <div className="ta-center">
+          <div className="text-center">
             <img
               src={Asset.LogoLight}
               alt=""
@@ -45,11 +45,11 @@ const AuthenticationNewAccountFeedback: React.FC<
             />
             <h1 className="h2">{intl.formatMessage(m.title)}</h1>
             <p>{intl.formatMessage(m.subtitle)}</p>
-            <div className="w-20 h-20 rounded-circle shadow-lg bg-gray-200 my-4 mx-auto tc-gray-400 ta-center h1 py-3">
+            <div className="w-20 h-20 rounded-full shadow-lg bg-gray-200 my-6 mx-auto text-gray-400 text-center h1 py-4">
               <Icon name="person" />
             </div>
             <h5>{viewer.name}</h5>
-            <span className="block mb-3 tc-gray-700">
+            <span className="block mb-4 text-gray-700">
               <FormattedMessage
                 id="authenticationNewAccountFeedback.nextStepDescription"
                 defaultMessage="Continue para completar o seu perfil e receber indicações de vagas mais compatíveis com suas causas."
@@ -58,7 +58,7 @@ const AuthenticationNewAccountFeedback: React.FC<
             <Link href={Page.Home}>
               <a
                 onClick={handleCloseClick}
-                className="btn bg-gray-200 tc-gray-800 mr-3"
+                className="btn bg-gray-200 text-gray-800 mr-4"
               >
                 Pular <Icon name="close" />
               </a>

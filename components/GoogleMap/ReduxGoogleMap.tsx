@@ -106,7 +106,4 @@ const mapDispatchToProps = (dispatch, { nodeKind }: ReduxGoogleMapProps) => ({
       : (slug: string) => dispatch(fetchOrganization(slug)),
 })
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(ReduxGoogleMap)
+export default connect(mapStateToProps, mapDispatchToProps)(ReduxGoogleMap)

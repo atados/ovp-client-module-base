@@ -64,10 +64,6 @@ const DashboardNavInner = styled.div`
     height: 100vh;
   }
 
-  &::-webkit-scrollbar {
-    display: none;
-  }
-
   .navbar-nav {
     min-width: 500px;
   }
@@ -137,10 +133,10 @@ const OrganizationLayout: React.FC<OrganizationLayoutProps> = ({
       <Layout toolbarProps={{ flat: true, fixed: true }} {...layoutProps}>
         {isViewerMember && organization && (
           <DashboardNav>
-            <DashboardNavInner>
-              <div className="navbar navbar-expand navbar-light">
-                <div className="container">
-                  <ul className="nav navbar-nav">
+            <DashboardNavInner className="scrollbar-hidden">
+              <div className="navbar navbar-expand navbar-light flex-no-wrap">
+                <div className="container px-2">
+                  <ul className="nav navbar-nav flex-no-wrap">
                     <li>
                       <Link
                         href={Page.Organization}
@@ -150,7 +146,7 @@ const OrganizationLayout: React.FC<OrganizationLayoutProps> = ({
                       >
                         <CurrentOrganizationLink
                           href={`/ong/${organization.slug}`}
-                          className="nav-link text-truncate"
+                          className="nav-link truncate"
                         >
                           <CurrentOrganizationImage
                             style={

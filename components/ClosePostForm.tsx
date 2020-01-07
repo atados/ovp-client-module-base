@@ -1,10 +1,10 @@
 import React, { useCallback } from 'react'
 import { connect } from 'react-redux'
-import useTriggerableFetchApi from '~/hooks/use-trigglerable-fetch-api'
+import useFetchAPIMutation from '~/base/hooks/use-fetch-api-mutation'
 import { reportError } from '~/lib/utils/error'
 import { Project, updateProject } from '~/redux/ducks/project'
 import { User } from '~/redux/ducks/user'
-import { Post } from '~/types/api'
+import { API } from '~/base/types/api'
 import ActivityIndicator from './ActivityIndicator'
 import Icon from './Icon'
 
@@ -12,7 +12,7 @@ export interface ClosePostFormProps {
   readonly className?: string
   readonly viewer: User
   readonly project: Project
-  readonly post: Post
+  readonly post: API.Post
   readonly onFinish: () => void
   readonly onUpdateProject: (
     changes: Partial<Project> & { slug: string },
@@ -26,13 +26,13 @@ const ClosePostForm: React.FC<ClosePostFormProps> = ({
   onUpdateProject,
   post,
 }) => {
-  const { trigger, loading } = useTriggerableFetchApi(
-    `/projects/${project.slug}/post/${post.id}/`,
-    { method: 'DELETE' },
-  )
+  const { mutate, loading } = useFetchAPIMutation(() => ({
+    endpoint: `/projects/${project.slug}/post/${post.id}/`,
+    method: 'DELETE',
+  }))
   const onSubmit = useCallback(async () => {
     try {
-      await trigger()
+      await mutate()
       onUpdateProject({
         posts: project.posts.filter(postItem => postItem.id !== post.id),
         slug: project.slug,
@@ -42,11 +42,11 @@ const ClosePostForm: React.FC<ClosePostFormProps> = ({
     }
 
     onFinish()
-  }, [trigger, project])
+  }, [mutate, project])
 
   return (
     <div className={className}>
-      <h4 className="tw-normal">
+      <h4 className="font-normal">
         Tem certeza que deseja remover essa publicação?
       </h4>
 
@@ -84,7 +84,6 @@ const ClosePostForm: React.FC<ClosePostFormProps> = ({
 
 ClosePostForm.displayName = 'ClosePostForm'
 
-export default connect(
-  undefined,
-  { onUpdateProject: updateProject },
-)(ClosePostForm)
+export default connect(undefined, { onUpdateProject: updateProject })(
+  ClosePostForm,
+)

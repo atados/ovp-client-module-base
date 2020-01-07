@@ -105,8 +105,8 @@ class Tour extends React.Component<TourProps, TourState> {
       <>
         <Figure style={slide.figureStyle} />
         <Body>
-          <h4 className="ts-large">{slide.title}</h4>
-          <p className="tc-muted-dark">{slide.description}</p>
+          <h4 className="text-xl">{slide.title}</h4>
+          <p className="text-gray-700">{slide.description}</p>
         </Body>
       </>
     )
@@ -167,7 +167,7 @@ class Tour extends React.Component<TourProps, TourState> {
           {firstSlide && firstSlide.id !== slideId && (
             <button
               type="button"
-              className="btn btn-text tc-link"
+              className="btn btn-text text-anchor"
               onClick={this.previous}
             >
               {' '}
@@ -187,7 +187,7 @@ class Tour extends React.Component<TourProps, TourState> {
           {lastSlide && slideId !== lastSlide.id && (
             <button
               type="button"
-              className="btn btn-text tc-link"
+              className="btn btn-text text-anchor"
               onClick={this.next}
             >
               Proxima <Icon name="arrow_forward" className="ml-1" />
@@ -196,7 +196,7 @@ class Tour extends React.Component<TourProps, TourState> {
           {lastSlide && slideId === lastSlide.id && (
             <button
               type="button"
-              className="btn btn-text tc-link"
+              className="btn btn-text text-anchor"
               onClick={onFinish}
             >
               Concluir <Icon name="check" className="ml-1" />

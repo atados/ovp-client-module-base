@@ -6,6 +6,7 @@ import NextDocument, {
   NextScript,
 } from 'next/document'
 import { ServerStyleSheet } from 'styled-components'
+import generatedStyledFileName from '../../public/static/generated/css-filename.json'
 
 interface DocumentProps {
   readonly locale: string
@@ -52,6 +53,10 @@ export default class Document extends NextDocument<DocumentProps> {
           />
           <link
             href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,500,500i,700"
+            rel="stylesheet"
+          />
+          <link
+            href={`/static/generated/${generatedStyledFileName}`}
             rel="stylesheet"
           />
           {this.props.styleTags}

@@ -1,15 +1,13 @@
 const dotenv = require('dotenv')
 const loadChannelConfig = require('../internals/channel/load-channel-config')
 const syncBasePackage = require('../internals/channel/sync-base-package')
-const withCSS = require('@zeit/next-css')
 
 const channel = loadChannelConfig()
 
 // Load environment variables
 dotenv.config()
 
-module.exports = withCSS({
-  cssModules: false,
+module.exports = {
   target: 'serverless',
   env: {
     LOGGING: process.env.NODE_LOGGING,
@@ -41,4 +39,4 @@ module.exports = withCSS({
 
     return config
   },
-})
+}

@@ -17,11 +17,14 @@ const generateCSSWithColorMap = (
   selector: string,
   property: string,
   modifier: string = '',
+  formatValue?: (value: string) => string,
 ) => {
   return Object.keys(colorMap)
     .map(
       intensity => `${selector}-${intensity}${modifier} {
-  ${property}: ${colorMap[intensity]} !important;
+  ${property}: ${
+        formatValue ? formatValue(colorMap[intensity]) : colorMap[intensity]
+      } !important;
 }`,
     )
     .join('\n\n')
@@ -199,6 +202,23 @@ export const generateCSS = (channel: Channel) => {
 
       ${generateCSSWithColorMap(
         channel.theme.color[colorName],
+        `.shadow-indicator-${colorName}`,
+        'box-shadow',
+        undefined,
+        value => `0 3px ${value}`,
+      )}
+
+
+      ${generateCSSWithColorMap(
+        channel.theme.color[colorName],
+        `.inset\\:shadow-indicator-${colorName}`,
+        'box-shadow',
+        undefined,
+        value => `inset 0 -3px ${value}`,
+      )}
+
+      ${generateCSSWithColorMap(
+        channel.theme.color[colorName],
         `.bg-${colorName}`,
         'background-color',
       )}
@@ -212,7 +232,7 @@ export const generateCSS = (channel: Channel) => {
 
       ${generateCSSWithColorMap(
         channel.theme.color[colorName],
-        `.tc-${colorName}`,
+        `.text-${colorName}`,
         'color',
       )}
 
@@ -221,7 +241,6 @@ export const generateCSS = (channel: Channel) => {
         `.border-${colorName}`,
         'border-color',
       )}
-
 
       ${generateCSSWithColorMap(
         channel.theme.color[colorName],
@@ -232,7 +251,7 @@ export const generateCSS = (channel: Channel) => {
 
       ${generateCSSWithColorMap(
         channel.theme.color[colorName],
-        `.hover\\:tc-${colorName}`,
+        `.hover\\:text-${colorName}`,
         'color',
         ':hover',
       )}

@@ -159,8 +159,8 @@ const ToolbarUser: React.FC<ToolbarUserProps> = ({
 }) => {
   const chatEnabled =
     user &&
-    (channel.config.chat.enabled &&
-      (!channel.config.chat.beta || user.chat_enabled))
+    channel.config.chat.enabled &&
+      (!channel.config.chat.beta || user.chat_enabled)
 
   const dropdownRef = useRef<Dropdown | null>(null)
   const handleDropdownToggle = useCallback(

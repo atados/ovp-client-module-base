@@ -28,7 +28,7 @@ import Yup from '~/lib/form/yup'
 import { causeToSelectItem, skillToSelectItem } from '~/lib/utils/form'
 import { Project } from '~/redux/ducks/project'
 import { User } from '~/redux/ducks/user'
-import { OrganizationMember } from '~/types/api'
+import { API } from '~/base/types/api'
 import { defineMessages, FormattedMessage } from 'react-intl'
 import { useIntl } from 'react-intl'
 import { isQueryReady } from '~/base/lib/apollo'
@@ -217,9 +217,10 @@ const {
   },
 })
 
-const ProjectComposerBasics: React.FC<
-  InjectedFormikProps<ProjectComposerBasicsProps, Values>
-> = ({
+const ProjectComposerBasics: React.FC<InjectedFormikProps<
+  ProjectComposerBasicsProps,
+  Values
+>> = ({
   handleChange,
   isValid,
   errors,
@@ -273,14 +274,14 @@ const ProjectComposerBasics: React.FC<
     },
     [setFieldValue],
   )
-  const queryMembers = useFetchAPI<OrganizationMember[]>(
+  const queryMembers = useFetchAPI<API.OrganizationMember[]>(
     `/organizations/${organization ? organization.slug : ''}/members/`,
     {
       skip: !organization,
     },
   )
 
-  const members: OrganizationMember[] = useMemo(() => {
+  const members: API.OrganizationMember[] = useMemo(() => {
     const arr = isQueryReady(queryMembers!) ? queryMembers.data || [] : []
 
     if (!Array.isArray(arr)) {
@@ -296,8 +297,8 @@ const ProjectComposerBasics: React.FC<
       isSubmitting={isFormSubmitting}
       disabled={!isValid}
       helpPanelChildren={
-        <div className="px-3 py-5">
-          <span className="tc-muted tw-medium ts-small mb-3 block ta-center">
+        <div className="px-4 py-8">
+          <span className="text-gray-600 font-medium text-sm mb-4 block text-center">
             {intl.formatMessage(COMO_VAI)}
           </span>
           <ProjectComposerCard values={values} className="mx-auto" />
@@ -305,10 +306,10 @@ const ProjectComposerBasics: React.FC<
       }
     >
       {mode !== FormComposerMode.EDIT && (
-        <h4 className="tc-muted ts-small">{intl.formatMessage(ETAPA1)}</h4>
+        <h4 className="text-gray-600 text-sm">{intl.formatMessage(ETAPA1)}</h4>
       )}
-      <h1 className="tw-light mb-1">{intl.formatMessage(INFO)}</h1>
-      <p className="ts-medium tc-muted-dark mb-4">
+      <h1 className="font-light mb-1">{intl.formatMessage(INFO)}</h1>
+      <p className="text-lg text-gray-700 mb-6">
         {intl.formatMessage(PREENCHA_INFO)}
       </p>
 
@@ -318,7 +319,7 @@ const ProjectComposerBasics: React.FC<
         error={touched.name ? errors.name : undefined}
         length={values.name.length}
         maxLength={150}
-        className="mb-4"
+        className="mb-6"
         hint={intl.formatMessage(NOME_VAGA_HINT)}
       >
         <input
@@ -339,7 +340,7 @@ const ProjectComposerBasics: React.FC<
         error={touched.description ? errors.description : undefined}
         length={values.description.length}
         maxLength={160}
-        className="mb-4"
+        className="mb-6"
         hint={intl.formatMessage(RESUMO_HINT)}
       >
         <Textarea
@@ -362,7 +363,7 @@ const ProjectComposerBasics: React.FC<
             ? errors.image && ((errors.image as any).payload || errors.image)
             : undefined
         }
-        className="mb-4"
+        className="mb-6"
         hint={intl.formatMessage(IMAGEM_HINT)}
       >
         <InputImage
@@ -378,7 +379,7 @@ const ProjectComposerBasics: React.FC<
         labelFor="project-input-address"
         label={intl.formatMessage(ENDERECO)}
         error={touched.address ? (errors.address as string) : undefined}
-        className="mb-3"
+        className="mb-4"
         hint={intl.formatMessage(ENDERECO_HINT)}
       >
         <InputAddress
@@ -393,7 +394,7 @@ const ProjectComposerBasics: React.FC<
       <input
         type="text"
         name="addressComplement"
-        className="input input--size-4 w-1/2 mb-3"
+        className="input input--size-4 w-1/2 mb-4"
         placeholder={intl.formatMessage(ENDERECO_COMPLEMENTO)}
         value={values.addressComplement}
         onChange={handleChange}
@@ -405,7 +406,7 @@ const ProjectComposerBasics: React.FC<
         label={intl.formatMessage(CAUSAS)}
         error={touched.causes ? ((errors.causes as any) as string) : undefined}
         length={values.causes.length}
-        className="mb-4"
+        className="mb-6"
         maxLength={3}
         hint={intl.formatMessage(CAUSAS_HINT)}
       >
@@ -424,7 +425,7 @@ const ProjectComposerBasics: React.FC<
         label={intl.formatMessage(HABILIDADES)}
         error={touched.skills ? ((errors.skills as any) as string) : undefined}
         length={values.skills.length}
-        className="mb-4"
+        className="mb-6"
         maxLength={3}
         hint={intl.formatMessage(HABILIDADES_HINT)}
       >
@@ -446,7 +447,7 @@ const ProjectComposerBasics: React.FC<
             ? (errors.benefitedPeople as string)
             : undefined
         }
-        className="mb-3"
+        className="mb-4"
         hint={intl.formatMessage(N_BENEFICIADOS_HINT)}
         required={false}
       >
@@ -466,7 +467,7 @@ const ProjectComposerBasics: React.FC<
           labelFor="project-input-owner_id"
           label={intl.formatMessage(RESPONSIBLE)}
           error={touched.owner_id ? errors.owner_id : undefined}
-          className="mb-4"
+          className="mb-6"
           hint={intl.formatMessage(RESPONSIBLE_HINT)}
         >
           <select

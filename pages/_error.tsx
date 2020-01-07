@@ -34,8 +34,8 @@ class ErrorPage extends React.Component<ErrorPageProps> {
     return (
       <Layout>
         <Meta title={title} />
-        <Container className="container container--sm ta-center">
-          <h1 className="tc-muted-dark">{title}.</h1>
+        <Container className="container px-2 max-w-lg text-center">
+          <h1 className="text-gray-700">{title}.</h1>
           <p>
             Esta página pode ser particular. Se alguém deu este link a você, ele
             precisa convidá-lo para a ONG.

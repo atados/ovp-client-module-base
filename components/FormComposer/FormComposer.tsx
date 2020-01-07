@@ -545,12 +545,12 @@ class FormComposer extends React.Component<
         >
           {statusMessage && (
             <Status className="animate-slideInUp">
-              <div className="container ta-center">
-                <span className="tc-white tw-medium">{statusMessage}</span>
+              <div className="container px-2 text-center">
+                <span className="text-white font-medium">{statusMessage}</span>
               </div>
             </Status>
           )}
-          <div className="container">
+          <div className="container px-2">
             {children}
             <Card className="card">
               {header === false

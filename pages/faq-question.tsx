@@ -20,37 +20,39 @@ interface FaqQuestionPageProps {
 
 const FaqQuestionPage: NextPage<FaqQuestionPageProps> = ({ questionId }) => {
   const faqQuery = useFetchAPI<Question[]>('/faq/')
-  const questions = faqQuery.data ? faqQuery.data : []
+  const questions = faqQuery?.data || []
   const question = questions.find(q => q.id === questionId)
 
   return (
     <FAQLayout>
       <Meta />
-      <div className="bg-gray-200 py-5">
-        <div className="container">
-          <div className="bg-white rounded-lg px-3 py-5 px-md-5 shadow">
+      <div className="bg-gray-200 py-8">
+        <div className="container px-2">
+          <div className="bg-white rounded-lg px-4 py-8 md:px-8 shadow">
             {question && (
-              <div className="container container--md">
-                <div className="mb-3 text-truncate">
+              <div className="container max-w-3xl">
+                <div className="mb-4 truncate">
                   <Link href={Page.FAQ}>
-                    <a className="tc-gray-500">FAQ</a>
+                    <a className="text-gray-500">FAQ</a>
                   </Link>
-                  <Icon name="chevron_right" className="tc-gray-500 mx-1" />
-                  <span className="tc-gray-500">{question.category.name}</span>
-                  <Icon name="chevron_right" className="tc-gray-500 mx-1" />
-                  <span className="tc-gray-500">{question.question}</span>
+                  <Icon name="chevron_right" className="text-gray-500 mx-1" />
+                  <span className="text-gray-500">
+                    {question.category.name}
+                  </span>
+                  <Icon name="chevron_right" className="text-gray-500 mx-1" />
+                  <span className="text-gray-500">{question.question}</span>
                 </div>
-                <h1 className="text-3xl mb-3 leading-relaxed">
+                <h1 className="text-3xl mb-4 leading-relaxed">
                   {question.question}
                 </h1>
                 <Answer
                   dangerouslySetInnerHTML={{ __html: question.answer }}
-                  className="mb-5"
+                  className="mb-12"
                 />
               </div>
             )}
           </div>
-          <div className="container container--md mt-4">
+          <div className="container max-w-3xl mt-6">
             <FAQSupport />
           </div>
         </div>

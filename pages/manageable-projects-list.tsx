@@ -1,44 +1,28 @@
-import moment from 'moment'
 import { NextPage } from 'next'
-import Link from 'next/link'
 import Router from 'next/router'
 import queryString from 'querystring'
-import React, { useCallback, useMemo, useRef, useState } from 'react'
+import React, { useCallback, useRef, useState } from 'react'
 import { Waypoint } from 'react-waypoint'
 import styled from 'styled-components'
 import { channel } from '~/common/constants'
 import ActivityIndicator from '~/components/ActivityIndicator'
-import {
-  DropdownMenu,
-  DropdownToggler,
-  DropdownWithContext,
-} from '~/components/Dropdown'
 import Icon from '~/components/Icon'
 import Layout from '~/components/Layout'
 import OrganizationLayout from '~/components/OrganizationLayout/OrganizationLayout'
-import ProjectStatusPill from '~/components/ProjectStatusPill'
 import useFetchAPI from '~/hooks/use-fetch-api'
+import useFetchAPIMutation from '~/hooks/use-fetch-api-mutation'
 import { NotFoundPageError } from '~/lib/next/errors'
 import { Project } from '~/redux/ducks/project'
 import { ApiPagination } from '~/redux/ducks/search'
 import { UserOrganization } from '~/redux/ducks/user'
-import { Page, PageAs } from '~/common'
 import { useIntl, defineMessages } from 'react-intl'
-import { fetchMoreProjects } from '../lib/utils/project'
 import Meta from '../components/Meta'
+import ManageableProjectTableRow from '../components/ManageableProjectsListPage/ManageableProjectTableRow'
+import { removeSearchFragmentFromURL } from '../lib/utils/string'
+import { useFetchClient } from 'react-fetch-json-hook'
 
 const PageStyled = styled.div`
   min-height: 100vh;
-`
-
-const Thumbnail = styled.figure`
-  width: 72px;
-  height: 72px;
-  background-color: #ddd;
-  border-radius: 4px;
-  margin: 0;
-  background-size: cover;
-  background-position: center;
 `
 
 const TableWrapper = styled.div`
@@ -75,47 +59,9 @@ const SearchForm = styled.div`
   }
 `
 
-const ProjectHead = styled.div`
-  padding-left: 90px;
-
-  > a {
-    color: #333;
-  }
-
-  > a > figure {
-    float: left;
-    margin-left: -90px;
-    margin-top: 3px;
-  }
-`
-
 const ClosedFilterInput = styled.select`
   width: 230px;
   font-weight: 500;
-`
-
-const DropdownAnchor = styled.a`
-  display: block;
-  padding: 7px 12px;
-  cursor: pointer;
-  color: #333;
-  font-size: 16px;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow: hidden;
-
-  &:hover {
-    background: ${channel.theme.color.primary[500]};
-    color: #fff;
-    text-decoration: none;
-  }
-`
-
-const ContextMenu = styled(DropdownMenu)`
-  left: auto;
-  width: 200px;
-  text-align: left;
-  padding: 5px 0;
 `
 
 const m = defineMessages({
@@ -198,6 +144,7 @@ const ManageableProjectsList: NextPage<ManageableProjectsListProps> = ({
     filters.query,
   )
 
+  const fetchClient = useFetchClient()
   const queryResult = useFetchAPI<ApiPagination<Project>>(
     `/search/projects/?${queryString.stringify({
       ordering: '-created_date',
@@ -207,24 +154,42 @@ const ManageableProjectsList: NextPage<ManageableProjectsListProps> = ({
           ? String(filters.status === 'published')
           : 'both',
       closed:
-        filters.status === 'unpublished' || filters.status === 'published'
+        filters.status === 'published'
           ? 'both'
+          : filters.status === 'unpublished'
+          ? 'false'
           : filters.status,
       query: filters.query,
       organization: organization ? organization.id : undefined,
     })}`,
+    {
+      id: 'manageable-projects',
+    },
+  )
+  const fetchMoreProjectsMutation = useFetchAPIMutation<ApiPagination<Project>>(
+    (nextURL: string) => ({
+      endpoint: nextURL.substr(nextURL.indexOf('/search') - 7),
+    }),
   )
 
-  const projects: Project[] = useMemo(() => {
-    if (queryResult.data && !queryResult.error) {
-      return queryResult.data.results
+  const projects: Project[] = queryResult.data?.results || []
+  const handleLoadMoreProjectsCallback = useCallback(async () => {
+    const nextURL = queryResult.data?.next
+    const prevResult = queryResult.data
+
+    if (nextURL && prevResult) {
+      const { data: nextResult } = await fetchMoreProjectsMutation.mutate()
+
+      if (!nextResult) {
+        return
+      }
+
+      fetchClient.set('manageable-projects', {
+        ...prevResult,
+        next: nextResult.next,
+        results: [...prevResult.results, ...nextResult.results],
+      })
     }
-
-    return []
-  }, [queryResult])
-
-  const handleLoadMoreProjectsCallback = useCallback(() => {
-    queryResult.fetchMore(fetchMoreProjects)
   }, [])
 
   const searchInputDebounceRef = useRef<number | null>(null)
@@ -257,29 +222,25 @@ const ManageableProjectsList: NextPage<ManageableProjectsListProps> = ({
   const handleClosedFilterInputChange = useCallback(event => {
     const { value } = event.target
 
+    const searchFragment = queryString.stringify({
+      closed: value,
+      query: filters.query,
+    })
     Router.push(
-      `${Router.pathname}?${queryString.stringify({
-        organizationSlug: organization && organization.slug,
-        closed: value,
-        query: filters.query,
-      })}`,
-      `${Router.asPath!.substr(
-        0,
-        Router.asPath!.indexOf('?'),
-      )}?${queryString.stringify({
-        closed: value,
-        query: filters.query,
-      })}`,
+      `${Router.pathname}?${searchFragment}`,
+      `${removeSearchFragmentFromURL(Router.asPath!)}?${searchFragment}`,
     )
   }, [])
 
   const body = (
-    <div className="container py-4">
+    <div className="container px-2 py-5">
       <Meta title={intl.formatMessage(m.title)} />
       <div className="rounded-lg bg-white shadow">
-        <div className="px-4 py-3 rounded-t-lg">
-          <h1 className="text-2xl tw-medium">{intl.formatMessage(m.title)}</h1>
-          <span className="mb-4 block tc-gray-600">
+        <div className="px-5 py-4 rounded-t-lg">
+          <h1 className="text-2xl font-medium">
+            {intl.formatMessage(m.title)}
+          </h1>
+          <span className="mb-6 block text-gray-600">
             {queryResult.data
               ? intl.formatMessage(m.projectsCount, {
                   value: queryResult.data.count,
@@ -298,7 +259,7 @@ const ManageableProjectsList: NextPage<ManageableProjectsListProps> = ({
               <Icon name="search" />
             </SearchForm>
             <ClosedFilterInput
-              className="input h-10 rounded-full px-3"
+              className="input h-10 rounded-full px-4"
               value={filters.status}
               onChange={handleClosedFilterInputChange}
             >
@@ -318,166 +279,26 @@ const ManageableProjectsList: NextPage<ManageableProjectsListProps> = ({
           <Table className="table table-default borderless">
             <tbody>
               {projects.map(project => (
-                <tr key={project.slug}>
-                  <td className="pl-4">
-                    <ProjectHead>
-                      <Link
-                        href={
-                          organization
-                            ? Page.OrganizationDashboardProject
-                            : Page.ViewerProjectDashboard
-                        }
-                        as={
-                          organization
-                            ? PageAs.OrganizationDashboardProject({
-                                organizationSlug: organization.slug,
-                                projectSlug: project.slug,
-                              })
-                            : PageAs.ViewerProjectDashboard({
-                                projectSlug: project.slug,
-                              })
-                        }
-                      >
-                        <a>
-                          <Thumbnail
-                            style={
-                              project.image
-                                ? {
-                                    backgroundImage: `url('${project.image.image_medium_url}')`,
-                                  }
-                                : undefined
-                            }
-                          />
-                          <span className="ts-medium tw-medium block">
-                            {project.name}
-
-                            {project.published_date && (
-                              <span className="ts-small tw-normal tc-gray-500">
-                                {' '}
-                                - Publicada{' '}
-                                {moment(project.published_date).fromNow()}
-                              </span>
-                            )}
-                          </span>
-                        </a>
-                      </Link>
-                      <span className="ts-small tc-muted-dark block mb-1">
-                        {project.description}
-                      </span>
-                    </ProjectHead>
-                  </td>
-                  <td style={{ width: 100 }} className="ta-right">
-                    <ProjectStatusPill project={project} />
-                  </td>
-                  <td style={{ width: 230 }} className="pr-4">
-                    <div className="btn-group float-right">
-                      <Link
-                        href={
-                          organization
-                            ? Page.OrganizationDashboardProject
-                            : Page.ViewerProjectDashboard
-                        }
-                        as={
-                          organization
-                            ? PageAs.OrganizationDashboardProject({
-                                organizationSlug: organization.slug,
-                                projectSlug: project.slug,
-                              })
-                            : PageAs.ViewerProjectDashboard({
-                                projectSlug: project.slug,
-                              })
-                        }
-                      >
-                        <a className="btn btn-outline-primary">
-                          {intl.formatMessage(m.manageProject)}
-                        </a>
-                      </Link>
-                      <DropdownWithContext>
-                        <DropdownToggler>
-                          <button className="btn btn-outline-primary px-1">
-                            <Icon name="keyboard_arrow_down" />
-                          </button>
-                        </DropdownToggler>
-                        <ContextMenu>
-                          <Link
-                            href={
-                              organization
-                                ? Page.OrganizationEditProject
-                                : Page.EditProject
-                            }
-                            as={
-                              organization
-                                ? PageAs.OrganizationEditProject({
-                                    projectSlug: project.slug,
-                                    organizationSlug: organization.slug,
-                                    stepId: 'geral',
-                                  })
-                                : PageAs.EditProject({
-                                    projectSlug: project.slug,
-                                    stepId: 'geral',
-                                  })
-                            }
-                            passHref
-                          >
-                            <DropdownAnchor className="dropdown-item">
-                              {intl.formatMessage(m.editProject)}
-                            </DropdownAnchor>
-                          </Link>
-                          <Link
-                            href={
-                              organization
-                                ? Page.OrganizationDuplicateProject
-                                : Page.DuplicateProject
-                            }
-                            as={
-                              organization
-                                ? PageAs.OrganizationDuplicateProject({
-                                    projectSlug: project.slug,
-                                    organizationSlug: organization.slug,
-                                    stepId: 'geral',
-                                  })
-                                : PageAs.DuplicateProject({
-                                    projectSlug: project.slug,
-                                    stepId: 'geral',
-                                  })
-                            }
-                            passHref
-                          >
-                            <DropdownAnchor className="dropdown-item">
-                              {intl.formatMessage(m.duplicateProject)}
-                            </DropdownAnchor>
-                          </Link>
-
-                          <Link
-                            href={Page.Project}
-                            as={PageAs.Project({ slug: project.slug })}
-                            passHref
-                          >
-                            <DropdownAnchor className="dropdown-item">
-                              {intl.formatMessage(m.viewProject)}
-                            </DropdownAnchor>
-                          </Link>
-                        </ContextMenu>
-                      </DropdownWithContext>
-                    </div>
-                  </td>
-                </tr>
+                <ManageableProjectTableRow
+                  key={project.slug}
+                  project={project}
+                  fromOrganization={organization}
+                />
               ))}
             </tbody>
           </Table>
         </TableWrapper>
-        {(queryResult.loading ||
-          (queryResult.data && queryResult.data.next)) && (
-          <div className="card-item p-5 ta-center">
+        {(queryResult.loading || queryResult.data?.next) && (
+          <div className="card-item p-5 text-center">
             <Waypoint onEnter={handleLoadMoreProjectsCallback} />
             <ActivityIndicator size={64} className="mb-2" />
-            <span className="block tc-muted">
+            <span className="block text-gray-600">
               {intl.formatMessage(m.loadingProjects)}
             </span>
           </div>
         )}
-        {!queryResult.loading && queryResult.data && !queryResult.data.next && (
-          <div className="card-item p-5 ta-center tc-muted">
+        {!queryResult.loading && queryResult.data?.next && (
+          <div className="card-item p-5 text-center text-gray-600">
             {intl.formatMessage(m.noProjects)}
           </div>
         )}

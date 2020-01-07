@@ -27,9 +27,10 @@ enum AuthenticationRecoverStatus {
   Failed,
 }
 
-const AuthenticationRecover: React.FC<
-  InjectedFormikProps<AuthenticationRecoverProps, Values>
-> = ({
+const AuthenticationRecover: React.FC<InjectedFormikProps<
+  AuthenticationRecoverProps,
+  Values
+>> = ({
   successRedirect,
   className,
   handleSubmit,
@@ -45,9 +46,9 @@ const AuthenticationRecover: React.FC<
   if (status === AuthenticationRecoverStatus.Sent) {
     return (
       <Container className={className}>
-        <div className="ta-center">
-          <h2 className="tw-medium mb-1">Recupere sua senha</h2>
-          <p className="mb-4 text-muted">
+        <div className="text-center">
+          <h2 className="font-medium mb-1">Recupere sua senha</h2>
+          <p className="mb-6 text-gray-600">
             Verifique no seu email um link para redefinir sua senha. Se não
             aparecer dentro de alguns minutos, verifique sua pasta de spam.
           </p>
@@ -55,7 +56,7 @@ const AuthenticationRecover: React.FC<
         <hr />
         <a
           href={Page.Login}
-          className="btn btn-text tw-normal btn--block btn--size-4"
+          className="btn btn-text font-normal btn--block btn--size-4"
         >
           Voltar para o login
         </a>
@@ -70,9 +71,9 @@ const AuthenticationRecover: React.FC<
         method="POST"
         onSubmit={handleSubmit}
       >
-        <div className="ta-center">
-          <h2 className="tw-medium mb-1">Recupere sua senha</h2>
-          <p className="mb-4 text-muted">
+        <div className="text-center">
+          <h2 className="font-medium mb-1">Recupere sua senha</h2>
+          <p className="mb-6 text-gray-600">
             Enviaremos um email a você instruindo como prosseguir
           </p>
         </div>
@@ -105,9 +106,9 @@ const AuthenticationRecover: React.FC<
         <hr />
         <a
           href={Page.Login}
-          className="btn btn-text tw-normal btn--block btn--size-4"
+          className="btn btn-text font-normal btn--block btn--size-4"
         >
-          Lembrou sua senha? <span className="tc-link">Entrar</span>
+          Lembrou sua senha? <span className="text-anchor">Entrar</span>
         </a>
       </form>
     </Container>

@@ -16,7 +16,7 @@ const OrganizationPageAbout: React.FC<OrganizationPageAboutProps> = ({
 }) => {
   return (
     <div className={cx(className, 'bg-white p-3 rounded-lg shadow')}>
-      <h4 className="ts-medium tw-medium mb-3">
+      <h4 className="text-lg font-medium mb-4">
         <FormattedMessage
           id="organizationPageAbout.title"
           defaultMessage="Sobre a ONG"
@@ -28,7 +28,7 @@ const OrganizationPageAbout: React.FC<OrganizationPageAboutProps> = ({
         href="OrganizationAbout"
         params={{ organizationSlug: organization.slug }}
       >
-        <a className="btn bg-gray-200 py-2 tc-gray-700 hover:bg-gray-300 btn--block">
+        <a className="btn bg-gray-200 py-3 text-gray-700 hover:bg-gray-300 btn--block">
           Ler mais
         </a>
       </PageLink>

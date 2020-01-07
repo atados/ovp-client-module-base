@@ -23,27 +23,24 @@ const HomePage: React.FC = () => {
   const intl = useIntl()
   const catalogueQuery = useFetchAPI<Catalogue>('/catalogue/home/')
   const sections =
-    (catalogueQuery.data &&
-      catalogueQuery.data.sections &&
-      catalogueQuery.data.sections.sort(
-        (section1, section2) => section2.order - section1.order,
-      )) ||
-    []
+    catalogueQuery.data?.sections?.sort(
+      (section1, section2) => section2.order - section1.order,
+    ) || []
 
   const body = !catalogueQuery.loading && (
     <div>
-      <div className="container pt-5">
+      <div className="container pt-8">
         {sections[0] && (
-          <CatalogueSection section={sections[0]} className="mb-4" />
+          <CatalogueSection section={sections[0]} className="mb-6" />
         )}
         <CausesSection />
       </div>
-      <div className="container">
+      <div className="container px-2">
         {sections.slice(1).map((section, i) => (
           <CatalogueSection
             key={`${section.name}-${i}`}
             section={section}
-            className={i !== sections.length - 2 ? 'mb-4' : undefined}
+            className={i !== sections.length - 2 ? 'mb-6' : undefined}
           />
         ))}
       </div>
@@ -57,9 +54,9 @@ const HomePage: React.FC = () => {
     >
       <Meta />
       <div className="bg-primary-500">
-        <div className="container py-5">
-          <h1 className="tc-white">{intl.formatMessage(messages.appName)}</h1>
-          <p className="tc-light ts-large">
+        <div className="container py-8">
+          <h1 className="text-white">{intl.formatMessage(messages.appName)}</h1>
+          <p className="text-white-alpha-80 text-xl">
             {intl.formatMessage(messages.appDescription)}
           </p>
         </div>

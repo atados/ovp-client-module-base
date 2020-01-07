@@ -68,9 +68,12 @@ interface InboxConversationFormState {
   readonly inputValue: string
 }
 
-const InboxConversationForm: React.FunctionComponent<
-  InboxConversationFormProps
-> = ({ thread, viewer, setMessages, className }) => {
+const InboxConversationForm: React.FunctionComponent<InboxConversationFormProps> = ({
+  thread,
+  viewer,
+  setMessages,
+  className,
+}) => {
   const [state, setState] = useState<InboxConversationFormState>({
     inputValue: '',
   })

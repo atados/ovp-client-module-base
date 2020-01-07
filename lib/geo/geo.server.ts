@@ -1,34 +1,35 @@
-import maxmind from 'maxmind'
+import { CountryRecord, LocationRecord } from 'maxmind'
 import { IncomingMessage } from 'http'
 import { Geolocation } from '~/redux/ducks/geo'
 import { Config } from '~/base/common'
-import * as geolite2 from 'geolite2'
+import { WebServiceClient } from '@maxmind/geoip2-node'
+
+const client = new WebServiceClient('157941', 'jtPyO1uN9KGAFqqg')
 
 export interface InjectedGeoProps {
   geo: Geolocation
 }
-let lookup: maxmind.Reader<any> | undefined
 export async function createGeolocationObject(
   req: IncomingMessage,
 ): Promise<Geolocation> {
   try {
-    if (!lookup) {
-      lookup = maxmind.openSync(geolite2.paths.city)
-    }
-
     const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress
-    const geo = ip && lookup.get(String(ip))
+    const geo = await (ip && client.city(String(ip)))
 
     // Lookup region (e.g. SP) into current channel's regions
     if (geo) {
+      const firstSubdivision = geo.subdivisions[0]
+      const location = geo.location as LocationRecord
+
+      if (!firstSubdivision) {
+        return Config.geo.default
+      }
+
       return {
-        country: String(geo.country.iso_code).toUpperCase(),
-        region:
-          geo.subdivisions && geo.subdivisions.length
-            ? geo.subdivisions[0].iso_code
-            : undefined,
-        lat: geo.location.latitude,
-        lng: geo.location.longitude,
+        country: String((geo.country as CountryRecord).iso_code).toUpperCase(),
+        region: firstSubdivision.isoCode,
+        lat: location.latitude,
+        lng: location.longitude,
       }
     }
   } catch (error) {

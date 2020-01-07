@@ -11,6 +11,14 @@ import asFormStep, {
 import Yup from '~/lib/form/yup'
 import { defineMessages, FormattedMessage } from 'react-intl'
 import { useIntl } from 'react-intl'
+import styled from 'styled-components'
+
+const MarkdownEditorFormGroup = styled(FormGroup)`
+  .max-length-indicator {
+    top: 10px;
+    right: 0;
+  }
+`
 
 const ProjectAboutFormSchema = Yup.object().shape({
   body: Yup.string()
@@ -82,9 +90,10 @@ const {
   },
 })
 
-const ProjectComposerAbout: React.FC<
-  InjectedFormikProps<ProjectComposerAboutProps, Values>
-> = ({
+const ProjectComposerAbout: React.FC<InjectedFormikProps<
+  ProjectComposerAboutProps,
+  Values
+>> = ({
   className,
   isValid,
   errors,
@@ -119,8 +128,8 @@ const ProjectComposerAbout: React.FC<
       isSubmitting={isFormSubmitting}
       helpPanelChildren={
         <div className="p-5">
-          <HelpCard className="card pr-4 pb-4 pl-4 pt-2 mb-4">
-            <h4 className="ts-medium tw-medium">
+          <HelpCard className="card pr-5 pb-5 pl-5 pt-3 mb-6">
+            <h4 className="text-lg font-medium">
               {intl.formatMessage(NAO_PODE)}
             </h4>
             <ul className="bullets">
@@ -134,19 +143,20 @@ const ProjectComposerAbout: React.FC<
       }
     >
       {mode !== FormComposerMode.EDIT && (
-        <h4 className="tc-muted ts-small">{intl.formatMessage(ETAPA4)}</h4>
+        <h4 className="text-gray-600 text-sm">{intl.formatMessage(ETAPA4)}</h4>
       )}
-      <h1 className="tw-light mb-1">{intl.formatMessage(SOBRE)}</h1>
-      <p className="ts-medium tc-muted-dark mb-4">
+      <h1 className="font-light mb-1">{intl.formatMessage(SOBRE)}</h1>
+      <p className="text-lg text-gray-700 mb-6">
         {intl.formatMessage(DESCREVA_CLAREZA)}
       </p>
 
-      <FormGroup
+      <MarkdownEditorFormGroup
         labelFor="ong-input-body"
         error={touched.body ? errors.body : undefined}
-        className="mb-4"
+        className="mb-6 relative"
         length={values.body.length}
         maxLength={3000}
+        maxLengthClassName="max-length-indicator absolute"
         hint={intl.formatMessage(HINT)}
       >
         {renderEditor && (
@@ -158,7 +168,7 @@ const ProjectComposerAbout: React.FC<
             defaultValue={values.body}
           />
         )}
-      </FormGroup>
+      </MarkdownEditorFormGroup>
     </FormComposerLayout>
   )
 }

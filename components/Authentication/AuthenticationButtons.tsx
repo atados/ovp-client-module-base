@@ -101,17 +101,17 @@ const AuthenticationButtons: React.FC<AuthenticationButtonsProps> = ({
     },
     [],
   )
-  // const handleGoogleAuth = useCallback(
-  //   (event: React.MouseEvent<HTMLButtonElement>) => {
-  //     event.preventDefault()
-  //     if (popupRef.current) {
-  //       popupRef.current.close()
-  //     }
+  const handleGoogleAuth = useCallback(
+    (event: React.MouseEvent<HTMLButtonElement>) => {
+      event.preventDefault()
+      if (popupRef.current) {
+        popupRef.current.close()
+      }
 
-  //     popupRef.current = PopupCenter('/api/google/auth', 'Google', 400, 500)
-  //   },
-  //   [],
-  // )
+      popupRef.current = PopupCenter('/api/google/auth', 'Google', 400, 500)
+    },
+    [],
+  )
   const handleEmailAuth = useCallback(
     (event: React.MouseEvent<HTMLButtonElement>) => {
       event.preventDefault()
@@ -128,7 +128,7 @@ const AuthenticationButtons: React.FC<AuthenticationButtonsProps> = ({
     <div className={className}>
       <AuthButton
         type="button"
-        className="btn btn--block btn--size-4 mb-2 ta-left auth-email text-truncate"
+        className="btn btn--block btn--size-4 mb-2 text-left auth-email truncate"
         onClick={handleEmailAuth}
       >
         <AuthIcon>
@@ -138,7 +138,7 @@ const AuthenticationButtons: React.FC<AuthenticationButtonsProps> = ({
       </AuthButton>
       <AuthButton
         type="button"
-        className="btn btn--block btn--size-4 mb-2 ta-left auth-facebook text-truncate"
+        className="btn btn--block btn--size-4 mb-2 text-left auth-facebook truncate"
         onClick={handleFacebookAuth}
       >
         <AuthIcon>
@@ -162,9 +162,9 @@ const AuthenticationButtons: React.FC<AuthenticationButtonsProps> = ({
         </AuthIcon>
         {intl.formatMessage(m.facebook)}
       </AuthButton>
-      {/* <AuthButton
+      <AuthButton
         type="button"
-        className="btn btn--block btn--size-4 ta-left auth-google text-truncate"
+        className="btn btn--block btn--size-4 text-left auth-google truncate"
         onClick={handleGoogleAuth}
       >
         <AuthIcon>
@@ -196,7 +196,7 @@ const AuthenticationButtons: React.FC<AuthenticationButtonsProps> = ({
           </svg>
         </AuthIcon>
         {intl.formatMessage(m.google)}
-      </AuthButton> */}
+      </AuthButton>
     </div>
   )
 }

@@ -266,7 +266,7 @@ class SearchFilters extends React.Component<
         {channel.config.maps.key && searchType !== SearchType.Any && (
           <div className="hidden md:block">
             <MapToggleSwitchLabel htmlFor="filters-show-map-toggler">
-              <span className="ts-small">
+              <span className="text-sm">
                 {intl.formatMessage(MOSTRAR_MAPA)}
               </span>
               <ToggleSwitch

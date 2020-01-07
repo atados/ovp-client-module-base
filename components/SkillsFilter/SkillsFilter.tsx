@@ -116,16 +116,16 @@ class SkillsFilter extends React.Component<SkillsFilterProps> {
         label={label}
       >
         <div className="p-3">
-          <h4 className="tw-normal ts-medium mb-3">
+          <h4 className="font-normal text-lg mb-4">
             {' '}
             <FormattedMessage
               id="causesFilter.title"
               defaultMessage="Filtrar por habilidade"
             />
           </h4>
-          <div className="row">
+          <div className="flex flex-wrap">
             {children.map((child, i) => (
-              <div className="col-sm-6" key={i}>
+              <div className="w-full sm:w-1/2" key={i}>
                 {child}
               </div>
             ))}

@@ -293,12 +293,12 @@ const AppNotificationWatcher: React.FC<AppNotificationWatcherProps> = ({
                 }
               />
               <p>
-                <a href="" className="tw-medium tc-base">
+                <a href="" className="font-medium text-gray-800">
                   {item.senderName}
                 </a>{' '}
                 enviou uma nova mensagem
               </p>
-              <span className="tc-muted ts-small">Há alguns segundos</span>
+              <span className="text-gray-600 text-sm">Há alguns segundos</span>
             </ItemCard>
           </Item>
         )

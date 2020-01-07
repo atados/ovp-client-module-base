@@ -48,7 +48,7 @@ const ProjectPageGalleries: React.FC<ProjectPageGalleriesProps> = ({
   const openGallery = useModal({
     id: 'Gallery',
     component: Gallery,
-    cardClassName: 'no-animation',
+    cardClassName: 'animation-none',
   })
   const images = useMemo(() => {
     const imagesList: ImageDict[] = []
@@ -65,7 +65,7 @@ const ProjectPageGalleries: React.FC<ProjectPageGalleriesProps> = ({
 
   return (
     <>
-      <h4 className="mb-4">{intl.formatMessage(FOTOS)}</h4>
+      <h4 className="mb-6">{intl.formatMessage(FOTOS)}</h4>
       <Photos className="row">
         {images.map(image => (
           <div key={image.id} className="col-4">
@@ -87,7 +87,7 @@ const ProjectPageGalleries: React.FC<ProjectPageGalleriesProps> = ({
           </div>
         ))}
       </Photos>
-      <hr className="mt-4 mb-4" />
+      <hr className="mt-6 mb-6" />
     </>
   )
 }

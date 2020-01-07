@@ -50,9 +50,10 @@ interface DisponibilityJobDateFormProps {
   readonly onCancel: () => any
 }
 
-const DisponibilityJobDateForm: React.FC<
-  InjectedFormikProps<DisponibilityJobDateFormProps, Values>
-> = ({
+const DisponibilityJobDateForm: React.FC<InjectedFormikProps<
+  DisponibilityJobDateFormProps,
+  Values
+>> = ({
   onCancel,
   values,
   touched,
@@ -64,11 +65,11 @@ const DisponibilityJobDateForm: React.FC<
   const intl = useIntl()
   return (
     <>
-      <div className="row">
-        <div className="col-md-4">
+      <div className="flex flex-wrap">
+        <div className="w-full md:w-4/12">
           <FormGroup
             label={intl.formatMessage(m.date)}
-            className="mb-3"
+            className="mb-4"
             error={touched.date ? errors.date : undefined}
           >
             <MaskedTextInput
@@ -83,10 +84,10 @@ const DisponibilityJobDateForm: React.FC<
             />
           </FormGroup>
         </div>
-        <div className="col-md-3">
+        <div className="w-full md:w-3/12">
           <FormGroup
             label={intl.formatMessage(m.startHour)}
-            className="mb-3"
+            className="mb-4"
             error={touched.start_hour ? errors.start_hour : undefined}
           >
             <MaskedTextInput
@@ -101,10 +102,10 @@ const DisponibilityJobDateForm: React.FC<
             />
           </FormGroup>
         </div>
-        <div className="col-md-3">
+        <div className="w-full md:w-3/12">
           <FormGroup
             label={intl.formatMessage(m.endHour)}
-            className="mb-3"
+            className="mb-4"
             error={touched.end_hour ? errors.end_hour : undefined}
           >
             <MaskedTextInput
@@ -122,7 +123,7 @@ const DisponibilityJobDateForm: React.FC<
       </div>
       <FormGroup
         label={intl.formatMessage(m.eventName)}
-        className="mb-3"
+        className="mb-4"
         error={touched.name ? errors.name : undefined}
       >
         <input
@@ -145,7 +146,7 @@ const DisponibilityJobDateForm: React.FC<
       <button
         onClick={onCancel}
         type="button"
-        className="btn btn-text-muted-dark btn--size-2"
+        className="btn btn-text text-gray-700 btn--size-2"
       >
         {intl.formatMessage(m.cancel)}
       </button>

@@ -23,9 +23,9 @@ const OrganizationPageLayout: React.FC<OrganizationPageLayoutProps> = ({
         <OrganizationPageHeader
           organization={organization}
           isViewerMember={isViewerMember}
-          className="mb-4"
+          className="mb-6"
         />
-        <div className="container">
+        <div className="container px-2">
           <OrganizationPageNav organization={organization} />
         </div>
       </div>

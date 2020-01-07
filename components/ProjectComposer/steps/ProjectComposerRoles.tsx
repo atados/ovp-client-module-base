@@ -42,7 +42,7 @@ const RoleCard = styled.div`
 `
 
 const RoleAdd = styled.button`
-  border-color: #a3cbe2;
+  border: 1px solid #a3cbe2;
   height: 300px;
   background: #f2faff;
   color: #0366d6;
@@ -198,9 +198,10 @@ interface ProjectComposerDisponibilityState {
   modalOpen: boolean
 }
 
-const ProjectComposerRoles: React.FC<
-  InjectedFormikProps<ProjectComposerDisponibilityProps, Values>
-> = ({
+const ProjectComposerRoles: React.FC<InjectedFormikProps<
+  ProjectComposerDisponibilityProps,
+  Values
+>> = ({
   className,
   isValid,
   values,
@@ -244,7 +245,10 @@ const ProjectComposerRoles: React.FC<
     const { editingRoleIndex } = state
 
     if (editingRoleIndex !== undefined && editingRoleIndex > -1) {
-      setFieldValue('roles', roles.filter((_, i) => i !== editingRoleIndex))
+      setFieldValue(
+        'roles',
+        roles.filter((_, i) => i !== editingRoleIndex),
+      )
     }
 
     setState({ modalOpen: false })
@@ -269,14 +273,14 @@ const ProjectComposerRoles: React.FC<
       isSubmitting={isFormSubmitting}
       helpPanelChildren={
         <div className="p-5">
-          <HelpCard className="card pr-4 pb-4 pl-4 pt-2 mb-3">
-            <h4 className="ts-medium tw-medium">
+          <HelpCard className="card pr-5 pb-5 pl-5 pt-3 mb-4">
+            <h4 className="text-lg font-medium">
               {intl.formatMessage(VISIBILIDADE)}
             </h4>
-            <p className="tc-muted-dark mb-0">{intl.formatMessage(PRECISA)}</p>
+            <p className="text-gray-700 mb-0">{intl.formatMessage(PRECISA)}</p>
           </HelpCard>
-          <HelpCard className="card pr-4 pb-4 pl-4 pt-2">
-            <h4 className="ts-medium tw-medium">
+          <HelpCard className="card pr-5 pb-5 pl-5 pt-3">
+            <h4 className="text-lg font-medium">
               {intl.formatMessage(EXEMPLO)}
             </h4>
             <p className="mb-1">
@@ -285,7 +289,7 @@ const ProjectComposerRoles: React.FC<
               <br />
               <b>{intl.formatMessage(FUNCOES)}</b> <br />
             </p>
-            <div className="pl-1">
+            <div className="pl-2">
               {intl.formatMessage(FUNCAO1)} <br />
               {intl.formatMessage(FUNCAO2)} <br />
               {intl.formatMessage(FUNCAO3)} <br />
@@ -311,17 +315,17 @@ const ProjectComposerRoles: React.FC<
         </ModalCard>
       </Modal>
       {mode !== FormComposerMode.EDIT && (
-        <h4 className="tc-muted ts-small">{intl.formatMessage(ETAPA3)}</h4>
+        <h4 className="text-gray-600 text-sm">{intl.formatMessage(ETAPA3)}</h4>
       )}
-      <h1 className="tw-light mb-1">
+      <h1 className="font-light mb-1">
         {intl.formatMessage(FUNCOES_VOLUNTARIO)}
       </h1>
-      <p className="ts-medium tc-muted-dark mb-4">
+      <p className="text-lg text-gray-700 mb-6">
         {intl.formatMessage(INSIRA_FUNCOES)}
       </p>
-      <div className="row">
+      <div className="flex flex-wrap px-2 -mx-2">
         {values.roles.map((role, i) => (
-          <div key={i} className="col-md-6 mb-3">
+          <div key={i} className="w-full md:w-1/2 px-2 mb-4">
             <Role onClick={() => handleRoleEdit(role, i)}>
               <RoleCard className="card p-2">
                 <RoleButtonWrapper>
@@ -330,19 +334,19 @@ const ProjectComposerRoles: React.FC<
                   </div>
                 </RoleButtonWrapper>
                 <RoleName>{role.name}</RoleName>
-                <h5 className="ts-small">{intl.formatMessage(DESCRICAO)}</h5>
-                <p className="ts-small mb-2">{role.details}</p>
-                <h5 className="ts-small">
+                <h5 className="text-sm">{intl.formatMessage(DESCRICAO)}</h5>
+                <p className="text-sm mb-2">{role.details}</p>
+                <h5 className="text-sm">
                   {intl.formatMessage(PRE_REQUISITOS)}
                 </h5>
-                <p className="ts-small mb-2">{role.prerequisites}</p>
-                <h5 className="ts-small">{intl.formatMessage(VAGAS)}</h5>
-                <p className="ts-small mb-2">{role.vacancies}</p>
+                <p className="text-sm mb-2">{role.prerequisites}</p>
+                <h5 className="text-sm">{intl.formatMessage(VAGAS)}</h5>
+                <p className="text-sm mb-2">{role.vacancies}</p>
               </RoleCard>
             </Role>
           </div>
         ))}
-        <div className="col-md-6 mb-3">
+        <div className="w-full md:w-1/2 mb-4">
           <RoleAdd onClick={openModal}>
             <Icon name="add" />
             <br />

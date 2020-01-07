@@ -10,13 +10,13 @@ import Icon from '~/components/Icon'
 import Layout from '~/components/Layout'
 import MarkdownEditor from '~/components/MarkdownEditor'
 import OrganizationLayout from '~/components/OrganizationLayout/OrganizationLayout'
-import useTriggerableFetchApi from '~/hooks/use-trigglerable-fetch-api'
+import useFetchAPIMutation from '~/base/hooks/use-fetch-api-mutation'
 import { NotFoundPageError } from '~/lib/next/errors'
 import { throwActionError } from '~/lib/utils/redux'
 import { fetchProject, Project, updateProject } from '~/redux/ducks/project'
 import { UserOrganization } from '~/redux/ducks/user'
 import { RootState } from '~/redux/root-reducer'
-import { Post } from '~/types/api'
+import { API } from '~/base/types/api'
 import { ProjectPageSubPage } from '~/types/project'
 import { Page, PageAs } from '~/common'
 
@@ -112,27 +112,28 @@ const PostFormPage: NextPage<PostFormPageProps, PostFormPageInitialProps> = ({
     setState(currentState => ({ ...currentState, renderEditor: true }))
   }, [])
 
-  const submitTrigger = useTriggerableFetchApi(
-    postId
+  const submitMutation = useFetchAPIMutation<API.Post>(() => ({
+    method: postId ? 'PATCH' : 'POST',
+    endpoint: postId
       ? `/projects/${parentNode ? parentNode.slug : ''}/post/${postId}/`
       : `/projects/${parentNode ? parentNode.slug : ''}/post/`,
-    { method: postId ? 'PATCH' : 'POST' },
-  )
-  const updateNodeTrigger = useTriggerableFetchApi(
-    `/projects/${parentNode ? parentNode.slug : ''}/`,
-    { method: 'PATCH' },
-  )
+  }))
+  const updateNodeTrigger = useFetchAPIMutation(() => ({
+    method: 'PATCH',
+    endpoint: `/projects/${parentNode ? parentNode.slug : ''}/`,
+  }))
   const handleSubmit = useCallback(async () => {
     if (!parentNode) {
       return
     }
 
-    let post: Post | undefined
+    let post: API.Post | undefined
     if (postId) {
-      post = await submitTrigger.trigger({
+      const result = await submitMutation.mutate({
         title: state.titleInputValue,
         content: contentValueRef.current,
       })
+      post = result.data
 
       dispatchProjectChange({
         slug: parentNode.slug,
@@ -148,11 +149,12 @@ const PostFormPage: NextPage<PostFormPageProps, PostFormPageInitialProps> = ({
         }),
       })
     } else {
-      post = await submitTrigger.trigger({
+      const result = await submitMutation.mutate({
         title: state.titleInputValue,
         content: contentValueRef.current,
       })
-      await updateNodeTrigger.trigger({
+      post = result.data
+      await updateNodeTrigger.mutate({
         posts: [
           ...parentNode.posts,
           {
@@ -171,15 +173,15 @@ const PostFormPage: NextPage<PostFormPageProps, PostFormPageInitialProps> = ({
       `/project?slug=${parentNode.slug}&subpage=${ProjectPageSubPage.Stories}`,
       `/vaga/${parentNode.slug}/${ProjectPageSubPage.Stories}`,
     )
-  }, [postId, parentNode, state, submitTrigger.trigger])
+  }, [postId, parentNode, state, submitMutation.mutate])
 
   const children = !parentNode ? (
-    <div className="py-5 ta-center">
+    <div className="py-8 text-center">
       <ActivityIndicator size={48} fill="#999" />
     </div>
   ) : (
     <>
-      <nav className="py-3 shadow-sm">
+      <nav className="py-4 shadow-sm">
         <div className="container flex">
           <Link
             href={
@@ -196,13 +198,13 @@ const PostFormPage: NextPage<PostFormPageProps, PostFormPageInitialProps> = ({
                 : PageAs.ViewerProjectDashboard({ slug: parentNode.slug })
             }
           >
-            <a className="media tc-base td-hover-none">
+            <a className="media text-base td-hover-none">
               <Icon name="arrow_back" className="mr-2" />
               <div className="media-body">
-                <span className="h4 tw-normal mb-0 block">
+                <span className="h4 font-normal mb-0 block">
                   {parentNode.name}
                 </span>
-                <span className="ts-small tc-muted tw-normal">
+                <span className="text-sm text-gray-600 font-normal">
                   Nova publicação
                 </span>
               </div>
@@ -216,7 +218,7 @@ const PostFormPage: NextPage<PostFormPageProps, PostFormPageInitialProps> = ({
               className="btn btn-primary"
             >
               {postId ? 'Salvar alterações' : 'Pronto pra publicar?'}
-              {submitTrigger.loading ? (
+              {submitMutation.loading ? (
                 <ActivityIndicator size={24} fill="#fff" className="ml-2" />
               ) : (
                 <Icon name="send" className="ml-2" />
@@ -225,7 +227,7 @@ const PostFormPage: NextPage<PostFormPageProps, PostFormPageInitialProps> = ({
           </div>
         </div>
       </nav>
-      <div className="container mt-5">
+      <div className="container mt-12">
         <Content>
           <TitleInput
             className="input"
@@ -300,7 +302,6 @@ const mapStateToProps = (
   }
 }
 
-export default connect(
-  mapStateToProps,
-  { dispatchProjectChange: updateProject },
-)(PostFormPage)
+export default connect(mapStateToProps, {
+  dispatchProjectChange: updateProject,
+})(PostFormPage)

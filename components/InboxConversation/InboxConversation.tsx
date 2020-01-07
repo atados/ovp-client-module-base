@@ -356,7 +356,7 @@ const InboxConversation: React.FC<InboxConversationProps> = ({
             </InfoAnimatedBG>
             <InfoIcon name="mail_outline" />
             <h1>Caixa de entrada</h1>
-            <p className="tc-muted ts-large">
+            <p className="text-gray-600 text-xl">
               Aqui você envia e recebe mensagens de grupos de vaga e
               {viewer.kind === InboxViewerKind.Organization
                 ? ' voluntários.'

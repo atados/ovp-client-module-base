@@ -7,9 +7,9 @@ interface ProjectDisponibilityMessageProps {
   readonly value: Disponibility
 }
 
-const ProjectDisponibilityMessage: React.FC<
-  ProjectDisponibilityMessageProps
-> = ({ value }) => {
+const ProjectDisponibilityMessage: React.FC<ProjectDisponibilityMessageProps> = ({
+  value,
+}) => {
   const intl = useIntl()
   return <>{formatDisponibility(value, intl)}</>
 }

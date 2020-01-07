@@ -128,13 +128,13 @@ class ProjectRate extends React.Component<
             }
           />
           <div className="p-4">
-            <h4 className="ts-normal">{project.name}</h4>
-            <p className="m-0 ts-small">{project.description}</p>
+            <h4 className="text-base">{project.name}</h4>
+            <p className="m-0 text-sm">{project.description}</p>
           </div>
         </Card>
         <div className="p-3">
           <hr />
-          <Stars className="ta-center">
+          <Stars className="text-center">
             {range(5, i => (
               <button
                 key={i}
@@ -155,7 +155,7 @@ class ProjectRate extends React.Component<
             ))}
           </Stars>
           {(values.rate || value > 0) && (
-            <span className="block ta-center h4 tw-normal mt-2 mb-3">
+            <span className="block text-center h4 font-normal mt-2 mb-4">
               {messages[value > 0 ? value - 1 : values.rate! - 1]}
             </span>
           )}

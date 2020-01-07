@@ -62,11 +62,11 @@ const ToolbarOrganization: React.FC<ToolbarOrganizationProps> = ({
         href={`/ong/${organization.slug}`}
         className={cx(
           className,
-          'block bg-white rounded-full py-1 shadow tc-base tw-medium text-truncate',
+          'block bg-white rounded-full py-2 shadow text-base font-medium truncate',
         )}
       >
         <Avatar
-          className="inline-block w-8 h-8  bg-cover rounded-circle"
+          className="inline-block w-8 h-8  bg-cover bg-center rounded-full"
           style={
             organization.image
               ? {
@@ -79,7 +79,7 @@ const ToolbarOrganization: React.FC<ToolbarOrganizationProps> = ({
         <Icon name="keyboard_arrow_down" className="dropdownArrow" />
       </Toggler>
     </DropdownToggler>
-    <Menu className="mt-1 py-2">qwew</Menu>
+    <Menu className="mt-1 py-3">qwew</Menu>
   </DropdownWithContext>
 )
 

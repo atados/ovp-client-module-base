@@ -42,26 +42,25 @@ const FAQLayout: React.FC<FAQLayoutProps> = ({
         searchFormEnabled: false,
         flat: true,
         float: true,
-        className: 'no-background',
+        className: 'bg-none',
         brand: (
-          <Link href={Page.Home}>
-            <a>
-              <ToolbarBrand />
-              <span className="tc-toolbar border-l border-color-white pl-2">
+          <Link href="/" passHref>
+            <ToolbarBrand innerClassName="inline-block mr-3">
+              <span className="text-toolbar border-l border-color-white pl-3 align-middle">
                 {intl.formatMessage(m.title)}
               </span>
-            </a>
+            </ToolbarBrand>
           </Link>
         ),
       }}
     >
       <div className="relative bg-primary-500">
-        <div className="relative container pt-10 py-5 z-30">
+        <div className="relative container px-3 pt-32 py-8 z-30">
           <Link href={Page.FAQ}>
             <a className="td-hover-none">
-              <h1 className="tc-white ta-center mt-4">
+              <h1 className="text-white text-center mt-6">
                 {pathname !== Page.FAQ && (
-                  <button className="btn w-10 h-10 bg-primary-400 rounded-circle mr-3 tc-white ts-large px-0 animate-slideInLeft">
+                  <button className="btn w-10 h-10 bg-primary-400 rounded-full mr-4 text-white text-xl px-0 animate-slideInLeft">
                     <Icon name="arrow_back" />
                   </button>
                 )}
@@ -72,13 +71,13 @@ const FAQLayout: React.FC<FAQLayoutProps> = ({
               </h1>
             </a>
           </Link>
-          <p className="tc-light ts-large ta-center">
+          <p className="text-white-alpha-80 text-xl text-center">
             <FormattedMessage
               id="faqLayout.subtitle"
               defaultMessage="Como podemos te ajudar?"
             />
           </p>
-          <div className="ta-center mt-4">
+          <div className="text-center mt-6">
             <FAQSearchFormStyled defaultValue={defaultSearchFormValue} />
           </div>
         </div>

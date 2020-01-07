@@ -21,8 +21,8 @@ const ProjectPageAbout: React.FC<ProjectPageAboutProps> = ({ project }) => {
   return (
     <>
       <h4 className="mb-2">{intl.formatMessage(SOBRE)}</h4>
-      <Markdown value={project.details} className="ts-medium" />
-      <hr className="my-4" />
+      <Markdown value={project.details} className="text-lg" />
+      <hr className="my-6" />
     </>
   )
 }

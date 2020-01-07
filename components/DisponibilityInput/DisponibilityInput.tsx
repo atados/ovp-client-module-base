@@ -253,7 +253,7 @@ class DisponibilityInput extends React.PureComponent<
     const { value } = this.state
 
     return (
-      <div className={`card radius-0${className ? ` ${className}` : ''}`}>
+      <div className={`card rounded-none${className ? ` ${className}` : ''}`}>
         <Option
           className={`card-item${
             value && value.type === 'work' && !value.donation ? ' active' : ''
@@ -272,11 +272,11 @@ class DisponibilityInput extends React.PureComponent<
                   : ''
               }`}
             />
-            <div className="media-body ml-3">
-              <h5 className="tw-normal mb-1">
+            <div className="media-body ml-4">
+              <h5 className="font-normal mb-1">
                 {intl.formatMessage(RECORRENTE)}
               </h5>
-              <p className="tc-muted-dark ts-small mb-0">
+              <p className="text-gray-700 text-sm mb-0">
                 {intl.formatMessage(EXIGE_COMPROMETIMENTO)}
               </p>
             </div>
@@ -308,9 +308,11 @@ class DisponibilityInput extends React.PureComponent<
                 value && value.type === 'job' ? ' checked' : ''
               }`}
             />
-            <div className="media-body ml-3">
-              <h5 className="tw-normal mb-1">{intl.formatMessage(PONTUAL)}</h5>
-              <p className="tc-muted-dark ts-small mb-0">
+            <div className="media-body ml-4">
+              <h5 className="font-normal mb-1">
+                {intl.formatMessage(PONTUAL)}
+              </h5>
+              <p className="text-gray-700 text-sm mb-0">
                 {intl.formatMessage(E_NECESSARIO)}
               </p>
             </div>
@@ -344,9 +346,11 @@ class DisponibilityInput extends React.PureComponent<
                     : ''
                 }`}
               />
-              <div className="media-body ml-3">
-                <h5 className="tw-normal mb-1">{intl.formatMessage(DOACAO)}</h5>
-                <p className="tc-muted-dark ts-small mb-0">
+              <div className="media-body ml-4">
+                <h5 className="font-normal mb-1">
+                  {intl.formatMessage(DOACAO)}
+                </h5>
+                <p className="text-gray-700 text-sm mb-0">
                   {intl.formatMessage(VAGA_DESTINADA)}
                 </p>
               </div>

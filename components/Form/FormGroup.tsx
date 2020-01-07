@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
+import cx from 'classnames'
 import { YupError } from '~/base/lib/form/yup'
 import FormErrorMessage from '~/components/FormErrorMessage'
 
@@ -24,12 +25,14 @@ interface FormGroupProps {
   readonly length?: number
   readonly required?: boolean
   readonly maxLength?: number
+  readonly maxLengthClassName?: string
   readonly children?: React.ReactNode
 }
 
 const FormGroup: React.FC<FormGroupProps> = ({
   label,
   maxLength,
+  maxLengthClassName,
   length,
   hint,
   error,
@@ -47,10 +50,10 @@ const FormGroup: React.FC<FormGroupProps> = ({
       {(label || maxLength) && (
         <div className="flex mb-2">
           {label && (
-            <label htmlFor={labelFor} className="tw-medium mb-0">
+            <label htmlFor={labelFor} className="font-medium mb-0">
               {label}
               {!required ? (
-                <span className="tc-muted tw-normal">
+                <span className="text-gray-600 font-normal">
                   {' '}
                   -{' '}
                   <FormattedMessage
@@ -64,7 +67,10 @@ const FormGroup: React.FC<FormGroupProps> = ({
           <div className="mr-auto" />
           {maxLength && length !== undefined && (
             <Length
-              className={length > maxLength ? 'tc-error tw-medium' : undefined}
+              className={cx(
+                length > maxLength && 'text-red-600 font-medium',
+                maxLengthClassName,
+              )}
             >
               {length}/{maxLength}
             </Length>
@@ -74,7 +80,9 @@ const FormGroup: React.FC<FormGroupProps> = ({
       {children}
       {(error || hint) && (
         <Hint
-          className={`form-group-hint${error ? ' tc-error tw-medium' : ''}`}
+          className={`form-group-hint${
+            error ? ' text-red-600 font-medium' : ''
+          }`}
         >
           {error ? <FormErrorMessage error={error} /> : hint}
         </Hint>

@@ -137,7 +137,7 @@ class SearchFilter extends React.Component<
                 <button
                   type="button"
                   onClick={onReset}
-                  className="btn-plain-text tc-muted-dark tw-normal td-hover-underline"
+                  className="btn-plain-text text-gray-700 font-normal td-hover-underline"
                 >
                   Limpar
                 </button>
@@ -146,7 +146,7 @@ class SearchFilter extends React.Component<
               <button
                 type="button"
                 onClick={this.commit}
-                className="btn-plain-text tw-normal tc-primary-500 td-hover-underline"
+                className="btn-plain-text font-normal text-primary-500 td-hover-underline"
               >
                 Aplicar
               </button>

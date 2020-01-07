@@ -9,7 +9,7 @@ import { reportError } from '~/lib/utils/error'
 import { Cause, ImageDict, Skill } from '~/common/channel'
 import { Organization } from '~/redux/ducks/organization'
 import { RootState } from '~/redux/root-reducer'
-import { DocumentDict, Post } from '~/types/api'
+import { API } from '~/base/types/api'
 import { bookmark, unbookmark } from './bookmark'
 import {
   ApplicationMeta,
@@ -72,19 +72,26 @@ interface ProjectApplicationUser {
   email: string
   phone: string
   rating: number
-  avatar?: {
-    image_small_url: string
-    image_url: string
-  }
+  avatar?: ImageDict
 }
 
+export type ProjectApplicationStatus =
+  | 'applied'
+  | 'unapplied'
+  | 'confirmed-volunteer'
+  | 'not-volunteer'
+  | 'unapplied-by-deactivation'
 export interface ProjectApplication {
   id: number
   date: string
-  phone: string
+  phone?: string
+  email?: string
+  message?: string
+  name?: string
   canceled: boolean
   user?: ProjectApplicationUser
   role?: ProjectRole
+  status: ProjectApplicationStatus
 }
 
 export interface ProjectRole {
@@ -122,7 +129,7 @@ export interface Project {
   details: string
   owner: ProjectOwner
   published?: boolean
-  posts: Post[]
+  posts: API.Post[]
   minimum_age?: number
   current_user_is_applied?: boolean
   applied_count: number
@@ -131,6 +138,7 @@ export interface Project {
   causes: Cause[]
   skills: Skill[]
   closed: boolean
+  closed_date: string
   canceled: boolean
   bookmark_count: number
   is_bookmarked: boolean
@@ -140,7 +148,8 @@ export interface Project {
   benefited_people: number
   published_date?: string
   galleries: Gallery[]
-  documents: DocumentDict[]
+  documents: API.DocumentDict[]
+  categories: Array<{ id: number; name: string }>
   image?: ImageDict
 }
 

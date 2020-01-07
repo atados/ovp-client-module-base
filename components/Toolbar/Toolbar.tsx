@@ -24,7 +24,7 @@ const ToolbarStyled = styled.div`
     max-width: 180px;
   }
 
-  .navbar-dark .tc-toolbar {
+  .navbar-dark .text-toolbar {
     color: #fff;
   }
 `
@@ -82,8 +82,8 @@ const Toolbar: React.FC<ToolbarProps> = ({
           : 'relative'
       } ${!flat ? 'shadow' : ''} ${className || ''}`}
     >
-      <Navbar className={`h-full navbar navbar-expand-lg px-0 navbar-${theme}`}>
-        <div className="container w-full">
+      <Navbar className={`h-full navbar lg:navbar-expand px-0 navbar-${theme}`}>
+        <div className="container max-w-full px-2">
           {brand || (
             <PageLink href="Home" passHref>
               <ToolbarBrand
@@ -143,7 +143,7 @@ const Toolbar: React.FC<ToolbarProps> = ({
           <button
             className={`btn ${theme === 'dark' ? 'bg-light' : ''} ${
               state.searchFormFocused ? 'hidden md:block' : ''
-            } lg:hidden navbar-toggler tl-base rounded-full w-10 h-10 px-0`}
+            } lg:hidden navbar-toggler leading-normal rounded-full w-10 h-10 px-0`}
             onClick={handleTogglerClick}
             type="button"
           >

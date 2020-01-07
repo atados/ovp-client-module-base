@@ -3,12 +3,14 @@ import React from 'react'
 import styled from 'styled-components'
 import { Project } from '~/redux/ducks/project'
 import Icon from '../Icon'
-import { Page, PageAs } from '~/common'
+import { Page, PageAs, Color } from '~/common'
 import { defineMessages } from 'react-intl'
 import { useIntl } from 'react-intl'
 
 const Wrapper = styled.div`
-  padding-left: 120px;
+  @media (min-width: 768px) {
+    padding-left: 120px;
+  }
 `
 
 const Thumbnail = styled.div`
@@ -17,11 +19,15 @@ const Thumbnail = styled.div`
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
-  background-color: #ddd;
   border-radius: 10px;
-  margin-left: -120px;
-  float: left;
   box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.05);
+  margin-bottom: 1rem;
+
+  @media (min-width: 768px) {
+    margin-left: -120px;
+    float: left;
+    margin-bottom: 0;
+  }
 `
 
 const { REALIZADA } = defineMessages({
@@ -46,7 +52,7 @@ const ProjectPageOrganization: React.FC<ProjectPageOrganizationProps> = ({
 
   return (
     <>
-      <h4 id="ong" className="mb-4">
+      <h4 id="ong" className="mb-6">
         {intl.formatMessage(REALIZADA)}
       </h4>
       <Wrapper>
@@ -56,22 +62,22 @@ const ProjectPageOrganization: React.FC<ProjectPageOrganizationProps> = ({
             organizationSlug: project.organization.slug,
           })}
         >
-          <a className="tc-base td-hover-none">
+          <a className="text-base td-hover-none">
             <Thumbnail
               style={
                 project.organization.image
                   ? {
                       backgroundImage: `url('${project.organization.image.image_url}')`,
                     }
-                  : { backgroundColor: '#eee' }
+                  : { backgroundColor: Color.gray[300] }
               }
             />
             <span className="h5">{project.organization.name}</span>
           </a>
         </Link>
-        <p className="tc-muted mb-2">{project.organization.description}</p>
+        <p className="text-gray-600 mb-2">{project.organization.description}</p>
         {project.organization.website && (
-          <a href={project.organization.website}>
+          <a href={project.organization.website} className="truncate">
             <Icon name="public" className="mr-1" />
             {project.organization.website}
           </a>

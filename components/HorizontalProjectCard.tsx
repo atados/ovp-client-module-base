@@ -65,10 +65,10 @@ const renderDisponibility = (disponibility: JobDisponibility) => {
   return (
     nextDate && (
       <>
-        <span className="block text-medium tc-red-400 mb-2">
+        <span className="block text-medium text-red-400 mb-2">
           {date.format('MMMM').substr(0, 3)}
         </span>
-        <span className="tc-gray-800">{date.date()}</span>
+        <span className="text-gray-800">{date.date()}</span>
       </>
     )
   )
@@ -95,51 +95,49 @@ const HorizontalProjectCard: React.FC<HorizontalProjectCardProps> = ({
               />
               <Avatar
                 image={project.image}
-                className="ratio-body rounded-lg bg-cover"
+                className="ratio-body rounded-lg bg-cover bg-center"
                 fallBackClassName="bg-gray-200"
               />
             </ProjectPhoto>
             <Side>
               {project.disponibility &&
                 (project.disponibility.type === 'job' ? (
-                  <DateStyled className="w-10 h-10 ta-center">
+                  <DateStyled className="w-10 h-10 text-center">
                     {renderDisponibility(project.disponibility)}
                   </DateStyled>
                 ) : (
                   <Tooltip value="Vaga recorrente">
-                    <ProjectTypeSymbol className="w-10 h-10 tc-gray-700 rounded-lg ta-center text-xl">
+                    <ProjectTypeSymbol className="w-10 h-10 text-gray-700 rounded-lg text-center text-xl">
                       <Icon name="event_available" />
                     </ProjectTypeSymbol>
                   </Tooltip>
                 ))}
             </Side>
-            <span className="block tw-medium text-truncate">
-              {project.name}
-            </span>
+            <span className="block font-medium truncate">{project.name}</span>
           </a>
         </PageLink>
-        <span className="block tc-gray-900 ts-small mb-2">
+        <span className="block text-gray-900 text-sm mb-2">
           {project.description}
         </span>
-        <div className="block ts-small text-truncate">
+        <div className="block text-sm truncate">
           {!project.closed && (
-            <span className="tc-green-600">Vagas abertas</span>
+            <span className="text-green-600">Vagas abertas</span>
           )}
           {!project.closed && !project.canceled && (
-            <span className="tc-gray-500"> . </span>
+            <span className="text-gray-500"> . </span>
           )}
           {project.disponibility && (
-            <span className="tc-gray-700">
+            <span className="text-gray-700">
               <ProjectDisponibility value={project.disponibility} />
             </span>
           )}
           {project.disponibility &&
             project.address &&
             project.address.city_state && (
-              <span className="tc-gray-500"> . </span>
+              <span className="text-gray-500"> . </span>
             )}
           {project.address && project.address.city_state && (
-            <span className="tc-gray-700">{project.address.city_state}</span>
+            <span className="text-gray-700">{project.address.city_state}</span>
           )}
         </div>
       </Wrapper>

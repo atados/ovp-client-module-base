@@ -45,8 +45,8 @@ const ViewerApplications: React.FC<ViewerApplicationsProps> = ({
 
   return (
     <div className={className}>
-      <Header className="px-2 shadow-sm relative bg-white rounded-t-lg shadow">
-        <h4 className="ts-medium mb-0">
+      <Header className="px-3 shadow-sm relative bg-white rounded-t-lg shadow">
+        <h4 className="text-lg mb-0">
           <FormattedMessage
             id="toolbarApplications.title"
             defaultMessage="Minhas inscrições"
@@ -83,14 +83,14 @@ const ViewerApplications: React.FC<ViewerApplicationsProps> = ({
           ))}
         </div>
         {!profileQuery.loading && applications.length === 0 && (
-          <div className="p-5 ta-center">
+          <div className="p-5 text-center">
             <h4>
               <FormattedMessage
                 id="toolbarApplications.noApplicationsFound.title"
                 defaultMessage="Nenhuma inscrição encontrada"
               />
             </h4>
-            <span className="block mb-3 tc-muted-dark">
+            <span className="block mb-4 text-gray-700">
               <FormattedMessage
                 id="toolbarApplications.noApplicationsFound.text"
                 defaultMessage="Ainda não encontrou nenhuma vaga pra você? Tente usar os filtros"

@@ -178,20 +178,20 @@ const SearchSources: React.FC<SearchSourcesProps> = ({
             searchType !== SearchType.Projects
           ) {
             return (
-              <div key={source.id} className="mb-4">
+              <div key={source.id} className="mb-6">
                 <SectionTitle>{intl.formatMessage(ONGS)}</SectionTitle>
                 <SectionSubtitle>
                   {`${intl.formatMessage(APROXIMADAMENTE)} ${
                     source.count
                   } ${intl.formatMessage(ONGS)}`}
                 </SectionSubtitle>
-                <div className="row">
+                <div className="flex flex-wrap -mx-2">
                   {(source as SearchSource<Organization>).nodes.map(
                     (node, nodeIndex) => (
                       <div
                         key={node.slug}
-                        className={`col-6 col-md-3 mb-4 ${
-                          size === SearchSourcesSize.Large ? '' : 'col-lg-2'
+                        className={`px-2 w-1/2 md:w-1/4 mb-6 ${
+                          size === SearchSourcesSize.Large ? '' : 'lg:w-1/6'
                         }`}
                       >
                         {isLastSource &&
@@ -220,7 +220,7 @@ const SearchSources: React.FC<SearchSourcesProps> = ({
                       },
                     }}
                   >
-                    <a className="tc-secondary-500 ts-medium">
+                    <a className="text-secondary-500 text-lg">
                       {intl.formatMessage(VER_TUDO)}{' '}
                       {source.count > 6 && `(+ ${source.count - 6})`}{' '}
                       <Icon name="arrow_forward" />
@@ -236,21 +236,23 @@ const SearchSources: React.FC<SearchSourcesProps> = ({
             searchType !== SearchType.Organizations
           ) {
             return (
-              <div key={source.id} className="mb-4">
+              <div key={source.id} className="mb-6">
                 <SectionTitle>{intl.formatMessage(VAGAS)}</SectionTitle>
                 <SectionSubtitle>
                   {`${intl.formatMessage(APROXIMADAMENTE)} ${
                     source.count
                   } ${intl.formatMessage(VAGAS_ABERTAS)}`}
                 </SectionSubtitle>
-                <div className="row">
+                <div className="-mx-2 flex flex-wrap">
                   {(source as SearchSource<Project>).nodes.map(
                     (node, nodeIndex) => (
                       <div
                         key={node.slug}
-                        className={`col-sm-6 col-lg-${
-                          size === SearchSourcesSize.Large ? '4' : '3'
-                        } mb-4`}
+                        className={`w-full sm:w-1/2 ${
+                          size === SearchSourcesSize.Large
+                            ? 'lg:w-1/3'
+                            : 'lg:w-1/4'
+                        } px-2 mb-6`}
                       >
                         {isLastSource &&
                           nodeIndex === source.nodes.length - 21 && (
@@ -280,7 +282,7 @@ const SearchSources: React.FC<SearchSourcesProps> = ({
                         },
                       }}
                     >
-                      <a className="tc-secondary-500 ts-medium">
+                      <a className="text-secondary-500 text-lg">
                         {intl.formatMessage(VER_TUDO)}
                         {source.count > 6 && `(+ ${source.count - 6})`}{' '}
                         <Icon name="arrow_forward" />
@@ -301,12 +303,12 @@ const SearchSources: React.FC<SearchSourcesProps> = ({
                 style={{ width: '25%', height: '28px' }}
               />
               <NodePlaceholder
-                className="mb-3"
+                className="mb-4"
                 style={{ width: '50%', height: '24px' }}
               />
             </>
           )}
-          <div className="row">
+          <div className="flex flex-wrap -mx-2">
             {onNextWaypointPositionChange && (
               <Waypoint onPositionChange={onNextWaypointPositionChange} />
             )}
@@ -315,12 +317,14 @@ const SearchSources: React.FC<SearchSourcesProps> = ({
                 key={i}
                 className={
                   searchType === SearchType.Organizations
-                    ? `col-6 col-md-3 mb-4${
-                        size === SearchSourcesSize.Large ? '' : ' col-lg-2'
+                    ? `w-1/2 md:1/-4 mb-6${
+                        size === SearchSourcesSize.Large ? '' : ' lg:1/6'
                       }`
-                    : `col-sm-6 col-lg-${
-                        size === SearchSourcesSize.Large ? '4' : '3'
-                      } mb-4`
+                    : `sm:w-1/2 w-full px-2 mb-6 ${
+                        size === SearchSourcesSize.Large
+                          ? 'lg:w-1/3'
+                          : 'lg:w-1/4'
+                      }`
                 }
               >
                 <NodePlaceholder />
@@ -331,12 +335,12 @@ const SearchSources: React.FC<SearchSourcesProps> = ({
       )}
 
       {areAllSourcesEmpty && (
-        <div className="py-5">
-          <h1 className="tw-normal h2">{`${intl.formatMessage(
+        <div className="py-8">
+          <h1 className="font-normal h2">{`${intl.formatMessage(
             ERROR_TITLE,
           )} :(`}</h1>
           <p>{intl.formatMessage(ERROR_SUBTITLE)}</p>
-          <ul className="mb-3">
+          <ul className="mb-4">
             <li>{intl.formatMessage(ERROR_L1)}</li>
             <li>{intl.formatMessage(ERROR_L2)}</li>
             <li>{intl.formatMessage(ERROR_L3)}</li>
@@ -371,7 +375,7 @@ const SearchSources: React.FC<SearchSourcesProps> = ({
         !filtersQueryObject.remoteOnly && (
           <>
             <hr />
-            <p className="py-1 tc-muted">
+            <p className="py-2 text-gray-600">
               {`${intl.formatMessage(NAO_ENCONTROU)} `}
               <Link
                 href={{
@@ -384,7 +388,7 @@ const SearchSources: React.FC<SearchSourcesProps> = ({
                     : Page.SearchProjects
                 }?remoteOnly=true`}
               >
-                <a className="tw-medium tc-secondary-500">
+                <a className="font-medium text-secondary-500">
                   {intl.formatMessage(BUSQUE)}
                 </a>
               </Link>

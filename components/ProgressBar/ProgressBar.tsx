@@ -24,6 +24,7 @@ interface ProgressBarState {
 
 class ProgressBar extends React.Component<ProgressBarProps, ProgressBarState> {
   private timeout: number
+  private umounted?: boolean
 
   constructor(props) {
     super(props)
@@ -36,10 +37,15 @@ class ProgressBar extends React.Component<ProgressBarProps, ProgressBarState> {
   }
 
   public componentWillUnmount() {
+    this.umounted = true
     clearTimeout(this.timeout)
   }
 
   public start = (): void => {
+    if (this.umounted) {
+      return
+    }
+
     this.setState({ value: 0, starting: true, hidden: false }, () => {
       this.timeout = window.setTimeout(() => {
         this.setState({ starting: false, value: 20 }, () => {

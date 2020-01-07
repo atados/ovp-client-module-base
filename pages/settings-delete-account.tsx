@@ -7,7 +7,7 @@ import Icon from '../components/Icon'
 import { FormattedMessage, useIntl, defineMessages } from 'react-intl'
 import { useSelector, useDispatch } from 'react-redux'
 import { RootState } from '../redux/root-reducer'
-import useTriggerableFetchApi from '../hooks/use-trigglerable-fetch-api'
+import useFetchAPIMutation from '../hooks/use-fetch-api-mutation'
 import { logout } from '../redux/ducks/user'
 import { NextPage } from 'next'
 import Meta from '../components/Meta'
@@ -30,15 +30,16 @@ const SettingsDeleteAccountPage: NextPage<{}> = () => {
   const intl = useIntl()
   const dispatchToRedux = useDispatch()
   const viewer = useSelector((state: RootState) => state.user!)
-  const updateViewerTrigger = useTriggerableFetchApi('/users/current-user/', {
+  const updateViewerMutation = useFetchAPIMutation(() => ({
+    endpoint: '/users/current-user/',
     method: 'PATCH',
-  })
+  }))
   const handleSubmit = async () => {
     if (!confirm(intl.formatMessage(m.areYouSure))) {
       return
     }
-    if (!updateViewerTrigger.loading) {
-      await updateViewerTrigger.trigger({
+    if (!updateViewerMutation.loading) {
+      await updateViewerMutation.mutate({
         deleted: true,
       })
       pushToDataLayer({
@@ -58,22 +59,22 @@ const SettingsDeleteAccountPage: NextPage<{}> = () => {
     <ViewerSettingsLayout>
       <Meta title={intl.formatMessage(m.metaTitle)} />
       <div className="bg-white shadow rounded-lg">
-        <div className="py-3 px-3">
-          <h4 className="tw-normal mb-0 text-xl leading-loose">
+        <div className="py-4 px-4">
+          <h4 className="font-normal mb-0 text-xl leading-loose">
             <Icon
               name="close"
-              className="bg-gray-200 rounded-full w-10 h-10 ta-center mr-3"
+              className="bg-gray-200 rounded-full w-10 h-10 text-center mr-4"
             />
             {intl.formatMessage(m.metaTitle)}
           </h4>
-          <div className="border rounded-lg mt-5 max-w-sm p-3 mx-auto mb-5 border-red-500">
-            <h4 className="tw-normal ts-large ta-center">
+          <div className="border rounded-lg mt-12 max-w-sm p-3 mx-auto mb-12 border-red-500">
+            <h4 className="font-normal text-xl text-center">
               <FormattedMessage
                 id="settingsDeleteAccount.title"
                 defaultMessage="Quero encerrar minha conta"
               />
             </h4>
-            <p className="ta-center">
+            <p className="text-center">
               <FormattedMessage
                 id="settingsDeleteAccount.description"
                 defaultMessage="Ao encerrar sua conta, seu perfil não aparecerá mais em nossa plataforma."
@@ -82,9 +83,9 @@ const SettingsDeleteAccountPage: NextPage<{}> = () => {
             </p>
             <button
               type="button"
-              className="btn tc-white w-full block bg-red-500"
+              className="btn text-white w-full block bg-red-500"
               onClick={handleSubmit}
-              disabled={updateViewerTrigger.loading}
+              disabled={updateViewerMutation.loading}
             >
               <FormattedMessage
                 id="settingsDeleteAccount.submit"

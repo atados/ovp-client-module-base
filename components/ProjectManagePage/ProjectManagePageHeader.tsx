@@ -4,25 +4,21 @@ import { Project } from '~/redux/ducks/project'
 import ProjectStatusPill from '../ProjectStatusPill'
 import { Color } from '~/base/common'
 
-const Thumbnail = styled.figure`
-  height: 180px;
-  margin: -52px -1rem 2rem;
+const ProjectImage = styled.figure`
+  height: 140px;
 
   @media (min-width: 768px) {
-    width: 140px;
+    width: 150px;
     height: 100px;
-    margin: 0 0 0 -140px;
+    margin: 0 24px 0 -150px !important;
     float: left;
-
-    > span {
-      border-radius: 10px;
-    }
+    border-radius: 10px;
   }
 `
 
 const Body = styled.div`
   @media (min-width: 768px) {
-    padding-left: 140px;
+    padding-left: 150px;
     min-height: 100px;
   }
 `
@@ -35,22 +31,20 @@ const ProjectManagePageHeader: React.FC<ProjectManagePageHeaderProps> = ({
   project,
 }) => (
   <div className="bg-white">
-    <div className="container">
-      <div className="py-4">
-        <ProjectStatusPill project={project} className="float-right" />
+    <div className="container px-2">
+      <div className="py-5">
         <Body>
-          <Thumbnail className="mr-lg-4">
-            <span
-              className="block bg-cover h-full"
-              style={
-                project.image
-                  ? { backgroundImage: `url('${project.image.image_url}')` }
-                  : { backgroundColor: Color.gray[500] }
-              }
-            />
-          </Thumbnail>
-          <h1 className="h4 mb-2">{project.name}</h1>
-          <p className="mb-0">{project.description}</p>
+          <ProjectImage
+            className="-mt-5 mb-5 -mx-2 lg:mr-6 bg-cover bg-center rounded-b-lg"
+            style={
+              project.image
+                ? { backgroundImage: `url('${project.image.image_url}')` }
+                : { backgroundColor: Color.gray[500] }
+            }
+          />
+          <h1 className="text-xl font-medium mb-1">{project.name}</h1>
+          <p className="text-gray-700 mb-2">{project.description}</p>
+          <ProjectStatusPill project={project} horizontal />
         </Body>
       </div>
     </div>

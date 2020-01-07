@@ -22,9 +22,10 @@ interface Values {
   email: string
 }
 
-const InviteMember: React.FC<
-  InjectedFormikProps<InviteMemberProps, Values>
-> = ({
+const InviteMember: React.FC<InjectedFormikProps<
+  InviteMemberProps,
+  Values
+>> = ({
   values,
   touched,
   errors,
@@ -36,13 +37,13 @@ const InviteMember: React.FC<
   status,
 }) => (
   <form method="post" onSubmit={handleSubmit}>
-    <h4 className="tw-normal">Adicionar membro à ONG</h4>
+    <h4 className="font-normal">Adicionar membro à ONG</h4>
     <hr />
     {status && status.success ? (
       <p>
         Um email foi enviado para{' '}
-        <span className="tw-medium">{values.email}</span> com um link do convite
-        para participar dessa ONG.
+        <span className="font-medium">{values.email}</span> com um link do
+        convite para participar dessa ONG.
       </p>
     ) : (
       <>
@@ -65,7 +66,7 @@ const InviteMember: React.FC<
         </FormGroup>
         <button
           type="submit"
-          className={`btn btn--size-3 btn--block mt-3 ${
+          className={`btn btn--size-3 btn--block mt-4 ${
             isValid ? 'btn-primary' : 'btn-disabled '
           }`}
           disabled={!isValid || isSubmitting}
@@ -75,7 +76,7 @@ const InviteMember: React.FC<
             <ActivityIndicator size={36} fill="white" className="ml-1" />
           )}
         </button>
-        <span className="tc-muted block ta-center ts-small mt-3">
+        <span className="text-gray-600 block text-center text-sm mt-4">
           Essa pessoa receberá total acesso ao perfil da ONG podendo cadastrar
           vagas e editar informações importantes.
         </span>

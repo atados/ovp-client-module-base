@@ -21,6 +21,6 @@ export function setupErrorMonitoringOnServer() {
 }
 
 export function reportNodeError(error: any) {
-  console.log(error)
+  console.error(error)
   Sentry.captureException(error)
 }

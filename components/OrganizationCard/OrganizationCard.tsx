@@ -129,14 +129,14 @@ class OrganizationCard extends React.Component<
               `${organization.address.city_state}, `} ${
               organization.address.typed_address
             }`}
-            className="w-full tc-secondary-500"
+            className="w-full text-secondary-500"
           >
             {organization.address.city_state &&
               `${organization.address.city_state}, `}
             {organization.address.typed_address}
           </Info>
         )}
-        {this.link(<Name className="text-truncate">{organization.name}</Name>)}
+        {this.link(<Name className="truncate">{organization.name}</Name>)}
         <Description>{organization.description}</Description>
       </div>
     )

@@ -9,6 +9,7 @@ import { withIntl } from '~/lib/intl'
 import { formatDisponibility } from '~/lib/project/utils'
 import { pushToDataLayer } from '~/lib/tag-manager'
 import { Project } from '~/redux/ducks/project'
+import Tooltip from '../Tooltip'
 
 const Container = styled.div`
   background: none;
@@ -64,10 +65,6 @@ const Description = styled.p`
 
 const Footer = styled.div`
   margin: 0 -5px;
-
-  > .col-md-6 {
-    padding: 0 5px;
-  }
 `
 
 const Counter = styled.div`
@@ -183,7 +180,7 @@ class ProjectCard extends React.Component<
         href={Page.Organization}
         as={PageAs.Organization({ organizationSlug: organization.slug })}
       >
-        <a className="tc-gray-600">{children}</a>
+        <a className="text-gray-600">{children}</a>
       </Link>
     )
   }
@@ -223,7 +220,7 @@ class ProjectCard extends React.Component<
               <img
                 src="/static/base/icons/volunteer.svg"
                 alt=""
-                className="mr-2"
+                className="mr-2 inline-block"
               />
               <span>{appliedCount}</span>
             </Counter>
@@ -231,21 +228,19 @@ class ProjectCard extends React.Component<
               {disponibility &&
                 disponibility.type === 'work' &&
                 disponibility.work.can_be_done_remotely && (
-                  <Pill
-                    title="Pode ser feita à distância"
-                    className="tooltiped tooltiped-hover pill-secondary t-nowrap"
-                  >
-                    <Icon name="public" />
-                    <span className="tooltip">Pode ser feita à distância</span>
-                  </Pill>
+                  <Tooltip value="Pode ser feito à distância">
+                    <Pill className="pill-secondary t-nowrap">
+                      <Icon name="public" />
+                    </Pill>
+                  </Tooltip>
                 )}
             </Pills>
           </Header>,
         )}
-        <Author className="text-truncate">
+        <Author className="truncate">
           {closed && (
             <>
-              <span className="tc-error tw-medium">ENCERRADA</span> -{' '}
+              <span className="text-red-600 font-medium">ENCERRADA</span> -{' '}
             </>
           )}
           {organization && (
@@ -256,21 +251,19 @@ class ProjectCard extends React.Component<
           )}
         </Author>
         {this.link(
-          <Name className={`text-truncate ${nameClassName || ''}`}>
-            {name}
-          </Name>,
+          <Name className={`truncate ${nameClassName || ''}`}>{name}</Name>,
         )}
         <Description className={descriptionClassName}>
           {description}
         </Description>
-        <Footer className="row">
+        <Footer className="flex -mx-1">
           {address && (
-            <div className="col-md-6 mb-2 mb-md-0">
+            <div className="px-1 w-1/2 mb-2 md:mb-0">
               <span
                 title={`${address.city_state && `${address.city_state}, `} ${
                   address.typed_address
                 }`}
-                className="ts-small block tc-gray-600 text-truncate"
+                className="text-sm block text-gray-600 truncate"
               >
                 <Icon name="place" />{' '}
                 {address.city_state && `${address.city_state}, `}
@@ -279,8 +272,8 @@ class ProjectCard extends React.Component<
             </div>
           )}
           {disponibility && (
-            <div className="col-md-6">
-              <span className="ts-small block tc-secondary-600 text-truncate">
+            <div className="px-1 w-1/2">
+              <span className="text-sm block text-secondary-600 truncate">
                 <Icon name="date_range" />{' '}
                 {formatDisponibility(disponibility, intl)}
               </span>

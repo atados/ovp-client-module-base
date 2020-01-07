@@ -57,32 +57,32 @@ const {
   },
 })
 
-const OrganizationComposerConclusion: React.FC<
-  OrganizationComposerConclusionProps
-> = ({ formContext }) => {
+const OrganizationComposerConclusion: React.FC<OrganizationComposerConclusionProps> = ({
+  formContext,
+}) => {
   const intl = useIntl()
 
   return (
     <FormComposerLayout
       helpPanelChildren={
         <div className="p-5">
-          <HelpCard className="card pr-4 pb-4 pl-4 pt-2">
-            <h4 className="ts-medium tw-medium">
+          <HelpCard className="card pr-5 pb-5 pl-5 pt-3">
+            <h4 className="text-lg font-medium">
               {intl.formatMessage(SE_COMUNIQUE)}
             </h4>
-            <p className="tc-muted-dark mb-0">{intl.formatMessage(E_MUITO)}</p>
+            <p className="text-gray-700 mb-0">{intl.formatMessage(E_MUITO)}</p>
           </HelpCard>
         </div>
       }
     >
-      <h4 className="tc-muted ts-small">{intl.formatMessage(REVISAO)}</h4>
-      <h1 className="tw-light mb-1">{intl.formatMessage(ONG_REGISTRADA)}</h1>
-      <p className="ts-medium tc-muted-dark mb-4">
+      <h4 className="text-gray-600 text-sm">{intl.formatMessage(REVISAO)}</h4>
+      <h1 className="font-light mb-1">{intl.formatMessage(ONG_REGISTRADA)}</h1>
+      <p className="text-lg text-gray-700 mb-6">
         {intl.formatMessage(NOSSA_EQUIPE)}
         <br /> <br />
         {intl.formatMessage(PODE_ACESSAR)}
         {formContext && formContext.organization && (
-          <div className="mt-4">
+          <div className="mt-6">
             <Link
               href={Page.Organization}
               as={PageAs.Organization({
@@ -101,7 +101,7 @@ const OrganizationComposerConclusion: React.FC<
                 stepId: 'inicio',
               })}
             >
-              <a className="btn btn-primary btn--size-3 ml-4">
+              <a className="btn btn-primary btn--size-3 ml-6">
                 {intl.formatMessage(CRIAR_VAGA)}
               </a>
             </Link>

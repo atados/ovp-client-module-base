@@ -108,7 +108,7 @@ const ProjectManagePageHeader: React.FC<ProjectManagePageHeaderProps> = ({
 
   return (
     <Container className={className}>
-      <div className="container">
+      <div className="container px-2">
         <Navbar className="block md:flex navbar navbar-expand navbar-light px-0">
           <div className="mr-auto" />
 
@@ -121,9 +121,9 @@ const ProjectManagePageHeader: React.FC<ProjectManagePageHeaderProps> = ({
               {intl.formatMessage(VISUALIZAR)}
             </a>
           </Link>
-          <div className="row md:hidden">
-            <ButtonCol className="col-6">{editButton}</ButtonCol>
-            <ButtonCol className="col-6">{duplicateButton}</ButtonCol>
+          <div className="flex md:hidden -mx-2">
+            <ButtonCol className="w-1/2 px-2">{editButton}</ButtonCol>
+            <ButtonCol className="w-1/2 px-2">{duplicateButton}</ButtonCol>
           </div>
           <ul className="navbar-nav hidden md:flex">
             <li className="mr-2">

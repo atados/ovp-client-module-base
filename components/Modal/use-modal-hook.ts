@@ -70,7 +70,14 @@ export default function useModal<Props>({
 
       modalManager!.push(id!, component!, modalOptions)
     },
-    [component, modalManager.push],
+    [
+      component,
+      options.cardClassName,
+      options.cardWrapperClassName,
+      options.disableCloseButton,
+      options.containerClassName,
+      modalManager.push,
+    ],
   )
 
   return fn

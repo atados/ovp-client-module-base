@@ -158,7 +158,7 @@ const SettingsUserPage: NextPage<
   if (!publicUser) {
     return (
       <ViewerSettingsLayout>
-        <div className="bg-white rounded-lg shadow p-5 ta-center">
+        <div className="bg-white rounded-lg shadow p-5 text-center">
           <ActivityIndicator fill={Color.gray[500]} size={52} />
         </div>
       </ViewerSettingsLayout>
@@ -169,11 +169,11 @@ const SettingsUserPage: NextPage<
     <ViewerSettingsLayout>
       <Meta title={publicUser.name} description={publicUser.profile.about} />
       <div className="bg-white rounded-lg shadow">
-        <div className="py-3 px-3">
-          <h4 className="tw-normal mb-0 text-xl leading-loose">
+        <div className="py-4 px-4">
+          <h4 className="font-normal mb-0 text-xl leading-loose">
             <Icon
               name="person"
-              className="bg-gray-200 rounded-full w-10 h-10 ta-center mr-3"
+              className="bg-gray-200 rounded-full w-10 h-10 text-center mr-4"
             />
             <FormattedMessage
               id="pages.settingsUser.title"
@@ -187,7 +187,7 @@ const SettingsUserPage: NextPage<
           onSubmit={handleSubmit}
           className="max-w-xl mx-auto p-5"
         >
-          <div className="w-48 mx-auto mb-4">
+          <div className="w-48 mx-auto mb-6">
             <InputImage
               id="profile-input-avatar"
               value={values.avatar}
@@ -203,7 +203,7 @@ const SettingsUserPage: NextPage<
             error={touched.name ? errors.name : undefined}
             length={values.name.length}
             maxLength={150}
-            className="mb-4"
+            className="mb-6"
           >
             <input
               id="profile-input-name"
@@ -222,7 +222,7 @@ const SettingsUserPage: NextPage<
             error={touched.description ? errors.description : undefined}
             length={values.description.length}
             maxLength={200}
-            className="mb-4"
+            className="mb-6"
             required={false}
           >
             <Textarea
@@ -241,7 +241,7 @@ const SettingsUserPage: NextPage<
             label={intl.formatMessage(m.Telefone)}
             error={touched.phone ? errors.phone : undefined}
             length={values.phone.length}
-            className="mb-4"
+            className="mb-6"
             hint={intl.formatMessage(m.requiredToSubscribe)}
           >
             <MaskedTextInput
@@ -262,7 +262,7 @@ const SettingsUserPage: NextPage<
             label={intl.formatMessage(m['Data de nascimento'])}
             error={touched.birthdate ? errors.birthdate : undefined}
             length={values.birthdate.length}
-            className="mb-4"
+            className="mb-6"
             hint={intl.formatMessage(m.requiredToSubscribe)}
           >
             <MaskedTextInput
@@ -283,7 +283,7 @@ const SettingsUserPage: NextPage<
             label={intl.formatMessage(m.Gênero)}
             error={touched.gender ? errors.gender : undefined}
             length={values.gender.length}
-            className="mb-4"
+            className="mb-6"
             required={false}
           >
             <select
@@ -308,7 +308,7 @@ const SettingsUserPage: NextPage<
             label={intl.formatMessage(m.Cidade)}
             labelFor="recover-input-city"
             error={touched.city ? errors.city : undefined}
-            className="mb-4"
+            className="mb-6"
             hint={intl.formatMessage(m.inputAddressHint)}
           >
             <InputAddress
@@ -333,7 +333,7 @@ const SettingsUserPage: NextPage<
             error={
               touched.causes ? ((errors.causes as any) as string) : undefined
             }
-            className="mb-4"
+            className="mb-6"
             maxLength={3}
             length={values.causes.length}
           >
@@ -352,7 +352,7 @@ const SettingsUserPage: NextPage<
             error={
               touched.skills ? ((errors.skills as any) as string) : undefined
             }
-            className="mb-4"
+            className="mb-6"
             maxLength={3}
             length={values.skills.length}
           >
@@ -365,7 +365,7 @@ const SettingsUserPage: NextPage<
             />
           </FormGroup>
 
-          <p className="tc-muted ts-small">
+          <p className="text-gray-600 text-sm">
             <FormattedMessage
               id="settingsUser.text"
               defaultMessage="Todos os campos preenchidos nesta página podem ser excluídos a
@@ -378,7 +378,7 @@ const SettingsUserPage: NextPage<
           </p>
           <button
             type="submit"
-            className="btn px-2 text-lg py-2 rounded btn-primary w-full"
+            className="btn px-3 text-lg py-3 rounded btn-primary w-full"
             disabled={isSubmitting}
           >
             <FormattedMessage
@@ -426,10 +426,7 @@ const PublicUserEditSchema = Yup.object().shape({
   birthdate: Yup.string().matches(RE_DATE, YupDateErrorMessage),
 })
 
-export default connect(
-  undefined,
-  { onSubmit: updateUser },
-)(
+export default connect(undefined, { onSubmit: updateUser })(
   withFormik<SettingsUserPageProps, Values>({
     displayName: 'SettingsUserPageEdit',
     mapPropsToValues: () => ({

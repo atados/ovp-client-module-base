@@ -106,9 +106,10 @@ const m = defineMessages({
   },
 })
 
-const ToolbarOrganizationDropdown: React.FC<
-  ToolbarOrganizationDropdownProps
-> = ({ className, organization }) => {
+const ToolbarOrganizationDropdown: React.FC<ToolbarOrganizationDropdownProps> = ({
+  className,
+  organization,
+}) => {
   const intl = useIntl()
 
   if (!organization) {
@@ -134,7 +135,7 @@ const ToolbarOrganizationDropdown: React.FC<
         organization ? (
           <>
             <Avatar
-              className="inline-block w-8 h-8  bg-cover rounded-circle"
+              className="inline-block w-8 h-8  bg-cover bg-center rounded-full"
               style={
                 organization.image
                   ? {
@@ -152,14 +153,14 @@ const ToolbarOrganizationDropdown: React.FC<
       }
     >
       {organization && (
-        <NavPills className="py-2">
+        <NavPills className="py-3">
           <Link
             href={Page.Organization}
             as={PageAs.Organization({
               organizationSlug: organization.slug,
             })}
           >
-            <a className="hover:text-primary hover:bg-gray-200 block py-1 px-4 tc-base td-hover-none">
+            <a className="hover:text-primary hover:bg-gray-200 block py-2 px-5 text-gray-800 td-hover-none">
               <Icon name="visibility" />
               {intl.formatMessage(m.page)}
             </a>
@@ -172,7 +173,7 @@ const ToolbarOrganizationDropdown: React.FC<
               organizationSlug: organization.slug,
             })}
           >
-            <a className="hover:text-primary hover:bg-gray-200 block py-1 px-4 tc-base td-hover-none">
+            <a className="hover:text-primary hover:bg-gray-200 block py-2 px-5 text-gray-800 td-hover-none">
               <Icon name="add" />
               {intl.formatMessage(m.newProject)}
             </a>
@@ -183,7 +184,7 @@ const ToolbarOrganizationDropdown: React.FC<
               organizationSlug: organization.slug,
             })}
           >
-            <a className="hover:text-primary hover:bg-gray-200 block py-1 px-4 tc-base td-hover-none">
+            <a className="hover:text-primary hover:bg-gray-200 block py-2 px-5 text-gray-800 td-hover-none">
               <Icon name="settings" />
               {intl.formatMessage(m.manageProjects)}
             </a>
@@ -195,7 +196,7 @@ const ToolbarOrganizationDropdown: React.FC<
               organizationSlug: organization.slug,
             })}
           >
-            <a className="hover:text-primary hover:bg-gray-200 block py-1 px-4 tc-base td-hover-none">
+            <a className="hover:text-primary hover:bg-gray-200 block py-2 px-5 text-gray-800 td-hover-none">
               <Icon name="group" />
               {intl.formatMessage(m.members)}
             </a>
@@ -207,7 +208,7 @@ const ToolbarOrganizationDropdown: React.FC<
               stepId: 'basics',
             })}
           >
-            <a className="hover:text-primary hover:bg-gray-200 block py-1 px-4 tc-base td-hover-none">
+            <a className="hover:text-primary hover:bg-gray-200 block py-2 px-5 text-gray-800 td-hover-none">
               <Icon name="edit" />
               {intl.formatMessage(m.editOrganization)}
             </a>

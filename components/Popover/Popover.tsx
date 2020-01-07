@@ -171,10 +171,10 @@ class Popover extends React.Component<PopoverProps> {
           </CloseButton>
           {body}
           {!disableButtons && (
-            <div className="ta-right">
+            <div className="text-right">
               <button
                 type="button"
-                className="btn btn-text-light btn--size-2"
+                className="btn bg-white-alpha-10 hover:bg-alpha-20 btn--size-2"
                 onClick={this.cancel}
               >
                 ENTENDI

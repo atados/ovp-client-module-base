@@ -69,9 +69,12 @@ interface ToggleSwitchProps {
   readonly className?: string
 }
 
-const ToggleSwitch: React.FC<
-  ToggleSwitchProps & React.InputHTMLAttributes<HTMLInputElement>
-> = ({ height, className, ...props }) => (
+const ToggleSwitch: React.FC<ToggleSwitchProps &
+  React.InputHTMLAttributes<HTMLInputElement>> = ({
+  height,
+  className,
+  ...props
+}) => (
   <Button height={height as number} className={className}>
     <input type="checkbox" {...props} />
     <span className="input-switch-indicator" />

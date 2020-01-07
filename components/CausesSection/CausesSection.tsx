@@ -91,14 +91,14 @@ const CausesSection: React.FC<CausesSectionProps> = ({ causes, ...props }) => {
         />
       </SectionSubtitle>
 
-      <div className="row">
+      <div className="flex -mx-2 flex-wrap">
         {causes.map(cause => (
           <Link
             as={PageAs.Cause({ slug: cause.slug })}
             href={Page.Cause}
             key={cause.id}
           >
-            <a className="col-6 col-md-4 col-lg-2 mb-4">
+            <a className="px-2 w-1/2 md:w-1/3 lg:w-1/6 mb-6">
               <div className="ratio">
                 <span
                   className="ratio-fill"

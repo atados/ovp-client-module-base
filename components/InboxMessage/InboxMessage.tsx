@@ -118,7 +118,9 @@ const InboxMessage: React.FC<InboxMessageProps> = ({
     : PageAs.PublicUser({ slug: message.sender.slug })
 
   return (
-    <Container className={`${className || ''}${sent ? ' ta-right' : ' pl-5'}`}>
+    <Container
+      className={`${className || ''}${sent ? ' text-right' : ' pl-8'}`}
+    >
       <Bubble
         sent={sent}
         firstFromSegment={firstFromSegment}
@@ -148,7 +150,7 @@ const InboxMessage: React.FC<InboxMessageProps> = ({
         )}
         {showAuthorName && (
           <span
-            className="ts-small block tw-medium"
+            className="text-sm block font-medium"
             style={{ color: globalColors[0] }}
           >
             {!message.sending && message.sender.name}
@@ -157,7 +159,7 @@ const InboxMessage: React.FC<InboxMessageProps> = ({
         <span>{message.body}</span>
       </Bubble>
       {message.sending && (
-        <span className="tc-muted block ts-tiny">Enviando...</span>
+        <span className="text-gray-600 block text-xs">Enviando...</span>
       )}
     </Container>
   )

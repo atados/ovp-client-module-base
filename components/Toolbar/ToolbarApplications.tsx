@@ -26,14 +26,16 @@ const ToolbarApplications: React.FC<ToolbarApplicationsProps> = ({ theme }) => {
     <DropdownWithContext onOpenStateChange={setOpen}>
       <DropdownToggler>
         <button
-          className={`rounded-circle w-10 h-10 no-border mr-2 btn-light ${
+          className={`rounded-full w-10 h-10 no-border mr-2 ${
             open
-              ? theme === 'light'
+              ? // if open
+                theme === 'light'
                 ? 'bg-primary-500'
                 : 'bg-white text-white'
               : theme === 'light'
-              ? 'bg-black-100'
-              : 'bg-light'
+              ? // else if closed
+                'bg-black-alpha:10'
+              : 'bg-white'
           } btn`}
         >
           <VolunteerIcon

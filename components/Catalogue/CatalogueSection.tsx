@@ -23,19 +23,19 @@ const CatalogueSection: React.FC<CatalogueSectionProps> = ({
 
   return (
     <div className={className}>
-      <h4 className="mb-3">{name || section.name}</h4>
-      <div className="row">
+      <h4 className="mb-4">{name || section.name}</h4>
+      <div className="flex -mx-2 flex-wrap">
         {section.type === 'organizations'
           ? section.organizations.map(organization => (
               <div
                 key={organization.slug}
-                className="col-6 col-md-3 mb-4 col-lg-2 mb-4"
+                className="px-2 w-1/2 md:1/4 mb-6 lg:1/6"
               >
                 <OrganizationCard organization={organization} />
               </div>
             ))
           : section.projects.map(project => (
-              <div key={project.slug} className="col-6 col-lg-3 mb-4">
+              <div key={project.slug} className="px-2 w-1/2 lg:w-1/4 mb-6">
                 <ProjectCard {...project} />
               </div>
             ))}

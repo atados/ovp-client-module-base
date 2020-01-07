@@ -26,19 +26,19 @@ const TermsPage: React.FC<{}> = () => {
     <Layout toolbarProps={{ flat: true }}>
       <Meta title="Termos de Aprovação" />
       <div className="bg-gray-200">
-        <div className="bg-primary-500 py-10" />
+        <div className="bg-primary-500 py-32" />
         <PageStyled>
-          <div className="container container--md py-5">
+          <div className="container px-2 max-w-3xl py-8">
             <div className="mb-2">
               <Link href={Page.TermsList} as={PageAs.TermsList()}>
-                <a className="btn btn-text btn--size-4 tc-white px-0 bg-none">
-                  <Icon name="arrow_back" className="mb-3 mr-2" />
+                <a className="btn btn-text btn--size-4 text-white px-0 bg-none">
+                  <Icon name="arrow_back" className="mb-4 mr-2" />
                   Ver todos os termos
                 </a>
               </Link>
             </div>
             <div className="bg-white rounded-lg p-5 shadow-lg">
-              <h1 className="h3 tl-base mb-4">
+              <h1 className="h3 leading-normal mb-6">
                 DIRETRIZES DE APROVAÇÃO PARA
                 <br />
                 ORGANIZAÇÕES E VAGAS

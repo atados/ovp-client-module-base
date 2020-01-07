@@ -11,7 +11,7 @@ import Icon from '../Icon'
 const Row = styled.div`
   margin: 0 -5px;
 
-  .col-md-4 {
+  > div {
     padding: 0 5px;
     margin-bottom: 10px;
   }
@@ -31,7 +31,7 @@ const OrganizationPagePhotos: React.FC<OrganizationPagePhotosProps> = ({
   const openGallery = useModal({
     id: 'Gallery',
     component: Gallery,
-    cardClassName: 'no-animation',
+    cardClassName: 'animation-none',
   })
   const photos = useMemo(() => {
     const photosList: ImageDict[] = []
@@ -46,14 +46,14 @@ const OrganizationPagePhotos: React.FC<OrganizationPagePhotosProps> = ({
     if (isViewerMember) {
       return (
         <div className={cx('bg-white rounded-lg shadow', className)}>
-          <div className="px-3 pt-3">
-            <h4 className="ts-medium tw-medium mb-3">
+          <div className="px-4 pt-4">
+            <h4 className="text-lg font-medium mb-4">
               <FormattedMessage
                 id="organizationPagePhotos.title"
                 defaultMessage="Fotos"
               />
             </h4>
-            <div className="ta-center">
+            <div className="text-center">
               <Icon name="image" className="block text-4xl mb-1" />
             </div>
           </div>
@@ -93,15 +93,15 @@ const OrganizationPagePhotos: React.FC<OrganizationPagePhotosProps> = ({
 
   return (
     <div className={cx(className, 'bg-white p-3 rounded-lg shadow')}>
-      <h4 className="ts-medium tw-medium mb-3">
+      <h4 className="text-lg font-medium mb-4">
         <FormattedMessage
           id="organizationPagePhotos.title"
           defaultMessage="Fotos"
         />
       </h4>
-      <Row className="row mb-3">
+      <Row className="flex flex-wrap -mx-2 mb-4">
         {photos.slice(0, 6).map(photo => (
-          <div key={photo.id} className="col-md-4">
+          <div key={photo.id} className="px-2 w-full md:w-1/3">
             <div className="ratio">
               <div className="ratio-fill" style={{ paddingTop: '100%' }}></div>
               <div

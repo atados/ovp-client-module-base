@@ -42,8 +42,8 @@ const FooterNav: React.FC<FooterNavProps> = ({
   className,
 }) => (
   <Nav
-    className={`nav flex-column ${className ? `${className} ` : ''}nav-${channel
-      .theme.footerTheme || 'light'} nav-size-1`}
+    className={`${className ? `${className} ` : ''}nav-${channel.theme
+      .footerTheme || 'light'} nav-size-1`}
   >
     <Title className="mb-1">{title}</Title>
     {React.Children.map(children, (child: React.ReactElement<any>) => {

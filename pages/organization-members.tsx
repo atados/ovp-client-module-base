@@ -9,13 +9,13 @@ import { useModal } from '~/components/Modal'
 import OrganizationLayout from '~/components/OrganizationLayout/OrganizationLayout'
 import useFetchAPI from '~/hooks/use-fetch-api'
 import { NotFoundPageError } from '~/lib/next/errors'
-import { User, UserOrganization } from '~/redux/ducks/user'
+import { UserOrganization } from '~/redux/ducks/user'
 import { RootState } from '~/redux/root-reducer'
-import { OrganizationMember } from '~/types/api'
+import { API } from '~/base/types/api'
 import { Page, PageAs } from '../common'
 import { FormattedMessage, useIntl, defineMessages } from 'react-intl'
 import Meta from '../components/Meta'
-import useTriggerableFetchApi from '../hooks/use-trigglerable-fetch-api'
+import useFetchAPIMutation from '../hooks/use-fetch-api-mutation'
 import ActivityIndicator from '~/components/ActivityIndicator'
 
 const m = defineMessages({
@@ -48,16 +48,15 @@ interface OrganizationMembersPageInitialProps {
 
 interface OrganizationMembersPageProps
   extends OrganizationMembersPageInitialProps {
-  readonly viewer: User
   readonly organization: UserOrganization
 }
 
 const OrganizationMembersPage: NextPage<
   OrganizationMembersPageProps,
   OrganizationMembersPageInitialProps
-> = ({ organization, viewer }) => {
+> = ({ organization }) => {
   const intl = useIntl()
-  const queryResult = useFetchAPI<OrganizationMember[]>(
+  const queryResult = useFetchAPI<API.OrganizationMember[]>(
     `/organizations/${organization.slug}/members/`,
   )
   const openAddMemberModal = useModal({
@@ -70,19 +69,17 @@ const OrganizationMembersPage: NextPage<
   })
   const members = queryResult.data || []
   const [deletingMemberId, setDeletingMemberId] = useState<null | number>(null)
-  const removeMemberTrigger = useTriggerableFetchApi(
-    `/organizations/${organization.slug}/remove_member/`,
-    {
-      method: 'POST',
-    },
-  )
-  const handleRemoveMember = (member: OrganizationMember) => {
+  const removeMemberMutation = useFetchAPIMutation(() => ({
+    method: 'POST',
+    endpoint: `/organizations/${organization.slug}/remove_member/`,
+  }))
+  const handleRemoveMember = (member: API.OrganizationMember) => {
     if (!confirm(intl.formatMessage(m.areYouSure))) {
       return
     }
 
     setDeletingMemberId(member.id)
-    removeMemberTrigger.trigger({ email: member.email })
+    removeMemberMutation.mutate({ email: member.email })
   }
 
   return (
@@ -93,13 +90,13 @@ const OrganizationMembersPage: NextPage<
         isViewerMember
         organization={organization}
       >
-        <div className="container py-4">
+        <div className="container px-2 py-5">
           <div className="shadow bg-white rounded-lg">
-            <div className="py-3 px-4">
-              <h1 className="text-2xl tw-medium">
+            <div className="py-4 px-5">
+              <h1 className="text-2xl font-medium">
                 {intl.formatMessage(m.title)}
               </h1>
-              <p className="tc-muted mb-0">
+              <p className="text-gray-600 mb-0">
                 <FormattedMessage
                   id="pages.organizationMembers.description"
                   defaultMessage="Gerencie os membros que podem administrar o perfil da ONG."
@@ -111,14 +108,14 @@ const OrganizationMembersPage: NextPage<
                 <tbody>
                   {members.map(member => (
                     <tr key={member.id}>
-                      <td className="pl-4">
+                      <td className="pl-5">
                         <Link
                           href={Page.PublicUser}
                           as={PageAs.PublicUser({ slug: member.slug })}
                         >
-                          <a className="tc-base">
+                          <a className="text-gray-800">
                             <div
-                              className="w-8 h-8 bg-cover rounded mr-3 inline-block vertical-align-middle"
+                              className="w-8 h-8 bg-cover bg-center rounded mr-4 inline-block align-middle"
                               style={
                                 member.avatar
                                   ? {
@@ -131,33 +128,34 @@ const OrganizationMembersPage: NextPage<
                           </a>
                         </Link>
                       </td>
-                      <td className="pr-4">{member.email}</td>
-                      <td className="ta-right">
-                        {member.slug !== viewer.slug && (
-                          <button
-                            type="button"
-                            className="btn btn-muted btn--size-2 tc-error"
-                            onClick={() => handleRemoveMember(member)}
-                            disabled={
-                              removeMemberTrigger.loading &&
-                              deletingMemberId === member.id
-                            }
-                          >
-                            <Icon name="close" className="mr-2" />
-                            <FormattedMessage
-                              id="pages.organizationMembers.removeMember"
-                              defaultMessage="Remover membro"
-                            />
-                            {removeMemberTrigger.loading &&
-                              deletingMemberId === member.id && (
-                                <ActivityIndicator
-                                  size={24}
-                                  fill="#fff"
-                                  className="ml-2"
-                                />
-                              )}
-                          </button>
-                        )}
+                      <td className="pr-5">{member.email}</td>
+                      <td className="text-right">
+                        {organization.owner &&
+                          member.slug === organization.owner.slug && (
+                            <button
+                              type="button"
+                              className="btn btn-muted btn--size-2 text-red-600"
+                              onClick={() => handleRemoveMember(member)}
+                              disabled={
+                                removeMemberMutation.loading &&
+                                deletingMemberId === member.id
+                              }
+                            >
+                              <Icon name="close" className="mr-2" />
+                              <FormattedMessage
+                                id="pages.organizationMembers.removeMember"
+                                defaultMessage="Remover membro"
+                              />
+                              {removeMemberMutation.loading &&
+                                deletingMemberId === member.id && (
+                                  <ActivityIndicator
+                                    size={24}
+                                    fill="#fff"
+                                    className="ml-2"
+                                  />
+                                )}
+                            </button>
+                          )}
                       </td>
                     </tr>
                   ))}
@@ -211,7 +209,6 @@ export default connect(
     state: RootState,
     { organizationSlug }: OrganizationMembersPageInitialProps,
   ) => ({
-    viewer: state.user!,
     organization: state.user!.organizations.find(
       organization => organization.slug === organizationSlug,
     ),

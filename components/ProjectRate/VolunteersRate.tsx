@@ -186,13 +186,13 @@ class VolunteersRate extends React.Component<
               }
             />
             <div className="p-4">
-              <h4 className="ts-normal">{project.name}</h4>
-              <p className="m-0 ts-small">{project.description}</p>
+              <h4 className="text-base">{project.name}</h4>
+              <p className="m-0 text-sm">{project.description}</p>
             </div>
           </Card>
         </div>
         {fetchingRatings ? (
-          <div className="bg-muted card-item p-5 ta-center">
+          <div className="bg-muted card-item p-5 text-center">
             <ActivityIndicator size={48} />
           </div>
         ) : (
@@ -253,12 +253,12 @@ class VolunteersRate extends React.Component<
                         ))}
                       </Stars>
                       {(markedValue || value > 0) && (
-                        <span className="block ts-tiny tc-muted">
+                        <span className="block text-xs text-gray-600">
                           {messages[value > 0 ? value - 1 : markedValue - 1]}
                         </span>
                       )}
                     </td>
-                    <td className="ta-center">
+                    <td className="text-center">
                       <input
                         type="checkbox"
                         className="input"

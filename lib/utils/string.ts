@@ -81,3 +81,13 @@ export function formatToBRDate(value: string) {
 export function getExtension(str: string) {
   return str.substr(str.lastIndexOf('.') + 1)
 }
+
+export const removeSearchFragmentFromURL = (url: string) => {
+  const searchSymbolIndex = url.indexOf('?')
+
+  if (searchSymbolIndex === -1) {
+    return url
+  }
+
+  return url.substr(0, searchSymbolIndex)
+}

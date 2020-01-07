@@ -43,9 +43,9 @@ const ProjectCardList: React.FC<ProjectCardListProps> = ({
   size,
   fetching,
 }) => {
-  const itemClassName = `col-sm-6 col-lg-${
-    size === ProjectCardListSize.WIDE ? '4' : '3'
-  } mb-4`
+  const itemClassName = `px-2 w-full sm:w-1/2 ${
+    size === ProjectCardListSize.WIDE ? 'lg:w-4/12' : 'lg:w-3/12'
+  } mb-6`
   return (
     <div className={`row${className ? ` ${className}` : ''}`}>
       {projects.map(project => (

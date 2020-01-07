@@ -12,14 +12,13 @@ interface ViewerSettingsLayoutProps {
   readonly className?: string
 }
 
-const ViewerSettingsLayout: React.FC<
-  ViewerSettingsLayoutProps & WithRouterProps
-> = ({ className, children, router }) => {
+const ViewerSettingsLayout: React.FC<ViewerSettingsLayoutProps &
+  WithRouterProps> = ({ className, children, router }) => {
   return (
     <Layout className={cx('bg-gray-200', className)}>
-      <div className="container py-5">
-        <div className="row">
-          <div className="col-md-3 mb-4">
+      <div className="container px-2 py-8">
+        <div className="flex flex-wrap -mx-2">
+          <div className="w-full md:w-1/4 px-2 mb-6">
             <PageLink href="ViewerSettings" passHref>
               <ViewerSettingsNavItem
                 icon="person"
@@ -76,7 +75,7 @@ const ViewerSettingsLayout: React.FC<
               </ViewerSettingsNavItem>
             </PageLink>
           </div>
-          <div className="col-md-9">{children}</div>
+          <div className="w-full md:w-9/12">{children}</div>
         </div>
       </div>
     </Layout>

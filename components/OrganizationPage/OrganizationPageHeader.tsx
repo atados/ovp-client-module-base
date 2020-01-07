@@ -20,10 +20,30 @@ const Photo = styled(Avatar)`
   height: 140px;
 `
 
+const PhotoShadow = styled.div`
+  width: 140px;
+  height: 140px;
+  border-radius: 12px;
+  background: #000;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+  position: absolute;
+  bottom: -26px;
+  left: 2px;
+
+  @media (min-width: 1024px) {
+    left: 14px;
+  }
+
+  @media (min-width: 1280px) {
+    left: 26px;
+  }
+`
+
 const Cover = styled.div`
   padding-top: 240px;
-  margin: 0 -10px;
   overflow: hidden;
+  position: relative;
+  z-index: 1;
 
   svg {
     margin: 0 -1px;
@@ -95,9 +115,9 @@ const OrganizationPageHeader: React.FC<OrganizationPageHeaderProps> = ({
 
   return (
     <div className={className}>
-      <div className="container">
+      <div className="container px-2">
         <Cover
-          className="bg-gray-300 mb-3 rounded-b-lg bg-cover relative"
+          className="bg-gray-300 mb-4 -mx-2 lg:-mx-5 xl:-mx-8 rounded-b-lg bg-cover bg-center relative"
           style={{
             backgroundImage:
               organization.cover || newCover
@@ -113,8 +133,9 @@ const OrganizationPageHeader: React.FC<OrganizationPageHeaderProps> = ({
             // @ts-ignore
             <UpdateCoverButton
               as="button"
+              // @ts-ignore
               type="button"
-              className="btn bg-green-500 tc-white absolute shadow"
+              className="btn bg-green-500 text-white absolute shadow"
               disabled={newCover.uploading}
               onClick={handleNewCoverSubmit}
             >
@@ -143,11 +164,12 @@ const OrganizationPageHeader: React.FC<OrganizationPageHeaderProps> = ({
               </UpdateCoverButton>
             )
           )}
+          <PhotoShadow />
           <svg
             viewBox="0 0 1100 40"
             version="1.1"
             xmlns="http://www.w3.org/2000/svg"
-            className="block"
+            className="block relative z-5"
           >
             <g
               id="Artboard"
@@ -166,27 +188,27 @@ const OrganizationPageHeader: React.FC<OrganizationPageHeaderProps> = ({
           </svg>
         </Cover>
         <Photo
-          className="z-5 relative bg-contain mb-4"
+          className="z-10 relative bg-contain mb-6"
           image={organization.image}
           fallBackClassName="bg-gray-300"
         />
-        <span className="block tc-secondary-500 tt-upper tw-medium mb-1">
+        <span className="block text-secondary-500 tt-upper font-medium mb-1">
           {organization.address ? organization.address.city_state : ''}
         </span>
-        <h1 className="h2 tw-medium mb-1">
+        <h1 className="h2 font-medium mb-1">
           {organization.name}
 
           {organization.verified && (
             <OrganizationVerificationBadge className="w-6 h-6 ml-2" />
           )}
         </h1>
-        <p className="tc-gray-700 ts-medium">{organization.description}</p>
+        <p className="text-gray-700 text-lg">{organization.description}</p>
         <div>
           {organization.causes.map(cause => (
             <PageLink key={cause.id} href="Cause" params={{ slug: cause.slug }}>
-              <a className="tc-gray-600 mr-3">
+              <a className="text-gray-600 mr-4">
                 <span
-                  className="w-2 h-2 inline-block mr-2 rounded-circle vertical-align-middle"
+                  className="w-2 h-2 inline-block mr-2 rounded-full align-middle"
                   style={{ backgroundColor: cause.color }}
                 />
                 {cause.name}

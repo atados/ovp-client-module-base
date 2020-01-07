@@ -2,7 +2,7 @@ import React, { useCallback } from 'react'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
 import { useIntl } from 'react-intl'
-import useTriggerableFetchApi from '~/hooks/use-trigglerable-fetch-api'
+import useFetchAPIMutation from '~/base/hooks/use-fetch-api-mutation'
 import { formatDisponibility } from '~/lib/project/utils'
 import {
   Project,
@@ -137,14 +137,14 @@ const ProjectApplicationRegistry: React.FC<ProjectApplicationRegistryProps> = ({
   onUpdateProject,
 }) => {
   const intl = useIntl()
-  const unapplyTrigger = useTriggerableFetchApi(
-    `/projects/${project.slug}/applies/unapply/`,
-    { method: 'POST' },
-  )
+  const unapplyMutation = useFetchAPIMutation(() => ({
+    method: 'POST',
+    endpoint: `/projects/${project.slug}/applies/unapply/`,
+  }))
   const modalManager = useModalManager()
   const handleUnapplication = useCallback(async () => {
     try {
-      await unapplyTrigger.trigger()
+      await unapplyMutation.mutate()
     } catch (error) {
       // ...
     }
@@ -158,20 +158,22 @@ const ProjectApplicationRegistry: React.FC<ProjectApplicationRegistryProps> = ({
     if (modalManager.isModalOpen('ProjectApplicationRegistry')) {
       modalManager.close('ProjectApplicationRegistry')
     }
-  }, [unapplyTrigger, application])
+  }, [unapplyMutation, application])
 
   return (
     <div>
-      <div className="card no-border radius-10  p-4 mb-3 bg-success tc-white">
-        <h4 className="tw-normal">
+      <div className="card no-border rounded-lg  p-4 mb-4 bg-green-600 text-white">
+        <h4 className="font-normal">
           {isNew
             ? intl.formatMessage(BEM_SUCEDIDA)
             : intl.formatMessage(INSCRITO)}
         </h4>
-        <p className="tc-light mb-0">{intl.formatMessage(FIQUE_ATENTO)}</p>
+        <p className="text-white-alpha-80 mb-0">
+          {intl.formatMessage(FIQUE_ATENTO)}
+        </p>
       </div>
 
-      <div className="card no-border radius-10  mb-3 ">
+      <div className="card no-border rounded-lg  mb-4 ">
         <div className="p-4 card-item">
           <a
             href={`/voluntario/${viewer.slug}`}
@@ -186,10 +188,10 @@ const ProjectApplicationRegistry: React.FC<ProjectApplicationRegistryProps> = ({
               className="mr-2"
             />
             <div className="media-body">
-              <span className="tw-medium tc-base block text-truncate">
+              <span className="font-medium text-base block truncate">
                 {viewer.name}
               </span>
-              <span className="tc-success">
+              <span className="text-green-600">
                 {intl.formatMessage(VOLUNTARIO_INSCRITO)}
               </span>
             </div>
@@ -198,12 +200,12 @@ const ProjectApplicationRegistry: React.FC<ProjectApplicationRegistryProps> = ({
           <hr />
           {application && application.role && (
             <>
-              <h4 className="ts-large mb-1">{application.role.name}</h4>
-              <span className="tc-muted ts-small tw-medium">
+              <h4 className="text-xl mb-1">{application.role.name}</h4>
+              <span className="text-gray-600 text-sm font-medium">
                 {intl.formatMessage(FUNCAO)}
               </span>
               <p>{application.role.details}</p>
-              <span className="tc-muted ts-small tw-medium">
+              <span className="text-gray-600 text-sm font-medium">
                 {intl.formatMessage(PRE)}
               </span>
               <p className="mb-0">{application.role.details}</p>
@@ -211,27 +213,27 @@ const ProjectApplicationRegistry: React.FC<ProjectApplicationRegistryProps> = ({
           )}
         </div>
       </div>
-      <div className="card no-border radius-10  mb-3">
+      <div className="card no-border rounded-lg  mb-4">
         <div className="p-4">
           {project.disponibility && (
             <>
-              <h4 className="ts-large mb-2">
+              <h4 className="text-xl mb-2">
                 {intl.formatMessage(DESCRICAO_HORARIOS)}
               </h4>
-              <div className="tc-muted-dark">
+              <div className="text-gray-700">
                 {project.disponibility.type === 'work' ? (
                   <>
-                    <p className="mb-1 ts-medium">
+                    <p className="mb-1 text-lg">
                       <Icon name="event" className="mr-2" />
                       {project.disponibility.work.description}
                     </p>
-                    <p className="mb-1 ts-medium">
+                    <p className="mb-1 text-lg">
                       <Icon name="access_time" className="mr-2" />
                       {project.disponibility.work.weekly_hours}{' '}
                       {intl.formatMessage(HORAS)}
                     </p>
                     {project.disponibility.work.can_be_done_remotely && (
-                      <p className="mb-1 ts-medium">
+                      <p className="mb-1 text-lg">
                         <Icon name="public" className="mr-2" />
                         {intl.formatMessage(A_DISTANCIA)}
                       </p>
@@ -245,10 +247,10 @@ const ProjectApplicationRegistry: React.FC<ProjectApplicationRegistryProps> = ({
           )}
           {project.address && (
             <>
-              <h4 className="ts-large mb-1 mt-4">
+              <h4 className="text-xl mb-1 mt-6">
                 {intl.formatMessage(ENDERECO)}
               </h4>
-              <p className="mb-0 tc-muted-dark">
+              <p className="mb-0 text-gray-700">
                 {project.address.typed_address}
                 {project.address.typed_address2 && (
                   <>
@@ -272,16 +274,16 @@ const ProjectApplicationRegistry: React.FC<ProjectApplicationRegistryProps> = ({
           </Map>
         )}
       </div>
-      <div className="card no-border radius-10  shadow bg-error-light p-4">
-        <h4 className="tw-normal">{intl.formatMessage(CANCELAR)}</h4>
-        <span className="tc-muted-dark mb-0 block mb-3">
+      <div className="card no-border rounded-lg  shadow bg-red-400 p-4">
+        <h4 className="font-normal">{intl.formatMessage(CANCELAR)}</h4>
+        <span className="text-gray-700 mb-0 block mb-4">
           {intl.formatMessage(AO_CANCELAR)}
         </span>
         <button
           type="button"
           className="btn btn-error"
           onClick={handleUnapplication}
-          disabled={unapplyTrigger.loading}
+          disabled={unapplyMutation.loading}
         >
           <Icon name="close" /> {intl.formatMessage(CONFIRMA_CANCELAR)}
         </button>
@@ -292,7 +294,6 @@ const ProjectApplicationRegistry: React.FC<ProjectApplicationRegistryProps> = ({
 
 ProjectApplicationRegistry.displayName = 'ProjectApplicationRegistry'
 
-export default connect(
-  (state: RootState) => ({ viewer: state.user }),
-  { onUpdateProject: updateProject },
-)(ProjectApplicationRegistry)
+export default connect((state: RootState) => ({ viewer: state.user }), {
+  onUpdateProject: updateProject,
+})(ProjectApplicationRegistry)

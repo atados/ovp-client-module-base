@@ -103,9 +103,10 @@ const {
   },
 })
 
-const ProjectApplicationFormProps: React.FC<
-  InjectedFormikProps<ProjectApplicationProps, Values>
-> = ({
+const ProjectApplicationFormProps: React.FC<InjectedFormikProps<
+  ProjectApplicationProps,
+  Values
+>> = ({
   className,
   touched,
   handleChange,
@@ -123,15 +124,15 @@ const ProjectApplicationFormProps: React.FC<
     <form
       method="post"
       onSubmit={handleSubmit}
-      className={`${className || ''} card no-border radius-10 shadow-xl p-5`}
+      className={`${className || ''} card no-border rounded-lg shadow-3xl p-5`}
     >
-      <h4 className="tw-normal">{intl.formatMessage(FORMULARIO)}</h4>
+      <h4 className="font-normal">{intl.formatMessage(FORMULARIO)}</h4>
       <hr />
 
       {project.roles && project.roles.length > 0 && (
         <>
           <b className="block mb-2">{intl.formatMessage(FUNCAO)}</b>
-          <div className="card mb-4">
+          <div className="card mb-6">
             {project.roles.map(role => (
               <div key={role.id} className="card-item">
                 <RoleButton
@@ -140,7 +141,7 @@ const ProjectApplicationFormProps: React.FC<
                   onClick={() => setFieldValue('roleId', role.id)}
                 >
                   <span
-                    className={`input-radio mr-3${
+                    className={`input-radio mr-4${
                       values.roleId === role.id ? ' checked' : ''
                     }`}
                   />
@@ -149,7 +150,7 @@ const ProjectApplicationFormProps: React.FC<
                   </div>
                 </RoleButton>
                 {values.roleId === role.id && (
-                  <RoleBody className="bg-muted ts-small p-3">
+                  <RoleBody className="bg-muted text-sm p-3">
                     <p>{role.details}</p>
                     <p className="mb-0">
                       <b>{intl.formatMessage(PRE_REQUISITOS)} </b>
@@ -168,7 +169,7 @@ const ProjectApplicationFormProps: React.FC<
         error={touched.message ? errors.message : undefined}
         length={values.message.length}
         maxLength={150}
-        className="mb-4"
+        className="mb-6"
         required={false}
       >
         <Textarea
@@ -183,7 +184,7 @@ const ProjectApplicationFormProps: React.FC<
       </FormGroup>
       <FormGroup
         error={touched.terms ? errors.terms : undefined}
-        className="mb-4"
+        className="mb-6"
       >
         <input
           name="terms"
@@ -202,7 +203,7 @@ const ProjectApplicationFormProps: React.FC<
       </FormGroup>
       <button
         type="submit"
-        className="btn btn--size-4 btn-primary mb-3 btn--block"
+        className="btn btn--size-4 btn-primary mb-4 btn--block"
         disabled={isSubmitting}
       >
         {intl.formatMessage(CONFIRMAR)}
@@ -210,7 +211,9 @@ const ProjectApplicationFormProps: React.FC<
           <ActivityIndicator size={36} fill="white" className="ml-1" />
         )}
       </button>
-      <p className="tc-muted ts-small">{intl.formatMessage(AO_CONFIRMAR)}</p>
+      <p className="text-gray-600 text-sm">
+        {intl.formatMessage(AO_CONFIRMAR)}
+      </p>
 
       <div className="p-2 bg-gray-200 rounded-lg">
         <Icon name="info" />{' '}
@@ -221,13 +224,13 @@ const ProjectApplicationFormProps: React.FC<
           />
           !
         </b>{' '}
-        <span className="block mb-3 ts-small tc-gray-600">
+        <span className="block mb-4 text-sm text-gray-600">
           {intl.formatMessage(MANTENHA)}{' '}
         </span>
         <a
           href={Page.ViewerSettings}
           target="__blank"
-          className="btn bg-gray-400 hover:bg-gray-500 tc-gray-700 td-underline"
+          className="btn bg-gray-400 hover:bg-gray-500 text-gray-700 td-underline"
         >
           <Icon name="edit" className="mr-2" />
           {intl.formatMessage(ATUALIZAR)}

@@ -87,13 +87,11 @@ const ProjectComposerCard: React.FC<ProjectComposerCardProps> = ({
       </Header>
       <Author>
         por{' '}
-        {organization && <span className="tc-link">{organization.name}</span>}
+        {organization && (
+          <span className="text-anchor">{organization.name}</span>
+        )}
       </Author>
-      {name ? (
-        <Name className="text-truncate">{name}</Name>
-      ) : (
-        <NamePlaceholder />
-      )}
+      {name ? <Name className="truncate">{name}</Name> : <NamePlaceholder />}
       {description ? (
         <Description>{description}</Description>
       ) : (
@@ -102,7 +100,7 @@ const ProjectComposerCard: React.FC<ProjectComposerCardProps> = ({
       {address && (
         <span
           title={address.node.description}
-          className="block w-full text-truncate"
+          className="block w-full truncate"
         >
           <Icon name="place" /> {address.node.description}
         </span>

@@ -97,24 +97,24 @@ const PublicUserPage: NextPage<PublicUserPageProps> = ({ publicUser }) => {
     <PublicUserLayout>
       <Meta title={publicUser.name} description={publicUser.profile.about} />
 
-      <Info className="mb-4">
+      <Info className="mb-6">
         <InfoItem>
           <InfoItemValue>{publicUser.volunteer_hours || 0}</InfoItemValue>
-          <InfoItemLabel className="text-truncate">
+          <InfoItemLabel className="truncate">
             HORAS DE VOLUNTARIADO
           </InfoItemLabel>
         </InfoItem>
         <InfoItem>
           <InfoItemValue>{publicUser.applies.length}</InfoItemValue>
-          <InfoItemLabel className="text-truncate">
+          <InfoItemLabel className="truncate">
             PARTICIPAÇÕES VOLUNTÁRIAS
           </InfoItemLabel>
         </InfoItem>
       </Info>
       {publicUser.profile.causes && publicUser.profile.causes.length > 0 && (
         <>
-          <h4 className="ts-medium">Causas preferidas</h4>
-          <Causes className="mb-4">
+          <h4 className="text-lg">Causas preferidas</h4>
+          <Causes className="mb-6">
             {publicUser.profile.causes.map(cause => (
               <li key={cause.id}>
                 <Link as={PageAs.Cause({ slug: cause.slug })} href={Page.Cause}>
@@ -129,8 +129,8 @@ const PublicUserPage: NextPage<PublicUserPageProps> = ({ publicUser }) => {
         </>
       )}
       {publicUser.profile.skills && publicUser.profile.skills.length > 0 && (
-        <div className="mb-4">
-          <h4 className="ts-medium">Habilidades</h4>
+        <div className="mb-6">
+          <h4 className="text-lg">Habilidades</h4>
           <SkillList>
             {publicUser.profile.skills.map(skill => (
               <SkillItem key={skill.id}>{skill.name}</SkillItem>

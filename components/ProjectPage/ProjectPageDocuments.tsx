@@ -31,22 +31,22 @@ const ProjectPageDocuments: React.FC<ProjectPageDocumentsProps> = ({
 
   return (
     <>
-      <h4 className="mb-4">{intl.formatMessage(DOCUMENTOS)}</h4>
+      <h4 className="mb-6">{intl.formatMessage(DOCUMENTOS)}</h4>
       <div className="card">
         {project.documents.map(document => (
           <Anchor
             href={document.document_url}
-            className="p-4 card-item tc-base media"
+            className="p-4 card-item text-gray-800 media"
             key={document.id}
             target="__blank"
             download
           >
-            <Icon name="insert_drive_file" className="ts-large" />
+            <Icon name="insert_drive_file" className="text-xl" />
             <div className="media-body ml-2">{document.document_url}</div>
           </Anchor>
         ))}
       </div>
-      <hr className="mt-4 mb-4" />
+      <hr className="mt-6 mb-6" />
     </>
   )
 }

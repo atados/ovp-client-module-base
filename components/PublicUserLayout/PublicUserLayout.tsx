@@ -83,11 +83,11 @@ const PublicUserLayout: React.FC<PublicUserLayoutProps> = ({
   return (
     <Layout toolbarProps={{ fixed: true }}>
       <div className="p-toolbar">
-        <Container className="container md:flex py-5">
-          <Sidebar className="container ta-center ta-md-left">
+        <Container className="container px-2 md:flex py-8">
+          <Sidebar className="container text-center md:text-left">
             {sidebar || (
               <>
-                <div className="ratio mb-3">
+                <div className="ratio mb-4">
                   <div className="ratio-fill" style={{ paddingTop: '100%' }} />
                   <div className="ratio-body">
                     <Avatar
@@ -101,7 +101,9 @@ const PublicUserLayout: React.FC<PublicUserLayoutProps> = ({
                   </div>
                 </div>
                 <Name>{publicUser.name}</Name>
-                <p className="ts-small tc-muted">{publicUser.profile.about}</p>
+                <p className="text-sm text-gray-600">
+                  {publicUser.profile.about}
+                </p>
                 {isAuthenticatedUser && (
                   <Link href={Page.ViewerSettings}>
                     <a className="btn btn-default btn--block">Editar perfil</a>
@@ -110,7 +112,7 @@ const PublicUserLayout: React.FC<PublicUserLayoutProps> = ({
               </>
             )}
           </Sidebar>
-          <Body className="container">{children}</Body>
+          <Body className="container px-2">{children}</Body>
         </Container>
       </div>
     </Layout>

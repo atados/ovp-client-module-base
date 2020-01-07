@@ -125,6 +125,11 @@ export interface UserOrganization {
   name: string
   description: string
   chat_enabled: boolean
+  owner: {
+    id: number
+    name: string
+    slug: string
+  }
   image?: {
     image_small_url: string
     image_url: string

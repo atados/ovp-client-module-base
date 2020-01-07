@@ -45,7 +45,7 @@ const Container = styled.div`
     &.map-rendered {
       width: auto !important;
       max-width: none !important;
-      padding-right: 430px;
+      padding-right: 430px !important;
     }
   }
 `
@@ -329,7 +329,9 @@ class ExplorePage extends React.Component<
     return (
       <Layout toolbarProps={{ fixed: true }} disableFooter>
         <Meta title={intl.formatMessage(TITLE)} />
-        <Container className={`container${renderMap ? ' map-rendered' : ''}`}>
+        <Container
+          className={`px-3 container${renderMap ? ' map-rendered' : ''}`}
+        >
           <Header className={renderMap ? '' : ' container'}>
             <HeaderInner className={isAnyFilterOpen ? 'filters-open' : ''}>
               <SearchFilters
@@ -343,7 +345,7 @@ class ExplorePage extends React.Component<
           </Header>
           <Body>
             {searchType === SearchType.Any && (
-              <div className="mb-4">
+              <div className="mb-6">
                 <Link
                   href={{
                     pathname: Page.SearchProjects,
@@ -356,16 +358,16 @@ class ExplorePage extends React.Component<
                 >
                   <Option
                     href={`/vagas/?${filtersQueryString}`}
-                    className="btn btn--size-3 ta-left mb-3 mb-md-0"
+                    className="btn btn--size-3 text-left mb-4 md:mb-0"
                   >
                     <div className="media">
                       <div className="media-body">
-                        <span className="tw-normal block ts-small mb-1">
+                        <span className="font-normal block text-sm mb-1">
                           {intl.formatMessage(BUSCAR_SOMENTE)}
                         </span>
-                        <span className="ts-large">
+                        <span className="text-xl">
                           {`${intl.formatMessage(VAGAS)} `}
-                          <span className="tw-normal ts-normal tc-muted">
+                          <span className="font-normal text-base text-gray-600">
                             {' '}
                             {fetching
                               ? `- ${intl.formatMessage(CARREGANDO)}`
@@ -390,16 +392,16 @@ class ExplorePage extends React.Component<
                   as={`${PageAs.SearchOrganizations()}?${filtersQueryString}`}
                   passHref
                 >
-                  <Option className="btn btn--size-3 ta-left ml-md-3">
+                  <Option className="btn btn--size-3 text-left md:ml-4">
                     <div className="media">
                       <div className="media-body">
-                        <span className="tw-normal block ts-small mb-1">
+                        <span className="font-normal block text-sm mb-1">
                           {intl.formatMessage(BUSCAR_SOMENTE)}
                         </span>
-                        <span className="ts-large">
+                        <span className="text-xl">
                           {intl.formatMessage(ONGS)}
                         </span>{' '}
-                        <span className="tw-normal ts-normal tc-muted">
+                        <span className="font-normal text-base text-gray-600">
                           {' '}
                           {fetching
                             ? `- ${intl.formatMessage(CARREGANDO)}`
@@ -422,7 +424,7 @@ class ExplorePage extends React.Component<
                 }}
                 as={`${PageAs.Search()}?${filtersQueryString}`}
               >
-                <a className="tc-secondary-500 float-right">
+                <a className="text-secondary-500 float-right">
                   {`${intl.formatMessage(INCLUIR)} `}
                   {searchType === SearchType.Projects
                     ? intl.formatMessage(ONGS)
@@ -531,7 +533,6 @@ const mapStateToProps = ({
   }
 }
 
-export default connect(
-  mapStateToProps,
-  { onFetchNextPage: fetchNextSearchPage },
-)(withIntl(ExplorePage))
+export default connect(mapStateToProps, {
+  onFetchNextPage: fetchNextSearchPage,
+})(withIntl(ExplorePage))

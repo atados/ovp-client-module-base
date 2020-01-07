@@ -257,7 +257,7 @@ class InputSelect extends React.PureComponent<
               <Option
                 type="button"
                 key={item.value}
-                className="btn btn-text btn--block ta-left tw-normal"
+                className="btn btn-text btn--block text-left font-normal"
                 onClick={() => this.select(item)}
               >
                 {item.label}

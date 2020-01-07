@@ -49,7 +49,7 @@ class ToolbarMessages extends React.Component<
     return (
       <Dropdown open={open} onOpenStateChange={this.handleOpenStateChange}>
         <button
-          className="btn btn-plain-text nav-link tw-normal"
+          className="btn btn-plain-text nav-link font-normal"
           onClick={this.handleButtonClick}
         >
           Mensagens

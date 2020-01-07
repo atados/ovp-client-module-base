@@ -136,10 +136,10 @@ const InboxThread: React.FC<InboxThreadProps> = ({
               {lastMessageMoment.fromNow()}
             </Timestamp>
           )}
-          <span className="tw-medium block mb-1 text-truncate">
+          <span className="font-medium block mb-1 truncate">
             {thread.threadableNode.name}
           </span>
-          <span className="block text-truncate ts-small tc-muted">
+          <span className="block truncate text-sm text-gray-600">
             {thread.threadable === MessageThreadable.Project ? 'Você: ' : ''}
             {thread.lastMessage && thread.lastMessage.body}
           </span>

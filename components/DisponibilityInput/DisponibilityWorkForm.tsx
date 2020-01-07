@@ -74,7 +74,7 @@ class DisponibilityWorkForm extends React.PureComponent<
         <FormGroup
           hint={intl.formatMessage(HORARIOS_DICA)}
           label={intl.formatMessage(DESCRICAO_HORARIOS)}
-          className="mb-3"
+          className="mb-4"
           error={touched.description ? errors.description : undefined}
         >
           <textarea

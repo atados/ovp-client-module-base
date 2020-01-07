@@ -96,13 +96,13 @@ const FAQSearchForm: React.FC<FAQSearchFormProps> = ({
         value={state.inputValue}
       />
       {state.hintEnabled && (
-        <Hint className="tc-light animate-slideInUp block mt-2 absolute left-0 right-0">
+        <Hint className="text-white-alpha-80 animate-slideInUp block mt-2 absolute left-0 right-0">
           {intl.formatMessage(m.enter)}
         </Hint>
       )}
       <Icon
         name="search"
-        className="absolute top-0 bottom-0 border-l pl-2 tc-gray-700"
+        className="absolute top-0 bottom-0 border-l pl-3 text-gray-700"
       />
     </FAQSearchFormStyled>
   )

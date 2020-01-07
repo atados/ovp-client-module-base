@@ -40,18 +40,19 @@ const { DESINSCREVER, CANCELAR, CONFIRMAR } = defineMessages({
 // tslint:disable-next-line
 type Values = {}
 
-const ProjectUnapplicationProps: React.FC<
-  InjectedFormikProps<ProjectUnapplicationProps, Values>
-> = ({ className, onFinish, isSubmitting, handleSubmit }) => {
+const ProjectUnapplicationProps: React.FC<InjectedFormikProps<
+  ProjectUnapplicationProps,
+  Values
+>> = ({ className, onFinish, isSubmitting, handleSubmit }) => {
   const intl = useIntl()
 
   return (
     <form method="post" onSubmit={handleSubmit} className={className}>
-      <h4 className="tw-normal ta-center">
+      <h4 className="font-normal text-center">
         {intl.formatMessage(DESINSCREVER)}
       </h4>
       <hr />
-      <div className="ta-center">
+      <div className="text-center">
         <button
           type="button"
           className="btn btn--size-3 btn-default mr-2"

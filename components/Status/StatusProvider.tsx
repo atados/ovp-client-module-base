@@ -77,12 +77,12 @@ const StatusProvider: React.FC<StatusProviderProps> = ({ children }) => {
         {state.messages.map((message, i) => (
           <div
             key={`${message.text}${i}`}
-            className={cx('tc-white ta-center py-1 px-2 text-left flex', {
-              'bg-error tc-error': message.level === StatusLevel.Error,
-              'bg-warning tc-warning': message.level === StatusLevel.Warning,
+            className={cx('text-white text-center py-2 px-3 text-left flex', {
+              'bg-red-600 text-red-600': message.level === StatusLevel.Error,
+              'bg-warning text-warning': message.level === StatusLevel.Warning,
             })}
           >
-            <span className="tc-white">
+            <span className="text-white">
               <Icon name="error" className="mr-2" />
               {message.text}
             </span>
@@ -90,12 +90,12 @@ const StatusProvider: React.FC<StatusProviderProps> = ({ children }) => {
             {i === 0 && (
               <>
                 {countMap[StatusLevel.Error] > 0 && (
-                  <Pill className="flex rounded-full bg-white uppercase ts-small tw-medium mr-3">
+                  <Pill className="flex rounded-full bg-white uppercase text-sm font-medium mr-4">
                     {countMap[StatusLevel.Error]} ERRORS
                   </Pill>
                 )}
                 {countMap[StatusLevel.Warning] > 0 && (
-                  <Pill className="flex rounded-full bg-white uppercase ts-small tw-medium mr-3">
+                  <Pill className="flex rounded-full bg-white uppercase text-sm font-medium mr-4">
                     {countMap[StatusLevel.Warning]} WARNINGS
                   </Pill>
                 )}

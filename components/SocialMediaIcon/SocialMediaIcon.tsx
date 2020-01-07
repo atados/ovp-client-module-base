@@ -1,6 +1,7 @@
 import React from 'react'
 
 interface SocialMediaIconProps {
+  readonly size?: number
   readonly social: {
     kind: string
     url: string
@@ -8,13 +9,13 @@ interface SocialMediaIconProps {
 }
 
 const icons = {
-  facebook: (
+  facebook: (size = 16) => (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 216 216"
       color="#FFFFFF"
-      width="14"
-      height="14"
+      width={size}
+      height={size}
     >
       <path
         fill="#FFFFFF"
@@ -27,10 +28,10 @@ const icons = {
       />
     </svg>
   ),
-  instagram: (
+  instagram: (size = 16) => (
     <svg
-      width="14px"
-      height="14px"
+      width={size}
+      height={size}
       viewBox="0 0 256 256"
       version="1.1"
       preserveAspectRatio="xMidYMid"
@@ -43,12 +44,12 @@ const icons = {
       </g>
     </svg>
   ),
-  github: (
+  github: (size = 16) => (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       id="Capa_1"
-      width="14"
-      height="14"
+      width={size}
+      height={size}
       viewBox="0 0 438.549 438.549"
     >
       <path
@@ -59,8 +60,8 @@ const icons = {
   ),
 }
 
-const SocialMediaIcon: React.FC<SocialMediaIconProps> = ({ social }) =>
-  icons[social.kind]
+const SocialMediaIcon: React.FC<SocialMediaIconProps> = ({ social, size }) =>
+  icons[social.kind](size)
 
 SocialMediaIcon.displayName = 'SocialMediaIcon'
 

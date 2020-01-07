@@ -44,7 +44,7 @@ const InboxConversationContext: React.FC<InboxConversationContextProps> = ({
   <Container className={className}>
     {value && (
       <div className="p-3">
-        <div className="media mb-4">
+        <div className="media mb-6">
           <Avatar
             style={{
               backgroundImage:
@@ -52,21 +52,23 @@ const InboxConversationContext: React.FC<InboxConversationContextProps> = ({
             }}
           />
           <div className="media-body ml-2">
-            <h2 className="ts-normal tw-medium mb-0 tl-1">{value.node.name}</h2>
-            <a href="" className="ts-small">
+            <h2 className="text-base font-medium mb-0 leading-none">
+              {value.node.name}
+            </h2>
+            <a href="" className="text-sm">
               Ver perfil
             </a>
           </div>
         </div>
-        <h4 className="ts-tiny tc-muted mb-1">SOBRE</h4>
-        <p className="ts-small">
+        <h4 className="text-xs text-gray-600 mb-1">SOBRE</h4>
+        <p className="text-sm">
           In this post, I’m describing most of the React programming model from
           first principles. I don’t explain how to use it — just how it works.
         </p>
-        <h4 className="ts-tiny tc-muted mb-1">TELEFONE</h4>
-        <p className="ts-small">(11) 9 7657 4407</p>
-        <h4 className="ts-tiny tc-muted mb-1">EMAIL</h4>
-        <p className="ts-small">vin175pacheco@gmail.com </p>
+        <h4 className="text-xs text-gray-600 mb-1">TELEFONE</h4>
+        <p className="text-sm">(11) 9 7657 4407</p>
+        <h4 className="text-xs text-gray-600 mb-1">EMAIL</h4>
+        <p className="text-sm">vin175pacheco@gmail.com </p>
       </div>
     )}
   </Container>

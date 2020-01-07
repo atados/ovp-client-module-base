@@ -77,31 +77,31 @@ const ToolbarMobileNav: React.FC<ToolbarMobileNavProps> = ({ collapsed }) => {
     <MobileCollapse
       collapsed={collapsed}
       className="navbar-collapse-dropdown bg-white"
-      containerClassName="nav container px-0 flex-column ts-medium py-2"
+      containerClassName="container px-0 text-lg py-3"
     >
       <a
         href="/"
-        className="hover:bg-muted td-hover-none block px-3 py-2 tc-base ts-medium"
+        className="hover:bg-gray-200 td-hover-none block w-full px-4 py-3 text-gray-800 text-lg"
       >
         <Icon name="home" />
         <FormattedMessage id="toolbarMobileNav.home" defaultMessage="Início" />
       </a>
       <Link href={Page.SearchProjects}>
-        <a className="hover:bg-muted td-hover-none block px-3 py-2 tc-base ts-medium">
+        <a className="hover:bg-gray-200 td-hover-none block w-full px-4 py-3 text-gray-800 text-lg">
           <Icon name="search" />
           {intl.formatMessage(messages.explore)}
         </a>
       </Link>
 
       <Link href={Page.FAQ}>
-        <a className="hover:bg-muted td-hover-none block px-3 py-2 tc-base ts-medium">
+        <a className="hover:bg-gray-200 td-hover-none block w-full px-4 py-3 text-gray-800 text-lg">
           <Icon name="help_outline" />
           {intl.formatMessage(messages.faq)}
         </a>
       </Link>
       {viewerOrganizations.length === 0 && (
         <Link href={Page.OrganizationOnboarding}>
-          <a className="hover:bg-muted td-hover-none block px-3 py-2 tc-base ts-medium">
+          <a className="hover:bg-gray-200 td-hover-none block w-full px-4 py-3 text-gray-800 text-lg">
             <Icon name="favorite_outline" />
             {intl.formatMessage(messages.imOrganization)}
           </a>
@@ -114,9 +114,9 @@ const ToolbarMobileNav: React.FC<ToolbarMobileNavProps> = ({ collapsed }) => {
             href={Page.Organization}
             as={PageAs.Organization({ organizationSlug: organization.slug })}
           >
-            <a className="hover:bg-muted td-hover-none block px-3 py-2 tc-base ts-medium flex">
+            <a className="hover:bg-gray-200 td-hover-none block w-full px-4 py-3 text-gray-800 text-lg flex">
               <span
-                className={`inline-block w-8 h-8 bg-cover rounded-lg mr-3 vertical-align-top${
+                className={`inline-block w-8 h-8 bg-cover bg-center rounded-lg mr-4 vertical-align-top${
                   organization.image ? '' : 'bg-muted'
                 }`}
                 style={
@@ -129,7 +129,7 @@ const ToolbarMobileNav: React.FC<ToolbarMobileNavProps> = ({ collapsed }) => {
               />
               <div className="flex-grow">
                 {organization.name}
-                <span className="ts-small block tc-muted">
+                <span className="text-sm block w-full text-gray-600">
                   <FormattedMessage
                     id="toolbarMobileNav.manage"
                     defaultMessage="Clique gerenciar essa ONG"
@@ -145,9 +145,9 @@ const ToolbarMobileNav: React.FC<ToolbarMobileNavProps> = ({ collapsed }) => {
       {viewer && (
         <>
           <Link href={Page.Viewer}>
-            <a className="hover:bg-muted td-hover-none block px-3 py-2 tc-base ts-medium">
+            <a className="block hover:bg-gray-200 td-hover-none block w-full px-4 py-3 text-gray-800 text-lg">
               <div
-                className="icon w-8 h-8 bg-gray-200 rounded-circle inline-block vertical-align-middle bg-contain"
+                className="icon w-8 h-8 bg-gray-200 rounded-full inline-block align-middle bg-contain"
                 style={
                   viewer.avatar
                     ? {
@@ -158,7 +158,7 @@ const ToolbarMobileNav: React.FC<ToolbarMobileNavProps> = ({ collapsed }) => {
                 }
               >
                 {!viewer.avatar && (
-                  <Icon name="person" className="tc-gray-400" />
+                  <Icon name="person" className="text-gray-400" />
                 )}
               </div>
               <FormattedMessage
@@ -168,7 +168,7 @@ const ToolbarMobileNav: React.FC<ToolbarMobileNavProps> = ({ collapsed }) => {
             </a>
           </Link>
           <button
-            className="hover:bg-muted bg-white border-0 td-hover-none block px-3 py-2 tc-base ts-medium ta-left cursor-pointer"
+            className="hover:bg-gray-200 bg-white border-0 td-hover-none block w-full px-4 py-3 text-gray-800 text-lg text-left cursor-pointer"
             onClick={() => openApplicationsModal()}
           >
             <VolunteerIcon width={20} height={20} fill={Color.gray[700]} />
@@ -178,7 +178,7 @@ const ToolbarMobileNav: React.FC<ToolbarMobileNavProps> = ({ collapsed }) => {
             />
           </button>
           <Link href={Page.ViewerSettings}>
-            <a className="hover:bg-muted td-hover-none block px-3 py-2 tc-base ts-medium">
+            <a className="hover:bg-gray-200 td-hover-none block w-full px-4 py-3 text-gray-800 text-lg">
               <Icon name="settings" />
               <FormattedMessage
                 id="toolbarMobileNav.settings"
@@ -192,7 +192,7 @@ const ToolbarMobileNav: React.FC<ToolbarMobileNavProps> = ({ collapsed }) => {
       {viewer && (
         <Link href={Page.Home} passHref>
           <a
-            className="hover:bg-muted td-hover-none block px-3 py-2 tc-base ts-medium"
+            className="hover:bg-gray-200 td-hover-none block w-full px-4 py-3 text-gray-800 text-lg"
             onClick={handleLogout}
           >
             <Icon name="exit_to_app" />
@@ -206,7 +206,7 @@ const ToolbarMobileNav: React.FC<ToolbarMobileNavProps> = ({ collapsed }) => {
       {!viewer && (
         <a
           href="/sair"
-          className="hover:bg-muted td-hover-none block px-3 py-2 tc-base ts-medium"
+          className="hover:bg-gray-200 td-hover-none block w-full px-4 py-3 text-gray-800 text-lg"
           onClick={event => {
             event.preventDefault()
             openAuthentication()

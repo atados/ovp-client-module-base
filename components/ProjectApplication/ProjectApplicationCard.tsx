@@ -172,7 +172,9 @@ class ProjectApplicationCard extends React.Component<
     }
 
     return (
-      <div className={`radius-10 bg-muted ${className ? ` ${className}` : ''}`}>
+      <div
+        className={`rounded-lg bg-muted ${className ? ` ${className}` : ''}`}
+      >
         {renderThumbnail && (
           <Thumbnail className="ratio">
             <span className="ratio-fill" style={{ paddingTop: '56%' }} />
@@ -196,16 +198,16 @@ class ProjectApplicationCard extends React.Component<
           <InfoText>{disponibilityText}</InfoText>
         </Info>
         {project.organization && (
-          <Block className="py-2 px-3">
+          <Block className="py-3 px-4">
             <Link
               href={Page.Organization}
               as={PageAs.Organization({
                 organizationSlug: project.organization.slug,
               })}
             >
-              <a className="media tc-base text-truncate">
+              <a className="media text-base truncate">
                 <OrganizationAvatar
-                  className="bg-cover mb-0 mr-2"
+                  className="bg-cover bg-center mb-0 mr-2"
                   style={{
                     backgroundImage: project.organization.image
                       ? `url(${project.organization.image.image_medium_url ||
@@ -214,10 +216,10 @@ class ProjectApplicationCard extends React.Component<
                   }}
                 />
                 <div className="media-body tl-heading">
-                  <span className="tc-muted d-block ts-small mb-1">
+                  <span className="text-gray-600 d-block text-sm mb-1">
                     {intl.formatMessage(REALIZADO)}
                   </span>
-                  <span className="text-truncate tw-medium text-truncate block">
+                  <span className="truncate font-medium truncate block">
                     {project.organization.name}
                   </span>
                 </div>
@@ -227,9 +229,9 @@ class ProjectApplicationCard extends React.Component<
         )}
         {project.address && (
           <>
-            <Block className="py-2 px-3">
+            <Block className="py-3 px-4">
               <div className="media">
-                <Icon name="place" className="tc-primary-500 ts-medium mr-2" />
+                <Icon name="place" className="text-primary-500 text-lg mr-2" />
                 <div className="media-body">
                   {project.address.typed_address}
                 </div>
@@ -243,11 +245,11 @@ class ProjectApplicationCard extends React.Component<
               <>
                 {project.roles && project.roles.length > 0 && (
                   <>
-                    <h4 className="tw-normal ts-normal">
+                    <h4 className="font-normal text-base">
                       {intl.formatMessage(INSCREVASE)}
                     </h4>
                     <select
-                      className="input input--size-3 mb-3"
+                      className="input input--size-3 mb-4"
                       value={selectedRoleIndex}
                       onChange={this.handleRoleSelectChange}
                     >
@@ -267,10 +269,10 @@ class ProjectApplicationCard extends React.Component<
                 {project.roles[selectedRoleIndex] &&
                   project.roles[selectedRoleIndex].details && (
                     <>
-                      <h5 className="ts-small mb-1">
+                      <h5 className="text-sm mb-1">
                         {intl.formatMessage(FUNCAO)}
                       </h5>
-                      <p className="ts-small tc-muted-dark">
+                      <p className="text-sm text-gray-700">
                         {project.roles[selectedRoleIndex].details}
                       </p>
                     </>
@@ -293,15 +295,15 @@ class ProjectApplicationCard extends React.Component<
                 </>
               )}
             </button>
-            <span className="tc-muted ta-center mt-2 d-block ts-small">
+            <span className="text-gray-600 text-center mt-2 d-block text-sm">
               {intl.formatMessage(SEGUNDA_ETAPA)}
             </span>
           </div>
         )}
         {(project.closed || project.canceled) && (
           <div className="p-3">
-            <h3 className="tw-normal">{project.applied_count}</h3>
-            <small className="tc-muted">
+            <h3 className="font-normal">{project.applied_count}</h3>
+            <small className="text-gray-600">
               {intl.formatMessage(VOLUNTARIOS_INSCRITOS)}
             </small>
           </div>

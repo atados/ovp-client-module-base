@@ -111,7 +111,7 @@ export class Modal extends React.Component<ModalProps, ModalState> {
       ? containerClassnameArray.concat(['overflow-hidden']).join(' ')
       : containerClassnameArray.join(' ')
 
-    containerNode.style.paddingRight = open ? `${getScrollbarSize()}px` : null
+    containerNode.style.paddingRight = open ? `${getScrollbarSize()}px` : ''
   }
 
   public open = () => {

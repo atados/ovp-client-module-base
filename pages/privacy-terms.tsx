@@ -27,11 +27,11 @@ const TermsPage: React.FC<{}> = () => {
     <Layout>
       <Meta title="Termos de Privacidade" />
       <PageStyled>
-        <div className="container container--md py-5">
+        <div className="container max-w-3xl py-8">
           <div className="mb-2">
             <Link href={Page.TermsList} as={PageAs.TermsList()}>
               <a className="btn btn-text btn--size-4">
-                <Icon name="arrow_back" className="mb-3 mr-2" />
+                <Icon name="arrow_back" className="mb-4 mr-2" />
                 Ver todos os termos
               </a>
             </Link>

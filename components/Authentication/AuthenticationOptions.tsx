@@ -99,7 +99,7 @@ const AuthenticationOptions: React.FC<AuthenticationOptionsProps> = ({
 
   return (
     <div className={className}>
-      <Header className="ta-center mb-4">
+      <Header className="text-center mb-6">
         <img
           src={Asset.LogoLight}
           alt=""
@@ -107,18 +107,18 @@ const AuthenticationOptions: React.FC<AuthenticationOptionsProps> = ({
           height="42"
           className="block mx-auto"
         />
-        <h1 className="h2 mb-3">{title || intl.formatMessage(m.title)}</h1>
+        <h1 className="h2 mb-4">{title || intl.formatMessage(m.title)}</h1>
         <p>{subtitle || intl.formatMessage(m.subtitle)}</p>
       </Header>
-      <Body className="ta-center">
+      <Body className="text-center">
         <AuthenticationButtons dispatch={dispatch} />
       </Body>
-      <div className="ta-center my-2">
+      <div className="text-center my-2">
         <a
           id="authentication-options-register"
           onClick={handleRegisterClick}
           href={PageAs.NewAccount()}
-          className="tc-base block tw-normal py-2"
+          className="text-gray-800 block font-normal py-3"
         >
           <FormattedMessage
             id="authenticationOptions.newAccount"
@@ -127,7 +127,7 @@ const AuthenticationOptions: React.FC<AuthenticationOptionsProps> = ({
         </a>
       </div>
       <Footer>
-        <span className="block ta-center tc-muted-dark mt-3">
+        <span className="block text-center text-gray-700 mt-4">
           {intl.formatMessage(m.terms, {
             privacy: (
               <Link key="privacy" href={Page.PrivacyTerms}>

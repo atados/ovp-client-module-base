@@ -15,11 +15,11 @@ const UsageTermsPage: React.FC<{}> = () => (
   <Layout>
     <Meta title="Termos de Voluntariado" />
     <PageStyled>
-      <div className="container container--md py-5">
+      <div className="container max-w-3xl py-8">
         <div className="mb-2">
           <Link href={Page.TermsList} as={PageAs.TermsList()}>
             <a className="btn btn-text btn--size-4">
-              <Icon name="arrow_back" className="mb-3 mr-2" />
+              <Icon name="arrow_back" className="mb-4 mr-2" />
               Ver todos os termos
             </a>
           </Link>
@@ -33,12 +33,12 @@ const UsageTermsPage: React.FC<{}> = () => (
             ora anunciado e aceito, ciente do disposto na Lei nº 9.608, de
             18/02/1998.
           </p>
-          <p className="pl-5">
+          <p className="pl-8">
             1.1.1. O VOLUNTÁRIO declara que o mesmo não é atividade remunerada,
             não representa vínculo empregatício nem gera obrigações de natureza
             trabalhista, previdenciária ou afim.
           </p>
-          <p className="pl-5">
+          <p className="pl-8">
             1.1.2. Declara, ainda, ter ciência de que eventuais danos pessoais
             ou materiais no exercício do voluntariado não serão imputados à
             ORGANIZAÇÃO ou ao ATADOS, assumindo desde já integral
@@ -58,7 +58,7 @@ const UsageTermsPage: React.FC<{}> = () => (
           </p>
 
           <hr />
-          <p className="ts-small tc-muted-dark">
+          <p className="text-sm text-gray-700">
             Art. 1º Considera-se serviço voluntário, para os fins desta Lei, a
             atividade não remunerada prestada por pessoa física a entidade
             pública de qualquer natureza ou a instituição privada de fins não

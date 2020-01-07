@@ -47,9 +47,8 @@ const m = defineMessages({
   },
 })
 
-const AuthenticationEmailLogin: React.FC<
-  AuthenticationEmailLoginProps & FormikProps<Values>
-> = ({
+const AuthenticationEmailLogin: React.FC<AuthenticationEmailLoginProps &
+  FormikProps<Values>> = ({
   className,
   values,
   touched,
@@ -84,8 +83,8 @@ const AuthenticationEmailLogin: React.FC<
         <>
           {status.error.payload &&
           status.error.payload.error === 'invalid_grant' ? (
-            <div className="ta-center mb-3 animate-slideInUp">
-              <span className="bg-error tc-white px-2 py-1 rounded-full inline-block">
+            <div className="text-center mb-4 animate-slideInUp">
+              <span className="bg-red-600 text-white px-3 py-2 rounded-full inline-block">
                 <Icon name="error" className="mr-2" />
                 Email ou senha invalidos
               </span>
@@ -96,7 +95,7 @@ const AuthenticationEmailLogin: React.FC<
         </>
       )}
       <div className="max-w-sm mx-auto">
-        <div className="ta-center">
+        <div className="text-center">
           <img
             src={Asset.LogoLight}
             alt=""
@@ -111,7 +110,7 @@ const AuthenticationEmailLogin: React.FC<
           labelFor="authentication-login-input-email"
           label={intl.formatMessage(m.email)}
           error={touched.email ? errors.email : undefined}
-          className="mb-4"
+          className="mb-6"
         >
           <input
             name="email"
@@ -134,7 +133,7 @@ const AuthenticationEmailLogin: React.FC<
             onChange={handleChange}
           />
         </FormGroup>
-        <div className="ta-right my-3">
+        <div className="text-right my-4">
           <Link href={Page.ForgotPassword}>
             <a>
               <FormattedMessage
@@ -146,7 +145,7 @@ const AuthenticationEmailLogin: React.FC<
         </div>
         <button
           type="submit"
-          className="btn btn-primary btn--size-3 btn--block mb-3"
+          className="btn btn-primary btn--size-3 btn--block mb-4"
           disabled={isSubmitting}
         >
           <FormattedMessage
@@ -159,14 +158,14 @@ const AuthenticationEmailLogin: React.FC<
         </button>
         <a
           href={Page.NewAccount}
-          className="btn btn-text tw-normal btn--block btn--size-3"
+          className="btn btn-text font-normal btn--block btn--size-3"
           onClick={handleRegisterClick}
         >
           <FormattedMessage
             id="authenticationEmailLogin.newAccount"
             defaultMessage="Ainda não possui uma conta?"
           />{' '}
-          <span className="tc-link">
+          <span className="text-anchor">
             <FormattedMessage
               id="authenticationEmailLogin.signup"
               defaultMessage="Cadastrar-se"
@@ -176,7 +175,7 @@ const AuthenticationEmailLogin: React.FC<
         <hr className="my-2" />
         <a
           href={Page.Login}
-          className="btn btn-text tw-normal btn--block btn--size-3 ta-left tc-gray-600"
+          className="btn btn-text font-normal btn--block btn--size-3 text-left text-gray-600"
           onClick={handleOptionsClick}
         >
           <Icon name="arrow_back" />{' '}

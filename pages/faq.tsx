@@ -54,29 +54,29 @@ const FaqPage: NextPage<FAQPageProps> = ({ filterQuery }) => {
     <FAQLayout defaultSearchFormValue={filterQuery}>
       <Meta />
       <div className="py-5 bg-gray-300">
-        <div className="container">
-          <div className="bg-white rounded-lg px-3 py-5 px-md-5 shadow">
+        <div className="container px-2">
+          <div className="bg-white rounded-lg px-4 py-8 md:px-8 shadow">
             {filterQuery && (
-              <div className="mb-5 px-2 text-truncate block">
+              <div className="mb-12 px-3 truncate block">
                 <div className="media">
-                  <Icon name="search" className="mr-3 h2" />
+                  <Icon name="search" className="mr-4 h2" />
                   <div className="media-body">
                     <h1 className="h2 mb-2">Resultados para "{filterQuery}"</h1>
-                    <span className="tc-gray-500">
+                    <span className="text-gray-500">
                       {questions.length} resultados
                     </span>
                   </div>
                 </div>
               </div>
             )}
-            <div className="row">
+            <div className="lg:flex -mx-2">
               {categories.length === 0 && (
-                <div className="max-w-md mx-auto py-4 ta-center">
+                <div className="max-w-md mx-auto py-5 text-center">
                   <Icon
                     name="import_contacts"
-                    className="text-6xl tc-gray-600"
+                    className="text-6xl text-gray-600"
                   />
-                  <h2 className="text-2xl tw-normal leading-relaxed">
+                  <h2 className="text-2xl font-normal leading-relaxed">
                     <FormattedMessage
                       id="pages.faq.noRegisteredQuestions.title"
                       defaultMessage="Ainda não há perguntas registradas nessa lingua"
@@ -85,8 +85,8 @@ const FaqPage: NextPage<FAQPageProps> = ({ filterQuery }) => {
                 </div>
               )}
               {categories.map(category => (
-                <div key={category.id} className="col-lg-4 mb-4">
-                  <h5 className="tw-medium block px-2">{category.name}</h5>
+                <div key={category.id} className="w-full lg:w-1/3 px-2 mb-6">
+                  <h5 className="font-medium block px-3">{category.name}</h5>
                   {questions
                     .filter(question => question.category.id === category.id)
                     .map(question => (
@@ -100,7 +100,7 @@ const FaqPage: NextPage<FAQPageProps> = ({ filterQuery }) => {
             </div>
           </div>
         </div>
-        <div className="container container--md mt-4">
+        <div className="container max-w-3xl mt-6">
           <FAQSupport />
         </div>
       </div>

@@ -316,7 +316,7 @@ class InputAddress extends React.Component<
               data-index={i}
               key={node.place_id}
               type="button"
-              className="block py-1"
+              className="block py-2"
               onClick={this.handleOptionClick}
             >
               {node.description}

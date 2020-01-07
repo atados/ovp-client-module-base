@@ -57,10 +57,10 @@ class RemoteFilter extends React.Component<RemoteFilterProps> {
         <div className="p-3">
           <label htmlFor="RemoteFilterInput-Checkbox" className="media">
             <div className="media-body">
-              <h4 className="tw-normal ts-medium mb-2">
+              <h4 className="font-normal text-lg mb-2">
                 Somente vagas à distância
               </h4>
-              <p className="ts-small tc-muted-dark mb-0">
+              <p className="text-sm text-gray-700 mb-0">
                 Vagas quem exigem exigem comprometimento por um período mais
                 longo.
               </p>

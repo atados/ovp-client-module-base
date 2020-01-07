@@ -11,9 +11,9 @@ const readFile = promisify(fs.readFile)
 const mkdirp = promisify(prevMkdirp)
 
 export default async function generateIntlMessagesFiles() {
-  const langs = (await glob(path.resolve('base', 'lang', '*.json'))).map(
-    filename => path.basename(filename, path.extname(filename)),
-  )
+  const langs = (
+    await glob(path.resolve('base', 'lang', '*.json'))
+  ).map(filename => path.basename(filename, path.extname(filename)))
   await mkdirp(path.resolve('channel', 'generated', 'lang'))
   await mkdirp(path.resolve('static', 'dist', 'locale-data'))
 

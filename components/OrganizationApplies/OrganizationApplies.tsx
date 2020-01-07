@@ -45,10 +45,10 @@ const OrganizationApplies: React.FC<OrganizationAppliesProps> = ({
   }
 
   return (
-    <div className="bg-muted radius-10 mb-3 p-3">
+    <div className="bg-muted rounded-lg mb-4 p-3">
       {fetching}
-      <h4 className="ts-normal mb-0">{intl.formatMessage(VOLUNTARIOS)}</h4>
-      <span className="tc-muted mb-2 ts-small block">
+      <h4 className="text-base mb-0">{intl.formatMessage(VOLUNTARIOS)}</h4>
+      <span className="text-gray-600 mb-2 text-sm block">
         {payload.applied_count} {intl.formatMessage(VOLUNTARIOS)}
       </span>
       {payload.applies.map((application, i) => {
@@ -57,7 +57,7 @@ const OrganizationApplies: React.FC<OrganizationAppliesProps> = ({
             <Volunteer
               as="span"
               key={application.id}
-              className="bg-cover"
+              className="bg-cover bg-center"
               style={{
                 backgroundColor: colors[i % colors.length],
               }}
@@ -74,7 +74,7 @@ const OrganizationApplies: React.FC<OrganizationAppliesProps> = ({
           >
             <Volunteer
               key={application.id}
-              className="bg-cover"
+              className="bg-cover bg-center"
               style={{
                 backgroundColor: colors[i % colors.length],
                 backgroundImage:

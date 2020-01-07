@@ -209,20 +209,20 @@ const OrganizationComposerIntro: React.FC<OrganizationComposerIntroProps> = ({
       <>
         <button
           type="button"
-          className="btn btn-primary btn--size-3 mt-3"
+          className="btn btn-primary btn--size-3 mt-4"
           onClick={onStartFromDraft}
         >
           {intl.formatMessage(CONTINUE_A_CADASTRAR)}
           <Icon name="arrow_forward" className="ml-2" />
         </button>
         <PresentationStep type="button" onClick={onStartFromDraft}>
-          <span className="tw-medium tc-primary-500">
+          <span className="font-medium text-primary-500">
             {intl.formatMessage(CONTINUAR)}
           </span>
-          <h2 className="mb-1 tw-normal">
+          <h2 className="mb-1 font-normal">
             {intl.formatMessage(CONTINUE_DO_PONTO)}
           </h2>
-          <p className="ts-medium mb-3">{intl.formatMessage(AS_INFORMACOES)}</p>
+          <p className="text-lg mb-4">{intl.formatMessage(AS_INFORMACOES)}</p>
           <div className="progress">
             <div
               className="progress-value bg-primary-500"
@@ -231,16 +231,18 @@ const OrganizationComposerIntro: React.FC<OrganizationComposerIntroProps> = ({
           </div>
         </PresentationStep>
         <PresentationStep type="button" onClick={onStart}>
-          <span className="tw-medium tc-muted">{intl.formatMessage(NOVO)}</span>
-          <h2 className="mb-1 tw-normal">{intl.formatMessage(CRIAR)}</h2>
-          <p className="ts-medium mb-0">{intl.formatMessage(DESCARTAR)}</p>
+          <span className="font-medium text-gray-600">
+            {intl.formatMessage(NOVO)}
+          </span>
+          <h2 className="mb-1 font-normal">{intl.formatMessage(CRIAR)}</h2>
+          <p className="text-lg mb-0">{intl.formatMessage(DESCARTAR)}</p>
         </PresentationStep>
       </>
     ) : (
       <>
         <button
           type="button"
-          className="btn btn-primary btn--size-3 mt-3"
+          className="btn btn-primary btn--size-3 mt-4"
           onClick={onStart}
         >
           {intl.formatMessage(COMECE)}
@@ -253,11 +255,11 @@ const OrganizationComposerIntro: React.FC<OrganizationComposerIntroProps> = ({
             disabled={i !== 0}
             onClick={onStart}
           >
-            <span className="tw-medium tc-muted">
+            <span className="font-medium text-gray-600">
               {intl.formatMessage(ETAPA)} {i + 1}
             </span>
-            <h2 className="mb-1 tw-normal">{step.name}</h2>
-            <p className="ts-medium mb-0">{step.description}</p>
+            <h2 className="mb-1 font-normal">{step.name}</h2>
+            <p className="text-lg mb-0">{step.description}</p>
           </PresentationStep>
         ))}
       </>
@@ -268,15 +270,15 @@ const OrganizationComposerIntro: React.FC<OrganizationComposerIntroProps> = ({
       <FormComposerLayout
         helpPanelChildren={
           <SidebarInner>
-            <span className="tw-medium ts-medium">
+            <span className="font-medium text-lg">
               {intl.formatMessage(FACA_PARTE)}
             </span>
             <h1>{intl.formatMessage(PESSOAS_INTERESSADAS)}</h1>
-            <p className="ts-medium">{intl.formatMessage(SE_SUA_ONG)}</p>
-            <h4 className="h1 tc-secondary-500">
+            <p className="text-lg">{intl.formatMessage(SE_SUA_ONG)}</p>
+            <h4 className="h1 text-secondary-500">
               {intl.formatMessage(A_CADA)}
             </h4>
-            <p className="ts-large tc-secondary-500">
+            <p className="text-xl text-secondary-500">
               {intl.formatMessage(VAGAS_PREENCHIDAS)}
             </p>
           </SidebarInner>
@@ -289,8 +291,8 @@ const OrganizationComposerIntro: React.FC<OrganizationComposerIntroProps> = ({
           },
         }}
       >
-        <h1 className="h2 tw-normal">{intl.formatMessage(OLA)}</h1>
-        <p className="ts-medium">{intl.formatMessage(A_INSCRICAO)}</p>
+        <h1 className="h2 font-normal">{intl.formatMessage(OLA)}</h1>
+        <p className="text-lg">{intl.formatMessage(A_INSCRICAO)}</p>
         {body}
       </FormComposerLayout>
     </Container>

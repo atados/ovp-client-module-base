@@ -129,9 +129,9 @@ const ProjectComposerIntro: React.FC<ProjectComposerIntroProps> = ({
 
   return (
     <div className={`p-5${className ? ` ${className}` : ''}`}>
-      <h4 className="tc-muted ts-small">{intl.formatMessage(NOVA_VAGA)}</h4>
-      <h1 className="tw-light mb-1">{intl.formatMessage(COMO_COMECAR)}</h1>
-      <p className="ts-medium tc-muted-dark mb-4">
+      <h4 className="text-gray-600 text-sm">{intl.formatMessage(NOVA_VAGA)}</h4>
+      <h1 className="font-light mb-1">{intl.formatMessage(COMO_COMECAR)}</h1>
+      <p className="text-lg text-gray-700 mb-6">
         {intl.formatMessage(SALVAMOS)}
       </p>
       {firstStep && (
@@ -139,18 +139,18 @@ const ProjectComposerIntro: React.FC<ProjectComposerIntroProps> = ({
           href={Page[pageName]}
           as={PageAs[pageName]({ stepId: firstStep.id, organizationSlug })}
         >
-          <Option className="mb-4 animate-slideInUp">
+          <Option className="mb-6 animate-slideInUp">
             <figure>
               <OptionIcon name="add" />
             </figure>
-            <OptionTitleCenter className="h4 tw-normal mb-1 text-truncate block">
+            <OptionTitleCenter className="h4 font-normal mb-1 truncate block">
               {intl.formatMessage(CRIAR_VAGA)}
             </OptionTitleCenter>
           </Option>
         </Link>
       )}
       {orderedDrafts.length > 0 && (
-        <h4 className="tc-muted ts-small mb-3 mt-4">
+        <h4 className="text-gray-600 text-sm mb-4 mt-6">
           {intl.formatMessage(CONTINUE)}
         </h4>
       )}
@@ -165,7 +165,7 @@ const ProjectComposerIntro: React.FC<ProjectComposerIntroProps> = ({
             })}/?draftIndex=${draftIndex}`}
             passHref
           >
-            <Option className="animate-slideInUp mb-3">
+            <Option className="animate-slideInUp mb-4">
               <figure
                 style={
                   draft.value.image
@@ -173,14 +173,14 @@ const ProjectComposerIntro: React.FC<ProjectComposerIntroProps> = ({
                     : undefined
                 }
               />
-              <OptionTitle className="mb-1 text-truncate block">
+              <OptionTitle className="mb-1 truncate block">
                 {draft.value.name || intl.formatMessage(ADICIONE_NOME)}
               </OptionTitle>
-              <p className="tc-muted-dark tw-normal">
+              <p className="text-gray-700 font-normal">
                 {draft.value.description ||
                   intl.formatMessage(ADICIONE_DESCRICAO)}
               </p>
-              <span className="tc-muted ts-small">
+              <span className="text-gray-600 text-sm">
                 {`${intl.formatMessage(ATUALIZADO)} ${moment(
                   draft.updatedAt,
                 ).fromNow()}`}

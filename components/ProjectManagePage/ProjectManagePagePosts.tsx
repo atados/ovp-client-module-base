@@ -115,7 +115,7 @@ const ProjectManagePagePosts: React.FC<ProjectManagePagePostsProps> = ({
   return (
     <div
       id="posts"
-      className={`radius-10 bg-white shadow mb-4${
+      className={`rounded-lg bg-white shadow mb-6${
         className ? ` ${className}` : ''
       }`}
     >
@@ -142,15 +142,15 @@ const ProjectManagePagePosts: React.FC<ProjectManagePagePostsProps> = ({
             </a>
           </Link>
         )}
-        <h4 className="tw-normal mb-0">{intl.formatMessage(PUB)}</h4>
+        <h4 className="font-normal mb-0">{intl.formatMessage(PUB)}</h4>
       </div>
       {!hasPosts && (
-        <div className="pb-5 ta-center">
+        <div className="pb-8 text-center">
           <PlaceholderIcon name="library_books" />
-          <span className="h4 block tw-normal mb-2">
+          <span className="h4 block font-normal mb-2">
             {intl.formatMessage(ESSA_VAGA)}
           </span>
-          <span className="tc-muted block mb-3">
+          <span className="text-gray-600 block mb-4">
             {intl.formatMessage(AS_PUB)}
           </span>
           <Link
@@ -189,11 +189,11 @@ const ProjectManagePagePosts: React.FC<ProjectManagePagePostsProps> = ({
               project.posts.map(post => (
                 <tr key={post.id}>
                   <td>{post.title || 'Atualizações'}</td>
-                  <td className="text-truncate" style={{ maxWidth: '200px' }}>
+                  <td className="truncate" style={{ maxWidth: '200px' }}>
                     {post.content.substr(0, 150)}
                   </td>
                   <td>{moment(post.modified_date).fromNow()}</td>
-                  <td style={{ width: 190 }} className="ta-right">
+                  <td style={{ width: 190 }} className="text-right">
                     <Link
                       href={
                         organizationSlug
@@ -220,7 +220,7 @@ const ProjectManagePagePosts: React.FC<ProjectManagePagePostsProps> = ({
                     </Link>
                     <button
                       type="button"
-                      className="btn btn-muted tc-error btn--size-2"
+                      className="btn btn-muted text-red-600 btn--size-2"
                       onClick={() => openClosePostModal({ project, post })}
                     >
                       {intl.formatMessage(REMOVER)}
