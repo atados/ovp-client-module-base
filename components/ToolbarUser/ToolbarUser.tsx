@@ -2,7 +2,6 @@ import Link from 'next/link'
 import React, { useCallback, useRef } from 'react'
 import { connect, useDispatch } from 'react-redux'
 import styled from 'styled-components'
-import { channel } from '~/common/constants'
 import Authentication from '~/components/Authentication'
 import Dropdown, { DropdownMenu } from '~/components/Dropdown'
 import Icon from '~/components/Icon'
@@ -11,11 +10,11 @@ import { InboxViewer } from '~/redux/ducks/inbox'
 import { User, logout } from '~/redux/ducks/user'
 import ToolbarApplications from '../Toolbar/ToolbarApplications'
 import AppNotificationWatcher from './components/AppNotificationWatcher'
-import ToolbarMessagesDropdown from './components/ToolbarMessagesDropdown'
-import { Page, PageAs, Color } from '~/base/common'
+import { Page, PageAs, Color, Config } from '~/common'
 import Router from 'next/router'
 import { defineMessages, useIntl } from 'react-intl'
-import PageLink from '../PageLink'
+import PageLink from '~/components/PageLink'
+import ToolbarMessagesDropdown from '~/components/ToolbarUser/components/ToolbarMessagesDropdown'
 
 interface ToolbarUserProps {
   readonly user: User | null
@@ -84,7 +83,7 @@ const DropdownAnchor = styled.a`
 
   &:hover,
   &:hover .icon {
-    color: ${channel.theme.color.primary[500]};
+    color: ${Color.primary[500]};
   }
 `
 
@@ -158,9 +157,7 @@ const ToolbarUser: React.FC<ToolbarUserProps> = ({
   theme = 'dark',
 }) => {
   const chatEnabled =
-    user &&
-    channel.config.chat.enabled &&
-      (!channel.config.chat.beta || user.chat_enabled)
+    user && Config.chat.enabled && (!Config.chat.beta || user.chat_enabled)
 
   const dropdownRef = useRef<Dropdown | null>(null)
   const handleDropdownToggle = useCallback(
@@ -218,7 +215,7 @@ const ToolbarUser: React.FC<ToolbarUserProps> = ({
               </DropdownAnchor>
             </Link>
             <hr className="my-1" />
-            {channel.config.user.createProject === true && (
+            {Config.user.createProject === true && (
               <>
                 <Link
                   href={Page.NewProject}
@@ -238,7 +235,7 @@ const ToolbarUser: React.FC<ToolbarUserProps> = ({
                 </Link>
               </>
             )}
-            {channel.config.organization.enabled && (
+            {Config.organization.enabled && (
               <>
                 <Link href={Page.ViewerOrganizations} passHref>
                   <DropdownAnchor>

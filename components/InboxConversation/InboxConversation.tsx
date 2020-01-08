@@ -23,7 +23,7 @@ import {
 import InboxConversationBody from './InboxConversationBody'
 import InboxConversationForm from './InboxConversationForm'
 import InboxConversationHeader from './InboxConversationHeader'
-import { channel } from '~/base/common/constants'
+import { Color } from '~/base/common'
 
 const { useState, useEffect, useMemo } = React
 const Container = styled.div`
@@ -49,7 +49,7 @@ const Info = styled.div`
 
 const InfoIcon = styled(Icon)`
   font-size: 120px;
-  color: ${channel.theme.color.primary[500]};
+  color: ${Color.primary[500]};
 `
 
 const InfoAnimatedBG = styled.div`

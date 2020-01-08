@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
-import { channel } from '~/common/constants'
 import Dropdown, { DropdownMenu } from '~/components/Dropdown'
 import Link from 'next/link'
+import { Color } from '~/base/common'
 
 const Menu: React.FC<{ className?: string }> = styled(DropdownMenu)`
   width: 400px;
@@ -20,7 +20,7 @@ const Anchor = styled.a`
 
   &.active {
     background: #fff;
-    color: ${channel.theme.color.primary[500]} !important;
+    color: ${Color.primary[500]} !important;
     font-weight: 500;
   }
 `

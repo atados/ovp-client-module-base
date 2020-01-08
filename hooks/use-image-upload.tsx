@@ -1,7 +1,7 @@
 import { fetchAPI } from '../lib/fetch/fetch.client'
-import { ImageDict } from '../common'
 import { useSelector } from 'react-redux'
 import { RootState } from '../redux/root-reducer'
+import { API } from '~/base/types/api'
 
 const RE_VALID_TYPE = /image\/(jpe?g|png)/gi
 interface UploadImageFileOptions {
@@ -14,7 +14,7 @@ export const useImageUpload = () => {
   return async (
     file: File,
     { onLoadPreview }: UploadImageFileOptions = {},
-  ): Promise<ImageDict> => {
+  ): Promise<API.ImageDict> => {
     if (!viewer) {
       throw new Error('Trying to use useFileUpload without viewer')
     }
@@ -44,7 +44,7 @@ export const useImageUpload = () => {
     const formData = new FormData()
     formData.append('image', file)
 
-    const imageDict = await fetchAPI<ImageDict>('/uploads/images/', {
+    const imageDict = await fetchAPI<API.ImageDict>('/uploads/images/', {
       method: 'POST',
       body: formData,
       sessionToken: viewer.token,

@@ -3,14 +3,14 @@ import React from 'react'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
 import { Page, PageAs } from '~/common'
-import { Cause } from '~/common/channel'
 import { RootState } from '~/redux/root-reducer'
 import { FormattedMessage } from 'react-intl'
 import PageLink from '../PageLink'
 import Icon from '../Icon'
+import { API } from '~/base/types/api'
 
 export interface CausesSectionProps {
-  readonly causes: Cause[]
+  readonly causes: API.Cause[]
   readonly className?: string
 }
 

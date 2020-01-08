@@ -12,8 +12,8 @@ import Icon from '../Icon'
 import { unwrapLink, wrapLink } from './commands'
 import MarkdownEditorHoverMenu from './MarkdownEditorHoverMenu'
 import serializer from './serializer'
-import { channel } from '~/base/common/constants'
 import { MaterialIconName } from '../Icon/Icon'
+import { Color } from '~/base/common'
 
 const plugins = [PasteLinkify()]
 
@@ -44,7 +44,7 @@ const Control = styled.button`
   margin-right: 8px;
   background: none !important;
   color: ${(props: StyledProps<ControlProps>) =>
-    props.active ? `${channel.theme.color.primary[500]} !important` : '#999'};
+    props.active ? `${Color.primary[500]} !important` : '#999'};
 `
 
 export interface EditorControlType {

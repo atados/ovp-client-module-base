@@ -1,7 +1,6 @@
 import { NextPageContext, NextPage } from 'next'
 import React from 'react'
 import { connect } from 'react-redux'
-import { channel } from '~/common/constants'
 import CloseProjectForm from '~/components/CloseProjectForm'
 import Layout from '~/components/Layout'
 import Meta from '~/components/Meta'
@@ -30,6 +29,7 @@ import { User, UserOrganization } from '~/redux/ducks/user'
 import { RootState } from '~/redux/root-reducer'
 import { defineMessages } from 'react-intl'
 import { useIntl } from 'react-intl'
+import { Config } from '../common'
 
 interface ManageProjectPageInitialProps {
   organizationSlug?: string
@@ -88,19 +88,19 @@ const ManageProjectPage: NextPage<
       <div className="container px-2">
         <ProjectManagePageInfos project={project} />
         <ProjectManagePageApplications project={project} />
-        {channel.config.project.posts && (
+        {Config.project.posts && (
           <ProjectManagePagePosts
             project={project}
             organizationSlug={organization && organization.slug}
           />
         )}
         <div className="flex flex-wrap -mx-2">
-          {channel.config.project.galleries && (
+          {Config.project.galleries && (
             <div className="w-full lg:w-1/2 px-2">
               <ProjectManagePagePhotos project={project} />
             </div>
           )}
-          {channel.config.project.documents && (
+          {Config.project.documents && (
             <div className="w-full lg:w-1/2 px-2">
               <ProjectManagePageDocuments project={project} />
             </div>

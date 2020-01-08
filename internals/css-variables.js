@@ -1,5 +1,5 @@
 const { screens, colors: tailwindColors } = require('tailwindcss/defaultTheme')
-const { theme } = require('../../channel.json')
+const { theme } = require('../../channel/app.json')
 const variables = {
   toolbarHeight: '100px',
 }

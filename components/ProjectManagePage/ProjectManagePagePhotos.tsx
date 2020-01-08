@@ -2,15 +2,15 @@ import nanoid from 'nanoid'
 import React, { useCallback, useMemo, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import styled from 'styled-components'
-import { channel } from '~/common/constants'
 import { fetchAPI } from '~/lib/fetch/fetch.server'
-import { ImageDict } from '~/common/channel'
+import { Color } from '~/common/channel'
 import { Project, updateProject } from '~/redux/ducks/project'
 import { RootState } from '~/redux/root-reducer'
 import ActivityIndicator from '../ActivityIndicator'
 import Icon from '../Icon'
 import Tooltip from '../Tooltip'
 import { defineMessages, useIntl } from 'react-intl'
+import { API } from '~/types/api'
 
 const PhotoImage = styled.div`
   background: rgba(0, 0, 0, 0.05);
@@ -42,7 +42,7 @@ const Container = styled.div`
   transition: box-shadow 0.2s;
 
   &.active {
-    box-shadow: 0 0 0 3px ${channel.theme.color.primary[500]};
+    box-shadow: 0 0 0 3px ${Color.primary[500]};
   }
 `
 
@@ -51,7 +51,7 @@ const PhotoImageInputWrapper = styled.div`
   height: 100%;
   width: 100%;
   cursor: pointer;
-  border: 2px dashed ${channel.theme.color.primary[500]};
+  border: 2px dashed ${Color.primary[500]};
 
   &:hover {
     background: #e0e1e2;
@@ -63,7 +63,7 @@ const PhotoImageInputLabel = styled.div`
   line-height: 1;
   text-align: center;
   position: absolute;
-  color: ${channel.theme.color.primary[500]};
+  color: ${Color.primary[500]};
   left: 0;
   right: 0;
   top: 0;
@@ -107,7 +107,7 @@ interface GalleryItem {
   id: string | number
   isDraft?: boolean
   uploading?: boolean
-  image?: ImageDict
+  image?: API.ImageDict
   removed?: boolean
 }
 
@@ -211,7 +211,7 @@ const ProjectManagePagePhotos: React.FC<ProjectManagePagePhotosProps> = ({
         return
       }
 
-      const promises: Array<Promise<ImageDict>> = []
+      const promises: Array<Promise<API.ImageDict>> = []
       const newItems: GalleryItem[] = []
       Array.from(files).map(file => {
         const formData = new FormData()

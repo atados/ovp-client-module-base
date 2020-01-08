@@ -5,7 +5,6 @@ import {
   createReducer,
   PromiseAction,
 } from 'redux-handy'
-import { channel } from '~/common/constants'
 import { fetchAPI, fetchJSON } from '~/lib/fetch'
 import { ensureHttpsUri, generateRandomId } from '~/lib/utils/string'
 import { Organization } from '~/redux/ducks/organization'
@@ -13,6 +12,7 @@ import { Project } from '~/redux/ducks/project'
 import { RootState } from '~/redux/root-reducer'
 import { ParsedUrlQueryInput } from 'querystring'
 import { reportError } from '~/base/lib/utils/error'
+import { CHANNEL_ID } from '~/base/common'
 
 export enum SearchType {
   Any,
@@ -59,7 +59,7 @@ export interface BaseFilters {
   query?: string
   causes?: number[]
   skills?: number[]
-  address?: AddressSearchFilter
+  address?: AddressSearchFilter | null
 }
 
 export interface SearchAnyFilters extends BaseFilters {
@@ -227,7 +227,7 @@ async function searchNodes<P>(
       .then(resp => ({
         id: generateRandomId(),
         nodeKind,
-        channelId: channel.id,
+        channelId: CHANNEL_ID,
         nextURI: resp.next ? ensureHttpsUri(resp.next) : undefined,
         count: resp.count,
         nodes: resp.results as P[],
@@ -237,23 +237,6 @@ async function searchNodes<P>(
         throw error
       }),
   )
-
-  if (channel.integrations) {
-    channel.integrations.forEach(integration => {
-      promises.push(
-        fetchJSON<ApiPagination<P>>(`${integration.apiUri}${apiPath}`, {
-          query,
-        }).then(resp => ({
-          id: generateRandomId(),
-          nodeKind,
-          channelId: integration.channelId,
-          nextURI: resp.next ? ensureHttpsUri(resp.next) : undefined,
-          count: resp.count,
-          nodes: resp.results as P[],
-        })),
-      )
-    })
-  }
 
   const sources = await Promise.all<SearchSource<P>>(promises)
 
@@ -388,7 +371,7 @@ export const fetchNextSearchPage = createAction<
       nextSources.map(source =>
         fetchJSON<ApiPagination<Organization | Project>>(source.nextURI, {
           headers: {
-            'x-ovp-channel': channel.id,
+            'x-ovp-channel': CHANNEL_ID,
           },
         }).then(resp => ({
           id: source.id,

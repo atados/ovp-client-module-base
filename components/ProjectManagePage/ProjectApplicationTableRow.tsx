@@ -136,7 +136,7 @@ const ProjectApplicationTableRow: React.FC<ProjectApplicationTableRowProps> = ({
             </button>
           </Tooltip>
         </td>
-      ) : onRemove ? (
+      ) : onRemove && !readOnly ? (
         <td className="px-4 py-3 truncate text-lg" style={{ width: '80px' }}>
           <Tooltip value="Remover inscrição">
             <button

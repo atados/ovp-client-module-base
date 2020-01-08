@@ -1,10 +1,10 @@
 import Link from 'next/link'
 import React from 'react'
 import styled from 'styled-components'
-import { colors, channel } from '~/common/constants'
+import { colors } from '~/common/constants'
 import { rgba } from '~/lib/color/transformers'
 import { Project } from '~/redux/ducks/project'
-import { Page } from '~/common'
+import { Page, Color } from '~/common'
 import { defineMessages } from 'react-intl'
 import { useIntl } from 'react-intl'
 
@@ -69,7 +69,7 @@ const RoleApply = styled.div`
   right: 0;
   bottom: 0;
   border-radius: 10px;
-  background: ${rgba(channel.theme.color.primary[500], 90)};
+  background: ${rgba(Color.primary[500], 90)};
   opacity: 0;
   transition: opacity 0.2s;
   cursor: pointer;

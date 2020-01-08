@@ -1,8 +1,9 @@
-import { channel, API_URL } from '~/common/constants'
+import { API_URL } from '~/common/constants'
 import { useSelector } from 'react-redux'
 import { RootState } from '../redux/root-reducer'
 import { useFetchMutation as useBaseFetchMutation } from 'react-fetch-json-hook'
 import { FetchAction } from 'react-fetch-json-hook/lib/action'
+import { CHANNEL_ID } from '../common'
 
 type FetchAPIActionCreator<TArg = any, TMeta = any> = (
   arg?: TArg,
@@ -29,7 +30,7 @@ const useFetchAPIMutation = <Payload>(fn: FetchAPIActionCreator) => {
       body: action.body ? JSON.stringify(action.body) : undefined,
       headers: {
         'content-type': 'application/json',
-        'x-ovp-channel': channel.id,
+        'x-ovp-channel': CHANNEL_ID,
         Authorization: viewer ? `Bearer ${viewer.token}` : '',
       },
     }

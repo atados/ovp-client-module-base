@@ -1,4 +1,3 @@
-import { ImageDict } from '~/common/channel'
 import { Project, ProjectApplication, ProjectRole } from '~/redux/ducks/project'
 import { Organization } from '~/redux/ducks/organization'
 import { UserOrganization } from '~/redux/ducks/user'
@@ -10,6 +9,28 @@ export {
   Organization,
   UserOrganization,
 }
+
+export interface ImageDict {
+  id: number
+  image_url: string
+  image_small_url: string
+  image_medium_url: string
+  image_medium: string
+}
+
+export interface Skill {
+  id: number
+  name: string
+}
+
+export interface Cause {
+  id: number
+  name: string
+  slug: string
+  color: string
+  image?: ImageDict
+}
+
 export interface DocumentDict {
   id: number
   document_url: string
@@ -31,4 +52,15 @@ export interface OrganizationMember {
   email: string
   avatar: ImageDict
   slug: string
+}
+
+export interface StartupPayloadStats {
+  readonly volunteers: number
+  readonly organizations: number
+}
+
+export interface StartupPayload {
+  readonly causes: Cause[]
+  readonly skills: Skill[]
+  readonly stats: StartupPayloadStats
 }

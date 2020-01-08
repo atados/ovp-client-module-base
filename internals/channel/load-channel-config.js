@@ -1,4 +1,4 @@
-const channelConfig = require('../../../channel.json')
+const channelConfig = require('../../../channel/app.json')
 const channelConfigSchema = require('./channel-config-schema')
 
 module.exports = () => {
@@ -8,7 +8,7 @@ module.exports = () => {
   try {
     channelConfigSchema.validateSync(channel)
   } catch (error) {
-    console.log("Invalid 'channel.json' configuration")
+    console.log("Invalid 'channel/app.json' configuration")
     console.error(error)
     process.exit(1)
   }

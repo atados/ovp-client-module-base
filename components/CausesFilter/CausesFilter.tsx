@@ -4,9 +4,9 @@ import styled from 'styled-components'
 import { DropdownMenu } from '~/components/Dropdown'
 import SearchFilter from '~/components/SearchFilters/SearchFilter'
 import { pushToDataLayer } from '~/lib/tag-manager'
-import { Cause } from '~/common/channel'
 import { RootState } from '~/redux/root-reducer'
 import { FormattedMessage } from 'react-intl'
+import { API } from '~/base/types/api'
 
 const Menu = styled(DropdownMenu)`
   left: 10px;
@@ -32,7 +32,7 @@ const CauseIndicator = styled.span`
 interface CausesFilterProps {
   readonly value?: number[]
   readonly className?: string
-  readonly causes: Cause[]
+  readonly causes: API.Cause[]
   readonly onCommit: () => void
   readonly onChange: (newValue: number[]) => void
   readonly onOpenStateChange?: (open: boolean) => void

@@ -11,14 +11,13 @@ import {
 import { connect } from 'react-redux'
 import styled, { StyledProps } from 'styled-components'
 import { withIntl } from '~/base/lib/intl'
-import { Page, PageAs } from '~/common'
-import { channel, regionLongNameMap } from '~/common/constants'
+import { Page, PageAs, Color, Config } from '~/common'
+import { regionLongNameMap } from '~/common/constants'
 import Dropdown, { DropdownMenu } from '~/components/Dropdown'
 import Icon from '~/components/Icon'
 import { getPlacePredictions } from '~/lib/maps/google-maps-autocomplete'
 import { createAccentFriendlyRegexp } from '~/lib/regex/utils'
 import { pushToDataLayer } from '~/lib/tag-manager'
-import { Cause, Skill } from '~/common/channel'
 import { Geolocation } from '~/redux/ducks/geo'
 import {
   BaseFilters,
@@ -28,6 +27,7 @@ import {
 import { StartupData } from '~/redux/ducks/startup'
 import { RootState } from '~/redux/root-reducer'
 import { MaterialIconName } from '../Icon/Icon'
+import { API } from '~/base/types/api'
 
 const m = defineMessages({
   placeholder: {
@@ -44,7 +44,7 @@ function resolveDefaultOptions(
   intl: IntlShape,
   startupData: StartupData,
 ): SearchOption[] {
-  const { search } = channel.config
+  const { search } = Config
 
   return [
     ...((search && search.defaultOptions) || []),
@@ -190,7 +190,7 @@ const Form = styled.form`
       }
 
       .searchForm__icon {
-        color: ${channel.theme.color.primary[500]};
+        color: ${Color.primary[500]};
       }
     }
   }
@@ -261,8 +261,8 @@ const Highlight = styled.strong`
 interface SearchFormProps {
   readonly startupData: StartupData
   readonly geo: Geolocation
-  readonly causes: Cause[]
-  readonly skills: Skill[]
+  readonly causes: API.Cause[]
+  readonly skills: API.Skill[]
   readonly filters?: BaseFilters
   readonly currentSearchType?: SearchType
   readonly defaultValue: string
@@ -552,7 +552,7 @@ class SearchForm extends React.Component<
 
     const { geo, currentSearchType, filters: currentFilters } = this.props
     const { focusedOptionIndex, inputValue, options } = this.state
-    const queryObject: BaseFilters = {
+    let queryObject: BaseFilters = {
       address: currentFilters && currentFilters.address,
     }
 
@@ -584,7 +584,7 @@ class SearchForm extends React.Component<
           text: String(option.label),
         })
       } else if (option.kind === 'query') {
-        queryObject.query = option.value
+        queryObject = { query: option.value, address: null }
 
         pushToDataLayer({
           event: 'search',
@@ -608,7 +608,7 @@ class SearchForm extends React.Component<
         })
       }
     } else {
-      queryObject.query = inputValue
+      queryObject = { query: inputValue, address: null }
 
       if (inputValue) {
         pushToDataLayer({

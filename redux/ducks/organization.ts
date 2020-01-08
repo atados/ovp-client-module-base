@@ -4,8 +4,8 @@ import { fetchAPI } from '~/lib/fetch'
 import { reportError } from '~/lib/utils/error'
 import { Address, Gallery } from '~/redux/ducks/project'
 import { RootState } from '~/redux/root-reducer'
-import { Cause, ImageDict } from '~/common/channel'
 import { editOrganization } from './organization-composer'
+import { API } from '~/base/types/api'
 
 export interface Organization {
   id?: number
@@ -18,7 +18,7 @@ export interface Organization {
   published: boolean
   contact_email: string
   contact_phone: string
-  causes: Cause[]
+  causes: API.Cause[]
   hidden_address: boolean
   description: string
   address?: Address
@@ -27,8 +27,8 @@ export interface Organization {
   instagram_user?: string
   chat_enabled: boolean
   benefited_people: number
-  image?: ImageDict
-  cover?: ImageDict
+  image?: API.ImageDict
+  cover?: API.ImageDict
   rating: number
   verified: boolean
   galleries: Gallery[]

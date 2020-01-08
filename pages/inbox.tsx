@@ -7,7 +7,6 @@ import {
   GQLQueryThreadsListType,
   InboxScreen,
 } from '~/common/chat'
-import { channel } from '~/common/constants'
 import InboxConversation from '~/components/InboxConversation'
 import InboxConversationContext from '~/components/InboxConversationContext'
 import InboxThreadsList from '~/components/InboxThreadsList'
@@ -28,6 +27,7 @@ import {
 } from '~/redux/ducks/inbox'
 import { addViewer, ViewerRegistor } from '~/redux/ducks/inbox-viewers'
 import { RootState } from '~/redux/root-reducer'
+import { Config } from '../common'
 
 const { useState, useEffect, useMemo } = React
 
@@ -138,8 +138,8 @@ InboxPage.getInitialProps = async ({ store, query }: NextPageContext) => {
 
   if (
     !user ||
-    !channel.config.chat.enabled ||
-    (channel.config.chat.beta && !user.chat_enabled)
+    !Config.chat.enabled ||
+    (Config.chat.beta && !user.chat_enabled)
   ) {
     throw new NotFoundPageError()
   }

@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import styled from 'styled-components'
-import { ImageDict } from '~/common/channel'
+import { API } from '~/base/types/api'
 
 const Nav = styled.nav`
   position: fixed;
@@ -44,7 +44,7 @@ const ActiveImage = styled.img`
 interface GalleryProps {
   readonly className?: string
   readonly defaultImageId?: number
-  readonly images: ImageDict[]
+  readonly images: API.ImageDict[]
 }
 
 const Gallery: React.FC<GalleryProps> = ({

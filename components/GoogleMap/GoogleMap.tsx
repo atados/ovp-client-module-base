@@ -1,8 +1,8 @@
 import BaseGoogleMap from 'google-map-react'
 import React from 'react'
 import styled from 'styled-components'
-import { channel } from '~/common/constants'
 import Status, { StatusLevel } from '~/components/Status'
+import { Config } from '~/base/common'
 
 export interface Mark {
   id?: string
@@ -114,7 +114,7 @@ class GoogleMap extends React.Component<GoogleMapProps, GoogleMapState> {
     } = this.props
     const { center, disableDoubleClickZoom } = this.state
 
-    if (!channel.config.maps.key) {
+    if (!Config.maps.key) {
       return (
         <Container className={className}>
           <Status

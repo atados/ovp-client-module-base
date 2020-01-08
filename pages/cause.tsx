@@ -10,7 +10,6 @@ import { SearchSourcesSize } from '~/components/SearchSources/SearchSources'
 import { rgba } from '~/lib/color/transformers'
 import { NotFoundPageError } from '~/lib/next/errors'
 import { mountAddressFilter } from '~/lib/utils/geo-location'
-import { Cause } from '~/common/channel'
 import { Organization } from '~/redux/ducks/organization'
 import { Project } from '~/redux/ducks/project'
 import {
@@ -21,10 +20,10 @@ import {
   SearchType,
 } from '~/redux/ducks/search'
 import { RootState } from '~/redux/root-reducer'
-import { PageAs, Page, Color } from '~/common'
-import { channel } from '../common/constants'
+import { PageAs, Page, Color, Theme } from '~/common'
 import VolunteerIcon from '~/components/Icon/VolunteerIcon'
 import { FormattedMessage } from 'react-intl'
+import { API } from '~/base/types/api'
 
 const BannerOverlay = styled.div`
   position: relative;
@@ -56,7 +55,7 @@ const CauseLink = styled.a`
 
   &.active {
     color: #fff !important;
-    background: ${channel.theme.color.primary[500]};
+    background: ${Theme.color.primary[500]};
   }
 `
 
@@ -71,8 +70,8 @@ const Sidebar = styled.div`
 interface CausePageProps {
   readonly projects?: Project[]
   readonly backgroundColor: string
-  readonly cause: Cause
-  readonly causes: Cause[]
+  readonly cause: API.Cause
+  readonly causes: API.Cause[]
   readonly page: number
   readonly searchType?: SearchType
   readonly filtersQueryObject: BaseFiltersJSON

@@ -14,7 +14,7 @@ async function run() {
   )
 
   if (stdout) {
-    throw new Error('Base submodule has uncommit changes')
+    throw new Error('Base submodule has uncommited changes')
   }
 }
 

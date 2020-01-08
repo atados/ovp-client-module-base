@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import React from 'react'
 import styled from 'styled-components'
-import { channel } from '~/common/constants'
+import { Theme } from '~/base/common'
 
 const Nav = styled.ul`
   .nav-link {
@@ -42,8 +42,8 @@ const FooterNav: React.FC<FooterNavProps> = ({
   className,
 }) => (
   <Nav
-    className={`${className ? `${className} ` : ''}nav-${channel.theme
-      .footerTheme || 'light'} nav-size-1`}
+    className={`${className ? `${className} ` : ''}nav-${Theme.footerTheme ||
+      'light'} nav-size-1`}
   >
     <Title className="mb-1">{title}</Title>
     {React.Children.map(children, (child: React.ReactElement<any>) => {

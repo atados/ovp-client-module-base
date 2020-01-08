@@ -2,7 +2,6 @@ import Link from 'next/link'
 import React, { useCallback, useState } from 'react'
 import { useSelector } from 'react-redux'
 import styled from 'styled-components'
-import { channel } from '~/common/constants'
 import { RootState } from '~/redux/root-reducer'
 import SearchForm from '../SearchForm'
 import ToolbarUser from '../ToolbarUser'
@@ -10,14 +9,13 @@ import ToolbarBrand from '~/components/Toolbar/ToolbarBrand'
 import ToolbarMobileNav from '~/components/Toolbar/ToolbarMobileNav'
 import ToolbarOrganizationDropdown from '~/components/Toolbar/ToolbarOrganizationDropdown'
 import ToolbarVolunteerDropdown from '~/components/Toolbar/ToolbarVolunteerDropdown'
-import { Page, PageAs } from '~/base/common'
+import { Page, PageAs, Theme, Config } from '~/base/common'
 import { FormattedMessage } from 'react-intl'
 import PageLink from '../PageLink'
 
 const ToolbarStyled = styled.div`
-  height: ${channel.theme.toolbarHeight}px;
-  background: ${channel.theme.toolbarBackground ||
-    channel.theme.color.primary[500]};
+  height: ${Theme.toolbarHeight}px;
+  background: ${Theme.toolbarBackground || Theme.color.primary[500]};
   z-index: 400;
 
   .toolbarOrganization {
@@ -103,7 +101,7 @@ const Toolbar: React.FC<ToolbarProps> = ({
 
           <div className="mr-auto" />
           <Nav className="navbar-nav hidden lg:flex">
-            {channel.config.toolbar.links.map(link => (
+            {Config.toolbar.links.map(link => (
               <li key={link.href + link.as} className="nav-item">
                 {link.as ? (
                   <Link href={link.href} as={link.as}>
@@ -120,7 +118,7 @@ const Toolbar: React.FC<ToolbarProps> = ({
             <li className="nav-item">
               <ToolbarVolunteerDropdown />
             </li>
-            {channel.config.organization.enabled && (
+            {Config.organization.enabled && (
               <li className="mr-2">
                 <ToolbarOrganizationDropdown
                   organization={viewerOrganizations[0]}

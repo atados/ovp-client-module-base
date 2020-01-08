@@ -3,7 +3,6 @@ import Link from 'next/link'
 import Router from 'next/router'
 import React from 'react'
 import { connect } from 'react-redux'
-import { channel } from '~/common/constants'
 import {
   FormComposerMode,
   StepIdType,
@@ -18,7 +17,7 @@ import { NotFoundPageError } from '~/lib/next/errors'
 import { causeToSelectItem } from '~/lib/utils/form'
 import { fetchOrganization, Organization } from '~/redux/ducks/organization'
 import { RootState } from '~/redux/root-reducer'
-import { Page, PageAs } from '~/common'
+import { Page, PageAs, Theme } from '~/common'
 
 interface OrganizationComposerPageProps {
   readonly stepId: string
@@ -96,7 +95,7 @@ class OrganizationComposerPage extends React.Component<
             auth={false}
             mode={FormComposerMode.EDIT}
             defaultValues={defaultValues}
-            offsetTop={channel.theme.toolbarHeight + 50}
+            offsetTop={Theme.toolbarHeight + 50}
           >
             <div className="mb-6">
               <Link

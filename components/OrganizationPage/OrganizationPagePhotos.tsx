@@ -5,8 +5,9 @@ import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import Gallery from '../Gallery'
 import { useModal } from '../Modal'
-import { ImageDict, Color } from '~/base/common'
+import { Color } from '~/base/common'
 import Icon from '../Icon'
+import { API } from '~/base/types/api'
 
 const Row = styled.div`
   margin: 0 -5px;
@@ -34,7 +35,7 @@ const OrganizationPagePhotos: React.FC<OrganizationPagePhotosProps> = ({
     cardClassName: 'animation-none',
   })
   const photos = useMemo(() => {
-    const photosList: ImageDict[] = []
+    const photosList: API.ImageDict[] = []
     organization.galleries.forEach(gallery => {
       photosList.push(...gallery.images)
     })

@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { InputAddressValueType } from '~/components/InputAddress/InputAddress'
 import { InputImageValueType } from '~/components/InputImage/InputImage'
 import { styles } from '~/components/OrganizationCard/OrganizationCard'
-import { channel } from '~/base/common/constants'
+import { Color } from '~/base/common'
 
 const Container = styled.div`
   max-width: 300px;
@@ -12,7 +12,7 @@ const Container = styled.div`
 const InfoPlaceholder = styled.div`
   width: 75%;
   height: 18px;
-  background: ${channel.theme.color.secondary[500]};
+  background: ${Color.secondary[500]};
   margin-bottom: 8px;
 `
 

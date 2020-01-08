@@ -4,9 +4,8 @@ import { defineMessages, useIntl, FormattedMessage } from 'react-intl'
 import ToolbarBrand from '../Toolbar/ToolbarBrand'
 import FAQSearchForm from '../FAQSearchForm'
 import styled from 'styled-components'
-import { channel } from '~/base/common/constants'
 import Icon from '../Icon'
-import { Page } from '~/base/common'
+import { Page, Color } from '~/base/common'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 
@@ -83,12 +82,12 @@ const FAQLayout: React.FC<FAQLayoutProps> = ({
         </div>
         <svg viewBox="0 0 100 15" className="absolute left-0 right-0 bottom-0">
           <path
-            fill={channel.theme.color.primary[200]}
+            fill={Color.primary[200]}
             opacity="0.5"
             d="M0 30 V15 Q30 3 60 15 V30z"
           />
           <path
-            fill={channel.theme.color.primary[300]}
+            fill={Color.primary[300]}
             d="M0 30 V12 Q30 17 55 12 T100 11 V30z"
           />
         </svg>

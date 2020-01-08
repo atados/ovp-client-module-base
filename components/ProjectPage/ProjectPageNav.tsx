@@ -3,7 +3,7 @@ import React, { useCallback, useMemo, useState } from 'react'
 import { connect } from 'react-redux'
 import { Waypoint } from 'react-waypoint'
 import styled, { StyledProps } from 'styled-components'
-import { Page, PageAs } from '~/common'
+import { Page, PageAs, Color } from '~/common'
 import useFetchAPIMutation from '~/base/hooks/use-fetch-api-mutation'
 import { Project, updateProject } from '~/redux/ducks/project'
 import { User } from '~/redux/ducks/user'
@@ -13,7 +13,6 @@ import Authentication from '../Authentication'
 import Icon from '../Icon'
 import VolunteerIcon from '../Icon/VolunteerIcon'
 import { useModal } from '../Modal'
-import { channel } from '~/base/common/constants'
 import { defineMessages } from 'react-intl'
 import { useIntl } from 'react-intl'
 
@@ -42,7 +41,7 @@ const Nav = styled.div`
 
       &.active {
         font-weight: 500;
-        box-shadow: inset 0 -3px ${channel.theme.color.primary[500]};
+        box-shadow: inset 0 -3px ${Color.primary[500]};
       }
     }
 

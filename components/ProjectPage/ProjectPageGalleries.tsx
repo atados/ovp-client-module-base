@@ -1,11 +1,11 @@
 import React, { useMemo } from 'react'
 import styled from 'styled-components'
-import { ImageDict } from '~/common/channel'
 import { Project } from '~/redux/ducks/project'
 import Gallery from '../Gallery'
 import { useModal } from '../Modal'
 import { defineMessages } from 'react-intl'
 import { useIntl } from 'react-intl'
+import { API } from '~/base/types/api'
 
 const Photos = styled.div`
   &.row {
@@ -51,7 +51,7 @@ const ProjectPageGalleries: React.FC<ProjectPageGalleriesProps> = ({
     cardClassName: 'animation-none',
   })
   const images = useMemo(() => {
-    const imagesList: ImageDict[] = []
+    const imagesList: API.ImageDict[] = []
     project.galleries.forEach(gallery => {
       imagesList.push(...gallery.images)
     })

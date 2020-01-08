@@ -4,8 +4,7 @@ import React from 'react'
 import styled, { StyledProps } from 'styled-components'
 import { MessageThreadable, MessageThreadType } from '~/redux/ducks/inbox'
 import Icon from '../Icon'
-import { channel } from '~/base/common/constants'
-import { Page } from '~/base/common'
+import { Page, Color } from '~/base/common'
 
 const { useMemo } = React
 const Container = styled.a`
@@ -28,7 +27,7 @@ const Container = styled.a`
     props.active
       ? `
       background: #e9eff1 !important;
-      box-shadow: inset -3px 0 ${channel.theme.color.secondary[500]};
+      box-shadow: inset -3px 0 ${Color.secondary[500]};
   `
       : ''}
 `
@@ -64,7 +63,7 @@ const AvatarIcon = styled.span`
   font-size: 10px;
   z-index: 10;
   padding: 3px 0 0;
-  background: ${channel.theme.color.primary[500]};
+  background: ${Color.primary[500]};
   color: #fff;
   text-align: center;
   border: 2px solid #fff;

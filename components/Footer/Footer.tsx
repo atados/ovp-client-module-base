@@ -3,16 +3,15 @@ import React from 'react'
 import { defineMessages } from 'react-intl'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
-import { Page, PageAs, Asset, Color } from '~/common'
-import { channel } from '~/common/constants'
+import { Page, PageAs, Asset, Color, Config } from '~/common'
 import NewsletterForm from '~/components/NewsletterForm'
 import SocialMediaIcon from '~/components/SocialMediaIcon/SocialMediaIcon'
 import { useIntl } from 'react-intl'
-import { Cause } from '~/common/channel'
 import { RootState } from '~/redux/root-reducer'
 import FooterNav from './FooterNav'
 import LanguageDropdown from '~/components/LanguageDropdown/LanguageDropdown'
 import Tooltip from '../Tooltip'
+import { API } from '~/base/types/api'
 
 const Container = styled.div`
   background: ${props => props.theme.footerBackground || Color.gray[200]};
@@ -60,7 +59,7 @@ const { appName } = defineMessages({
 })
 
 export interface FooterProps {
-  readonly causes: Cause[]
+  readonly causes: API.Cause[]
   readonly className?: string
 }
 
@@ -81,10 +80,10 @@ const Footer: React.FC<FooterProps> = ({ causes, className }) => {
         <div className="lg:flex -mx-2">
           <div className="md:w-1/4 px-2 mb-4 md:mb-0">
             <FooterNav title={intl.formatMessage(appName)}>
-              {channel.config.footer.links.length === 0 && (
+              {Config.footer.links.length === 0 && (
                 <span>{intl.formatMessage(messages.appDescription)}</span>
               )}
-              {channel.config.footer.links.map(link => (
+              {Config.footer.links.map(link => (
                 <li key={link.href + link.as} className="nav-item">
                   {link.as ? (
                     <Link href={link.href} as={link.as}>
@@ -150,7 +149,7 @@ const Footer: React.FC<FooterProps> = ({ causes, className }) => {
             </a>
           </Link>
           <div className="mr-auto" />
-          {channel.social.map(social => (
+          {Config.social.map(social => (
             <Tooltip
               key={social.url}
               value={

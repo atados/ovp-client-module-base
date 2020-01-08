@@ -1,6 +1,5 @@
 import cookie from 'js-cookie'
 import deserializeUser from '~/base/lib/auth/deserialize-user'
-import { Cause, Skill } from '~/common/channel'
 import { editOrganization, addOrganization } from './organization-composer'
 import { sendRating } from './ratings'
 import { updateUser } from './user-update'
@@ -10,6 +9,7 @@ import { ThunkDispatch } from 'redux-thunk'
 import { pushToDataLayer } from '~/base/lib/tag-manager'
 import { setSentryUser } from '~/base/lib/utils/error'
 import { createAction } from 'redux-handy'
+import { API } from '~/base/types/api'
 
 export const USER_TOKEN_COOKIE = 'sessionToken'
 
@@ -140,8 +140,8 @@ export interface UserProfile {
   color: string
   birthday_date: string
   gender: string
-  causes?: Cause[]
-  skills?: Skill[]
+  causes?: API.Cause[]
+  skills?: API.Skill[]
   about?: string
   address: {
     typed_address: string

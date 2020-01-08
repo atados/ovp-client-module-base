@@ -3,11 +3,10 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 import React from 'react'
 import styled from 'styled-components'
-import { channel } from '~/common/constants'
 import { NotFoundPageError } from '~/lib/next/errors'
 import Layout from '../Layout'
 import { LayoutProps } from '../Layout/Layout'
-import { Page, PageAs } from '~/common'
+import { Page, PageAs, Color, Config } from '~/common'
 import { useIntl, defineMessages } from 'react-intl'
 import { UserOrganization } from '~/base/redux/ducks/user'
 import { Organization } from '~/base/redux/ducks/organization'
@@ -43,7 +42,7 @@ const DashboardNav = styled.div`
 
   ul.navbar-nav > li.active {
     font-weight: 500;
-    box-shadow: inset 0 -2px ${channel.theme.color.secondary[500]};
+    box-shadow: inset 0 -2px ${Color.secondary[500]};
   }
 
   ul.navbar-nav > li.active .nav-link {
@@ -253,9 +252,8 @@ const OrganizationLayout: React.FC<OrganizationLayoutProps> = ({
                         </a>
                       </Link>
                     </li>
-                    {channel.config.chat.enabled &&
-                      (!channel.config.chat.beta ||
-                        organization.chat_enabled) && (
+                    {Config.chat.enabled &&
+                      (!Config.chat.beta || organization.chat_enabled) && (
                         <li className={pathname === '/inbox' ? 'active' : ''}>
                           <Link
                             href={Page.Inbox}

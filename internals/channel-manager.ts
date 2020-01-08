@@ -3,7 +3,7 @@
 import chalk from 'chalk'
 import path from 'path'
 import { rgbToHex, hexToRgb } from '../lib/color/transformers'
-import prevChannel from '../../channel.json'
+import prevChannel from '../../channel/app.json'
 import * as fs from 'fs'
 import { promisify } from 'util'
 
@@ -97,7 +97,7 @@ function set(
     }
 
     return writeFile(
-      path.resolve('channel.json'),
+      path.resolve('channel/app.json'),
       JSON.stringify(channel, null, 2),
     )
   }

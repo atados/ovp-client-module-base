@@ -62,7 +62,7 @@ const ProjectPageOrganization: React.FC<ProjectPageOrganizationProps> = ({
             organizationSlug: project.organization.slug,
           })}
         >
-          <a className="text-base td-hover-none">
+          <a className="text-gray-800 td-hover-none">
             <Thumbnail
               style={
                 project.organization.image

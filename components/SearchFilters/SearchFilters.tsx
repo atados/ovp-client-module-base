@@ -3,8 +3,7 @@ import Router from 'next/router'
 import queryString from 'query-string'
 import React from 'react'
 import styled from 'styled-components'
-import { Page, PageAs } from '~/common'
-import { channel } from '~/common/constants'
+import { Page, PageAs, Config } from '~/common'
 import CausesFilter from '~/components/CausesFilter'
 import DisponibilityFilter from '~/components/DisponibilityFilter'
 import SkillsFilter from '~/components/SkillsFilter'
@@ -263,7 +262,7 @@ class SearchFilters extends React.Component<
           </>
         )}
         <div className="mr-auto" />
-        {channel.config.maps.key && searchType !== SearchType.Any && (
+        {Config.maps.key && searchType !== SearchType.Any && (
           <div className="hidden md:block">
             <MapToggleSwitchLabel htmlFor="filters-show-map-toggler">
               <span className="text-sm">

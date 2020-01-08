@@ -4,7 +4,6 @@ import queryString from 'querystring'
 import React, { useCallback, useRef, useState } from 'react'
 import { Waypoint } from 'react-waypoint'
 import styled from 'styled-components'
-import { channel } from '~/common/constants'
 import ActivityIndicator from '~/components/ActivityIndicator'
 import Icon from '~/components/Icon'
 import Layout from '~/components/Layout'
@@ -20,6 +19,7 @@ import Meta from '../components/Meta'
 import ManageableProjectTableRow from '../components/ManageableProjectsListPage/ManageableProjectTableRow'
 import { removeSearchFragmentFromURL } from '../lib/utils/string'
 import { useFetchClient } from 'react-fetch-json-hook'
+import { Theme } from '../common'
 
 const PageStyled = styled.div`
   min-height: 100vh;
@@ -54,7 +54,7 @@ const SearchForm = styled.div`
     position: absolute;
     left: 12px;
     top: 6px;
-    color: ${channel.theme.color.primary[500]};
+    color: ${Theme.color.primary[500]};
     font-size: 20px;
   }
 `

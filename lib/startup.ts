@@ -1,9 +1,10 @@
 import { colors, dev } from '~/common/constants'
 import { fetchAPI } from '~/lib/fetch'
-import { Cause, Skill } from '~/common/channel'
-import { StartupData } from '~/redux/ducks/startup'
+import { API } from '~/base/types/api'
 
-export async function getStartupData(locale?: string): Promise<StartupData> {
+export async function getStartupData(
+  locale?: string,
+): Promise<API.StartupPayload> {
   try {
     const {
       causes,
@@ -13,8 +14,8 @@ export async function getStartupData(locale?: string): Promise<StartupData> {
     } = await fetchAPI<{
       volunteer_count: number
       nonprofit_count: number
-      causes: Cause[]
-      skills: Skill[]
+      causes: API.Cause[]
+      skills: API.Skill[]
     }>('/startup/', {
       headers: {
         'Accept-Language': locale,

@@ -1,8 +1,8 @@
 import React from 'react'
 import styled, { StyledProps } from 'styled-components'
 import Dropdown, { DropdownMenu } from '~/components/Dropdown'
-import Icon from '../Icon'
-import { channel } from '~/base/common/constants'
+import Icon from '~/components/Icon'
+import { Color } from '~/common'
 
 interface ButtonProps {
   active?: boolean
@@ -28,9 +28,9 @@ export const SearchFilterButton = styled.button`
   ${(props: StyledProps<ButtonProps>) =>
     props.active
       ? `
-    background: ${channel.theme.color.primary[500]};
+    background: ${Color.primary[500]};
     color: #fff;
-    border-color: ${channel.theme.color.primary[500]};`
+    border-color: ${Color.primary[500]};`
       : `
     &:hover {
       background: #f6f6f6;

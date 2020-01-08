@@ -54,7 +54,7 @@ const ToolbarApplicationsItem: React.FC<ToolbarApplicationsItemProps> = ({
     >
       <Link href={Page.Project} as={PageAs.Project({ slug: project.slug })}>
         <a
-          className={`text-base td-hover-none block p-2 pl-8 ${
+          className={`text-gray-800 td-hover-none block p-2 pl-8 ${
             active ? '' : 'hover:bg-gray-200'
           }`}
           onClick={onClick}
@@ -120,7 +120,7 @@ const ToolbarApplicationsItem: React.FC<ToolbarApplicationsItemProps> = ({
               href={Page.Project}
               as={PageAs.Project({ slug: project.slug })}
             >
-              <a className="btn btn--block py-2 px-3 text-left hover:bg-gray-200 text-base font-normal">
+              <a className="btn btn--block py-2 px-3 text-left hover:bg-gray-200 text-gray-800 font-normal">
                 <Icon name="launch" className="mr-2" />
                 <FormattedMessage
                   id="toolbarApplicationsItem.viewPage"

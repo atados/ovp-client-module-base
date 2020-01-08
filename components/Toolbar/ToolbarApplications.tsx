@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
-import { channel } from '~/common/constants'
 import { User } from '~/redux/ducks/user'
 import { DropdownMenu, DropdownToggler, DropdownWithContext } from '../Dropdown'
 import VolunteerIcon from '../Icon/VolunteerIcon'
@@ -47,7 +46,7 @@ const ToolbarApplications: React.FC<ToolbarApplicationsProps> = ({ theme }) => {
                   ? '#fff'
                   : '#333'
                 : open
-                ? channel.theme.color.primary[500]
+                ? Color.primary[500]
                 : Color.gray[700]
             }
           />

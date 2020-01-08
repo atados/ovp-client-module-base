@@ -2,27 +2,7 @@ import * as Sentry from '@sentry/browser'
 import { SearchOption } from '~/components/SearchForm/SearchForm'
 import { ColorMap } from '~/base/types/global'
 import { MaterialIconName } from '../components/Icon/Icon'
-
-export interface ImageDict {
-  id: number
-  image_url: string
-  image_small_url: string
-  image_medium_url: string
-  image_medium: string
-}
-
-export interface Skill {
-  id: number
-  name: string
-}
-
-export interface Cause {
-  id: number
-  name: string
-  slug: string
-  color: string
-  image?: ImageDict
-}
+import { PagesMap } from '~/base/common/page'
 
 interface ChannelAssets {
   LogoDark?: string
@@ -36,82 +16,6 @@ interface ChannelHead {
   links: Array<{ href: string }>
   scripts: Array<{ href: string }>
 }
-
-export interface Channel {
-  id: string
-  theme: ChannelTheme
-  search?: {
-    defaultSearchOptions?: SearchOption[]
-  }
-  stats: {
-    volunteers: number
-    organizations: number
-  }
-  assets: ChannelAssets
-  social: Array<{
-    kind: 'facebook' | 'github' | 'instagram'
-    url: string
-  }>
-  head: ChannelHead
-  pages: RequiredPagesMap
-  config: ChannelConfig
-  integrations?: Array<{
-    channelId: string
-    apiUri: string
-  }>
-}
-
-export interface RequiredPagesMap {
-  Home: string
-  Project: string
-  Organization: string
-  NewAccount: string
-  Cause: string
-  Login: string
-  Search: string
-  SearchProjects: string
-  SearchOrganizations: string
-  Inbox: string
-  FAQ: string
-  FAQQuestion: string
-  ProjectDashboard: string
-  OrganizationDashboardProject: string
-  OrganizationDashboardProjectsList: string
-  OrganizationDashboardMembers: string
-  OrganizationProjects: string
-  OrganizationAbout: string
-  OrganizationEdit: string
-  OrganizationJoin: string
-  OrganizationNewProject: string
-  OrganizationEditProject: string
-  OrganizationDuplicateProject: string
-  OrganizationProjectNewPost: string
-  OrganizationProjectEditPost: string
-  ProjectNewPost: string
-  ProjectEditPost: string
-  NewOrganization: string
-  OrganizationOnboarding: string
-  NewProject: string
-  EditProject: string
-  DuplicateProject: string
-  PublicUser: string
-  RecoverPassword: string
-  PrivacyTerms: string
-  VolunteerTerms: string
-  UsageTerms: string
-  ApprovalTerms: string
-  TermsList: string
-  Viewer: string
-  ForgotPassword: string
-  ViewerProjectDashboard: string
-  ViewerProjects: string
-  ViewerSettings: string
-  ViewerDeleteAccount: string
-  ViewerSettingsNewsletter: string
-  ViewerOrganizations: string
-  ViewerSettingsPassword: string
-}
-
 export interface ChannelTheme {
   color: {
     [colorName: string]: ColorMap
@@ -127,13 +31,22 @@ export interface ChannelTheme {
   footerTheme?: 'dark' | 'light'
 }
 
-export interface ChannelConfig {
-  useDeviceLanguage: boolean
-  search: {
-    defaultOptions: any
+export interface Channel {
+  id: string
+  pages: PagesMap
+  theme: ChannelTheme
+  search?: {
+    defaultOptions?: SearchOption[]
   }
+  assets: ChannelAssets
+  social: Array<{
+    kind: 'facebook' | 'github' | 'instagram'
+    url: string
+  }>
+  head: ChannelHead
+
+  useDeviceLanguage: boolean
   supportURL?: string
-  tour: boolean
   user: {
     createProject: boolean
   }
@@ -152,7 +65,6 @@ export interface ChannelConfig {
   popover: {
     backgroundColor?: string
   }
-  wpBlogUrl?: string
   googleTagManager?: {
     id: string
   }
@@ -178,8 +90,9 @@ export interface ChannelConfig {
   sentry: Sentry.BrowserOptions
 }
 
-export const channel = JSON.parse(process.env.CHANNEL_JSON as string) as Channel
-export const Config = channel.config
+const channel = JSON.parse(process.env.CHANNEL_JSON as string) as Channel
+export const CHANNEL_ID = channel.id
+export const Config = channel
 export const Asset = channel.assets
 export const Theme = channel.theme
 export const Color = channel.theme.color

@@ -1,7 +1,8 @@
 import isPlainObject from 'is-plain-object'
 import isoFetch from 'isomorphic-fetch'
 import queryString from 'query-string'
-import { API_URL, channel } from '~/common/constants'
+import { API_URL } from '~/common/constants'
+import { CHANNEL_ID } from '~/base/common'
 
 export interface Options {
   asJSON?: boolean
@@ -131,7 +132,7 @@ export function fetchAPI<Payload>(url: string, options: Options = {}) {
   }
 
   // Include channelId header
-  options.headers['x-ovp-channel'] = channel.id
+  options.headers['x-ovp-channel'] = CHANNEL_ID
 
   if (options.asJSON === false) {
     return fetch(`${API_URL}${url}`, options)

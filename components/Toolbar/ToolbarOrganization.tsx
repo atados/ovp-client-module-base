@@ -1,11 +1,11 @@
 import cx from 'classnames'
 import React from 'react'
 import styled from 'styled-components'
-import { channel } from '~/common/constants'
 import { UserOrganization } from '~/redux/ducks/user'
 import { DropdownMenu, DropdownToggler } from '../Dropdown'
 import DropdownWithContext from '../Dropdown/DropdownWithContext'
 import Icon from '../Icon'
+import { Color } from '~/base/common'
 
 const Avatar = styled.div`
   float: left;
@@ -42,7 +42,7 @@ const Menu: React.FC<{ className?: string }> = styled(DropdownMenu)`
   }
 
   > a:hover .icon {
-    color: ${channel.theme.color.primary[500]};
+    color: ${Color.primary[500]};
   }
 `
 

@@ -1,4 +1,4 @@
-import { Cause, Skill } from '~/common/channel'
+import { API } from '~/base/types/api'
 
 export interface StartupDataStats {
   readonly volunteers: number
@@ -11,8 +11,8 @@ export interface StartupAction {
 }
 
 export interface StartupData {
-  readonly causes: Cause[]
-  readonly skills: Skill[]
+  readonly causes: API.Cause[]
+  readonly skills: API.Skill[]
   readonly stats: StartupDataStats
 }
 

@@ -1,7 +1,6 @@
 import isEqual from 'fast-deep-equal'
 import { createAction, createReducer, PayloadAction } from 'redux-handy'
-import { channel } from '~/common/constants'
-import { fetchAPI, fetchJSON } from '~/lib/fetch'
+import { fetchAPI } from '~/lib/fetch'
 import { generateRandomId } from '~/lib/utils/string'
 import { RootState } from '../root-reducer'
 import {
@@ -10,6 +9,7 @@ import {
   NodeKind,
   SearchSource,
 } from './search'
+import { CHANNEL_ID } from '~/base/common'
 
 export interface MapNode {
   slug: string
@@ -34,28 +34,12 @@ const fetchAddressMarksNodes = async (
       query,
     }).then(nodes => ({
       id: generateRandomId(),
-      channelId: channel.id,
+      channelId: CHANNEL_ID,
       count: nodes.length,
       nodeKind,
       nodes,
     })),
   )
-
-  if (channel.integrations) {
-    channel.integrations.forEach(integration => {
-      promises.push(
-        fetchJSON<MapNode[]>(`${integration.apiUri}${apiPath}`, {
-          query,
-        }).then(nodes => ({
-          id: generateRandomId(),
-          nodeKind,
-          channelId: integration.channelId,
-          count: nodes.length,
-          nodes,
-        })),
-      )
-    })
-  }
 
   const sources = await Promise.all(promises)
 

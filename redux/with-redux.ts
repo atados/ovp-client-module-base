@@ -5,7 +5,7 @@ import withRedux from 'next-redux-wrapper'
 import { MapStateToProps } from 'react-redux'
 import { applyMiddleware, compose, createStore, Middleware } from 'redux'
 import thunk from 'redux-thunk'
-import { channel, DEFAULT_LOCALE, dev } from '~/common/constants'
+import { DEFAULT_LOCALE, dev } from '~/common/constants'
 import getMessages from '~/lib/intl/get-messages'
 import { User } from '~/redux/ducks/user'
 import rootReducer, { RootState } from '~/redux/root-reducer'
@@ -57,7 +57,7 @@ const configureStore = (
   if (context && context.req) {
     initialState = {
       user: context.req.user || null,
-      geo: channel.config.geo.default,
+      geo: Config.geo.default,
       intl: createIntlObject(context.req),
     }
   }

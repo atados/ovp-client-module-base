@@ -6,7 +6,6 @@ import {
 } from 'redux-handy'
 import { fetchAPI } from '~/lib/fetch'
 import { reportError } from '~/lib/utils/error'
-import { Cause, ImageDict, Skill } from '~/common/channel'
 import { Organization } from '~/redux/ducks/organization'
 import { RootState } from '~/redux/root-reducer'
 import { API } from '~/base/types/api'
@@ -72,7 +71,7 @@ interface ProjectApplicationUser {
   email: string
   phone: string
   rating: number
-  avatar?: ImageDict
+  avatar?: API.ImageDict
 }
 
 export type ProjectApplicationStatus =
@@ -117,7 +116,7 @@ export interface Gallery {
   uuid: string
   name: string
   description: string
-  images: ImageDict[]
+  images: API.ImageDict[]
 }
 
 export interface Project {
@@ -135,8 +134,8 @@ export interface Project {
   applied_count: number
   max_applies_from_roles: number
   address?: Address
-  causes: Cause[]
-  skills: Skill[]
+  causes: API.Cause[]
+  skills: API.Skill[]
   closed: boolean
   closed_date: string
   canceled: boolean
@@ -150,7 +149,7 @@ export interface Project {
   galleries: Gallery[]
   documents: API.DocumentDict[]
   categories: Array<{ id: number; name: string }>
-  image?: ImageDict
+  image?: API.ImageDict
 }
 
 interface ProjectFetchMeta {

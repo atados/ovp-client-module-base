@@ -17,6 +17,7 @@ export function useProjectApplication() {
   const openApplicationRegistryModal = useModal({
     id: 'ProjectApplicationRegistry',
     component: ProjectApplicationRegistry,
+    cardClassName: 'p-4',
   })
   const openApplicationModal = useModal<ProjectApplicationProps>({
     id: 'ProjectApplication',

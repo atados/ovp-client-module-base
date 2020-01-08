@@ -1,11 +1,11 @@
 import React from 'react'
 import styled from 'styled-components'
-import { channel } from '~/common/constants'
 import { JobDate } from '~/redux/ducks/project'
 import DisponibilityJobForm from './DisponibilityJobForm'
 import DisponibilityWorkForm from './DisponibilityWorkForm'
 import { defineMessages, WithIntlProps } from 'react-intl'
 import { withIntl } from '~/lib/intl'
+import { Color } from '~/base/common'
 
 const OptionHeader = styled.button`
   width: 100%;
@@ -27,7 +27,7 @@ const Option = styled.div`
   border-radius: 0 !important;
 
   &.active {
-    box-shadow: -2px 0 ${channel.theme.color.secondary[500]};
+    box-shadow: -2px 0 ${Color.secondary[500]};
 
     ${OptionHeader} {
       border-bottom: 1px solid #ddd;
@@ -45,8 +45,6 @@ const {
   EXIGE_COMPROMETIMENTO,
   PONTUAL,
   E_NECESSARIO,
-  DOACAO,
-  VAGA_DESTINADA,
 } = defineMessages({
   RECORRENTE: {
     id: 'disponibilityInput.recurrent',
@@ -65,14 +63,6 @@ const {
     id: 'E_NECESSARIO',
     defaultMessage:
       'É necessário dedicar-se por um curto período de tempo, em um dia ou uma semana para a realização das atividades.',
-  },
-  DOACAO: {
-    id: 'DOACAO',
-    defaultMessage: 'Doação',
-  },
-  VAGA_DESTINADA: {
-    id: 'VAGA_DESTINADA',
-    defaultMessage: 'Vaga destinada a doação',
   },
 })
 
@@ -327,46 +317,6 @@ class DisponibilityInput extends React.PureComponent<
             </OptionBody>
           )}
         </Option>
-        {channel.config['project.disponibility.donation'] && (
-          <Option
-            className={`card-item${
-              value && value.type === 'work' && value.donation ? ' active' : ''
-            }`}
-          >
-            <OptionHeader
-              type="button"
-              className="p-3 media"
-              onClick={() => this.setType('donation')}
-              onBlur={this.handleBlur}
-            >
-              <span
-                className={`input-radio${
-                  value && value.type === 'work' && value.donation
-                    ? ' checked'
-                    : ''
-                }`}
-              />
-              <div className="media-body ml-4">
-                <h5 className="font-normal mb-1">
-                  {intl.formatMessage(DOACAO)}
-                </h5>
-                <p className="text-gray-700 text-sm mb-0">
-                  {intl.formatMessage(VAGA_DESTINADA)}
-                </p>
-              </div>
-            </OptionHeader>
-            {value && value.type === 'work' && value.donation && (
-              <OptionBody className="p-3">
-                <DisponibilityWorkForm
-                  onBlur={this.handleBlur}
-                  defaultValue={value.work}
-                  onChange={this.handleWorkFormChange}
-                  isDonation={value.donation}
-                />
-              </OptionBody>
-            )}
-          </Option>
-        )}
       </div>
     )
   }

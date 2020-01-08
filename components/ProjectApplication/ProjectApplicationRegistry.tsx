@@ -162,16 +162,12 @@ const ProjectApplicationRegistry: React.FC<ProjectApplicationRegistryProps> = ({
 
   return (
     <div>
-      <div className="card no-border rounded-lg  p-4 mb-4 bg-green-600 text-white">
-        <h4 className="font-normal">
-          {isNew
-            ? intl.formatMessage(BEM_SUCEDIDA)
-            : intl.formatMessage(INSCRITO)}
-        </h4>
-        <p className="text-white-alpha-80 mb-0">
-          {intl.formatMessage(FIQUE_ATENTO)}
-        </p>
-      </div>
+      <h4 className="font-normal">
+        {isNew
+          ? intl.formatMessage(BEM_SUCEDIDA)
+          : intl.formatMessage(INSCRITO)}
+      </h4>
+      <p>{intl.formatMessage(FIQUE_ATENTO)}</p>
 
       <div className="card no-border rounded-lg  mb-4 ">
         <div className="p-4 card-item">
@@ -196,10 +192,9 @@ const ProjectApplicationRegistry: React.FC<ProjectApplicationRegistryProps> = ({
               </span>
             </div>
           </a>
-
-          <hr />
           {application && application.role && (
             <>
+              <hr />
               <h4 className="text-xl mb-1">{application.role.name}</h4>
               <span className="text-gray-600 text-sm font-medium">
                 {intl.formatMessage(FUNCAO)}
@@ -213,57 +208,49 @@ const ProjectApplicationRegistry: React.FC<ProjectApplicationRegistryProps> = ({
           )}
         </div>
       </div>
-      <div className="card no-border rounded-lg  mb-4">
-        <div className="p-4">
-          {project.disponibility && (
-            <>
-              <h4 className="text-xl mb-2">
-                {intl.formatMessage(DESCRICAO_HORARIOS)}
-              </h4>
-              <div className="text-gray-700">
-                {project.disponibility.type === 'work' ? (
-                  <>
-                    <p className="mb-1 text-lg">
-                      <Icon name="event" className="mr-2" />
-                      {project.disponibility.work.description}
-                    </p>
-                    <p className="mb-1 text-lg">
-                      <Icon name="access_time" className="mr-2" />
-                      {project.disponibility.work.weekly_hours}{' '}
-                      {intl.formatMessage(HORAS)}
-                    </p>
-                    {project.disponibility.work.can_be_done_remotely && (
-                      <p className="mb-1 text-lg">
-                        <Icon name="public" className="mr-2" />
-                        {intl.formatMessage(A_DISTANCIA)}
-                      </p>
-                    )}
-                  </>
-                ) : (
-                  formatDisponibility(project.disponibility, intl)
+      {project.disponibility && (
+        <>
+          <h4 className="text-xl mb-2">
+            {intl.formatMessage(DESCRICAO_HORARIOS)}
+          </h4>
+          <div className="text-gray-700">
+            {project.disponibility.type === 'work' ? (
+              <>
+                <p className="mb-1 text-lg">
+                  <Icon name="event" className="mr-2" />
+                  {project.disponibility.work.description}
+                </p>
+                <p className="mb-1 text-lg">
+                  <Icon name="access_time" className="mr-2" />
+                  {project.disponibility.work.weekly_hours}{' '}
+                  {intl.formatMessage(HORAS)}
+                </p>
+                {project.disponibility.work.can_be_done_remotely && (
+                  <p className="mb-1 text-lg">
+                    <Icon name="public" className="mr-2" />
+                    {intl.formatMessage(A_DISTANCIA)}
+                  </p>
                 )}
-              </div>
-            </>
-          )}
-          {project.address && (
-            <>
-              <h4 className="text-xl mb-1 mt-6">
-                {intl.formatMessage(ENDERECO)}
-              </h4>
-              <p className="mb-0 text-gray-700">
-                {project.address.typed_address}
-                {project.address.typed_address2 && (
-                  <>
-                    {' '}
-                    <b>{intl.formatMessage(COMPLEMENTO)}</b>{' '}
-                    {project.address.typed_address2}
-                  </>
-                )}
-              </p>
-            </>
-          )}
-        </div>
-        {project.address && (
+              </>
+            ) : (
+              formatDisponibility(project.disponibility, intl)
+            )}
+          </div>
+        </>
+      )}
+      {project.address && (
+        <div className="mb-4">
+          <h4 className="text-xl mb-1 mt-6">{intl.formatMessage(ENDERECO)}</h4>
+          <p className="mb-3 text-gray-700">
+            {project.address.typed_address}
+            {project.address.typed_address2 && (
+              <>
+                {' '}
+                <b>{intl.formatMessage(COMPLEMENTO)}</b>{' '}
+                {project.address.typed_address2}
+              </>
+            )}
+          </p>
           <Map
             defaultCenter={{
               lat: project.address.lat,
@@ -272,22 +259,20 @@ const ProjectApplicationRegistry: React.FC<ProjectApplicationRegistryProps> = ({
           >
             <MapMark lat={project.address.lat} lng={project.address.lng} />
           </Map>
-        )}
-      </div>
-      <div className="card no-border rounded-lg  shadow bg-red-400 p-4">
-        <h4 className="font-normal">{intl.formatMessage(CANCELAR)}</h4>
-        <span className="text-gray-700 mb-0 block mb-4">
-          {intl.formatMessage(AO_CANCELAR)}
-        </span>
-        <button
-          type="button"
-          className="btn btn-error"
-          onClick={handleUnapplication}
-          disabled={unapplyMutation.loading}
-        >
-          <Icon name="close" /> {intl.formatMessage(CONFIRMA_CANCELAR)}
-        </button>
-      </div>
+        </div>
+      )}
+      <h4 className="font-normal">{intl.formatMessage(CANCELAR)}</h4>
+      <span className="text-gray-700 mb-0 block mb-4">
+        {intl.formatMessage(AO_CANCELAR)}
+      </span>
+      <button
+        type="button"
+        className="btn btn-error"
+        onClick={handleUnapplication}
+        disabled={unapplyMutation.loading}
+      >
+        <Icon name="close" /> {intl.formatMessage(CONFIRMA_CANCELAR)}
+      </button>
     </div>
   )
 }

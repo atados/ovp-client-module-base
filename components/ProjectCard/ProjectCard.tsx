@@ -3,7 +3,7 @@ import React from 'react'
 import { WithIntlProps, defineMessages } from 'react-intl'
 import styled from 'styled-components'
 import { Page, PageAs, Color } from '~/common'
-import { APP_URL, channel } from '~/common/constants'
+import { APP_URL } from '~/common/constants'
 import Icon from '~/components/Icon'
 import { withIntl } from '~/lib/intl'
 import { formatDisponibility } from '~/lib/project/utils'
@@ -72,7 +72,7 @@ const Counter = styled.div`
   left: 8px;
   bottom: 8px;
   padding: 5px 12px;
-  background: ${channel.theme.color.primary[500]};
+  background: ${Color.primary[500]};
   color: #fff;
   font-size: 14px;
   height: 30px;

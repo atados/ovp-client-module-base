@@ -2,13 +2,12 @@ import moment from 'moment'
 import Link from 'next/link'
 import React, { useMemo } from 'react'
 import styled from 'styled-components'
-import { channel } from '~/common/constants'
 import Icon from '~/components/Icon'
 import useMultipleStepsForm from '~/hooks/use-multiple-steps-form'
 import { ProjectComposerDraft } from '~/pages/project-composer'
 import { defineMessages } from 'react-intl'
 import { useIntl } from 'react-intl'
-import { Page, PageAs } from '~/base/common'
+import { Page, PageAs, Color } from '~/base/common'
 
 const Option = styled.a`
   border-radius: 10px;
@@ -38,7 +37,7 @@ const Option = styled.a`
   }
 
   &:hover {
-    border-color: ${channel.theme.color.primary[500]};
+    border-color: ${Color.primary[500]};
   }
 `
 

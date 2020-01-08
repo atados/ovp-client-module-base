@@ -1,5 +1,3 @@
-import { channel } from '~/common/channel'
-
 export const API_URL = process.env.API_URL!
 export const APP_URL = process.env.APP_URL!
 export const APP_SHARE_URL = process.env.APP_SHARE_URL!
@@ -85,4 +83,3 @@ export const regionLongNameMap = {
   '29': 'Tocantins',
 }
 export const DEFAULT_LOCALE = 'pt-br'
-export { channel }

@@ -5,7 +5,6 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { Waypoint } from 'react-waypoint'
 import styled from 'styled-components'
-import { channel } from '~/common/constants'
 import { Mark } from '~/components/GoogleMap/GoogleMap'
 import ReduxGoogleMap from '~/components/GoogleMap/ReduxGoogleMap'
 import Icon from '~/components/Icon'
@@ -34,7 +33,7 @@ import {
 } from '~/redux/ducks/search'
 import { fetchMapMarks } from '~/redux/ducks/search-marks'
 import { RootState } from '~/redux/root-reducer'
-import { Page, PageAs } from '~/common'
+import { Page, PageAs, Config } from '~/common'
 import { withIntl } from '~/lib/intl'
 import { defineMessages, WithIntlProps } from 'react-intl'
 
@@ -209,7 +208,7 @@ class ExplorePage extends React.Component<
       })
     }
 
-    if (!filters.address && !filters.remoteOnly) {
+    if (!filters.address && filters.address !== null && !filters.remoteOnly) {
       filters.address = mountAddressFilter(geo)
     }
 
@@ -332,7 +331,7 @@ class ExplorePage extends React.Component<
         <Container
           className={`px-3 container${renderMap ? ' map-rendered' : ''}`}
         >
-          <Header className={renderMap ? '' : ' container'}>
+          <Header className={renderMap ? '' : 'md:px-3 container'}>
             <HeaderInner className={isAnyFilterOpen ? 'filters-open' : ''}>
               <SearchFilters
                 mapToggleChecked={renderMap}
@@ -529,7 +528,7 @@ const mapStateToProps = ({
     sources: searchState.sources,
     filters: searchState.filters || {},
     marks,
-    mapDefaultCenter: mapDefaultCenter || channel.config.geo.default,
+    mapDefaultCenter: mapDefaultCenter || Config.geo.default,
   }
 }
 

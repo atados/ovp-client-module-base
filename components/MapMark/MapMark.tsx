@@ -296,7 +296,7 @@ class MapMark extends React.Component<MapMarkProps, MapMarkState> {
                   <img
                     src="/static/base/icons/volunteer.svg"
                     alt=""
-                    className="mr-2"
+                    className="mr-2 inline-block"
                   />
                   <span>{(node as Project).applied_count}</span>
                 </Counter>
@@ -348,7 +348,7 @@ class MapMark extends React.Component<MapMarkProps, MapMarkState> {
               <Icon name="close" />
             </CloseButton>
             {fetchingNode ? (
-              <ActivityIndicator size={64} className="absolute-center" />
+              <ActivityIndicator size={64} className="mx-auto block my-3" />
             ) : (
               renderedNode
             )}

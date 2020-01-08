@@ -1,12 +1,12 @@
 import { InputSelectItem } from '~/components/InputSelect/InputSelect'
-import { Cause, Skill } from '~/common/channel'
+import { API } from '~/base/types/api'
 
-export const causeToSelectItem = (cause: Cause): InputSelectItem => ({
+export const causeToSelectItem = (cause: API.Cause): InputSelectItem => ({
   value: cause.id,
   label: cause.name,
 })
 
-export const skillToSelectItem = (skill: Skill): InputSelectItem => ({
+export const skillToSelectItem = (skill: API.Skill): InputSelectItem => ({
   value: skill.id,
   label: skill.name,
 })

@@ -7,8 +7,7 @@ import Icon from '~/components/Icon'
 import { withIntl } from '~/lib/intl'
 import { findNearestDate, formatDisponibility } from '~/lib/project/utils'
 import { Project } from '~/redux/ducks/project'
-import { Page, PageAs } from '~/common'
-import { channel } from '~/base/common/constants'
+import { Page, PageAs, Color } from '~/common'
 
 // const Container = styled.div``
 const Thumbnail = styled.div`
@@ -27,7 +26,7 @@ const Thumbnail = styled.div`
 
 const Info = styled.div`
   height: 48px;
-  background: ${channel.theme.color.primary[500]};
+  background: ${Color.primary[500]};
   color: #fff;
   box-shadow: none;
 

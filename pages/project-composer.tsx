@@ -5,7 +5,6 @@ import queryString from 'query-string'
 import React, { useCallback, useRef } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import styled from 'styled-components'
-import { channel } from '~/common/constants'
 import ActivityIndicator from '~/components/ActivityIndicator'
 import { FormComposerMode } from '~/components/FormComposer/FormComposer'
 import Layout from '~/components/Layout'
@@ -24,7 +23,7 @@ import { fetchProject, Project, updateProject } from '~/redux/ducks/project'
 import { UserOrganization } from '~/redux/ducks/user'
 import BeforeActionAuth from '~/components/BeforeActionAuth'
 import { RootState } from '~/redux/root-reducer'
-import { Page, PageAs, RequiredPagesMap } from '~/common'
+import { Page, PageAs, PageName, Theme } from '~/common'
 import { FormattedMessage } from 'react-intl'
 
 const PageStyled = styled.div`
@@ -34,7 +33,7 @@ const PageStyled = styled.div`
 
 const Card = styled.div`
   border-radius: 10px 10px 0 0;
-  min-height: calc(100vh - ${channel.theme.toolbarHeight}px - 64px);
+  min-height: calc(100vh - ${Theme.toolbarHeight}px - 64px);
   border-bottom-width: 0;
 `
 
@@ -60,7 +59,7 @@ export interface ProjectComposerDraft {
 function getRouteName(
   mode?: FormComposerMode,
   organization?: UserOrganization,
-): keyof RequiredPagesMap {
+): PageName {
   if (organization) {
     if (mode === FormComposerMode.EDIT) {
       return 'OrganizationEditProject'

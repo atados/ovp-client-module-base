@@ -1,4 +1,5 @@
 const Yup = require('yup')
+const defaultPages = require('../pages.default.json')
 
 const LinkSchema = Yup.object().shape({
   href: Yup.string().required(),
@@ -18,6 +19,12 @@ const ColorSchema = Yup.object().shape({
 })
 
 const PageSchema = Yup.string()
+const PagesShape = {}
+
+Object.keys(defaultPages || {}).forEach(pageName => {
+  PagesShape[pageName] = PageSchema.default(defaultPages[pageName])
+})
+
 const ChannelConfigSchema = Yup.object().shape({
   id: Yup.string().required(),
   theme: Yup.object()
@@ -97,86 +104,7 @@ const ChannelConfigSchema = Yup.object().shape({
     })
     .default({}),
   pages: Yup.object()
-    .shape({
-      Home: PageSchema.default('/'),
-      Organization: PageSchema.default('/ong/[organizationSlug]'),
-      Project: PageSchema.default('/vaga/[slug]'),
-      Cause: PageSchema.default('/causa/[slug]'),
-      Login: PageSchema.default('/entrar'),
-      NewAccount: PageSchema.default('/nova-conta'),
-      Search: PageSchema.default('/explorar'),
-      SearchProjects: PageSchema.default('/vagas'),
-      SearchOrganizations: PageSchema.default('/ongs'),
-      Inbox: PageSchema.default('/mensagens'),
-      ViewerProjectDashboard: PageSchema.default(
-        '/gerenciar/vaga/[projectSlug]',
-      ),
-      ViewerProjects: PageSchema.default('/gerenciar/vagas'),
-      OrganizationDashboardProject: PageSchema.default(
-        '/ong/[organizationSlug]/gerenciar/vaga/[projectSlug]',
-      ),
-      OrganizationDashboardProjectsList: PageSchema.default(
-        '/ong/[organizationSlug]/gerenciar/vagas',
-      ),
-      OrganizationDashboardMembers: PageSchema.default(
-        '/ong/[organizationSlug]/gerenciar/membros',
-      ),
-      OrganizationProjects: PageSchema.default('/ong/[organizationSlug]/vagas'),
-      OrganizationAbout: PageSchema.default('/ong/[organizationSlug]/sobre'),
-      OrganizationEdit: PageSchema.default(
-        '/ong/[organizationSlug]/editar/[stepId]',
-      ),
-      OrganizationJoin: PageSchema.default(
-        '/ong/[organizationSlug]/participar',
-      ),
-      OrganizationNewProject: PageSchema.default(
-        '/ong/[organizationSlug]/gerenciar/vagas/nova/[stepId]',
-      ),
-
-      OrganizationDuplicateProject: PageSchema.default(
-        '/ong/[organizationSlug]/gerenciar/vaga/[projectSlug]/duplicar/[stepId]',
-      ),
-      OrganizationEditProject: PageSchema.default(
-        '/ong/[organizationSlug]/gerenciar/vaga/[projectSlug]/editar/[stepId]',
-      ),
-      OrganizationOnboarding: PageSchema.default('/sou-uma-ong'),
-      NewOrganization: PageSchema.default('/sou-uma-ong/[stepId]'),
-      NewProject: PageSchema.default('/criar-vaga/[stepId]'),
-      DuplicateProject: PageSchema.default(
-        '/gerenciar/vaga/[projectSlug]/duplicar/[stepId]',
-      ),
-      EditProject: PageSchema.default(
-        '/gerenciar/vaga/[projectSlug]/editar/[stepId]',
-      ),
-      PublicUser: PageSchema.default('/voluntario/[slug]'),
-      RecoverPassword: PageSchema.default('/recuperar-senha'),
-      ForgotPassword: PageSchema.default('/esqueci-minha-senha'),
-      ViewerOrganizations: PageSchema.default('/eu/ongs'),
-      ViewerSettingsNewsletter: PageSchema.default('/eu/newsletter'),
-      ViewerSettingsPassword: PageSchema.default('/eu/alterar-senha'),
-      ViewerSettings: PageSchema.default('/eu/configuracoes'),
-      ViewerDeleteAccount: PageSchema.default('/eu/encerrar'),
-      PrivacyTerms: PageSchema.default('/termos/privacidade'),
-      VolunteerTerms: PageSchema.default('/termos/voluntariado'),
-      UsageTerms: PageSchema.default('/termos/uso'),
-      ApprovalTerms: PageSchema.default('/termos/aprovacao'),
-      TermsList: PageSchema.default('/termos'),
-      FAQ: PageSchema.default('/faq'),
-      Viewer: PageSchema.default('/eu'),
-      FAQQuestion: PageSchema.default('/faq/[id]'),
-      OrganizationProjectNewPost: PageSchema.default(
-        '/ong/[organizationSlug]/gerenciar/vaga/[projectSlug]/publicacoes/nova',
-      ),
-      OrganizationProjectEditPost: PageSchema.default(
-        '/ong/[organizationSlug]/gerenciar/vaga/[projectSlug]/publicacoes/editar/[postId]',
-      ),
-      ProjectNewPost: PageSchema.default(
-        '/gerenciar/vaga/[projectSlug]/publicacoes/nova',
-      ),
-      ProjectEditPost: PageSchema.default(
-        '/gerenciar/vaga/[projectSlug]/publicacoes/editar/[postId]',
-      ),
-    })
+    .shape(PagesShape)
     .default({}),
   social: Yup.array(
     Yup.object().shape({
@@ -186,94 +114,91 @@ const ChannelConfigSchema = Yup.object().shape({
         .required(),
     }),
   ).default([]),
-  config: Yup.object()
-    .shape({
-      useDeviceLanguage: Yup.boolean().default(true),
-      popover: Yup.object()
-        .shape({
-          backgroundColor: Yup.string(),
-        })
-        .default({}),
-      geo: Yup.object()
-        .shape({
-          default: Yup.object()
-            .shape({
-              country: Yup.string().required(),
-              region: Yup.string().required(),
-              lat: Yup.number().required(),
-              lng: Yup.number().required(),
-            })
-            .default({
-              country: 'BR',
-              region: 'SP',
-              lat: -23.5283838,
-              lng: -46.6021955,
-            }),
-          regions: Yup.array(Yup.string()),
-        })
-        .default({}),
-      footer: Yup.object()
-        .shape({
-          links: Yup.array(LinkSchema).default([]),
-        })
-        .default({}),
-      user: Yup.object()
-        .shape({
-          createProject: Yup.boolean().default(false),
-        })
-        .default({}),
-      project: Yup.object()
-        .shape({
-          galleries: Yup.boolean().default(true),
-          posts: Yup.boolean().default(true),
-          documents: Yup.boolean().default(true),
-          documentsRestricted: Yup.boolean().default(false),
-        })
-        .default({}),
-      user: Yup.object()
-        .shape({
-          documents: Yup.boolean().default(true),
-          galleries: Yup.boolean().default(true),
-          posts: Yup.boolean().default(true),
-          documentsRestricted: Yup.boolean().default(false),
-        })
-        .default({}),
 
-      project: Yup.object()
-        .shape({
-          galleries: Yup.boolean().default(true),
-          posts: Yup.boolean().default(true),
-          documents: Yup.boolean().default(true),
-          documentsRestricted: Yup.boolean().default(false),
-        })
-        .default({}),
-      organization: Yup.object()
-        .shape({
-          enabled: Yup.boolean().default(true),
-        })
-        .default({}),
-      supportURL: Yup.string(),
-      toolbar: Yup.object()
-        .shape({
-          links: Yup.array(LinkSchema).default([]),
-        })
-        .default({}),
-      chat: Yup.object()
-        .shape({
-          enabled: Yup.boolean().default(false),
-          beta: Yup.boolean().default(true),
-        })
-        .default({}),
-      googleTagManager: Yup.object()
-        .shape({
-          id: Yup.string(),
-        })
-        .default(undefined),
-      maps: Yup.object().shape({
-        key: Yup.string(),
-      }),
+  useDeviceLanguage: Yup.boolean().default(true),
+  popover: Yup.object()
+    .shape({
+      backgroundColor: Yup.string(),
     })
-    .required(),
+    .default({}),
+  geo: Yup.object()
+    .shape({
+      default: Yup.object()
+        .shape({
+          country: Yup.string().required(),
+          region: Yup.string().required(),
+          lat: Yup.number().required(),
+          lng: Yup.number().required(),
+        })
+        .default({
+          country: 'BR',
+          region: 'SP',
+          lat: -23.5283838,
+          lng: -46.6021955,
+        }),
+      regions: Yup.array(Yup.string()),
+    })
+    .default({}),
+  footer: Yup.object()
+    .shape({
+      links: Yup.array(LinkSchema).default([]),
+    })
+    .default({}),
+  user: Yup.object()
+    .shape({
+      createProject: Yup.boolean().default(false),
+    })
+    .default({}),
+  project: Yup.object()
+    .shape({
+      galleries: Yup.boolean().default(true),
+      posts: Yup.boolean().default(true),
+      documents: Yup.boolean().default(true),
+      documentsRestricted: Yup.boolean().default(false),
+    })
+    .default({}),
+  user: Yup.object()
+    .shape({
+      documents: Yup.boolean().default(true),
+      galleries: Yup.boolean().default(true),
+      posts: Yup.boolean().default(true),
+      documentsRestricted: Yup.boolean().default(false),
+    })
+    .default({}),
+
+  project: Yup.object()
+    .shape({
+      galleries: Yup.boolean().default(true),
+      posts: Yup.boolean().default(true),
+      documents: Yup.boolean().default(true),
+      documentsRestricted: Yup.boolean().default(false),
+    })
+    .default({}),
+  organization: Yup.object()
+    .shape({
+      enabled: Yup.boolean().default(true),
+    })
+    .default({}),
+  supportURL: Yup.string(),
+  toolbar: Yup.object()
+    .shape({
+      links: Yup.array(LinkSchema).default([]),
+    })
+    .default({}),
+  chat: Yup.object()
+    .shape({
+      enabled: Yup.boolean().default(false),
+      beta: Yup.boolean().default(true),
+    })
+    .default({}),
+  googleTagManager: Yup.object()
+    .shape({
+      id: Yup.string(),
+    })
+    .default(undefined),
+  maps: Yup.object().shape({
+    key: Yup.string(),
+  }),
 })
 
 module.exports = ChannelConfigSchema

@@ -3,7 +3,7 @@ import { Waypoint } from 'react-waypoint'
 import styled, { StyledProps } from 'styled-components'
 import { PublicUserApplication } from '~/redux/ducks/public-user'
 import TimelineItem from './TimelineItem'
-import { channel } from '~/base/common/constants'
+import { Color } from '~/base/common'
 
 const TimelineCrossedHr = styled.div`
   background-image: url(/static/base/icons/cross-x.svg);
@@ -68,7 +68,7 @@ const TimelineYear = styled.a`
   ${(props: StyledProps<TimelineYearProps>) =>
     props.active
       ? `
-    background: ${channel.theme.color.primary[500]};
+    background: ${Color.primary[500]};
     color: #fff;
 
     &:hover {

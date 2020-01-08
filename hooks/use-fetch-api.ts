@@ -1,7 +1,8 @@
-import { API_URL, channel } from '~/common/constants'
+import { API_URL } from '~/common/constants'
 import { useSelector } from 'react-redux'
 import { RootState } from '../redux/root-reducer'
 import { useFetch, FetchAction } from 'react-fetch-json-hook'
+import { CHANNEL_ID } from '../common'
 
 export default function useFetchAPI<Payload>(
   endpoint: string,
@@ -14,7 +15,7 @@ export default function useFetchAPI<Payload>(
   const viewer = useSelector((state: RootState) => state.user)
   options.headers = {
     ...options.headers,
-    'x-ovp-channel': channel.id,
+    'x-ovp-channel': CHANNEL_ID,
     Authorization: viewer ? `Bearer ${viewer.token}` : '',
   }
 

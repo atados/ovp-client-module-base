@@ -1,99 +1,15 @@
 import path from 'path'
-import { RequiredPagesMap, Channel } from '../common'
+import { Channel, PageName } from '../common'
 import loadChannelConfig from './channel/load-channel-config'
 import { promisify } from 'util'
 import * as fs from 'fs'
 import mkdirp from 'mkdirp'
+import defaultPages from './pages.default.json'
+import * as prettier from 'prettier'
+import prettierConfig from '../../.prettierrc.json'
 
-// @ts-ignore
 const writeFile = promisify(fs.writeFile)
-// @ts-ignore
 const createDir = promisify(mkdirp)
-
-type PagesBuilderMap = {
-  [pageName in keyof RequiredPagesMap]:
-    | string
-    | {
-        importPath: string
-        query: object
-      }
-}
-
-const PageBuildShape: PagesBuilderMap = {
-  Home: '~/pages/home',
-  Project: '~/pages/project',
-  Organization: '~/pages/organization',
-  NewAccount: {
-    importPath: '~/pages/authentication',
-    query: {
-      defaultPage: 'new-account',
-    },
-  },
-  Cause: '~/pages/cause',
-  Login: '~/pages/authentication',
-  Search: '~/pages/explore',
-  SearchProjects: {
-    importPath: '~/pages/explore',
-    query: {
-      searchType: '1',
-    },
-  },
-  SearchOrganizations: {
-    importPath: '~/pages/explore',
-    query: {
-      searchType: '2',
-    },
-  },
-  Inbox: '~/pages/inbox',
-  FAQ: '~/pages/faq',
-  FAQQuestion: '~/pages/faq-question',
-  ProjectDashboard: '~/pages/manage-project',
-  OrganizationDashboardProject: '~/pages/manage-project',
-  OrganizationDashboardProjectsList: '~/pages/manageable-projects-list',
-  OrganizationDashboardMembers: '~/pages/organization-members',
-  OrganizationProjects: '~/pages/organization-projects',
-  OrganizationAbout: '~/pages/organization-about',
-  OrganizationEdit: '~/pages/organization-edit',
-  OrganizationJoin: '~/pages/organization-join',
-  OrganizationNewProject: '~/pages/project-composer',
-  OrganizationEditProject: {
-    importPath: '~/pages/project-composer',
-    query: {
-      mode: 'EDIT',
-    },
-  },
-  OrganizationDuplicateProject: '~/pages/project-composer',
-  OrganizationProjectNewPost: '~/pages/post-form',
-  OrganizationProjectEditPost: '~/pages/post-form',
-  ProjectNewPost: '~/pages/post-form',
-  ProjectEditPost: '~/pages/post-form',
-  NewOrganization: '~/pages/organization-composer',
-  OrganizationOnboarding: '~/pages/organization-orboarding',
-  NewProject: '~/pages/project-composer',
-  EditProject: {
-    importPath: '~/pages/project-composer',
-    query: {
-      mode: 'EDIT',
-    },
-  },
-  DuplicateProject: '~/pages/project-composer',
-  PublicUser: '~/pages/public-user',
-  RecoverPassword: '~/pages/recover-password',
-  PrivacyTerms: '~/pages/privacy-terms',
-  VolunteerTerms: '~/pages/volunteer-terms',
-  UsageTerms: '~/pages/volunteer-terms',
-  ApprovalTerms: '~/pages/approval-terms',
-  TermsList: '~/pages/terms-list',
-  Viewer: '~/pages/viewer',
-  ForgotPassword: '~/pages/new-password-recovery-request',
-  ViewerProjectDashboard: '~/pages/manage-project',
-  ViewerProjects: '~/pages/manageable-projects-list',
-  ViewerSettings: '~/pages/settings-user',
-  ViewerSettingsNewsletter: '~/pages/settings-newsletter',
-  ViewerOrganizations: '~/pages/settings-organizations',
-  ViewerSettingsPassword: '~/pages/settings-password',
-  ViewerDeleteAccount: '~/pages/settings-delete-account',
-}
 
 const nextPages = ['_app', '_document', '_error']
 async function generateNextPages() {
@@ -117,23 +33,36 @@ export default async function generatePageFiles() {
   await generateNextPages()
 
   const channel: Channel = loadChannelConfig()
-  const pageNames = Object.keys(channel.pages)
-  const pagesPathNames = Object.values(channel.pages)
+  const pagesBuildShapeMap = { ...defaultPages }
+
+  if (channel.pages) {
+    Object.keys(channel.pages).forEach(pageName => {
+      pagesBuildShapeMap[pageName] = {
+        ...pagesBuildShapeMap[pageName],
+        ...channel.pages[pageName],
+      }
+    })
+  }
+
+  const pageNames = Object.keys(pagesBuildShapeMap)
 
   let absolutePagesPathnames: string[] = []
-  pagesPathNames.sort().forEach(pathname => {
-    absolutePagesPathnames = absolutePagesPathnames.filter(
-      absolutePagePathname => {
-        return !pathname.startsWith(absolutePagePathname)
-      },
-    )
-    absolutePagesPathnames.push(pathname)
-  })
+  pageNames
+    .map(pageName => pagesBuildShapeMap[pageName].pathname)
+    .sort()
+    .forEach(pathname => {
+      absolutePagesPathnames = absolutePagesPathnames.filter(
+        absolutePagePathname => {
+          return !pathname.startsWith(absolutePagePathname)
+        },
+      )
+      absolutePagesPathnames.push(pathname)
+    })
 
   return Promise.all(
-    pageNames.map(async (pageName: keyof RequiredPagesMap) => {
-      const pathname = channel.pages[pageName]
-      const pageBuildShape = PageBuildShape[pageName]
+    pageNames.map(async (pageName: PageName) => {
+      const { pathname } = pagesBuildShapeMap[pageName]
+      const pageShape = pagesBuildShapeMap[pageName]
       const relativeFilePath =
         pathname === '/'
           ? 'index.tsx'
@@ -148,18 +77,25 @@ export default async function generatePageFiles() {
         // tslint:disable-next-line:no-console
         console.log(`> Created ${relativeFilePath}`)
         await createDir(path.dirname(output))
+        const { filename } = pageShape
         await writeFile(
           output,
-          typeof pageBuildShape === 'string'
-            ? `export { default } from '${pageBuildShape}'`.trim()
-            : `
-import Page from '${pageBuildShape.importPath}'
-import { withQuery } from '~/lib/utils/next'
+          prettier.format(
+            pageShape.query
+              ? `
+                import Page from '~/pages/${filename}'
+                import { withQuery } from '~/lib/utils/next'
 
-export default withQuery(
-  Page as any,
-  ${JSON.stringify(pageBuildShape.query, null, 2)})
-      `.trim(),
+                export default withQuery(
+                  Page as any,
+                  ${JSON.stringify(pageShape.query, null, 2)}
+                )`.trim()
+              : `export { default } from '~/pages/${filename}'`.trim(),
+            {
+              ...prettierConfig,
+              parser: 'typescript',
+            },
+          ),
         )
       }
     }),

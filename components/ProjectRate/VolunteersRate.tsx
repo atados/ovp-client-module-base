@@ -2,7 +2,6 @@ import { InjectedFormikProps, withFormik } from 'formik'
 import React from 'react'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
-import { channel } from '~/common/constants'
 import Yup from '~/lib/form/yup'
 import { pushToDataLayer } from '~/lib/tag-manager'
 import { range } from '~/lib/utils/array'
@@ -17,6 +16,7 @@ import {
 import { RootState } from '~/redux/root-reducer'
 import ActivityIndicator from '../ActivityIndicator'
 import Icon from '../Icon'
+import { Theme } from '~/base/common'
 
 const Form = styled.form``
 const Card = styled.div`
@@ -248,7 +248,7 @@ class VolunteersRate extends React.Component<
                             }
                             disabled={disabled}
                           >
-                            <Icon name={channel.theme.iconRating} />
+                            <Icon name={Theme.iconRating} />
                           </button>
                         ))}
                       </Stars>

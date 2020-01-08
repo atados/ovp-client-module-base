@@ -1,7 +1,7 @@
 import React from 'react'
-import { ImageDict } from '../common'
 import styled from 'styled-components'
 import cx from 'classnames'
+import { API } from '~/base/types/api'
 
 const ImageBackground = styled.div`
   background-position: center;
@@ -11,7 +11,7 @@ const ImageBackground = styled.div`
 interface AvatarProps {
   readonly className?: string
   readonly fallBackClassName?: string
-  readonly image?: ImageDict
+  readonly image?: API.ImageDict
 }
 
 const Avatar: React.FC<AvatarProps> = ({

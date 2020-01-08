@@ -1,9 +1,7 @@
 @import 'animate.css/animate.css';
 
 @tailwind base;
-
 @tailwind components;
-
 @tailwind utilities;
 
 @media (min-width: 1280px) {

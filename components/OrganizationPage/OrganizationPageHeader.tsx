@@ -8,9 +8,9 @@ import Icon from '../Icon'
 import { FormattedMessage } from 'react-intl'
 import { useImageUpload } from '~/base/hooks/use-image-upload'
 import ActivityIndicator from '../ActivityIndicator'
-import { ImageDict } from '~/base/common'
 import { useDispatch } from 'react-redux'
 import { editOrganization } from '~/base/redux/ducks/organization-composer'
+import { API } from '~/base/types/api'
 
 const Photo = styled(Avatar)`
   border: 6px solid #fff;
@@ -64,7 +64,7 @@ const UpdateCoverButton = styled.div`
 
 interface NewCoverState {
   source: string
-  image?: ImageDict
+  image?: API.ImageDict
   uploading?: boolean
 }
 

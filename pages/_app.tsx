@@ -8,7 +8,6 @@ import { IntlProvider } from 'react-intl'
 import { Provider } from 'react-redux'
 import { Store } from 'redux'
 import styled, { ThemeProvider } from 'styled-components'
-import { channel } from '~/common/constants'
 import { ModalProvider } from '~/components/Modal'
 import ProgressBar from '~/components/ProgressBar'
 import { StatusProvider } from '~/components/Status'
@@ -148,14 +147,14 @@ class App extends NextApp<AppProps> {
                     {Asset.Favicon && (
                       <link
                         rel="shortcut icon"
-                        href={channel.assets.Favicon}
+                        href={Asset.Favicon}
                         type="image/x-icon"
                       />
                     )}
-                    {channel.head.scripts.map((script, i) => (
+                    {Config.head.scripts.map((script, i) => (
                       <script key={i} {...script} />
                     ))}
-                    {channel.head.links.map((link, i) => (
+                    {Config.head.links.map((link, i) => (
                       <link key={i} {...link} />
                     ))}
                   </Head>

@@ -4,9 +4,9 @@ import styled from 'styled-components'
 import { DropdownMenu } from '~/components/Dropdown'
 import SearchFilter from '~/components/SearchFilters/SearchFilter'
 import { pushToDataLayer } from '~/lib/tag-manager'
-import { Skill } from '~/common/channel'
 import { RootState } from '~/redux/root-reducer'
 import { FormattedMessage } from 'react-intl'
+import { API } from '~/base/types/api'
 
 const Menu = styled(DropdownMenu)`
   left: 10px;
@@ -22,7 +22,7 @@ const Menu = styled(DropdownMenu)`
 interface SkillsFilterProps {
   readonly value?: number[]
   readonly className?: string
-  readonly skills: Skill[]
+  readonly skills: API.Skill[]
   readonly onCommit: () => void
   readonly onChange: (newValue: number[]) => void
   readonly onOpenStateChange?: (open: boolean) => void

@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import React from 'react'
 import styled from 'styled-components'
-import { colors, channel } from '~/common/constants'
+import { colors } from '~/common/constants'
 import { Project } from '~/redux/ducks/project'
 import Icon from '../Icon'
 import ProjectStatusPill from '../ProjectStatusPill'
@@ -91,7 +91,7 @@ const Progress = styled.div`
 `
 
 const ProgressValue = styled.div`
-  background: ${channel.theme.color.primary[500]};
+  background: ${Color.primary[500]};
   height: 5px;
 `
 

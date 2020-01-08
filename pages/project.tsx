@@ -4,7 +4,6 @@ import queryString from 'query-string'
 import React, { useCallback, useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import styled from 'styled-components'
-import { channel } from '~/common/constants'
 import Layout from '~/components/Layout'
 import Meta from '~/components/Meta'
 import {
@@ -29,6 +28,7 @@ import { ProjectPageNavId, ProjectPageSubPage } from '~/types/project'
 import { useProjectApplication } from '../hooks/project-application-hooks'
 import { useSetStatus } from '../hooks/status-hooks'
 import { reportError } from '../lib/utils/error'
+import { Config } from '../common'
 
 const Sidebar = styled.div`
   min-width: 352px;
@@ -141,8 +141,7 @@ const ProjectPage: NextPage<ProjectPageProps> = ({ subpage }) => {
         onApply={onApply}
         onNavItemClick={handleNavItemClick}
       />
-      {channel.config.project.posts &&
-      subpage === ProjectPageSubPage.Stories ? (
+      {Config.project.posts && subpage === ProjectPageSubPage.Stories ? (
         <div className="container px-2 py-5">
           <ProjectPageStories project={project} />
         </div>
@@ -151,11 +150,11 @@ const ProjectPage: NextPage<ProjectPageProps> = ({ subpage }) => {
           <div className="flex-grow">
             <ProjectPageAbout project={project} />
             <ProjectPageDisponibility project={project} />
-            {channel.config.project.galleries && (
+            {Config.project.galleries && (
               <ProjectPageGalleries project={project} />
             )}
-            {channel.config.project.documents &&
-              (!channel.config.project.documentsRestricted || isOwner) && (
+            {Config.project.documents &&
+              (!Config.project.documentsRestricted || isOwner) && (
                 <ProjectPageDocuments project={project} />
               )}
             <ProjectPageAddress project={project} />
