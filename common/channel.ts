@@ -1,8 +1,9 @@
 import * as Sentry from '@sentry/browser'
 import { SearchOption } from '~/components/SearchForm/SearchForm'
-import { ColorMap } from '~/base/types/global'
+import { ColorMap } from '~/types/global'
 import { MaterialIconName } from '../components/Icon/Icon'
-import { PagesMap } from '~/base/common/page'
+import { PagesMap } from '~/common/page'
+import ChannelValue from '~/common/channel-value'
 
 interface ChannelAssets {
   LogoDark?: string
@@ -90,7 +91,7 @@ export interface Channel {
   sentry: Sentry.BrowserOptions
 }
 
-const channel = JSON.parse(process.env.CHANNEL_JSON as string) as Channel
+const channel = ChannelValue
 export const CHANNEL_ID = channel.id
 export const Config = channel
 export const Asset = channel.assets

@@ -2,7 +2,7 @@ import isPlainObject from 'is-plain-object'
 import isoFetch from 'isomorphic-fetch'
 import queryString from 'query-string'
 import { API_URL } from '~/common/constants'
-import { CHANNEL_ID } from '~/base/common'
+import { CHANNEL_ID } from '~/common'
 
 export interface Options {
   asJSON?: boolean

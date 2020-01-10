@@ -11,7 +11,7 @@ import { RootState } from '~/redux/root-reducer'
 import FooterNav from './FooterNav'
 import LanguageDropdown from '~/components/LanguageDropdown/LanguageDropdown'
 import Tooltip from '../Tooltip'
-import { API } from '~/base/types/api'
+import { API } from '~/types/api'
 
 const Container = styled.div`
   background: ${props => props.theme.footerBackground || Color.gray[200]};

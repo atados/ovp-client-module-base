@@ -4,7 +4,7 @@ import Layout from '../Layout'
 import { FormattedMessage } from 'react-intl'
 import PageLink from '../PageLink'
 import ViewerSettingsNavItem from '~/components/ViewerSettings/ViewerSettingsNavItem'
-import { Page } from '~/base/common'
+import { Page } from '~/common'
 import { withRouter } from 'next/router'
 import { WithRouterProps } from 'next/dist/client/with-router'
 

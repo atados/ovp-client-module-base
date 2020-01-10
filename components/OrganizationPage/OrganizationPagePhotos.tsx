@@ -1,13 +1,13 @@
 import React, { useMemo } from 'react'
 import cx from 'classnames'
-import { Organization } from '~/base/redux/ducks/organization'
+import { Organization } from '~/redux/ducks/organization'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import Gallery from '../Gallery'
 import { useModal } from '../Modal'
-import { Color } from '~/base/common'
+import { Color } from '~/common'
 import Icon from '../Icon'
-import { API } from '~/base/types/api'
+import { API } from '~/types/api'
 
 const Row = styled.div`
   margin: 0 -5px;

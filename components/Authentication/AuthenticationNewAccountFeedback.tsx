@@ -1,11 +1,11 @@
 import React from 'react'
-import { Asset, Page } from '~/base/common'
+import { Asset, Page } from '~/common'
 import { useIntl, defineMessages, FormattedMessage } from 'react-intl'
 import { useSelector } from 'react-redux'
-import { RootState } from '~/base/redux/root-reducer'
+import { RootState } from '~/redux/root-reducer'
 import Icon from '../Icon'
 import Link from 'next/link'
-import useModalManager from '~/base/hooks/use-modal-manager'
+import useModalManager from '~/hooks/use-modal-manager'
 
 const m = defineMessages({
   title: {

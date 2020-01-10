@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { Project } from '~/redux/ducks/project'
 import ProjectStatusPill from '../ProjectStatusPill'
-import { Color } from '~/base/common'
+import { Color } from '~/common'
 
 const ProjectImage = styled.figure`
   height: 140px;

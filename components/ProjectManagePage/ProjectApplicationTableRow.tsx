@@ -6,8 +6,8 @@ import LinkIf from '~/components/LinkIf'
 import styled from 'styled-components'
 import Icon from '../Icon'
 import Tooltip from '../Tooltip'
-import { isNotAppliedAnymore } from '~/base/lib/utils/project-application-utils'
-import { Page, PageAs } from '~/base/common'
+import { isNotAppliedAnymore } from '~/lib/utils/project-application-utils'
+import { Page, PageAs } from '~/common'
 import ActivityIndicator from '../ActivityIndicator'
 
 const AvatarStyled = styled(Avatar)`

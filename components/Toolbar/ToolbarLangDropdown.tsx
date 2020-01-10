@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import { useIntl } from 'react-intl'
 import Icon from '../Icon'
 import ToolbarDropdown from './ToolbarDropdown'
-import { Page } from '~/base/common'
+import { Page } from '~/common'
 
 const ToolbarDropdownStyled = styled(ToolbarDropdown)`
   .toolbar-dropdown-anchor {

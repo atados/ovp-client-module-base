@@ -1,13 +1,13 @@
 import React from 'react'
 import Layout from '~/components/Layout'
-import { Color } from '~/base/common'
+import { Color } from '~/common'
 import { FormattedMessage, defineMessages, useIntl } from 'react-intl'
 import styled from 'styled-components'
-import Icon from '~/base/components/Icon'
+import Icon from '~/components/Icon'
 import { useSelector } from 'react-redux'
 import { RootState } from '~/redux/root-reducer'
-import { range } from '~/base/lib/utils/array'
-import Meta from '~/base/components/Meta'
+import { range } from '~/lib/utils/array'
+import Meta from '~/components/Meta'
 import PageLink from '../components/PageLink'
 
 const BannerOverlay = styled.div`

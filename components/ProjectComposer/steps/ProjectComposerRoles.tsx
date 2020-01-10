@@ -14,7 +14,7 @@ import { Project, ProjectRole } from '~/redux/ducks/project'
 import RoleForm from '../components/RoleForm'
 import { defineMessages, FormattedMessage } from 'react-intl'
 import { useIntl } from 'react-intl'
-import { Color } from '~/base/common'
+import { Color } from '~/common'
 
 const Role = styled.button`
   background: none;

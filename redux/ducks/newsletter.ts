@@ -1,6 +1,6 @@
 import { createAction } from 'redux-handy'
 import { fetchAPI } from '~/lib/fetch'
-import { pushToDataLayer } from '~/base/lib/tag-manager'
+import { pushToDataLayer } from '~/lib/tag-manager'
 
 export interface NewsletterSubscriptionPayload {
   name: string

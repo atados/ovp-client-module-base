@@ -1,16 +1,16 @@
 import React, { useState } from 'react'
-import { Organization } from '~/base/redux/ducks/organization'
+import { Organization } from '~/redux/ducks/organization'
 import styled from 'styled-components'
 import Avatar from '~/components/Avatar'
 import OrganizationVerificationBadge from '../OrganizationVerificationBadge'
 import PageLink from '../PageLink'
 import Icon from '../Icon'
 import { FormattedMessage } from 'react-intl'
-import { useImageUpload } from '~/base/hooks/use-image-upload'
+import { useImageUpload } from '~/hooks/use-image-upload'
 import ActivityIndicator from '../ActivityIndicator'
 import { useDispatch } from 'react-redux'
-import { editOrganization } from '~/base/redux/ducks/organization-composer'
-import { API } from '~/base/types/api'
+import { editOrganization } from '~/redux/ducks/organization-composer'
+import { API } from '~/types/api'
 
 const Photo = styled(Avatar)`
   border: 6px solid #fff;

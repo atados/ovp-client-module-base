@@ -1,7 +1,7 @@
 import React from 'react'
 import { API } from '~/types/api'
 import styled from 'styled-components'
-import { Page, PageAs, Color } from '~/base/common'
+import { Page, PageAs, Color } from '~/common'
 import Link from 'next/link'
 import ProjectStatusPill from '~/components/ProjectStatusPill'
 import {

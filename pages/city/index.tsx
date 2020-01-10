@@ -1,60 +1,25 @@
 import React from 'react'
 import { NextPage } from 'next'
 import { useRouter } from 'next/router'
-import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 
-import { RootState } from '~/redux/root-reducer'
+import handleInputChange from '~/pages/city/handleInputChange'
+import BannerOverlay from '~/pages/city/BannerOverlay'
+import mountApiPath from '~/pages/city/mountApiPath'
 import { ApiPagination } from '~/redux/ducks/search'
 import ProjectCard from '~/components/ProjectCard'
+import { RootState } from '~/redux/root-reducer'
 import useFetchAPI from '~/hooks/use-fetch-api'
 import { useSelector } from 'react-redux'
 import Layout from '~/components/Layout'
 import Icon from '~/components/Icon'
 import Meta from '~/components/Meta'
 import { API } from '~/types/api'
-import { Color } from '~/common'
-
-const BannerOverlay = styled.div`
-  position: relative;
-
-  &::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    opacity: 0.6;
-    background: linear-gradient(
-      180deg,
-      ${Color.primary[800]},
-      ${Color.primary[400]}
-    );
-  }
-`
 
 interface CityProps {
   cityName: string
   cause?: string
   skill?: string
-}
-
-const mountApiPath = (cityName, selectedCause, selectedSkill) => {
-  const basePath: string = '/search/projects/?address='
-  const address: string = JSON.stringify({
-    description: cityName,
-    address_components: [
-      {
-        types: ['administrative_area_level_1'],
-        long_name: cityName,
-      },
-    ],
-  })
-  const cause: string = selectedCause ? `&cause=${selectedCause}` : ''
-  const skill: string = selectedSkill ? `&skill=${selectedSkill}` : ''
-
-  return basePath + address + cause + skill
 }
 
 const City: NextPage<CityProps> = ({ cityName, cause, skill }) => {
@@ -65,18 +30,6 @@ const City: NextPage<CityProps> = ({ cityName, cause, skill }) => {
   )
 
   const projects = response.data?.results || []
-  const handleInputChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    const queryObject = {
-      skill: skill,
-      cause: cause,
-      [event.target.name]: event.target.value,
-    }
-
-    router.push({
-      pathname: router.pathname.replace('[cityName]', cityName),
-      query: queryObject,
-    })
-  }
 
   return (
     <Layout toolbarProps={{ float: true, flat: true, className: 'bg-none' }}>
@@ -105,7 +58,7 @@ const City: NextPage<CityProps> = ({ cityName, cause, skill }) => {
                 value={cause}
                 className="rounded-lg input md:mr-2 block mb-2 md:mb-0 bg-gray-300 border-0 text-xl px-4 h-12"
                 name="cause"
-                onChange={handleInputChange}
+                onChange={handleInputChange(router, cityName, skill, cause)}
               >
                 <option key={0} value="">
                   Filtre por causa
@@ -120,7 +73,7 @@ const City: NextPage<CityProps> = ({ cityName, cause, skill }) => {
                 value={skill}
                 className="rounded-lg input md:mr-2 block mb-2 md:mb-0 bg-gray-300 border-0 text-xl px-4 h-12"
                 name="skill"
-                onChange={handleInputChange}
+                onChange={handleInputChange(router, cityName, skill, cause)}
               >
                 <option key={0} value="">
                   Filtre por habilidade
@@ -166,11 +119,11 @@ const City: NextPage<CityProps> = ({ cityName, cause, skill }) => {
   )
 }
 
-City.getInitialProps = async ctx => {
+City.getInitialProps = async context => {
   return {
-    cityName: String(ctx.query.cityName),
-    cause: ctx.query.cause && String(ctx.query.cause),
-    skill: ctx.query.skill && String(ctx.query.skill),
+    cityName: String(context.query.cityName),
+    cause: context.query.cause && String(context.query.cause),
+    skill: context.query.skill && String(context.query.skill),
   }
 }
 

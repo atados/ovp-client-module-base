@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import React from 'react'
 import styled from 'styled-components'
-import { withIntl } from '~/base/lib/intl'
+import { withIntl } from '~/lib/intl'
 import { APP_URL } from '~/common/constants'
 import { pushToDataLayer } from '~/lib/tag-manager'
 import { Organization } from '~/redux/ducks/organization'

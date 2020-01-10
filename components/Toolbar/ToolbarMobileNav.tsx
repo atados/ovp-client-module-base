@@ -11,7 +11,7 @@ import Icon from '../Icon'
 import { useModal } from '../Modal'
 import { Page, PageAs, Color } from '~/common'
 import Router from 'next/router'
-import { logout } from '~/base/redux/ducks/user'
+import { logout } from '~/redux/ducks/user'
 import VolunteerIcon from '../Icon/VolunteerIcon'
 import ViewerApplications from '../ViewerApplications'
 

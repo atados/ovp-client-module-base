@@ -1,6 +1,6 @@
 import { colors, dev } from '~/common/constants'
 import { fetchAPI } from '~/lib/fetch'
-import { API } from '~/base/types/api'
+import { API } from '~/types/api'
 
 export async function getStartupData(
   locale?: string,

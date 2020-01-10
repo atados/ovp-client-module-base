@@ -28,10 +28,10 @@ import Yup from '~/lib/form/yup'
 import { causeToSelectItem, skillToSelectItem } from '~/lib/utils/form'
 import { Project } from '~/redux/ducks/project'
 import { User } from '~/redux/ducks/user'
-import { API } from '~/base/types/api'
+import { API } from '~/types/api'
 import { defineMessages, FormattedMessage } from 'react-intl'
 import { useIntl } from 'react-intl'
-import { isQueryReady } from '~/base/lib/apollo'
+import { isQueryReady } from '~/lib/apollo'
 
 const ProjectBasicsFormSchema = Yup.object().shape({
   name: Yup.string()

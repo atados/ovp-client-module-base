@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import { JobDate } from '~/redux/ducks/project'
 import Icon from '../Icon'
 import DisponibilityJobDateForm from './DisponibilityJobDateForm'
-import { withIntl } from '~/base/lib/intl'
+import { withIntl } from '~/lib/intl'
 import { defineMessages, WithIntlProps } from 'react-intl'
 
 const JobIcon = styled(Icon)`

@@ -23,7 +23,7 @@ import { RootState } from '~/redux/root-reducer'
 import { PageAs, Page, Color, Theme } from '~/common'
 import VolunteerIcon from '~/components/Icon/VolunteerIcon'
 import { FormattedMessage } from 'react-intl'
-import { API } from '~/base/types/api'
+import { API } from '~/types/api'
 
 const BannerOverlay = styled.div`
   position: relative;

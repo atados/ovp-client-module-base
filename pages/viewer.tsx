@@ -1,4 +1,4 @@
-import PublicUserPage, { PublicUserPageProps } from '~/base/pages/public-user'
+import PublicUserPage, { PublicUserPageProps } from '~/pages/public-user'
 import { NextPage } from 'next'
 import { NotFoundPageError } from '../lib/next/errors'
 

@@ -2,7 +2,7 @@ import { createAction, createReducer } from 'redux-handy'
 import { fetchAPI } from '~/lib/fetch'
 import { catchErrorAndReport } from '~/lib/utils/error'
 import { RootState } from '../root-reducer'
-import { pushToDataLayer } from '~/base/lib/tag-manager'
+import { pushToDataLayer } from '~/lib/tag-manager'
 
 export const joinOrganization = createAction<string, boolean, string>(
   'ORGANIZATION_JOIN',

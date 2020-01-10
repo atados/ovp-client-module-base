@@ -5,7 +5,7 @@ import {
   NOW_GITHUB_COMMIT_SHA,
   NOW_GITHUB_COMMIT_DIRTY,
 } from '~/common/constants'
-import { Config } from '~/base/common'
+import { Config } from '~/common'
 
 export function setSentryUser(user: User | null) {
   Sentry.configureScope(scope => {

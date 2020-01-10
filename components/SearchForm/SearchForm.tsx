@@ -10,7 +10,7 @@ import {
 } from 'react-intl'
 import { connect } from 'react-redux'
 import styled, { StyledProps } from 'styled-components'
-import { withIntl } from '~/base/lib/intl'
+import { withIntl } from '~/lib/intl'
 import { Page, PageAs, Color, Config } from '~/common'
 import { regionLongNameMap } from '~/common/constants'
 import Dropdown, { DropdownMenu } from '~/components/Dropdown'
@@ -27,7 +27,7 @@ import {
 import { StartupData } from '~/redux/ducks/startup'
 import { RootState } from '~/redux/root-reducer'
 import { MaterialIconName } from '../Icon/Icon'
-import { API } from '~/base/types/api'
+import { API } from '~/types/api'
 
 const m = defineMessages({
   placeholder: {

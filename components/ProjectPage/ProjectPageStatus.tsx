@@ -1,7 +1,7 @@
 import React from 'react'
 import Icon from '../Icon'
 import { FormattedMessage } from 'react-intl'
-import { Project } from '~/base/redux/ducks/project'
+import { Project } from '~/redux/ducks/project'
 
 interface ProjectPageStatusProps {
   readonly project: Project

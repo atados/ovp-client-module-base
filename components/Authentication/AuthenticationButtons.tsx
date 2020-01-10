@@ -1,11 +1,11 @@
 import React, { useCallback, useRef, Dispatch, useEffect } from 'react'
 import styled from 'styled-components'
-import { PopupCenter } from '~/base/lib/utils/dom'
+import { PopupCenter } from '~/lib/utils/dom'
 import Icon from '../Icon'
 import { AuthenticationAction } from './Authentication'
 import { useIntl, defineMessages } from 'react-intl'
 import { useSelector } from 'react-redux'
-import { RootState } from '~/base/redux/root-reducer'
+import { RootState } from '~/redux/root-reducer'
 
 const AuthButton = styled.button`
   padding: 12px 10px 12px 38px;

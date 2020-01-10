@@ -5,7 +5,7 @@ import {
   YupErrorTranslatable,
   YupErrorTranslated,
 } from '~/lib/form/yup'
-import { reportError } from '~/base/lib/utils/error'
+import { reportError } from '~/lib/utils/error'
 
 const m = defineMessages({
   required: {

@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react'
 import { connect } from 'react-redux'
-import useFetchAPIMutation from '~/base/hooks/use-fetch-api-mutation'
+import useFetchAPIMutation from '~/hooks/use-fetch-api-mutation'
 import { Project, updateProject } from '~/redux/ducks/project'
 import { User } from '~/redux/ducks/user'
 import ActivityIndicator from './ActivityIndicator'

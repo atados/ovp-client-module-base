@@ -1,4 +1,4 @@
-import { User } from '~/base/redux/ducks/user'
+import { User } from '~/redux/ducks/user'
 import { getRandomColor } from '../color/manager'
 import { fetchAPI } from '../fetch'
 

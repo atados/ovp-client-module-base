@@ -3,7 +3,7 @@ import Link from 'next/link'
 import React from 'react'
 import styled from 'styled-components'
 import { PublicUserApplication } from '~/redux/ducks/public-user'
-import { Page, PageAs } from '~/base/common'
+import { Page, PageAs } from '~/common'
 
 const Container = styled.article`
   border-left: 2px solid #eaecef;

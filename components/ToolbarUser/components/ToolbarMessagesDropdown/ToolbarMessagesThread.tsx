@@ -3,7 +3,7 @@ import Link from 'next/link'
 import React from 'react'
 import styled from 'styled-components'
 import { MessageThreadable, MessageThreadType } from '~/redux/ducks/inbox'
-import { Page } from '~/base/common'
+import { Page } from '~/common'
 
 const { useMemo } = React
 const Container = styled.a`

@@ -9,7 +9,7 @@ import {
   NodeKind,
   SearchSource,
 } from './search'
-import { CHANNEL_ID } from '~/base/common'
+import { CHANNEL_ID } from '~/common'
 
 export interface MapNode {
   slug: string

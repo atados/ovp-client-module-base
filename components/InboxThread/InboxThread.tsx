@@ -4,7 +4,7 @@ import React from 'react'
 import styled, { StyledProps } from 'styled-components'
 import { MessageThreadable, MessageThreadType } from '~/redux/ducks/inbox'
 import Icon from '../Icon'
-import { Page, Color } from '~/base/common'
+import { Page, Color } from '~/common'
 
 const { useMemo } = React
 const Container = styled.a`

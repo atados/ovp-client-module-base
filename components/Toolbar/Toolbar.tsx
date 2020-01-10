@@ -9,7 +9,7 @@ import ToolbarBrand from '~/components/Toolbar/ToolbarBrand'
 import ToolbarMobileNav from '~/components/Toolbar/ToolbarMobileNav'
 import ToolbarOrganizationDropdown from '~/components/Toolbar/ToolbarOrganizationDropdown'
 import ToolbarVolunteerDropdown from '~/components/Toolbar/ToolbarVolunteerDropdown'
-import { Page, PageAs, Theme, Config } from '~/base/common'
+import { Page, PageAs, Theme, Config } from '~/common'
 import { FormattedMessage } from 'react-intl'
 import PageLink from '../PageLink'
 

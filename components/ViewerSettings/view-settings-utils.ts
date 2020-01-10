@@ -1,6 +1,6 @@
 import { NextPageContext } from 'next'
-import { redirect } from '~/base/lib/utils/next'
-import { Page } from '~/base/common'
+import { redirect } from '~/lib/utils/next'
+import { Page } from '~/common'
 export const getViewerSettingsInitialProps = async (ctx: NextPageContext) => {
   const { user: viewer } = ctx.store.getState()
 

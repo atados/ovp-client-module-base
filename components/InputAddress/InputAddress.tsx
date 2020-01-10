@@ -4,7 +4,7 @@ import { getPlacePredictions } from '~/lib/maps/google-maps-autocomplete'
 import { reportError } from '~/lib/utils/error'
 import Dropdown, { DropdownMenu } from '../Dropdown'
 import Icon from '../Icon'
-import { Color } from '~/base/common'
+import { Color } from '~/common'
 
 const InputIcon = styled(Icon)`
   position: absolute;

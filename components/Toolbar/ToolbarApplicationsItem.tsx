@@ -3,7 +3,7 @@ import React, { useCallback } from 'react'
 import styled from 'styled-components'
 import { PublicUserApplication } from '~/redux/ducks/public-user'
 import Icon from '../Icon'
-import { Page, PageAs } from '~/base/common'
+import { Page, PageAs } from '~/common'
 import { FormattedMessage } from 'react-intl'
 
 const Actions = styled.div`

@@ -5,7 +5,7 @@ import Gallery from '../Gallery'
 import { useModal } from '../Modal'
 import { defineMessages } from 'react-intl'
 import { useIntl } from 'react-intl'
-import { API } from '~/base/types/api'
+import { API } from '~/types/api'
 
 const Photos = styled.div`
   &.row {

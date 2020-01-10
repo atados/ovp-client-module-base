@@ -1,4 +1,4 @@
-import { API } from '~/base/types/api'
+import { API } from '~/types/api'
 
 export interface StartupDataStats {
   readonly volunteers: number

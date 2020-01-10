@@ -9,10 +9,10 @@ import {
 } from './Authentication'
 import { useIntl, defineMessages, FormattedMessage } from 'react-intl'
 import Link from 'next/link'
-import { Page, Asset } from '~/base/common'
+import { Page, Asset } from '~/common'
 import ActivityIndicator from '../ActivityIndicator'
 import Icon from '../Icon'
-import { generateSessionTokenWithEmail } from '~/base/redux/ducks/user'
+import { generateSessionTokenWithEmail } from '~/redux/ducks/user'
 import Status, { StatusLevel } from '../Status'
 
 interface Values {

@@ -5,7 +5,7 @@ import DisponibilityJobForm from './DisponibilityJobForm'
 import DisponibilityWorkForm from './DisponibilityWorkForm'
 import { defineMessages, WithIntlProps } from 'react-intl'
 import { withIntl } from '~/lib/intl'
-import { Color } from '~/base/common'
+import { Color } from '~/common'
 
 const OptionHeader = styled.button`
   width: 100%;

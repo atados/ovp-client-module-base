@@ -5,7 +5,7 @@ import styled from 'styled-components'
 import FormGroup from '~/components/Form/FormGroup'
 import Yup from '~/lib/form/yup'
 import { requestPasswordRecovery } from '~/redux/ducks/recover-password-request'
-import { Page } from '~/base/common'
+import { Page } from '~/common'
 
 const Container = styled.div`
   border-radius: 3px;

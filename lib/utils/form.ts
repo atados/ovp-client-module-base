@@ -1,5 +1,5 @@
 import { InputSelectItem } from '~/components/InputSelect/InputSelect'
-import { API } from '~/base/types/api'
+import { API } from '~/types/api'
 
 export const causeToSelectItem = (cause: API.Cause): InputSelectItem => ({
   value: cause.id,

@@ -16,7 +16,7 @@ import {
 import { RootState } from '~/redux/root-reducer'
 import ActivityIndicator from '../ActivityIndicator'
 import Icon from '../Icon'
-import { Theme } from '~/base/common'
+import { Theme } from '~/common'
 
 const Form = styled.form``
 const Card = styled.div`

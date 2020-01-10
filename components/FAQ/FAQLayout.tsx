@@ -5,7 +5,7 @@ import ToolbarBrand from '../Toolbar/ToolbarBrand'
 import FAQSearchForm from '../FAQSearchForm'
 import styled from 'styled-components'
 import Icon from '../Icon'
-import { Page, Color } from '~/base/common'
+import { Page, Color } from '~/common'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 

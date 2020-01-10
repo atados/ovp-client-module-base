@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import styled from 'styled-components'
 import Dropdown, { DropdownMenu } from '~/components/Dropdown'
 import Link from 'next/link'
-import { Color } from '~/base/common'
+import { Color } from '~/common'
 
 const Menu: React.FC<{ className?: string }> = styled(DropdownMenu)`
   width: 400px;

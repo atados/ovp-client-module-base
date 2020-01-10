@@ -8,8 +8,8 @@ import Layout from '../Layout'
 import { LayoutProps } from '../Layout/Layout'
 import { Page, PageAs, Color, Config } from '~/common'
 import { useIntl, defineMessages } from 'react-intl'
-import { UserOrganization } from '~/base/redux/ducks/user'
-import { Organization } from '~/base/redux/ducks/organization'
+import { UserOrganization } from '~/redux/ducks/user'
+import { Organization } from '~/redux/ducks/organization'
 
 const Body = styled.div`
   &.p-toolbar-nav {

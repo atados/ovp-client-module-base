@@ -7,7 +7,7 @@ import useMultipleStepsForm from '~/hooks/use-multiple-steps-form'
 import { ProjectComposerDraft } from '~/pages/project-composer'
 import { defineMessages } from 'react-intl'
 import { useIntl } from 'react-intl'
-import { Page, PageAs, Color } from '~/base/common'
+import { Page, PageAs, Color } from '~/common'
 
 const Option = styled.a`
   border-radius: 10px;

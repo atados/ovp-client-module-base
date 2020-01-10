@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import styled from 'styled-components'
-import { API } from '~/base/types/api'
+import { API } from '~/types/api'
 
 const Nav = styled.nav`
   position: fixed;

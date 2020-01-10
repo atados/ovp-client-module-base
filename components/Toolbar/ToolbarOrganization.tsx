@@ -5,7 +5,7 @@ import { UserOrganization } from '~/redux/ducks/user'
 import { DropdownMenu, DropdownToggler } from '../Dropdown'
 import DropdownWithContext from '../Dropdown/DropdownWithContext'
 import Icon from '../Icon'
-import { Color } from '~/base/common'
+import { Color } from '~/common'
 
 const Avatar = styled.div`
   float: left;

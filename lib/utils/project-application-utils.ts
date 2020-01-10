@@ -1,4 +1,4 @@
-import { ProjectApplicationStatus } from '~/base/redux/ducks/project'
+import { ProjectApplicationStatus } from '~/redux/ducks/project'
 
 export const isNotAppliedAnymore = (
   status: ProjectApplicationStatus,

@@ -3,8 +3,8 @@ import styled from 'styled-components'
 import { reportError } from '~/lib/utils/error'
 import ActivityIndicator from '../ActivityIndicator'
 import { FormattedMessage, defineMessages, WithIntlProps } from 'react-intl'
-import { withIntl } from '~/base/lib/intl'
-import { Color } from '~/base/common'
+import { withIntl } from '~/lib/intl'
+import { Color } from '~/common'
 
 const Container = styled.div`
   background: #f4f5f6;

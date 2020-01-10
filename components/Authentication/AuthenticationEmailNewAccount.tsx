@@ -7,14 +7,14 @@ import { AuthenticationAction } from './Authentication'
 import { useIntl, defineMessages } from 'react-intl'
 import ActivityIndicator from '../ActivityIndicator'
 import Icon from '../Icon'
-import { Asset, Page } from '~/base/common'
+import { Asset, Page } from '~/common'
 import InputAddress from '../InputAddress'
 import { InputAddressValueType } from '../InputAddress/InputAddress'
 import {
   createNewUser,
   generateSessionTokenWithEmail,
   User,
-} from '~/base/redux/ducks/user'
+} from '~/redux/ducks/user'
 import Status, { StatusLevel } from '../Status'
 
 interface Values {

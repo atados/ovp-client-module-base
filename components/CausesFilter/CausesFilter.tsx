@@ -6,7 +6,7 @@ import SearchFilter from '~/components/SearchFilters/SearchFilter'
 import { pushToDataLayer } from '~/lib/tag-manager'
 import { RootState } from '~/redux/root-reducer'
 import { FormattedMessage } from 'react-intl'
-import { API } from '~/base/types/api'
+import { API } from '~/types/api'
 
 const Menu = styled(DropdownMenu)`
   left: 10px;

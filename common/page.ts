@@ -1,5 +1,5 @@
 import { ChannelPageName } from '~/channel-env'
-import { Config } from '~/base/common/channel'
+import { Config } from '~/common/channel'
 
 type BasePageName =
   | 'Home'

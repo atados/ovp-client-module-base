@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import React from 'react'
 import styled from 'styled-components'
-import { Theme } from '~/base/common'
+import { Theme } from '~/common'
 
 const Nav = styled.ul`
   .nav-link {

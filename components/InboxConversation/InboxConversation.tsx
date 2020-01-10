@@ -23,7 +23,7 @@ import {
 import InboxConversationBody from './InboxConversationBody'
 import InboxConversationForm from './InboxConversationForm'
 import InboxConversationHeader from './InboxConversationHeader'
-import { Color } from '~/base/common'
+import { Color } from '~/common'
 
 const { useState, useEffect, useMemo } = React
 const Container = styled.div`

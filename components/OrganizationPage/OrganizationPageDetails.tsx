@@ -1,9 +1,9 @@
 import React from 'react'
 import cx from 'classnames'
-import { Organization } from '~/base/redux/ducks/organization'
+import { Organization } from '~/redux/ducks/organization'
 import styled from 'styled-components'
 import Icon from '../Icon'
-import { Color } from '~/base/common'
+import { Color } from '~/common'
 
 const InfoList = styled.ul`
   list-style: none;

@@ -2,7 +2,7 @@ import BaseGoogleMap from 'google-map-react'
 import React from 'react'
 import styled from 'styled-components'
 import Status, { StatusLevel } from '~/components/Status'
-import { Config } from '~/base/common'
+import { Config } from '~/common'
 
 export interface Mark {
   id?: string

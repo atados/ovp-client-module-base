@@ -8,7 +8,7 @@ import {
 import { defineMessages, useIntl } from 'react-intl'
 import { useSelector } from 'react-redux'
 import LanguageDropdownItem from './LanguageDropdownItem'
-import { RootState } from '~/base/redux/root-reducer'
+import { RootState } from '~/redux/root-reducer'
 
 interface LanguageDropdownProps {
   readonly className?: string

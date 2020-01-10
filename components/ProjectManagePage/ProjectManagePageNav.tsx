@@ -6,7 +6,7 @@ import { UserOrganization } from '~/redux/ducks/user'
 import Icon from '../Icon'
 import { defineMessages } from 'react-intl'
 import { useIntl } from 'react-intl'
-import { Page, PageAs } from '~/base/common'
+import { Page, PageAs } from '~/common'
 
 const Container = styled.div`
   background: #fff;

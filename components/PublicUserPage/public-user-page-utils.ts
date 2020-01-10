@@ -1,8 +1,8 @@
 import { NextPageContext } from 'next'
-import { NotFoundPageError } from '~/base/lib/next/errors'
-import { throwActionError } from '~/base/lib/utils/redux'
-import { reportError } from '~/base/lib/utils/error'
-import { fetchPublicUser } from '~/base/redux/ducks/public-user'
+import { NotFoundPageError } from '~/lib/next/errors'
+import { throwActionError } from '~/lib/utils/redux'
+import { reportError } from '~/lib/utils/error'
+import { fetchPublicUser } from '~/redux/ducks/public-user'
 
 export const getPublicUserPageInitialProps = async ({
   store,

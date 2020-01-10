@@ -1,8 +1,8 @@
 import { NextPageContext } from 'next'
-import { NotFoundPageError } from '~/base/lib/next/errors'
-import { fetchOrganization } from '~/base/redux/ducks/organization'
-import { throwActionError } from '~/base/lib/utils/redux'
-import { reportError } from '~/base/lib/utils/error'
+import { NotFoundPageError } from '~/lib/next/errors'
+import { fetchOrganization } from '~/redux/ducks/organization'
+import { throwActionError } from '~/lib/utils/redux'
+import { reportError } from '~/lib/utils/error'
 
 export const getOrganizationPageInitialProps = async ({
   store,

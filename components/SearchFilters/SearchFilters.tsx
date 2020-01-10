@@ -17,7 +17,7 @@ import {
 import Icon from '../Icon'
 import { SearchFilterButton } from './SearchFilter'
 import { WithIntlProps, defineMessages } from 'react-intl'
-import { withIntl } from '~/base/lib/intl'
+import { withIntl } from '~/lib/intl'
 
 const Container = styled.div`
   .direction-right .dropdown-menu {

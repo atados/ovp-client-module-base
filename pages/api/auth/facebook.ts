@@ -1,13 +1,13 @@
 import { send } from 'micro'
 import microAuthFacebook from 'microauth-facebook'
 import { NextApiRequest, NextApiResponse } from 'next'
-import { Page } from '~/base/common'
-import convertAuthenticationToken from '~/base/lib/auth/convert-token'
+import { Page } from '~/common'
+import convertAuthenticationToken from '~/lib/auth/convert-token'
 import { APP_URL, dev } from '~/common/constants'
 import {
   setupErrorMonitoringOnServer,
   reportNodeError,
-} from '~/base/lib/sentry/sentry.node'
+} from '~/lib/sentry/sentry.node'
 
 setupErrorMonitoringOnServer()
 type AuthResponse =

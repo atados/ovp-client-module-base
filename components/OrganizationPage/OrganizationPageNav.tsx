@@ -1,9 +1,9 @@
 import React from 'react'
-import { Organization } from '~/base/redux/ducks/organization'
+import { Organization } from '~/redux/ducks/organization'
 import PageLink from '../PageLink'
 import { FormattedMessage } from 'react-intl'
 import { useRouter } from 'next/router'
-import { Page } from '~/base/common'
+import { Page } from '~/common'
 
 interface OrganizationPageNavProps {
   readonly className?: string

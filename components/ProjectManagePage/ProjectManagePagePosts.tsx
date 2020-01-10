@@ -8,7 +8,7 @@ import Icon from '../Icon'
 import { useModal } from '../Modal'
 import { defineMessages } from 'react-intl'
 import { useIntl } from 'react-intl'
-import { Page, PageAs } from '~/base/common'
+import { Page, PageAs } from '~/common'
 
 const Table = styled.table`
   min-width: 900px;

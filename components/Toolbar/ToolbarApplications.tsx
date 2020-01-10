@@ -4,7 +4,7 @@ import { User } from '~/redux/ducks/user'
 import { DropdownMenu, DropdownToggler, DropdownWithContext } from '../Dropdown'
 import VolunteerIcon from '../Icon/VolunteerIcon'
 import ViewerApplications from '~/components/ViewerApplications'
-import { Color } from '~/base/common'
+import { Color } from '~/common'
 
 const Menu: React.FC<{ className?: string }> = styled(DropdownMenu)`
   left: auto;

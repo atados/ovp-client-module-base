@@ -3,7 +3,7 @@ import { Waypoint } from 'react-waypoint'
 import styled, { StyledProps } from 'styled-components'
 import { PublicUserApplication } from '~/redux/ducks/public-user'
 import TimelineItem from './TimelineItem'
-import { Color } from '~/base/common'
+import { Color } from '~/common'
 
 const TimelineCrossedHr = styled.div`
   background-image: url(/static/base/icons/cross-x.svg);

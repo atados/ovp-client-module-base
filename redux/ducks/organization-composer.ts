@@ -2,7 +2,7 @@ import { createAction, createReducer } from 'redux-handy'
 import { fetchAPI } from '~/lib/fetch'
 import { RootState } from '../root-reducer'
 import { Organization } from './organization'
-import { pushToDataLayer } from '~/base/lib/tag-manager'
+import { pushToDataLayer } from '~/lib/tag-manager'
 
 interface OrganizationPayload {
   name: string

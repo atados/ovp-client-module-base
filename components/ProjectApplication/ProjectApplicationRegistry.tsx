@@ -2,7 +2,7 @@ import React, { useCallback } from 'react'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
 import { useIntl } from 'react-intl'
-import useFetchAPIMutation from '~/base/hooks/use-fetch-api-mutation'
+import useFetchAPIMutation from '~/hooks/use-fetch-api-mutation'
 import { formatDisponibility } from '~/lib/project/utils'
 import {
   Project,
@@ -15,7 +15,7 @@ import GoogleMap from '../GoogleMap'
 import Icon from '../Icon'
 import MapMark from '../MapMark'
 import { defineMessages } from 'react-intl'
-import useModalManager from '~/base/hooks/use-modal-manager'
+import useModalManager from '~/hooks/use-modal-manager'
 
 const Avatar = styled.span`
   width: 40px;

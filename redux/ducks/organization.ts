@@ -5,7 +5,7 @@ import { reportError } from '~/lib/utils/error'
 import { Address, Gallery } from '~/redux/ducks/project'
 import { RootState } from '~/redux/root-reducer'
 import { editOrganization } from './organization-composer'
-import { API } from '~/base/types/api'
+import { API } from '~/types/api'
 
 export interface Organization {
   id?: number

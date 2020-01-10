@@ -5,7 +5,7 @@ import styled from 'styled-components'
 import useMultipleStepsForm from '~/hooks/use-multiple-steps-form'
 import { FormComposerMode } from '../FormComposer/FormComposer'
 import Icon from '../Icon'
-import { Page, PageAs } from '~/base/common'
+import { Page, PageAs } from '~/common'
 import { useIntl } from 'react-intl'
 
 const Container = styled.div`

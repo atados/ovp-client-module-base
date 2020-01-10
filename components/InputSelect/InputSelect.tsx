@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import Dropdown, { DropdownMenu } from '../Dropdown'
 import { DropdownDirection } from '../Dropdown/Dropdown'
 import Icon from '../Icon'
-import { withIntl } from '~/base/lib/intl'
+import { withIntl } from '~/lib/intl'
 import { WithIntlProps, defineMessages } from 'react-intl'
 
 const InputWrapper = styled.div`

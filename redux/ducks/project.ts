@@ -8,7 +8,7 @@ import { fetchAPI } from '~/lib/fetch'
 import { reportError } from '~/lib/utils/error'
 import { Organization } from '~/redux/ducks/organization'
 import { RootState } from '~/redux/root-reducer'
-import { API } from '~/base/types/api'
+import { API } from '~/types/api'
 import { bookmark, unbookmark } from './bookmark'
 import {
   ApplicationMeta,

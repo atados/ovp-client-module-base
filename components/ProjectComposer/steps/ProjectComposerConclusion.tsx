@@ -7,7 +7,7 @@ import Icon from '~/components/Icon'
 import useMultipleStepsForm from '~/hooks/use-multiple-steps-form'
 import { defineMessages } from 'react-intl'
 import { useIntl } from 'react-intl'
-import { Page, PageAs } from '~/base/common'
+import { Page, PageAs } from '~/common'
 
 const CheckIcon = styled(Icon)`
   font-size: 64px;

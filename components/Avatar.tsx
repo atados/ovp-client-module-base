@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import cx from 'classnames'
-import { API } from '~/base/types/api'
+import { API } from '~/types/api'
 
 const ImageBackground = styled.div`
   background-position: center;

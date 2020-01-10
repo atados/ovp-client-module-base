@@ -1,6 +1,6 @@
 import React from 'react'
 import cx from 'classnames'
-import { Organization } from '~/base/redux/ducks/organization'
+import { Organization } from '~/redux/ducks/organization'
 import removeMarkdown from 'remove-markdown'
 import PageLink from '~/components/PageLink'
 import { FormattedMessage } from 'react-intl'

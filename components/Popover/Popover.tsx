@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import Dropdown, { DropdownMenu } from '../Dropdown'
 import Icon from '../Icon'
-import { Config, Color } from '~/base/common'
+import { Config, Color } from '~/common'
 
 const CloseButton = styled.button`
   border-radius: 50%;

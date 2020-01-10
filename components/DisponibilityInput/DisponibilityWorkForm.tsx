@@ -6,7 +6,7 @@ import * as masks from '~/lib/form/masks'
 import Yup from '~/lib/form/yup'
 import FormGroup from '../Form/FormGroup'
 import { defineMessages, WithIntlProps } from 'react-intl'
-import { withIntl } from '~/base/lib/intl'
+import { withIntl } from '~/lib/intl'
 
 export interface Values {
   description: string

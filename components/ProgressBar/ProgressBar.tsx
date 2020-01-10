@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Color, Theme } from '~/base/common'
+import { Color, Theme } from '~/common'
 
 const Container = styled.div`
   height: 3px;

@@ -7,7 +7,7 @@ import { RootState } from '~/redux/root-reducer'
 import { FormattedMessage } from 'react-intl'
 import PageLink from '../PageLink'
 import Icon from '../Icon'
-import { API } from '~/base/types/api'
+import { API } from '~/types/api'
 
 export interface CausesSectionProps {
   readonly causes: API.Cause[]

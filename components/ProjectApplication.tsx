@@ -11,7 +11,7 @@ import {
   ApplicationPayload,
   applyToProject,
 } from '~/redux/ducks/project-application'
-import { Page } from '~/base/common'
+import { Page } from '~/common'
 import { defineMessages } from 'react-intl'
 import { useIntl } from 'react-intl'
 import Icon from '~/components/Icon'

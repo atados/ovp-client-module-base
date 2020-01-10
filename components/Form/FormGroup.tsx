@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import cx from 'classnames'
-import { YupError } from '~/base/lib/form/yup'
+import { YupError } from '~/lib/form/yup'
 import FormErrorMessage from '~/components/FormErrorMessage'
 
 const Hint = styled.span`

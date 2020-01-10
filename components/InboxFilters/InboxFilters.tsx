@@ -6,7 +6,7 @@ import { InboxViewer, InboxViewerKind } from '~/redux/ducks/inbox'
 import { User } from '~/redux/ducks/user'
 import { RootState } from '~/redux/root-reducer'
 import Icon from '../Icon'
-import { Page } from '~/base/common'
+import { Page } from '~/common'
 
 const Container = styled.div`
   position: fixed;

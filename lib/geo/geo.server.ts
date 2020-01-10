@@ -1,7 +1,7 @@
 import { CountryRecord, LocationRecord } from 'maxmind'
 import { IncomingMessage } from 'http'
 import { Geolocation } from '~/redux/ducks/geo'
-import { Config } from '~/base/common'
+import { Config } from '~/common'
 import { WebServiceClient } from '@maxmind/geoip2-node'
 
 const client = new WebServiceClient('157941', 'jtPyO1uN9KGAFqqg')

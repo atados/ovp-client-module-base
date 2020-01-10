@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { InputAddressValueType } from '~/components/InputAddress/InputAddress'
 import { InputImageValueType } from '~/components/InputImage/InputImage'
 import { styles } from '~/components/OrganizationCard/OrganizationCard'
-import { Color } from '~/base/common'
+import { Color } from '~/common'
 
 const Container = styled.div`
   max-width: 300px;

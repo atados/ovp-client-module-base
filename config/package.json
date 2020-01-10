@@ -186,7 +186,6 @@
       "channel/**/*.{js,jsx,ts,tsx}",
       "!channel/**/*.d.ts"
     ],
-    "setupFilesAfterEnv": [],
     "testMatch": [
       "<rootDir>/base/**/__tests__/**/*.{js,jsx,ts,tsx}",
       "<rootDir>/base/**/*.{spec,test}.{js,jsx,ts,tsx}",
@@ -204,6 +203,12 @@
       "json",
       "jsx",
       "node"
+    ],
+    "moduleNameMapper": {
+      "~/(.*)": "<rootDir>/base/$1"
+    },
+    "setupFilesAfterEnv": [
+      "./base/jest.setup.tsx"
     ]
   }
 }

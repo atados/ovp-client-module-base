@@ -11,8 +11,8 @@ import { Organization } from '~/redux/ducks/organization'
 import { Project } from '~/redux/ducks/project'
 import { RootState } from '~/redux/root-reducer'
 import { ParsedUrlQueryInput } from 'querystring'
-import { reportError } from '~/base/lib/utils/error'
-import { CHANNEL_ID } from '~/base/common'
+import { reportError } from '~/lib/utils/error'
+import { CHANNEL_ID } from '~/common'
 
 export enum SearchType {
   Any,

@@ -13,11 +13,11 @@ import { RootState } from '~/redux/root-reducer'
 import Icon from '../Icon'
 import { useToasts } from '~/components/Toasts'
 import { FormattedMessage } from 'react-intl'
-import { API } from '~/base/types/api'
+import { API } from '~/types/api'
 import ProjectApplicationTableRow from './ProjectApplicationTableRow'
 import { useModal } from '../Modal'
 import RemoveApplicationForm from '../RemoveApplicationForm'
-import useFetchAPIMutation from '~/base/hooks/use-fetch-api-mutation'
+import useFetchAPIMutation from '~/hooks/use-fetch-api-mutation'
 
 interface ProjectManagePageApplicationsReduxProps {
   readonly viewer: User

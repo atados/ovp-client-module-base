@@ -7,7 +7,7 @@ import { NotFoundPageError } from '~/lib/next/errors'
 import { fetchPublicUser, PublicUser } from '~/redux/ducks/public-user'
 import { RootState } from '~/redux/root-reducer'
 import Layout from '../Layout'
-import { Page } from '~/base/common'
+import { Page } from '~/common'
 
 const Container = styled.div`
   @media (max-width: 767px) {

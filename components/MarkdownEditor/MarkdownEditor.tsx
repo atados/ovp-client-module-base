@@ -13,7 +13,7 @@ import { unwrapLink, wrapLink } from './commands'
 import MarkdownEditorHoverMenu from './MarkdownEditorHoverMenu'
 import serializer from './serializer'
 import { MaterialIconName } from '../Icon/Icon'
-import { Color } from '~/base/common'
+import { Color } from '~/common'
 
 const plugins = [PasteLinkify()]
 
