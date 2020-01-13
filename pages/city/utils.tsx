@@ -1,8 +1,8 @@
-export default (
+export const mountAPIPathToSearchProjects = (
   cityName: string,
   selectedCause?: string,
   selectedSkill?: string,
-) => {
+): string => {
   const basePath: string = '/search/projects/?address='
   const address: string = JSON.stringify({
     description: cityName,

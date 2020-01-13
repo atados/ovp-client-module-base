@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 import { Color } from '~/common'
 
-export default styled.div`
+const BannerGradientOverlay = styled.div`
   position: relative;
 
   &::after {
@@ -19,3 +19,5 @@ export default styled.div`
     );
   }
 `
+
+export default BannerGradientOverlay

@@ -1,16 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`renders correctly 1`] = `
-<div
-  toolbarProps={
-    Object {
-      "className": "bg-none",
-      "flat": true,
-      "float": true,
-    }
-  }
->
-  ~/components/Layout - 
+exports[`City Page renders correctly 1`] = `
+<div>
   <div>
     ~/components/Meta - 
   </div>
@@ -18,7 +9,7 @@ exports[`renders correctly 1`] = `
     className="px-md-3"
   />
   <div
-    className="p-toolbar bg-cover bg-center mb-10 BannerOverlay-geedgr-0 fwOccC"
+    className="p-toolbar bg-cover bg-center mb-10 BannerGradientOverlay-sc-115tdug-0 kIEszn"
     style={
       Object {
         "backgroundImage": "url('/static/banners/home-fast.jpg')",
@@ -48,12 +39,7 @@ exports[`renders correctly 1`] = `
         <p
           className="max-w-xl text-xl text-center text-white mx-auto mb-6"
         >
-          <div
-            defaultMessage="O Atados é uma plataforma de voluntariado que conecta pessoas a oportunidades voluntárias."
-            id="home.subtitle"
-          >
-            FormattedMessage
-          </div>
+          FormattedMessage
         </p>
         <div
           className="bg-white rounded-lg max-w-3xl mx-auto mb-4 p-2 md:flex"
@@ -62,6 +48,7 @@ exports[`renders correctly 1`] = `
             className="rounded-lg input md:mr-2 block mb-2 md:mb-0 bg-gray-300 border-0 text-xl px-4 h-12"
             name="cause"
             onChange={[Function]}
+            role="cause-filter"
           >
             <option
               value=""
@@ -83,6 +70,7 @@ exports[`renders correctly 1`] = `
             className="rounded-lg input md:mr-2 block mb-2 md:mb-0 bg-gray-300 border-0 text-xl px-4 h-12"
             name="skill"
             onChange={[Function]}
+            role="skill-filter"
           >
             <option
               value=""
