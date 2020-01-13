@@ -139,7 +139,7 @@ const ProjectManagePageApplications: React.FC<ProjectManagePageApplicationsProps
     )
   }
   const openRemoveApplicationModal = useModal({
-    id: 's',
+    id: 'RemoveApplicationForm',
     cardWrapperClassName: 'max-w-md mx-auto',
     cardClassName: 'p-8',
     component: RemoveApplicationForm,
@@ -182,17 +182,6 @@ const ProjectManagePageApplications: React.FC<ProjectManagePageApplicationsProps
         </div>
 
         <div className="pt-0 p-3 md:pt-3">
-          <button
-            type="button"
-            onClick={handleExport}
-            className="btn bg-gray-200 hover:bg-gray-300 mr-3"
-          >
-            <Icon name="filter_list" className="mr-2" />
-            <FormattedMessage
-              id="projectManagePageApplications.filter"
-              defaultMessage="Filtrar"
-            />
-          </button>
           <button
             type="button"
             onClick={handleExport}
