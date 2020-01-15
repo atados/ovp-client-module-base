@@ -29,7 +29,7 @@ const CatalogueSection: React.FC<CatalogueSectionProps> = ({
           ? section.organizations.map(organization => (
               <div
                 key={organization.slug}
-                className="px-2 w-1/2 md:1/4 mb-6 lg:1/6"
+                className="px-2 w-1/2 md:w-1/4 mb-6 lg:w-1/6"
               >
                 <OrganizationCard organization={organization} />
               </div>

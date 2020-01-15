@@ -317,8 +317,8 @@ const SearchSources: React.FC<SearchSourcesProps> = ({
                 key={i}
                 className={
                   searchType === SearchType.Organizations
-                    ? `w-1/2 md:1/-4 mb-6${
-                        size === SearchSourcesSize.Large ? '' : ' lg:1/6'
+                    ? `w-1/2 md:w-1/-4 mb-6${
+                        size === SearchSourcesSize.Large ? '' : ' lg:w-1/6'
                       }`
                     : `sm:w-1/2 w-full px-2 mb-6 ${
                         size === SearchSourcesSize.Large

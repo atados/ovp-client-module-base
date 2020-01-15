@@ -11,6 +11,7 @@ import { API } from '~/types/api'
 
 export interface CausesSectionProps {
   readonly causes: API.Cause[]
+  readonly titleClassName?: string
   readonly className?: string
 }
 
@@ -71,14 +72,18 @@ const Card = styled.div`
   }
 `
 
-const CausesSection: React.FC<CausesSectionProps> = ({ causes, ...props }) => {
+const CausesSection: React.FC<CausesSectionProps> = ({
+  causes,
+  titleClassName,
+  ...props
+}) => {
   if (causes.length === 0) {
     return null
   }
 
   return (
     <Container {...props}>
-      <SectionTitle>
+      <SectionTitle className={titleClassName}>
         <FormattedMessage
           id="causesSection.title"
           defaultMessage="Encontre sua causa"
