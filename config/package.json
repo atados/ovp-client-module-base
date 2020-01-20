@@ -4,7 +4,7 @@
   "scripts": {
     "dev": "next dev",
     "debug": "NODE_OPTIONS=\"--inspect\" next dev",
-    "build": "yarn css && yarn generate:lang && next build",
+    "build": "NODE_ENV=production yarn css && yarn generate:lang && next build",
     "start": "NODE_ENV=production next start",
     "lint": "tslint \"./**/*.{ts,tsx}\" -c tslint.json",
     "lint:fix": "yarn lint --fix",
