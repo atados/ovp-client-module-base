@@ -98,7 +98,7 @@ class App extends NextApp<AppProps> {
 
   public progressBar: ProgressBar | null = null
 
-  public componentWillMount() {
+  public UNSAFE_componentWillMount() {
     const { intl, user } = this.props.store.getState()
     setSentryUser(user)
 

@@ -59,7 +59,7 @@ AuthenticationPage.getInitialProps = async ctx => {
       defaultPage === 'new-account' ||
       defaultPage === 'new-account-feedback' ||
       defaultPage === 'login'
-        ? defaultPage
+        ? (defaultPage as AuthenticationPageName)
         : undefined,
   }
 }

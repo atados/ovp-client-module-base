@@ -32,6 +32,12 @@ module.exports = {
       syncBasePackage()
     }
 
+    // Disable CSS import support
+    config.module.rules.push({
+      test: /\.css$/,
+      loader: 'null-loader',
+    })
+
     // Add alias to webpack so we can import by: ~/components, ~/lib, etc..
     // and override base components
     const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin')

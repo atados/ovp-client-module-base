@@ -15,7 +15,9 @@ export default async function generateIntlMessagesFiles() {
     await glob(path.resolve('base', 'lang', '*.json'))
   ).map(filename => path.basename(filename, path.extname(filename)))
   await mkdirp(path.resolve('channel', 'generated', 'lang'))
-  await mkdirp(path.resolve('static', 'dist', 'locale-data'))
+
+  const localeDataOutDir = path.resolve('public', 'generated', 'locale-data')
+  await mkdirp(localeDataOutDir)
 
   return Promise.all(
     langs.map(async lang => {
@@ -35,20 +37,10 @@ export default async function generateIntlMessagesFiles() {
         // ...
       }
 
-      const localeDataOut = path.resolve(
-        'static',
-        'dist',
-        'locale-data',
-        `${lang}.js`,
-      )
+      const localeDataOut = path.resolve(localeDataOutDir, `${lang}.js`)
       // tslint:disable-next-line:no-console
       console.log(
-        `> Created \'${path.resolve(
-          'static',
-          'dist',
-          'lang',
-          `${lang}.json`,
-        )}\'`,
+        `> Created \'${path.resolve(localeDataOutDir, `${lang}.json`)}\'`,
       )
       return Promise.all([
         writeFile(

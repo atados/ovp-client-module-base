@@ -10,11 +10,6 @@ export const NOW_GITHUB_COMMIT_SHA = process.env.NOW_GITHUB_COMMIT_SHA
 export const NOW_GITHUB_COMMIT_DIRTY = process.env.NOW_GITHUB_COMMIT_DIRTY
 
 export const dev = process.env.NODE_ENV !== 'production'
-export const meta = (pageMeta: { title?: string } = {}) => ({
-  description: 'Basic app description',
-  ...pageMeta,
-  title: pageMeta.title ? `${pageMeta.title} - App name` : 'App name',
-})
 
 export const colors = [
   '#2D728F',

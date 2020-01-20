@@ -13,7 +13,7 @@ export async function createGeolocationObject(
   req: IncomingMessage,
 ): Promise<Geolocation> {
   try {
-    const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress
+    const ip = req.headers['x-forwarded-for'] || req.connection?.remoteAddress
     const geo = await (ip && client.city(String(ip)))
 
     // Lookup region (e.g. SP) into current channel's regions

@@ -1,9 +1,8 @@
 import Link from 'next/link'
 import React from 'react'
-import { defineMessages } from 'react-intl'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
-import { Page, PageAs, Asset, Color, Config } from '~/common'
+import { Page, PageAs, Asset, Color, Config, GlobalMessages } from '~/common'
 import NewsletterForm from '~/components/NewsletterForm'
 import SocialMediaIcon from '~/components/SocialMediaIcon/SocialMediaIcon'
 import { useIntl } from 'react-intl'
@@ -50,26 +49,10 @@ const SocialMedia = styled.a`
     background: #333;
   }
 `
-
-const { appName } = defineMessages({
-  appName: {
-    id: 'app.name',
-    defaultMessage: 'Channel name',
-  },
-})
-
 export interface FooterProps {
   readonly causes: API.Cause[]
   readonly className?: string
 }
-
-const messages = defineMessages({
-  appDescription: {
-    id: 'app.description',
-    defaultMessage:
-      'Conheça oportunidades de trabalho voluntário e inscreva-se.',
-  },
-})
 
 const Footer: React.FC<FooterProps> = ({ causes, className }) => {
   const intl = useIntl()
@@ -79,9 +62,9 @@ const Footer: React.FC<FooterProps> = ({ causes, className }) => {
       <div className="container px-2 py-8">
         <div className="lg:flex -mx-2">
           <div className="md:w-1/4 px-2 mb-4 md:mb-0">
-            <FooterNav title={intl.formatMessage(appName)}>
+            <FooterNav title={intl.formatMessage(GlobalMessages.appName)}>
               {Config.footer.links.length === 0 && (
-                <span>{intl.formatMessage(messages.appDescription)}</span>
+                <span>{intl.formatMessage(GlobalMessages.appDescription)}</span>
               )}
               {Config.footer.links.map(link => (
                 <li key={link.href + link.as} className="nav-item">
@@ -145,7 +128,9 @@ const Footer: React.FC<FooterProps> = ({ causes, className }) => {
                   className="mr-4"
                 />
               )}
-              <span className="text-lg">{intl.formatMessage(appName)}</span>
+              <span className="text-lg">
+                {intl.formatMessage(GlobalMessages.appName)}
+              </span>
             </a>
           </Link>
           <div className="mr-auto" />

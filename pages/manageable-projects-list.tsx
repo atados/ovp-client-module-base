@@ -343,14 +343,13 @@ ManageableProjectsList.getInitialProps = async ({ store, query }) => {
   return {
     organization,
     filters: {
-      status:
-        query.closed === 'false' ||
-        query.closed === 'published' ||
-        query.closed === 'unpublished' ||
-        query.closed === 'both' ||
-        query.closed === 'true'
-          ? query.closed
-          : 'both',
+      status: (query.closed === 'false' ||
+      query.closed === 'published' ||
+      query.closed === 'unpublished' ||
+      query.closed === 'both' ||
+      query.closed === 'true'
+        ? query.closed
+        : 'both') as ManageableProjectsListProps['filters']['status'],
       query: query.query ? String(query.query) : '',
     },
   }

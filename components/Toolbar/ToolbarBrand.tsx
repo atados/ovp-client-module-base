@@ -1,8 +1,7 @@
 import cx from 'classnames'
 import React from 'react'
-import { defineMessages } from 'react-intl'
 import styled from 'styled-components'
-import { Asset } from '~/common'
+import { Asset, GlobalMessages } from '~/common'
 import { useIntl } from 'react-intl'
 
 const Brand = styled.a`
@@ -10,13 +9,6 @@ const Brand = styled.a`
     height: 36px;
   }
 `
-
-const messages = defineMessages({
-  appName: {
-    id: 'app.name',
-    defaultMessage: 'Channel',
-  },
-})
 
 interface ToolbarBrandProps {
   readonly className?: string
@@ -45,7 +37,7 @@ const ToolbarBrand: React.FC<ToolbarBrandProps> = React.forwardRef<
           className={innerClassName}
         />
       ) : (
-        intl.formatMessage(messages.appName)
+        intl.formatMessage(GlobalMessages.appName)
       )}
       {children}
     </Brand>

@@ -2,6 +2,7 @@ import Header from 'next/head'
 import React from 'react'
 import { defineMessages } from 'react-intl'
 import { useIntl } from 'react-intl'
+import { GlobalMessages } from '~/common'
 interface MetaProps {
   readonly title?: string
   readonly description?: string
@@ -11,27 +12,31 @@ interface MetaProps {
 const messages = defineMessages({
   title: {
     id: 'meta.title',
-    defaultMessage: 'Channel',
+    defaultMessage: ' {appName} qweqw',
   },
   titleAddon: {
     id: 'meta.title_addon',
-    defaultMessage: ' - Channel',
+    defaultMessage: ' - {appName}',
   },
   description: {
     id: 'meta.description',
-    defaultMessage: 'Short channel description',
+    defaultMessage: 'Encontre vagas de voluntariado',
   },
 })
 
 const Meta: React.FC<MetaProps> = props => {
   const intl = useIntl()
+  const appName = intl.formatMessage(GlobalMessages.appName)
   const {
-    description = intl.formatMessage(messages.description),
+    description = intl.formatMessage(messages.description, { appName }),
     image,
   } = props
+
   const title = props.title
-    ? `${props.title}${intl.formatMessage(messages.titleAddon)}`
-    : intl.formatMessage(messages.title)
+    ? `${props.title}${intl.formatMessage(messages.titleAddon, {
+        appName,
+      })}`
+    : intl.formatMessage(messages.title, { appName })
   return (
     <Header>
       {title && <title>{title}</title>}

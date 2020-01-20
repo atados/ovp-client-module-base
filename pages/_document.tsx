@@ -1,4 +1,4 @@
-import { IncomingMessage } from 'http'
+import accepts from 'accepts'
 import NextDocument, {
   DocumentContext,
   Head,
@@ -6,7 +6,8 @@ import NextDocument, {
   NextScript,
 } from 'next/document'
 import { ServerStyleSheet } from 'styled-components'
-import generatedStyledFileName from '../../public/static/generated/css-filename.json'
+import generatedStyledFileName from '../../public/generated/css/filename.json'
+import { DEFAULT_LOCALE } from '~/common/constants'
 
 interface DocumentProps {
   readonly locale: string
@@ -17,29 +18,23 @@ interface DocumentProps {
 // The document (which is SSR-only) needs to be customized to expose the locale
 // data for the user's locale for React Intl to work in the browser.
 export default class Document extends NextDocument<DocumentProps> {
-  public static async getInitialProps({
-    renderPage,
-    req: { locale, localeDataScript },
-  }: DocumentContext & {
-    req: IncomingMessage & { locale: string; localeDataScript: string }
-  }) {
+  public static async getInitialProps(ctx: DocumentContext) {
     const sheet = new ServerStyleSheet()
-    const page = renderPage((App: any) => props =>
+    const page = ctx.renderPage((App: any) => props =>
       sheet.collectStyles(<App {...props} />),
     )
     const styleTags = sheet.getStyleElement()
+    const accept = accepts(ctx.req)
+    const reqLocale = accept.language(['pt-br', 'en-us', 'es-ar'])
+
     return {
       ...page,
-      locale,
-      localeDataScript,
+      locale: reqLocale || DEFAULT_LOCALE,
       styleTags,
     }
   }
 
   public render() {
-    // Polyfill Intl API for older browsers
-    const polyfill = `https://cdn.polyfill.io/v3/polyfill.min.js?features=Intl.~locale.${this.props.locale}`
-
     return (
       <html lang={this.props.locale}>
         <Head>
@@ -56,14 +51,14 @@ export default class Document extends NextDocument<DocumentProps> {
             rel="stylesheet"
           />
           <link
-            href={`/static/generated/${generatedStyledFileName}`}
+            href={`/generated/css/${generatedStyledFileName}`}
             rel="stylesheet"
           />
           {this.props.styleTags}
         </Head>
         <body>
           <Main />
-          <script src={polyfill} />
+          <script src={`/generated/lang/${this.props.locale}`} />
           <script
             dangerouslySetInnerHTML={{
               __html: this.props.localeDataScript,

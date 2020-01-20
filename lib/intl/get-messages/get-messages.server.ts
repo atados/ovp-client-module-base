@@ -33,17 +33,19 @@ export default (locale: string) => {
       }
     } else {
       // Get base lang messages
-      Object.assign(
-        messages,
-        flat(
-          JSON.parse(
-            readFileSync(
-              path.resolve('base', 'lang', `${locale}.json`),
-              'utf8',
+      if (locale !== 'pt-br') {
+        Object.assign(
+          messages,
+          flat(
+            JSON.parse(
+              readFileSync(
+                path.resolve('base', 'lang', `${locale}.json`),
+                'utf8',
+              ),
             ),
           ),
-        ),
-      )
+        )
+      }
 
       try {
         Object.assign(

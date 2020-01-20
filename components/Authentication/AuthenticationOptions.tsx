@@ -3,7 +3,7 @@ import React, { useEffect, Dispatch } from 'react'
 import { defineMessages, FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 import { useIntl } from 'react-intl'
-import { Page, Asset, PageAs } from '~/common'
+import { Page, Asset, PageAs, GlobalMessages } from '~/common'
 import {
   AuthenticationAction,
   AuthenticateBySessionTokenFn,
@@ -40,7 +40,7 @@ interface AuthenticationOptionsProps {
 const m = defineMessages({
   title: {
     id: 'authentication.title',
-    defaultMessage: 'Bem vindo ao Channel',
+    defaultMessage: 'Bem vindo ao {appName}',
   },
   subtitle: {
     id: 'authentication.description',
@@ -107,7 +107,12 @@ const AuthenticationOptions: React.FC<AuthenticationOptionsProps> = ({
           height="42"
           className="block mx-auto"
         />
-        <h1 className="h2 mb-4">{title || intl.formatMessage(m.title)}</h1>
+        <h1 className="h2 mb-4">
+          {title ||
+            intl.formatMessage(m.title, {
+              appName: intl.formatMessage(GlobalMessages.appName),
+            })}
+        </h1>
         <p>{subtitle || intl.formatMessage(m.subtitle)}</p>
       </Header>
       <Body className="text-center">
