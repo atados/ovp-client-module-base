@@ -26,6 +26,7 @@ import {
 } from '../lib/utils/error'
 import { createGeolocationObject } from '../lib/geo'
 import ToastsProvider from '~/components/Toasts/ToastsProvider'
+import { Geolocation } from '~/redux/ducks/geo'
 
 declare global {
   interface Window {
@@ -83,9 +84,17 @@ class App extends NextApp<AppProps> {
     }
 
     if (ctx.req) {
+      let geolocationValue: Geolocation | undefined
+
+      try {
+        geolocationValue = await createGeolocationObject(ctx.req)
+      } catch (error) {
+        geolocationValue = Config.geo.default
+      }
+
       ctx.store.dispatch({
         type: 'GEO',
-        payload: await createGeolocationObject(ctx.req),
+        payload: geolocationValue,
       })
     }
 
