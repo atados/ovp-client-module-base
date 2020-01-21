@@ -199,6 +199,11 @@ const ChannelConfigSchema = Yup.object().shape({
   maps: Yup.object().shape({
     key: Yup.string(),
   }),
+  emailConfirmation: Yup.object()
+    .shape({
+      warning: Yup.boolean().default(true),
+    })
+    .default({}),
 })
 
 module.exports = ChannelConfigSchema
