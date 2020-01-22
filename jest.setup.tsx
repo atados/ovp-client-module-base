@@ -1,3 +1,4 @@
+// @ts-ignore
 jest.mock('~/common/channel-value', () => ({
   id: 'default',
   theme: {

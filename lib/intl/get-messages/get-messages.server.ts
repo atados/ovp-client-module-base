@@ -31,7 +31,7 @@ if (process.env.NODE_ENV === 'production') {
 
 export default (locale: string) => {
   if (!messagesDataCache.has(locale) || dev) {
-    let messages: IntlMessages = {}
+    const messages: IntlMessages = {}
 
     // Get base lang messages
     if (locale !== 'pt-br') {

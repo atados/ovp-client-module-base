@@ -45,7 +45,7 @@ function main() {
           `module.exports = require('./${path.join(
             subdir,
             'config',
-            filename,
+            path.basename(filename, path.extname(filename)),
           )}')`,
           'utf-8',
         )

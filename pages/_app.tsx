@@ -90,7 +90,9 @@ class App extends NextApp<AppProps> {
           type: 'GEO',
           payload: geo,
         })
-      } catch (error) {}
+      } catch (error) {
+        // Use default geolocation
+      }
     }
 
     if (Component.getInitialProps) {
