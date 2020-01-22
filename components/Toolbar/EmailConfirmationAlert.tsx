@@ -72,36 +72,37 @@ const EmailConfirmationAlert: React.FC<EmailConfirmationAlertProps> = ({
     }
   }
 
+  if (!showEmailConfirmationAlert) {
+    return null
+  }
+
   return (
-    (showEmailConfirmationAlert && (
-      <AlertWrapper className="fixed left-0 bottom-0 right-0">
-        <Alert onClose={handleClose}>
-          {mutation.data?.success ? (
-            'O email foi enviado para você, verifique na sua caixa de entrada.'
-          ) : (
-            <>
-              <b className="mr-1">Seu email ainda não foi confirmado.</b> Perdeu
-              o email de confirmação?{' '}
-              {mutation.loading ? (
-                'Enviando...'
-              ) : (
-                <>
-                  <button
-                    role="send-confirmation-email"
-                    className="inline-block mx-1 underline"
-                    onClick={handleClick}
-                  >
-                    Clique aqui
-                  </button>{' '}
-                  para gerar um novo
-                </>
-              )}
-            </>
-          )}
-        </Alert>
-      </AlertWrapper>
-    )) ||
-    null
+    <AlertWrapper className="fixed left-0 bottom-0 right-0">
+      <Alert onClose={handleClose}>
+        {mutation.data?.success ? (
+          'O email foi enviado para você, verifique na sua caixa de entrada.'
+        ) : (
+          <div>
+            <b className="mr-1">Seu email ainda não foi confirmado.</b> Perdeu o
+            email de confirmação?{' '}
+            {mutation.loading ? (
+              'Enviando...'
+            ) : (
+              <>
+                <button
+                  role="send-confirmation-email"
+                  className="inline-block mx-1 underline"
+                  onClick={handleClick}
+                >
+                  Clique aqui
+                </button>{' '}
+                para gerar um novo
+              </>
+            )}
+          </div>
+        )}
+      </Alert>
+    </AlertWrapper>
   )
 }
 
