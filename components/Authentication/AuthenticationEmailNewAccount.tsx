@@ -113,7 +113,7 @@ const AuthenticationEmailNewAccount: React.FC<AuthenticationEmailNewAccountProps
       <div className="max-w-sm mx-auto">
         <div className="text-center">
           <img
-            src={Asset.LogoLight}
+            src={Asset.logoLight}
             alt=""
             width="42"
             height="42"
@@ -192,7 +192,7 @@ const AuthenticationEmailNewAccount: React.FC<AuthenticationEmailNewAccountProps
         </FormGroup>
         <button
           type="submit"
-          className="btn btn-primary btn--size-3 btn--block mb-4"
+          className="btn text-white bg-primary-500 hover:bg-primary-600 btn--size-3 btn--block mb-4"
           disabled={isSubmitting}
         >
           {intl.formatMessage(m.submit)}

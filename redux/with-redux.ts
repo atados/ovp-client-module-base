@@ -55,9 +55,15 @@ const configureStore = (
 ) => {
   let initialState = baseState
   if (context && context.req) {
+    const defaultGeo = Config.geolocation.default
     initialState = {
       user: context.req.user || null,
-      geo: Config.geo.default,
+      geo: {
+        country: defaultGeo.countryCode,
+        region: defaultGeo.regionCode,
+        lat: defaultGeo.latitude,
+        lng: defaultGeo.longitude,
+      },
       intl: createIntlObject(context.req),
     }
   }

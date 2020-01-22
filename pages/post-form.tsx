@@ -215,7 +215,7 @@ const PostFormPage: NextPage<PostFormPageProps, PostFormPageInitialProps> = ({
             <button
               type="button"
               onClick={handleSubmit}
-              className="btn btn-primary"
+              className="btn text-white bg-primary-500 hover:bg-primary-600"
             >
               {postId ? 'Salvar alterações' : 'Pronto pra publicar?'}
               {submitMutation.loading ? (

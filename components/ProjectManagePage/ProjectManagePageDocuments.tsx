@@ -268,7 +268,7 @@ const ProjectManagePageDocuments: React.FC<ProjectManagePageDocumentsProps> = ({
             </button>
             <button
               type="button"
-              className="btn btn-primary mr-2"
+              className="btn text-white bg-primary-500 hover:bg-primary-600 mr-2"
               onClick={handleSubmitChanges}
               disabled={isUploading || updateProjectMutation.loading}
             >
@@ -291,7 +291,7 @@ const ProjectManagePageDocuments: React.FC<ProjectManagePageDocumentsProps> = ({
           <span className="text-gray-600 block mb-4">
             {intl.formatMessage(DOCUMENTOS_HINT)}
           </span>
-          <div className="btn btn-outline-primary inputFileWrapper">
+          <div className="btn text-primary-500 border-primary-500 hover:bg-primary-100 inputFileWrapper">
             <input type="file" onChange={handleInputFileChange} multiple />
             <Icon name="add" /> {intl.formatMessage(ADICIONAR)}
           </div>
@@ -352,7 +352,7 @@ const ProjectManagePageDocuments: React.FC<ProjectManagePageDocumentsProps> = ({
       )}
       {hasDocuments && (
         <div className="card-item p-4">
-          <div className="btn btn-outline-primary inputFileWrapper">
+          <div className="btn text-primary-500 border-primary-500 hover:bg-primary-100 inputFileWrapper">
             <input type="file" onChange={handleInputFileChange} multiple />
             <Icon name="add" /> {intl.formatMessage(ADICIONAR_DOCUMENTOS)}
           </div>

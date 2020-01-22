@@ -64,7 +64,7 @@ const TimelineItem: React.FC<TimelineItemProps> = ({
     }`}
   >
     <ItemIcon>
-      <img src="/static/base/icons/volunteer.svg" alt="Voluntário" />
+      <img src="/generated/static/icons/volunteer.svg" alt="Voluntário" />
     </ItemIcon>
     <div className="bg-muted rounded-lg">
       <div className="py-3 flex px-4">

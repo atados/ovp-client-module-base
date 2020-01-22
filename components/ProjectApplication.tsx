@@ -203,7 +203,7 @@ const ProjectApplicationFormProps: React.FC<InjectedFormikProps<
       </FormGroup>
       <button
         type="submit"
-        className="btn btn--size-4 btn-primary mb-4 btn--block"
+        className="btn btn--size-4 text-white bg-primary-500 hover:bg-primary-600 mb-4 btn--block"
         disabled={isSubmitting}
       >
         {intl.formatMessage(CONFIRMAR)}

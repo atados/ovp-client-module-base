@@ -38,7 +38,7 @@ import { withIntl } from '~/lib/intl'
 import { defineMessages, WithIntlProps } from 'react-intl'
 
 const Container = styled.div`
-  padding-top: ${props => props.theme.toolbarHeight + 56}px;
+  padding-top: ${Config.toolbar.height + 56}px;
 
   @media (min-width: 992px) {
     &.map-rendered {
@@ -51,7 +51,7 @@ const Container = styled.div`
 const Header = styled.div`
   height: 56px;
   position: fixed;
-  top: ${props => props.theme.toolbarHeight}px;
+  top: ${Config.toolbar.height}px;
   left: 10px;
   right: 10px;
   background: #fff;
@@ -114,7 +114,7 @@ const Option = styled.a`
 const Map = styled(ReduxGoogleMap)`
   position: fixed;
   width: 400px;
-  top: ${props => props.theme.toolbarHeight + 71}px;
+  top: ${Config.toolbar.height + 71}px;
   right: 10px;
   bottom: 10px;
 `
@@ -528,7 +528,10 @@ const mapStateToProps = ({
     sources: searchState.sources,
     filters: searchState.filters || {},
     marks,
-    mapDefaultCenter: mapDefaultCenter || Config.geo.default,
+    mapDefaultCenter: mapDefaultCenter || {
+      lat: Config.geolocation.default.latitude,
+      lng: Config.geolocation.default.longitude,
+    },
   }
 }
 

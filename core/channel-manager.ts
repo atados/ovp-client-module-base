@@ -3,9 +3,10 @@
 import chalk from 'chalk'
 import path from 'path'
 import { rgbToHex, hexToRgb } from '../lib/color/transformers'
-import prevChannel from '../../channel/app.json'
+import loadChannelConfig from './channel/load-channel-config.js'
 import * as fs from 'fs'
 import { promisify } from 'util'
+import { Channel } from '~/common'
 
 const writeFile = promisify(fs.writeFile)
 
@@ -61,6 +62,7 @@ const tailwindShades = {
 }
 
 function set(
+  prevChannel: Channel,
   key: string = required('set', 'key'),
   value: string = required('set', 'value'),
 ) {
@@ -107,14 +109,14 @@ export default function() {
   if (!process.argv[1]) {
     console.log(help)
     process.exit(1)
-    return
   }
 
+  const prevChannel = loadChannelConfig()
   const action = process.argv[1].substr(dir.length + 1)
   const args = process.argv.slice(2)
 
   if (action === 'set') {
-    set(...args)
+    set(prevChannel, ...args)
     return
   }
 

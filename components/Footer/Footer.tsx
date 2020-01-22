@@ -2,7 +2,7 @@ import Link from 'next/link'
 import React from 'react'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
-import { Page, PageAs, Asset, Color, Config, GlobalMessages } from '~/common'
+import { Page, PageAs, Color, Config, GlobalMessages } from '~/common'
 import NewsletterForm from '~/components/NewsletterForm'
 import SocialMediaIcon from '~/components/SocialMediaIcon/SocialMediaIcon'
 import { useIntl } from 'react-intl'
@@ -13,16 +13,15 @@ import Tooltip from '../Tooltip'
 import { API } from '~/types/api'
 
 const Container = styled.div`
-  background: ${props => props.theme.footerBackground || Color.gray[200]};
-  ${props =>
-    props.theme.footerTheme === 'dark'
-      ? `
+  background: ${Config.footer.background || Color.gray[200]};
+  ${Config.footer.theme === 'dark'
+    ? `
       color: #fff;
 
       a {
         color: #fff;
       }`
-      : `
+    : `
     a {
       color: #333;
     }`}
@@ -120,9 +119,9 @@ const Footer: React.FC<FooterProps> = ({ causes, className }) => {
         <div className="py-3 flex">
           <Link href={Page.Home} as={PageAs.Home()}>
             <a>
-              {Asset.FooterBrand && (
+              {Config.footer.brand && (
                 <img
-                  src={Asset.FooterBrand}
+                  src={Config.footer.brand}
                   alt=""
                   height="42"
                   className="mr-4"

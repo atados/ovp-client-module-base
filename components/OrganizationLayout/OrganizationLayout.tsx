@@ -13,7 +13,7 @@ import { Organization } from '~/redux/ducks/organization'
 
 const Body = styled.div`
   &.p-toolbar-nav {
-    padding-top: ${props => props.theme.toolbarHeight + 50}px;
+    padding-top: ${Config.toolbar.height + 50}px;
   }
 `
 

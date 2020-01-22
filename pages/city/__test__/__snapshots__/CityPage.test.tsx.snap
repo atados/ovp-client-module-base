@@ -2,14 +2,11 @@
 
 exports[`City Page renders correctly 1`] = `
 <div>
-  <div>
-    ~/components/Meta - 
-  </div>
   <span
     className="px-md-3"
   />
   <div
-    className="p-toolbar bg-cover bg-center mb-10 BannerGradientOverlay-sc-115tdug-0 kIEszn"
+    className="BannerGradientOverlay-sc-1xveokp-0 dRoADc p-toolbar bg-cover bg-center mb-10"
     style={
       Object {
         "backgroundImage": "url('/static/banners/home-fast.jpg')",

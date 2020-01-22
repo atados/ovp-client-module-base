@@ -160,7 +160,7 @@ class DisponibilityJobForm extends React.Component<
               defaultValue={editingDate}
             />
           ) : (
-            <button className="btn btn-primary" onClick={this.enableForm}>
+            <button className="btn text-white bg-primary-500 hover:bg-primary-600" onClick={this.enableForm}>
               <Icon name="add" className="mr-1" />
               {intl.formatMessage(m.addDate)}
             </button>

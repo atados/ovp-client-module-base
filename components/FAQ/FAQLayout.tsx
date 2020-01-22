@@ -44,8 +44,8 @@ const FAQLayout: React.FC<FAQLayoutProps> = ({
         className: 'bg-none',
         brand: (
           <Link href="/" passHref>
-            <ToolbarBrand innerClassName="inline-block mr-3">
-              <span className="text-toolbar border-l border-color-white pl-3 align-middle">
+            <ToolbarBrand innerClassName="inline-block">
+              <span className="text-toolbar border-l border-color-white pl-3 align-middle ml-3">
                 {intl.formatMessage(m.title)}
               </span>
             </ToolbarBrand>

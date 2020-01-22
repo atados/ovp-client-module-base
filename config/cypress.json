@@ -1,8 +1,0 @@
-{
-  "fixturesFolder": "base/cypress/fixtures",
-  "integrationFolder": "base/cypress/integration",
-  "pluginsFile": "base/cypress/plugins/index.js",
-  "screenshotsFolder": "base/cypress/screenshots",
-  "supportFile": "base/cypress/support/index.js",
-  "videosFolder": "base/cypress/videos"
-}

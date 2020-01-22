@@ -281,7 +281,7 @@ class ProjectApplicationCard extends React.Component<
 
             <button
               className={`btn btn--size-3 btn--block ${
-                project.current_user_is_applied ? 'btn-error' : 'btn-apply'
+                project.current_user_is_applied ? 'btn-error' : 'text-white bg-primary-500 hover:bg-primary-600'
               }`}
               onClick={this.submit}
             >

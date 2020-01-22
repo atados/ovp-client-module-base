@@ -243,7 +243,7 @@ class InputImage extends React.Component<
         <div className="ratio-body">
           {!value ? (
             <InputWrapperInner>
-              <span className="btn btn-primary btn--block">
+              <span className="btn text-white bg-primary-500 hover:bg-primary-600 btn--block">
                 <Icon name="cloud_upload" className="mr-2" />
                 {intl.formatMessage(CARREGUE)}
               </span>

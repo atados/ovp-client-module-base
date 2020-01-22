@@ -218,7 +218,7 @@ class ProjectCard extends React.Component<
             />
             <Counter title={`${appliedCount} inscritos`}>
               <img
-                src="/static/base/icons/volunteer.svg"
+                src="/generated/static/icons/volunteer.svg"
                 alt=""
                 className="mr-2 inline-block"
               />
