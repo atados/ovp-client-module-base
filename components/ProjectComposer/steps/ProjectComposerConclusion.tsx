@@ -74,7 +74,7 @@ const ProjectComposerConclusion: React.FC<ProjectComposerConclusionProps> = ({
       </p>
       {project && (
         <Link href={Page.Project} as={PageAs.Project({ slug: project.slug })}>
-          <a className="btn btn-primary btn--size-3">
+          <a className="btn text-white bg-primary-500 hover:bg-primary-600 btn--size-3">
             {intl.formatMessage(VISITAR_PAGINA)}
           </a>
         </Link>

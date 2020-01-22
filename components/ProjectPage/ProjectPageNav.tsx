@@ -273,7 +273,7 @@ const ProjectPageNav: React.FC<ProjectPageNavProps> = ({
             }
             passHref
           >
-            <ActionButton className="btn btn-primary btn--size-3 flex-grow mr-2">
+            <ActionButton className="btn text-white bg-primary-500 hover:bg-primary-600 btn--size-3 flex-grow mr-2">
               <Icon name="settings" className="mr-2" />
               {intl.formatMessage(GERENCIAR_VAGA)}
             </ActionButton>
@@ -283,8 +283,8 @@ const ProjectPageNav: React.FC<ProjectPageNavProps> = ({
             as="button"
             className={`btn ${
               project.current_user_is_applied
-                ? 'btn-outline-primary'
-                : 'btn-primary'
+                ? 'text-primary-500 border-primary-500 hover:bg-primary-100'
+                : 'text-white bg-primary-500 hover:bg-primary-600'
             } btn--size-3 flex-grow mr-2`}
             onClick={handleApplication}
           >
@@ -378,7 +378,7 @@ const ProjectPageNav: React.FC<ProjectPageNavProps> = ({
                     }
                     passHref
                   >
-                    <ActionButton className="btn btn-primary btn--size-3">
+                    <ActionButton className="btn text-white bg-primary-500 hover:bg-primary-600 btn--size-3">
                       <Icon name="settings" className="mr-2" />
                       {intl.formatMessage(GERENCIAR_VAGA)}
                     </ActionButton>
@@ -390,8 +390,8 @@ const ProjectPageNav: React.FC<ProjectPageNavProps> = ({
                       as="button"
                       className={`btn ${
                         project.current_user_is_applied
-                          ? 'btn-outline-primary'
-                          : 'btn-primary'
+                          ? 'text-primary-500 border-primary-500 hover:bg-primary-100'
+                          : 'text-white bg-primary-500 hover:bg-primary-600'
                       } btn--size-3`}
                       onClick={handleApplication}
                     >

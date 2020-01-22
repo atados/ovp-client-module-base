@@ -329,7 +329,7 @@ const ProjectComposerRoles: React.FC<InjectedFormikProps<
             <Role onClick={() => handleRoleEdit(role, i)}>
               <RoleCard className="card p-2">
                 <RoleButtonWrapper>
-                  <div className="btn btn-primary btn--strong btn--size-2 btn--block">
+                  <div className="btn text-white bg-primary-500 hover:bg-primary-600 btn--strong btn--size-2 btn--block">
                     {intl.formatMessage(EDITAR)}
                   </div>
                 </RoleButtonWrapper>

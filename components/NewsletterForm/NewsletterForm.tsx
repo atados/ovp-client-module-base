@@ -151,7 +151,7 @@ const NewsletterForm: React.FC<InjectedFormikProps<
       {status === Status.Success ? (
         <button
           type="button"
-          className="btn btn-success btn--block"
+          className="btn text-white bg-green-500 hover:bg-green-600 btn--block"
           onClick={handleReset}
         >
           <Icon name="check" className="mr-1" />
@@ -160,7 +160,7 @@ const NewsletterForm: React.FC<InjectedFormikProps<
       ) : (
         <button
           type="submit"
-          className="btn btn--block btn-primary"
+          className="btn btn--block text-white bg-primary-500 hover:bg-primary-600"
           disabled={isSubmitting}
         >
           {intl.formatMessage(m.submit)}

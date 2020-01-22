@@ -127,7 +127,7 @@ const FormComposerLayout: React.FC<FormComposerLayoutProps> = ({
                       type="submit"
                       disabled={disabled || isSubmitting}
                       className={`btn btn--size-4 ${
-                        disabled ? 'btn-disabled' : 'btn-primary'
+                        disabled ? 'btn-disabled' : 'text-white bg-primary-500 hover:bg-primary-600'
                       }`}
                       onClick={onSubmit}
                     >

@@ -1,7 +1,20 @@
-const channelConfig = require('../../../channel/app.json')
+const fs = require('fs')
 const channelConfigSchema = require('./channel-config-schema')
+const defaultConfig = require('../app.default.json')
+
+const configPath = '../../../channel/app.json'
 
 module.exports = () => {
+  let channelConfig = defaultConfig
+  let stat
+  try {
+    stat = fs.statSync(configPath)
+  } catch (error) {}
+
+  if (stat && stat.isFile()) {
+    Object.assign(channelConfig, require(configPath))
+  }
+
   const channel = channelConfigSchema.cast(channelConfig)
 
   // Validate channel

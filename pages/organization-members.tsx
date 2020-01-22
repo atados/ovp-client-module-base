@@ -165,7 +165,7 @@ const OrganizationMembersPage: NextPage<
             <div className="card-item p-4">
               <button
                 type="button"
-                className="btn btn-primary"
+                className="btn text-white bg-primary-500 hover:bg-primary-600"
                 onClick={() => openAddMemberModal()}
               >
                 <Icon name="add" className="mr-2" />

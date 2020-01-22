@@ -217,7 +217,7 @@ const ProjectApplicationUserFormProps: React.FC<InjectedFormikProps<
       <div className="text-right">
         <button
           type="submit"
-          className="btn btn--size-3 btn-primary"
+          className="btn btn--size-3 text-white bg-primary-500 hover:bg-primary-600"
           disabled={isSubmitting}
         >
           {intl.formatMessage(CONTINUAR)}

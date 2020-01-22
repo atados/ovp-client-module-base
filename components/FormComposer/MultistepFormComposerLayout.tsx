@@ -127,7 +127,7 @@ const FormComposerLayout: React.FC<FormComposerLayoutProps> = ({
       <BodyContent>
         <Form
           {...formProps}
-          as={noForm ? 'div' : undefined}
+          as={(noForm ? 'div' : undefined) as any}
           onSubmit={noForm ? undefined : onSubmit}
         >
           {children}
@@ -141,7 +141,7 @@ const FormComposerLayout: React.FC<FormComposerLayoutProps> = ({
                   <button
                     type="submit"
                     disabled={disabled || isSubmitting}
-                    className="btn btn--size-4 btn-primary"
+                    className="btn btn--size-4 text-white bg-primary-500 hover:bg-primary-600"
                     onClick={noForm ? () => onSubmit() : undefined}
                   >
                     {mode === FormComposerMode.EDIT ? (

@@ -6,10 +6,6 @@ import { render, fireEvent, wait } from '@testing-library/react'
 
 jest.mock('~/components/Layout', () => props => <div>{props.children}</div>)
 
-jest.mock('react-intl', () => ({
-  FormattedMessage: () => 'FormattedMessage',
-}))
-
 jest.mock('react-redux', () => ({
   useSelector: () => ({
     causes: [

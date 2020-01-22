@@ -294,7 +294,7 @@ class MapMark extends React.Component<MapMarkProps, MapMarkState> {
               {nodeKind === NodeKind.Project && (
                 <Counter title={`${(node as Project).applied_count} inscritos`}>
                   <img
-                    src="/static/base/icons/volunteer.svg"
+                    src="/generated/static/icons/volunteer.svg"
                     alt=""
                     className="mr-2 inline-block"
                   />

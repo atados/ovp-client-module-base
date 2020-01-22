@@ -678,33 +678,6 @@ fieldset[disabled] a.btn {
   background-image: none;
   border-color: #d1dadc;
 }
-.btn-success {
-  color: #fff;
-  background-color: #3ba950;
-  border-color: #3ba950;
-}
-.btn-success:hover {
-  color: #fff;
-  background-color: #38a14c;
-  border-color: #369b4a;
-}
-.btn-success:focus,
-.btn-success.focus {
-  box-shadow: 0 0 0 3px rgba(59, 169, 80, 0.5);
-}
-.btn-success.disabled,
-.btn-success:disabled {
-  background-color: #3ba950;
-  border-color: #3ba950;
-}
-.btn-success:active,
-.btn-success.active,
-.show > .btn-success.dropdown-toggle {
-  color: #fff;
-  background-color: #318e43;
-  background-image: none;
-  border-color: #369b4a;
-}
 .btn-default {
   border-color: rgba(27, 31, 35, 0.2);
   color: #343435;
@@ -835,14 +808,14 @@ fieldset[disabled] a.btn {
   color: rgba(0, 0, 0, 0.5);
 }
 select.input {
-  background-image: url('/static/base/icons/arrow-down.svg');
+  background-image: url('/generated/static/icons/arrow-down.svg');
   background-repeat: no-repeat;
   background-position: right 0.75rem center;
   background-size: 20px 20px;
   padding-right: 36px !important;
 }
 select.input-dark {
-  background-image: url('/static/base/icons/arrow-down-white.svg');
+  background-image: url('/generated/static/icons/arrow-down-white.svg');
 }
 .input[type='checkbox'],
 .input[type='radio'],
@@ -882,7 +855,7 @@ select.input-dark {
 .input-radio.checked {
   box-shadow: inset 0 0 0 3px #0099fe;
   background: #0099fe;
-  background-image: url('/static/base/icons/check.svg');
+  background-image: url('/generated/static/icons/check.svg');
   background-repeat: no-repeat;
   background-position: center;
 }
@@ -920,7 +893,7 @@ select.input-dark {
 }
 input:checked + .checkbox-indicator {
   background: #0288f6;
-  background-image: url('/static/base/icons/check.svg');
+  background-image: url('/generated/static/icons/check.svg');
   background-repeat: no-repeat;
   background-position: center;
   border-color: #0288f6;

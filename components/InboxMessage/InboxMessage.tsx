@@ -60,7 +60,7 @@ const Bubble = styled.div`
         width: 16px;
         height: 16px;
         display: block;
-        background: url(/static/base/icons/message-bg-${
+        background: url(/generated/static/icons/message-bg-${
           props.sent ? 'sent' : 'received'
         }.svg) no-repeat center;
       }`

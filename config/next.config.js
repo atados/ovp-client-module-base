@@ -1,6 +1,6 @@
 const dotenv = require('dotenv')
-const loadChannelConfig = require('../internals/channel/load-channel-config')
-const syncBasePackage = require('../internals/channel/sync-base-package')
+const loadChannelConfig = require('../core/channel/load-channel-config')
+const syncBasePackage = require('../core/channel/sync-base-package')
 
 const channel = loadChannelConfig()
 

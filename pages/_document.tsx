@@ -6,6 +6,7 @@ import NextDocument, {
   NextScript,
 } from 'next/document'
 import { ServerStyleSheet } from 'styled-components'
+// @ts-ignore
 import generatedStyledFileName from '../../public/generated/css/filename.json'
 import { DEFAULT_LOCALE } from '~/common/constants'
 

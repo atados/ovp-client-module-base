@@ -209,7 +209,7 @@ const OrganizationComposerIntro: React.FC<OrganizationComposerIntroProps> = ({
       <>
         <button
           type="button"
-          className="btn btn-primary btn--size-3 mt-4"
+          className="btn text-white bg-primary-500 hover:bg-primary-600 btn--size-3 mt-4"
           onClick={onStartFromDraft}
         >
           {intl.formatMessage(CONTINUE_A_CADASTRAR)}
@@ -242,7 +242,7 @@ const OrganizationComposerIntro: React.FC<OrganizationComposerIntroProps> = ({
       <>
         <button
           type="button"
-          className="btn btn-primary btn--size-3 mt-4"
+          className="btn text-white bg-primary-500 hover:bg-primary-600 btn--size-3 mt-4"
           onClick={onStart}
         >
           {intl.formatMessage(COMECE)}
