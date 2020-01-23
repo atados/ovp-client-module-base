@@ -1,7 +1,7 @@
 import cx from 'classnames'
 import React from 'react'
 import styled from 'styled-components'
-import { Asset, GlobalMessages } from '~/common'
+import { GlobalMessages, Config } from '~/common'
 import { useIntl } from 'react-intl'
 
 const Brand = styled.a`
@@ -30,9 +30,9 @@ const ToolbarBrand: React.FC<ToolbarBrandProps> = React.forwardRef<
       href={href}
       className={cx(className, 'navbar-brand')}
     >
-      {brand || Asset.ToolbarBrand ? (
+      {brand || Config.toolbar.brand ? (
         <img
-          src={brand || Asset.ToolbarBrand}
+          src={brand || Config.toolbar.brand}
           alt=""
           className={innerClassName}
         />

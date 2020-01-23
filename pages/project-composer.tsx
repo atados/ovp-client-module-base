@@ -23,7 +23,7 @@ import { fetchProject, Project, updateProject } from '~/redux/ducks/project'
 import { UserOrganization } from '~/redux/ducks/user'
 import BeforeActionAuth from '~/components/BeforeActionAuth'
 import { RootState } from '~/redux/root-reducer'
-import { Page, PageAs, PageName, Theme } from '~/common'
+import { Page, PageAs, PageName, Config } from '~/common'
 import { FormattedMessage } from 'react-intl'
 
 const PageStyled = styled.div`
@@ -33,7 +33,7 @@ const PageStyled = styled.div`
 
 const Card = styled.div`
   border-radius: 10px 10px 0 0;
-  min-height: calc(100vh - ${Theme.toolbarHeight}px - 64px);
+  min-height: calc(100vh - ${Config.toolbar.height}px - 64px);
   border-bottom-width: 0;
 `
 

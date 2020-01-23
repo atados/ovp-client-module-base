@@ -100,7 +100,7 @@ const OrganizationOnboardingPage: React.FC<OrganizationOnboardingPageProps> = ()
                       href="NewOrganization"
                       params={{ stepId: 'auth' }}
                     >
-                      <a className="btn btn--size-3 py-3 btn-secondary btn--block rounded text-xl">
+                      <a className="btn btn--size-3 py-3 bg-secondary-500 hover:bg-secondary-600 btn--block rounded text-xl">
                         <FormattedMessage
                           id="organizationOnboarding.start"
                           defaultMessage="Cadastrar minha ONG"

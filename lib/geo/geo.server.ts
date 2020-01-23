@@ -7,11 +7,11 @@ export interface InjectedGeoProps {
 }
 export async function createGeolocationObject(
   req: IncomingMessage,
-): Promise<Geolocation | null> {
+): Promise<Geolocation> {
   const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress
 
   if (!ip) {
-    return null
+    throw new Error('Unable to figure out ip')
   }
 
   const geo = await fetch(`https://freegeoip.app/json/${ip}`).then(res =>
@@ -19,7 +19,7 @@ export async function createGeolocationObject(
   )
 
   if (!geo) {
-    return null
+    throw new Error('Failed to find geolocation by ip')
   }
 
   const {

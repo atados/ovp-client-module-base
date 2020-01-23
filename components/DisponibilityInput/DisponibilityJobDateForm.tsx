@@ -139,7 +139,7 @@ const DisponibilityJobDateForm: React.FC<InjectedFormikProps<
       <button
         type="button"
         onClick={() => handleSubmit()}
-        className="btn btn-primary btn--size-2 mr-2"
+        className="btn text-white bg-primary-500 hover:bg-primary-600 btn--size-2 mr-2"
       >
         {intl.formatMessage(m.submit)}
       </button>

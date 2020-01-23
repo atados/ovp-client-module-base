@@ -1,5 +1,4 @@
 const { screens } = require('tailwindcss/defaultTheme')
-const cssVariables = require('../internals/css-variables')
 const purgecss = require('@fullhuman/postcss-purgecss')({
   // Specify the paths to all of the template files in your project
   content: [
@@ -30,7 +29,6 @@ module.exports = {
     require('postcss-custom-media')({
       importFrom: [{ customMedia }],
     }),
-    require('postcss-css-variables')({ variables: cssVariables }),
     require('autoprefixer'),
     ...(prod ? [purgecss, require('cssnano')] : []),
   ],

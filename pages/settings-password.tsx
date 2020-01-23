@@ -148,7 +148,7 @@ const SettingsPassword: NextPage<
           </FormGroup>
           <button
             type="submit"
-            className="btn btn--size-3 btn-primary w-full block"
+            className="btn btn--size-3 text-white bg-primary-500 hover:bg-primary-600 w-full block"
             disabled={isSubmitting}
           >
             <FormattedMessage

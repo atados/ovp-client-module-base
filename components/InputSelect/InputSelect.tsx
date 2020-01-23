@@ -225,7 +225,7 @@ class InputSelect extends React.PureComponent<
                   <SelectedOptionLabel>{item.label}</SelectedOptionLabel>
                   <OptionRemoveButton
                     type="button"
-                    className="btn btn-text-primary"
+                    className="btn text-primary-500"
                     onClick={() => this.remove(item)}
                   >
                     <Icon name="close" />

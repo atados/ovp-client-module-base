@@ -161,10 +161,10 @@ const OrganizationJoinPage: NextPage<OrganizationJoinPageProps> = ({
                 type="button"
                 className={`btn btn--block btn--size-3 ${
                   viewer && viewer.slug === userSlug
-                    ? 'btn-success'
+                    ? 'text-white bg-green-500 hover:bg-green-600'
                     : viewer
                     ? 'text-red-500 border-red-500'
-                    : 'btn-outline-primary'
+                    : 'text-primary-500 border-primary-500 hover:bg-primary-100'
                 } mb-4`}
                 onClick={handleClick}
                 disabled={state.loading}

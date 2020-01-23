@@ -363,7 +363,7 @@ const SearchSources: React.FC<SearchSourcesProps> = ({
                 : PageAs.SearchOrganizations()
             }
           >
-            <a className="btn btn-primary">
+            <a className="btn text-white bg-primary-500 hover:bg-primary-600">
               {intl.formatMessage(REMOVER_FILTROS)}
               <Icon name="close" className="ml-2" />
             </a>

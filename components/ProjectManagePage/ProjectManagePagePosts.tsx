@@ -136,7 +136,7 @@ const ProjectManagePagePosts: React.FC<ProjectManagePagePostsProps> = ({
                 : PageAs.ProjectNewPost({ projectSlug: project.slug })
             }
           >
-            <a className="btn btn-outline-primary float-right">
+            <a className="btn text-primary-500 border-primary-500 hover:bg-primary-100 float-right">
               <Icon name="add" className="mr-2" />
               {intl.formatMessage(NOVA_PUB)}
             </a>
@@ -168,7 +168,7 @@ const ProjectManagePagePosts: React.FC<ProjectManagePagePostsProps> = ({
                 : PageAs.ProjectNewPost({ projectSlug: project.slug })
             }
           >
-            <a className="btn btn-outline-primary">
+            <a className="btn text-primary-500 border-primary-500 hover:bg-primary-100">
               <Icon name="add" /> {intl.formatMessage(ADICIONAR_PRIMEIRA)}
             </a>
           </Link>

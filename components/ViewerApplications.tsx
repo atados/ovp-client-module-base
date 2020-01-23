@@ -97,7 +97,7 @@ const ViewerApplications: React.FC<ViewerApplicationsProps> = ({
               />
             </span>
             <PageLink href="SearchProjects">
-              <a className="btn btn-primary">
+              <a className="btn text-white bg-primary-500 hover:bg-primary-600">
                 <FormattedMessage
                   id="toolbarApplications.noApplicationsFound.button"
                   defaultMessage="Ver vagas de voluntariado"

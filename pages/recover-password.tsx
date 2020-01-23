@@ -72,7 +72,7 @@ class AuthenticationRecover extends React.Component<
           <div className="text-center">
             <h2 className="font-medium mb-1">Senha recuperada</h2>
             <Link href={Page.Login}>
-              <a className="btn btn-primary font-normal btn--block btn--size-4">
+              <a className="btn text-white bg-primary-500 hover:bg-primary-600 font-normal btn--block btn--size-4">
                 Ir para o login
               </a>
             </Link>
@@ -128,7 +128,7 @@ class AuthenticationRecover extends React.Component<
               type="submit"
               disabled={isSubmitting}
               className={`btn btn--block btn--size-4 mb-2 ${
-                !isValid ? 'btn-disabled' : 'btn-primary'
+                !isValid ? 'btn-disabled' : 'text-white bg-primary-500 hover:bg-primary-600'
               }`}
             >
               {isSubmitting ? 'Enviando...' : 'Enviar'}

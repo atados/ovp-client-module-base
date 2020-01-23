@@ -116,7 +116,7 @@ const ProjectManagePageHeader: React.FC<ProjectManagePageHeaderProps> = ({
             href={`${'/project'}?slug=${project.slug}`}
             as={`/vaga/${project.slug}`}
           >
-            <a className="btn btn-primary btn--size-3 w-full block mb-2 md:hidden">
+            <a className="btn text-white bg-primary-500 hover:bg-primary-600 btn--size-3 w-full block mb-2 md:hidden">
               <Icon name="visibility" className="mr-2" />
               {intl.formatMessage(VISUALIZAR)}
             </a>
@@ -131,7 +131,7 @@ const ProjectManagePageHeader: React.FC<ProjectManagePageHeaderProps> = ({
                 href={`${'/project'}?slug=${project.slug}`}
                 as={`/vaga/${project.slug}`}
               >
-                <a className="btn btn-primary btn--size-3">
+                <a className="btn text-white bg-primary-500 hover:bg-primary-600 btn--size-3">
                   <Icon name="visibility" className="mr-2" />
                   {intl.formatMessage(VISUALIZAR)}
                 </a>

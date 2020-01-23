@@ -14,8 +14,8 @@ import { FormattedMessage } from 'react-intl'
 import PageLink from '../PageLink'
 
 const ToolbarStyled = styled.div`
-  height: ${Theme.toolbarHeight}px;
-  background: ${Theme.toolbarBackground || Theme.color.primary[500]};
+  height: ${Config.toolbar.height}px;
+  background: ${Config.toolbar.background || Theme.color.primary[500]};
   z-index: 400;
 
   .toolbarOrganization {
@@ -80,6 +80,11 @@ const Toolbar: React.FC<ToolbarProps> = ({
           : 'relative'
       } ${!flat ? 'shadow' : ''} ${className || ''}`}
     >
+      <style>{`
+        .p-toolbar {
+          padding-top: ${Config.toolbar.height}px;
+        }
+    `}</style>
       <Navbar className={`h-full navbar lg:navbar-expand px-0 navbar-${theme}`}>
         <div className="container max-w-full px-2">
           {brand || (

@@ -89,7 +89,7 @@ const OrganizationComposerConclusion: React.FC<OrganizationComposerConclusionPro
                 organizationSlug: formContext.organization.slug,
               })}
             >
-              <a className="btn btn-primary btn--size-3">
+              <a className="btn text-white bg-primary-500 hover:bg-primary-600 btn--size-3">
                 {intl.formatMessage(IR_PARA)}
               </a>
             </Link>
@@ -101,7 +101,7 @@ const OrganizationComposerConclusion: React.FC<OrganizationComposerConclusionPro
                 stepId: 'inicio',
               })}
             >
-              <a className="btn btn-primary btn--size-3 ml-6">
+              <a className="btn text-white bg-primary-500 hover:bg-primary-600 btn--size-3 ml-6">
                 {intl.formatMessage(CRIAR_VAGA)}
               </a>
             </Link>

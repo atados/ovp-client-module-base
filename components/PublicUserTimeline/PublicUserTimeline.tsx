@@ -3,10 +3,10 @@ import { Waypoint } from 'react-waypoint'
 import styled, { StyledProps } from 'styled-components'
 import { PublicUserApplication } from '~/redux/ducks/public-user'
 import TimelineItem from './TimelineItem'
-import { Color } from '~/common'
+import { Color, Config } from '~/common'
 
 const TimelineCrossedHr = styled.div`
-  background-image: url(/static/base/icons/cross-x.svg);
+  background-image: url(/generated/static/icons/cross-x.svg);
   background-repeat: repeat-x;
   height: 10px;
   padding-left: 30px;
@@ -49,7 +49,7 @@ const TimelineSidebar = styled.div`
   ${(props: StyledProps<TimelineSidebarProps>) =>
     props.fixed
       ? `
-    top: ${props.theme.toolbarHeight + 10}px;
+    top: ${Config.toolbar.height + 10}px;
     position: fixed;`
       : ''};
 `

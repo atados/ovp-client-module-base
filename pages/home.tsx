@@ -18,13 +18,11 @@ const HomePage: React.FC = () => {
 
   const body = !catalogueQuery.loading && (
     <div>
-      <div className="container pt-8">
+      <div className="container pt-8 px-2">
         {sections[0] && (
           <CatalogueSection section={sections[0]} className="mb-6" />
         )}
-        <CausesSection />
-      </div>
-      <div className="container px-2">
+        <CausesSection className="mb-6" />
         {sections.slice(1).map((section, i) => (
           <CatalogueSection
             key={`${section.name}-${i}`}
