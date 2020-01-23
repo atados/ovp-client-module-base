@@ -1,0 +1,12 @@
+node_modules
+dist
+.dist
+.next
+coverage
+.coverage
+storybook-static
+channel/generated/.messages
+channel/generated/lang
+.env
+tmp
+DEPLOYMENT.html

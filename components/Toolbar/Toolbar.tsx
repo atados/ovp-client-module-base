@@ -77,6 +77,11 @@ const Toolbar: React.FC<ToolbarProps> = ({
   return (
     <>
       <EmailConfirmationAlert user={viewer} />
+      <style>{`
+        .p-toolbar {
+          padding-top: ${Config.toolbar.height}px;
+        }
+      `}</style>
       <ToolbarStyled
         className={`${
           fixed || float

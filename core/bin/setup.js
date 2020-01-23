@@ -26,10 +26,9 @@ async function main() {
 
   try {
     fs.statSync(path.resolve('.now'))
-    return
-  } catch (error) {
     console.log('> Skipping creating .now because it already exists')
-  }
+    return
+  } catch (error) {}
 
   await createDir(path.resolve('.now'))
   await write(
