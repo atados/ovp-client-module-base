@@ -18,7 +18,7 @@ import { RootState } from '~/redux/root-reducer'
 import withRedux from '~/redux/with-redux'
 import { getStartupData } from '../lib/startup'
 import { loginWithSessionToken, logout } from '../redux/ducks/user'
-import { Asset, Config, Theme } from '~/common'
+import { Asset, Config, Theme, Color } from '~/common'
 import {
   setupErrorMonitoring,
   setSentryUser,
@@ -83,10 +83,16 @@ class App extends NextApp<AppProps> {
     }
 
     if (ctx.req) {
-      ctx.store.dispatch({
-        type: 'GEO',
-        payload: await createGeolocationObject(ctx.req),
-      })
+      try {
+        const geo = await createGeolocationObject(ctx.req)
+
+        ctx.store.dispatch({
+          type: 'GEO',
+          payload: geo,
+        })
+      } catch (error) {
+        // Use default geolocation
+      }
     }
 
     if (Component.getInitialProps) {
@@ -138,16 +144,15 @@ class App extends NextApp<AppProps> {
                       name="theme-color"
                       content={Theme.color.primary[500]}
                     />
-                    {/* <script src={`/api/intl/${intlHash}/${intl.locale}`} /> */}
                     {Config.maps.key && (
                       <script
                         src={`https://maps.googleapis.com/maps/api/js?key=${Config.maps.key}&libraries=places&language=${intl.locale}`}
                       />
                     )}
-                    {Asset.Favicon && (
+                    {Asset.favicon && (
                       <link
                         rel="shortcut icon"
-                        href={Asset.Favicon}
+                        href={Asset.favicon}
                         type="image/x-icon"
                       />
                     )}
@@ -157,6 +162,21 @@ class App extends NextApp<AppProps> {
                     {Config.head.links.map((link, i) => (
                       <link key={i} {...link} />
                     ))}
+                    <style>{`
+                      .input:focus {
+                        border-color: ${Color.primary[500]}
+                      }
+
+                      .checkbox-indicator:focus {
+                        border-color: ${Color.primary[500]};
+                        box-shadow: 0 0 8px ${Color.primary[500]};
+                      }
+
+                      input:checked + .checkbox-indicator {
+                        background-color: ${Color.primary[500]};
+                        border-color: ${Color.primary[500]};
+                      }
+                    `}</style>
                   </Head>
 
                   {Config.googleTagManager && (

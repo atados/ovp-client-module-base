@@ -101,7 +101,7 @@ const AuthenticationOptions: React.FC<AuthenticationOptionsProps> = ({
     <div className={className}>
       <Header className="text-center mb-6">
         <img
-          src={Asset.LogoLight}
+          src={Asset.logoLight}
           alt=""
           width="42"
           height="42"

@@ -3,9 +3,6 @@ import { readFileSync } from 'fs'
 import * as IntlPolyfill from 'intl'
 import * as path from 'path'
 import { dev } from '~/common/constants'
-import IntlDefaultMessages from '~/generated/lang/pt-br.json'
-import IntlEnglishMessages from '~/generated/lang/en-us.json'
-import IntlSpanishMessages from '~/generated/lang/es-ar.json'
 
 Intl.NumberFormat = IntlPolyfill.NumberFormat
 Intl.DateTimeFormat = IntlPolyfill.DateTimeFormat
@@ -19,49 +16,52 @@ interface IntlMessages {
 // each message description in the source code will be used.
 const messagesDataCache = new Map()
 
+if (process.env.NODE_ENV === 'production') {
+  const storeAtCache = locale => payload => {
+    messagesDataCache.set(locale, payload)
+  }
+
+  // @ts-ignore
+  import('~/generated/lang/es-ar.json').then(storeAtCache('es-ar'))
+  // @ts-ignore
+  import('~/generated/lang/en-us.json').then(storeAtCache('en-us'))
+  // @ts-ignore
+  import('~/generated/lang/pt-br.json').then(storeAtCache('pt-br'))
+}
+
 export default (locale: string) => {
   if (!messagesDataCache.has(locale) || dev) {
-    let messages: IntlMessages = {}
+    const messages: IntlMessages = {}
 
-    if (process.env.NODE_ENV === 'production') {
-      if (locale.startsWith('en')) {
-        messages = IntlEnglishMessages as any
-      } else if (locale.startsWith('es')) {
-        messages = IntlSpanishMessages as any
-      } else {
-        messages = IntlDefaultMessages as any
-      }
-    } else {
-      // Get base lang messages
-      if (locale !== 'pt-br') {
-        Object.assign(
-          messages,
-          flat(
-            JSON.parse(
-              readFileSync(
-                path.resolve('base', 'lang', `${locale}.json`),
-                'utf8',
-              ),
+    // Get base lang messages
+    if (locale !== 'pt-br') {
+      Object.assign(
+        messages,
+        flat(
+          JSON.parse(
+            readFileSync(
+              path.resolve('base', 'lang', `${locale}.json`),
+              'utf8',
             ),
           ),
-        )
-      }
+        ),
+      )
+    }
 
-      try {
-        Object.assign(
-          messages,
-          flat(
-            JSON.parse(
-              readFileSync(
-                path.resolve('channel', 'lang', `${locale}.json`),
-                'utf8',
-              ),
+    try {
+      Object.assign(
+        messages,
+        flat(
+          JSON.parse(
+            readFileSync(
+              path.resolve('channel', 'lang', `${locale}.json`),
+              'utf8',
             ),
           ),
-        )
-      } catch (error) {
-        // ...
-      }
+        ),
+      )
+    } catch (error) {
+      // ...
     }
 
     messagesDataCache.set(locale, messages)

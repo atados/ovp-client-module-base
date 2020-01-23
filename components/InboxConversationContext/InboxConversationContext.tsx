@@ -3,10 +3,11 @@ import { connect } from 'react-redux'
 import styled from 'styled-components'
 import { InboxContextType } from '~/redux/ducks/inbox'
 import { RootState } from '~/redux/root-reducer'
+import { Config } from '~/common'
 
 const Container = styled.div`
   position: fixed;
-  top: ${props => props.theme.toolbarHeight}px;
+  top: ${Config.toolbar.height}px;
   bottom: 0;
   width: 260px;
   right: 0;

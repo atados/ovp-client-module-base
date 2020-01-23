@@ -378,7 +378,7 @@ const SettingsUserPage: NextPage<
           </p>
           <button
             type="submit"
-            className="btn px-3 text-lg py-3 rounded btn-primary w-full"
+            className="btn px-3 text-lg py-3 rounded text-white bg-primary-500 hover:bg-primary-600 w-full"
             disabled={isSubmitting}
           >
             <FormattedMessage

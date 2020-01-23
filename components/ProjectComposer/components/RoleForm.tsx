@@ -155,7 +155,7 @@ const RoleForm: React.FC<InjectedFormikProps<RoleFormProps, Values>> = ({
       </FormGroup>
       <button
         type="button"
-        className="btn btn-primary btn--block btn--size-3 mb-2 btn--strong"
+        className="btn text-white bg-primary-500 hover:bg-primary-600 btn--block btn--size-3 mb-2 btn--strong"
         onClick={() => handleSubmit()}
       >
         {defaultValue

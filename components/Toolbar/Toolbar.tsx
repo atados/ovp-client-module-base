@@ -15,8 +15,8 @@ import { FormattedMessage } from 'react-intl'
 import PageLink from '../PageLink'
 
 const ToolbarStyled = styled.div`
-  height: ${Theme.toolbarHeight}px;
-  background: ${Theme.toolbarBackground || Theme.color.primary[500]};
+  height: ${Config.toolbar.height}px;
+  background: ${Config.toolbar.background || Theme.color.primary[500]};
   z-index: 400;
 
   .toolbarOrganization {

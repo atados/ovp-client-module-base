@@ -17,7 +17,7 @@ import { NotFoundPageError } from '~/lib/next/errors'
 import { causeToSelectItem } from '~/lib/utils/form'
 import { fetchOrganization, Organization } from '~/redux/ducks/organization'
 import { RootState } from '~/redux/root-reducer'
-import { Page, PageAs, Theme } from '~/common'
+import { Page, PageAs, Config } from '~/common'
 
 interface OrganizationComposerPageProps {
   readonly stepId: string
@@ -95,7 +95,7 @@ class OrganizationComposerPage extends React.Component<
             auth={false}
             mode={FormComposerMode.EDIT}
             defaultValues={defaultValues}
-            offsetTop={Theme.toolbarHeight + 50}
+            offsetTop={Config.toolbar.height + 50}
           >
             <div className="mb-6">
               <Link

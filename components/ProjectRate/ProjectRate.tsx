@@ -174,7 +174,7 @@ class ProjectRate extends React.Component<
 
               <button
                 type="submit"
-                className="btn btn-primary btn--size-3 btn--block"
+                className="btn text-white bg-primary-500 hover:bg-primary-600 btn--size-3 btn--block"
               >
                 Enviar avaliação
                 {isSubmitting && (

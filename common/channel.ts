@@ -6,11 +6,9 @@ import { PagesMap } from '~/common/page'
 import ChannelValue from '~/common/channel-value'
 
 interface ChannelAssets {
-  LogoDark?: string
-  LogoLight?: string
-  ToolbarBrand?: string
-  Favicon?: string
-  FooterBrand?: string
+  logoDark?: string
+  logoLight?: string
+  favicon?: string
 }
 
 interface ChannelHead {
@@ -24,12 +22,7 @@ export interface ChannelTheme {
   iconRating: MaterialIconName
   primaryButtonBackground?: string
   darkIcons?: boolean
-  toolbarBackground?: string
   progressBarColor?: string
-  toolbarHeight: number
-  toolbarTheme?: string
-  footerBackground?: string
-  footerTheme?: 'dark' | 'light'
 }
 
 export interface Channel {
@@ -61,10 +54,16 @@ export interface Channel {
     documentsRestricted: boolean
   }
   toolbar: {
+    brand?: string
+    background?: string
+    height: number
     links: Array<{ href: string; as?: string; label: string }>
   }
   footer: {
     links: Array<{ href: string; as?: string; label: string }>
+    theme?: 'dark' | 'light'
+    background?: string
+    brand?: string
   }
   popover: {
     backgroundColor?: string
@@ -82,13 +81,12 @@ export interface Channel {
   organization: {
     enabled: boolean
   }
-  geo: {
-    regions: string[]
+  geolocation: {
     default: {
-      country: string
-      region: string
-      lat: number
-      lng: number
+      countryCode: string
+      regionCode: string
+      latitude: number
+      longitude: number
     }
   }
   sentry: Sentry.BrowserOptions

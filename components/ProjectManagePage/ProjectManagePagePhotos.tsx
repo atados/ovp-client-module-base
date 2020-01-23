@@ -369,7 +369,7 @@ const ProjectManagePagePhotos: React.FC<ProjectManagePagePhotosProps> = ({
               </button>
               <button
                 type="button"
-                className="btn btn-primary"
+                className="btn text-white bg-primary-500 hover:bg-primary-600"
                 onClick={handleSubmitChanges}
                 disabled={isUploading}
               >
@@ -380,7 +380,7 @@ const ProjectManagePagePhotos: React.FC<ProjectManagePagePhotosProps> = ({
           </>
         ) : (
           items.length !== 0 && (
-            <div className="btn btn-outline-primary text-primary-500 float-right inputFileWrapper">
+            <div className="btn text-primary-500 border-primary-500 hover:bg-primary-100 text-primary-500 float-right inputFileWrapper">
               <input type="file" onChange={handleInputFileChange} multiple />
               <Icon name="add" className="mr-2" />
               {intl.formatMessage(ADICIONAR)}
@@ -401,7 +401,7 @@ const ProjectManagePagePhotos: React.FC<ProjectManagePagePhotosProps> = ({
                   >
                     <ToogleRemovedButton
                       className={`btn ${
-                        item.removed ? 'btn-success block' : 'btn-error'
+                        item.removed ? 'text-white bg-green-500 hover:bg-green-600 block' : 'btn-error'
                       }`}
                       onClick={() => toggleImageRemoved(item)}
                     >
@@ -458,7 +458,7 @@ const ProjectManagePagePhotos: React.FC<ProjectManagePagePhotosProps> = ({
             {intl.formatMessage(VAGA_ATRATIVA)}
           </span>
 
-          <div className="btn btn-outline-primary inputFileWrapper">
+          <div className="btn text-primary-500 border-primary-500 hover:bg-primary-100 inputFileWrapper">
             <input type="file" onChange={handleInputFileChange} multiple />
             <Icon name="add" /> {intl.formatMessage(PRIMEIRAS_FOTOS)}
           </div>

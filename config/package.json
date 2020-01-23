@@ -2,7 +2,7 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "sh base/core/bin/run-dev.sh",
     "debug": "NODE_OPTIONS=\"--inspect\" next dev",
     "build": "NODE_ENV=production yarn css && yarn generate:lang && next build",
     "start": "NODE_ENV=production next start",
@@ -11,21 +11,24 @@
     "test": "jest",
     "cypress:open": "cypress open",
     "type-check": "tsc --noEmit",
-    "css": "yarn generate:channel.css && FILENAME=$(date +%s).css\nrimraf public/generated/css && TAILWIND=true postcss channel/styles.css -o public/generated/css/${FILENAME} && echo \"\\\"${FILENAME}\\\"\" > public/generated/css/filename.json",
+    "css": "sh ./base/core/bin/build-css.sh",
     "deploy": "yarn type-check && yarn deploy:now",
     "deploy:now": "now -e NOW_GITHUB_COMMIT_SHA=$(git rev-parse HEAD) -e NOW_GITHUB_COMMIT_DIRTY=$(if [[ $(git diff --stat) != '' ]]; then echo 'true'; else echo 'false' ; fi)",
     "prettier": "prettier --write \"{next.config.js,gulpfile.js,{pages,base,channel,__{tests,mocks}__}/**/*.{js,ts,tsx}}\"",
-    "rebase": "ts-node -P tsconfig.server.json -e \"require('./base/internals/channel/rebase-channel').default()\"",
-    "check:lang": "ts-node -P tsconfig.server.json -e \"require('./base/internals/show-lang-status').default()\"",
-    "generate:lang": "ts-node -P tsconfig.server.json -e \"require('./base/internals/generate-intl-messages-files').default()\"",
-    "generate:pages": "ts-node -P tsconfig.server.json -e \"require('./base/internals/generate-pages').default()\"",
+    "rebase": "ts-node -P tsconfig.server.json -e \"require('./base/core/channel/rebase-channel').default()\"",
+    "check:lang": "ts-node -P tsconfig.server.json -e \"require('./base/core/show-lang-status').default()\"",
+    "generate:lang": "ts-node -P tsconfig.server.json -e \"require('./base/core/generate-intl-messages-files').default()\"",
+    "sync": "yarn sync:config && yarn sync:pages && yarn sync:static",
+    "sync:pages": "node base/core/bin/sync-pages-map.js",
+    "sync:config": "node base/core/bin/sync-configuration.js",
+    "sync:static": "node base/core/bin/sync-static-files.js",
     "build:lang": "next build",
-    "channel": "ts-node -P tsconfig.server.json -e \"require('./base/internals/channel-manager').default()\"",
-    "generate:channel.css": "ts-node -P tsconfig.server.json -e \"require('./base/internals/generate-css').default()\""
+    "channel": "ts-node -P tsconfig.server.json -e \"require('./base/core/channel-manager').default()\"",
+    "generate:channel.css": "ts-node -P tsconfig.server.json -e \"require('./base/core/generate-css').default()\""
   },
   "husky": {
     "hooks": {
-      "pre-commit": "if [ -d \"base/internals\" ]; then node base/internals/channel/check-base-submodule-has-changes.js && yarn type-check && lint-staged; else yarn type-check && yarn lint; fi"
+      "pre-commit": "if [ -d \"base/core\" ]; then node base/core/channel/check-base-submodule-has-changes.js && yarn type-check && lint-staged; else yarn type-check && yarn lint; fi"
     }
   },
   "lint-staged": {
@@ -76,6 +79,7 @@
     "microauth-google-fork": "^0.0.1",
     "moment": "^2.24.0",
     "nanoid": "^2.0.1",
+    "ncp": "^2.0.0",
     "next": "^9.2.0",
     "next-cookies": "^1.1.2",
     "next-redux-wrapper": "^3.0.0-alpha.2",
@@ -121,7 +125,7 @@
     "@types/glob": "^7.1.1",
     "@types/googlemaps": "^3.30.19",
     "@types/intl": "^1.2.0",
-    "@types/jest": "^24.0.25",
+    "@types/jest": "^24.9.0",
     "@types/js-cookie": "^2.2.2",
     "@types/marked": "^0.6.5",
     "@types/mkdirp": "^0.5.2",
@@ -142,7 +146,7 @@
     "@zeit/next-typescript": "^1.1.1",
     "autoprefixer": "^9.7.2",
     "awesome-typescript-loader": "^5.2.1",
-    "babel-jest": "^24.9.0",
+    "babel-jest": "^25.1.0",
     "babel-loader": "^8.0.5",
     "babel-plugin-graphql-tag": "^2.1.0",
     "babel-plugin-react-intl": "^3.0.1",
@@ -151,7 +155,7 @@
     "chalk": "^2.4.2",
     "cssnano": "^4.1.10",
     "husky": "^2.1.0",
-    "jest": "^24.9.0",
+    "jest": "^25.1.0",
     "jest-styled-components": "^6.3.4",
     "lint-staged": "^9.4.2",
     "mkdirp": "^0.5.1",

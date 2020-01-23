@@ -38,7 +38,7 @@ const Page = styled.div`
   bottom: 0;
   ${(props: StyledProps<{ viewerKind: InboxViewerKind }>) => `
     top: ${(props.viewerKind === InboxViewerKind.Organization ? 50 : 0) +
-      props.theme.toolbarHeight}px
+      Config.toolbar.height}px
   `};
 `
 

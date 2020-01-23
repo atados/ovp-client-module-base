@@ -4,7 +4,7 @@ import { reportError } from '~/lib/utils/error'
 import ActivityIndicator from '../ActivityIndicator'
 import { FormattedMessage, defineMessages, WithIntlProps } from 'react-intl'
 import { withIntl } from '~/lib/intl'
-import { Color } from '~/common'
+import { Color, Config } from '~/common'
 
 const Container = styled.div`
   background: #f4f5f6;
@@ -106,7 +106,7 @@ const Card = styled.div`
 
 const Status = styled.div`
   position: fixed;
-  top: ${props => props.theme.toolbarHeight + 50}px;
+  top: ${Config.toolbar.height + 50}px;
   height: 36px;
   left: 0;
   right: 0;
