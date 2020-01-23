@@ -4,6 +4,7 @@ import Alert from '~/components/Alert'
 import styled from 'styled-components'
 import { Config } from '~/common'
 import moment from 'moment'
+import { useRouter } from 'next/router'
 
 const AlertWrapper = styled.div`
   z-index: 51 !important;
@@ -16,6 +17,7 @@ export interface EmailConfirmationAlertProps {
 const EmailConfirmationAlert: React.FC<EmailConfirmationAlertProps> = ({
   user,
 }) => {
+  const router = useRouter()
   const [showEmailConfirmationAlert, setShowEmailConfirmationAlert] = useState(
     false,
   )
@@ -26,16 +28,18 @@ const EmailConfirmationAlert: React.FC<EmailConfirmationAlertProps> = ({
   }))
 
   useEffect(() => {
+    const isConfigPage = router.pathname === '/eu/configuracoes'
+
     if (
       user?.uuid &&
       !user.is_email_verified &&
-      Config.emailConfirmation.warning
+      (Config.emailConfirmation.warning || isConfigPage)
     ) {
       const storedString: string | null = localStorage.getItem(
         'hiddenEmailConfirmation',
       )
 
-      if (storedString) {
+      if (storedString && !isConfigPage) {
         const data = JSON.parse(storedString)
         if (
           user.uuid === data.userUuid &&
