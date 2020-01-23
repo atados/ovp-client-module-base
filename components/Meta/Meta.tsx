@@ -12,7 +12,7 @@ interface MetaProps {
 const messages = defineMessages({
   title: {
     id: 'meta.title',
-    defaultMessage: ' {appName} qweqw',
+    defaultMessage: '{appName} ',
   },
   titleAddon: {
     id: 'meta.title_addon',
