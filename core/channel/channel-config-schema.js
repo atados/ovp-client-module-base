@@ -1,12 +1,12 @@
 const Yup = require('yup')
 const defaults = require('../app.default.json')
 
-const LinkSchema = Yup.object().shape({
+const LinkSchema = Yup.object({
   href: Yup.string().required(),
   as: Yup.string(),
 })
 
-const ColorSchema = Yup.object().shape({
+const ColorSchema = Yup.object({
   100: Yup.string().required(),
   200: Yup.string().required(),
   300: Yup.string().required(),
@@ -27,7 +27,7 @@ const createShapeFromObject = (obj, schemaOrFn) => {
   }, {})
 }
 
-const ChannelConfigSchema = Yup.object().shape({
+const ChannelConfigSchema = Yup.object({
   id: Yup.string().required(),
 
   theme: Yup.object({
@@ -44,13 +44,11 @@ const ChannelConfigSchema = Yup.object().shape({
     ),
   }).default({}),
 
-  assets: Yup.object()
-    .shape({
-      logoLight: Yup.string().default('/static/logo-light.svg'),
-      logoDark: Yup.string().default('/static/logo-dark.svg'),
-      favicon: Yup.string(),
-    })
-    .default({}),
+  assets: Yup.object({
+    logoLight: Yup.string().default('/static/logo-light.svg'),
+    logoDark: Yup.string().default('/static/logo-dark.svg'),
+    favicon: Yup.string(),
+  }).default({}),
 
   pages: Yup.object(
     createShapeFromObject(defaults.pages, page =>
@@ -63,7 +61,7 @@ const ChannelConfigSchema = Yup.object().shape({
   ).default({}),
 
   social: Yup.array(
-    Yup.object().shape({
+    Yup.object({
       kind: Yup.string().required(),
       url: Yup.string()
         .url()
@@ -93,11 +91,9 @@ const ChannelConfigSchema = Yup.object().shape({
     theme: Yup.string().oneOf(['light', 'dark']),
   }).default({}),
 
-  user: Yup.object()
-    .shape({
-      createProject: Yup.boolean().default(false),
-    })
-    .default({}),
+  user: Yup.object({
+    createProject: Yup.boolean().default(false),
+  }).default({}),
 
   project: Yup.object({
     galleries: Yup.boolean().default(true),
@@ -135,15 +131,17 @@ const ChannelConfigSchema = Yup.object().shape({
     beta: Yup.boolean().default(true),
   }).default({}),
 
-  googleTagManager: Yup.object()
-    .shape({
-      id: Yup.string(),
-    })
-    .default(undefined),
+  googleTagManager: Yup.object({
+    id: Yup.string(),
+  }).default(undefined),
 
-  maps: Yup.object().shape({
+  maps: Yup.object({
     key: Yup.string(),
   }),
+
+  emailConfirmation: Yup.object({
+    warning: Yup.boolean().default(true),
+  }).default({}),
 })
 
 module.exports = ChannelConfigSchema

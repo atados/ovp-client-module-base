@@ -27,6 +27,9 @@ export interface ChannelTheme {
 
 export interface Channel {
   id: string
+  emailConfirmation: {
+    warning: boolean
+  }
   pages: PagesMap
   theme: ChannelTheme
   search?: {
