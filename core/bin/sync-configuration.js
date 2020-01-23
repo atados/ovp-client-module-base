@@ -5,7 +5,7 @@ const fs = require('fs')
 
 const subdir = process.argv[2] || 'base'
 function main() {
-  glob(path.resolve(subdir, 'config', '**.{js,json}'), (error, matches) => {
+  glob(path.resolve(subdir, 'config', '{.,}**.{js,json}'), (error, matches) => {
     if (error) {
       console.error(error)
       process.exit(1)
