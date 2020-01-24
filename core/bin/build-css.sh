@@ -13,7 +13,7 @@ FILENAME=$(date +%s).css
 echo "> Removing last generated css"
 yarn rimraf $ROOT/public/generated/css
 
-echo "> Exporting app configuration to channel/app.json"
+echo "> Exporting app configuration to channel/generated/app.json"
 yarn export:config
 
 echo "> Building css bundle"

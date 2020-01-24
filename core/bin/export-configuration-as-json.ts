@@ -10,7 +10,7 @@ const mkdirp = promisify(legacyMkdirp)
 async function main() {
   await mkdirp(path.resolve('channel'))
   await writeFile(
-    path.resolve('channel', 'app.json'),
+    path.resolve('channel', 'generated', 'app.json'),
     JSON.stringify(Config, null, 2),
     'utf8',
   )
