@@ -1,21 +1,24 @@
+# To use this script you must define on the project settings the following environment variables
+# ZEIT_PROJECT_NAME = Name of the project on zeit.co
+# ZEIT_TOKEN = The authentication token to use zeit now. You can generate one at settings > tokens
+# PRODUCTION_URL
 version: 2.1
 
 executors:
-  build-test-and-release:
+  build-test-and-deploy:
     docker:
-      - image: circleci/node:10.15.3
-      - image: circleci/postgres:9.6.2-alpine
-        environment:
-          POSTGRES_USER: root
-          POSTGRES_DB: circle-test
-
-    working_directory: ~/repo
+      - image: circleci/node:10.16.3
+    working_directory: ~/www
 
 jobs:
   build:
-    executor: build-test-and-release
+    executor: build-test-and-deploy
+    working_directory: ~/www
     steps:
       - checkout
+      - attach_workspace:
+          at: ~/www
+
       - run:
           name: Build project
           command: (mkdir base && mv ./* ./base) || echo "> Created base/"
@@ -41,26 +44,84 @@ jobs:
 
       - run:
           name: Setup
-          command: node base/setup.js default
-
-      - run:
-          name: Typescript typings check
-          command: yarn type-check
-
-      - run:
-          name: Test
-          command: yarn test
-
-      - run:
-          name: Lint
-          command: yarn lint
+          command: node base/setup.js base
 
       - persist_to_workspace:
           root: .
-          paths:
-            - .
+          paths: .
+
+  test-and-lint:
+    executor: build-test-and-deploy
+    working_directory: ~/www
+    steps:
+      - attach_workspace:
+          at: ~/www
+      - run:
+          name: Test
+          command: yarn test --collectCoverage=true
+      - run:
+          name: Lint
+          command: yarn lint
+      - store_artifacts:
+          path: coverage
+  deploy:
+    executor: build-test-and-deploy
+    working_directory: ~/www
+    steps:
+      - attach_workspace:
+          at: ~/www
+      - run:
+          name: Install Now CLI
+          command: sudo npm install --global --unsafe-perm now
+      - deploy:
+          name: Deploy
+          command: |
+            DEPLOYMENT_DATA="{"
+            DEPLOYMENT_DATA+="  \"name\": \"${ZEIT_PROJECT_NAME}\","
+            DEPLOYMENT_DATA+="  \"branch\": \"${CIRCLE_BRANCH}\","
+            DEPLOYMENT_DATA+="  \"repository\": \"${CIRCLE_PROJECT_REPONAME}\","
+            DEPLOYMENT_DATA+="  \"urls\": ["
+            if [ "${CIRCLE_BRANCH}" == "master" ]; then
+                DEPLOYMENT_ID=$(
+                  now \
+                    --scope atados \
+                    --token $ZEIT_TOKEN \
+                    --local-config ~/www/.now/now.production.json \
+                    --prod
+                )
+                DEPLOYMENT_DATA+="  \"$DEPLOYMENT_ID\""
+
+                if [ ! -z "${PRODUCTION_URL}" ]; then
+                  DEPLOYMENT_DATA+=",  \"${PRODUCTION_URL}\""
+                fi
+            else
+              CLEAN_BRANCH_NAME=${CIRCLE_BRANCH//\//-};
+              DEPLOYMENT_ID=$(
+                now --scope atados \
+                    --token $ZEIT_TOKEN \
+                    --local-config ~/www/.now/now.staging.json
+              )
+
+              DEPLOYMENT_ALIAS="https://$ZEIT_PROJECT_NAME-$CLEAN_BRANCH_NAME.atados.now.sh"
+              DEPLOYMENT_DATA+="  \"$DEPLOYMENT_ID\", \"$DEPLOYMENT_ALIAS\""
+              now alias \
+                --scope atados \
+                --token $ZEIT_TOKEN \
+                $DEPLOYMENT_ID $DEPLOYMENT_ALIAS
+            fi
+
+            DEPLOYMENT_DATA+="]}"
+            yarn ts-node -P tsconfig.server.json base/core/write-deployment-html.ts "$DEPLOYMENT_DATA"
+      - store_artifacts:
+          path: DEPLOYMENT.html
 workflows:
   version: 2
-  build-test-and-release:
+  test-lint-and-deploy:
     jobs:
       - build
+      - test-and-lint:
+          requires:
+            - build
+      - deploy:
+          requires:
+            - test-and-lint
