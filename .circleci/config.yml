@@ -18,7 +18,7 @@ jobs:
       - checkout
       - run:
           name: Build project
-          command: mkdir base && mv ./* ./base
+          command: (mkdir base && mv ./* ./base) || echo "> Created base/"
 
       - run:
           name: Copy package.json
