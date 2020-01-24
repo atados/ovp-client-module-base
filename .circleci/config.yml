@@ -15,11 +15,10 @@ jobs:
   build:
     executor: build-test-and-release
     steps:
+      - checkout
       - run:
           name: Build project
-          command: mkdir base && cd base
-
-      - checkout
+          command: mkdir base && mv ./* ./base
 
       - run:
           name: Copy package.json
