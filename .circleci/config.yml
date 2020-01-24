@@ -22,7 +22,7 @@ jobs:
 
       - run:
           name: Copy package.json
-          command: cd .. && cp base/config/package.json ./package.json
+          command: ls && cp base/config/package.json ./package.json
 
       - restore_cache:
           keys:
