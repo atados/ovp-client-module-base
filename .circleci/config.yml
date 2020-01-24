@@ -41,7 +41,7 @@ jobs:
 
       - run:
           name: Setup
-          command: node base/setup.js
+          command: node base/setup.js default
 
       - run:
           name: Typescript typings check
