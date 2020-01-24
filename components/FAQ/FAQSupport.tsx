@@ -1,5 +1,5 @@
 import React from 'react'
-import { Config } from '~/common/channel'
+import { Config } from '~/common'
 import { FormattedMessage } from 'react-intl'
 import cx from 'classnames'
 

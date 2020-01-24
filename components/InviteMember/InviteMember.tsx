@@ -67,7 +67,9 @@ const InviteMember: React.FC<InjectedFormikProps<
         <button
           type="submit"
           className={`btn btn--size-3 btn--block mt-4 ${
-            isValid ? 'text-white bg-primary-500 hover:bg-primary-600' : 'btn-disabled '
+            isValid
+              ? 'text-white bg-primary-500 hover:bg-primary-600'
+              : 'btn-disabled '
           }`}
           disabled={!isValid || isSubmitting}
         >

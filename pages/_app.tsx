@@ -144,7 +144,7 @@ class App extends NextApp<AppProps> {
                       name="theme-color"
                       content={Theme.color.primary[500]}
                     />
-                    {Config.maps.key && (
+                    {Config.maps && (
                       <script
                         src={`https://maps.googleapis.com/maps/api/js?key=${Config.maps.key}&libraries=places&language=${intl.locale}`}
                       />

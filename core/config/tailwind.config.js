@@ -1,11 +1,12 @@
-const channelConfig = require('../core/channel/load-channel-config')()
+const path = require('path')
+const config = require(path.resolve('channel', 'app.json'))
 
 module.exports = {
   important: true,
   theme: {
     extend: {
       colors: {
-        ...channelConfig.theme.color,
+        ...config.theme.color,
       },
     },
     fontFamily: {

@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Color, Theme } from '~/common'
+import { Config, Color } from '~/common'
 
 const Container = styled.div`
   height: 3px;
@@ -8,7 +8,7 @@ const Container = styled.div`
 
 const Value = styled.div`
   height: 100%;
-  background: ${Theme.progressBarColor || Color.secondary[500]};
+  background: ${Config.progressBar?.color || Color.secondary[500]};
   transition: width 0.4s ease-in-out, opacity 0.2s ease-in-out;
 `
 

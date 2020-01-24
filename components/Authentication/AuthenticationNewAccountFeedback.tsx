@@ -64,7 +64,10 @@ const AuthenticationNewAccountFeedback: React.FC<AuthenticationNewAccountFeedbac
               </a>
             </Link>
             <Link href={Page.ViewerSettings}>
-              <a onClick={handleCloseClick} className="btn text-white bg-primary-500 hover:bg-primary-600">
+              <a
+                onClick={handleCloseClick}
+                className="btn text-white bg-primary-500 hover:bg-primary-600"
+              >
                 Completar meu perfil <Icon name="arrow_forward" />
               </a>
             </Link>

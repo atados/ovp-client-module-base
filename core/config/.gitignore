@@ -10,3 +10,4 @@ channel/generated/lang
 .env
 tmp
 DEPLOYMENT.html
+channel/app.json

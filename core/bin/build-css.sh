@@ -10,12 +10,18 @@ ROOT=$(node -e "process.stdout.write(require('path').resolve())")
 FILENAME=$(date +%s).css
 
 
+echo "> Removing last generated css"
 yarn rimraf $ROOT/public/generated/css
+
+echo "> Exporting app configuration to channel/app.json"
+yarn export:config
+
+echo "> Building css bundle"
 if [ -e $ROOT/channel/styles.css ]; then
   yarn postcss $ROOT/channel/styles.css -o $ROOT/public/generated/css/${FILENAME}
 else
   yarn postcss $ROOT/base/styles.css -o $ROOT/public/generated/css/${FILENAME}
 fi
 
-
 echo "\"${FILENAME}\"" > $ROOT/public/generated/css/filename.json
+echo "> Finished successfully"

@@ -3,7 +3,7 @@ import React, { useCallback, useMemo, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import styled from 'styled-components'
 import { fetchAPI } from '~/lib/fetch/fetch.server'
-import { Color } from '~/common/channel'
+import { Color } from '~/common'
 import { Project, updateProject } from '~/redux/ducks/project'
 import { RootState } from '~/redux/root-reducer'
 import ActivityIndicator from '../ActivityIndicator'
@@ -401,7 +401,9 @@ const ProjectManagePagePhotos: React.FC<ProjectManagePagePhotosProps> = ({
                   >
                     <ToogleRemovedButton
                       className={`btn ${
-                        item.removed ? 'text-white bg-green-500 hover:bg-green-600 block' : 'btn-error'
+                        item.removed
+                          ? 'text-white bg-green-500 hover:bg-green-600 block'
+                          : 'btn-error'
                       }`}
                       onClick={() => toggleImageRemoved(item)}
                     >

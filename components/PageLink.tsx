@@ -1,9 +1,9 @@
 import React from 'react'
 import Link, { LinkProps } from 'next/link'
-import { Page, PageAs, PageName } from '~/common'
+import { Page, PageAs, ValidPageName } from '~/common'
 
 interface PageLinkProps extends Omit<LinkProps, 'href'> {
-  readonly href: PageName
+  readonly href: ValidPageName
   readonly params?: { [paramName: string]: any }
 }
 

@@ -128,7 +128,9 @@ class AuthenticationRecover extends React.Component<
               type="submit"
               disabled={isSubmitting}
               className={`btn btn--block btn--size-4 mb-2 ${
-                !isValid ? 'btn-disabled' : 'text-white bg-primary-500 hover:bg-primary-600'
+                !isValid
+                  ? 'btn-disabled'
+                  : 'text-white bg-primary-500 hover:bg-primary-600'
               }`}
             >
               {isSubmitting ? 'Enviando...' : 'Enviar'}

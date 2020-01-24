@@ -1,8 +1,4 @@
 const dotenv = require('dotenv')
-const loadChannelConfig = require('../core/channel/load-channel-config')
-const syncBasePackage = require('../core/channel/sync-base-package')
-
-const channel = loadChannelConfig()
 
 // Load environment variables
 dotenv.config()
@@ -11,7 +7,6 @@ module.exports = {
   target: 'serverless',
   env: {
     LOGGING: process.env.NODE_LOGGING,
-    CHANNEL_JSON: JSON.stringify(channel),
     SOCKET_API_URL: process.env.SOCKET_API_URL || 'http://localhost:3002',
     SOCKET_API_WS_URL: process.env.SOCKET_API_WS_URL || 'ws://localhost:3002',
     API_URL: process.env.API_URL || 'http://localhost:8000',
@@ -28,8 +23,6 @@ module.exports = {
       config.plugins = config.plugins.filter(
         plugin => plugin.constructor.name !== 'ForkTsCheckerWebpackPlugin',
       )
-
-      syncBasePackage()
     }
 
     // Disable CSS import support

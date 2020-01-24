@@ -1,5 +1,5 @@
 const path = require('path')
-const loadChannelConfig = require('../channel/load-channel-config')
+const loadAppConfig = require('../load-app-configuration')
 const { promisify } = require('util')
 const chalk = require('chalk')
 const fs = require('fs')
@@ -111,11 +111,11 @@ async function createPagesFromMap(pagesMap) {
 }
 
 async function main() {
-  const channel = loadChannelConfig()
+  const config = await loadAppConfig()
 
   await createDir(path.resolve('pages'))
   await createNextPages()
-  await createPagesFromMap(channel.pages)
+  await createPagesFromMap(config.pages)
 }
 
 main()

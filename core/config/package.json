@@ -9,13 +9,12 @@
     "lint": "tslint \"./**/*.{ts,tsx}\" -c tslint.json",
     "lint:fix": "yarn lint --fix",
     "test": "jest",
-    "cypress:open": "cypress open",
     "type-check": "tsc --noEmit",
     "css": "sh ./base/core/bin/build-css.sh",
     "deploy": "yarn type-check && yarn deploy:now",
     "deploy:now": "now -e NOW_GITHUB_COMMIT_SHA=$(git rev-parse HEAD) -e NOW_GITHUB_COMMIT_DIRTY=$(if [[ $(git diff --stat) != '' ]]; then echo 'true'; else echo 'false' ; fi)",
     "prettier": "prettier --write \"{next.config.js,gulpfile.js,{pages,base,channel,__{tests,mocks}__}/**/*.{js,ts,tsx}}\"",
-    "rebase": "ts-node -P tsconfig.server.json -e \"require('./base/core/channel/rebase-channel').default()\"",
+    "export:config": "tncc base/core/bin/export-configuration-as-json.ts -s",
     "check:lang": "ts-node -P tsconfig.server.json -e \"require('./base/core/show-lang-status').default()\"",
     "generate:lang": "ts-node -P tsconfig.server.json -e \"require('./base/core/generate-intl-messages-files').default()\"",
     "sync": "yarn sync:config && yarn sync:pages && yarn sync:static",
@@ -23,12 +22,12 @@
     "sync:config": "node base/core/bin/sync-configuration.js",
     "sync:static": "node base/core/bin/sync-static-files.js",
     "build:lang": "next build",
-    "channel": "ts-node -P tsconfig.server.json -e \"require('./base/core/channel-manager').default()\"",
+    "shade-color": "ts-node -P tsconfig.server.json ./base/core/bin/shade-color -q",
     "generate:channel.css": "ts-node -P tsconfig.server.json -e \"require('./base/core/generate-css').default()\""
   },
   "husky": {
     "hooks": {
-      "pre-commit": "if [ -d \"base/core\" ]; then node base/core/channel/check-base-submodule-has-changes.js && yarn type-check && lint-staged; else yarn type-check && yarn lint; fi"
+      "pre-commit": "if [ -d \"base/core\" ]; then node base/core/bin/check-base-submodule-has-changes.js && yarn type-check && lint-staged; else yarn type-check && yarn lint; fi"
     }
   },
   "lint-staged": {
@@ -59,6 +58,7 @@
     "cookie": "^0.4.0",
     "copy": "^0.3.2",
     "debounce": "^1.2.0",
+    "deep-extend": "^0.6.0",
     "dotenv": "^7.0.0",
     "escape-string-regexp": "^2.0.0",
     "flat": "^4.1.0",
@@ -175,6 +175,8 @@
     "react-test-renderer": "^16.8.6",
     "rimraf": "^2.6.3",
     "tailwindcss": "^1.1.4",
+    "tncc": "^0.3.0-beta.5",
+    "ts-essentials": "^5.0.0",
     "ts-jest": "^24.3.0",
     "ts-loader": "^6.0.4",
     "ts-node": "^8.3.0",

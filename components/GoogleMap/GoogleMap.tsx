@@ -114,7 +114,7 @@ class GoogleMap extends React.Component<GoogleMapProps, GoogleMapState> {
     } = this.props
     const { center, disableDoubleClickZoom } = this.state
 
-    if (!Config.maps.key) {
+    if (!Config.maps) {
       return (
         <Container className={className}>
           <Status

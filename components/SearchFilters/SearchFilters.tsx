@@ -262,7 +262,7 @@ class SearchFilters extends React.Component<
           </>
         )}
         <div className="mr-auto" />
-        {Config.maps.key && searchType !== SearchType.Any && (
+        {Config.maps && searchType !== SearchType.Any && (
           <div className="hidden md:block">
             <MapToggleSwitchLabel htmlFor="filters-show-map-toggler">
               <span className="text-sm">

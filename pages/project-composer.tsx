@@ -23,7 +23,7 @@ import { fetchProject, Project, updateProject } from '~/redux/ducks/project'
 import { UserOrganization } from '~/redux/ducks/user'
 import BeforeActionAuth from '~/components/BeforeActionAuth'
 import { RootState } from '~/redux/root-reducer'
-import { Page, PageAs, PageName, Config } from '~/common'
+import { Page, PageAs, ValidPageName, Config } from '~/common'
 import { FormattedMessage } from 'react-intl'
 
 const PageStyled = styled.div`
@@ -59,7 +59,7 @@ export interface ProjectComposerDraft {
 function getRouteName(
   mode?: FormComposerMode,
   organization?: UserOrganization,
-): PageName {
+): ValidPageName {
   if (organization) {
     if (mode === FormComposerMode.EDIT) {
       return 'OrganizationEditProject'

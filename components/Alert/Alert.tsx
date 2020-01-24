@@ -4,13 +4,16 @@ import Icon from '~/components/Icon'
 interface AlertProps {
   children: React.ReactNode
   bgClassName?: string
-  onClose?: Function
+  onClose?: () => void
 }
 
 const Alert: React.FC<AlertProps> = ({ children, bgClassName, onClose }) => {
   const [open, setOpen] = useState<boolean>(true)
   const handleClick = () => {
-    if (onClose) onClose()
+    if (onClose) {
+      onClose()
+    }
+
     setOpen(false)
   }
 

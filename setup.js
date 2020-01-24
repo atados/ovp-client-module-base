@@ -1,1 +1,1 @@
-module.exports = require("./core/bin/setup");
+module.exports = require('./core/bin/setup')
