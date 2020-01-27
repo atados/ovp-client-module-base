@@ -20,6 +20,10 @@ jest.mock('~/common', () => ({
   },
 }))
 
+jest.mock('next/router', () => ({
+  useRouter: () => ({ pathname: '/eu/configuracoes' }),
+}))
+
 afterEach(() => {
   localStorage.clear()
 })
