@@ -1,7 +1,7 @@
 import { mergeMessages } from '../generate-intl-messages-files'
 
-describe('mergeMessages', () => {
-  it('works correctly', () => {
+describe('Generate i18n messages', () => {
+  it('should merge i18n messages correctly', () => {
     const defaultMessages = {
       name: 'default name',
       description: 'default description',
