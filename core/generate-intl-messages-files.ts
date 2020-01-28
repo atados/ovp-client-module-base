@@ -11,6 +11,16 @@ const writeFile = promisify(fs.writeFile)
 const readFile = promisify(fs.readFile)
 const mkdirp = promisify(prevMkdirp)
 
+export const mergeMessages = (
+  defaultMessages,
+  baseMessages,
+  channelMessages,
+) => ({
+  ...defaultMessages,
+  ...baseMessages,
+  ...channelMessages,
+})
+
 export default async function generateIntlMessagesFiles() {
   const langs = (await glob(path.resolve('base', 'lang', '*.json')))
     .map(filename => path.basename(filename, path.extname(filename)))
@@ -22,23 +32,43 @@ export default async function generateIntlMessagesFiles() {
 
   return Promise.all(
     langs.map(async lang => {
-      let messages = {}
+      let baseMessages = {}
+      let channelMessages = {}
+      let defaultMessages = {}
 
       if (lang !== 'pt-br') {
-        messages = JSON.parse(
-          await readFile(path.resolve('base', 'lang', `${lang}.json`), 'utf8'),
+        const baseFile = await readFile(
+          path.resolve('base', 'lang', `${lang}.json`),
+          'utf8',
         )
+        baseMessages = JSON.parse(baseFile)
       }
 
       try {
-        const channelMessages = await readFile(
+        const channelFile = await readFile(
           path.resolve('channel', 'lang', `${lang}.json`),
           'utf8',
         )
-        Object.assign(messages, JSON.parse(channelMessages))
+        channelMessages = JSON.parse(channelFile)
       } catch (error) {
         // ...
       }
+
+      try {
+        const defaultFile = await readFile(
+          path.resolve('channel', 'lang', 'default.json'),
+          'utf8',
+        )
+        defaultMessages = JSON.parse(defaultFile)
+      } catch (error) {
+        // ...
+      }
+
+      const messages = mergeMessages(
+        defaultMessages,
+        baseMessages,
+        channelMessages,
+      )
 
       const localeDataOut = path.resolve(localeDataOutDir, `${lang}.js`)
       const ok = chalk.green.bold('OK')

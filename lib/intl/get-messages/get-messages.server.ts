@@ -64,6 +64,22 @@ export default (locale: string) => {
       // ...
     }
 
+    try {
+      Object.assign(
+        messages,
+        flat(
+          JSON.parse(
+            readFileSync(
+              path.resolve('channel', 'lang', `default.json`),
+              'utf8',
+            ),
+          ),
+        ),
+      )
+    } catch (error) {
+      // ...
+    }
+
     messagesDataCache.set(locale, messages)
   }
 
