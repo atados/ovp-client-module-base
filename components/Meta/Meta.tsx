@@ -12,7 +12,7 @@ interface MetaProps {
 const messages = defineMessages({
   title: {
     id: 'meta.title',
-    defaultMessage: '{appName} ',
+    defaultMessage: '{appName}',
   },
   titleAddon: {
     id: 'meta.title_addon',
@@ -32,11 +32,12 @@ const Meta: React.FC<MetaProps> = props => {
     image,
   } = props
 
-  const title = props.title
+  let title = props.title
     ? `${props.title}${intl.formatMessage(messages.titleAddon, {
         appName,
       })}`
     : intl.formatMessage(messages.title, { appName })
+
   return (
     <Header>
       {title && <title>{title}</title>}

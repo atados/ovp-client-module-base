@@ -12,13 +12,13 @@ const readFile = promisify(fs.readFile)
 const mkdirp = promisify(prevMkdirp)
 
 export const mergeMessages = (
-  defaultMessages,
   baseMessages,
-  channelMessages,
+  channelDefaultMessages,
+  channelLangMessages,
 ) => ({
-  ...defaultMessages,
   ...baseMessages,
-  ...channelMessages,
+  ...channelDefaultMessages,
+  ...channelLangMessages,
 })
 
 export default async function generateIntlMessagesFiles() {
@@ -34,7 +34,7 @@ export default async function generateIntlMessagesFiles() {
     langs.map(async lang => {
       let baseMessages = {}
       let channelMessages = {}
-      let defaultMessages = {}
+      let channelDefaultMessages = {}
 
       if (lang !== 'pt-br') {
         const baseFile = await readFile(
@@ -59,14 +59,14 @@ export default async function generateIntlMessagesFiles() {
           path.resolve('channel', 'lang', 'default.json'),
           'utf8',
         )
-        defaultMessages = JSON.parse(defaultFile)
+        channelDefaultMessages = JSON.parse(defaultFile)
       } catch (error) {
         // ...
       }
 
       const messages = mergeMessages(
-        defaultMessages,
         baseMessages,
+        channelDefaultMessages,
         channelMessages,
       )
 
