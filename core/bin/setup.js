@@ -41,7 +41,10 @@ async function main() {
     })
     .catch(async () => {
       console.log(`> Writing ${chalk.cyan(path.join('channel/app.ts'))}`)
-      await createDir(path.resolve('channel'))
+      try {
+        await createDir(path.resolve('channel'))
+      } catch (error) {}
+
       await write(
         path.resolve('channel/app.ts'),
         format(
@@ -75,7 +78,10 @@ async function main() {
       )
     })
     .catch(async () => {
-      await createDir(path.resolve('.now'))
+      try {
+        await createDir(path.resolve('.now'))
+      } catch (error) {}
+
       console.log(chalk.gray(`> Writing ${chalk.cyan('.now')} directory`))
       await write(
         path.resolve('.now', 'now.staging.json'),
