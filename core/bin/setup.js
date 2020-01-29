@@ -7,7 +7,7 @@ const channelId = process.argv[2]
 const copy = promisify(fs.copyFile)
 const write = promisify(fs.writeFile)
 const stat = promisify(fs.stat)
-const createDir = promisify(require('mkdirp'))
+const createDir = promisify(fs.mkdir)
 
 const configDir = path.join('base', 'core', 'config')
 async function main() {
