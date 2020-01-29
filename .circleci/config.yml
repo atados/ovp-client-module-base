@@ -73,6 +73,9 @@ jobs:
       - run:
           name: Install Now CLI
           command: sudo npm install --global --unsafe-perm now
+      - run:
+          name: Generate production language files
+          command: yarn generate:lang
       - deploy:
           name: Deploy
           command: |
