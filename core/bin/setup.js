@@ -24,7 +24,9 @@ async function main() {
   console.log('> Installing dependencies...')
   await exec('yarn', [])
   console.log('> Running synchronization...')
-  await exec('yarn', ['sync'])
+  await exec('yarn', ['sync:config'])
+  await exec('yarn', ['sync:pages'])
+  await exec('yarn', ['sync:static'])
 
   const chalk = require('chalk')
   const { format } = require('prettier')
