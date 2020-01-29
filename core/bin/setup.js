@@ -6,8 +6,8 @@ const exec = require('../utils/run-exec-async')
 const channelId = process.argv[2]
 const copy = promisify(fs.copyFile)
 const write = promisify(fs.writeFile)
-const createDir = promisify(fs.mkdir)
 const stat = promisify(fs.stat)
+const createDir = promisify(require('mkdirp'))
 
 const configDir = path.join('base', 'core', 'config')
 async function main() {
@@ -41,6 +41,7 @@ async function main() {
     })
     .catch(async () => {
       console.log(`> Writing ${chalk.cyan(path.join('channel/app.ts'))}`)
+      await createDir(path.resolve('channel'))
       await write(
         path.resolve('channel/app.ts'),
         format(
@@ -73,8 +74,9 @@ async function main() {
         ),
       )
     })
-    .catch(async error => {
+    .catch(async () => {
       await createDir(path.resolve('.now'))
+      console.log(chalk.gray(`> Writing ${chalk.cyan('.now')} directory`))
       await write(
         path.resolve('.now', 'now.staging.json'),
         JSON.stringify(
@@ -122,4 +124,7 @@ async function main() {
     })
 }
 
-module.exports = main()
+module.exports = main().catch(error => {
+  console.error(error)
+  process.exit(1)
+})

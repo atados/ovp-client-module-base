@@ -7,7 +7,23 @@ module.exports = function exec(cmd, args, options) {
       cwd: path.resolve(),
       ...options,
     })
+    let resolved = false
+    cp.on('error', error => {
+      if (resolved) {
+        return
+      }
+
+      resolved = true
+      reject(error)
+    })
+
     cp.on('exit', code => {
+      if (resolved) {
+        return
+      }
+
+      resolved = true
+
       if (code === '1') {
         reject(code)
       } else {
