@@ -18,7 +18,7 @@
     "check:lang": "ts-node -P tsconfig.server.json -e \"require('./base/core/show-lang-status').default()\"",
     "generate:lang": "ts-node -P tsconfig.server.json -e \"require('./base/core/generate-intl-messages-files').default()\"",
     "sync": "yarn sync:pages && yarn sync:static",
-    "sync:pages": "yarn sync:config && node base/core/bin/sync-pages-map.js",
+    "sync:pages": "yarn export:config && node base/core/bin/sync-pages-map.js",
     "sync:config": "node base/core/bin/sync-configuration.js",
     "sync:static": "node base/core/bin/sync-static-files.js",
     "build:lang": "next build",
