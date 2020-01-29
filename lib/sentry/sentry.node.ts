@@ -1,21 +1,16 @@
 import * as Sentry from '@sentry/node'
 import { Config } from '~/common'
-import {
-  NOW_GITHUB_COMMIT_SHA,
-  NOW_GITHUB_COMMIT_DIRTY,
-} from '~/common/constants'
+import { DEFAULT_SENTRY_DSN } from '~/lib/utils/error'
 export function setupErrorMonitoringOnServer() {
   // Only run Sentry on production
   if (Config.sentry) {
     Sentry.init({
       ...(Config.sentry as any),
-      environment: `${process.env.NODE_ENV || 'development'}${
-        NOW_GITHUB_COMMIT_SHA
-          ? `_now_${NOW_GITHUB_COMMIT_SHA}${
-              NOW_GITHUB_COMMIT_DIRTY === 'true' ? '_dirty' : ''
-            }`
+      environment: `${
+        Config.sentry.dsn === DEFAULT_SENTRY_DSN
+          ? `ovp-client-${Config.id}_`
           : ''
-      }`,
+      }${process.env.NODE_ENV || 'development'}`,
     })
   }
 }

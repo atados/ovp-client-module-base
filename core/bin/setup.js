@@ -76,6 +76,7 @@ async function main() {
     })
     .catch(async () => {
       await createDir(path.resolve('.now'))
+      console.log(chalk.gray(`> Writing ${chalk.cyan('.now')} directory`))
       await write(
         path.resolve('.now', 'now.staging.json'),
         JSON.stringify(
