@@ -76,9 +76,10 @@ jobs:
       - run:
           name: Generate production language files
           command: yarn generate:lang
-      - deploy:
+      - run:
           name: Deploy
           command: |
+            ls
             DEPLOYMENT_DATA="{"
             DEPLOYMENT_DATA+="  \"name\": \"${ZEIT_PROJECT_NAME}\","
             DEPLOYMENT_DATA+="  \"branch\": \"${CIRCLE_BRANCH}\","
