@@ -1,5 +1,4 @@
 const path = require('path')
-const loadAppConfig = require('../load-app-configuration')
 const { promisify } = require('util')
 const chalk = require('chalk')
 const fs = require('fs')
@@ -111,7 +110,7 @@ async function createPagesFromMap(pagesMap) {
 }
 
 async function main() {
-  const config = await loadAppConfig()
+  const config = require(path.resolve('channel', 'generated', 'app.json'))
 
   await createDir(path.resolve('pages'))
   await createNextPages()
