@@ -1,4 +1,5 @@
 import { AppConfiguration, ValidBasePageName } from './config'
+import { DEFAULT_SENTRY_DSN } from '~/lib/utils/error'
 export type ValidPageName = ValidBasePageName
 
 const app: AppConfiguration<ValidBasePageName> = {
@@ -304,6 +305,12 @@ const app: AppConfiguration<ValidBasePageName> = {
   },
   emailConfirmation: {
     warning: true,
+  },
+  sentry: {
+    dsn: DEFAULT_SENTRY_DSN,
+  },
+  maps: {
+    key: 'AIzaSyCu4PCImzrGE9M_lTKI9t00O7J-dwPVXiY',
   },
 }
 

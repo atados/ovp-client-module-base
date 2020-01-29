@@ -25,18 +25,18 @@ export function setSentryUser(user: User | null) {
   })
 }
 
+export const DEFAULT_SENTRY_DSN =
+  'https://0707a5fa8f454705a21f8df93a4070e2@sentry.io/2067043'
 export function setupErrorMonitoring() {
   // Only run Sentry on production
   if (Config.sentry) {
     Sentry.init({
       ...Config.sentry,
-      environment: `${process.env.NODE_ENV || 'development'}${
-        NOW_GITHUB_COMMIT_SHA
-          ? `_now_${NOW_GITHUB_COMMIT_SHA}${
-              NOW_GITHUB_COMMIT_DIRTY === 'true' ? '_dirty' : ''
-            }`
+      environment: `${
+        Config.sentry.dsn === DEFAULT_SENTRY_DSN
+          ? `ovp-client-${Config.id}_`
           : ''
-      }`,
+      }${process.env.NODE_ENV || 'development'}`,
     })
   }
 }
