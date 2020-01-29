@@ -26,6 +26,7 @@ import {
 } from '../lib/utils/error'
 import { createGeolocationObject } from '../lib/geo'
 import ToastsProvider from '~/components/Toasts/ToastsProvider'
+import { dev } from '~/common/constants'
 
 declare global {
   interface Window {
@@ -177,6 +178,7 @@ class App extends NextApp<AppProps> {
                         border-color: ${Color.primary[500]};
                       }
                     `}</style>
+                    {!dev && <script src={`/generated/lang/${intl.locale}`} />}
                   </Head>
 
                   {Config.googleTagManager && (

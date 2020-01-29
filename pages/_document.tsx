@@ -59,7 +59,6 @@ export default class Document extends NextDocument<DocumentProps> {
         </Head>
         <body>
           <Main />
-          <script src={`/generated/lang/${this.props.locale}`} />
           <script
             dangerouslySetInnerHTML={{
               __html: this.props.localeDataScript,

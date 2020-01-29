@@ -33,6 +33,21 @@ export default (locale: string) => {
   if (!messagesDataCache.has(locale) || dev) {
     const messages: IntlMessages = {}
 
+    // Get base lang messages
+    if (locale !== 'pt-br') {
+      Object.assign(
+        messages,
+        flat(
+          JSON.parse(
+            readFileSync(
+              path.resolve('base', 'lang', `${locale}.json`),
+              'utf8',
+            ),
+          ),
+        ),
+      )
+    }
+
     // Get default lang messages
     try {
       Object.assign(
@@ -48,21 +63,6 @@ export default (locale: string) => {
       )
     } catch (error) {
       // ...
-    }
-
-    // Get base lang messages
-    if (locale !== 'pt-br') {
-      Object.assign(
-        messages,
-        flat(
-          JSON.parse(
-            readFileSync(
-              path.resolve('base', 'lang', `${locale}.json`),
-              'utf8',
-            ),
-          ),
-        ),
-      )
     }
 
     // Get channel lang messages
