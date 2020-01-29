@@ -32,7 +32,7 @@ const Meta: React.FC<MetaProps> = props => {
     image,
   } = props
 
-  let title = props.title
+  const title = props.title
     ? `${props.title}${intl.formatMessage(messages.titleAddon, {
         appName,
       })}`

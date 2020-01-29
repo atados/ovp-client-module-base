@@ -82,7 +82,6 @@ export default (locale: string) => {
       // ...
     }
 
-    console.log(messages)
     messagesDataCache.set(locale, messages)
   }
 
