@@ -293,6 +293,7 @@ const app: AppConfiguration<ValidBasePageName> = {
     posts: true,
     documents: true,
     documentsRestricted: false,
+    blockApplicationsAtLimit: false,
   },
   social: [],
   toolbar: {
@@ -311,6 +312,9 @@ const app: AppConfiguration<ValidBasePageName> = {
   },
   maps: {
     key: 'AIzaSyCu4PCImzrGE9M_lTKI9t00O7J-dwPVXiY',
+  },
+  search: {
+    showMapByDefault: true,
   },
 }
 
