@@ -9,7 +9,7 @@ import ProjectApplication, {
 import ProjectApplicationRegistry from '../components/ProjectApplication/ProjectApplicationRegistry'
 import CompleteViewerProfileForm from '../components/CompleteViewerProfileForm'
 import useModalManager from './use-modal-manager'
-import Authentication from '../components/Authentication'
+import Authentication from '~/components/Authentication'
 
 export function useProjectApplication() {
   const viewer = useSelector((state: RootState) => state.user)

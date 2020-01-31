@@ -12,7 +12,7 @@ import useFetchAPI from '../hooks/use-fetch-api'
 import Icon from '../components/Icon'
 import { Color } from '../common'
 import { useModal } from '../components/Modal'
-import Authentication from '../components/Authentication'
+import Authentication from '~/components/Authentication'
 import {
   FormattedMessage,
   FormattedHTMLMessage,
@@ -114,7 +114,9 @@ const OrganizationJoinPage: NextPage<OrganizationJoinPageProps> = ({
                       ? {
                           backgroundSize: 'contain',
                           backgroundPosition: 'center',
-                          backgroundImage: `url('${user.avatar.image_medium_url}')`,
+                          backgroundImage: `url('${
+                            user.avatar.image_medium_url
+                          }')`,
                         }
                       : { backgroundColor: Color.gray[300] }
                   }
@@ -127,7 +129,9 @@ const OrganizationJoinPage: NextPage<OrganizationJoinPageProps> = ({
                       ? {
                           backgroundSize: 'contain',
                           backgroundPosition: 'center',
-                          backgroundImage: `url('${organization.image.image_medium_url}')`,
+                          backgroundImage: `url('${
+                            organization.image.image_medium_url
+                          }')`,
                         }
                       : { backgroundColor: Color.gray[300] }
                   }
