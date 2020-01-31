@@ -75,7 +75,7 @@ async function main() {
               'core',
               'config',
               path.basename(filename, path.extname(filename)),
-            )}')`,
+            )}')\n`,
           'utf-8',
         )
       } else {
