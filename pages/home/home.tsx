@@ -4,12 +4,10 @@ import CausesSection from '~/components/CausesSection'
 import Layout from '~/components/Layout'
 import Meta from '~/components/Meta'
 import useFetchAPI from '~/hooks/use-fetch-api'
-import { useIntl } from 'react-intl'
 import { Catalogue } from '~/redux/ducks/catalogue'
-import { GlobalMessages } from '~/common'
+import Banner from '~/pages/home/Banner'
 
 const HomePage: React.FC = () => {
-  const intl = useIntl()
   const catalogueQuery = useFetchAPI<Catalogue>('/catalogue/home/')
   const sections =
     catalogueQuery.data?.sections?.sort(
@@ -33,6 +31,7 @@ const HomePage: React.FC = () => {
       </div>
     </div>
   )
+
   return (
     <Layout
       className="p-toolbar"
@@ -40,16 +39,7 @@ const HomePage: React.FC = () => {
       disableFooter={catalogueQuery.loading}
     >
       <Meta />
-      <div className="bg-primary-500">
-        <div className="container py-8">
-          <h1 className="text-white">
-            {intl.formatMessage(GlobalMessages.appName)}
-          </h1>
-          <p className="text-white-alpha-80 text-xl">
-            {intl.formatMessage(GlobalMessages.appDescription)}
-          </p>
-        </div>
-      </div>
+      <Banner />
       {body}
     </Layout>
   )
