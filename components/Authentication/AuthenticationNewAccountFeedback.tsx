@@ -36,13 +36,17 @@ const AuthenticationNewAccountFeedback: React.FC<AuthenticationNewAccountFeedbac
       <div className="max-w-sm mx-auto">
         {viewer ? (
           <div className="text-center">
-            <img
-              src={Asset.logoLight}
-              alt=""
-              width="42"
-              height="42"
-              className="block mx-auto"
-            />
+            {Asset.logoLight ? (
+              <img
+                src={Asset.logoLight}
+                alt=""
+                width="42"
+                height="42"
+                className="block mx-auto"
+              />
+            ) : (
+              <div className="mb-4"></div>
+            )}
             <h1 className="h2">{intl.formatMessage(m.title)}</h1>
             <p>{intl.formatMessage(m.subtitle)}</p>
             <div className="w-20 h-20 rounded-full shadow-lg bg-gray-200 my-6 mx-auto text-gray-400 text-center h1 py-4">
