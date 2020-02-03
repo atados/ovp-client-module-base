@@ -21,7 +21,7 @@ exports[`City Page renders correctly 1`] = `
     className="px-md-3"
   />
   <div
-    className="p-toolbar bg-cover bg-center mb-10 c0"
+    className="c0 p-toolbar bg-cover bg-center mb-10"
     style={
       Object {
         "backgroundImage": "url('/static/banners/home-fast.jpg')",
