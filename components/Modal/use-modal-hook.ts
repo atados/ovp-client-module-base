@@ -1,4 +1,4 @@
-import { useCallback, useContext, useEffect } from 'react'
+import { useCallback, useContext, useEffect, useRef } from 'react'
 import { ModalContext, ModalOptions } from './ModalProvider'
 import { useRouter } from 'next/router'
 
@@ -9,17 +9,16 @@ interface UseModalOptions<TProps> extends ModalOptions<TProps> {
   readonly onClosePropName?: string
 }
 
-// export type UseModalHook<TProps, TDefaultProps extends Partial<TProps>> = (
-//   options: UseModalOptions<TDefaultProps>,
-// ) => (props: PartialBy<TProps, keyof TDefaultProps>) => void
-
-export default function useModal<Props>({
-  id,
-  component,
-  skip,
-  onClosePropName = 'onClose',
-  ...options
-}: UseModalOptions<Partial<Props>>) {
+export default function useModal<Props>(
+  allOptions: UseModalOptions<Partial<Props>>,
+) {
+  const {
+    id,
+    component,
+    skip,
+    onClosePropName = 'onClose',
+    ...options
+  } = allOptions
   const modalManager = useContext(ModalContext)
 
   if (!modalManager) {
@@ -35,6 +34,18 @@ export default function useModal<Props>({
     router.events.on('routeChangeStart', onRouteChangeStart)
     return () => router.events.off('routeChangeStart', onRouteChangeStart)
   }, [router])
+
+  const closeModal = useCallback(() => {
+    modalManager.close(id)
+  }, [id])
+
+  const lastUsedOptionsRef = useRef<ModalOptions<Partial<Props>>>(allOptions)
+  useEffect(() => {
+    if (id && component && modalManager.isModalOpen(id)) {
+      modalManager.replace(id, component, id, lastUsedOptionsRef.current)
+      return
+    }
+  }, [component])
 
   const fn = useCallback(
     (
@@ -55,20 +66,19 @@ export default function useModal<Props>({
         componentProps: options
           ? {
               ...options.componentProps,
-              [onClosePropName]: () => {
-                modalManager.close(id)
-              },
+              [onClosePropName]: closeModal,
               ...props,
             }
           : props,
       }
+      lastUsedOptionsRef.current = modalOptions
 
       if (modalManager.isModalOpen(id)) {
         modalManager.replace(id, component, id, modalOptions)
         return
       }
 
-      modalManager!.push(id!, component!, modalOptions)
+      modalManager.push(id!, component!, modalOptions)
     },
     [
       component,

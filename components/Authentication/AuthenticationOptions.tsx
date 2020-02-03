@@ -85,10 +85,14 @@ const AuthenticationOptions: React.FC<AuthenticationOptionsProps> = ({
         return
       }
 
-      const { method, sessionToken } = JSON.parse(event.data)
+      try {
+        const { method, sessionToken } = JSON.parse(event.data)
 
-      if (sessionToken) {
-        onLoginBySessionToken(sessionToken, method)
+        if (sessionToken) {
+          onLoginBySessionToken(sessionToken, method)
+        }
+      } catch (error) {
+        console.error(error)
       }
     }
 
@@ -100,13 +104,17 @@ const AuthenticationOptions: React.FC<AuthenticationOptionsProps> = ({
   return (
     <div className={className}>
       <Header className="text-center mb-6">
-        <img
-          src={Asset.logoLight}
-          alt=""
-          width="42"
-          height="42"
-          className="block mx-auto"
-        />
+        {Asset.logoLight ? (
+          <img
+            src={Asset.logoLight}
+            alt=""
+            width="42"
+            height="42"
+            className="block mx-auto"
+          />
+        ) : (
+          <div className="mb-4"></div>
+        )}
         <h1 className="h2 mb-4">
           {title ||
             intl.formatMessage(m.title, {

@@ -96,13 +96,17 @@ const AuthenticationEmailLogin: React.FC<AuthenticationEmailLoginProps &
       )}
       <div className="max-w-sm mx-auto">
         <div className="text-center">
-          <img
-            src={Asset.logoLight}
-            alt=""
-            width="42"
-            height="42"
-            className="block mx-auto"
-          />
+          {Asset.logoLight ? (
+            <img
+              src={Asset.logoLight}
+              alt=""
+              width="42"
+              height="42"
+              className="block mx-auto"
+            />
+          ) : (
+            <div className="mb-4"></div>
+          )}
           <h1 className="h2">{intl.formatMessage(m.title)}</h1>
           <p>{intl.formatMessage(m.subtitle)}</p>
         </div>
