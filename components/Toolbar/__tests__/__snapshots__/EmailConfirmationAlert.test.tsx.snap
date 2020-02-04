@@ -1,8 +1,12 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`EmailConfirmationAlert renders correctly 1`] = `
+.c0 {
+  z-index: 51 !important;
+}
+
 <div
-  className="EmailConfirmationAlert__AlertWrapper-sc-8shob5-0 hDAQzJ fixed left-0 bottom-0 right-0"
+  className="c0 fixed left-0 bottom-0 right-0"
 >
   <div
     className="w-full min-h-4 flex justify-center items-center py-2 px-4 bg-orange-400 bg-orange-400"
