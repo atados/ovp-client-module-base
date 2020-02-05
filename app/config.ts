@@ -150,11 +150,13 @@ export interface AppConfiguration<TValidPageName extends string> {
       longitude: number
     }
   }
-
   emailConfirmation: {
     warning: boolean
   }
   sentry?: Sentry.BrowserOptions
+  volunteer: {
+    showHours: boolean
+  }
 }
 
 export type Configuration = DeepPartial<AppConfiguration<ValidPageName>>

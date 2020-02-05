@@ -316,6 +316,9 @@ const app: AppConfiguration<ValidBasePageName> = {
   search: {
     showMapByDefault: true,
   },
+  volunteer: {
+    showHours: true,
+  },
 }
 
 export default app
