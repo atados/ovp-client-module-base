@@ -1,15 +1,15 @@
-import Link from 'next/link'
-import React from 'react'
+import ProjectCardPills from '~/components/ProjectCard/ProjectCardPills'
 import { WithIntlProps, defineMessages } from 'react-intl'
-import styled from 'styled-components'
-import { Page, PageAs, Color } from '~/common'
-import { APP_URL } from '~/common/constants'
-import Icon from '~/components/Icon'
-import { withIntl } from '~/lib/intl'
 import { formatDisponibility } from '~/lib/project/utils'
 import { pushToDataLayer } from '~/lib/tag-manager'
 import { Project } from '~/redux/ducks/project'
-import Tooltip from '../Tooltip'
+import { Page, PageAs, Color } from '~/common'
+import { APP_URL } from '~/common/constants'
+import styled from 'styled-components'
+import { withIntl } from '~/lib/intl'
+import Icon from '~/components/Icon'
+import Link from 'next/link'
+import React from 'react'
 
 const Container = styled.div`
   background: none;
@@ -87,12 +87,6 @@ const Counter = styled.div`
   > span {
     display: inline-block;
   }
-`
-
-const Pills = styled.div`
-  position: absolute;
-  right: 8px;
-  bottom: 8px;
 `
 
 const Pill = styled.span`
@@ -224,17 +218,7 @@ class ProjectCard extends React.Component<
               />
               <span>{appliedCount}</span>
             </Counter>
-            <Pills>
-              {disponibility &&
-                disponibility.type === 'work' &&
-                disponibility.work.can_be_done_remotely && (
-                  <Tooltip value="Pode ser feito à distância">
-                    <Pill className="pill-secondary t-nowrap">
-                      <Icon name="public" />
-                    </Pill>
-                  </Tooltip>
-                )}
-            </Pills>
+            <ProjectCardPills {...this.props} />
           </Header>,
         )}
         <Author className="truncate">
