@@ -208,8 +208,8 @@ class ExplorePage extends React.Component<
       })
     }
 
-    if (!filters.address && filters.address !== null && !filters.remoteOnly) {
-      filters.address = mountAddressFilter(geo)
+    if (!filters.remoteOnly) {
+      filters.address = mountAddressFilter(geo, filters.address)
     }
 
     try {

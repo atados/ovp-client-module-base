@@ -82,6 +82,7 @@ const app: AppConfiguration<ValidBasePageName> = {
       latitude: -23.5283838,
       longitude: -46.6021955,
     },
+    filterSearchByDefault: true,
   },
   pages: {
     Home: { pathname: '/', filename: 'home' },
