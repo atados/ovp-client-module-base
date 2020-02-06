@@ -149,6 +149,7 @@ export interface AppConfiguration<TValidPageName extends string> {
       latitude: number
       longitude: number
     }
+    filterSearchByDefault: boolean
   }
   emailConfirmation: {
     warning: boolean
