@@ -301,7 +301,6 @@ const app: AppConfiguration<ValidBasePageName> = {
     links: [],
     height: 56,
   },
-  useDeviceLanguage: true,
   user: {
     createProject: false,
   },
@@ -319,6 +318,10 @@ const app: AppConfiguration<ValidBasePageName> = {
   },
   volunteer: {
     showHours: true,
+  },
+  intl: {
+    editable: true,
+    defaultTo: 'accept-language',
   },
 }
 

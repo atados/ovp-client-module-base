@@ -102,7 +102,6 @@ export interface AppConfiguration<TValidPageName extends string> {
     links: Array<{ href: string }>
     scripts: Array<{ href: string }>
   }
-  useDeviceLanguage: boolean
   supportURL?: string
   user: {
     createProject: boolean
@@ -157,6 +156,10 @@ export interface AppConfiguration<TValidPageName extends string> {
   sentry?: Sentry.BrowserOptions
   volunteer: {
     showHours: boolean
+  }
+  intl: {
+    editable: boolean
+    defaultTo: 'accept-language' | 'none'
   }
 }
 
