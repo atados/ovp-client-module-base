@@ -102,7 +102,6 @@ export interface AppConfiguration<TValidPageName extends string> {
     links: Array<{ href: string }>
     scripts: Array<{ href: string }>
   }
-  useDeviceLanguage: boolean
   supportURL?: string
   user: {
     createProject: boolean
@@ -149,12 +148,19 @@ export interface AppConfiguration<TValidPageName extends string> {
       latitude: number
       longitude: number
     }
+    filterSearchByDefault: boolean
   }
-
   emailConfirmation: {
     warning: boolean
   }
   sentry?: Sentry.BrowserOptions
+  volunteer: {
+    showHours: boolean
+  }
+  intl: {
+    editable: boolean
+    defaultTo: 'accept-language' | 'none'
+  }
 }
 
 export type Configuration = DeepPartial<AppConfiguration<ValidPageName>>

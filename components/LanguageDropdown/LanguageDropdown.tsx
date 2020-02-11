@@ -9,6 +9,7 @@ import { defineMessages, useIntl } from 'react-intl'
 import { useSelector } from 'react-redux'
 import LanguageDropdownItem from './LanguageDropdownItem'
 import { RootState } from '~/redux/root-reducer'
+import { Config } from '~/common'
 
 interface LanguageDropdownProps {
   readonly className?: string
@@ -38,6 +39,10 @@ const LanguageDropdown: React.FC<LanguageDropdownProps> = ({ className }) => {
     'pt-br': intl.formatMessage(m.portuguese),
     'en-us': intl.formatMessage(m.english),
     'es-ar': intl.formatMessage(m.spanish),
+  }
+
+  if (!Config.intl.editable) {
+    return null
   }
 
   return (

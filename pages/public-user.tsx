@@ -9,7 +9,7 @@ import { getPublicUserLayoutInitialProps } from '~/components/PublicUserLayout/P
 import PublicUserTimeline from '~/components/PublicUserTimeline'
 import { PublicUser } from '~/redux/ducks/public-user'
 import { RootState } from '~/redux/root-reducer'
-import { PageAs, Page } from '~/common'
+import { PageAs, Page, Config } from '~/common'
 
 const Causes = styled.ul`
   list-style: none;
@@ -98,12 +98,14 @@ const PublicUserPage: NextPage<PublicUserPageProps> = ({ publicUser }) => {
       <Meta title={publicUser.name} description={publicUser.profile.about} />
 
       <Info className="mb-6">
-        <InfoItem>
-          <InfoItemValue>{publicUser.volunteer_hours || 0}</InfoItemValue>
-          <InfoItemLabel className="truncate">
-            HORAS DE VOLUNTARIADO
-          </InfoItemLabel>
-        </InfoItem>
+        {Config.volunteer.showHours && (
+          <InfoItem>
+            <InfoItemValue>{publicUser.volunteer_hours || 0}</InfoItemValue>
+            <InfoItemLabel className="truncate">
+              HORAS DE VOLUNTARIADO
+            </InfoItemLabel>
+          </InfoItem>
+        )}
         <InfoItem>
           <InfoItemValue>{publicUser.applies.length}</InfoItemValue>
           <InfoItemLabel className="truncate">

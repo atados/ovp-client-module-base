@@ -6,13 +6,20 @@ import Meta from '~/components/Meta'
 import useFetchAPI from '~/hooks/use-fetch-api'
 import { Catalogue } from '~/redux/ducks/catalogue'
 import Banner from '~/pages/home/Banner'
+import { useSelector } from 'react-redux'
+import { RootState } from '~/redux/root-reducer'
+import { Endpoint } from '~/lib/api/endpoints'
+import { mountAddressFilter } from '~/lib/utils/geo-location'
 
 const HomePage: React.FC = () => {
-  const catalogueQuery = useFetchAPI<Catalogue>('/catalogue/home/')
-  const sections =
-    catalogueQuery.data?.sections?.sort(
-      (section1, section2) => section2.order - section1.order,
-    ) || []
+  const geo = useSelector((state: RootState) => state.geo)
+  const catalogueQuery = useFetchAPI<Catalogue>(
+    Endpoint.Catalogue({
+      slug: 'home',
+      filterByAddress: mountAddressFilter(geo),
+    }),
+  )
+  const sections = catalogueQuery.data?.sections || []
 
   const body = !catalogueQuery.loading && (
     <div>
