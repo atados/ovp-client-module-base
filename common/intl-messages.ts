@@ -9,4 +9,12 @@ export const GlobalMessages = defineMessages({
     id: 'app.description',
     defaultMessage: 'Encontre vagas de voluntariado e inscreva-se',
   },
+  statusSaving: {
+    id: 'action.saving',
+    defaultMessage: 'Salvando...',
+  },
+  internalError: {
+    id: 'error.internal',
+    defaultMessage: 'Aconteceu um erro interno',
+  },
 })

@@ -1,16 +1,25 @@
 import React, { useMemo } from 'react'
 import Head from 'next/head'
-import { createClient, FetchProvider } from 'react-fetch-json-hook'
+import {
+  createClient,
+  FetchProvider,
+  registerClientForLocalMutations,
+} from 'react-fetch-json-hook'
 import { AppContextType } from 'next/dist/next-server/lib/utils'
 import { getDataFromTree } from 'react-fetch-json-hook'
 export const withFetch = (App: any) => {
   const WithFetch = ({ initialFetchCacheState, fetchClient, ...pageProps }) => {
-    const client = useMemo(
-      () =>
+    const client = useMemo(() => {
+      const result =
         fetchClient ||
-        createClient({ initialCacheState: initialFetchCacheState }),
-      [fetchClient],
-    )
+        createClient({ initialCacheState: initialFetchCacheState })
+
+      if (typeof window !== 'undefined') {
+        registerClientForLocalMutations(result)
+      }
+
+      return result
+    }, [fetchClient])
     return (
       <FetchProvider client={client}>
         <App {...pageProps} />

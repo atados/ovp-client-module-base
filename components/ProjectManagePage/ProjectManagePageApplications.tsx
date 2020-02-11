@@ -11,13 +11,10 @@ import {
 import { User } from '~/redux/ducks/user'
 import { RootState } from '~/redux/root-reducer'
 import Icon from '../Icon'
-import { useToasts } from '~/components/Toasts'
 import { FormattedMessage } from 'react-intl'
 import { API } from '~/types/api'
 import ProjectApplicationTableRow from './ProjectApplicationTableRow'
-import { useModal } from '../Modal'
-import RemoveApplicationForm from '../RemoveApplicationForm'
-import useFetchAPIMutation from '~/hooks/use-fetch-api-mutation'
+import { QueryId, APIEndpoint } from '~/common/api'
 
 interface ProjectManagePageApplicationsReduxProps {
   readonly viewer: User
@@ -34,10 +31,10 @@ const ProjectManagePageApplications: React.FC<ProjectManagePageApplicationsProps
   viewer,
   project,
 }) => {
-  const toasts = useToasts()
-  const query = useFetchAPI<ProjectApplication[]>(
-    `/projects/${project.slug}/applies/`,
-  )
+  const query = useFetchAPI<ProjectApplication[]>({
+    id: QueryId.ProjectApplies(project.slug),
+    endpoint: APIEndpoint.ProjectApplies(project.slug),
+  })
   const [applications, setApplications] = useState(query.data || [])
   useEffect(() => {
     if (applications !== query.data) {
@@ -119,55 +116,6 @@ const ProjectManagePageApplications: React.FC<ProjectManagePageApplicationsProps
       ),
     ]
   }, [applications, selectedRoleId])
-  const handleApplicationConfirm = (application: API.ProjectApplication) => {
-    setApplications(
-      applications.map(a => {
-        if (a.id === application.id) {
-          return {
-            ...a,
-            status: 'confirmed-volunteer',
-          }
-        }
-        return a
-      }),
-    )
-    toasts.add(
-      application.user
-        ? `${application.user.name} foi confirmado`
-        : 'Inscrição confirmada',
-      'success',
-    )
-  }
-  const openRemoveApplicationModal = useModal({
-    id: 'RemoveApplicationForm',
-    cardWrapperClassName: 'max-w-md mx-auto',
-    cardClassName: 'p-8',
-    component: RemoveApplicationForm,
-    onClosePropName: 'onCancel',
-  })
-
-  const updateApplicationStatusMutation = useFetchAPIMutation(
-    ({ application, status }) => ({
-      endpoint: `/projects/${project.slug}/applies/${application.id}`,
-      method: 'POST',
-      body: {
-        status,
-      },
-      meta: {
-        applicationId: application.id,
-      },
-    }),
-  )
-  const handleApplicationRemove = (application: API.ProjectApplication) => {
-    openRemoveApplicationModal({
-      application,
-      onRemove: () =>
-        updateApplicationStatusMutation.mutate({
-          application,
-          status: 'unapplied-by-deactivation',
-        }),
-    })
-  }
 
   return (
     <div
@@ -213,8 +161,7 @@ const ProjectManagePageApplications: React.FC<ProjectManagePageApplicationsProps
                       key={application.id}
                       application={application}
                       className={i % 2 === 0 ? 'bg-gray-100' : ''}
-                      readOnly
-                      onRemove={handleApplicationRemove}
+                      projectSlug={project.slug}
                     />
                   ))}
                 </tbody>
@@ -242,8 +189,7 @@ const ProjectManagePageApplications: React.FC<ProjectManagePageApplicationsProps
                       application={application}
                       className={i % 2 === 0 ? 'bg-gray-100' : ''}
                       readOnly={project.closed}
-                      onConfirm={handleApplicationConfirm}
-                      onRemove={handleApplicationRemove}
+                      projectSlug={project.slug}
                     />
                   ))}
                 </tbody>
@@ -270,11 +216,7 @@ const ProjectManagePageApplications: React.FC<ProjectManagePageApplicationsProps
                       key={application.id}
                       application={application}
                       className={i % 2 === 0 ? 'bg-gray-100' : ''}
-                      readOnly
-                      removing={
-                        updateApplicationStatusMutation.action?.meta
-                          .applicationId === application.id
-                      }
+                      projectSlug={project.slug}
                     />
                   ))}
                 </tbody>

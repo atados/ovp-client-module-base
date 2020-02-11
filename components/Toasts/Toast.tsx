@@ -14,6 +14,11 @@ const IconWrapper = styled.span`
   }
 `
 
+const ActivityIndicatorStyled = styled(ActivityIndicator)`
+  margin-left: -10px !important;
+  margin-top: -15px !important;
+`
+
 interface ToastProps {
   readonly message: React.ReactNode | string
   readonly type: ToastType
@@ -88,10 +93,10 @@ const Toast: React.FC<ToastProps> = ({
         }`}
       >
         {type === 'loading' ? (
-          <ActivityIndicator
-            size={24}
+          <ActivityIndicatorStyled
+            size={42}
             fill="#fff"
-            className="inline-block mr-2"
+            className="inline-block align-middle mr-0"
           />
         ) : (
           <IconWrapper
