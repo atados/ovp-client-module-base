@@ -7,8 +7,32 @@ import styled from 'styled-components'
 import Icon from '../Icon'
 import Tooltip from '../Tooltip'
 import { isNotAppliedAnymore } from '~/lib/utils/project-application-utils'
-import { Page, PageAs } from '~/common'
+import { Page, PageAs, GlobalMessages } from '~/common'
 import ActivityIndicator from '../ActivityIndicator'
+import { useAPIFetcher, mutateFetchCache } from '~/hooks/use-fetch'
+import { ProjectApplication } from '~/types/api-typings'
+import { useToasts } from '~/components/Toasts'
+import { defineMessages, useIntl } from 'react-intl'
+import { QueryId } from '~/common/api'
+
+const m = defineMessages({
+  namedConfirm: {
+    id: 'projectApplicationTableRow.namedConfirm',
+    defaultMessage: '{firstName} foi confirmado',
+  },
+  unknownConfirm: {
+    id: 'projectApplicationTableRow.unknownConfirm',
+    defaultMessage: 'O voluntário foi confirmado',
+  },
+  namedRemoval: {
+    id: 'projectApplicationTableRow.namedRemoval',
+    defaultMessage: '{firstName} foi removido',
+  },
+  unknownRemoval: {
+    id: 'projectApplicationTableRow.unknownRemoval',
+    defaultMessage: 'O voluntário foi removido',
+  },
+})
 
 const AvatarStyled = styled(Avatar)`
   flex: 0 0 2.5rem;
@@ -19,8 +43,8 @@ const AvatarStyled = styled(Avatar)`
 interface ProjectApplicationTableRowProps {
   readonly application: API.ProjectApplication
   readonly className?: string
+  readonly projectSlug: string
   readonly readOnly?: boolean
-  readonly removing?: boolean
   readonly onConfirm?: (application: API.ProjectApplication) => void
   readonly onRemove?: (application: API.ProjectApplication) => void
 }
@@ -28,16 +52,131 @@ interface ProjectApplicationTableRowProps {
 const ProjectApplicationTableRow: React.FC<ProjectApplicationTableRowProps> = ({
   className,
   application,
+  projectSlug,
   readOnly,
   onConfirm,
   onRemove,
-  removing,
 }) => {
   const { user, message, status, role } = application
   const name = user ? user.name : application.name
   const phone = user ? user.phone : application.phone
   const email = user ? user.email : application.email
   const contactColumnClassName = readOnly ? 'max-w-lg' : 'max-w-xs'
+  const changeStatusFetch = useAPIFetcher<
+    ProjectApplication,
+    ProjectApplication['status'],
+    { to: ProjectApplication['status'] }
+  >((to: ProjectApplication['status']) => ({
+    method: 'POST',
+    endpoint: `/projects/${projectSlug}/applies/${application.id}/`,
+    meta: {
+      to,
+    },
+  }))
+  const intl = useIntl()
+  const toasts = useToasts()
+  const handleRemoval = async () => {
+    const firstName = application.user?.name.split(' ')[0]
+    const toastId = toasts.add(
+      intl.formatMessage(GlobalMessages.statusSaving),
+      'loading',
+    )
+    try {
+      await changeStatusFetch.fetch('unapplied-by-deactivation')
+      toasts.replace(
+        toastId,
+        firstName
+          ? intl.formatMessage(m.namedRemoval, {
+              firstName,
+            })
+          : intl.formatMessage(m.unknownRemoval),
+        'success',
+      )
+      mutateFetchCache<any>(
+        QueryId.ProjectApplies(projectSlug),
+        prevValue =>
+          prevValue && {
+            ...prevValue,
+            data: prevValue.data.map(a => {
+              if (a.id === application.id) {
+                return {
+                  ...application,
+                  status: 'unapplied-by-deactivation',
+                }
+              }
+
+              return a
+            }),
+          },
+      )
+    } catch (error) {
+      toasts.replace(
+        toastId,
+        intl.formatMessage(GlobalMessages.internalError),
+        'error',
+      )
+    }
+
+    if (onRemove) {
+      onRemove(application)
+    }
+  }
+  const handleConfirmation = async () => {
+    const firstName = application.user?.name.split(' ')[0]
+    const toastId = toasts.add(
+      intl.formatMessage(GlobalMessages.statusSaving),
+      'loading',
+      false,
+    )
+    try {
+      await changeStatusFetch.fetch('confirmed-volunteer')
+      mutateFetchCache<any>(
+        QueryId.ProjectApplies(projectSlug),
+        prevValue =>
+          prevValue && {
+            ...prevValue,
+            data: prevValue.data.map(a => {
+              if (a.id === application.id) {
+                return {
+                  ...application,
+                  status: 'confirmed-volunteer',
+                }
+              }
+
+              return a
+            }),
+          },
+      )
+      toasts.replace(
+        toastId,
+        firstName
+          ? intl.formatMessage(m.namedConfirm, {
+              firstName,
+            })
+          : intl.formatMessage(m.unknownConfirm),
+        'success',
+        2000,
+      )
+    } catch (error) {
+      console.error(error)
+      toasts.replace(
+        toastId,
+        intl.formatMessage(GlobalMessages.internalError),
+        'error',
+        2000,
+      )
+    }
+
+    if (onConfirm) {
+      onConfirm(application)
+    }
+  }
+
+  const isConfirmeable = !readOnly && application.status === 'applied'
+  const isRemoveable =
+    !readOnly &&
+    (application.status === 'confirmed-volunteer' ||
+      application.status === 'applied')
 
   return (
     <tr className={className}>
@@ -115,50 +254,47 @@ const ProjectApplicationTableRow: React.FC<ProjectApplicationTableRowProps> = ({
           </a>
         )}
       </td>
-      {!readOnly ? (
-        <td className="px-4 py-3 truncate text-lg" style={{ width: '200px' }}>
-          <button
-            type="button"
-            className="btn text-white text-sm rounded-full bg-green-500 hover:bg-green-600"
-            onClick={onConfirm ? () => onConfirm(application) : undefined}
-            role="confirm-application"
-          >
-            <Icon name="check_circle" className="mr-1" />
-            Confirmar inscrição
-          </button>
-          <Tooltip value="Remover inscrição">
+      {(isRemoveable || isConfirmeable) && (
+        <td
+          className="px-4 py-3 truncate text-lg"
+          style={{ width: isConfirmeable ? '200px' : '50px' }}
+        >
+          {isConfirmeable && (
             <button
               type="button"
-              className="btn text-gray-700 text-sm rounded-full bg-gray-300 hover:bg-red-600 hover:text-white ml-2"
-              onClick={onRemove ? () => onRemove(application) : undefined}
+              className="btn text-white text-sm rounded-full bg-green-500 hover:bg-green-600"
+              onClick={handleConfirmation}
+              role="confirm-application"
             >
-              <Icon name="close" />
+              <Icon name="check_circle" className="mr-1" />
+              Confirmar inscrição
             </button>
-          </Tooltip>
+          )}
+          {isRemoveable && (
+            <Tooltip value="Remover inscrição">
+              <button
+                type="button"
+                className="btn text-gray-700 text-sm rounded-full bg-gray-300 hover:bg-red-600 hover:text-white ml-2"
+                onClick={handleRemoval}
+                role="remove-application"
+              >
+                {changeStatusFetch.loading &&
+                changeStatusFetch.action?.meta?.to ===
+                  'unapplied-by-deactivation' ? (
+                  <ActivityIndicator fill="#fff" size={24} />
+                ) : (
+                  <Icon name="close" />
+                )}
+              </button>
+            </Tooltip>
+          )}
         </td>
-      ) : onRemove && !readOnly ? (
-        <td className="px-4 py-3 truncate text-lg" style={{ width: '80px' }}>
-          <Tooltip value="Remover inscrição">
-            <button
-              type="button"
-              className="btn text-gray-700 text-sm rounded-full bg-gray-300 hover:bg-red-600 hover:text-white ml-2"
-              onClick={() => onRemove(application)}
-            >
-              {removing ? (
-                <ActivityIndicator fill="#333" size={24} />
-              ) : (
-                <Icon name="close" />
-              )}
-            </button>
-          </Tooltip>
-        </td>
-      ) : (
-        <td></td>
       )}
+      {(readOnly || (!isConfirmeable && !isRemoveable)) && <td></td>}
     </tr>
   )
 }
 
 ProjectApplicationTableRow.displayName = 'ProjectApplicationTableRow'
 
-export default ProjectApplicationTableRow
+export default React.memo(ProjectApplicationTableRow)

@@ -5,13 +5,22 @@ import { useFetch, FetchAction } from 'react-fetch-json-hook'
 import { CHANNEL_ID } from '../common'
 
 export default function useFetchAPI<Payload>(
-  endpoint: string,
-  options: Omit<FetchAction, 'url' | 'method'> & {
+  endpointOrOptions:
+    | string
+    | (Omit<FetchAction, 'url' | 'method'> & {
+        id?: string
+        skip?: boolean
+        endpoint: string
+        method?: string
+      }),
+  orOptions: Omit<FetchAction, 'url' | 'method'> & {
     id?: string
     skip?: boolean
     method?: string
   } = {},
 ) {
+  const isAction = typeof endpointOrOptions === 'object'
+  const options = isAction ? (endpointOrOptions as any) : orOptions
   const viewer = useSelector((state: RootState) => state.user)
   options.headers = {
     ...options.headers,
@@ -19,6 +28,9 @@ export default function useFetchAPI<Payload>(
     Authorization: viewer ? `Bearer ${viewer.token}` : '',
   }
 
+  const endpoint: string = isAction
+    ? (endpointOrOptions as any).endpoint
+    : endpointOrOptions
   return useFetch<Payload>(
     options.skip
       ? null
