@@ -116,9 +116,9 @@ const AuthenticationEmailNewAccount: React.FC<AuthenticationEmailNewAccountProps
             <img
               src={Asset.logoLight}
               alt=""
-              width="42"
               height="42"
-              className="block mx-auto"
+              className="block mx-auto mb-3"
+              style={{ maxWidth: '200px' }}
             />
           ) : (
             <div className="mb-4"></div>
