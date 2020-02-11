@@ -82,6 +82,7 @@ const app: AppConfiguration<ValidBasePageName> = {
       latitude: -23.5283838,
       longitude: -46.6021955,
     },
+    filterSearchByDefault: true,
   },
   pages: {
     Home: { pathname: '/', filename: 'home' },
@@ -300,7 +301,6 @@ const app: AppConfiguration<ValidBasePageName> = {
     links: [],
     height: 56,
   },
-  useDeviceLanguage: true,
   user: {
     createProject: false,
   },
@@ -315,6 +315,13 @@ const app: AppConfiguration<ValidBasePageName> = {
   },
   search: {
     showMapByDefault: true,
+  },
+  volunteer: {
+    showHours: true,
+  },
+  intl: {
+    editable: true,
+    defaultTo: 'accept-language',
   },
 }
 

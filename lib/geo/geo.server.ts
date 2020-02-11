@@ -1,6 +1,7 @@
 import { IncomingMessage } from 'http'
 import { Geolocation } from '~/redux/ducks/geo'
 import fetch from 'isomorphic-unfetch'
+import { dev } from '~/common/constants'
 
 export interface InjectedGeoProps {
   geo: Geolocation
@@ -8,7 +9,9 @@ export interface InjectedGeoProps {
 export async function createGeolocationObject(
   req: IncomingMessage,
 ): Promise<Geolocation> {
-  const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress
+  const ip = dev
+    ? process.env.DEV_IP
+    : req.headers['x-forwarded-for'] || req.connection.remoteAddress
 
   if (!ip) {
     throw new Error('Unable to figure out ip')

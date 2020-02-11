@@ -28,8 +28,9 @@ interface MyStoreCreatorOptions {
 function createIntlObject(req: IncomingMessage): NextIntl {
   const accept = accepts(req)
   const reqLanguage = accept.language(['pt-br', 'en-us', 'es-ar'])
+  const useDeviceLanguage = Config.intl.defaultTo === 'accept-language'
   const {
-    locale = Config.useDeviceLanguage ? reqLanguage : DEFAULT_LOCALE,
+    locale = useDeviceLanguage ? reqLanguage : DEFAULT_LOCALE,
   } = nextCookies({ req })
 
   let messages = {}
