@@ -1,6 +1,7 @@
 import ProjectApplicationTableRow from '../ProjectApplicationTableRow'
 import { render, fireEvent, wait } from '@testing-library/react'
 import * as legacyFetchHooks from '~/hooks/use-fetch'
+import renderer from 'react-test-renderer'
 
 jest.mock('isomorphic-unfetch', () => jest.fn())
 jest.mock('~/hooks/use-fetch', () => ({
@@ -15,6 +16,27 @@ const useAPIFetcher = (legacyFetchHooks.useAPIFetcher as any) as jest.Mock<
 >
 describe('ProjectApplicationTableRow', () => {
   beforeEach(() => useAPIFetcher.mockClear())
+
+  it('should match snapshot', () => {
+    const tree = renderer
+      .create(
+        <table>
+          <tbody>
+            <ProjectApplicationTableRow
+              projectSlug="slug"
+              application={{
+                status: 'applied',
+                canceled: false,
+                date: String(Date.now()),
+                id: 1,
+              }}
+            />
+          </tbody>
+        </table>,
+      )
+      .toJSON()
+    expect(tree).toMatchSnapshot()
+  })
 
   it('should confirm an application when the confirm button is clicked', async () => {
     const handleConfirm = jest.fn()

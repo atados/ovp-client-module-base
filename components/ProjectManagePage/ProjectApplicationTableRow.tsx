@@ -14,6 +14,8 @@ import { ProjectApplication } from '~/types/api-typings'
 import { useToasts } from '~/components/Toasts'
 import { defineMessages, useIntl } from 'react-intl'
 import { QueryId } from '~/common/api'
+import { pushToDataLayer } from '~/lib/tag-manager'
+import { reportError } from '~/lib/utils/error'
 
 const m = defineMessages({
   namedConfirm: {
@@ -76,6 +78,12 @@ const ProjectApplicationTableRow: React.FC<ProjectApplicationTableRowProps> = ({
   const intl = useIntl()
   const toasts = useToasts()
   const handleRemoval = async () => {
+    pushToDataLayer({
+      event: 'application.remove',
+      projectSlug,
+      applicationStatus: application.status,
+      applicationUserSlug: application.user?.slug || null,
+    })
     const firstName = application.user?.name.split(' ')[0]
     const toastId = toasts.add(
       intl.formatMessage(GlobalMessages.statusSaving),
@@ -115,6 +123,7 @@ const ProjectApplicationTableRow: React.FC<ProjectApplicationTableRowProps> = ({
         intl.formatMessage(GlobalMessages.internalError),
         'error',
       )
+      reportError(error)
     }
 
     if (onRemove) {
@@ -122,6 +131,12 @@ const ProjectApplicationTableRow: React.FC<ProjectApplicationTableRowProps> = ({
     }
   }
   const handleConfirmation = async () => {
+    pushToDataLayer({
+      event: 'application.confirm',
+      projectSlug,
+      applicationStatus: application.status,
+      applicationUserSlug: application.user?.slug || null,
+    })
     const firstName = application.user?.name.split(' ')[0]
     const toastId = toasts.add(
       intl.formatMessage(GlobalMessages.statusSaving),
@@ -158,7 +173,7 @@ const ProjectApplicationTableRow: React.FC<ProjectApplicationTableRowProps> = ({
         2000,
       )
     } catch (error) {
-      console.error(error)
+      reportError(error)
       toasts.replace(
         toastId,
         intl.formatMessage(GlobalMessages.internalError),
