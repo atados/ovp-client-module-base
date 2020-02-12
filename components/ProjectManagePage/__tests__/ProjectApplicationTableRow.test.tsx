@@ -64,6 +64,9 @@ describe('ProjectApplicationTableRow', () => {
     expect(actionCreator('confirmed-volunteer')).toMatchObject({
       method: 'PATCH',
       endpoint: '/projects/slug/applies/1/',
+      body: {
+        status: 'confirmed-volunteer',
+      },
       meta: {
         to: 'confirmed-volunteer',
       },
@@ -123,6 +126,9 @@ describe('ProjectApplicationTableRow', () => {
     expect(actionCreator('unapplied-by-deactivation')).toMatchObject({
       method: 'PATCH',
       endpoint: '/projects/slug/applies/1/',
+      body: {
+        status: 'unapplied-by-deactivation',
+      },
       meta: {
         to: 'unapplied-by-deactivation',
       },
