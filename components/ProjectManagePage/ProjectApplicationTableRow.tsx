@@ -69,7 +69,7 @@ const ProjectApplicationTableRow: React.FC<ProjectApplicationTableRowProps> = ({
     ProjectApplication['status'],
     { to: ProjectApplication['status'] }
   >((to: ProjectApplication['status']) => ({
-    method: 'POST',
+    method: 'PATCH',
     endpoint: `/projects/${projectSlug}/applies/${application.id}/`,
     meta: {
       to,
