@@ -81,6 +81,8 @@ const ProjectApplicationTableRow: React.FC<ProjectApplicationTableRowProps> = ({
     pushToDataLayer({
       event: 'application.remove',
       projectSlug,
+      prevValue: application.status,
+      value: 'unapplied-by-deactivation',
       applicationStatus: application.status,
       applicationUserSlug: application.user?.slug || null,
     })
@@ -134,6 +136,8 @@ const ProjectApplicationTableRow: React.FC<ProjectApplicationTableRowProps> = ({
     pushToDataLayer({
       event: 'application.confirm',
       projectSlug,
+      prevValue: application.status,
+      value: 'confirmed-volunteer',
       applicationStatus: application.status,
       applicationUserSlug: application.user?.slug || null,
     })
