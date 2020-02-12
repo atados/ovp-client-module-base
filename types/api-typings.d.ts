@@ -64,3 +64,21 @@ export interface StartupPayload {
   readonly skills: Skill[]
   readonly stats: StartupPayloadStats
 }
+
+export interface Survey {
+  title: string
+  question: string
+  image?: ImageDict
+  slug: string
+  survey_open: boolean
+  options: SurveyOption[]
+  finished: boolean
+  current_user_already_voted: boolean
+}
+
+export interface SurveyOption {
+  organization?: Organization
+  project?: Project
+  total: number
+  id: number
+}
