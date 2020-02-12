@@ -1,5 +1,5 @@
 {
-  "version": "0.0.3",
+  "version": "0.0.4",
   "private": true,
   "scripts": {
     "dev": "sh base/core/bin/run-dev.sh",
@@ -27,7 +27,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "if [ -d \"base/core\" ]; then node base/core/bin/check-base-submodule-has-changes.js && yarn type-check && lint-staged; else yarn type-check && yarn lint; fi"
+      "pre-commit": "yarn test && if [ -d \"base/core\" ]; then node base/core/bin/check-base-submodule-has-changes.js && yarn type-check && lint-staged; else yarn type-check && yarn lint; fi"
     }
   },
   "lint-staged": {

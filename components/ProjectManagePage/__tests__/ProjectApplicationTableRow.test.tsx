@@ -62,7 +62,7 @@ describe('ProjectApplicationTableRow', () => {
     await wait()
     const [actionCreator] = useAPIFetcher.mock.calls[0]
     expect(actionCreator('confirmed-volunteer')).toMatchObject({
-      method: 'POST',
+      method: 'PATCH',
       endpoint: '/projects/slug/applies/1/',
       meta: {
         to: 'confirmed-volunteer',
@@ -121,7 +121,7 @@ describe('ProjectApplicationTableRow', () => {
     await wait()
     const [actionCreator] = useAPIFetcher.mock.calls[0]
     expect(actionCreator('unapplied-by-deactivation')).toMatchObject({
-      method: 'POST',
+      method: 'PATCH',
       endpoint: '/projects/slug/applies/1/',
       meta: {
         to: 'unapplied-by-deactivation',
