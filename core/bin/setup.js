@@ -90,6 +90,14 @@ async function main() {
             name: channelId,
             version: 2,
             regions: ['gru1'],
+            env: {
+              API_URL: 'https://api.beta.atados.com.br',
+              APP_URL: `https://${channelId}.atados.now.sh`,
+              APP_SHARE_URL: `http://${channelId}.atados.now.sh`,
+              AUTH_CLIENT_ID: 'x4FR4jyyuVXvuHMiZiflT7y9l2o15MYJjiHqLUmP',
+              AUTH_CLIENT_SECRET:
+                'JhK5yjm0XLQx7rH1dygobly3cSx5cIEGJYaGQTRhhEYzx6T4wZ2RqYn1sLKoMiXN5233CgmDeLurgl6YHPrBP2wDdg2VteOyOrlXhHWjU5nvGWw3YQi8zqTgyvK3BZ3b',
+            },
             build: {
               env: {
                 API_URL: 'https://api.beta.atados.com.br',
@@ -112,6 +120,14 @@ async function main() {
             name: channelId,
             version: 2,
             regions: ['gru1'],
+            env: {
+              API_URL: 'https://api.beta.atados.com.br',
+              APP_URL: `https://${channelId}.atados.now.sh`,
+              APP_SHARE_URL: `http://${channelId}.atados.now.sh`,
+              AUTH_CLIENT_ID: 'x4FR4jyyuVXvuHMiZiflT7y9l2o15MYJjiHqLUmP',
+              AUTH_CLIENT_SECRET:
+                'JhK5yjm0XLQx7rH1dygobly3cSx5cIEGJYaGQTRhhEYzx6T4wZ2RqYn1sLKoMiXN5233CgmDeLurgl6YHPrBP2wDdg2VteOyOrlXhHWjU5nvGWw3YQi8zqTgyvK3BZ3b',
+            },
             build: {
               env: {
                 API_URL: 'https://api.beta.atados.com.br',
