@@ -270,6 +270,7 @@ export default withFormik<AuthenticationEmailNewAccountProps, Values>({
       .required(),
     email: Yup.string()
       .email()
+      .isValidChannelEmail()
       .required(),
     city: Yup.string()
       .nullable(true)

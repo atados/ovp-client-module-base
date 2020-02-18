@@ -323,6 +323,17 @@ const app: AppConfiguration<ValidBasePageName> = {
     editable: true,
     defaultTo: 'accept-language',
   },
+  authentication: {
+    email: {
+      enabled: true,
+    },
+    facebook: {
+      enabled: true,
+    },
+    google: {
+      enabled: true,
+    },
+  },
 }
 
 export default app
