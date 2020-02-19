@@ -18,6 +18,9 @@ jest.mock('~/common', () => ({
       warning: true,
     },
   },
+  Page: {
+    ViewerSettings: '/eu/configuracoes',
+  },
 }))
 
 jest.mock('next/router', () => ({
