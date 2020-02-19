@@ -1,5 +1,5 @@
-import { useRef, useEffect } from 'react'
-import { useToasts } from '~/components/Toasts'
+import { useRef, useEffect, useContext } from 'react'
+import { ToastsContext } from '~/components/Toasts/context'
 
 export const notifyErrorWithToast = (error?: Error | null) => {
   const toasts = useToasts()
@@ -27,4 +27,16 @@ export const notifyErrorWithToast = (error?: Error | null) => {
   }, [error])
 
   return toastIdRef.current
+}
+
+export const useToasts = () => {
+  const context = useContext(ToastsContext)
+
+  if (!context) {
+    throw new Error(
+      'Unable to find ToastsContext. Make sure to wrap it on ToastsProvider',
+    )
+  }
+
+  return context
 }

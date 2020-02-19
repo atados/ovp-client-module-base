@@ -1,6 +1,7 @@
 import React, { useMemo, useState, useRef, useCallback, useEffect } from 'react'
-import { ToastsContext, ToastType, ToastsContextType, ToastMessage } from '.'
-import Toast from './Toast'
+import { Toast } from './types'
+import { ToastsContext, ToastsContextType } from './context'
+import ToastComponent from './Toast'
 import nanoid from 'nanoid'
 import styled from 'styled-components'
 import { TransitionGroup, CSSTransition } from 'react-transition-group'
@@ -14,14 +15,6 @@ const ToastsList = styled.div`
 
 interface ToastsProviderProps {
   readonly className?: string
-}
-
-export interface Toast {
-  id: string
-  message: ToastMessage
-  type: ToastType
-  timeout?: number
-  exitClassName?: string
 }
 
 interface ToastsProviderState {
@@ -180,7 +173,7 @@ const ToastsProvider: React.FC<ToastsProviderProps> = ({ children }) => {
                 onExited={handleToastExited}
               >
                 <div className="block leading-none pt-1 max-w-xl ml-auto text-right">
-                  <Toast
+                  <ToastComponent
                     message={toast.message}
                     type={toast.type}
                     enableRemoveButton={toast.timeout === undefined}

@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react'
 import cx from 'classnames'
-import { ToastType } from '.'
+import { ToastType } from './types'
 import Icon, { MaterialIconName } from '../Icon/Icon'
 import ActivityIndicator from '~/components/ActivityIndicator'
 import { useDrag } from 'react-use-gesture'
