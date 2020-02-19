@@ -85,7 +85,6 @@ export interface AppConfiguration<TValidPageName extends string> {
     defaultOptions?: SearchOption[]
     showMapByDefault: boolean
   }
-
   progressBar?: {
     color?: string
   }
@@ -166,6 +165,18 @@ export interface AppConfiguration<TValidPageName extends string> {
   intl: {
     editable: boolean
     defaultTo: 'accept-language' | 'none'
+  }
+  authentication: {
+    email: {
+      enabled: boolean
+      validate?: (email: string) => boolean
+    }
+    facebook: {
+      enabled: boolean
+    }
+    google: {
+      enabled: boolean
+    }
   }
 }
 

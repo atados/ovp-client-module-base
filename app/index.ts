@@ -327,6 +327,17 @@ const app: AppConfiguration<ValidBasePageName> = {
       emailConfirmation: false,
     },
   },
+  authentication: {
+    email: {
+      enabled: true,
+    },
+    facebook: {
+      enabled: true,
+    },
+    google: {
+      enabled: true,
+    },
+  },
 }
 
 export default app

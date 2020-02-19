@@ -76,6 +76,10 @@ const m = defineMessages({
     id: 'form.error.email_taken',
     defaultMessage: 'Este email já esta sendo utilizado',
   },
+  isValidChannelEmail: {
+    id: 'form.error.isValidChannelEmail',
+    defaultMessage: 'Este email é inválido',
+  },
 })
 
 interface FormErrorMessageProps {
