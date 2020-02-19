@@ -294,7 +294,6 @@ const app: AppConfiguration<ValidBasePageName> = {
     posts: true,
     documents: true,
     documentsRestricted: false,
-    blockApplicationsAtLimit: false,
   },
   social: [],
   toolbar: {
@@ -322,6 +321,11 @@ const app: AppConfiguration<ValidBasePageName> = {
   intl: {
     editable: true,
     defaultTo: 'accept-language',
+  },
+  application: {
+    require: {
+      emailConfirmation: false,
+    },
   },
 }
 

@@ -104,6 +104,7 @@ export interface User {
   uuid: string
   email: string
   name: string
+  is_email_verified: boolean
   is_subscribed_to_newsletter: boolean
   slug: string
   token: string

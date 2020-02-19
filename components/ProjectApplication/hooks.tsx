@@ -1,15 +1,17 @@
 import { useSelector } from 'react-redux'
-import { RootState } from '../redux/root-reducer'
-import { reportError } from '../lib/utils/error'
-import { Project } from '../redux/ducks/project'
-import { useModal } from '../components/Modal'
+import { RootState } from '~/redux/root-reducer'
+import { reportError } from '~/lib/utils/error'
+import { Project } from '~/redux/ducks/project'
+import { useModal } from '~/components/Modal'
 import ProjectApplication, {
   ProjectApplicationProps,
-} from '../components/ProjectApplication'
-import ProjectApplicationRegistry from '../components/ProjectApplication/ProjectApplicationRegistry'
-import CompleteViewerProfileForm from '../components/CompleteViewerProfileForm'
-import useModalManager from './use-modal-manager'
-import Authentication from '../components/Authentication'
+} from '~/components/ProjectApplication/ProjectApplication'
+import ProjectApplicationRegistry from '~/components/ProjectApplication/ProjectApplicationRegistry'
+import CompleteViewerProfileForm from '~/components/CompleteViewerProfileForm'
+import useModalManager from '~/hooks/use-modal-manager'
+import Authentication from '~/components/Authentication'
+import ConfirmEmailBeforeProceeding from '~/components/EmailConfirmation/ConfirmEmailBeforeProceeding'
+import { Config } from '~/common'
 
 export function useProjectApplication() {
   const viewer = useSelector((state: RootState) => state.user)
@@ -26,6 +28,10 @@ export function useProjectApplication() {
   const openCompleteViewerInformationModal = useModal({
     id: 'CompleteViewerProfileForm',
     component: CompleteViewerProfileForm,
+  })
+  const openConfirmEmailBeforeProceedingModal = useModal({
+    id: 'ConfirmEmailBeforeProceeding',
+    component: ConfirmEmailBeforeProceeding,
   })
   const openAuthenticationModal = useModal({
     id: 'Authentication',
@@ -51,6 +57,14 @@ export function useProjectApplication() {
           onApply()
         },
       })
+      return
+    }
+
+    if (
+      !viewer.is_email_verified &&
+      Config.application.require.emailConfirmation
+    ) {
+      openConfirmEmailBeforeProceedingModal()
       return
     }
 

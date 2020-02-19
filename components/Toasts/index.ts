@@ -1,9 +1,11 @@
 import React, { useContext } from 'react'
+import { Toast } from './ToastsProvider'
 
 export type ToastType = 'error' | 'warning' | 'info' | 'success' | 'loading'
 export type ToastMessage = React.ReactNode | Element | string
 
 export interface ToastsContextType {
+  get: (id: string) => Toast
   add: (
     message: ToastMessage,
     type: ToastType,

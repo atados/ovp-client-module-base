@@ -6,6 +6,7 @@ import styled from 'styled-components'
 import { TransitionGroup, CSSTransition } from 'react-transition-group'
 
 const ToastsList = styled.div`
+  z-index: 1000000;
   > div {
     transition: height 0.2s;
   }
@@ -15,7 +16,7 @@ interface ToastsProviderProps {
   readonly className?: string
 }
 
-interface StateToast {
+export interface Toast {
   id: string
   message: ToastMessage
   type: ToastType
@@ -25,7 +26,7 @@ interface StateToast {
 
 interface ToastsProviderState {
   visibleToastsCount: number
-  toasts: StateToast[]
+  toasts: Toast[]
 }
 
 const DEFAULT_TIMEOUT = 3000
@@ -36,6 +37,10 @@ const ToastsProvider: React.FC<ToastsProviderProps> = ({ children }) => {
     visibleToastsCount: 0,
     toasts: [],
   })
+  const stateRef = useRef(state)
+  useEffect(() => {
+    stateRef.current = state
+  }, [state])
   const removeToastById = useCallback((id: string) => {
     setState(prevState => ({
       visibleToastsCount: prevState.visibleToastsCount,
@@ -45,6 +50,7 @@ const ToastsProvider: React.FC<ToastsProviderProps> = ({ children }) => {
 
   const contextValue = useMemo<ToastsContextType>(() => {
     return {
+      get: id => stateRef.current.toasts.find(toast => toast.id === id),
       remove: (id, exitClassName) => {
         if (exitClassName) {
           setState(prevState => ({
