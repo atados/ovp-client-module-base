@@ -220,6 +220,7 @@ export default withFormik<AuthenticationEmailLoginProps, Values>({
   validationSchema: Yup.object().shape({
     email: Yup.string()
       .email()
+      .isValidChannelEmail()
       .required(),
     password: Yup.string().required(),
   }),
