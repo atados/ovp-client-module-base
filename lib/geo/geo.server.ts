@@ -21,7 +21,7 @@ export async function createGeolocationObject(
     res.json(),
   )
 
-  if (!geo) {
+  if (!geo || !geo.country_code) {
     throw new Error('Failed to find geolocation by ip')
   }
 

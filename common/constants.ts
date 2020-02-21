@@ -75,4 +75,3 @@ export const regionLongNameMap = {
   '28': 'Sergipe',
   '29': 'Tocantins',
 }
-export const DEFAULT_LOCALE = 'pt-br'
