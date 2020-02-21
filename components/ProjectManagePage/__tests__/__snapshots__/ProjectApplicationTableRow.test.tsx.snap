@@ -39,7 +39,7 @@ exports[`ProjectApplicationTableRow should match snapshot 1`] = `
             <span
               className="text-gray-500 text-sm block truncate"
             >
-              Sem cargo definido
+              FormattedMessage
             </span>
           </div>
         </div>
@@ -66,7 +66,7 @@ exports[`ProjectApplicationTableRow should match snapshot 1`] = `
           >
             check_circle
           </span>
-          Confirmar inscrição
+          FormattedMessage
         </button>
         <button
           className="btn text-gray-700 text-sm rounded-full bg-gray-300 hover:bg-red-600 hover:text-white ml-2"
