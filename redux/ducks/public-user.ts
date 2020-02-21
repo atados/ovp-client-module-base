@@ -9,6 +9,7 @@ import {
 import { RootState } from '../root-reducer'
 import { RatingProject } from './ratings'
 import { UserProfile } from './user'
+import { ImageDict } from '~/types/api-typings'
 
 export interface PublicUserApplication {
   id: number
@@ -36,9 +37,7 @@ export interface PublicUser {
   volunteer_hours: number
   profile: UserProfile
   bookmarked_projects: BookmarksList
-  avatar?: {
-    image_url: string
-  }
+  avatar?: ImageDict
   applies: PublicUserApplication[]
 }
 
