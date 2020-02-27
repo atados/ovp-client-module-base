@@ -38,6 +38,7 @@ export interface PublicUser {
   bookmarked_projects: BookmarksList
   avatar?: {
     image_url: string
+    image_medium_url?: string
   }
   applies: PublicUserApplication[]
 }

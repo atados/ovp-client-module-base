@@ -22,6 +22,7 @@ import {
 import Meta from '../components/Meta'
 import { logout } from '../redux/ducks/user'
 import { joinOrganization } from '../redux/ducks/organization-membership'
+import { PublicUser } from '~/redux/ducks/public-user'
 
 interface OrganizationJoinPageProps {
   readonly organizationSlug: string
@@ -56,7 +57,7 @@ const OrganizationJoinPage: NextPage<OrganizationJoinPageProps> = ({
     loading: false,
   })
   const dispatchToRedux = useDispatch()
-  const { data: user } = useFetchAPI(`/public-users/${userSlug}`)
+  const { data: user } = useFetchAPI<PublicUser>(`/public-users/${userSlug}`)
   const openAuthenticationModal = useModal({
     id: 'Authentication',
     component: Authentication,
