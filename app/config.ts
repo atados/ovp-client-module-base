@@ -165,6 +165,7 @@ export interface AppConfiguration<TValidPageName extends string> {
   intl: {
     editable: boolean
     defaultTo: 'accept-language' | 'none'
+    defaultLocale: string
   }
   authentication: {
     email: {

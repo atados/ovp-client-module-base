@@ -9,7 +9,7 @@ import {
   DropdownToggler,
   DropdownMenu,
 } from '~/components/Dropdown'
-import { useIntl, defineMessages } from 'react-intl'
+import { useIntl, defineMessages, FormattedMessage } from 'react-intl'
 import Icon from '../Icon'
 
 const Thumbnail = styled.figure`
@@ -138,8 +138,11 @@ const ManageableProjectTableRow: React.FC<ManageableProjectTableRowProps> = ({
             / {project.max_applies_from_roles || 0}
           </span>
         </span>
-        <span className="font-medium text-gray-500 text-xs block">
-          INSCRITOS
+        <span className="font-medium text-gray-500 text-xs block uppercase">
+          <FormattedMessage
+            id="manageableProjectTableRow.applications"
+            defaultMessage="INSCRITOS"
+          />
         </span>
       </td>
       <td style={{ width: 100 }} className="text-right">

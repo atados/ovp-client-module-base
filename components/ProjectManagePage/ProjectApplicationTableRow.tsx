@@ -12,7 +12,7 @@ import ActivityIndicator from '../ActivityIndicator'
 import { useAPIFetcher, mutateFetchCache } from '~/hooks/use-fetch'
 import { ProjectApplication } from '~/types/api-typings'
 import { useToasts } from '~/components/Toasts'
-import { defineMessages, useIntl } from 'react-intl'
+import { defineMessages, useIntl, FormattedMessage } from 'react-intl'
 import { QueryId } from '~/common/api'
 import { pushToDataLayer } from '~/lib/tag-manager'
 import { reportError } from '~/lib/utils/error'
@@ -33,6 +33,10 @@ const m = defineMessages({
   unknownRemoval: {
     id: 'projectApplicationTableRow.unknownRemoval',
     defaultMessage: 'O voluntário foi removido',
+  },
+  removeApplication: {
+    id: 'projectApplicationTableRow.removeApplication',
+    defaultMessage: 'Remover voluntário',
   },
 })
 
@@ -246,7 +250,10 @@ const ProjectApplicationTableRow: React.FC<ProjectApplicationTableRowProps> = ({
               </span>
             ) : (
               <span className="text-gray-500 text-sm block truncate">
-                Sem cargo definido
+                <FormattedMessage
+                  id="projectApplicationTableRow.emptyRole"
+                  defaultMessage="Sem função definida"
+                />
               </span>
             )}
             {message && (
@@ -289,11 +296,14 @@ const ProjectApplicationTableRow: React.FC<ProjectApplicationTableRowProps> = ({
               role="confirm-application"
             >
               <Icon name="check_circle" className="mr-1" />
-              Confirmar inscrição
+              <FormattedMessage
+                id="projectApplicationTableRow.confirmApplication"
+                defaultMessage="Confirmar inscrição"
+              />
             </button>
           )}
           {isRemoveable && (
-            <Tooltip value="Remover inscrição">
+            <Tooltip value={intl.formatMessage(m.removeApplication)}>
               <button
                 type="button"
                 className="btn text-gray-700 text-sm rounded-full bg-gray-300 hover:bg-red-600 hover:text-white ml-2"

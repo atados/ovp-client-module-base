@@ -9,7 +9,7 @@ export function mountAddressFilter(
 ): AddressSearchFilter | null {
   // Filtra pela geolocalização se a configuração está ativada
   // e o usuário não removeu o filtro de endereço
-  if (Config.geolocation.filterSearchByDefault && givenAddress !== null) {
+  if (Config.geolocation.filterSearchByDefault && givenAddress === null) {
     const geoRegionLongName = regionLongNameMap[geo.region]
 
     if (!geoRegionLongName) {

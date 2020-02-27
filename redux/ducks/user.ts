@@ -10,6 +10,7 @@ import { pushToDataLayer } from '~/lib/tag-manager'
 import { setSentryUser } from '~/lib/utils/error'
 import { createAction } from 'redux-handy'
 import { API } from '~/types/api'
+import { ImageDict } from '~/types/api-typings'
 
 export const USER_TOKEN_COOKIE = 'sessionToken'
 
@@ -114,10 +115,7 @@ export interface User {
   rating_requests_project_count: number
   rating_requests_projects_with_unrated_users: number
   organizations: UserOrganization[]
-  avatar?: {
-    image_small_url: string
-    image_url: string
-  }
+  avatar?: ImageDict
 }
 
 export interface UserOrganization {

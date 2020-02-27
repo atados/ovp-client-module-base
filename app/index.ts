@@ -321,6 +321,7 @@ const app: AppConfiguration<ValidBasePageName> = {
   intl: {
     editable: true,
     defaultTo: 'accept-language',
+    defaultLocale: 'pt-br',
   },
   application: {
     require: {
