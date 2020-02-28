@@ -2,7 +2,7 @@ import useFetchAPIMutation from '~/hooks/use-fetch-api-mutation'
 import React, { useState, useEffect } from 'react'
 import Alert from '~/components/Alert'
 import styled from 'styled-components'
-import { Config } from '~/common'
+import { Config, Page } from '~/common'
 import moment from 'moment'
 import { useRouter } from 'next/router'
 
@@ -28,7 +28,7 @@ const EmailConfirmationAlert: React.FC<EmailConfirmationAlertProps> = ({
   }))
 
   useEffect(() => {
-    const isConfigPage = router.pathname === '/eu/configuracoes'
+    const isConfigPage = router.pathname === Page.ViewerSettings
 
     if (
       user?.uuid &&

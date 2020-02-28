@@ -1,6 +1,7 @@
 import { Project, ProjectApplication, ProjectRole } from '~/redux/ducks/project'
 import { Organization } from '~/redux/ducks/organization'
 import { UserOrganization } from '~/redux/ducks/user'
+import { PublicUser } from '~/redux/ducks/public-user'
 
 export {
   Project,
@@ -8,6 +9,7 @@ export {
   ProjectRole,
   Organization,
   UserOrganization,
+  PublicUser,
 }
 
 export interface ImageDict {

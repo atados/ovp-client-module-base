@@ -130,7 +130,11 @@ const CausesSection: React.FC<CausesSectionProps> = ({
       </div>
       <PageLink href="Cause" params={{ slug: causes[0].slug }}>
         <a className="text-xl text-secondary-500">
-          Veja todas as causas <Icon name="arrow_forward" className="ml-1" />
+          <FormattedMessage
+            id="causesSection.viewAll"
+            defaultMessage="Veja todas as causas"
+          />{' '}
+          <Icon name="arrow_forward" className="ml-1" />
         </a>
       </PageLink>
     </Container>

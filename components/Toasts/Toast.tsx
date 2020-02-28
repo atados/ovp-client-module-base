@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react'
 import cx from 'classnames'
-import { ToastType } from '.'
+import { ToastType } from './types'
 import Icon, { MaterialIconName } from '../Icon/Icon'
 import ActivityIndicator from '~/components/ActivityIndicator'
 import { useDrag } from 'react-use-gesture'
@@ -83,6 +83,7 @@ const Toast: React.FC<ToastProps> = ({
       )}
       style={{
         left: `${x}px`,
+        zIndex: 10000,
         transition:
           Math.abs(lastXRef.current) > 5 && x === 0 ? 'left .2s' : undefined,
       }}

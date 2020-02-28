@@ -85,7 +85,6 @@ export interface AppConfiguration<TValidPageName extends string> {
     defaultOptions?: SearchOption[]
     showMapByDefault: boolean
   }
-
   progressBar?: {
     color?: string
   }
@@ -111,8 +110,14 @@ export interface AppConfiguration<TValidPageName extends string> {
     posts: boolean
     documents: boolean
     documentsRestricted: boolean
-    blockApplicationsAtLimit: boolean
   }
+
+  application: {
+    require: {
+      emailConfirmation: boolean
+    }
+  }
+
   toolbar: {
     brand?: string
     background?: string
@@ -160,6 +165,19 @@ export interface AppConfiguration<TValidPageName extends string> {
   intl: {
     editable: boolean
     defaultTo: 'accept-language' | 'none'
+    defaultLocale: string
+  }
+  authentication: {
+    email: {
+      enabled: boolean
+      validate?: (email: string) => boolean
+    }
+    facebook: {
+      enabled: boolean
+    }
+    google: {
+      enabled: boolean
+    }
   }
 }
 

@@ -8,7 +8,7 @@ import useFetchAPI from '../hooks/use-fetch-api'
 import { PublicUser, PublicUserApplication } from '../redux/ducks/public-user'
 import PageLink from './PageLink'
 import Icon from './Icon'
-import { useProjectApplication } from '../hooks/project-application-hooks'
+import { useProjectApplication } from '~/components/ProjectApplication'
 
 const Body = styled.div`
   top: 50px;

@@ -40,7 +40,7 @@ const FooterBottom = () => {
               src={Config.footer.brand}
               alt=""
               height="42"
-              className="mr-4"
+              className="mr-4 inline-block h-10"
             />
           )}
           <span className="text-lg">

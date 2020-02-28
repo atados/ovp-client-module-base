@@ -8,7 +8,7 @@ import NextDocument, {
 import { ServerStyleSheet } from 'styled-components'
 // @ts-ignore
 import generatedStyledFileName from '../../public/generated/css/filename.json'
-import { DEFAULT_LOCALE } from '~/common/constants'
+import { Config } from '~/common'
 
 interface DocumentProps {
   readonly locale: string
@@ -30,7 +30,7 @@ export default class Document extends NextDocument<DocumentProps> {
 
     return {
       ...page,
-      locale: reqLocale || DEFAULT_LOCALE,
+      locale: reqLocale || Config.intl.defaultLocale,
       styleTags,
     }
   }

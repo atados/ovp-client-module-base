@@ -1,4 +1,5 @@
 import * as Yup from 'yup'
+import { Config } from '~/common'
 
 export interface YupErrorTranslated {
   message: string
@@ -30,6 +31,26 @@ Yup.addMethod(
       'match',
       () => ({ code: 'equals', message, values: { fieldName: key } }),
       func,
+    )
+  },
+)
+
+Yup.addMethod(
+  Yup.string,
+  'isValidChannelEmail',
+  (message: string = 'Email is not valid.') => {
+    return Yup.string().test(
+      'isValidChannelEmail',
+      () => ({
+        code: 'isValidChannelEmail',
+        message,
+      }),
+      email => {
+        if (!Config.authentication.email.validate) {
+          return true
+        }
+        return Config.authentication.email.validate(email)
+      },
     )
   },
 )

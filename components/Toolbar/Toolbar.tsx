@@ -47,6 +47,8 @@ export interface ToolbarProps {
   readonly flat?: boolean
   readonly float?: boolean
   readonly searchFormEnabled?: boolean
+  readonly nav?: React.ReactNode
+  readonly navbar?: React.ReactNode
 }
 
 const Toolbar: React.FC<ToolbarProps> = ({
@@ -57,6 +59,8 @@ const Toolbar: React.FC<ToolbarProps> = ({
   flat,
   float,
   searchFormEnabled = true,
+  nav,
+  navbar,
 }) => {
   const [state, setState] = useState({
     collapsed: true,
@@ -151,6 +155,7 @@ const Toolbar: React.FC<ToolbarProps> = ({
                   </a>
                 </Link>
               </li>
+              {nav}
             </Nav>
             <button
               className={`btn ${theme === 'dark' ? 'bg-light' : ''} ${
@@ -167,6 +172,8 @@ const Toolbar: React.FC<ToolbarProps> = ({
                 <div className="hamburger-inner" />
               </div>
             </button>
+
+            {navbar}
           </div>
         </Navbar>
         <ToolbarMobileNav collapsed={state.collapsed} />

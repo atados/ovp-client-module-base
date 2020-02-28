@@ -86,7 +86,12 @@ const ProjectPageRoles: React.FC<ProjectPageRolesProps> = ({
     <div className={className}>
       <h4 className="mb-6">{intl.formatMessage(COMO_CONTRIBUIR)}</h4>
       {project.roles.map(role => (
-        <ProjectPageRoleItem role={role} onApply={onApply} project={project} />
+        <ProjectPageRoleItem
+          key={role.id}
+          role={role}
+          onApply={onApply}
+          project={project}
+        />
       ))}
     </div>
   )

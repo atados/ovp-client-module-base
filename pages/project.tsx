@@ -25,10 +25,10 @@ import { throwActionError } from '~/lib/utils/redux'
 import { fetchProject } from '~/redux/ducks/project'
 import { RootState } from '~/redux/root-reducer'
 import { ProjectPageNavId, ProjectPageSubPage } from '~/types/project'
-import { useProjectApplication } from '../hooks/project-application-hooks'
 import { useSetStatus } from '../hooks/status-hooks'
 import { reportError } from '../lib/utils/error'
 import { Config } from '../common'
+import { useProjectApplication } from '~/components/ProjectApplication'
 
 const Sidebar = styled.div`
   min-width: 352px;
