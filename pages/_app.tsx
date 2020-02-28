@@ -200,7 +200,4 @@ class App extends NextApp<AppProps> {
   }
 }
 
-const mapStateToProps = ({ user }: RootState) => ({
-  authToken: user ? user.name : null,
-})
-export default withFetch(withRedux(mapStateToProps)(App as any))
+export default withFetch(withRedux()(App as any))
