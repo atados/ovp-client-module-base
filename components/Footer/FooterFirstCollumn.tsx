@@ -1,4 +1,4 @@
-import LanguageDropdown from '~/components/LanguageDropdown/LanguageDropdown'
+import LanguageDropdown from '~/components/LanguageDropdown'
 import FooterNav from '~/components/Footer/FooterNav'
 import { Config, GlobalMessages } from '~/common'
 import { useIntl } from 'react-intl'
