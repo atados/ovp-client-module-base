@@ -1,5 +1,5 @@
 {
-  "version": "0.0.5",
+  "version": "0.0.7",
   "private": true,
   "scripts": {
     "dev": "sh base/core/bin/run-dev.sh",
@@ -14,7 +14,7 @@
     "deploy": "yarn type-check && yarn deploy:now",
     "deploy:now": "now -e NOW_GITHUB_COMMIT_SHA=$(git rev-parse HEAD) -e NOW_GITHUB_COMMIT_DIRTY=$(if [[ $(git diff --stat) != '' ]]; then echo 'true'; else echo 'false' ; fi)",
     "prettier": "prettier --write \"{next.config.js,gulpfile.js,{pages,base,channel,__{tests,mocks}__}/**/*.{js,ts,tsx}}\"",
-    "export:config": "tncc base/core/bin/export-configuration-as-json.ts -s --run-args \"--run\"",
+    "export:config": "tncc ./base/core/bin/export-configuration-as-json.ts -s --run-args \"--run\"",
     "check:lang": "ts-node -P tsconfig.server.json -e \"require('./base/core/show-lang-status').default()\"",
     "generate:lang": "ts-node -P tsconfig.server.json -e \"require('./base/core/generate-intl-messages-files').default()\"",
     "sync": "yarn sync:config && yarn sync:pages && yarn sync:static",
@@ -177,7 +177,7 @@
     "react-test-renderer": "^16.8.6",
     "rimraf": "^2.6.3",
     "tailwindcss": "^1.1.4",
-    "tncc": "^0.3.0-beta.7",
+    "tncc": "^0.3.0-beta.10",
     "ts-essentials": "^5.0.0",
     "ts-jest": "^24.3.0",
     "ts-loader": "^6.0.4",
