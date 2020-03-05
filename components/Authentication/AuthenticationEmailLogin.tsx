@@ -142,7 +142,7 @@ const AuthenticationEmailLogin: React.FC<AuthenticationEmailLoginProps &
             <a>
               <FormattedMessage
                 id="authenticationEmailLogin.forgotPassword"
-                defaultMessage="Esquece sua senha?"
+                defaultMessage="Esqueceu sua senha?"
               />
             </a>
           </Link>
