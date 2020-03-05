@@ -1,13 +1,13 @@
+import ProjectCardFooter from '~/components/ProjectCard/ProjectCardFooter'
 import ProjectCardPills from '~/components/ProjectCard/ProjectCardPills'
-import { WithIntlProps, defineMessages } from 'react-intl'
-import { formatDisponibility } from '~/lib/project/utils'
+import ProjectCardBody from '~/components/ProjectCard/ProjectCardBody'
 import { pushToDataLayer } from '~/lib/tag-manager'
 import { Project } from '~/redux/ducks/project'
 import { Page, PageAs, Color } from '~/common'
 import { APP_URL } from '~/common/constants'
+import { WithIntlProps } from 'react-intl'
 import styled from 'styled-components'
 import { withIntl } from '~/lib/intl'
-import Icon from '~/components/Icon'
 import Link from 'next/link'
 import React from 'react'
 
@@ -116,13 +116,6 @@ const Pill = styled.span`
   }
 `
 
-const m = defineMessages({
-  by: {
-    id: 'projectCard.by',
-    defaultMessage: 'por',
-  },
-})
-
 export const styles = {
   Name,
   Description,
@@ -180,20 +173,7 @@ class ProjectCard extends React.Component<
   }
 
   public render() {
-    const {
-      name,
-      address,
-      description,
-      disponibility,
-      image,
-      intl,
-      applied_count: appliedCount,
-      organization,
-      className,
-      closed,
-      nameClassName,
-      descriptionClassName,
-    } = this.props
+    const { image, applied_count: appliedCount, className } = this.props
 
     return (
       <Container className={className}>
@@ -221,49 +201,12 @@ class ProjectCard extends React.Component<
             <ProjectCardPills {...this.props} />
           </Header>,
         )}
-        <Author className="truncate">
-          {closed && (
-            <>
-              <span className="text-red-600 font-medium">ENCERRADA</span> -{' '}
-            </>
-          )}
-          {organization && (
-            <>
-              {!closed && intl.formatMessage(m.by)}{' '}
-              {organization && this.linkOrganization(organization.name)}
-            </>
-          )}
-        </Author>
-        {this.link(
-          <Name className={`truncate ${nameClassName || ''}`}>{name}</Name>,
-        )}
-        <Description className={descriptionClassName}>
-          {description}
-        </Description>
-        <Footer className="flex -mx-1">
-          {address && (
-            <div className="px-1 w-1/2 mb-2 md:mb-0">
-              <span
-                title={`${address.city_state && `${address.city_state}, `} ${
-                  address.typed_address
-                }`}
-                className="text-sm block text-gray-600 truncate"
-              >
-                <Icon name="place" />{' '}
-                {address.city_state && `${address.city_state}, `}
-                {address.typed_address}
-              </span>
-            </div>
-          )}
-          {disponibility && (
-            <div className="px-1 w-1/2">
-              <span className="text-sm block text-secondary-600 truncate">
-                <Icon name="date_range" />{' '}
-                {formatDisponibility(disponibility, intl)}
-              </span>
-            </div>
-          )}
-        </Footer>
+        <ProjectCardBody
+          link={this.link}
+          linkOrganization={this.linkOrganization}
+          {...this.props}
+        />
+        <ProjectCardFooter {...this.props} />
       </Container>
     )
   }

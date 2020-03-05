@@ -1,5 +1,5 @@
-import { styles } from '~/components/ProjectCard/ProjectCard.tsx'
 import Tooltip from '~/components/Tooltip'
+import { styles } from './ProjectCard'
 import styled from 'styled-components'
 import Icon from '~/components/Icon'
 import React from 'react'
