@@ -31,5 +31,12 @@ export interface SWRAction extends RequestInit {
 }
 
 export const swrFetcher = (action: SWRAction) => {
+  if (process.env.NODE_ENV !== 'production') {
+    console.log(
+      '%c SENDING REQUEST',
+      'color: green; font-size: 12px; font-weight: bolder',
+      action,
+    )
+  }
   return fetch(action.url, action).then(res => res.json())
 }
