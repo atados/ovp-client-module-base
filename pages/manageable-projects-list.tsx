@@ -230,7 +230,7 @@ const ManageableProjectsList: NextPage<ManageableProjectsListProps> = ({
         <button
           type="button"
           className="btn rounded-full bg-gray-200 hover:bg-gray-300 text-lg"
-          disabled={pagesCount === page}
+          disabled={Math.ceil(pagesCount) === page}
           onClick={() => setPage(page + 1)}
         >
           <Icon name="arrow_forward" />
