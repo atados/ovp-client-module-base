@@ -27,6 +27,8 @@ import {
 import { createGeolocationObject } from '../lib/geo'
 import ToastsProvider from '~/components/Toasts/ToastsProvider'
 import { dev } from '~/common/constants'
+import { SWRConfig } from 'swr'
+import { swrFetcher } from '~/hooks/use-swr'
 
 declare global {
   interface Window {
@@ -137,33 +139,40 @@ class App extends NextApp<AppProps> {
       >
         <Provider store={store}>
           <ThemeProvider theme={Theme}>
-            <ToastsProvider>
-              <StatusProvider>
-                <ModalProvider>
-                  <Head>
-                    <meta
-                      name="theme-color"
-                      content={Theme.color.primary[500]}
-                    />
-                    {Config.maps && (
-                      <script
-                        src={`https://maps.googleapis.com/maps/api/js?key=${Config.maps.key}&libraries=places&language=${intl.locale}`}
+            <SWRConfig
+              value={{
+                fetcher: swrFetcher,
+                refreshInterval: 0,
+                revalidateOnFocus: false,
+              }}
+            >
+              <ToastsProvider>
+                <StatusProvider>
+                  <ModalProvider>
+                    <Head>
+                      <meta
+                        name="theme-color"
+                        content={Theme.color.primary[500]}
                       />
-                    )}
-                    {Asset.favicon && (
-                      <link
-                        rel="shortcut icon"
-                        href={Asset.favicon}
-                        type="image/x-icon"
-                      />
-                    )}
-                    {Config.head.scripts.map((script, i) => (
-                      <script key={i} {...script} />
-                    ))}
-                    {Config.head.links.map((link, i) => (
-                      <link key={i} {...link} />
-                    ))}
-                    <style>{`
+                      {Config.maps && (
+                        <script
+                          src={`https://maps.googleapis.com/maps/api/js?key=${Config.maps.key}&libraries=places&language=${intl.locale}`}
+                        />
+                      )}
+                      {Asset.favicon && (
+                        <link
+                          rel="shortcut icon"
+                          href={Asset.favicon}
+                          type="image/x-icon"
+                        />
+                      )}
+                      {Config.head.scripts.map((script, i) => (
+                        <script key={i} {...script} />
+                      ))}
+                      {Config.head.links.map((link, i) => (
+                        <link key={i} {...link} />
+                      ))}
+                      <style>{`
                       .input:focus {
                         border-color: ${Color.primary[500]}
                       }
@@ -178,21 +187,24 @@ class App extends NextApp<AppProps> {
                         border-color: ${Color.primary[500]};
                       }
                     `}</style>
-                    {!dev && <script src={`/generated/lang/${intl.locale}`} />}
-                  </Head>
+                      {!dev && (
+                        <script src={`/generated/lang/${intl.locale}`} />
+                      )}
+                    </Head>
 
-                  {Config.googleTagManager && (
-                    <GTMScripts {...Config.googleTagManager} />
-                  )}
-                  <GlobalProgressBar
-                    ref={ref => {
-                      this.progressBar = ref as ProgressBar
-                    }}
-                  />
-                  <Component {...pageProps} />
-                </ModalProvider>
-              </StatusProvider>
-            </ToastsProvider>
+                    {Config.googleTagManager && (
+                      <GTMScripts {...Config.googleTagManager} />
+                    )}
+                    <GlobalProgressBar
+                      ref={ref => {
+                        this.progressBar = ref as ProgressBar
+                      }}
+                    />
+                    <Component {...pageProps} />
+                  </ModalProvider>
+                </StatusProvider>
+              </ToastsProvider>
+            </SWRConfig>
           </ThemeProvider>
         </Provider>
       </IntlProvider>
