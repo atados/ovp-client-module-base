@@ -7,13 +7,12 @@ import styled from 'styled-components'
 import Icon from '../Icon'
 import Tooltip from '../Tooltip'
 import { isNotAppliedAnymore } from '~/lib/utils/project-application-utils'
-import { Page, PageAs, GlobalMessages } from '~/common'
+import { Page, PageAs, GlobalMessages, APIEndpoint } from '~/common'
 import ActivityIndicator from '../ActivityIndicator'
 import { useAPIFetcher, mutateFetchCache } from '~/hooks/use-fetch'
 import { ProjectApplication } from '~/types/api-typings'
 import { useToasts } from '~/components/Toasts'
 import { defineMessages, useIntl, FormattedMessage } from 'react-intl'
-import { QueryId } from '~/common/api'
 import { pushToDataLayer } from '~/lib/tag-manager'
 import { reportError } from '~/lib/utils/error'
 
@@ -110,7 +109,7 @@ const ProjectApplicationTableRow: React.FC<ProjectApplicationTableRowProps> = ({
         'success',
       )
       mutateFetchCache<any>(
-        QueryId.ProjectApplies(projectSlug),
+        APIEndpoint.QueryId.ProjectApplies(projectSlug),
         prevValue =>
           prevValue && {
             ...prevValue,
@@ -157,7 +156,7 @@ const ProjectApplicationTableRow: React.FC<ProjectApplicationTableRowProps> = ({
     try {
       await changeStatusFetch.fetch('confirmed-volunteer')
       mutateFetchCache<any>(
-        QueryId.ProjectApplies(projectSlug),
+        APIEndpoint.QueryId.ProjectApplies(projectSlug),
         prevValue =>
           prevValue && {
             ...prevValue,
