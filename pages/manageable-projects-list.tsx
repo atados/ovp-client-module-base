@@ -159,6 +159,7 @@ const ManageableProjectsList: NextPage<ManageableProjectsListProps> = ({
   const searchInputDebounceRef = useRef<number | null>(null)
   const handleSearchInputChange = useCallback(
     event => {
+      setPage(1)
       const { value } = event.target
       setSearchInputValue(value)
 
@@ -185,6 +186,7 @@ const ManageableProjectsList: NextPage<ManageableProjectsListProps> = ({
 
   const handleClosedFilterInputChange = useCallback(
     event => {
+      setPage(1)
       const { value } = event.target
 
       const searchFragment = queryString.stringify({
@@ -207,7 +209,8 @@ const ManageableProjectsList: NextPage<ManageableProjectsListProps> = ({
       <div className="inline-block">
         {(pagination.data && (
           <span className="mr-3 mt-2 text-gray-800 block">
-            {1 + (page - 1) * 20} - {page * 20} de {pagination.data.count}
+            {1 + (page - 1) * 20} - {Math.min(page * 20, pagination.data.count)}{' '}
+            de {pagination.data.count}
           </span>
         )) || (
           <span className="mr-3 mt-2 text-gray-800 block">
