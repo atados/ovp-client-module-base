@@ -27,6 +27,8 @@ if (process.env.NODE_ENV === 'production') {
   import('~/generated/lang/en-us.json').then(storeAtCache('en-us'))
   // @ts-ignore
   import('~/generated/lang/pt-br.json').then(storeAtCache('pt-br'))
+  // @ts-ignore
+  import('~/generated/lang/pt-pt.json').then(storeAtCache('pt-pt'))
 }
 
 export default (locale: string) => {
