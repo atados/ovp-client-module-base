@@ -202,7 +202,7 @@ const ManageableProjectsList: NextPage<ManageableProjectsListProps> = ({
   )
   const projects = pagination.data?.results || []
   const pageSize = 20
-  const pagesCount = (pagination.data?.count || 0) / pageSize
+  const pagesCount = Math.ceil((pagination.data?.count || 0) / pageSize)
 
   const paginationArrows = (
     <div className="w-full sm:w-1/2 md:w-1/3 mb-4 md:mb-0 flex flex-wrap justify-center md:justify-end">
@@ -230,7 +230,7 @@ const ManageableProjectsList: NextPage<ManageableProjectsListProps> = ({
         <button
           type="button"
           className="btn rounded-full bg-gray-200 hover:bg-gray-300 text-lg"
-          disabled={Math.ceil(pagesCount) === page}
+          disabled={pagesCount <= page}
           onClick={() => setPage(page + 1)}
         >
           <Icon name="arrow_forward" />
