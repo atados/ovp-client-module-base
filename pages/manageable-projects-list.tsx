@@ -146,7 +146,7 @@ const ManageableProjectsList: NextPage<ManageableProjectsListProps> = ({
 
     closed:
       filters.status === 'false' || filters.status === 'true'
-        ? Boolean(filters.status)
+        ? filters.status === 'true'
         : filters.status === 'unpublished'
         ? false
         : 'both',
@@ -202,6 +202,40 @@ const ManageableProjectsList: NextPage<ManageableProjectsListProps> = ({
   const pageSize = 20
   const pagesCount = (pagination.data?.count || 0) / pageSize
 
+  const paginationArrows = (
+    <div className="w-full sm:w-1/2 md:w-1/3 mb-4 md:mb-0 flex flex-wrap justify-center md:justify-end">
+      <div className="inline-block">
+        {(pagination.data && (
+          <span className="mr-3 mt-2 text-gray-800 block">
+            {1 + (page - 1) * 20} - {page * 20} de {pagination.data.count}
+          </span>
+        )) || (
+          <span className="mr-3 mt-2 text-gray-800 block">
+            {intl.formatMessage(m.loading)}
+          </span>
+        )}
+      </div>
+      <div className="inline-block">
+        <button
+          type="button"
+          className="btn rounded-full bg-gray-200 hover:bg-gray-300 mr-1 text-lg"
+          disabled={page === 1}
+          onClick={() => setPage(page - 1)}
+        >
+          <Icon name="arrow_back" />
+        </button>
+        <button
+          type="button"
+          className="btn rounded-full bg-gray-200 hover:bg-gray-300 text-lg"
+          disabled={pagesCount === page}
+          onClick={() => setPage(page + 1)}
+        >
+          <Icon name="arrow_forward" />
+        </button>
+      </div>
+    </div>
+  )
+
   const body = (
     <div className="container px-2 py-5">
       <Meta title={intl.formatMessage(m.title)} />
@@ -210,8 +244,8 @@ const ManageableProjectsList: NextPage<ManageableProjectsListProps> = ({
           <h1 className="text-2xl font-medium mb-3">
             {intl.formatMessage(m.title)}
           </h1>
-          <FiltersForm>
-            <SearchForm className="mr-2">
+          <FiltersForm className="flex flex-wrap">
+            <SearchForm className="mr-0 md:mr-2 w-full sm:w-1/2 md:w-1/4 mb-4 md:mb-0">
               <input
                 type="text"
                 className="input h-10 rounded-full"
@@ -222,7 +256,7 @@ const ManageableProjectsList: NextPage<ManageableProjectsListProps> = ({
               <Icon name="search" />
             </SearchForm>
             <ClosedFilterInput
-              className="input h-10 rounded-full px-4 mr-auto"
+              className="input h-10 rounded-full px-4 mr-0 md:mr-auto w-full sm:w-1/2 md:w-1/4 mb-4 md:mb-0"
               value={filters.status}
               onChange={handleClosedFilterInputChange}
             >
@@ -236,32 +270,7 @@ const ManageableProjectsList: NextPage<ManageableProjectsListProps> = ({
                 {intl.formatMessage(m.filterRevision)}
               </option>
             </ClosedFilterInput>
-            {pagination.data && (
-              <span className="mr-3 mt-2 text-gray-800 block">
-                {1 + (page - 1) * 20} - {page * 20} de {pagination.data.count}
-              </span>
-            )}
-            {!pagination.data && (
-              <span className="mr-3 mt-2 text-gray-800 block">
-                {intl.formatMessage(m.loading)}
-              </span>
-            )}
-            <button
-              type="button"
-              className="btn rounded-full bg-gray-200 hover:bg-gray-300 mr-1 text-lg"
-              disabled={page === 1}
-              onClick={() => setPage(page - 1)}
-            >
-              <Icon name="arrow_back" />
-            </button>
-            <button
-              type="button"
-              className="btn rounded-full bg-gray-200 hover:bg-gray-300 text-lg"
-              disabled={pagesCount === page}
-              onClick={() => setPage(page + 1)}
-            >
-              <Icon name="arrow_forward" />
-            </button>
+            {paginationArrows}
           </FiltersForm>
         </div>
         <TableWrapper>
@@ -318,6 +327,9 @@ const ManageableProjectsList: NextPage<ManageableProjectsListProps> = ({
               </Link>
             </div>
           )}
+          <div className="flex flex-wrap justify-end m-2 pr-4 pb-3">
+            {paginationArrows}
+          </div>
         </TableWrapper>
       </div>
     </div>
