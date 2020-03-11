@@ -11,7 +11,7 @@ export function mountAddressFilter(
   // e o usuário não removeu o filtro de endereço
   if (
     Config.geolocation.filterSearchByDefault &&
-    typeof givenAddress !== 'undefined'
+    typeof givenAddress === 'undefined'
   ) {
     const geoRegionLongName = regionLongNameMap[geo.region]
 
