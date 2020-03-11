@@ -2,24 +2,24 @@ import { NextPage } from 'next'
 import Router from 'next/router'
 import queryString from 'querystring'
 import React, { useCallback, useRef, useState } from 'react'
-import { Waypoint } from 'react-waypoint'
 import styled from 'styled-components'
-import ActivityIndicator from '~/components/ActivityIndicator'
 import Icon from '~/components/Icon'
 import Layout from '~/components/Layout'
 import OrganizationLayout from '~/components/OrganizationLayout/OrganizationLayout'
-import useFetchAPI from '~/hooks/use-fetch-api'
-import useFetchAPIMutation from '~/hooks/use-fetch-api-mutation'
 import { NotFoundPageError } from '~/lib/next/errors'
 import { Project } from '~/redux/ducks/project'
 import { ApiPagination } from '~/redux/ducks/search'
 import { UserOrganization } from '~/redux/ducks/user'
-import { useIntl, defineMessages } from 'react-intl'
+import { useIntl, defineMessages, FormattedMessage } from 'react-intl'
 import Meta from '../components/Meta'
 import ManageableProjectTableRow from '../components/ManageableProjectsListPage/ManageableProjectTableRow'
 import { removeSearchFragmentFromURL } from '../lib/utils/string'
-import { useFetchClient } from 'react-fetch-json-hook'
-import { Theme } from '../common'
+import { Theme, Color, Page, PageAs } from '../common'
+import { useSWRWithExtras } from '~/hooks/use-swr'
+import { APIEndpoint } from '~/common'
+import ActivityIndicator from '~/components/ActivityIndicator'
+import EmptySVG from '~/components/SVG/EmptySVG'
+import Link from 'next/link'
 
 const PageStyled = styled.div`
   min-height: 100vh;
@@ -44,7 +44,6 @@ const FiltersForm = styled.form`
 
 const SearchForm = styled.div`
   position: relative;
-  flex: 1 1 auto;
 
   > input {
     padding-left: 38px;
@@ -113,17 +112,9 @@ const m = defineMessages({
     id: 'CARREGANDO',
     defaultMessage: 'Carregando...',
   },
-  projectsCount: {
-    id: 'pages.manageableProjectList.projectsCount',
-    defaultMessage: '{value} vagas no total',
-  },
   loadingProjects: {
     id: 'pages.manageableProjectList.loadingProjects',
     defaultMessage: 'Carregando vagas...',
-  },
-  noProjects: {
-    id: 'pages.manageableProjectList.noProjects',
-    defaultMessage: 'Não há mais vagas',
   },
 })
 
@@ -140,61 +131,35 @@ const ManageableProjectsList: NextPage<ManageableProjectsListProps> = ({
   filters,
 }) => {
   const intl = useIntl()
+  const [page, setPage] = useState<number>(1)
   const [searchInputValue, setSearchInputValue] = useState<string>(
     filters.query,
   )
 
-  const fetchClient = useFetchClient()
-  const queryResult = useFetchAPI<ApiPagination<Project>>(
-    `/search/projects/?${queryString.stringify({
-      ordering: '-created_date',
-      manageable: organization ? undefined : 'true',
-      published:
-        filters.status === 'published' || filters.status === 'unpublished'
-          ? String(filters.status === 'published')
-          : 'both',
-      closed:
-        filters.status === 'published'
-          ? 'both'
-          : filters.status === 'unpublished'
-          ? 'false'
-          : filters.status,
-      query: filters.query,
-      organization: organization ? organization.id : undefined,
-    })}`,
-    {
-      id: 'manageable-projects',
-    },
-  )
-  const fetchMoreProjectsMutation = useFetchAPIMutation<ApiPagination<Project>>(
-    (nextURL: string) => ({
-      endpoint: nextURL.substr(nextURL.indexOf('/search') - 7),
-    }),
-  )
+  const url = APIEndpoint.SearchProjects({
+    ordering: '-created_date',
+    manageable: !organization,
+    published:
+      filters.status === 'published' || filters.status === 'unpublished'
+        ? filters.status === 'published'
+        : 'both',
 
-  const projects: Project[] = queryResult.data?.results || []
-  const handleLoadMoreProjectsCallback = useCallback(async () => {
-    const nextURL = queryResult.data?.next
-    const prevResult = queryResult.data
+    closed:
+      filters.status === 'false' || filters.status === 'true'
+        ? filters.status === 'true'
+        : filters.status === 'unpublished'
+        ? false
+        : 'both',
+    query: filters.query,
+    organizationId: organization?.id,
+    page,
+  })
 
-    if (nextURL && prevResult) {
-      const { data: nextResult } = await fetchMoreProjectsMutation.mutate()
-
-      if (!nextResult) {
-        return
-      }
-
-      fetchClient.set('manageable-projects', {
-        ...prevResult,
-        next: nextResult.next,
-        results: [...prevResult.results, ...nextResult.results],
-      })
-    }
-  }, [])
-
+  const pagination = useSWRWithExtras<ApiPagination<Project>>(url)
   const searchInputDebounceRef = useRef<number | null>(null)
   const handleSearchInputChange = useCallback(
     event => {
+      setPage(1)
       const { value } = event.target
       setSearchInputValue(value)
 
@@ -216,39 +181,74 @@ const ManageableProjectsList: NextPage<ManageableProjectsListProps> = ({
         )
       }, 200)
     },
-    [setSearchInputValue],
+    [setSearchInputValue, organization, filters],
   )
 
-  const handleClosedFilterInputChange = useCallback(event => {
-    const { value } = event.target
+  const handleClosedFilterInputChange = useCallback(
+    event => {
+      setPage(1)
+      const { value } = event.target
 
-    const searchFragment = queryString.stringify({
-      closed: value,
-      query: filters.query,
-    })
-    Router.push(
-      `${Router.pathname}?${searchFragment}`,
-      `${removeSearchFragmentFromURL(Router.asPath!)}?${searchFragment}`,
-    )
-  }, [])
+      const searchFragment = queryString.stringify({
+        closed: value,
+        query: filters.query,
+      })
+      Router.push(
+        `${Router.pathname}?${searchFragment}`,
+        `${removeSearchFragmentFromURL(Router.asPath!)}?${searchFragment}`,
+      )
+    },
+    [filters],
+  )
+  const projects = pagination.data?.results || []
+  const pageSize = 20
+  const pagesCount = Math.ceil((pagination.data?.count || 0) / pageSize)
+
+  const paginationArrows = (
+    <div className="w-full sm:w-1/2 md:w-1/3 mb-4 md:mb-0 flex flex-wrap justify-center md:justify-end">
+      <div className="inline-block">
+        {(pagination.data && (
+          <span className="mr-3 mt-2 text-gray-800 block">
+            {1 + (page - 1) * 20} - {Math.min(page * 20, pagination.data.count)}{' '}
+            de {pagination.data.count}
+          </span>
+        )) || (
+          <span className="mr-3 mt-2 text-gray-800 block">
+            {intl.formatMessage(m.loading)}
+          </span>
+        )}
+      </div>
+      <div className="inline-block">
+        <button
+          type="button"
+          className="btn rounded-full bg-gray-200 hover:bg-gray-300 mr-1 text-lg"
+          disabled={page === 1}
+          onClick={() => setPage(page - 1)}
+        >
+          <Icon name="arrow_back" />
+        </button>
+        <button
+          type="button"
+          className="btn rounded-full bg-gray-200 hover:bg-gray-300 text-lg"
+          disabled={pagesCount <= page}
+          onClick={() => setPage(page + 1)}
+        >
+          <Icon name="arrow_forward" />
+        </button>
+      </div>
+    </div>
+  )
 
   const body = (
     <div className="container px-2 py-5">
       <Meta title={intl.formatMessage(m.title)} />
       <div className="rounded-lg bg-white shadow">
         <div className="px-5 py-4 rounded-t-lg">
-          <h1 className="text-2xl font-medium">
+          <h1 className="text-2xl font-medium mb-3">
             {intl.formatMessage(m.title)}
           </h1>
-          <span className="mb-6 block text-gray-600">
-            {queryResult.data
-              ? intl.formatMessage(m.projectsCount, {
-                  value: queryResult.data.count,
-                })
-              : intl.formatMessage(m.loading)}
-          </span>
-          <FiltersForm>
-            <SearchForm className="mr-2">
+          <FiltersForm className="flex flex-wrap">
+            <SearchForm className="mr-0 md:mr-2 w-full sm:w-1/2 md:w-1/4 mb-4 md:mb-0">
               <input
                 type="text"
                 className="input h-10 rounded-full"
@@ -259,7 +259,7 @@ const ManageableProjectsList: NextPage<ManageableProjectsListProps> = ({
               <Icon name="search" />
             </SearchForm>
             <ClosedFilterInput
-              className="input h-10 rounded-full px-4"
+              className="input h-10 rounded-full px-4 mr-0 md:mr-auto w-full sm:w-1/2 md:w-1/4 mb-4 md:mb-0"
               value={filters.status}
               onChange={handleClosedFilterInputChange}
             >
@@ -273,35 +273,67 @@ const ManageableProjectsList: NextPage<ManageableProjectsListProps> = ({
                 {intl.formatMessage(m.filterRevision)}
               </option>
             </ClosedFilterInput>
+            {paginationArrows}
           </FiltersForm>
         </div>
         <TableWrapper>
-          <Table className="table table-default borderless">
-            <tbody>
-              {projects.map(project => (
-                <ManageableProjectTableRow
-                  key={project.slug}
-                  project={project}
-                  fromOrganization={organization}
+          {!pagination.isValidating && (
+            <Table className="table table-default borderless">
+              <tbody>
+                {projects.map(project => (
+                  <ManageableProjectTableRow
+                    key={project.slug}
+                    project={project}
+                    fromOrganization={organization}
+                  />
+                ))}
+              </tbody>
+            </Table>
+          )}
+          {pagination.isValidating && (
+            <div className="py-24 border-t text-center">
+              <ActivityIndicator size={64} fill={Color.gray[700]} />
+            </div>
+          )}
+          {!pagination.isValidating && !projects.length && (
+            <div className="text-center py-10 border-t">
+              <div className="max-w-lg px-4 mx-auto">
+                <EmptySVG className="mx-auto w-full" height={300} />
+              </div>
+              <h4 className="mb-4">
+                <FormattedMessage
+                  id="emptyProjectsSearch"
+                  defaultMessage="Nenhuma vaga foi encontrada"
                 />
-              ))}
-            </tbody>
-          </Table>
+              </h4>
+              <Link
+                href={
+                  organization ? Page.OrganizationNewProject : Page.NewProject
+                }
+                as={
+                  organization
+                    ? PageAs.OrganizationNewProject({
+                        organizationSlug: organization.slug,
+                        stepId: 'inicio',
+                      })
+                    : PageAs.NewProject({
+                        stepId: 'inicio',
+                      })
+                }
+              >
+                <a className="btn bg-primary-500 text-white px-4 font- py-2 rounded">
+                  <FormattedMessage
+                    id="createProject"
+                    defaultMessage="Criar vaga"
+                  />
+                </a>
+              </Link>
+            </div>
+          )}
+          <div className="flex flex-wrap justify-end m-2 pr-4 pb-3">
+            {paginationArrows}
+          </div>
         </TableWrapper>
-        {(queryResult.loading || queryResult.data?.next) && (
-          <div className="card-item p-5 text-center">
-            <Waypoint onEnter={handleLoadMoreProjectsCallback} />
-            <ActivityIndicator size={64} className="mb-2" />
-            <span className="block text-gray-600">
-              {intl.formatMessage(m.loadingProjects)}
-            </span>
-          </div>
-        )}
-        {!queryResult.loading && queryResult.data?.next && (
-          <div className="card-item p-5 text-center text-gray-600">
-            {intl.formatMessage(m.noProjects)}
-          </div>
-        )}
       </div>
     </div>
   )

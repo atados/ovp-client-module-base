@@ -14,7 +14,7 @@ import Icon from '../Icon'
 import { FormattedMessage } from 'react-intl'
 import { API } from '~/types/api'
 import ProjectApplicationTableRow from './ProjectApplicationTableRow'
-import { QueryId, APIEndpoint } from '~/common/api'
+import { APIEndpoint } from '~/common'
 
 interface ProjectManagePageApplicationsReduxProps {
   readonly viewer: User
@@ -32,7 +32,7 @@ const ProjectManagePageApplications: React.FC<ProjectManagePageApplicationsProps
   project,
 }) => {
   const query = useFetchAPI<ProjectApplication[]>({
-    id: QueryId.ProjectApplies(project.slug),
+    id: APIEndpoint.QueryId.ProjectApplies(project.slug),
     endpoint: APIEndpoint.ProjectApplies(project.slug),
   })
   const [applications, setApplications] = useState(query.data || [])
