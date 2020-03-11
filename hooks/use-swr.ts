@@ -34,7 +34,7 @@ export const swrFetcher = (action: SWRAction) => {
   if (process.env.NODE_ENV !== 'production') {
     // tslint:disable-next-line:no-console
     console.log(
-      '%c SENDING REQUEST',
+      '%c SWR',
       'color: green; font-size: 12px; font-weight: bolder',
       action,
     )
