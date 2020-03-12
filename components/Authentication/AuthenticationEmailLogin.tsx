@@ -1,19 +1,20 @@
-import React, { Dispatch } from 'react'
-import cx from 'classnames'
+import { useIntl, defineMessages, FormattedMessage } from 'react-intl'
 import { withFormik, FormikProps } from 'formik'
+import React, { Dispatch } from 'react'
+import Link from 'next/link'
+import cx from 'classnames'
+
 import FormGroup from '~/components/Form/FormGroup'
 import Yup from '~/lib/form/yup'
+import { generateSessionTokenWithEmail } from '~/redux/ducks/user'
+import { Page, Asset } from '~/common'
+
 import {
   AuthenticationAction,
   AuthenticateBySessionTokenFn,
 } from './Authentication'
-import { useIntl, defineMessages, FormattedMessage } from 'react-intl'
-import Link from 'next/link'
-import { Page, Asset } from '~/common'
 import ActivityIndicator from '../ActivityIndicator'
 import Icon from '../Icon'
-import { generateSessionTokenWithEmail } from '~/redux/ducks/user'
-import Status, { StatusLevel } from '../Status'
 
 interface Values {
   email: string
