@@ -154,7 +154,9 @@ const ProjectApplicationFormProps: React.FC<InjectedFormikProps<
                       } ${disableRoleButton ? 'cursor-not-allowed' : ''}`}
                     />
                     <div className="media-body flex flex-row justify-between">
-                      <b>{role.name}</b>
+                      <b className={disableRoleButton ? 'text-gray-600' : ''}>
+                        {role.name}
+                      </b>
                       {disableRoleButton && (
                         <div className="bg-red-600 text-white py-1 px-2 rounded-sm font-bold">
                           Sem vagas
