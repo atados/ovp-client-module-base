@@ -11,7 +11,7 @@ import {
   ApplicationPayload,
   applyToProject,
 } from '~/redux/ducks/project-application'
-import { Page } from '~/common'
+import { Page, Config } from '~/common'
 import { defineMessages } from 'react-intl'
 import { useIntl } from 'react-intl'
 import Icon from '~/components/Icon'
@@ -133,33 +133,47 @@ const ProjectApplicationFormProps: React.FC<InjectedFormikProps<
         <>
           <b className="block mb-2">{intl.formatMessage(FUNCAO)}</b>
           <div className="card mb-6">
-            {project.roles.map(role => (
-              <div key={role.id} className="card-item">
-                <RoleButton
-                  type="button"
-                  className="p-3 media"
-                  onClick={() => setFieldValue('roleId', role.id)}
-                >
-                  <span
-                    className={`input-radio mr-4${
-                      values.roleId === role.id ? ' checked' : ''
+            {project.roles.map(role => {
+              const hasVacancies = role.applied_count < role.vacancies
+              const disableRoleButton =
+                Config.project.blockApplicationsAtLimit && !hasVacancies
+
+              return (
+                <div key={role.id} className="card-item">
+                  <RoleButton
+                    type="button"
+                    disabled={disableRoleButton}
+                    className={`p-3 media ${
+                      disableRoleButton ? 'bg-gray-300 cursor-not-allowed' : ''
                     }`}
-                  />
-                  <div className="media-body">
-                    <b>{role.name}</b>
-                  </div>
-                </RoleButton>
-                {values.roleId === role.id && (
-                  <RoleBody className="bg-muted text-sm p-3">
-                    <p>{role.details}</p>
-                    <p className="mb-0">
-                      <b>{intl.formatMessage(PRE_REQUISITOS)} </b>
-                      {role.prerequisites}
-                    </p>
-                  </RoleBody>
-                )}
-              </div>
-            ))}
+                    onClick={() => setFieldValue('roleId', role.id)}
+                  >
+                    <span
+                      className={`input-radio mr-4 ${
+                        values.roleId === role.id ? 'checked' : ''
+                      } ${disableRoleButton ? 'cursor-not-allowed' : ''}`}
+                    />
+                    <div className="media-body flex flex-row justify-between">
+                      <b>{role.name}</b>
+                      {disableRoleButton && (
+                        <div className="bg-red-600 text-white py-1 px-2 rounded-sm font-bold">
+                          Sem vagas
+                        </div>
+                      )}
+                    </div>
+                  </RoleButton>
+                  {values.roleId === role.id && (
+                    <RoleBody className="bg-muted text-sm p-3">
+                      <p>{role.details}</p>
+                      <p className="mb-0">
+                        <b>{intl.formatMessage(PRE_REQUISITOS)} </b>
+                        {role.prerequisites}
+                      </p>
+                    </RoleBody>
+                  )}
+                </div>
+              )
+            })}
           </div>
         </>
       )}
