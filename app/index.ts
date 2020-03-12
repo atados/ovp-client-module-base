@@ -294,6 +294,7 @@ const app: AppConfiguration<ValidBasePageName> = {
     posts: true,
     documents: true,
     documentsRestricted: false,
+    blockApplicationsAtLimit: false,
   },
   social: [],
   toolbar: {
