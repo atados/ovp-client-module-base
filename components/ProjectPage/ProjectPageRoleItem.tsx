@@ -1,7 +1,7 @@
 import React from 'react'
 import { defineMessages } from 'react-intl'
 import styled from 'styled-components'
-import { Color } from '~/common'
+import { Color, Config } from '~/common'
 import { rgba } from '~/lib/color/transformers'
 import { useIntl } from 'react-intl'
 import { colors } from '~/common/constants'
@@ -106,7 +106,7 @@ const Applies = styled.ul`
   }
 `
 
-const { QUERO_CONTRIBUIR, FUNCAO, PRE_REQUISITOS } = defineMessages({
+const { QUERO_CONTRIBUIR, FUNCAO, PRE_REQUISITOS, SEM_VAGAS } = defineMessages({
   QUERO_CONTRIBUIR: {
     id: 'QUERO_CONTRIBUIR',
     defaultMessage: 'Quero contribuir como',
@@ -119,33 +119,48 @@ const { QUERO_CONTRIBUIR, FUNCAO, PRE_REQUISITOS } = defineMessages({
     id: 'PRE_REQUISITOS',
     defaultMessage: 'PRÉ-REQUISITOS',
   },
+  SEM_VAGAS: {
+    id: 'SEM VAGAS',
+    defaultMessage: 'SEM VAGAS',
+  },
 })
 
-export default ({ role, onApply, project }) => {
+const ProjectPageRoleItem = ({ role, onApply, project }) => {
   const intl = useIntl()
+  const hasVacancies = role.applied_count < role.vacancies
+  const disableCard = Config.project.blockApplicationsAtLimit && !hasVacancies
 
   return (
     <Role
       key={role.id}
       type="button"
-      className="mb-6"
+      className={`mb-6 ${disableCard ? 'opacity-50 cursor-default' : ''}`}
+      disabled={disableCard}
       onClick={onApply ? () => onApply(role.id) : undefined}
     >
-      <RoleApply>
-        <div className="animte-slideInUp">
-          {intl.formatMessage(QUERO_CONTRIBUIR)}{' '}
-          <b className="block">{role.name}</b>
-        </div>
-      </RoleApply>
+      {!disableCard && (
+        <RoleApply>
+          <div className="animte-slideInUp">
+            {intl.formatMessage(QUERO_CONTRIBUIR)}{' '}
+            <b className="block">{role.name}</b>
+          </div>
+        </RoleApply>
+      )}
       <RoleName>{role.name}</RoleName>
       <RoleSectionTitle>{intl.formatMessage(FUNCAO)}</RoleSectionTitle>
       <RoleText>{role.details}</RoleText>
       <RoleSectionTitle>{intl.formatMessage(PRE_REQUISITOS)}</RoleSectionTitle>
       <RoleText>{role.prerequisites}</RoleText>
       <div className="flex">
-        <span className="font-medium mr-2">
-          {role.applied_count}/{role.vacancies}
-        </span>
+        {disableCard ? (
+          <span className="font-medium mr-2 text-red-700">
+            {intl.formatMessage(SEM_VAGAS)}
+          </span>
+        ) : (
+          <span className="font-medium mr-2">
+            {role.applied_count}/{role.vacancies}
+          </span>
+        )}
         <div className="mr-auto" />
         {role.applies && role.applies.length > 0 && (
           <Applies className="mr-2">
@@ -172,3 +187,5 @@ export default ({ role, onApply, project }) => {
     </Role>
   )
 }
+
+export default ProjectPageRoleItem

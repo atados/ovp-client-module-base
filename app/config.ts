@@ -110,6 +110,7 @@ export interface AppConfiguration<TValidPageName extends string> {
     posts: boolean
     documents: boolean
     documentsRestricted: boolean
+    blockApplicationsAtLimit: boolean
   }
 
   application: {
