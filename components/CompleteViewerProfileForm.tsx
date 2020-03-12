@@ -17,7 +17,7 @@ import { formatToBRDate, formatToUSDate } from '~/lib/utils/string'
 import { PublicUser } from '~/redux/ducks/public-user'
 import { User } from '~/redux/ducks/user'
 import { updateUser, UserOverrides } from '~/redux/ducks/user-update'
-import { RootState } from '~/redux/root-reducer'
+import { ReduxState } from '~/redux/root-reducer'
 import { defineMessages } from 'react-intl'
 import { useIntl } from 'react-intl'
 
@@ -236,7 +236,7 @@ ProjectApplicationUserFormProps.displayName = 'ProjectApplicationUserFormProps'
 const mapStateToProps = ({
   user: currentUser,
   currentUserProfile,
-}: RootState) => ({
+}: ReduxState) => ({
   currentUser,
   currentPublicUser: currentUserProfile.node,
 })

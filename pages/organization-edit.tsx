@@ -16,7 +16,7 @@ import OrganizationLayout from '~/components/OrganizationLayout/OrganizationLayo
 import { NotFoundPageError } from '~/lib/next/errors'
 import { causeToSelectItem } from '~/lib/utils/form'
 import { fetchOrganization, Organization } from '~/redux/ducks/organization'
-import { RootState } from '~/redux/root-reducer'
+import { ReduxState } from '~/redux/root-reducer'
 import { Page, PageAs, Config } from '~/common'
 
 interface OrganizationComposerPageProps {
@@ -121,7 +121,7 @@ class OrganizationComposerPage extends React.Component<
 
 const mapStateToProps = ({
   organization,
-}: RootState): {
+}: ReduxState): {
   organization: Organization
   defaultValues?: Values
 } => {

@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 import styled from 'styled-components'
 import { NotFoundPageError } from '~/lib/next/errors'
 import { fetchPublicUser, PublicUser } from '~/redux/ducks/public-user'
-import { RootState } from '~/redux/root-reducer'
+import { ReduxState } from '~/redux/root-reducer'
 import Layout from '../Layout'
 import { Page } from '~/common'
 
@@ -145,7 +145,7 @@ export const getPublicUserLayoutInitialProps = async ({
   }
 }
 
-const mapStateToProps = ({ user, publicUser }: RootState) => ({
+const mapStateToProps = ({ user, publicUser }: ReduxState) => ({
   isAuthenticatedUser: !!(
     publicUser.node &&
     user &&

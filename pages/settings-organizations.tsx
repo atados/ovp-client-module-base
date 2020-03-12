@@ -7,7 +7,7 @@ import {
 import Icon from '../components/Icon'
 import { defineMessages, useIntl } from 'react-intl'
 import { useSelector } from 'react-redux'
-import { RootState } from '../redux/root-reducer'
+import { ReduxState } from '../redux/root-reducer'
 import PageLink from '../components/PageLink'
 import { Color } from '../common'
 import Meta from '../components/Meta'
@@ -20,7 +20,7 @@ const m = defineMessages({
 })
 
 const SettingsNewsletterPage: NextPage<{}> = () => {
-  const viewer = useSelector((state: RootState) => state.user!)
+  const viewer = useSelector((state: ReduxState) => state.user!)
   const intl = useIntl()
 
   return (

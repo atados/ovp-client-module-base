@@ -1,6 +1,6 @@
 import { createAction, createReducer } from 'redux-handy'
 import { fetchAPI } from '~/lib/fetch'
-import { RootState } from '../root-reducer'
+import { ReduxState } from '../root-reducer'
 import { Disponibility, Gallery, Project } from './project'
 
 export interface ProjectPayload {
@@ -32,7 +32,7 @@ export interface ProjectPayload {
 export const addProject = createAction<ProjectPayload, Project>(
   'PROJECT_ADD',
   (payload, { getState }) => {
-    const { user } = getState() as RootState
+    const { user } = getState() as ReduxState
 
     if (!user) {
       throw new Error('You must be logged in')
@@ -50,7 +50,7 @@ export const editProject = createAction<
   Partial<ProjectPayload> & { slug: string },
   Project
 >('PROJECT_EDIT', (payload, { getState }) => {
-  const { user } = getState() as RootState
+  const { user } = getState() as ReduxState
 
   if (!user) {
     throw new Error('You must be logged in')

@@ -1,13 +1,13 @@
 import { createAction, createReducer } from 'redux-handy'
 import { fetchAPI } from '~/lib/fetch'
 import { catchErrorAndReport } from '~/lib/utils/error'
-import { RootState } from '../root-reducer'
+import { ReduxState } from '../root-reducer'
 import { pushToDataLayer } from '~/lib/tag-manager'
 
 export const joinOrganization = createAction<string, boolean, string>(
   'ORGANIZATION_JOIN',
   async (organizationSlug, { getState }) => {
-    const { user } = getState() as RootState
+    const { user } = getState() as ReduxState
 
     if (!user) {
       throw new Error('You must be logged in')

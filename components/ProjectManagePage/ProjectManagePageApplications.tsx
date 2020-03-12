@@ -9,7 +9,7 @@ import {
   ProjectApplicationStatus,
 } from '~/redux/ducks/project'
 import { User } from '~/redux/ducks/user'
-import { RootState } from '~/redux/root-reducer'
+import { ReduxState } from '~/redux/root-reducer'
 import Icon from '../Icon'
 import { FormattedMessage } from 'react-intl'
 import { API } from '~/types/api'
@@ -241,7 +241,7 @@ const ProjectManagePageApplications: React.FC<ProjectManagePageApplicationsProps
 ProjectManagePageApplications.displayName = 'ProjectManagePageApplications'
 
 const mapStateToProps = (
-  state: RootState,
+  state: ReduxState,
 ): ProjectManagePageApplicationsReduxProps => ({ viewer: state.user! })
 
 export default React.memo(

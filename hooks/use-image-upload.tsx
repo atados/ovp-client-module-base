@@ -1,6 +1,6 @@
 import { fetchAPI } from '../lib/fetch/fetch.client'
 import { useSelector } from 'react-redux'
-import { RootState } from '../redux/root-reducer'
+import { ReduxState } from '../redux/root-reducer'
 import { API } from '~/types/api'
 
 const RE_VALID_TYPE = /image\/(jpe?g|png)/gi
@@ -9,7 +9,7 @@ interface UploadImageFileOptions {
 }
 
 export const useImageUpload = () => {
-  const viewer = useSelector((reduxState: RootState) => reduxState.user)
+  const viewer = useSelector((reduxState: ReduxState) => reduxState.user)
 
   return async (
     file: File,

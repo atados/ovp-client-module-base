@@ -1,5 +1,5 @@
 import { useSelector } from 'react-redux'
-import { RootState } from '~/redux/root-reducer'
+import { ReduxState } from '~/redux/root-reducer'
 import { reportError } from '~/lib/utils/error'
 import { Project } from '~/redux/ducks/project'
 import { useModal } from '~/components/Modal'
@@ -14,7 +14,7 @@ import ConfirmEmailBeforeProceeding from '~/components/EmailConfirmation/Confirm
 import { Config } from '~/common'
 
 export function useProjectApplication() {
-  const viewer = useSelector((state: RootState) => state.user)
+  const viewer = useSelector((state: ReduxState) => state.user)
   const modalManager = useModalManager()
   const openApplicationRegistryModal = useModal({
     id: 'ProjectApplicationRegistry',

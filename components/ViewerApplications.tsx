@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import ToolbarApplicationsItem from './Toolbar/ToolbarApplicationsItem'
 import { useSelector } from 'react-redux'
-import { RootState } from '../redux/root-reducer'
+import { ReduxState } from '../redux/root-reducer'
 import useFetchAPI from '../hooks/use-fetch-api'
 import { PublicUser, PublicUserApplication } from '../redux/ducks/public-user'
 import PageLink from './PageLink'
@@ -35,7 +35,7 @@ const ViewerApplications: React.FC<ViewerApplicationsProps> = ({
   className,
   scroll = true,
 }) => {
-  const viewer = useSelector((reduxState: RootState) => reduxState.user)
+  const viewer = useSelector((reduxState: ReduxState) => reduxState.user)
   const openProjectApplication = useProjectApplication()
   const [state, setState] = useState<ViewerApplicationsState>({
     focused: false,

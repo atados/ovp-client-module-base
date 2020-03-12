@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import { DropdownMenu } from '~/components/Dropdown'
 import SearchFilter from '~/components/SearchFilters/SearchFilter'
 import { pushToDataLayer } from '~/lib/tag-manager'
-import { RootState } from '~/redux/root-reducer'
+import { ReduxState } from '~/redux/root-reducer'
 import { FormattedMessage } from 'react-intl'
 import { API } from '~/types/api'
 
@@ -146,5 +146,7 @@ class CausesFilter extends React.Component<CausesFilterProps> {
   }
 }
 
-const mapStateToProps = ({ startup }: RootState) => ({ causes: startup.causes })
+const mapStateToProps = ({ startup }: ReduxState) => ({
+  causes: startup.causes,
+})
 export default connect(mapStateToProps)(CausesFilter)

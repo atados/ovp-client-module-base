@@ -6,7 +6,7 @@ import {
 import Icon from '../components/Icon'
 import { FormattedMessage, useIntl, defineMessages } from 'react-intl'
 import { useSelector, useDispatch } from 'react-redux'
-import { RootState } from '../redux/root-reducer'
+import { ReduxState } from '../redux/root-reducer'
 import useFetchAPIMutation from '../hooks/use-fetch-api-mutation'
 import { logout } from '../redux/ducks/user'
 import { NextPage } from 'next'
@@ -29,7 +29,7 @@ const m = defineMessages({
 const SettingsDeleteAccountPage: NextPage<{}> = () => {
   const intl = useIntl()
   const dispatchToRedux = useDispatch()
-  const viewer = useSelector((state: RootState) => state.user!)
+  const viewer = useSelector((state: ReduxState) => state.user!)
   const updateViewerMutation = useFetchAPIMutation(() => ({
     endpoint: '/users/current-user/',
     method: 'PATCH',

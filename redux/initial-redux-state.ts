@@ -1,5 +1,5 @@
 import { IncomingMessage } from 'http'
-import { RootState } from '~/redux/root-reducer'
+import { ReduxState } from '~/redux/root-reducer'
 import { Config } from '~/common'
 import accepts from 'accepts'
 import { NextIntl } from 'next'
@@ -31,9 +31,9 @@ function createIntlObject(req: IncomingMessage): NextIntl {
   }
 }
 export const resolveInitialReduxState = (
-  givenInitialState?: Partial<RootState>,
+  givenInitialState?: Partial<ReduxState>,
   ctx?: { req?: IncomingMessage },
-): Partial<RootState> => {
+): Partial<ReduxState> => {
   let initialState = givenInitialState
   if (!givenInitialState && ctx?.req) {
     const defaultGeo = Config.geolocation.default

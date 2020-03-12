@@ -6,7 +6,7 @@ import useFetchAPIMutation from '~/hooks/use-fetch-api-mutation'
 import { fetchAPI } from '~/lib/fetch/fetch.client'
 import { Project, updateProject } from '~/redux/ducks/project'
 import { User } from '~/redux/ducks/user'
-import { RootState } from '~/redux/root-reducer'
+import { ReduxState } from '~/redux/root-reducer'
 import { API } from '~/types/api'
 import ActivityIndicator from '../ActivityIndicator'
 import Icon from '../Icon'
@@ -365,7 +365,7 @@ const ProjectManagePageDocuments: React.FC<ProjectManagePageDocumentsProps> = ({
 ProjectManagePageDocuments.displayName = 'ProjectManagePageDocuments'
 
 export default React.memo(
-  connect((state: RootState) => ({ viewer: state.user! }), {
+  connect((state: ReduxState) => ({ viewer: state.user! }), {
     onUpdateProject: updateProject,
   })(ProjectManagePageDocuments),
 )

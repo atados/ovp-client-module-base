@@ -10,7 +10,7 @@ import OrganizationLayout from '~/components/OrganizationLayout/OrganizationLayo
 import useFetchAPI from '~/hooks/use-fetch-api'
 import { NotFoundPageError } from '~/lib/next/errors'
 import { UserOrganization } from '~/redux/ducks/user'
-import { RootState } from '~/redux/root-reducer'
+import { ReduxState } from '~/redux/root-reducer'
 import { API } from '~/types/api'
 import { Page, PageAs } from '../common'
 import { FormattedMessage, useIntl, defineMessages } from 'react-intl'
@@ -206,7 +206,7 @@ OrganizationMembersPage.getInitialProps = async ({ store, query }) => {
 
 export default connect(
   (
-    state: RootState,
+    state: ReduxState,
     { organizationSlug }: OrganizationMembersPageInitialProps,
   ) => ({
     organization: state.user!.organizations.find(

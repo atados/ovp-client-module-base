@@ -1,4 +1,3 @@
-import { API_URL } from '~/common/constants'
 import querystring from 'query-string'
 import {
   AddressSearchFilter,
@@ -40,7 +39,7 @@ export const SearchProjects = (params?: SearchProjectsParams) => {
     })
   }
 
-  return `${API_URL}/search/projects/${
+  return `/search/projects/${
     params ? `?${querystring.stringify(cleanQuery)}` : ''
   }`
 }
@@ -56,7 +55,7 @@ export const Catalogue = (
     address?: AddressSearchFilter | null
   },
 ) => {
-  return `${API_URL}/catalogue/${slug}/${
+  return `/catalogue/${slug}/${
     filters && filters.address !== null
       ? `?${querystring.stringify(
           mapFiltersToAPIQuery(filters, NodeKind.Project) as any,

@@ -3,7 +3,7 @@ import { getRandomColor } from '~/lib/color/manager'
 import { fetchAPI } from '~/lib/fetch'
 import { reportError } from '~/lib/utils/error'
 import { Address, Gallery } from '~/redux/ducks/project'
-import { RootState } from '~/redux/root-reducer'
+import { ReduxState } from '~/redux/root-reducer'
 import { editOrganization } from './organization-composer'
 import { API } from '~/types/api'
 
@@ -48,7 +48,7 @@ export const fetchOrganization = createAction<
       user,
       startup: { causes },
       organization: currentState,
-    }: RootState = getState()
+    }: ReduxState = getState()
 
     if (slug === currentState.slug && currentState.node) {
       prevent()

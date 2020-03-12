@@ -2,7 +2,7 @@ import { createAction } from 'redux-handy'
 import { fetchAPI } from '~/lib/fetch'
 import { pushToDataLayer } from '~/lib/tag-manager'
 import { catchErrorAndReport } from '~/lib/utils/error'
-import { RootState } from '../root-reducer'
+import { ReduxState } from '../root-reducer'
 import { Project, ProjectRole } from './project'
 import { PublicUserApplication } from './public-user'
 
@@ -25,7 +25,7 @@ export const applyToProject = createAction<
 >(
   'PROJECT_APPLY',
   async ({ project, message, role }, { getState }) => {
-    const { user } = getState() as RootState
+    const { user } = getState() as ReduxState
 
     if (!user) {
       throw new Error('You must be logged in')
@@ -73,7 +73,7 @@ export const unapplyFromProject = createAction<
 >(
   'PROJECT_UNAPPLY',
   async ({ projectSlug }, { getState }) => {
-    const { user } = getState() as RootState
+    const { user } = getState() as ReduxState
 
     if (!user) {
       return false

@@ -2,7 +2,7 @@ import isEqual from 'fast-deep-equal'
 import { createAction, createReducer, PayloadAction } from 'redux-handy'
 import { fetchAPI } from '~/lib/fetch'
 import { generateRandomId } from '~/lib/utils/string'
-import { RootState } from '../root-reducer'
+import { ReduxState } from '../root-reducer'
 import {
   BaseFilters,
   mapFiltersToAPIQuery,
@@ -58,7 +58,7 @@ export const fetchMapMarks = createAction<
 >(
   'SEARCH_ADDRESS_MARK_PROJECT_FETCH',
   async ({ nodeKind, filters }, { getState, prevent }) => {
-    const { searchMarks } = getState() as RootState
+    const { searchMarks } = getState() as ReduxState
 
     if (
       searchMarks.fetched &&

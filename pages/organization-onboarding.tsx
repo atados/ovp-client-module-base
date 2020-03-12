@@ -5,7 +5,7 @@ import { FormattedMessage, defineMessages, useIntl } from 'react-intl'
 import styled from 'styled-components'
 import Icon from '~/components/Icon'
 import { useSelector } from 'react-redux'
-import { RootState } from '~/redux/root-reducer'
+import { ReduxState } from '~/redux/root-reducer'
 import { range } from '~/lib/utils/array'
 import Meta from '~/components/Meta'
 import PageLink from '../components/PageLink'
@@ -43,7 +43,7 @@ interface OrganizationOnboardingPageProps {
 
 const OrganizationOnboardingPage: React.FC<OrganizationOnboardingPageProps> = () => {
   const intl = useIntl()
-  const stats = useSelector((state: RootState) => state.startup.stats)
+  const stats = useSelector((state: ReduxState) => state.startup.stats)
   const volunteerCountChars = String(stats.volunteers).split('')
   return (
     <Layout toolbarProps={{ className: 'bg-none', flat: true, float: true }}>

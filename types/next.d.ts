@@ -2,7 +2,7 @@ import ApolloClient from 'apollo-client'
 import next from 'next'
 import { AnyAction, Store as ReduxStore } from 'redux'
 import { ThunkDispatch } from 'redux-thunk'
-import { RootState } from '~/redux/root-reducer'
+import { ReduxState } from '~/redux/root-reducer'
 
 interface Store<S = any, A extends Action<any> = AnyAction>
   extends ReduxStore<S, A> {
@@ -11,7 +11,7 @@ interface Store<S = any, A extends Action<any> = AnyAction>
 
 declare module 'next' {
   export interface NextPageContext {
-    store: Store<RootState>
+    store: Store<ReduxState>
     apolloClient: ApolloClient<any>
     intl: NextIntl
   }

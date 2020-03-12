@@ -15,7 +15,7 @@ import Meta from '../components/Meta'
 import ManageableProjectTableRow from '../components/ManageableProjectsListPage/ManageableProjectTableRow'
 import { removeSearchFragmentFromURL } from '../lib/utils/string'
 import { Theme, Color, Page, PageAs } from '../common'
-import { useSWRWithExtras } from '~/hooks/use-swr'
+import { useFetchAPI } from '~/hooks/use-swr'
 import { APIEndpoint } from '~/common'
 import ActivityIndicator from '~/components/ActivityIndicator'
 import EmptySVG from '~/components/SVG/EmptySVG'
@@ -155,7 +155,7 @@ const ManageableProjectsList: NextPage<ManageableProjectsListProps> = ({
     page,
   })
 
-  const pagination = useSWRWithExtras<ApiPagination<Project>>(url)
+  const pagination = useFetchAPI<ApiPagination<Project>>(url)
   const searchInputDebounceRef = useRef<number | null>(null)
   const handleSearchInputChange = useCallback(
     event => {

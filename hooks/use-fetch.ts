@@ -1,58 +1,53 @@
-import { API_URL } from '~/common/constants'
-import { useSelector } from 'react-redux'
-import { RootState } from '../redux/root-reducer'
-import {
-  useFetcher,
-  UseBaseFetcherResult,
-  DefaultFetchDispatcherResult,
-  mutateFetchCache,
-} from 'react-fetch-json-hook'
-import { FetchAction } from 'react-fetch-json-hook/lib/action'
-import { Config } from '~/common'
+import useSWR, { ConfigInterface } from 'swr'
+import { dev } from '~/common/constants'
 
-type FetchAPIActionCreator<TArg = any, TMeta = any> = (
-  arg?: TArg,
-) =>
-  | (Omit<FetchAction<TMeta>, 'url' | 'body'> & {
-      body?: any
-      endpoint: string
-    })
-  | null
-
-type UseFetchAPICallbackResult<TData, TArg, TMeta> = Omit<
-  UseBaseFetcherResult<DefaultFetchDispatcherResult<TData>, TArg, TMeta>,
-  'fetch'
-> & {
-  fetch: UseBaseFetcherResult<
-    DefaultFetchDispatcherResult<TData>,
-    TArg,
-    TMeta
-  >['fetch']
+export interface UseFetchOptions<Data, Error>
+  extends ConfigInterface<Data, Error> {
+  context?: RequestInit
 }
 
-export const useAPIFetcher = <TData, TArg = any, TMeta = unknown>(
-  fn: FetchAPIActionCreator,
-): UseFetchAPICallbackResult<TData, TArg, TMeta> => {
-  const viewer = useSelector((state: RootState) => state.user)
+/**
+ *
+ * @param urlOrURLCreator
+ * @param options
+ * @example const { data, error, isValidating } = useFetch('http://google.com/api/json')
+ */
+export const useFetch = <Data = any, Error = any>(
+  urlOrURLCreator: string | (() => string),
+  options: UseFetchOptions<Data, Error> = {},
+) => {
+  const result = useSWR<Data>(
+    urlOrURLCreator,
+    url => {
+      if (url === null) {
+        return Promise.resolve()
+      }
 
-  return useFetcher<TData, TArg, TMeta>(args => {
-    const action = fn(args)
+      return swrFetcher(url, options.context)
+    },
+    options,
+  )
 
-    if (!action) {
-      return null
+  return result
+}
+
+const logFetcher = (method: string = 'GET', ...args: any[]) =>
+  console.log(
+    `%c [FETCH] ${method}`,
+    'color: green; font-size: 12px; font-weight: bolder',
+    ...args,
+  )
+export const swrFetcher = (url: string, options?: RequestInit) => {
+  if (dev) {
+    logFetcher(options?.method, url)
+  }
+
+  return fetch(url, options).then(res => {
+    const data = res.json()
+    if (dev) {
+      logFetcher(options?.method, url, data)
     }
 
-    return {
-      ...action,
-      url: `${API_URL}${action.endpoint}`,
-      body: action.body ? JSON.stringify(action.body) : undefined,
-      headers: {
-        'content-type': 'application/json',
-        'x-ovp-channel': Config.id,
-        Authorization: viewer ? `Bearer ${viewer.token}` : '',
-      },
-    }
+    return data
   })
 }
-
-export { mutateFetchCache }

@@ -5,7 +5,7 @@ import styled from 'styled-components'
 import { fetchAPI } from '~/lib/fetch/fetch.server'
 import { Color } from '~/common'
 import { Project, updateProject } from '~/redux/ducks/project'
-import { RootState } from '~/redux/root-reducer'
+import { ReduxState } from '~/redux/root-reducer'
 import ActivityIndicator from '../ActivityIndicator'
 import Icon from '../Icon'
 import Tooltip from '../Tooltip'
@@ -170,7 +170,7 @@ const ProjectManagePagePhotos: React.FC<ProjectManagePagePhotosProps> = ({
   className,
   project,
 }) => {
-  const viewer = useSelector((state: RootState) => state.user!)
+  const viewer = useSelector((state: ReduxState) => state.user!)
   const dispatchToReduxStore = useDispatch()
   const intl = useIntl()
 

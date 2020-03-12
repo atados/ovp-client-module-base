@@ -5,7 +5,7 @@ import Icon from '../Icon'
 import { AuthenticationAction } from './Authentication'
 import { useIntl, defineMessages } from 'react-intl'
 import { useSelector } from 'react-redux'
-import { RootState } from '~/redux/root-reducer'
+import { ReduxState } from '~/redux/root-reducer'
 import { Config } from '~/common'
 
 const AuthButton = styled.button`
@@ -90,7 +90,7 @@ const AuthenticationButtons: React.FC<AuthenticationButtonsProps> = ({
 }) => {
   const intl = useIntl()
   const popupRef = useRef<Window | null>(null)
-  const viewer = useSelector((state: RootState) => state.user)
+  const viewer = useSelector((state: ReduxState) => state.user)
   const handleFacebookAuth = useCallback(
     (event: React.MouseEvent<HTMLButtonElement>) => {
       event.preventDefault()

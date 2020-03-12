@@ -22,7 +22,7 @@ import { throwActionError } from '~/lib/utils/redux'
 import { fetchProject, Project, updateProject } from '~/redux/ducks/project'
 import { UserOrganization } from '~/redux/ducks/user'
 import BeforeActionAuth from '~/components/BeforeActionAuth'
-import { RootState } from '~/redux/root-reducer'
+import { ReduxState } from '~/redux/root-reducer'
 import { Page, PageAs, ValidPageName, Config } from '~/common'
 import { FormattedMessage } from 'react-intl'
 
@@ -100,7 +100,7 @@ const ProjectComposerPage: NextPage<
   >
 > = ({ stepId, organization, mode, projectSlug, draftIndex }) => {
   const dispatchToRedux = useDispatch()
-  const { viewer, project } = useSelector((state: RootState) => ({
+  const { viewer, project } = useSelector((state: ReduxState) => ({
     viewer: state.user!,
     project:
       projectSlug === state.project.slug ? state.project.node : undefined,

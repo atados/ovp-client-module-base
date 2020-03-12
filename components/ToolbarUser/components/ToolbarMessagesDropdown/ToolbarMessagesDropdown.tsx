@@ -15,7 +15,7 @@ import {
   ViewerRegistor,
 } from '~/redux/ducks/inbox-viewers'
 import { User } from '~/redux/ducks/user'
-import { RootState } from '~/redux/root-reducer'
+import { ReduxState } from '~/redux/root-reducer'
 import ToolbarMessagesThread from './ToolbarMessagesThread'
 
 const Header = styled.div`
@@ -195,7 +195,7 @@ const ToolbarMessagesDropdown: React.FC<ToolbarMessagesDropdownProps> = ({
 ToolbarMessagesDropdown.displayName = 'ToolbarMessagesDropdown'
 
 export default connect(
-  (state: RootState) => ({ user: state.user! }),
+  (state: ReduxState) => ({ user: state.user! }),
   dispatch => ({
     onRegisterViewer: (viewer: InboxViewer) =>
       dispatch(

@@ -26,7 +26,7 @@ import {
   ProjectApplication,
 } from '~/redux/ducks/project'
 import { User, UserOrganization } from '~/redux/ducks/user'
-import { RootState } from '~/redux/root-reducer'
+import { ReduxState } from '~/redux/root-reducer'
 import { defineMessages } from 'react-intl'
 import { useIntl } from 'react-intl'
 import { Config } from '../common'
@@ -169,7 +169,7 @@ ManageProjectPage.getInitialProps = async (
 ManageProjectPage.displayName = 'ManageProjectPage'
 
 const mapStateToProps = (
-  { user, project }: RootState,
+  { user, project }: ReduxState,
   { organizationSlug },
 ): Partial<ManageProjectPageProps> => {
   return {

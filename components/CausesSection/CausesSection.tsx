@@ -3,7 +3,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
 import { Page, PageAs } from '~/common'
-import { RootState } from '~/redux/root-reducer'
+import { ReduxState } from '~/redux/root-reducer'
 import { FormattedMessage } from 'react-intl'
 import PageLink from '../PageLink'
 import Icon from '../Icon'
@@ -143,7 +143,7 @@ const CausesSection: React.FC<CausesSectionProps> = ({
 
 CausesSection.displayName = 'CausesSection'
 
-const mapStateToProps = ({ startup }: RootState) => ({
+const mapStateToProps = ({ startup }: ReduxState) => ({
   causes: startup.causes.slice(0, 6),
 })
 

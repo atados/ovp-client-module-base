@@ -23,7 +23,7 @@ import { causeToSelectItem, skillToSelectItem } from '~/lib/utils/form'
 import { formatToBRDate, formatToUSDate } from '~/lib/utils/string'
 import { PublicUser } from '~/redux/ducks/public-user'
 import { updateUser, UserOverrides } from '~/redux/ducks/user-update'
-import { RootState } from '~/redux/root-reducer'
+import { ReduxState } from '~/redux/root-reducer'
 import Icon from '../components/Icon'
 import {
   ViewerSettingsLayout,
@@ -138,7 +138,7 @@ const SettingsUserPage: NextPage<
   status,
 }) => {
   const { viewer, causesSelectItems, skillsSelectItems } = useSelector(
-    (state: RootState) => ({
+    (state: ReduxState) => ({
       viewer: state.user!,
       causesSelectItems: state.startup.causes.map(causeToSelectItem),
       skillsSelectItems: state.startup.skills.map(skillToSelectItem),

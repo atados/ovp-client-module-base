@@ -1,7 +1,7 @@
 import { createAction } from 'redux-handy'
 import { fetchAPI } from '~/lib/fetch/fetch.server'
 import { pushToDataLayer } from '~/lib/tag-manager'
-import { RootState } from '../root-reducer'
+import { ReduxState } from '../root-reducer'
 import { NodeKind } from './search'
 
 interface BookmarkActionPayload {
@@ -15,7 +15,7 @@ export const bookmark = createAction<
 >(
   'BOOKMARK',
   async ({ nodeKind, slug }, { getState }) => {
-    const { user } = getState() as RootState
+    const { user } = getState() as ReduxState
 
     if (!user) {
       throw new Error('You must be logged in to bookmark')
@@ -47,7 +47,7 @@ export const unbookmark = createAction<
 >(
   'UNBOOKMARK',
   async ({ nodeKind, slug }, { getState }) => {
-    const { user } = getState() as RootState
+    const { user } = getState() as ReduxState
 
     if (!user) {
       throw new Error('You must be logged in to unbookmark')

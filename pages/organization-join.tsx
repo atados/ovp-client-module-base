@@ -4,7 +4,7 @@ import { NotFoundPageError } from '../lib/next/errors'
 import { fetchOrganization } from '../redux/ducks/organization'
 import { throwActionError } from '../lib/utils/redux'
 import { useSelector, useDispatch } from 'react-redux'
-import { RootState } from '../redux/root-reducer'
+import { ReduxState } from '../redux/root-reducer'
 import Layout from '../components/Layout'
 import ActivityIndicator from '../components/ActivityIndicator'
 import { Link } from '../components/RouterSwitch'
@@ -46,7 +46,7 @@ const OrganizationJoinPage: NextPage<OrganizationJoinPageProps> = ({
   userSlug,
 }) => {
   const intl = useIntl()
-  const { viewer, organization } = useSelector((reduxState: RootState) => ({
+  const { viewer, organization } = useSelector((reduxState: ReduxState) => ({
     viewer: reduxState.user,
     organization:
       reduxState.organization.slug === organizationSlug

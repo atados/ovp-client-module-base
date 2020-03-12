@@ -1,7 +1,7 @@
 import { createAction, createReducer, PromiseAction } from 'redux-handy'
 import { fetchAPI } from '~/lib/fetch/fetch.server'
 import { unescapeHTML } from '~/lib/utils/string'
-import { RootState } from '../root-reducer'
+import { ReduxState } from '../root-reducer'
 
 export interface Question {
   id: number
@@ -20,7 +20,7 @@ export interface QuestionCategory {
 export const fetchFAQ = createAction<undefined, Question[]>(
   'FAQ_FETCH',
   (_, { getState, prevent }) => {
-    const { faq } = getState() as RootState
+    const { faq } = getState() as ReduxState
 
     if (faq.fetched && !faq.error) {
       prevent()

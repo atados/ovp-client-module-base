@@ -1,7 +1,7 @@
 import isEqual from 'fast-deep-equal'
 import { combineActions, createAction, createReducer } from 'redux-handy'
 import { fetchAPI } from '~/lib/fetch'
-import { RootState } from '../root-reducer'
+import { ReduxState } from '../root-reducer'
 import { Project } from './project'
 
 export interface RatingUser {
@@ -45,7 +45,7 @@ export const fetchRatings = createAction<
 >(
   'RATINGS_FETCH',
   (filters, { getState, prevent }) => {
-    const { user, ratings: currentState } = getState() as RootState
+    const { user, ratings: currentState } = getState() as ReduxState
 
     if (
       currentState.fetched &&

@@ -1,6 +1,6 @@
 import { createAction, createReducer } from 'redux-handy'
 import { fetchAPI } from '~/lib/fetch'
-import { RootState } from '../root-reducer'
+import { ReduxState } from '../root-reducer'
 
 export interface OrganizationMember {
   id: number
@@ -20,7 +20,7 @@ export const fetchOrganizationMembers = createAction<
 >(
   'ORGANIZATION_MEMBERS_FETCH',
   (organizationSlug, { getState, prevent }) => {
-    const { organizationMembers: currentState, user } = getState() as RootState
+    const { organizationMembers: currentState, user } = getState() as ReduxState
 
     if (!user) {
       throw new Error('You must be logged in')
@@ -48,7 +48,7 @@ export const inviteMember = createAction<
   { email: string; organizationSlug: string },
   boolean
 >('ORGANIZATION_MEMBER_INVITE', ({ email, organizationSlug }, { getState }) => {
-  const { user } = getState() as RootState
+  const { user } = getState() as ReduxState
 
   if (!user) {
     throw new Error('You must be logged in')

@@ -6,7 +6,7 @@ import {
 } from 'redux-handy'
 import { getRandomColor } from '~/lib/color/manager'
 import { fetchAPI } from '~/lib/fetch/fetch.server'
-import { RootState } from '../root-reducer'
+import { ReduxState } from '../root-reducer'
 import { unbookmark } from './bookmark'
 import {
   ApplicationMeta,
@@ -25,7 +25,7 @@ export const fetchCurrentUserProfile = createAction<undefined, PublicUser>(
       startup: { causes },
       publicUser: currentPublicUserState,
       currentUserProfile,
-    } = getState() as RootState
+    } = getState() as ReduxState
 
     if (!user) {
       throw new Error('You must be logged in to fetch current user profile')

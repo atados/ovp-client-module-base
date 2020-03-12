@@ -5,7 +5,7 @@ import styled from 'styled-components'
 import { Page, PageAs } from '~/common'
 import { colors } from '~/common/constants'
 import { OrganizationAppliesPayload } from '~/redux/ducks/organization-applies'
-import { RootState } from '~/redux/root-reducer'
+import { ReduxState } from '~/redux/root-reducer'
 import { defineMessages } from 'react-intl'
 import { useIntl } from 'react-intl'
 
@@ -94,7 +94,7 @@ OrganizationApplies.displayName = 'OrganizationApplies'
 
 const mapStateToProps = ({
   organizationApplies,
-}: RootState): Partial<OrganizationAppliesProps> => ({
+}: ReduxState): Partial<OrganizationAppliesProps> => ({
   fetching: organizationApplies.fetching,
   payload: organizationApplies.payload,
 })

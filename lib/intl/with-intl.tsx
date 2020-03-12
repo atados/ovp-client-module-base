@@ -1,6 +1,6 @@
 import { useIntl } from 'react-intl'
 
-export default function withIntl<Props>(
+export function withIntl<Props>(
   Component: React.ComponentType<Props>,
 ): React.FC<Props> {
   const Wrapper = props => {
@@ -9,7 +9,10 @@ export default function withIntl<Props>(
   }
 
   // @ts-ignore
-  Wrapper.getInitialProps = Component.getInitialProps
+  if (Component.getInitialProps) {
+    // @ts-ignore
+    Wrapper.getInitialProps = Component.getInitialProps
+  }
 
   return Wrapper
 }

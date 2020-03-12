@@ -19,7 +19,7 @@ import {
   SearchSource,
   SearchType,
 } from '~/redux/ducks/search'
-import { RootState } from '~/redux/root-reducer'
+import { ReduxState } from '~/redux/root-reducer'
 import { PageAs, Page, Color, Theme } from '~/common'
 import VolunteerIcon from '~/components/Icon/VolunteerIcon'
 import { FormattedMessage } from 'react-intl'
@@ -204,7 +204,7 @@ CausePage.getInitialProps = async ({ store, query: { slug } }) => {
 }
 
 const mapStateToProps = (
-  { startup, search: searchState }: RootState,
+  { startup, search: searchState }: ReduxState,
   { cause }: CausePageProps,
 ) => {
   let sources: Array<SearchSource<Project | Organization>> = []

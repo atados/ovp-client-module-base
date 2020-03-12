@@ -1,12 +1,12 @@
 import { createAction, createReducer } from 'redux-handy'
 import { fetchAPI } from '~/lib/fetch/fetch.server'
-import { RootState } from '../root-reducer'
+import { ReduxState } from '../root-reducer'
 import { Project } from './project'
 
 export const fetchUnratedProjects = createAction<undefined>(
   'UNRATED_PROJECTS_FETCH',
   (_, { getState, prevent }) => {
-    const { user, unratedProjects: currentState } = getState() as RootState
+    const { user, unratedProjects: currentState } = getState() as ReduxState
 
     if (!user) {
       throw new Error('You must be logged in')

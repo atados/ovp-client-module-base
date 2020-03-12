@@ -14,7 +14,7 @@ import {
   MessageThreadType,
 } from '~/redux/ducks/inbox'
 import { User } from '~/redux/ducks/user'
-import { RootState } from '~/redux/root-reducer'
+import { ReduxState } from '~/redux/root-reducer'
 import Icon from '../Icon'
 import {
   GQL_SUBSCRIBE_TO_NEW_MESSAGES,
@@ -370,6 +370,6 @@ const InboxConversation: React.FC<InboxConversationProps> = ({
 }
 
 InboxConversation.displayName = 'InboxConversation'
-export default connect((state: RootState) => ({ user: state.user! }))(
+export default connect((state: ReduxState) => ({ user: state.user! }))(
   InboxConversation,
 )

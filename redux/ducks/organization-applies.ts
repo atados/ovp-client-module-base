@@ -1,6 +1,6 @@
 import { createAction, createReducer } from 'redux-handy'
 import { fetchAPI } from '~/lib/fetch'
-import { RootState } from '../root-reducer'
+import { ReduxState } from '../root-reducer'
 import { ProjectApplication } from './project'
 
 export interface OrganizationAppliesPayload {
@@ -15,7 +15,7 @@ export const fetchOrganizationApplies = createAction<
 >(
   'ORGANIZATION_APPLIES_FETCH',
   (organizationSlug, { getState, prevent }) => {
-    const { organizationApplies: currentState } = getState() as RootState
+    const { organizationApplies: currentState } = getState() as ReduxState
 
     if (
       organizationSlug === currentState.organizationSlug &&

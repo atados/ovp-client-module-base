@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import styled, { StyledProps } from 'styled-components'
 import { InboxViewer, InboxViewerKind } from '~/redux/ducks/inbox'
 import { User } from '~/redux/ducks/user'
-import { RootState } from '~/redux/root-reducer'
+import { ReduxState } from '~/redux/root-reducer'
 import Icon from '../Icon'
 import { Page, Config } from '~/common'
 
@@ -258,7 +258,7 @@ const InboxFilters: React.FC<InboxFiltersProps> = ({
 
 InboxFilters.displayName = 'InboxFilters'
 
-const mapStateToProps = ({ user }: RootState) => ({
+const mapStateToProps = ({ user }: ReduxState) => ({
   user,
 })
 export default connect(mapStateToProps)(InboxFilters)

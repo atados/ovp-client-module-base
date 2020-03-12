@@ -7,7 +7,7 @@ import Icon from '../components/Icon'
 import { FormattedMessage } from 'react-intl'
 import ToggleSwitch from '../components/ToggleSwitch'
 import { useSelector, useDispatch } from 'react-redux'
-import { RootState } from '../redux/root-reducer'
+import { ReduxState } from '../redux/root-reducer'
 import useFetchAPIMutation from '../hooks/use-fetch-api-mutation'
 import { updateViewer } from '../redux/ducks/user'
 import { EmptyFunction } from '~/lib/utils/function'
@@ -17,7 +17,7 @@ import { pushToDataLayer } from '../lib/tag-manager'
 
 const SettingsNewsletterPage: NextPage<{}> = () => {
   const dispatchToRedux = useDispatch()
-  const viewer = useSelector((state: RootState) => state.user!)
+  const viewer = useSelector((state: ReduxState) => state.user!)
   const updateViewerMutation = useFetchAPIMutation(body => ({
     endpoint: '/users/current-user/',
     method: 'PATCH',

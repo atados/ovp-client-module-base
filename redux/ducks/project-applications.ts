@@ -1,6 +1,6 @@
 import { createAction, createReducer, PayloadAction } from 'redux-handy'
 import { fetchAPI } from '~/lib/fetch'
-import { RootState } from '../root-reducer'
+import { ReduxState } from '../root-reducer'
 import { ProjectApplication } from './project'
 
 export const fetchProjectApplications = createAction<
@@ -10,7 +10,7 @@ export const fetchProjectApplications = createAction<
 >(
   'PROJECT_APPLIES_FETCH',
   (slug: string, { getState }) => {
-    const { user, projectApplications: currentState } = getState() as RootState
+    const { user, projectApplications: currentState } = getState() as ReduxState
 
     if (currentState.fetched && currentState.projectSlug === slug) {
       return currentState.nodes

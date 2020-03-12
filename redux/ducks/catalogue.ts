@@ -1,6 +1,6 @@
 import { createAction, createReducer } from 'redux-handy'
 import { fetchAPI } from '~/lib/fetch'
-import { RootState } from '../root-reducer'
+import { ReduxState } from '../root-reducer'
 import { Organization } from './organization'
 import { Project } from './project'
 import { BaseFilters, mapFiltersToAPIQuery, NodeKind } from './search'
@@ -12,7 +12,7 @@ export const fetchCatalogue = createAction<
 >(
   'CATALOGUE_FETCH',
   ({ slug, filters }, { getState }) => {
-    const { user, catalogue: currentState } = getState() as RootState
+    const { user, catalogue: currentState } = getState() as ReduxState
 
     if (currentState.catalogueSlug === slug && currentState.node) {
       return currentState.node

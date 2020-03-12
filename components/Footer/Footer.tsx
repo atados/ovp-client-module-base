@@ -3,7 +3,7 @@ import FooterBottom from '~/components/Footer/FooterBottom'
 import NewsletterForm from '~/components/NewsletterForm'
 import { Page, PageAs, Color, Config } from '~/common'
 import FooterNav from '~/components/Footer/FooterNav'
-import { RootState } from '~/redux/root-reducer'
+import { ReduxState } from '~/redux/root-reducer'
 import styled from 'styled-components'
 import { connect } from 'react-redux'
 import { API } from '~/types/api'
@@ -74,6 +74,6 @@ Footer.defaultProps = {
   className: undefined,
 }
 
-export default connect((state: RootState) => ({
+export default connect((state: ReduxState) => ({
   causes: state.startup.causes,
 }))(Footer)

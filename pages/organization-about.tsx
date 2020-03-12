@@ -1,7 +1,7 @@
 import React from 'react'
 import { NextPage } from 'next'
 import { useSelector } from 'react-redux'
-import { RootState } from '../redux/root-reducer'
+import { ReduxState } from '../redux/root-reducer'
 import OrganizationLayout from '~/components/OrganizationLayout/OrganizationLayout'
 import Meta from '~/components/Meta'
 import {
@@ -20,7 +20,7 @@ const OrganizationAboutPage: NextPage<OrganizationAboutPageProps> = ({
   organizationSlug,
 }) => {
   const [organization, isViewerMember] = useSelector(
-    (reduxState: RootState) => {
+    (reduxState: ReduxState) => {
       if (reduxState.organization.slug === organizationSlug) {
         const viewer = reduxState.user
         const organizationNode = reduxState.organization.node

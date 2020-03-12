@@ -10,7 +10,7 @@ import {
   updateProject,
 } from '~/redux/ducks/project'
 import { User } from '~/redux/ducks/user'
-import { RootState } from '~/redux/root-reducer'
+import { ReduxState } from '~/redux/root-reducer'
 import GoogleMap from '../GoogleMap'
 import Icon from '../Icon'
 import MapMark from '../MapMark'
@@ -279,6 +279,6 @@ const ProjectApplicationRegistry: React.FC<ProjectApplicationRegistryProps> = ({
 
 ProjectApplicationRegistry.displayName = 'ProjectApplicationRegistry'
 
-export default connect((state: RootState) => ({ viewer: state.user }), {
+export default connect((state: ReduxState) => ({ viewer: state.user }), {
   onUpdateProject: updateProject,
 })(ProjectApplicationRegistry)

@@ -23,12 +23,12 @@ import { NotFoundPageError } from '~/lib/next/errors'
 import { doesUserHaveAccessToProject } from '~/lib/utils/project'
 import { throwActionError } from '~/lib/utils/redux'
 import { fetchProject } from '~/redux/ducks/project'
-import { RootState } from '~/redux/root-reducer'
+import { ReduxState } from '~/redux/root-reducer'
 import { ProjectPageNavId, ProjectPageSubPage } from '~/types/project'
-import { useSetStatus } from '../hooks/status-hooks'
 import { reportError } from '../lib/utils/error'
 import { Config } from '../common'
 import { useProjectApplication } from '~/components/ProjectApplication'
+import { useToasts } from '~/components/Toasts'
 
 const Sidebar = styled.div`
   min-width: 352px;
@@ -47,7 +47,7 @@ const ProjectPage: NextPage<ProjectPageProps> = ({ subpage }) => {
       ? ProjectPageNavId.Stories
       : ProjectPageNavId.Overview,
   )
-  const { isOwner, project } = useSelector((state: RootState) => {
+  const { isOwner, project } = useSelector((state: ReduxState) => {
     const stateProject = state.project.node
     return {
       isOwner: Boolean(
@@ -79,17 +79,17 @@ const ProjectPage: NextPage<ProjectPageProps> = ({ subpage }) => {
   }
 
   const openProjectApplication = useProjectApplication()
-  const [setStatusMessage] = useSetStatus()
+  const toasts = useToasts()
 
   const onApply = useCallback(
     (roleId?: number) => {
       try {
         openProjectApplication(project, roleId)
       } catch (error) {
-        setStatusMessage(error)
+        toasts.add(error.message, 'error', false)
       }
     },
-    [project, openProjectApplication, setStatusMessage],
+    [project, openProjectApplication],
   )
 
   const handleNavItemClick = useCallback(

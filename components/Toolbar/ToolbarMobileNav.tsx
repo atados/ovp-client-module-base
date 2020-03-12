@@ -4,7 +4,7 @@ import { defineMessages, FormattedMessage } from 'react-intl'
 import { useSelector, useDispatch } from 'react-redux'
 import styled from 'styled-components'
 import { useIntl } from 'react-intl'
-import { RootState } from '~/redux/root-reducer'
+import { ReduxState } from '~/redux/root-reducer'
 import Authentication from '../Authentication'
 import Collapse from '../Collapse'
 import Icon from '../Icon'
@@ -52,7 +52,7 @@ interface ToolbarMobileNavProps {
 
 const ToolbarMobileNav: React.FC<ToolbarMobileNavProps> = ({ collapsed }) => {
   const intl = useIntl()
-  const viewer = useSelector((reduxState: RootState) => reduxState.user)
+  const viewer = useSelector((reduxState: ReduxState) => reduxState.user)
   const viewerOrganizations = (viewer && viewer.organizations) || []
   const openAuthentication = useModal({
     id: 'Authentication',

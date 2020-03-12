@@ -1,7 +1,6 @@
 import BaseGoogleMap from 'google-map-react'
 import React from 'react'
 import styled from 'styled-components'
-import Status, { StatusLevel } from '~/components/Status'
 import { Config } from '~/common'
 
 export interface Mark {
@@ -115,14 +114,7 @@ class GoogleMap extends React.Component<GoogleMapProps, GoogleMapState> {
     const { center, disableDoubleClickZoom } = this.state
 
     if (!Config.maps) {
-      return (
-        <Container className={className}>
-          <Status
-            level={StatusLevel.Error}
-            message="Google Maps used without API KEY"
-          />
-        </Container>
-      )
+      throw new Error('Google Maps used without API KEY')
     }
 
     return (

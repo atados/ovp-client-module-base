@@ -9,6 +9,7 @@ import { ServerStyleSheet } from 'styled-components'
 // @ts-ignore
 import generatedStyledFileName from '../../public/generated/css/filename.json'
 import { Config } from '~/common'
+import { AppIntl } from '~/lib/intl'
 
 interface DocumentProps {
   readonly locale: string
@@ -25,19 +26,16 @@ export default class Document extends NextDocument<DocumentProps> {
       sheet.collectStyles(<App {...props} />),
     )
     const styleTags = sheet.getStyleElement()
-    const accept = accepts(ctx.req)
-    const reqLocale = accept.language(['pt-br', 'en-us', 'es-ar'])
 
     return {
       ...page,
-      locale: reqLocale || Config.intl.defaultLocale,
       styleTags,
     }
   }
 
   public render() {
     return (
-      <html lang={this.props.locale}>
+      <html lang={AppIntl.locale}>
         <Head>
           <meta
             name="viewport"

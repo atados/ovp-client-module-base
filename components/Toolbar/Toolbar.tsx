@@ -2,7 +2,7 @@ import Link from 'next/link'
 import React, { useCallback, useState } from 'react'
 import { useSelector } from 'react-redux'
 import styled from 'styled-components'
-import { RootState } from '~/redux/root-reducer'
+import { ReduxState } from '~/redux/root-reducer'
 import SearchForm from '../SearchForm'
 import ToolbarUser from '../ToolbarUser'
 import ToolbarBrand from '~/components/Toolbar/ToolbarBrand'
@@ -66,7 +66,7 @@ const Toolbar: React.FC<ToolbarProps> = ({
     collapsed: true,
     searchFormFocused: false,
   })
-  const viewer = useSelector((reduxState: RootState) => reduxState.user)
+  const viewer = useSelector((reduxState: ReduxState) => reduxState.user)
   const viewerOrganizations = (viewer && viewer.organizations) || []
 
   const handleTogglerClick = () => {

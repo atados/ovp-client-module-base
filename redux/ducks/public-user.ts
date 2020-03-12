@@ -6,7 +6,7 @@ import {
   ProjectRole,
   ProjectApplicationStatus,
 } from '~/redux/ducks/project'
-import { RootState } from '../root-reducer'
+import { ReduxState } from '../root-reducer'
 import { RatingProject } from './ratings'
 import { UserProfile } from './user'
 import { ImageDict } from '~/types/api-typings'
@@ -57,7 +57,7 @@ export const fetchPublicUser = createAction<
       startup: startupData,
       currentUserProfile,
       publicUser: currentState,
-    } = getState() as RootState
+    } = getState() as ReduxState
 
     if (slug === currentState.slug && currentState.node) {
       prevent()

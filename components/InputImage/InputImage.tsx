@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import styled, { StyledProps } from 'styled-components'
 import { fetchAPI } from '~/lib/fetch/fetch.server'
-import { RootState } from '~/redux/root-reducer'
+import { ReduxState } from '~/redux/root-reducer'
 import Icon from '../Icon'
 import { UploadError } from './errors'
 import { defineMessages, WithIntlProps } from 'react-intl'
@@ -299,7 +299,7 @@ class InputImage extends React.Component<
   }
 }
 
-const mapStateToProps = ({ user }: RootState): { sessionToken?: string } => ({
+const mapStateToProps = ({ user }: ReduxState): { sessionToken?: string } => ({
   sessionToken: user ? user.token : undefined,
 })
 

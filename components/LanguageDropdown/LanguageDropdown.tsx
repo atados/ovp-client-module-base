@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Icon from '~/components/Icon'
 import {
   DropdownWithContext,
@@ -8,8 +8,9 @@ import {
 import { defineMessages, useIntl } from 'react-intl'
 import { useSelector } from 'react-redux'
 import LanguageDropdownItem from './LanguageDropdownItem'
-import { RootState } from '~/redux/root-reducer'
+import { ReduxState } from '~/redux/root-reducer'
 import { Config } from '~/common'
+import { AppIntl } from '~/lib/intl'
 
 interface LanguageDropdownProps {
   readonly className?: string
@@ -34,7 +35,7 @@ const m = defineMessages({
 
 const LanguageDropdown: React.FC<LanguageDropdownProps> = ({ className }) => {
   const intl = useIntl()
-  const locale = useSelector((state: RootState) => state.intl.locale)
+  const locale = AppIntl.locale
   const messages = {
     'pt-br': intl.formatMessage(m.portuguese),
     'en-us': intl.formatMessage(m.english),
@@ -44,6 +45,10 @@ const LanguageDropdown: React.FC<LanguageDropdownProps> = ({ className }) => {
   if (!Config.intl.editable) {
     return null
   }
+
+  useEffect(() => {
+    console.warn('TODO: LanguageDropdown component has to be revised')
+  }, [])
 
   return (
     <DropdownWithContext className={className}>

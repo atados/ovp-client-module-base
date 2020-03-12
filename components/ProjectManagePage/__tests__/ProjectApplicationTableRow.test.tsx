@@ -1,6 +1,6 @@
 import ProjectApplicationTableRow from '../ProjectApplicationTableRow'
 import { render, fireEvent, wait } from '@testing-library/react'
-import * as legacyFetchHooks from '~/hooks/use-fetch'
+import * as legacyFetchHooks from '~/hooks/use-api-fetcher'
 import renderer from 'react-test-renderer'
 
 jest.mock('isomorphic-unfetch', () => jest.fn())

@@ -26,7 +26,7 @@ import {
   setInboxContext,
 } from '~/redux/ducks/inbox'
 import { addViewer, ViewerRegistor } from '~/redux/ducks/inbox-viewers'
-import { RootState } from '~/redux/root-reducer'
+import { ReduxState } from '~/redux/root-reducer'
 import { Config } from '../common'
 
 const { useState, useEffect, useMemo } = React
@@ -134,7 +134,7 @@ const InboxPage: NextPage<InboxPageProps> = ({
 InboxPage.displayName = 'InboxPage'
 
 InboxPage.getInitialProps = async ({ store, query }: NextPageContext) => {
-  const { user, inbox } = store.getState() as RootState
+  const { user, inbox } = store.getState() as ReduxState
 
   if (
     !user ||

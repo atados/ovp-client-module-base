@@ -6,15 +6,15 @@ import Meta from '~/components/Meta'
 import { Catalogue } from '~/redux/ducks/catalogue'
 import Banner from '~/pages/home/Banner'
 import { useSelector } from 'react-redux'
-import { RootState } from '~/redux/root-reducer'
+import { ReduxState } from '~/redux/root-reducer'
 import { mountAddressFilter } from '~/lib/utils/geo-location'
 import ActivityIndicator from '~/components/ActivityIndicator'
 import { APIEndpoint } from '~/common'
-import useSWR from 'swr'
+import { useAPIFetch } from '~/hooks/use-api-fetch'
 
 const HomePage: React.FC = () => {
-  const geo = useSelector((state: RootState) => state.geo)
-  const catalogueQuery = useSWR<Catalogue>(
+  const geo = useSelector((state: ReduxState) => state.geo)
+  const catalogueQuery = useAPIFetch<Catalogue>(
     APIEndpoint.Catalogue('home', { address: mountAddressFilter(geo) }),
   )
   const sections = catalogueQuery.data?.sections || []

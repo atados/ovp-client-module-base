@@ -3,11 +3,11 @@ import cx from 'classnames'
 import { FormattedMessage } from 'react-intl'
 import Mailbox from '~/components/SVG/Mailbox'
 import Icon from '~/components/Icon'
-import { useAPIFetcher } from '~/hooks/use-fetch'
 import { useSelector } from 'react-redux'
-import { RootState } from '~/redux/root-reducer'
+import { ReduxState } from '~/redux/root-reducer'
 import ActivityIndicator from '~/components/ActivityIndicator'
 import { notifyErrorWithToast } from '~/components/Toasts/hooks'
+import { useAPIFetcher } from '~/hooks/use-api-fetcher'
 
 interface ConfirmEmailBeforeProceedingProps {
   readonly className?: string
@@ -16,14 +16,12 @@ interface ConfirmEmailBeforeProceedingProps {
 const ConfirmEmailBeforeProceeding: React.FC<ConfirmEmailBeforeProceedingProps> = ({
   className,
 }) => {
-  const viewer = useSelector((state: RootState) => state.user!)
-  const confirmFetch = useAPIFetcher(() => {
-    return {
-      method: 'POST',
-      endpoint: '/users/request-email-verification/',
-      body: { email: viewer.email },
-    }
-  })
+  const viewer = useSelector((state: ReduxState) => state.user!)
+  const confirmFetch = useAPIFetcher(() => ({
+    method: 'POST',
+    endpoint: '/users/request-email-verification/',
+    body: { email: viewer.email },
+  }))
   notifyErrorWithToast(confirmFetch.error)
 
   const sent = Boolean(confirmFetch.data)
@@ -62,7 +60,7 @@ const ConfirmEmailBeforeProceeding: React.FC<ConfirmEmailBeforeProceedingProps> 
             ) : (
               <>
                 Confirmar email
-                {confirmFetch.loading ? (
+                {confirmFetch.isFetching ? (
                   <ActivityIndicator size={28} fill="#fff" className="ml-2" />
                 ) : (
                   <Icon name="send" className="ml-2 text-primary-200" />

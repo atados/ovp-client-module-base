@@ -14,7 +14,7 @@ import {
   PasswordUpdatePayload,
   updatePassword,
 } from '~/redux/ducks/user-update'
-import { RootState } from '~/redux/root-reducer'
+import { ReduxState } from '~/redux/root-reducer'
 import {
   ViewerSettingsLayout,
   getViewerSettingsInitialProps,
@@ -183,7 +183,7 @@ const SettingsPassword: NextPage<
 SettingsPassword.displayName = 'SettingsPassword'
 SettingsPassword.getInitialProps = getViewerSettingsInitialProps
 
-const mapStateToProps = ({ user }: RootState) => ({
+const mapStateToProps = ({ user }: ReduxState) => ({
   currentUser: user,
 })
 

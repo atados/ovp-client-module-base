@@ -18,7 +18,7 @@ import {
   addOrganization,
   editOrganization,
 } from '~/redux/ducks/organization-composer'
-import { RootState } from '~/redux/root-reducer'
+import { ReduxState } from '~/redux/root-reducer'
 import FormComposer, {
   FormComposerMode,
   StepIdType,
@@ -203,7 +203,7 @@ const OrganizationComposer: React.FC<OrganizationComposerProps> = ({
 
 OrganizationComposer.displayName = 'OrganizationComposer'
 
-const mapStateToProps = ({ user, organizationComposer }: RootState) => ({
+const mapStateToProps = ({ user, organizationComposer }: ReduxState) => ({
   isAuthenticated: Boolean(user),
   isSubmitting: organizationComposer.fetching,
   organization: organizationComposer.node,

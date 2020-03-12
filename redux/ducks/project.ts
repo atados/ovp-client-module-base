@@ -7,7 +7,7 @@ import {
 import { fetchAPI } from '~/lib/fetch'
 import { reportError } from '~/lib/utils/error'
 import { Organization } from '~/redux/ducks/organization'
-import { RootState } from '~/redux/root-reducer'
+import { ReduxState } from '~/redux/root-reducer'
 import { API } from '~/types/api'
 import { bookmark, unbookmark } from './bookmark'
 import {
@@ -171,7 +171,7 @@ export const fetchProject = createAction<string, Project, ProjectFetchMeta>(
       user,
       startup: { causes },
       project: currentState,
-    }: RootState = getState()
+    }: ReduxState = getState()
 
     if (slug === currentState.slug && currentState.node) {
       prevent()

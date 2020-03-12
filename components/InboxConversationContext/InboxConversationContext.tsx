@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
 import { InboxContextType } from '~/redux/ducks/inbox'
-import { RootState } from '~/redux/root-reducer'
+import { ReduxState } from '~/redux/root-reducer'
 import { Config } from '~/common'
 
 const Container = styled.div`
@@ -77,7 +77,7 @@ const InboxConversationContext: React.FC<InboxConversationContextProps> = ({
 
 InboxConversationContext.displayName = 'InboxConversationContext'
 
-const mapStateToProps = ({ inbox }: RootState) => ({
+const mapStateToProps = ({ inbox }: ReduxState) => ({
   value: inbox.context,
 })
 export default connect(mapStateToProps)(InboxConversationContext)

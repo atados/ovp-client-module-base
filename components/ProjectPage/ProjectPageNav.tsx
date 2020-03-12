@@ -7,7 +7,7 @@ import { Page, PageAs, Color } from '~/common'
 import useFetchAPIMutation from '~/hooks/use-fetch-api-mutation'
 import { Project, updateProject } from '~/redux/ducks/project'
 import { User } from '~/redux/ducks/user'
-import { RootState } from '~/redux/root-reducer'
+import { ReduxState } from '~/redux/root-reducer'
 import { ProjectPageNavId } from '~/types/project'
 import Authentication from '../Authentication'
 import Icon from '../Icon'
@@ -421,7 +421,7 @@ const ProjectPageNav: React.FC<ProjectPageNavProps> = ({
 ProjectPageNav.displayName = 'ProjectPageNav'
 
 export default React.memo(
-  connect((state: RootState) => ({ viewer: state.user }), {
+  connect((state: ReduxState) => ({ viewer: state.user }), {
     dispatchProjectChange: updateProject,
   })(ProjectPageNav),
 )

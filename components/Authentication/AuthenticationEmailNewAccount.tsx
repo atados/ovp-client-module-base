@@ -1,4 +1,4 @@
-import React, { Dispatch } from 'react'
+import React, { Dispatch, useEffect } from 'react'
 import cx from 'classnames'
 import { withFormik, FormikProps } from 'formik'
 import FormGroup from '~/components/Form/FormGroup'
@@ -15,7 +15,7 @@ import {
   generateSessionTokenWithEmail,
   User,
 } from '~/redux/ducks/user'
-import Status, { StatusLevel } from '../Status'
+import { useToasts } from '~/components/Toasts'
 
 interface Values {
   name: string
@@ -90,6 +90,7 @@ const AuthenticationEmailNewAccount: React.FC<AuthenticationEmailNewAccountProps
   dispatch,
   status,
 }) => {
+  const toasts = useToasts()
   const intl = useIntl()
   const handleOptionsClick = (event: React.MouseEvent<HTMLAnchorElement>) => {
     event.preventDefault()
@@ -100,6 +101,12 @@ const AuthenticationEmailNewAccount: React.FC<AuthenticationEmailNewAccountProps
     })
   }
 
+  useEffect(() => {
+    if (status.error) {
+      toasts.add(status.error.message, 'error')
+    }
+  }, [status])
+
   return (
     <form
       id="form-new-account"
@@ -107,9 +114,6 @@ const AuthenticationEmailNewAccount: React.FC<AuthenticationEmailNewAccountProps
       className={cx('', className)}
       onSubmit={handleSubmit}
     >
-      {status && status.error && (
-        <Status level={StatusLevel.Error} message={status.error.message} />
-      )}
       <div className="max-w-sm mx-auto">
         <div className="text-center">
           {Asset.logoLight ? (

@@ -2,7 +2,7 @@ import React from 'react'
 import { Asset, Page } from '~/common'
 import { useIntl, defineMessages, FormattedMessage } from 'react-intl'
 import { useSelector } from 'react-redux'
-import { RootState } from '~/redux/root-reducer'
+import { ReduxState } from '~/redux/root-reducer'
 import Icon from '../Icon'
 import Link from 'next/link'
 import useModalManager from '~/hooks/use-modal-manager'
@@ -26,7 +26,7 @@ const AuthenticationNewAccountFeedback: React.FC<AuthenticationNewAccountFeedbac
   className,
 }) => {
   const modalManager = useModalManager()
-  const viewer = useSelector((state: RootState) => state.user)
+  const viewer = useSelector((state: ReduxState) => state.user)
   const intl = useIntl()
   const handleCloseClick = () => {
     modalManager.close()

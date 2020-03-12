@@ -9,7 +9,7 @@ import { fetchAPI, fetchJSON } from '~/lib/fetch'
 import { ensureHttpsUri, generateRandomId } from '~/lib/utils/string'
 import { Organization } from '~/redux/ducks/organization'
 import { Project } from '~/redux/ducks/project'
-import { RootState } from '~/redux/root-reducer'
+import { ReduxState } from '~/redux/root-reducer'
 import { ParsedUrlQueryInput } from 'querystring'
 import { reportError } from '~/lib/utils/error'
 import { CHANNEL_ID } from '~/common'
@@ -213,7 +213,7 @@ async function searchNodes<P>(
   apiPath: string,
   filters: BaseFilters,
   nodeKind: NodeKind,
-  getState: () => RootState,
+  getState: () => ReduxState,
 ) {
   const { user } = getState()
   const promises: Array<Promise<SearchSource<P>>> = []
@@ -250,7 +250,7 @@ export const searchProjects = createAction<
 >(
   'SEARCH_PROJECTS',
   (filters, { getState, prevent }) => {
-    const { search: currentState }: RootState = getState()
+    const { search: currentState }: ReduxState = getState()
 
     if (
       currentState.searchType === SearchType.Projects &&
@@ -265,7 +265,7 @@ export const searchProjects = createAction<
       '/search/projects/',
       filters,
       NodeKind.Project,
-      getState as () => RootState,
+      getState as () => ReduxState,
     )
   },
   // Meta creator
@@ -287,7 +287,7 @@ export const searchOrganizations = createAction<
       '/search/organizations/',
       filters,
       NodeKind.Organization,
-      getState as () => RootState,
+      getState as () => ReduxState,
     )
   },
   // Meta creator
@@ -308,7 +308,7 @@ export const search = createAction<
     { projectsLength, organizationsLength, ...filters },
     { getState, prevent },
   ) => {
-    const { search: currentState }: RootState = getState()
+    const { search: currentState }: ReduxState = getState()
 
     if (
       currentState.searchType === SearchType.Any &&
@@ -323,14 +323,14 @@ export const search = createAction<
       '/search/projects/',
       { ...filters, length: projectsLength },
       NodeKind.Project,
-      getState as () => RootState,
+      getState as () => ReduxState,
     )
 
     const organizationSources = await searchNodes<Organization>(
       '/search/organizations/',
       { ...filters, length: organizationsLength },
       NodeKind.Organization,
-      getState as () => RootState,
+      getState as () => ReduxState,
     )
 
     return [...organizationSources, ...projectSources]

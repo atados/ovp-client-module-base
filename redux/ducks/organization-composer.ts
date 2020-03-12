@@ -1,6 +1,6 @@
 import { createAction, createReducer } from 'redux-handy'
 import { fetchAPI } from '~/lib/fetch'
-import { RootState } from '../root-reducer'
+import { ReduxState } from '../root-reducer'
 import { Organization } from './organization'
 import { pushToDataLayer } from '~/lib/tag-manager'
 
@@ -27,7 +27,7 @@ interface OrganizationPayload {
 export const addOrganization = createAction<OrganizationPayload, Organization>(
   'ORGANIZATION_ADD',
   async (payload, { getState }) => {
-    const { user } = getState() as RootState
+    const { user } = getState() as ReduxState
 
     if (!user) {
       throw new Error('You must be logged in')
@@ -54,7 +54,7 @@ export const editOrganization = createAction<
   Partial<OrganizationPayload> & { slug: string },
   Organization
 >('ORGANIZATION_EDIT', (payload, { getState }) => {
-  const { user } = getState() as RootState
+  const { user } = getState() as ReduxState
 
   if (!user) {
     throw new Error('You must be logged in')

@@ -5,7 +5,7 @@ import AuthenticationEmailNewAccount from './AuthenticationEmailNewAccount'
 import { useDispatch, useSelector } from 'react-redux'
 import { login, User, loginWithSessionToken } from '~/redux/ducks/user'
 import AuthenticationNewAccountFeedback from './AuthenticationNewAccountFeedback'
-import { RootState } from '~/redux/root-reducer'
+import { ReduxState } from '~/redux/root-reducer'
 import useModalManager from '~/hooks/use-modal-manager'
 import Router from 'next/router'
 import { Page } from '~/common'
@@ -86,7 +86,7 @@ const Authentication: React.FC<AuthenticationProps> = ({
   nextPagePathname,
 }) => {
   const modalManager = useModalManager()
-  const viewer = useSelector((reduxState: RootState) => reduxState.user)
+  const viewer = useSelector((reduxState: ReduxState) => reduxState.user)
   const [state, dispatch] = useReducer(authenticationReducer, {
     page: defaultPage || (viewer ? 'new-account-feedback' : 'options'),
     history: [],

@@ -32,7 +32,7 @@ import {
   SearchType,
 } from '~/redux/ducks/search'
 import { fetchMapMarks } from '~/redux/ducks/search-marks'
-import { RootState } from '~/redux/root-reducer'
+import { ReduxState } from '~/redux/root-reducer'
 import { Page, PageAs, Config } from '~/common'
 import { withIntl } from '~/lib/intl'
 import { defineMessages, WithIntlProps } from 'react-intl'
@@ -469,7 +469,7 @@ const mapStateToProps = ({
   geo,
   search: searchState,
   searchMarks,
-}: RootState): Partial<ExplorePageProps> => {
+}: ReduxState): Partial<ExplorePageProps> => {
   let projectsCount = 0
   let organizationsCount = 0
   let mapDefaultCenter: Mark | undefined

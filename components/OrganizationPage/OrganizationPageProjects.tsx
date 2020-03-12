@@ -3,7 +3,7 @@ import cx from 'classnames'
 import { Organization } from '~/redux/ducks/organization'
 import useFetchAPI from '~/hooks/use-fetch-api'
 import { useSelector } from 'react-redux'
-import { RootState } from '~/redux/root-reducer'
+import { ReduxState } from '~/redux/root-reducer'
 import { ApiPagination } from '~/redux/ducks/search'
 import { Project } from '~/redux/ducks/project'
 import HorizontalProjectCard from '~/components/HorizontalProjectCard'
@@ -22,7 +22,7 @@ const OrganizationPageProjects: React.FC<OrganizationPageProjectsProps> = ({
   itemClassName,
   organization,
 }) => {
-  const viewer = useSelector((reduxState: RootState) => reduxState.user)
+  const viewer = useSelector((reduxState: ReduxState) => reduxState.user)
   const viewerIsMember = useMemo(
     () =>
       viewer && viewer.organizations.some(o => o.slug === organization.slug),

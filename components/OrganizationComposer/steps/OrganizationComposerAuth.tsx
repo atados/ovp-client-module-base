@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import Authentication from '~/components/Authentication'
 import FormComposerLayout from '~/components/FormComposer/FormComposerLayout'
-import { RootState } from '~/redux/root-reducer'
+import { ReduxState } from '~/redux/root-reducer'
 import { defineMessages, WithIntlProps } from 'react-intl'
 import { withIntl } from '~/lib/intl'
 
@@ -52,7 +52,7 @@ class OrganizationComposerAuth extends React.Component<
   }
 }
 
-const mapStateToProps = ({ user }: RootState) => ({
+const mapStateToProps = ({ user }: ReduxState) => ({
   isAuthenticated: Boolean(user),
 })
 export default connect(mapStateToProps)(withIntl(OrganizationComposerAuth))

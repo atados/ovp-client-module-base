@@ -1,7 +1,7 @@
 import { createAction } from 'redux-handy'
 import { fetchAPI } from '~/lib/fetch'
 import { Omit } from '~/types/global'
-import { RootState } from '../root-reducer'
+import { ReduxState } from '../root-reducer'
 import { UserProfile } from './user'
 
 export interface UserOverrides {
@@ -22,7 +22,7 @@ export interface UserOverrides {
 export const updateUser = createAction<UserOverrides>(
   'USER_UPDATE',
   (overrides: UserOverrides, { getState }) => {
-    const { user } = getState() as RootState
+    const { user } = getState() as ReduxState
 
     if (!user) {
       return {}
@@ -44,7 +44,7 @@ export interface PasswordUpdatePayload {
 export const updatePassword = createAction<PasswordUpdatePayload, boolean>(
   'USER_UPDATE',
   async (payload: PasswordUpdatePayload, { getState }) => {
-    const { user } = getState() as RootState
+    const { user } = getState() as ReduxState
 
     if (!user) {
       return true

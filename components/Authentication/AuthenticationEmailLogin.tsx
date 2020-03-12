@@ -13,7 +13,6 @@ import { Page, Asset } from '~/common'
 import ActivityIndicator from '../ActivityIndicator'
 import Icon from '../Icon'
 import { generateSessionTokenWithEmail } from '~/redux/ducks/user'
-import Status, { StatusLevel } from '../Status'
 
 interface Values {
   email: string
@@ -81,16 +80,15 @@ const AuthenticationEmailLogin: React.FC<AuthenticationEmailLoginProps &
     <form className={cx('', className)} onSubmit={handleSubmit}>
       {status && status.error && (
         <>
-          {status.error.payload &&
-          status.error.payload.error === 'invalid_grant' ? (
+          {status.error.payload && (
             <div className="text-center mb-4 animate-slideInUp">
               <span className="bg-red-600 text-white px-3 py-2 rounded-full inline-block">
                 <Icon name="error" className="mr-2" />
-                Email ou senha invalidos
+                {status.error.payload.error === 'invalid_grant'
+                  ? 'Email ou senha invalidos'
+                  : status.error.message}
               </span>
             </div>
-          ) : (
-            <Status level={StatusLevel.Error} message={status.error.message} />
           )}
         </>
       )}

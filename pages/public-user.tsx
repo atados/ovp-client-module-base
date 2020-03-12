@@ -8,7 +8,7 @@ import PublicUserLayout from '~/components/PublicUserLayout'
 import { getPublicUserLayoutInitialProps } from '~/components/PublicUserLayout/PublicUserLayout'
 import PublicUserTimeline from '~/components/PublicUserTimeline'
 import { PublicUser } from '~/redux/ducks/public-user'
-import { RootState } from '~/redux/root-reducer'
+import { ReduxState } from '~/redux/root-reducer'
 import { PageAs, Page, Config } from '~/common'
 
 const Causes = styled.ul`
@@ -154,7 +154,7 @@ PublicUserPage.getInitialProps = async (context: NextPageContext) => {
   return getPublicUserLayoutInitialProps(context)
 }
 
-const mapStateToProps = ({ user, publicUser }: RootState) => ({
+const mapStateToProps = ({ user, publicUser }: ReduxState) => ({
   isAuthenticatedUser: !!(
     publicUser.node &&
     user &&

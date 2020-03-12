@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import { DropdownMenu } from '~/components/Dropdown'
 import SearchFilter from '~/components/SearchFilters/SearchFilter'
 import { pushToDataLayer } from '~/lib/tag-manager'
-import { RootState } from '~/redux/root-reducer'
+import { ReduxState } from '~/redux/root-reducer'
 import { FormattedMessage } from 'react-intl'
 import { API } from '~/types/api'
 
@@ -136,5 +136,7 @@ class SkillsFilter extends React.Component<SkillsFilterProps> {
   }
 }
 
-const mapStateToProps = ({ startup }: RootState) => ({ skills: startup.skills })
+const mapStateToProps = ({ startup }: ReduxState) => ({
+  skills: startup.skills,
+})
 export default connect(mapStateToProps)(SkillsFilter)

@@ -15,7 +15,7 @@ import { NotFoundPageError } from '~/lib/next/errors'
 import { throwActionError } from '~/lib/utils/redux'
 import { fetchProject, Project, updateProject } from '~/redux/ducks/project'
 import { UserOrganization } from '~/redux/ducks/user'
-import { RootState } from '~/redux/root-reducer'
+import { ReduxState } from '~/redux/root-reducer'
 import { API } from '~/types/api'
 import { ProjectPageSubPage } from '~/types/project'
 import { Page, PageAs } from '~/common'
@@ -286,7 +286,7 @@ PostFormPage.getInitialProps = async ({ query, store }) => {
 }
 
 const mapStateToProps = (
-  { user, project }: RootState,
+  { user, project }: ReduxState,
   { organizationSlug, nodeSlug },
 ) => {
   return {

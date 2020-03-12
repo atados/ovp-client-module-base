@@ -5,7 +5,7 @@ import { FormattedMessage } from 'react-intl'
 import { mountAPIPathToSearchProjects } from '~/pages/city/utils'
 import { ApiPagination } from '~/redux/ducks/search'
 import ProjectCard from '~/components/ProjectCard'
-import { RootState } from '~/redux/root-reducer'
+import { ReduxState } from '~/redux/root-reducer'
 import useFetchAPI from '~/hooks/use-fetch-api'
 import { useSelector } from 'react-redux'
 import Layout from '~/components/Layout'
@@ -19,7 +19,7 @@ interface CityProps {
   selectedSkillId?: string
 }
 
-const reduxStateSelector = (state: RootState) => state.startup
+const reduxStateSelector = (state: ReduxState) => state.startup
 
 const City: NextPage<CityProps> = ({
   cityName,

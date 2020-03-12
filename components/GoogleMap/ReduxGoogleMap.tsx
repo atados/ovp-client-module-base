@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { fetchOrganization, Organization } from '~/redux/ducks/organization'
 import { fetchProject, Project } from '~/redux/ducks/project'
 import { NodeKind } from '~/redux/ducks/search'
-import { RootState } from '~/redux/root-reducer'
+import { ReduxState } from '~/redux/root-reducer'
 import MapMark from '../MapMark'
 import GoogleMap, {
   GoogleMapPosition,
@@ -81,7 +81,7 @@ class ReduxGoogleMap extends React.PureComponent<
 }
 
 const mapStateToProps = (
-  { project, organization }: RootState,
+  { project, organization }: ReduxState,
   { nodeKind }: ReduxGoogleMapProps,
 ) => {
   if (nodeKind === NodeKind.Project) {

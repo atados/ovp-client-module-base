@@ -25,7 +25,7 @@ import {
   SearchType,
 } from '~/redux/ducks/search'
 import { StartupData } from '~/redux/ducks/startup'
-import { RootState } from '~/redux/root-reducer'
+import { ReduxState } from '~/redux/root-reducer'
 import { MaterialIconName } from '../Icon/Icon'
 import { API } from '~/types/api'
 
@@ -734,7 +734,7 @@ class SearchForm extends React.Component<
   }
 }
 
-const mapStateToProps = ({ startup, geo, search }: RootState) => ({
+const mapStateToProps = ({ startup, geo, search }: ReduxState) => ({
   geo,
   startupData: startup,
   filters: search.filters,
