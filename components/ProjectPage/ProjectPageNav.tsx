@@ -1,20 +1,21 @@
-import Link from 'next/link'
 import React, { useCallback, useMemo, useState } from 'react'
-import { connect } from 'react-redux'
-import { Waypoint } from 'react-waypoint'
 import styled, { StyledProps } from 'styled-components'
-import { Page, PageAs, Color } from '~/common'
+import { defineMessages, useIntl } from 'react-intl'
+import { Waypoint } from 'react-waypoint'
+import { connect } from 'react-redux'
+
+import MobileInscriptionButton from '~/components/ProjectPage/ProjectPageNavMobileInscriptionButton'
+import InscriptionButton from '~/components/ProjectPage/ProjectPageNavInscriptionButton'
 import useFetchAPIMutation from '~/hooks/use-fetch-api-mutation'
 import { Project, updateProject } from '~/redux/ducks/project'
-import { User } from '~/redux/ducks/user'
-import { RootState } from '~/redux/root-reducer'
 import { ProjectPageNavId } from '~/types/project'
+import { RootState } from '~/redux/root-reducer'
+import { User } from '~/redux/ducks/user'
+import { Color } from '~/common'
+
 import Authentication from '../Authentication'
-import Icon from '../Icon'
-import VolunteerIcon from '../Icon/VolunteerIcon'
 import { useModal } from '../Modal'
-import { defineMessages } from 'react-intl'
-import { useIntl } from 'react-intl'
+import Icon from '../Icon'
 
 interface NavProps {
   fixed?: boolean
@@ -87,7 +88,7 @@ const Nav = styled.div`
   `};
 `
 
-const ActionButton = styled.a`
+export const ActionButton = styled.a`
   position: relative;
 
   > svg {
@@ -100,9 +101,6 @@ const ActionButton = styled.a`
 `
 
 const {
-  GERENCIAR_VAGA,
-  QUERO_INSCREVER,
-  VER_INSCRICAO,
   BOOKMARK,
   BOOKMARKED,
   STORIES,
@@ -112,18 +110,6 @@ const {
   ORGANIZATION,
   MAP,
 } = defineMessages({
-  GERENCIAR_VAGA: {
-    id: 'GERENCIAR_VAGA',
-    defaultMessage: 'Gerenciar vaga',
-  },
-  QUERO_INSCREVER: {
-    id: 'QUERO_INSCREVER',
-    defaultMessage: 'Quero me inscrever',
-  },
-  VER_INSCRICAO: {
-    id: 'VER_INSCRICAO',
-    defaultMessage: 'Ver minha inscrição',
-  },
   BOOKMARK: {
     id: 'projectPageNav.bookmark',
     defaultMessage: 'Favoritar',
@@ -252,55 +238,20 @@ const ProjectPageNav: React.FC<ProjectPageNavProps> = ({
     onApply()
   }
 
+  const hasVacancies = project.roles.some(
+    role => role.applied_count < role.vacancies,
+  )
+
   return (
     <div>
       <Waypoint onPositionChange={handleWaypointPositionChange} />
       <div className="container px-2 mb-4 flex lg:hidden">
-        {isOwner ? (
-          <Link
-            href={
-              project.organization
-                ? Page.OrganizationDashboardProject
-                : Page.ViewerProjectDashboard
-            }
-            as={
-              project.organization
-                ? PageAs.OrganizationDashboardProject({
-                    organizationSlug: project.organization.slug,
-                    projectSlug: project.slug,
-                  })
-                : PageAs.ViewerProjectDashboard({ projectSlug: project.slug })
-            }
-            passHref
-          >
-            <ActionButton className="btn text-white bg-primary-500 hover:bg-primary-600 btn--size-3 flex-grow mr-2">
-              <Icon name="settings" className="mr-2" />
-              {intl.formatMessage(GERENCIAR_VAGA)}
-            </ActionButton>
-          </Link>
-        ) : !project.closed && !project.canceled ? (
-          <ActionButton
-            as="button"
-            className={`btn ${
-              project.current_user_is_applied
-                ? 'text-primary-500 border-primary-500 hover:bg-primary-100'
-                : 'text-white bg-primary-500 hover:bg-primary-600'
-            } btn--size-3 flex-grow mr-2`}
-            onClick={handleApplication}
-          >
-            {!project.current_user_is_applied ? (
-              <>
-                <VolunteerIcon width={20} height={20} fill="#fff" />
-                {intl.formatMessage(QUERO_INSCREVER)}
-              </>
-            ) : (
-              <>
-                <Icon name="assignment" className="mr-2" />
-                {intl.formatMessage(VER_INSCRICAO)}
-              </>
-            )}
-          </ActionButton>
-        ) : null}
+        <MobileInscriptionButton
+          isOwner={isOwner}
+          project={project}
+          hasVacancies={hasVacancies}
+          handleApplication={handleApplication}
+        />
         <button
           type="button"
           onClick={handleBookmarkToggle}
@@ -359,56 +310,12 @@ const ProjectPageNav: React.FC<ProjectPageNavProps> = ({
                 </button>
               </li>
               <li>
-                {isOwner ? (
-                  <Link
-                    href={
-                      project.organization
-                        ? Page.OrganizationDashboardProject
-                        : Page.ViewerProjectDashboard
-                    }
-                    as={
-                      project.organization
-                        ? PageAs.OrganizationDashboardProject({
-                            organizationSlug: project.organization.slug,
-                            projectSlug: project.slug,
-                          })
-                        : PageAs.ViewerProjectDashboard({
-                            projectSlug: project.slug,
-                          })
-                    }
-                    passHref
-                  >
-                    <ActionButton className="btn text-white bg-primary-500 hover:bg-primary-600 btn--size-3">
-                      <Icon name="settings" className="mr-2" />
-                      {intl.formatMessage(GERENCIAR_VAGA)}
-                    </ActionButton>
-                  </Link>
-                ) : (
-                  !project.closed &&
-                  !project.canceled && (
-                    <ActionButton
-                      as="button"
-                      className={`btn ${
-                        project.current_user_is_applied
-                          ? 'text-primary-500 border-primary-500 hover:bg-primary-100'
-                          : 'text-white bg-primary-500 hover:bg-primary-600'
-                      } btn--size-3`}
-                      onClick={handleApplication}
-                    >
-                      {!project.current_user_is_applied ? (
-                        <>
-                          <VolunteerIcon width={20} height={20} fill="#fff" />
-                          {intl.formatMessage(QUERO_INSCREVER)}
-                        </>
-                      ) : (
-                        <>
-                          <Icon name="assignment" className="mr-2" />
-                          {intl.formatMessage(VER_INSCRICAO)}
-                        </>
-                      )}
-                    </ActionButton>
-                  )
-                )}
+                <InscriptionButton
+                  isOwner={isOwner}
+                  project={project}
+                  hasVacancies={hasVacancies}
+                  handleApplication={handleApplication}
+                />
               </li>
             </ul>
           </div>
