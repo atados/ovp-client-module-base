@@ -88,7 +88,7 @@ const AuthenticationEmailLogin: React.FC<AuthenticationEmailLoginProps &
         <div className="text-center mb-4 animate-slideInUp">
           <span className="bg-red-600 text-white px-3 py-2 rounded-full inline-block">
             <Icon name="error" className="mr-2" />
-            Email ou senha invalidos
+           
             {submitError === 'invalid_grant' ? (
               <FormattedMessage
                 id="login.error.invalid"
