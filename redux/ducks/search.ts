@@ -43,7 +43,7 @@ export interface AddressSearchFilter {
   description?: string
   address_components: Array<{
     types: string[]
-    long_name: string
+    long_name: string | string[]
   }>
 }
 
