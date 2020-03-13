@@ -1,19 +1,20 @@
-import React, { Dispatch } from 'react'
-import cx from 'classnames'
+import { useIntl, defineMessages, FormattedMessage } from 'react-intl'
 import { withFormik, FormikProps } from 'formik'
+import React, { Dispatch } from 'react'
+import Link from 'next/link'
+import cx from 'classnames'
+
 import FormGroup from '~/components/Form/FormGroup'
 import Yup from '~/lib/form/yup'
+import { generateSessionTokenWithEmail } from '~/redux/ducks/user'
+import { Page, Asset } from '~/common'
+
 import {
   AuthenticationAction,
   AuthenticateBySessionTokenFn,
 } from './Authentication'
-import { useIntl, defineMessages, FormattedMessage } from 'react-intl'
-import Link from 'next/link'
-import { Page, Asset } from '~/common'
 import ActivityIndicator from '../ActivityIndicator'
 import Icon from '../Icon'
-import { generateSessionTokenWithEmail } from '~/redux/ducks/user'
-import Status, { StatusLevel } from '../Status'
 
 interface Values {
   email: string
@@ -76,23 +77,32 @@ const AuthenticationEmailLogin: React.FC<AuthenticationEmailLoginProps &
       payload: 'options',
     })
   }
+  const submitError = status?.error?.payload?.error
+  const showSubmitError =
+    submitError &&
+    (submitError === 'invalid_grant' || submitError.name === 'UserDeactivated')
 
   return (
     <form className={cx('', className)} onSubmit={handleSubmit}>
-      {status && status.error && (
-        <>
-          {status.error.payload &&
-          status.error.payload.error === 'invalid_grant' ? (
-            <div className="text-center mb-4 animate-slideInUp">
-              <span className="bg-red-600 text-white px-3 py-2 rounded-full inline-block">
-                <Icon name="error" className="mr-2" />
-                Email ou senha invalidos
-              </span>
-            </div>
-          ) : (
-            <Status level={StatusLevel.Error} message={status.error.message} />
-          )}
-        </>
+      {showSubmitError && (
+        <div className="text-center mb-4 animate-slideInUp">
+          <span className="bg-red-600 text-white px-3 py-2 rounded-full inline-block">
+            <Icon name="error" className="mr-2" />
+           
+            {submitError === 'invalid_grant' ? (
+              <FormattedMessage
+                id="login.error.invalid"
+                defaultMessage="Email ou senha invalidos"
+              />
+            ) : (
+              <FormattedMessage
+                id="login.error.deactivated"
+                defaultMessage="Sua conta foi desativada manualmente. Caso queira reativa-la, envie
+                um email para o nosso suporte."
+              />
+            )}
+          </span>
+        </div>
       )}
       <div className="max-w-sm mx-auto">
         <div className="text-center">
