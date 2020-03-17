@@ -1,0 +1,122 @@
+# To use this script you must define on the project settings the following environment variables
+# NOW_PROJECT_ID = The project id located at .now/projects.json
+# NOW_ORG_ID = The org id located at .now/projects.json
+# NOW_PROJECT_NAME = Name of the project on zeit.co
+# NOW_TOKEN = The authentication token to use zeit now. You can generate one at settings > tokens
+# PRODUCTION_URL
+version: 2.1
+
+executors:
+  build-test-and-deploy:
+    docker:
+      - image: circleci/node:10.16.3
+    working_directory: ~/www
+
+jobs:
+  build:
+    executor: build-test-and-deploy
+    working_directory: ~/www
+    steps:
+      - checkout
+      - run:
+          name: Pull submodules
+          command: |
+            git submodule init
+            git submodule update
+      - attach_workspace:
+          at: ~/www
+      - restore_cache:
+          keys:
+            - npm-cache-{{ .Branch }}-{{ checksum "package.json" }}
+            - npm-cache-{{ .Branch }}
+            - npm-cache-
+      - run:
+          name: Install dependencies
+          command: yarn
+      - save_cache:
+          key: npm-cache-{{ .Branch }}-{{ checksum "package.json" }}
+          paths:
+            - node_modules
+      - persist_to_workspace:
+          root: .
+          paths: .
+  test-and-lint:
+    executor: build-test-and-deploy
+    working_directory: ~/www
+    steps:
+      - attach_workspace:
+          at: ~/www
+      - run:
+          name: Test
+          command: yarn test --collectCoverage=true
+      - run:
+          name: Lint
+          command: yarn lint
+      - run:
+          name: Type check
+          command: yarn type-check
+      - store_artifacts:
+          path: coverage
+  deploy:
+    executor: build-test-and-deploy
+    working_directory: ~/www
+    steps:
+      - attach_workspace:
+          at: ~/www
+      - run:
+          name: Install Now CLI
+          command: sudo npm install --global --unsafe-perm now
+      - run:
+          name: Generate production language files
+          command: yarn generate:lang
+      - run:
+          name: Deploy
+          command: |
+            DEPLOYMENT_DATA="{"
+            DEPLOYMENT_DATA+="  \"name\": \"${NOW_PROJECT_NAME}\","
+            DEPLOYMENT_DATA+="  \"branch\": \"${CIRCLE_BRANCH}\","
+            DEPLOYMENT_DATA+="  \"repository\": \"${CIRCLE_PROJECT_REPONAME}\","
+            DEPLOYMENT_DATA+="  \"urls\": ["
+            if [ "${CIRCLE_BRANCH}" == "master" ]; then
+                DEPLOYMENT_ID=$(
+                  now \
+                    --scope atados \
+                    --token $NOW_TOKEN \
+                    --local-config ~/www/now.production.json \
+                    --prod
+                )
+                DEPLOYMENT_DATA+="  \"$DEPLOYMENT_ID\""
+
+                if [ ! -z "${PRODUCTION_URL}" ]; then
+                  DEPLOYMENT_DATA+=",  \"${PRODUCTION_URL}\""
+                fi
+            else
+              CLEAN_BRANCH_NAME=$(echo $CIRCLE_BRANCH | sed -e "s/\./-/g")
+              DEPLOYMENT_ID=$(
+                now --scope atados \
+                    --token $NOW_TOKEN
+              )
+
+              DEPLOYMENT_ALIAS="https://$NOW_PROJECT_NAME-$CLEAN_BRANCH_NAME.atados.now.sh"
+              DEPLOYMENT_DATA+="  \"$DEPLOYMENT_ID\", \"$DEPLOYMENT_ALIAS\""
+              now alias \
+                --scope atados \
+                --token $NOW_TOKEN \
+                $DEPLOYMENT_ID $DEPLOYMENT_ALIAS
+            fi
+
+            DEPLOYMENT_DATA+="]}"
+            yarn ts-node -P tsconfig.server.json base/core/write-deployment-html.ts "$DEPLOYMENT_DATA"
+      - store_artifacts:
+          path: DEPLOYMENT.html
+workflows:
+  version: 2
+  test-lint-and-deploy:
+    jobs:
+      - build
+      - test-and-lint:
+          requires:
+            - build
+      - deploy:
+          requires:
+            - test-and-lint

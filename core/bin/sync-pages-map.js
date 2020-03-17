@@ -4,6 +4,7 @@ const chalk = require('chalk')
 const fs = require('fs')
 const mkdirp = require('mkdirp')
 const prettier = require('prettier')
+const { writeIfNotExists } = require('../utils')
 const projectPrettierConfig = require('../../../.prettierrc.json')
 
 const writeFile = promisify(fs.writeFile)
@@ -13,23 +14,10 @@ const nextPages = ['_app', '_document', '_error']
 async function createNextPages() {
   return nextPages.map(nextPage => {
     const relativeFilePath = path.join('pages', `${nextPage}.tsx`)
-    const newFilePath = path.resolve(relativeFilePath)
-    try {
-      // Check if the file exists
-      fs.statSync(newFilePath)
-      console.log(
-        chalk.gray(
-          `> Skipping ${chalk.cyan(relativeFilePath)} since it already exists`,
-        ),
-      )
-    } catch (error) {
-      // tslint:disable-next-line:no-console
-      console.log(`> Writing ${chalk.cyan(relativeFilePath)}`)
-      return writeFile(
-        newFilePath,
-        `export { default } from '~/pages/${nextPage}'`,
-      )
-    }
+    writeIfNotExists(
+      relativeFilePath,
+      `export { default } from '~/pages/${nextPage}'`,
+    )
   })
 }
 
@@ -62,27 +50,12 @@ async function createPagesFromMap(pagesMap) {
           ? `${pathname.substr(1)}.tsx`
           : `${pathname.substr(1)}/index.tsx`,
       )
-      const newFilePath = path.resolve(relativeFilePath)
 
-      try {
-        fs.statSync(newFilePath)
-        console.log(
-          chalk.gray(
-            `> Skipping ${chalk.cyan(
-              relativeFilePath,
-            )} since it already exists`,
-          ),
-        )
-      } catch (error) {
-        // tslint:disable-next-line:no-console
-        console.log(`> Writing ${chalk.cyan(relativeFilePath)}`)
-        await createDir(path.dirname(newFilePath))
+      const { filename, query } = pageShape
+      let newFileContent = ''
 
-        const { filename, query } = pageShape
-        let newFileContent = ''
-
-        if (pageShape.query) {
-          newFileContent = `
+      if (pageShape.query) {
+        newFileContent = `
             import Page from '~/pages/${filename}'
             import { withQuery } from '~/lib/utils/next'
 
@@ -91,20 +64,19 @@ async function createPagesFromMap(pagesMap) {
               ${JSON.stringify(query, null, 2)}
             )
           `
-        } else {
-          newFileContent = `
+      } else {
+        newFileContent = `
             export { default } from '~/pages/${filename}'
           `
-        }
-
-        await writeFile(
-          newFilePath,
-          prettier.format(newFileContent, {
-            ...projectPrettierConfig,
-            parser: 'typescript',
-          }),
-        )
       }
+
+      await writeIfNotExists(
+        relativeFilePath,
+        prettier.format(newFileContent, {
+          ...projectPrettierConfig,
+          parser: 'typescript',
+        }),
+      )
     }),
   )
 }
