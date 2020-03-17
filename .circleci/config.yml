@@ -94,7 +94,7 @@ jobs:
                   now \
                     --confirm \
                     --scope atados \
-                    --token $ZEIT_TOKEN \
+                    --token $NOW_TOKEN \
                     --local-config ~/www/.now/now.production.json \
                     --prod
                 )
@@ -108,15 +108,15 @@ jobs:
               DEPLOYMENT_ID=$(
                 now --scope atados \
                     --confirm \
-                    --token $ZEIT_TOKEN \
+                    --token $NOW_TOKEN \
                     --local-config ~/www/.now/now.staging.json
               )
 
-              DEPLOYMENT_ALIAS="https://$ZEIT_PROJECT_NAME-$CLEAN_BRANCH_NAME.atados.now.sh"
+              DEPLOYMENT_ALIAS="https://$NOW_PROJECT_NAME-$CLEAN_BRANCH_NAME.atados.now.sh"
               DEPLOYMENT_DATA+="  \"$DEPLOYMENT_ID\", \"$DEPLOYMENT_ALIAS\""
               now alias \
                 --scope atados \
-                --token $ZEIT_TOKEN \
+                --token $NOW_TOKEN \
                 $DEPLOYMENT_ID $DEPLOYMENT_ALIAS
             fi
 
