@@ -18,6 +18,8 @@ export interface SearchProjectsParams {
   query?: string
   organizationId?: number | number[]
   page?: number
+  page_size?: number
+  category?: number
 }
 
 export const SearchProjects = (params?: SearchProjectsParams) => {
