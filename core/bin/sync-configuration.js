@@ -14,7 +14,7 @@ const createDir = promisify(mkdirp)
 
 async function main() {
   const matches = await glob(
-    path.resolve('base', 'core', 'config', '{.,}**/**'),
+    path.resolve('base', 'core', 'config', '{.**,**/**}'),
   )
 
   return Promise.all(
