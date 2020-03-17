@@ -18,16 +18,24 @@ export interface SearchProjectsParams {
   query?: string
   organizationId?: number | number[]
   page?: number
+  page_size?: number
+  categoryId?: number
 }
 
 export const SearchProjects = (params?: SearchProjectsParams) => {
-  const cleanQuery: Omit<SearchProjectsParams, 'organizationId'> & {
+  const cleanQuery: Omit<SearchProjectsParams, 'organizationId' |  'categoryId'> & {
     organization?: string
+    category?: string
   } = {}
 
   if (params) {
     Object.keys(params).forEach(key => {
       if (typeof params[key] === 'undefined') {
+        return
+      }
+
+      if (key === 'categoryId') {
+        cleanQuery.category = String(params.categoryId)
         return
       }
 
