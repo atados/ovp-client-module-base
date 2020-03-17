@@ -88,18 +88,6 @@ const Nav = styled.div`
   `};
 `
 
-export const ActionButton = styled.a`
-  position: relative;
-
-  > svg {
-    margin: -6px 10px -3px 0;
-  }
-
-  @media (min-width: 768px) {
-    min-width: 352px;
-  }
-`
-
 const {
   BOOKMARK,
   BOOKMARKED,

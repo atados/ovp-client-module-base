@@ -1,10 +1,22 @@
 import { defineMessages, useIntl } from 'react-intl'
 import Link from 'next/link'
 import React from 'react'
-import { ActionButton } from '~/components/ProjectPage/ProjectPageNav'
 import { Page, PageAs, Config } from '~/common'
 import Icon from '~/components/Icon'
 import VolunteerIcon from '../Icon/VolunteerIcon'
+import styled from 'styled-components'
+
+const ActionButton = styled.a`
+  position: relative;
+
+  > svg {
+    margin: -6px 10px -3px 0;
+  }
+
+  @media (min-width: 768px) {
+    min-width: 352px;
+  }
+`
 
 const {
   GERENCIAR_VAGA,
