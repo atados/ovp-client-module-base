@@ -23,7 +23,7 @@ export interface SearchProjectsParams {
 }
 
 export const SearchProjects = (params?: SearchProjectsParams) => {
-  const cleanQuery: Omit<SearchProjectsParams, 'organizationId'> & {
+  const cleanQuery: Omit<SearchProjectsParams, 'organizationId' |  'categoryId'> & {
     organization?: string
     category?: string
   } = {}
