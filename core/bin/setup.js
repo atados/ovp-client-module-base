@@ -52,7 +52,6 @@ async function main() {
     'now.json',
     JSON.stringify(
       {
-        name: channelId,
         version: 2,
         regions: ['gru1'],
         build: {
@@ -74,7 +73,6 @@ async function main() {
     'now.production.json',
     JSON.stringify(
       {
-        name: channelId,
         version: 2,
         regions: ['gru1'],
         build: {

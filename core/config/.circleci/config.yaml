@@ -80,6 +80,7 @@ jobs:
             if [ "${CIRCLE_BRANCH}" == "master" ]; then
                 DEPLOYMENT_ID=$(
                   now \
+                    --confirm \
                     --scope atados \
                     --token $NOW_TOKEN \
                     --local-config ~/www/now.production.json \
@@ -93,7 +94,8 @@ jobs:
             else
               CLEAN_BRANCH_NAME=$(echo $CIRCLE_BRANCH | sed -e "s/\./-/g")
               DEPLOYMENT_ID=$(
-                now --scope atados \
+                now --confirm \
+                    --scope atados \
                     --token $NOW_TOKEN
               )
 
