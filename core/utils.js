@@ -4,6 +4,7 @@ const path = require('path')
 const fs = require('fs')
 
 const stat = promisify(fs.stat)
+const write = promisify(fs.writeFile)
 
 const writeIfNotExists = async (relFilePath, content) => {
   const chalk = require('chalk')

@@ -1,13 +1,10 @@
 const path = require('path')
 const { promisify } = require('util')
-const chalk = require('chalk')
-const fs = require('fs')
 const mkdirp = require('mkdirp')
 const prettier = require('prettier')
 const { writeIfNotExists } = require('../utils')
 const projectPrettierConfig = require('../../../.prettierrc.json')
 
-const writeFile = promisify(fs.writeFile)
 const createDir = promisify(mkdirp)
 
 const nextPages = ['_app', '_document', '_error']
@@ -89,4 +86,7 @@ async function main() {
   await createPagesFromMap(config.pages)
 }
 
-main()
+main().catch(error => {
+  console.error(error)
+  process.exit(1)
+})
