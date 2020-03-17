@@ -45,8 +45,8 @@ function ProjectScrollPagination({ filters }: ProjectScrollPaginationProps) {
 
   return (
     <>
-      <div className="flex flex-wrap -mx-2 mt-5">{pages}</div>
-      <div className="mx-auto mt-10 mb-20 w-1/3">
+      <div className="flex flex-wrap -mx-2 mb-10">{pages}</div>
+      <div className="text-center">
         {isLoadingMore && <ActivityIndicator className="w-full" />}
         {!isReachingEnd && !isLoadingMore && (
           <button
