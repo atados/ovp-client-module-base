@@ -19,7 +19,7 @@ export interface SearchProjectsParams {
   organizationId?: number | number[]
   page?: number
   page_size?: number
-  category?: number
+  categoryId?: number
 }
 
 export const SearchProjects = (params?: SearchProjectsParams) => {

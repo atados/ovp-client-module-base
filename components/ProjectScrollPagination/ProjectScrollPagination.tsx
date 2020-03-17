@@ -3,15 +3,16 @@ import React from 'react'
 
 import ActivityIndicator from '~/components/ActivityIndicator'
 import { SearchProjectsParams } from '~/common/api-endpoints'
+import { ensureHttpsUri } from '~/lib/utils/string'
 import { useSWRWithExtras } from '~/hooks/use-swr'
 import ProjectCard from '~/components/ProjectCard'
 import { APIEndpoint } from '~/common'
 
-interface IProjectsScrollPagination {
+interface ProjectScrollPaginationProps {
   filters?: SearchProjectsParams
 }
 
-function ProjectsScrollPagination({ filters }: IProjectsScrollPagination) {
+function ProjectScrollPagination({ filters }: ProjectScrollPaginationProps) {
   const apiUrl = APIEndpoint.SearchProjects(filters)
   const { pages, isLoadingMore, loadMore, isReachingEnd } = useSWRPages(
     apiUrl,
@@ -38,7 +39,7 @@ function ProjectsScrollPagination({ filters }: IProjectsScrollPagination) {
         </p>
       )
     },
-    SWR => SWR.data?.next?.replace('http://', 'https://') || null,
+    SWR => (SWR.data?.next ? ensureHttpsUri(SWR.data?.next) : null),
     [],
   )
 
@@ -49,7 +50,7 @@ function ProjectsScrollPagination({ filters }: IProjectsScrollPagination) {
         {isLoadingMore && <ActivityIndicator className="w-full" />}
         {!isReachingEnd && !isLoadingMore && (
           <button
-            className="btn bg-white text-primary-500 btn--size-3 btn--block"
+            className="bg-gray-200 hover:bg-gray-300 rounded-full px-4 py-2 text-lg font-medium w-full"
             disabled={isLoadingMore}
             onClick={loadMore}
           >
@@ -61,4 +62,4 @@ function ProjectsScrollPagination({ filters }: IProjectsScrollPagination) {
   )
 }
 
-export default ProjectsScrollPagination
+export default ProjectScrollPagination
