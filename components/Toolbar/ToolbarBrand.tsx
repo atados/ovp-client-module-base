@@ -15,34 +15,45 @@ interface ToolbarBrandProps {
   readonly innerClassName?: string
   readonly brand?: string
   readonly href?: string
+  readonly theme?: string
 }
 
 const ToolbarBrand: React.FC<ToolbarBrandProps> = React.forwardRef<
   HTMLAnchorElement,
   ToolbarBrandProps
->(({ className, href, brand, children, innerClassName, ...props }, ref) => {
-  const intl = useIntl()
+>(
+  (
+    { className, href, brand, children, innerClassName, theme, ...props },
+    ref,
+  ) => {
+    const intl = useIntl()
 
-  return (
-    <Brand
-      {...props}
-      ref={ref}
-      href={href}
-      className={cx(className, 'navbar-brand')}
-    >
-      {brand || Config.toolbar.brand ? (
-        <img
-          src={brand || Config.toolbar.brand}
-          alt=""
-          className={innerClassName}
-        />
-      ) : (
-        intl.formatMessage(GlobalMessages.appName)
-      )}
-      {children}
-    </Brand>
-  )
-})
+    return (
+      <Brand
+        {...props}
+        ref={ref}
+        href={href}
+        className={cx(className, 'navbar-brand')}
+      >
+        {brand || Config.toolbar.brand ? (
+          <img
+            src={
+              brand ||
+              (theme === 'dark'
+                ? Config.toolbar.brand
+                : Config.assets.logoLight)
+            }
+            alt=""
+            className={innerClassName}
+          />
+        ) : (
+          intl.formatMessage(GlobalMessages.appName)
+        )}
+        {children}
+      </Brand>
+    )
+  },
+)
 
 ToolbarBrand.displayName = 'ToolbarBrand'
 

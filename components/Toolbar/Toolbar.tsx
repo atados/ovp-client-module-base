@@ -103,6 +103,7 @@ const Toolbar: React.FC<ToolbarProps> = ({
                   className={`mr-2 ${
                     state.searchFormFocused ? 'hidden md:block' : ''
                   }`}
+                  theme={theme}
                 />
               </PageLink>
             )}
