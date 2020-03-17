@@ -16,7 +16,7 @@ async function main() {
   await copyDir(path.resolve('base', 'static'), outputDir)
 
   console.log(
-    `> Copied ${chalk.cyan(path.join('base', 'static'))} to ${chalk.cyan(
+    `> Copiando ${chalk.cyan(path.join('base', 'static'))} para ${chalk.cyan(
       path.join('public', 'generated', 'static'),
     )}`,
   )

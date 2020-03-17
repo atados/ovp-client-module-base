@@ -1,3 +1,4 @@
+# @channel:update
 # To use this script you must define on the project settings the following environment variables
 # NOW_PROJECT_ID = The project id located at .now/projects.json
 # NOW_ORG_ID = The org id located at .now/projects.json
@@ -18,40 +19,28 @@ jobs:
     working_directory: ~/www
     steps:
       - checkout
+      - run:
+          name: Pull submodules
+          command: |
+            git submodule init
+            git submodule update
       - attach_workspace:
           at: ~/www
-
-      - run:
-          name: Build project
-          command: (mkdir base && mv ./* ./base) || echo "> Created base/"
-
-      - run:
-          name: Copy package.json
-          command: cp base/core/config/package.json ./package.json
-
       - restore_cache:
           keys:
             - npm-cache-{{ .Branch }}-{{ checksum "package.json" }}
             - npm-cache-{{ .Branch }}
             - npm-cache-
-
       - run:
           name: Install dependencies
           command: yarn
-
       - save_cache:
           key: npm-cache-{{ .Branch }}-{{ checksum "package.json" }}
           paths:
             - node_modules
-
-      - run:
-          name: Setup
-          command: node base/setup.js base
-
       - persist_to_workspace:
           root: .
           paths: .
-
   test-and-lint:
     executor: build-test-and-deploy
     working_directory: ~/www
@@ -85,7 +74,7 @@ jobs:
           name: Deploy
           command: |
             DEPLOYMENT_DATA="{"
-            DEPLOYMENT_DATA+="  \"name\": \"${ZEIT_PROJECT_NAME}\","
+            DEPLOYMENT_DATA+="  \"name\": \"${NOW_PROJECT_NAME}\","
             DEPLOYMENT_DATA+="  \"branch\": \"${CIRCLE_BRANCH}\","
             DEPLOYMENT_DATA+="  \"repository\": \"${CIRCLE_PROJECT_REPONAME}\","
             DEPLOYMENT_DATA+="  \"urls\": ["
@@ -95,7 +84,7 @@ jobs:
                     --confirm \
                     --scope atados \
                     --token $NOW_TOKEN \
-                    --local-config ~/www/.now/now.production.json \
+                    --local-config ~/www/now.production.json \
                     --prod
                 )
                 DEPLOYMENT_DATA+="  \"$DEPLOYMENT_ID\""
@@ -106,10 +95,9 @@ jobs:
             else
               CLEAN_BRANCH_NAME=$(echo $CIRCLE_BRANCH | sed -e "s/\./-/g")
               DEPLOYMENT_ID=$(
-                now --scope atados \
-                    --confirm \
-                    --token $NOW_TOKEN \
-                    --local-config ~/www/.now/now.staging.json
+                now --confirm \
+                    --scope atados \
+                    --token $NOW_TOKEN
               )
 
               DEPLOYMENT_ALIAS="https://$NOW_PROJECT_NAME-$CLEAN_BRANCH_NAME.atados.now.sh"
