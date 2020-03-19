@@ -1,7 +1,6 @@
 import { API_URL } from '~/common/constants'
 import querystring from 'query-string'
 import {
-  AddressSearchFilter,
   mapFiltersToAPIQuery,
   NodeKind,
   BaseFilters,
