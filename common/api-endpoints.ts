@@ -4,6 +4,7 @@ import {
   AddressSearchFilter,
   mapFiltersToAPIQuery,
   NodeKind,
+  BaseFilters,
 } from '~/redux/ducks/search'
 
 export const QueryId = {
@@ -20,10 +21,14 @@ export interface SearchProjectsParams {
   page?: number
   page_size?: number
   categoryId?: number
+  disponibility?: 'work' | 'job' | 'remotely'
 }
 
 export const SearchProjects = (params?: SearchProjectsParams) => {
-  const cleanQuery: Omit<SearchProjectsParams, 'organizationId' |  'categoryId'> & {
+  const cleanQuery: Omit<
+    SearchProjectsParams,
+    'organizationId' | 'categoryId'
+  > & {
     organization?: string
     category?: string
   } = {}
@@ -58,12 +63,7 @@ export const ProjectApplies = (projectSlug: string) =>
 export const ProjectApply = (projectSlug: string, applyId: number) =>
   `/project/${projectSlug}/applies/${applyId}/`
 
-export const Catalogue = (
-  slug: string,
-  filters?: {
-    address?: AddressSearchFilter | null
-  },
-) => {
+export const Catalogue = (slug: string, filters?: BaseFilters) => {
   return `${API_URL}/catalogue/${slug}/${
     filters && filters.address !== null
       ? `?${querystring.stringify(

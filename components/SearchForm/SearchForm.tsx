@@ -121,10 +121,6 @@ export type SearchOption =
 const DropdownInputWrapper = styled(Dropdown)`
   width: 100%;
   height: 40px;
-  box-shadow: ${props =>
-    props.theme.toolbarBackground
-      ? '0 0 1px rgba(0,0,0,.2), 0 0 2px rgba(0,0,0,.2)'
-      : ''};
   border-radius: 20px;
 
   > input {
@@ -654,7 +650,7 @@ class SearchForm extends React.Component<
           }}
           open={focused}
           onOpenStateChange={this.handleDropdownStateChange}
-          className="search-form-input-wrapper"
+          className="search-form-input-wrapper shadow"
         >
           <Icon className="searchForm__icon" name="search" />
           <input
