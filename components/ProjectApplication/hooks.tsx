@@ -46,7 +46,7 @@ export function useProjectApplication() {
         defaultRoleId,
         next: () => {
           modalManager.close('ProjectApplication')
-          openApplicationRegistryModal({ project, defaultRoleId })
+          openApplicationRegistryModal({ project, new: true, defaultRoleId })
         },
       })
 
