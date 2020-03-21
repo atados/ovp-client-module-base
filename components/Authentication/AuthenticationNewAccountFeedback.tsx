@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux'
 import { RootState } from '~/redux/root-reducer'
 import Icon from '../Icon'
 import Link from 'next/link'
-import useModalManager from '~/hooks/use-modal-manager'
+import { useModals } from '~/components/Modal'
 
 const m = defineMessages({
   title: {
@@ -25,12 +25,13 @@ interface AuthenticationNewAccountFeedbackProps {
 const AuthenticationNewAccountFeedback: React.FC<AuthenticationNewAccountFeedbackProps> = ({
   className,
 }) => {
-  const modalManager = useModalManager()
+  const modalManager = useModals()
   const viewer = useSelector((state: RootState) => state.user)
   const intl = useIntl()
   const handleCloseClick = () => {
-    modalManager.close()
+    modalManager.close('*')
   }
+
   return (
     <div className={className}>
       <div className="max-w-sm mx-auto">

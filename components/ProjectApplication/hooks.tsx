@@ -46,7 +46,7 @@ export function useProjectApplication() {
         defaultRoleId,
         next: () => {
           modalManager.close('ProjectApplication')
-          openApplicationRegistryModal({ project, new: true, defaultRoleId })
+          openApplicationRegistryModal({ project, new: true })
         },
       })
 
@@ -69,7 +69,10 @@ export function useProjectApplication() {
     }
 
     if (project.current_user_is_applied) {
-      openApplicationRegistryModal({ project, defaultRoleId })
+      openApplicationRegistryModal({
+        project,
+        application: project.applies.find(a => a.user?.uuid === viewer.uuid),
+      })
       return
     }
 

@@ -16,5 +16,4 @@ if [ ! -d "$ROOT/public/generated/css" ]; then
   yarn css
 fi
 
-yarn sync:config
-yarn next dev
+yarn sync:config && yarn next dev

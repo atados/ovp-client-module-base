@@ -1,12 +1,10 @@
-import { useContext } from 'react'
-import { ModalContext } from '~/components/Modal/ModalProvider'
+import { dev } from '~/common/constants'
+import { useModals } from '~/components/Modal/hooks'
 
-export default function useModalManager() {
-  const value = useContext(ModalContext)
-
-  if (!value) {
-    throw new Error('Modal Context not found')
+export default () => {
+  if (dev) {
+    console.warn(`useModalManager was deprecated. Use useModals instead`)
   }
 
-  return value
+  return useModals()
 }

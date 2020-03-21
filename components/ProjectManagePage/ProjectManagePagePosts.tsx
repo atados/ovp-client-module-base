@@ -104,11 +104,10 @@ const ProjectManagePagePosts: React.FC<ProjectManagePagePostsProps> = ({
 }) => {
   const intl = useIntl()
 
-  const openClosePostModal = useModal({
+  const closePostModal = useModal({
     id: 'ClosePost',
     component: ClosePostForm,
     cardClassName: 'p-5',
-    onClosePropName: 'onFinish',
   })
   const hasPosts = project.posts && project.posts.length !== 0
 
@@ -221,7 +220,13 @@ const ProjectManagePagePosts: React.FC<ProjectManagePagePostsProps> = ({
                     <button
                       type="button"
                       className="btn btn-muted text-red-600 btn--size-2"
-                      onClick={() => openClosePostModal({ project, post })}
+                      onClick={() =>
+                        closePostModal.open({
+                          project,
+                          post,
+                          onFinish: () => closePostModal.close(),
+                        })
+                      }
                     >
                       {intl.formatMessage(REMOVER)}
                     </button>

@@ -3,14 +3,12 @@ import { connect } from 'react-redux'
 import useFetchAPIMutation from '~/hooks/use-fetch-api-mutation'
 import { reportError } from '~/lib/utils/error'
 import { Project, updateProject } from '~/redux/ducks/project'
-import { User } from '~/redux/ducks/user'
 import { API } from '~/types/api'
 import ActivityIndicator from './ActivityIndicator'
 import Icon from './Icon'
 
 export interface ClosePostFormProps {
   readonly className?: string
-  readonly viewer: User
   readonly project: Project
   readonly post: API.Post
   readonly onFinish: () => void

@@ -115,7 +115,7 @@ const OrganizationPagePhotos: React.FC<OrganizationPagePhotosProps> = ({
       </Row>
       <button
         type="button"
-        onClick={openGallery}
+        onClick={() => openGallery({ images: photos })}
         className="btn bg-gray-200 hover:bg-gray-300 btn--block"
       >
         Ver todas as fotos

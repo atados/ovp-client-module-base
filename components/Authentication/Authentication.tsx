@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { login, User, loginWithSessionToken } from '~/redux/ducks/user'
 import AuthenticationNewAccountFeedback from './AuthenticationNewAccountFeedback'
 import { RootState } from '~/redux/root-reducer'
-import useModalManager from '~/hooks/use-modal-manager'
+import { useModals } from '~/components/Modal'
 import Router from 'next/router'
 import { Page } from '~/common'
 import { pushToDataLayer } from '~/lib/tag-manager'
@@ -85,7 +85,7 @@ const Authentication: React.FC<AuthenticationProps> = ({
   subtitle,
   nextPagePathname,
 }) => {
-  const modalManager = useModalManager()
+  const modals = useModals()
   const viewer = useSelector((reduxState: RootState) => reduxState.user)
   const [state, dispatch] = useReducer(authenticationReducer, {
     page: defaultPage || (viewer ? 'new-account-feedback' : 'options'),
@@ -114,7 +114,7 @@ const Authentication: React.FC<AuthenticationProps> = ({
     method,
   ) => {
     await dispatchToRedux(loginWithSessionToken(sessionToken, method))
-    modalManager.close()
+    modals.close('*')
 
     if (onAuthenticate) {
       onAuthenticate()
@@ -124,8 +124,8 @@ const Authentication: React.FC<AuthenticationProps> = ({
       Router.push(nextPagePathname || Page.Home)
     }
 
-    if (modalManager.isModalOpen('Authentication')) {
-      modalManager.close('Authentication')
+    if (modals.isOpen('Authentication')) {
+      modals.close('Authentication')
     }
   }
 

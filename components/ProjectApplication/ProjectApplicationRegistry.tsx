@@ -15,7 +15,7 @@ import GoogleMap from '../GoogleMap'
 import Icon from '../Icon'
 import MapMark from '../MapMark'
 import { defineMessages } from 'react-intl'
-import useModalManager from '~/hooks/use-modal-manager'
+import { useModals } from '~/components/Modal'
 
 const Avatar = styled.span`
   width: 40px;
@@ -46,7 +46,7 @@ interface ProjectApplicationRegistryProps {
   readonly className?: string
   readonly project: Project
   readonly viewer: User
-  readonly application: ProjectApplication
+  readonly application?: ProjectApplication
   readonly new?: boolean
   readonly onUpdateProject: (
     changes: Partial<Project> & { slug: string },
@@ -141,7 +141,7 @@ const ProjectApplicationRegistry: React.FC<ProjectApplicationRegistryProps> = ({
     method: 'POST',
     endpoint: `/projects/${project.slug}/applies/unapply/`,
   }))
-  const modalManager = useModalManager()
+  const modals = useModals()
   const handleUnapplication = useCallback(async () => {
     try {
       await unapplyMutation.mutate()
@@ -155,8 +155,8 @@ const ProjectApplicationRegistry: React.FC<ProjectApplicationRegistryProps> = ({
         : [],
       current_user_is_applied: false,
     })
-    if (modalManager.isModalOpen('ProjectApplicationRegistry')) {
-      modalManager.close('ProjectApplicationRegistry')
+    if (modals.isOpen('ProjectApplicationRegistry')) {
+      modals.close('ProjectApplicationRegistry')
     }
   }, [unapplyMutation, application])
 

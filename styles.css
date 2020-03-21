@@ -1,6 +1,41 @@
 @import 'animate.css/animate.css';
 @import 'react-responsive-carousel/lib/styles/carousel.min.css';
 
+[data-reach-dialog-overlay] {
+  background: hsla(0, 0%, 0%, 0.44);
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  overflow: auto;
+  z-index: 99999;
+}
+
+[data-reach-dialog-content] {
+  border-radius: 10px;
+  background: white;
+  outline: none;
+  margin: 10vh auto 0;
+  max-width: 700px;
+  animation: slideInUp 1 0.5s;
+  animation-fill-mode: both;
+  box-shadow: 0 0 3px 1px rgba(0, 0, 0, 0.15),
+    0 30px 60px -30px rgba(0, 0, 0, 0.3),
+    0 -18px 60px -10px rgba(0, 0, 0, 0.025);
+}
+
+@keyframes slideInUp {
+  from {
+    transform: translateY(100px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

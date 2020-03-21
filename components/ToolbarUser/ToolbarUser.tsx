@@ -1,11 +1,10 @@
 import Link from 'next/link'
 import React, { useCallback, useRef } from 'react'
-import { connect, useDispatch } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import styled from 'styled-components'
 import Authentication from '~/components/Authentication'
 import Dropdown, { DropdownMenu } from '~/components/Dropdown'
 import Icon from '~/components/Icon'
-import { ModalLink } from '~/components/Modal'
 import { InboxViewer } from '~/redux/ducks/inbox'
 import { User, logout } from '~/redux/ducks/user'
 import ToolbarApplications from '../Toolbar/ToolbarApplications'
@@ -14,7 +13,9 @@ import { Page, PageAs, Color, Config } from '~/common'
 import Router from 'next/router'
 import { defineMessages, useIntl } from 'react-intl'
 import PageLink from '~/components/PageLink'
+import { useModal } from '~/components/Modal'
 import ToolbarMessagesDropdown from '~/components/ToolbarUser/components/ToolbarMessagesDropdown'
+import { connect } from 'react-redux'
 
 interface ToolbarUserProps {
   readonly user: User | null
@@ -170,6 +171,15 @@ const ToolbarUser: React.FC<ToolbarUserProps> = ({
     },
     [dropdownRef.current],
   )
+  const authModal = useModal({
+    id: 'auth',
+    component: Authentication,
+    className: 'p-5',
+  })
+  const handleAuthLinkClick = (e: React.MouseEvent) => {
+    e.preventDefault()
+    authModal.open({})
+  }
 
   const dispatchToRedux = useDispatch()
   const handleLogout = (e: React.MouseEvent<any>) => {
@@ -268,15 +278,14 @@ const ToolbarUser: React.FC<ToolbarUserProps> = ({
 
   return (
     <div className="nav">
-      <ModalLink
-        id="Authentication"
-        component={Authentication}
-        cardClassName="p-5"
+      <a
+        id="toolbar-auth-button"
+        href={Page.Login}
+        onClick={handleAuthLinkClick}
+        className="nav-link"
       >
-        <a id="toolbar-auth-button" href={Page.Login} className="nav-link">
-          {intl.formatMessage(m.login)}
-        </a>
-      </ModalLink>
+        {intl.formatMessage(m.login)}
+      </a>
     </div>
   )
 }

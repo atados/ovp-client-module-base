@@ -5,16 +5,16 @@ import { FormComposerMode } from '~/components/FormComposer/FormComposer'
 import FormComposerLayout from '~/components/FormComposer/MultistepFormComposerLayout'
 import HelpCard from '~/components/HelpCard'
 import Icon from '~/components/Icon'
-import Modal, { ModalCard } from '~/components/Modal'
 import asFormStep, {
   InjectedMultipleStepsFormProps,
 } from '~/components/MultipleStepsForm/as-form-step'
 import Yup from '~/lib/form/yup'
 import { Project, ProjectRole } from '~/redux/ducks/project'
-import RoleForm from '../components/RoleForm'
+import RoleForm from '~/components/ProjectComposer/components/RoleForm'
 import { defineMessages, FormattedMessage } from 'react-intl'
 import { useIntl } from 'react-intl'
 import { Color } from '~/common'
+import { useModal } from '~/components/Modal'
 
 const Role = styled.button`
   background: none;
@@ -195,7 +195,6 @@ interface ProjectComposerDisponibilityProps
 interface ProjectComposerDisponibilityState {
   editingRole?: ItemRole
   editingRoleIndex?: number
-  modalOpen: boolean
 }
 
 const ProjectComposerRoles: React.FC<InjectedFormikProps<
@@ -210,9 +209,7 @@ const ProjectComposerRoles: React.FC<InjectedFormikProps<
   isFormSubmitting,
   formContext: { mode },
 }) => {
-  const [state, setState] = useState<ProjectComposerDisponibilityState>({
-    modalOpen: false,
-  })
+  const [state, setState] = useState<ProjectComposerDisponibilityState>({})
   const intl = useIntl()
   const handleFormSubmit = useCallback(
     (role: ItemRole) => {
@@ -234,9 +231,7 @@ const ProjectComposerRoles: React.FC<InjectedFormikProps<
         setFieldValue('roles', [...roles, role])
       }
 
-      // saveDraft()
-
-      setState({ modalOpen: false })
+      formModal.close()
     },
     [state.editingRoleIndex, values, setFieldValue],
   )
@@ -250,20 +245,18 @@ const ProjectComposerRoles: React.FC<InjectedFormikProps<
         roles.filter((_, i) => i !== editingRoleIndex),
       )
     }
-
-    setState({ modalOpen: false })
   }, [state.editingRoleIndex, values, setFieldValue])
-  const openModal = useCallback(() => {
-    setState({ modalOpen: true })
-  }, [])
+  const formModal = useModal({
+    id: 'RoleForm',
+    component: RoleForm,
+    className: 'p-5',
+  })
   const handleRoleEdit = useCallback((role: ItemRole, index: number) => {
     setState({
       editingRole: role,
       editingRoleIndex: index,
-      modalOpen: true,
     })
   }, [])
-  const handleClose = () => setState({ modalOpen: false })
 
   return (
     <FormComposerLayout
@@ -300,20 +293,6 @@ const ProjectComposerRoles: React.FC<InjectedFormikProps<
       }
       noForm
     >
-      <Modal
-        key={state.editingRoleIndex}
-        open={state.modalOpen}
-        onClose={handleClose}
-      >
-        <ModalCard className="p-5">
-          <RoleForm
-            key={values.roles.length}
-            defaultValue={state.editingRole}
-            onSubmit={handleFormSubmit}
-            onRemove={handleFormRemove}
-          />
-        </ModalCard>
-      </Modal>
       {mode !== FormComposerMode.EDIT && (
         <h4 className="text-gray-600 text-sm">{intl.formatMessage(ETAPA3)}</h4>
       )}
@@ -347,7 +326,14 @@ const ProjectComposerRoles: React.FC<InjectedFormikProps<
           </div>
         ))}
         <div className="w-full md:w-1/2 mb-4">
-          <RoleAdd onClick={openModal}>
+          <RoleAdd
+            onClick={() =>
+              formModal.open({
+                onSubmit: handleFormSubmit,
+                onRemove: handleFormRemove,
+              })
+            }
+          >
             <Icon name="add" />
             <br />
             <span>{intl.formatMessage(ADICIONAR_FUNCAO)}</span>
