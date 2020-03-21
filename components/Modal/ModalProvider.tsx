@@ -12,8 +12,8 @@ interface Modal<Props> {
 }
 
 const ModalProvider: React.FC = ({ children }) => {
-  const [modals, setModals] = useState<Modal<any>[]>([])
-  const stateRef = useRef<Modal<any>[]>([])
+  const [modals, setModals] = useState<Array<Modal<any>>>([])
+  const stateRef = useRef<Array<Modal<any>>>([])
   stateRef.current = modals
 
   const contextValue = useMemo<ModalContextType>(() => {
