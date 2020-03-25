@@ -16,7 +16,7 @@ jest.mock('../use-startup-data', () => () => {
 })
 
 jest.mock('react', () => ({
-  useMemo: (func, params) => func(),
+  useMemo: (func, _params) => func(),
 }))
 
 describe('useCauses', () => {
