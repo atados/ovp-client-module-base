@@ -33,6 +33,11 @@ export interface Cause {
   image?: ImageDict
 }
 
+export interface StartupStats {
+  volunteersCount: number
+  organizationsCount: number
+}
+
 export interface DocumentDict {
   id: number
   document_url: string
