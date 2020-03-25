@@ -1,9 +1,8 @@
-import useStartupData from '~/hooks/use-startup-data'
-import { API } from '~/types/api'
+import useStartupData, { StartupStats } from '~/hooks/use-startup-data'
 import { useMemo } from 'react'
 
 type UseChannelStatsHook = () => {
-  stats: API.StartupStats | undefined
+  stats: StartupStats | undefined
   loading: boolean
   error: Error
 }

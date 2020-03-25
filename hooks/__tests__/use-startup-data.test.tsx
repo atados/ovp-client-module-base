@@ -9,7 +9,7 @@ jest.mock('../fetch/swrFetcher', () => ({
 const fetch = swrFetcher as any
 describe('useStartupData', () => {
   it('should be return correct data', async () => {
-    fetch.mockImplementation((url, options) => {
+    fetch.mockImplementation(() => {
       return Promise.resolve({
         causes: [
           {
