@@ -1,5 +1,6 @@
 import useSWR, { ConfigInterface } from 'swr'
-import { dev } from '~/common/constants'
+import { swrFetcher } from '~/hooks/fetch/swrFetcher'
+import { useMemo } from 'react'
 
 export interface UseFetchOptions<Data, Error>
   extends ConfigInterface<Data, Error> {
@@ -7,10 +8,9 @@ export interface UseFetchOptions<Data, Error>
 }
 
 /**
- *
  * @param urlOrURLCreator
  * @param options
- * @example const { data, error, isValidating } = useFetch('http://google.com/api/json')
+ * @example const { data, error, loading } = useFetch('http://google.com/api/json')
  */
 export const useFetch = <Data = any, Error = any>(
   urlOrURLCreator: string | (() => string),
@@ -28,23 +28,13 @@ export const useFetch = <Data = any, Error = any>(
     options,
   )
 
-  return result
-}
-
-const logFetcher = (method: string = 'GET', ...args: any[]) =>
-  // tslint:disable-next-line:no-console
-  console.log(
-    `%c [FETCH] ${method}`,
-    'color: green; font-size: 12px; font-weight: bolder',
-    ...args,
+  return useMemo(
+    () => ({
+      ...result,
+      data: result.data,
+      loading: result.isValidating,
+      error: result.error,
+    }),
+    [result, result.data, result.error, result.isValidating],
   )
-export const swrFetcher = (url: string, options?: RequestInit) => {
-  return fetch(url, options).then(res => {
-    const data = res.json()
-    if (dev) {
-      logFetcher(options?.method, url, data)
-    }
-
-    return data
-  })
 }

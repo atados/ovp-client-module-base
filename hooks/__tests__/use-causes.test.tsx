@@ -1,30 +1,65 @@
+import { renderHook } from '@testing-library/react-hooks'
 import useCauses from '../use-causes'
+import { swrFetcher } from '../fetch/swrFetcher'
 
-jest.mock('../use-startup-data', () => () => {
-  return {
-    data: {
-      causes: ['cause_1', 'cause_2'],
-      skills: ['skill_1', 'skill_2'],
-      stats: {
-        organizationsCount: 'nonprofit_count',
-        volunteersCount: 'volunteer_count',
-      },
-    },
-    loading: 'loading',
-    error: 'error',
-  }
-})
-
-jest.mock('react', () => ({
-  useMemo: func => func(),
+jest.mock('../fetch/swrFetcher', () => ({
+  swrFetcher: jest.fn(),
 }))
 
+const fetch = swrFetcher as any
 describe('useCauses', () => {
-  it('should be return correct data', () => {
-    const { causes, error, loading } = useCauses()
+  it('should be return correct data', async () => {
+    fetch.mockImplementation((url, options) => {
+      return Promise.resolve({
+        causes: [
+          {
+            id: 1,
+            name: 'Treinamento Profissional',
+            slug: 'treinamento-profissional',
+            image: 'foo_img_src',
+          },
+          {
+            id: 2,
+            name: 'Combate à Pobreza',
+            slug: 'combate-a-pobreza',
+            image: 'foo_img_src',
+          },
+        ],
+        skills: [
+          {
+            id: 1,
+            name: 'Artes/Trabalho manual',
+            slug: 'artes-trabalho-manual',
+          },
+          { id: 2, name: 'Comunicação', slug: 'comunicacao' },
+        ],
+        volunteer_count: 123,
+        nonprofit_count: 123,
+      })
+    })
+    const { result, waitForNextUpdate } = renderHook(() => useCauses())
 
-    expect(causes).toEqual(['cause_1', 'cause_2'])
-    expect(error).toEqual('error')
-    expect(loading).toEqual('loading')
+    expect(result.current.causes).toEqual(undefined)
+    expect(result.current.error).toEqual(undefined)
+    expect(result.current.loading).toEqual(true)
+
+    await waitForNextUpdate()
+
+    expect(result.current.causes).toEqual([
+      {
+        id: 1,
+        image: 'foo_img_src',
+        name: 'Treinamento Profissional',
+        slug: 'treinamento-profissional',
+      },
+      {
+        id: 2,
+        image: 'foo_img_src',
+        name: 'Combate à Pobreza',
+        slug: 'combate-a-pobreza',
+      },
+    ])
+    expect(result.current.error).toEqual(undefined)
+    expect(result.current.loading).toEqual(false)
   })
 })

@@ -1,33 +1,55 @@
+import { renderHook } from '@testing-library/react-hooks'
 import useChannelStats from '../use-channel-stats'
+import { swrFetcher } from '../fetch/swrFetcher'
 
-jest.mock('../use-startup-data', () => () => {
-  return {
-    data: {
-      causes: ['cause_1', 'cause_2'],
-      skills: ['skill_1', 'skill_2'],
-      stats: {
-        organizationsCount: 'nonprofit_count',
-        volunteersCount: 'volunteer_count',
-      },
-    },
-    loading: 'loading',
-    error: 'error',
-  }
-})
-
-jest.mock('react', () => ({
-  useMemo: func => func(),
+jest.mock('../fetch/swrFetcher', () => ({
+  swrFetcher: jest.fn(),
 }))
 
+const fetch = swrFetcher as any
 describe('useCauses', () => {
-  it('should be return correct data', () => {
-    const { stats, error, loading } = useChannelStats()
-
-    expect(stats).toEqual({
-      organizationsCount: 'nonprofit_count',
-      volunteersCount: 'volunteer_count',
+  it('should be return correct data', async () => {
+    fetch.mockImplementation((url, options) => {
+      return Promise.resolve({
+        causes: [
+          {
+            id: 1,
+            name: 'Treinamento Profissional',
+            slug: 'treinamento-profissional',
+            image: 'foo_img_src',
+          },
+          {
+            id: 2,
+            name: 'Combate à Pobreza',
+            slug: 'combate-a-pobreza',
+            image: 'foo_img_src',
+          },
+        ],
+        skills: [
+          {
+            id: 1,
+            name: 'Artes/Trabalho manual',
+            slug: 'artes-trabalho-manual',
+          },
+          { id: 2, name: 'Comunicação', slug: 'comunicacao' },
+        ],
+        volunteer_count: 123,
+        nonprofit_count: 123,
+      })
     })
-    expect(error).toEqual('error')
-    expect(loading).toEqual('loading')
+    const { result, waitForNextUpdate } = renderHook(() => useChannelStats())
+
+    expect(result.current.stats).toEqual(undefined)
+    expect(result.current.error).toEqual(undefined)
+    expect(result.current.loading).toEqual(true)
+
+    await waitForNextUpdate()
+
+    expect(result.current.stats).toEqual({
+      organizationsCount: 123,
+      volunteersCount: 123,
+    })
+    expect(result.current.error).toEqual(undefined)
+    expect(result.current.loading).toEqual(false)
   })
 })

@@ -1,10 +1,16 @@
 import { useAPIFetch } from '~/hooks/use-api-fetch'
 import { API } from '~/types/api'
+import { useMemo } from 'react'
+
+export interface StartupStats {
+  volunteersCount: number
+  organizationsCount: number
+}
 
 interface StartupData {
   causes: API.Cause[]
   skills: API.Skill[]
-  stats: API.StartupStats
+  stats: StartupStats
 }
 
 type HookData = StartupData | undefined
@@ -32,11 +38,14 @@ const useStartupData: UseStartupDataHook = () => {
     }
   }
 
-  return {
-    data: startupData,
-    loading,
-    error,
-  }
+  return useMemo(
+    () => ({
+      data: startupData,
+      loading,
+      error,
+    }),
+    [data, loading, error],
+  )
 }
 
 export default useStartupData
