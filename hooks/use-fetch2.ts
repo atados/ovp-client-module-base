@@ -32,6 +32,7 @@ export const useFetch = <Data = any, Error = any>(
 }
 
 const logFetcher = (method: string = 'GET', ...args: any[]) =>
+  // tslint:disable-next-line:no-console
   console.log(
     `%c [FETCH] ${method}`,
     'color: green; font-size: 12px; font-weight: bolder',
