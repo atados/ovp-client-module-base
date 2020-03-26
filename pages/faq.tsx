@@ -7,18 +7,16 @@ import FAQLayout from '~/components/FAQ/FAQLayout'
 import { NextPage } from 'next'
 import { createAccentFriendlyRegexp } from '../lib/regex/utils'
 import Icon from '~/components/Icon'
-import { useSelector } from 'react-redux'
-import { RootState } from '../redux/root-reducer'
 import { FormattedMessage } from 'react-intl'
 import FAQSupport from '../components/FAQ/FAQSupport'
+import { AppIntl } from '~/lib/intl'
 
 interface FAQPageProps {
   readonly filterQuery: string
 }
 
 const FaqPage: NextPage<FAQPageProps> = ({ filterQuery }) => {
-  const intl = useSelector((reduxState: RootState) => reduxState.intl)
-  const faqQuery = useFetchAPI<Question[]>(`/faq/?language=${intl.locale}`)
+  const faqQuery = useFetchAPI<Question[]>(`/faq/?language=${AppIntl.locale}`)
   const questions = useMemo(() => {
     if (faqQuery.data) {
       if (filterQuery) {

@@ -13,14 +13,5 @@ declare module 'next' {
   export interface NextPageContext {
     store: Store<RootState>
     apolloClient: ApolloClient<any>
-    intl: NextIntl
-  }
-
-  export interface NextIntl {
-    locale: string
-    messages: {
-      [messageId: string]: string
-    }
-    initialNow: number
   }
 }

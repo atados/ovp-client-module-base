@@ -1,4 +1,3 @@
-import LanguageDropdown from '~/components/LanguageDropdown/LanguageDropdown'
 import FooterNav from '~/components/Footer/FooterNav'
 import { Config, GlobalMessages } from '~/common'
 import { useIntl } from 'react-intl'
@@ -26,9 +25,6 @@ const FooterFirstCollumn = () => {
           )}
         </li>
       ))}
-      <li className="nav-item">
-        <LanguageDropdown />
-      </li>
     </FooterNav>
   )
 }

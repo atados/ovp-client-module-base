@@ -163,11 +163,6 @@ export interface AppConfiguration<TValidPageName extends string> {
   volunteer: {
     showHours: boolean
   }
-  intl: {
-    editable: boolean
-    defaultTo: 'accept-language' | 'none'
-    defaultLocale: string
-  }
   authentication: {
     email: {
       enabled: boolean
