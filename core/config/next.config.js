@@ -1,9 +1,10 @@
 const dotenv = require('dotenv')
+const path = require('path')
 
 // Load environment variables
 dotenv.config()
 
-const DEFAULT_LOCALE = 'pt-BR'
+const DEFAULT_LOCALE = 'pt-br'
 const locale = process.env.LOCALE || DEFAULT_LOCALE
 
 module.exports = {
@@ -51,20 +52,20 @@ module.exports = {
 function getIntlMessages(locale) {
   const messages =
     locale !== DEFAULT_LOCALE
-      ? require(path.resolve('core', 'messages', `${locale}.json`))
+      ? require(path.resolve('base', 'lang', `${locale}.json`))
       : {}
 
   try {
     Object.assign(
       messages,
-      require(path.resolve('channel', 'messages', 'default.json')),
+      require(path.resolve('channel', 'lang', 'default.json')),
     )
   } catch (error) {}
 
   try {
     Object.assign(
       messages,
-      require(path.resolve('channel', 'messages', `${locale}.json`)),
+      require(path.resolve('channel', 'lang', `${locale}.json`)),
     )
   } catch (error) {}
 
