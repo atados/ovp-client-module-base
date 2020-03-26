@@ -1,4 +1,3 @@
-import accepts from 'accepts'
 import NextDocument, {
   DocumentContext,
   Head,
@@ -8,16 +7,12 @@ import NextDocument, {
 import { ServerStyleSheet } from 'styled-components'
 // @ts-ignore
 import generatedStyledFileName from '../../public/generated/css/filename.json'
-import { Config } from '~/common'
+import { AppIntl } from '~/lib/intl'
 
 interface DocumentProps {
-  readonly locale: string
   readonly styleTags: React.ReactNode
-  readonly localeDataScript: string
 }
 
-// The document (which is SSR-only) needs to be customized to expose the locale
-// data for the user's locale for React Intl to work in the browser.
 export default class Document extends NextDocument<DocumentProps> {
   public static async getInitialProps(ctx: DocumentContext) {
     const sheet = new ServerStyleSheet()
@@ -25,19 +20,16 @@ export default class Document extends NextDocument<DocumentProps> {
       sheet.collectStyles(<App {...props} />),
     )
     const styleTags = sheet.getStyleElement()
-    const accept = accepts(ctx.req)
-    const reqLocale = accept.language(['pt-br', 'en-us', 'es-ar'])
 
     return {
       ...page,
-      locale: reqLocale || Config.intl.defaultLocale,
       styleTags,
     }
   }
 
   public render() {
     return (
-      <html lang={this.props.locale}>
+      <html lang={AppIntl.locale}>
         <Head>
           <meta
             name="viewport"
@@ -59,11 +51,6 @@ export default class Document extends NextDocument<DocumentProps> {
         </Head>
         <body>
           <Main />
-          <script
-            dangerouslySetInnerHTML={{
-              __html: this.props.localeDataScript,
-            }}
-          />
           <NextScript />
         </body>
       </html>

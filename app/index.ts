@@ -319,11 +319,6 @@ const app: AppConfiguration<ValidBasePageName> = {
   volunteer: {
     showHours: true,
   },
-  intl: {
-    editable: true,
-    defaultTo: 'accept-language',
-    defaultLocale: 'pt-br',
-  },
   application: {
     require: {
       emailConfirmation: false,

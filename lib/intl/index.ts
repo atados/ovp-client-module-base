@@ -1,1 +1,2 @@
-export { default as withIntl } from './with-intl'
+export { withIntlProvider, AppIntl } from '~/lib/intl/with-intl-provider'
+export { withIntl } from '~/lib/intl/with-intl'

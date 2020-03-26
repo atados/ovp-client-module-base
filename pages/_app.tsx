@@ -1,10 +1,8 @@
-import moment from 'moment'
 import nextCookies from 'next-cookies'
 import NextApp, { AppProps as NextAppProps, AppContext } from 'next/app'
 import Head from 'next/head'
 import { Router } from 'next/router'
 import React from 'react'
-import { IntlProvider } from 'react-intl'
 import { Provider } from 'react-redux'
 import { Store } from 'redux'
 import styled, { ThemeProvider } from 'styled-components'
@@ -19,16 +17,13 @@ import withRedux from '~/redux/with-redux'
 import { getStartupData } from '../lib/startup'
 import { loginWithSessionToken, logout } from '../redux/ducks/user'
 import { Asset, Config, Theme, Color } from '~/common'
-import {
-  setupErrorMonitoring,
-  setSentryUser,
-  reportError,
-} from '../lib/utils/error'
+import { setupErrorMonitoring, reportError } from '../lib/utils/error'
 import { createGeolocationObject } from '../lib/geo'
 import ToastsProvider from '~/components/Toasts/ToastsProvider'
 import { dev } from '~/common/constants'
 import { SWRConfig } from 'swr'
 import { swrFetcher } from '~/hooks/use-swr'
+import { withIntlProvider, AppIntl } from '~/lib/intl'
 
 declare global {
   interface Window {
@@ -37,15 +32,6 @@ declare global {
 }
 
 setupErrorMonitoring()
-
-// Register React Intl's locale data for the user's locale in the browser. This
-// locale data was added to the page by `pages/_document.js`. This only happens
-// once, on initial page load in the browser.
-// if (typeof window !== 'undefined' && window.ReactIntlLocaleData) {
-//   Object.keys(window.ReactIntlLocaleData).forEach(lang => {
-//     addLocaleData(window.ReactIntlLocaleData[lang])
-//   })
-// }
 
 const GlobalProgressBar = styled(ProgressBar)`
   position: fixed;
@@ -61,7 +47,6 @@ interface AppProps extends NextAppProps {
   readonly channelPages: string[]
 }
 
-// const intlHash = Date.now()
 class App extends NextApp<AppProps> {
   public static async getInitialProps({ Component, ctx }: AppContext) {
     let pageProps = {}
@@ -107,13 +92,6 @@ class App extends NextApp<AppProps> {
 
   public progressBar: ProgressBar | null = null
 
-  public UNSAFE_componentWillMount() {
-    const { intl, user } = this.props.store.getState()
-    setSentryUser(user)
-
-    moment.locale(intl!.locale)
-  }
-
   public componentDidMount() {
     if (this.progressBar && Router) {
       Router.events.on('routeChangeStart', this.progressBar.start)
@@ -128,51 +106,44 @@ class App extends NextApp<AppProps> {
 
   public render() {
     const { Component, store, pageProps } = this.props
-    const reduxState = store.getState() as RootState
-    const intl = reduxState.intl!
 
     return (
-      <IntlProvider
-        locale={intl.locale}
-        defaultLocale="pt-br"
-        messages={intl.messages}
-      >
-        <Provider store={store}>
-          <ThemeProvider theme={Theme}>
-            <SWRConfig
-              value={{
-                fetcher: swrFetcher,
-                refreshInterval: 0,
-                revalidateOnFocus: false,
-              }}
-            >
-              <ToastsProvider>
-                <StatusProvider>
-                  <ModalProvider>
-                    <Head>
-                      <meta
-                        name="theme-color"
-                        content={Theme.color.primary[500]}
+      <Provider store={store}>
+        <ThemeProvider theme={Theme}>
+          <SWRConfig
+            value={{
+              fetcher: swrFetcher,
+              refreshInterval: 0,
+              revalidateOnFocus: false,
+            }}
+          >
+            <ToastsProvider>
+              <StatusProvider>
+                <ModalProvider>
+                  <Head>
+                    <meta
+                      name="theme-color"
+                      content={Theme.color.primary[500]}
+                    />
+                    {Config.maps && (
+                      <script
+                        src={`https://maps.googleapis.com/maps/api/js?key=${Config.maps.key}&libraries=places&language=${AppIntl.locale}`}
                       />
-                      {Config.maps && (
-                        <script
-                          src={`https://maps.googleapis.com/maps/api/js?key=${Config.maps.key}&libraries=places&language=${intl.locale}`}
-                        />
-                      )}
-                      {Asset.favicon && (
-                        <link
-                          rel="shortcut icon"
-                          href={Asset.favicon}
-                          type="image/x-icon"
-                        />
-                      )}
-                      {Config.head.scripts.map((script, i) => (
-                        <script key={i} {...script} />
-                      ))}
-                      {Config.head.links.map((link, i) => (
-                        <link key={i} {...link} />
-                      ))}
-                      <style>{`
+                    )}
+                    {Asset.favicon && (
+                      <link
+                        rel="shortcut icon"
+                        href={Asset.favicon}
+                        type="image/x-icon"
+                      />
+                    )}
+                    {Config.head.scripts.map((script, i) => (
+                      <script key={i} {...script} />
+                    ))}
+                    {Config.head.links.map((link, i) => (
+                      <link key={i} {...link} />
+                    ))}
+                    <style>{`
                       .input:focus {
                         border-color: ${Color.primary[500]}
                       }
@@ -187,29 +158,28 @@ class App extends NextApp<AppProps> {
                         border-color: ${Color.primary[500]};
                       }
                     `}</style>
-                      {!dev && (
-                        <script src={`/generated/lang/${intl.locale}`} />
-                      )}
-                    </Head>
-
-                    {Config.googleTagManager && (
-                      <GTMScripts {...Config.googleTagManager} />
+                    {!dev && (
+                      <script src={`/generated/lang/${AppIntl.locale}`} />
                     )}
-                    <GlobalProgressBar
-                      ref={ref => {
-                        this.progressBar = ref as ProgressBar
-                      }}
-                    />
-                    <Component {...pageProps} />
-                  </ModalProvider>
-                </StatusProvider>
-              </ToastsProvider>
-            </SWRConfig>
-          </ThemeProvider>
-        </Provider>
-      </IntlProvider>
+                  </Head>
+
+                  {Config.googleTagManager && (
+                    <GTMScripts {...Config.googleTagManager} />
+                  )}
+                  <GlobalProgressBar
+                    ref={ref => {
+                      this.progressBar = ref as ProgressBar
+                    }}
+                  />
+                  <Component {...pageProps} />
+                </ModalProvider>
+              </StatusProvider>
+            </ToastsProvider>
+          </SWRConfig>
+        </ThemeProvider>
+      </Provider>
     )
   }
 }
 
-export default withFetch(withRedux()(App as any))
+export default withIntlProvider(withFetch(withRedux()(App as any)))

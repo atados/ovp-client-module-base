@@ -1,9 +1,7 @@
-import { NextIntl } from 'next'
 import { combineReducers } from 'redux'
 import currentUserProfile, {
   CurrentUserProfileState,
 } from '~/redux/ducks/current-user-profile'
-import intl, { IntlReducerState } from '~/redux/ducks/intl'
 import organization, {
   OrganizationReducerState,
 } from '~/redux/ducks/organization'
@@ -46,7 +44,6 @@ export interface BaseRootState {
   readonly inbox: InboxReducerState
   readonly inboxViewers: InboxViewersReducerState
   readonly catalogue: CatalogueReducerState
-  readonly intl: IntlReducerState
   readonly project: ProjectReducerState
   readonly projectComposer: ProjectComposerReducerState
   readonly search: SearchReducerState
@@ -66,9 +63,8 @@ export interface BaseRootState {
   readonly ratings: RatingsReducerState
 }
 
-export interface RootState extends Omit<BaseRootState, 'startup' | 'intl'> {
+export interface RootState extends Omit<BaseRootState, 'startup'> {
   startup: StartupData
-  intl: NextIntl
 }
 
 export const baseReducers = {
@@ -79,7 +75,6 @@ export const baseReducers = {
   user,
   geo,
   catalogue,
-  intl,
   project,
   projectComposer,
   projectApplications,
