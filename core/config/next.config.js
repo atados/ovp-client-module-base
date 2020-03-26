@@ -81,7 +81,9 @@ function getLocaleData() {
     },
   }
 
-  require(`intl/locale-data/jsonp/${locale}.js`)
+  const [language, country] = locale.split('-')
+  const moduleName = `${language}-${country.toUpperCase()}.js`
+  require(`intl/locale-data/jsonp/${moduleName}`)
   global.IntlPolyfill = prevIntlPolyfill
   return extractedLocaleData
 }
