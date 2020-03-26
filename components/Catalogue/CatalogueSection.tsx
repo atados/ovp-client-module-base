@@ -7,9 +7,11 @@ interface CatalogueSectionProps {
   readonly className?: string
   readonly name?: React.ReactNode
   readonly section: CatalogueSectionType
+  readonly showSectionTitle: boolean
 }
 
 const CatalogueSection: React.FC<CatalogueSectionProps> = ({
+  showSectionTitle = true,
   className,
   section,
   name,
@@ -23,7 +25,7 @@ const CatalogueSection: React.FC<CatalogueSectionProps> = ({
 
   return (
     <div className={className}>
-      <h4 className="mb-4">{name || section.name}</h4>
+      {showSectionTitle && <h4 className="mb-4">{name || section.name}</h4>}
       <div className="flex -mx-2 flex-wrap">
         {section.type === 'organizations'
           ? section.organizations.map(organization => (
