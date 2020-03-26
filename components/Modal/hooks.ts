@@ -1,4 +1,4 @@
-import { useMemo, useContext, useRef } from 'react'
+import { useMemo, useContext, useRef, useEffect } from 'react'
 import nanoid from 'nanoid'
 import {
   ModalContext,
@@ -39,13 +39,22 @@ export const useModal = <Props>({
 }: UseModalOptions<Props>): UseModalResult<Props> => {
   const modals = useModals()
   const id = useMemo(() => givenId || nanoid(), [givenId])
-  const lastConfigRef = useRef<ModalConfig<Props> | null>(null)
 
   if (dev && deprectedComponentProps) {
     console.warn(
       'useModal with componentProps will be deprecated. Pass props at the open call',
     )
   }
+
+  useEffect(() => {
+    const lastModal = modals.get(id)
+    if (lastModal) {
+      modals.replace(id, {
+        ...lastModal,
+        component,
+      })
+    }
+  }, [component])
 
   return useMemo(() => {
     const modal: UseModalResult<Props> = ((props?: Props) => {
@@ -74,7 +83,6 @@ export const useModal = <Props>({
         className: className || deprecatedCardClassName,
         label,
       }
-      lastConfigRef.current = config
 
       if (modals.isOpen(id)) {
         return modals.replace(id, config)
@@ -87,19 +95,6 @@ export const useModal = <Props>({
     modal.open = props => modal(props)
     modal.close = () => {
       return modals.close(id)
-    }
-
-    if (
-      lastConfigRef.current &&
-      lastConfigRef.current.component !== component
-    ) {
-      modals.replace(id, {
-        id,
-        label,
-        className: className || deprecatedCardClassName,
-        component,
-        props: lastConfigRef.current.props,
-      })
     }
 
     return modal

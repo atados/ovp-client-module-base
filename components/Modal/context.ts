@@ -10,6 +10,7 @@ export interface ModalConfig<Props> {
 
 export interface ModalContextType {
   isOpen: (id: string) => boolean
+  get: <Props = any>(id: string) => ModalConfig<Props> | null
   close: (id: string | '*') => void
   push: <Props>(config: ModalConfig<Props>) => string
   replace: <Props>(

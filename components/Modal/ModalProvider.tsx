@@ -29,6 +29,8 @@ const ModalProvider: React.FC = ({ children }) => {
 
         return id
       },
+      get: id =>
+        stateRef.current.find(openDialog => openDialog.id === id) || null,
       isOpen: id => stateRef.current.some(openModal => openModal.id === id),
       close(id) {
         if (id === '*') {
