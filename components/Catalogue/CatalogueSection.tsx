@@ -7,7 +7,7 @@ interface CatalogueSectionProps {
   readonly className?: string
   readonly name?: React.ReactNode
   readonly section: CatalogueSectionType
-  readonly showSectionTitle: boolean
+  readonly showSectionTitle?: boolean
 }
 
 const CatalogueSection: React.FC<CatalogueSectionProps> = ({
