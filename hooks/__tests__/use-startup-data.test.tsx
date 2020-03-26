@@ -6,10 +6,12 @@ jest.mock('../fetch/swrFetcher', () => ({
   swrFetcher: jest.fn(),
 }))
 
-const fetch = swrFetcher as any
+const swrFetcherMock = (swrFetcher as any) as jest.Mock<
+  ReturnType<typeof swrFetcher>
+>
 describe('useStartupData', () => {
   it('should be return correct data', async () => {
-    fetch.mockImplementation(() => {
+    swrFetcherMock.mockImplementation(() => {
       return Promise.resolve({
         causes: [
           {
