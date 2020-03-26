@@ -16,6 +16,7 @@ if (global.Intl) {
   if (!areIntlLocalesSupported([AppIntl.locale])) {
     // `Intl` exists, but it doesn't have the data we need, so load the
     // polyfill and patch the constructors we need with the polyfill's.
+    // tslint:disable-next-line
     const IntlPolyfill = require('intl/lib/core')
     Intl.NumberFormat = IntlPolyfill.NumberFormat
     Intl.DateTimeFormat = IntlPolyfill.DateTimeFormat
@@ -24,6 +25,7 @@ if (global.Intl) {
   }
 } else {
   // No `Intl`, so use and load the polyfill.
+  // tslint:disable-next-line
   const IntlPolyfill = require('intl/lib/core')
   // @ts-ignore
   global.IntlPolyfill = IntlPolyfill
