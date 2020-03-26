@@ -25,27 +25,21 @@ type UseStartupDataHook = () => {
  * @example const { data, error, loading} = useStartupData()
  */
 const useStartupData: UseStartupDataHook = () => {
-  const { data, loading, error } = useAPIFetch('/startup/')
-  let startupData: HookData
+  const result = useAPIFetch('/startup/')
 
   return useMemo(() => {
-    if (data) {
-      startupData = {
-        causes: data.causes,
-        skills: data.skills,
-        stats: {
-          volunteersCount: data.volunteer_count,
-          organizationsCount: data.nonprofit_count,
-        },
-      }
-    }
-
     return {
-      data: startupData,
-      loading,
-      error,
+      ...result,
+      data: result.data && {
+        causes: result.data.causes,
+        skills: result.data.skills,
+        stats: {
+          volunteersCount: result.data.volunteer_count,
+          organizationsCount: result.data.nonprofit_count,
+        },
+      },
     }
-  }, [data, loading, error])
+  }, [result])
 }
 
 export default useStartupData
