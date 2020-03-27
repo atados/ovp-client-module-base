@@ -1,4 +1,4 @@
-import { useMemo, useContext, useRef, useEffect } from 'react'
+import { useMemo, useContext, useEffect } from 'react'
 import nanoid from 'nanoid'
 import {
   ModalContext,
