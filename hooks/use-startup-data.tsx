@@ -15,7 +15,7 @@ interface StartupData {
 
 type HookData = StartupData | undefined
 
-type UseStartupDataHook = () => {
+export type UseStartupDataHook = () => {
   data: HookData
   loading: boolean
   error: Error
@@ -40,6 +40,23 @@ const useStartupData: UseStartupDataHook = () => {
       },
     }
   }, [result])
+}
+
+export function withStartupData<Props>(
+  Component: React.ComponentType<Props>,
+): React.FC<Props> {
+  const Wrapper = props => {
+    const startupData = useStartupData()
+    return <Component {...(props as Props)} startupData={startupData} />
+  }
+
+  // @ts-ignore
+  if (Component.getInitialProps) {
+    // @ts-ignore
+    Wrapper.getInitialProps = Component.getInitialProps
+  }
+
+  return Wrapper
 }
 
 export default useStartupData
