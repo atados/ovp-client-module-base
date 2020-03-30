@@ -36,5 +36,5 @@
     ".next",
     ".dist"
   ],
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"]
+  "include": ["next-env.d.ts", "base", "channel", "pages"]
 }
