@@ -1,7 +1,7 @@
 import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 import React from 'react'
-import { withStartupData, UseStartupDataHook } from '~/hooks/use-startup-data'
+import { withStartupData, UseStartupDataResult } from '~/hooks/use-startup-data'
 import SearchFilter from '~/components/SearchFilters/SearchFilter'
 import ActivityIndicator from '~/components/ActivityIndicator'
 import { DropdownMenu } from '~/components/Dropdown'
@@ -33,7 +33,7 @@ interface CausesFilterProps {
   readonly value?: number[]
   readonly className?: string
   readonly causes: API.Cause[]
-  readonly startupData: UseStartupDataHook
+  readonly startupData: UseStartupDataResult
   readonly onCommit: () => void
   readonly onChange: (newValue: number[]) => void
   readonly onOpenStateChange?: (open: boolean) => void

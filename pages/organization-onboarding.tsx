@@ -48,7 +48,9 @@ interface OrganizationOnboardingPageProps {
 const OrganizationOnboardingPage: React.FC<OrganizationOnboardingPageProps> = () => {
   const intl = useIntl()
   const { stats, loading } = useChannelStats()
-  const volunteerCountChars = String(stats?.volunteersCount).split('')
+  const volunteerCountChars = stats
+    ? String(stats.volunteersCount).split('')
+    : ''
 
   return (
     <Layout toolbarProps={{ className: 'bg-none', flat: true, float: true }}>

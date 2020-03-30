@@ -2,7 +2,7 @@ import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 import React from 'react'
 
-import { withStartupData, UseStartupDataHook } from '~/hooks/use-startup-data'
+import { withStartupData, UseStartupDataResult } from '~/hooks/use-startup-data'
 import SearchFilter from '~/components/SearchFilters/SearchFilter'
 import ActivityIndicator from '~/components/ActivityIndicator'
 import { DropdownMenu } from '~/components/Dropdown'
@@ -22,7 +22,7 @@ const Menu = styled(DropdownMenu)`
 interface SkillsFilterProps {
   readonly value?: number[]
   readonly className?: string
-  readonly startupData: UseStartupDataHook
+  readonly startupData: UseStartupDataResult
   readonly onCommit: () => void
   readonly onChange: (newValue: number[]) => void
   readonly onOpenStateChange?: (open: boolean) => void
@@ -131,7 +131,7 @@ class SkillsFilter extends React.Component<SkillsFilterProps> {
           <div className="flex flex-wrap">
             {(loading && <ActivityIndicator size={36} />) ||
               children.map((child, i) => (
-                <div className="w-full sm:w-1/2 testeeeeeee" key={i}>
+                <div className="w-full sm:w-1/2" key={i}>
                   {child}
                 </div>
               ))}

@@ -15,11 +15,13 @@ interface StartupData {
 
 type HookData = StartupData | undefined
 
-export type UseStartupDataHook = () => {
+export interface UseStartupDataResult {
   data: HookData
   loading: boolean
   error: Error
 }
+
+export type UseStartupDataHook = () => UseStartupDataResult
 
 /**
  * @example const { data, error, loading} = useStartupData()
