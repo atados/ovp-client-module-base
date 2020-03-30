@@ -11,7 +11,7 @@ import PageLink from '../PageLink'
 import Icon from '../Icon'
 
 export interface CausesSectionProps {
-  readonly causes: API.Cause[]
+  readonly causes?: API.Cause[]
   readonly titleClassName?: string
   readonly className?: string
 }

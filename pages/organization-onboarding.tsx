@@ -1,10 +1,8 @@
 import { FormattedMessage, defineMessages, useIntl } from 'react-intl'
-import { useSelector } from 'react-redux'
 import React from 'react'
 
 import ActivityIndicator from '~/components/ActivityIndicator'
 import useChannelStats from '~/hooks/use-channel-stats'
-import { RootState } from '~/redux/root-reducer'
 import { range } from '~/lib/utils/array'
 import Layout from '~/components/Layout'
 import styled from 'styled-components'

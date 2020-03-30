@@ -22,7 +22,7 @@ const Menu = styled(DropdownMenu)`
 interface SkillsFilterProps {
   readonly value?: number[]
   readonly className?: string
-  readonly startupData: UseStartupDataResult
+  readonly startupData?: UseStartupDataResult
   readonly onCommit: () => void
   readonly onChange: (newValue: number[]) => void
   readonly onOpenStateChange?: (open: boolean) => void
@@ -70,7 +70,9 @@ class SkillsFilter extends React.Component<SkillsFilterProps> {
       value = [],
     } = this.props
 
-    const { data, loading } = startupData
+    const data = startupData?.data
+    const loading = startupData?.loading
+
     const skills = data ? data?.skills : []
 
     const children: React.ReactNode[][] = [[], []]

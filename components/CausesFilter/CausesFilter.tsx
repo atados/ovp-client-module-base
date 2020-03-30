@@ -32,8 +32,8 @@ const CauseIndicator = styled.span`
 interface CausesFilterProps {
   readonly value?: number[]
   readonly className?: string
-  readonly causes: API.Cause[]
-  readonly startupData: UseStartupDataResult
+  readonly causes?: API.Cause[]
+  readonly startupData?: UseStartupDataResult
   readonly onCommit: () => void
   readonly onChange: (newValue: number[]) => void
   readonly onOpenStateChange?: (open: boolean) => void
@@ -80,7 +80,10 @@ class CausesFilter extends React.Component<CausesFilterProps> {
       value = [],
       startupData,
     } = this.props
-    const { data, loading } = startupData
+
+    const data = startupData?.data
+    const loading = startupData?.loading
+
     const causes = data ? data?.causes : []
 
     const children: React.ReactNode[][] = [[], []]

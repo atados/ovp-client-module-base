@@ -27,7 +27,7 @@ const Container = styled.div`
 `
 
 export interface FooterProps {
-  readonly causes: API.Cause[]
+  readonly causes?: API.Cause[]
   readonly className?: string
 }
 
