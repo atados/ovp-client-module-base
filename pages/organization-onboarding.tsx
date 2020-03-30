@@ -1,13 +1,17 @@
-import React from 'react'
-import Layout from '~/components/Layout'
-import { Color } from '~/common'
 import { FormattedMessage, defineMessages, useIntl } from 'react-intl'
-import styled from 'styled-components'
-import Icon from '~/components/Icon'
 import { useSelector } from 'react-redux'
+import React from 'react'
+
+import ActivityIndicator from '~/components/ActivityIndicator'
+import useChannelStats from '~/hooks/use-channel-stats'
 import { RootState } from '~/redux/root-reducer'
 import { range } from '~/lib/utils/array'
+import Layout from '~/components/Layout'
+import styled from 'styled-components'
+import Icon from '~/components/Icon'
 import Meta from '~/components/Meta'
+import { Color } from '~/common'
+
 import PageLink from '../components/PageLink'
 
 const BannerOverlay = styled.div`
@@ -43,8 +47,9 @@ interface OrganizationOnboardingPageProps {
 
 const OrganizationOnboardingPage: React.FC<OrganizationOnboardingPageProps> = () => {
   const intl = useIntl()
-  const stats = useSelector((state: RootState) => state.startup.stats)
-  const volunteerCountChars = String(stats.volunteers).split('')
+  const { stats, loading } = useChannelStats()
+  const volunteerCountChars = String(stats?.volunteersCount).split('')
+
   return (
     <Layout toolbarProps={{ className: 'bg-none', flat: true, float: true }}>
       <Meta
@@ -76,19 +81,20 @@ const OrganizationOnboardingPage: React.FC<OrganizationOnboardingPageProps> = ()
                 <div className="px-2 w-full md:w-5/12">
                   <div className="bg-white rounded-lg shadow-lg p-5">
                     <div className="text-center truncate mb-4">
-                      {range(6, i => (
-                        <div key={i} className="inline-block mr-2">
-                          <span
-                            className={`text-3xl font-medium text-gray-700 bg-gray-200 rounded-lg block px-3 py-2 ${
-                              i === 2 ? 'mr-4' : ''
-                            }`}
-                          >
-                            {volunteerCountChars[
-                              i - (6 - volunteerCountChars.length)
-                            ] || 0}
-                          </span>
-                        </div>
-                      ))}
+                      {(loading && <ActivityIndicator size={36} />) ||
+                        range(6, i => (
+                          <div key={i} className="inline-block mr-2">
+                            <span
+                              className={`text-3xl font-medium text-gray-700 bg-gray-200 rounded-lg block px-3 py-2 ${
+                                i === 2 ? 'mr-4' : ''
+                              }`}
+                            >
+                              {volunteerCountChars[
+                                i - (6 - volunteerCountChars.length)
+                              ] || 0}
+                            </span>
+                          </div>
+                        ))}
                     </div>
                     <span className="tt-upper font-medium text-center mb-4 block text-primary-500">
                       <FormattedMessage
