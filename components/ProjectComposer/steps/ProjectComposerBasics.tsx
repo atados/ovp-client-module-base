@@ -32,6 +32,9 @@ import { API } from '~/types/api'
 import { defineMessages, FormattedMessage } from 'react-intl'
 import { useIntl } from 'react-intl'
 import { isQueryReady } from '~/lib/apollo'
+import useStartupData from '~/hooks/use-startup-data'
+import ActivityIndicator from '~/components/ActivityIndicator'
+import { Color } from '~/common'
 
 const ProjectBasicsFormSchema = Yup.object().shape({
   name: Yup.string()
@@ -228,14 +231,13 @@ const ProjectComposerBasics: React.FC<InjectedFormikProps<
   touched,
   handleSubmit,
   handleBlur,
-  causesSelectItems,
-  skillsSelectItems,
   isFormSubmitting,
   setFieldTouched,
   setFieldValue,
   currentUser,
   formContext: { organization, mode },
 }) => {
+  const { data: startup, loading } = useStartupData()
   const handleCausesBlur = useCallback(() => {
     setFieldTouched('causes')
   }, [setFieldTouched])
@@ -290,6 +292,17 @@ const ProjectComposerBasics: React.FC<InjectedFormikProps<
 
     return arr
   }, [queryMembers])
+
+  const causesSelectItems = startup?.causes?.map(causeToSelectItem)
+  const skillsSelectItems = startup?.skills?.map(skillToSelectItem)
+
+  if (!startup || loading) {
+    return (
+      <div className="bg-white rounded-lg shadow p-5 text-center">
+        <ActivityIndicator fill={Color.gray[500]} size={52} />
+      </div>
+    )
+  }
 
   return (
     <FormComposerLayout
@@ -494,11 +507,9 @@ const ProjectComposerBasics: React.FC<InjectedFormikProps<
 
 ProjectComposerBasics.displayName = 'ProjectComposerBasics'
 
-const mapStateToProps = ({ user, startup }) => {
+const mapStateToProps = ({ user }) => {
   return {
     currentUser: user!,
-    causesSelectItems: startup.causes.map(causeToSelectItem),
-    skillsSelectItems: startup.skills.map(skillToSelectItem),
   }
 }
 

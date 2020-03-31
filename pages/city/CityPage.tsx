@@ -1,25 +1,23 @@
-import React from 'react'
-import { NextPage } from 'next'
-import { useRouter } from 'next/router'
 import { FormattedMessage } from 'react-intl'
+import { useRouter } from 'next/router'
+import { NextPage } from 'next'
+import React from 'react'
+import BannerGradientOverlay from '~/components/Styled/BannerGradientOverlay'
 import { mountAPIPathToSearchProjects } from '~/pages/city/utils'
+import useStartupData from '~/hooks/use-startup-data'
 import { ApiPagination } from '~/redux/ducks/search'
 import ProjectCard from '~/components/ProjectCard'
-import { RootState } from '~/redux/root-reducer'
 import useFetchAPI from '~/hooks/use-fetch-api'
-import { useSelector } from 'react-redux'
 import Layout from '~/components/Layout'
 import Icon from '~/components/Icon'
 import Meta from '~/components/Meta'
 import { API } from '~/types/api'
-import BannerGradientOverlay from '~/components/Styled/BannerGradientOverlay'
+
 interface CityProps {
   cityName: string
   selectedCauseId?: string
   selectedSkillId?: string
 }
-
-const reduxStateSelector = (state: RootState) => state.startup
 
 const City: NextPage<CityProps> = ({
   cityName,
@@ -27,7 +25,7 @@ const City: NextPage<CityProps> = ({
   selectedSkillId,
 }) => {
   const router = useRouter()
-  const { causes, skills } = useSelector(reduxStateSelector)
+  const { data: startup, loading } = useStartupData()
   const response = useFetchAPI<ApiPagination<API.Project>>(
     mountAPIPathToSearchProjects(cityName, selectedCauseId, selectedSkillId),
   )
@@ -45,6 +43,8 @@ const City: NextPage<CityProps> = ({
   }
 
   const projects = response.data?.results || []
+  const causes = startup?.causes || []
+  const skills = startup?.skills || []
 
   return (
     <Layout toolbarProps={{ float: true, flat: true, className: 'bg-none' }}>
@@ -71,10 +71,12 @@ const City: NextPage<CityProps> = ({
             <div className="bg-white rounded-lg max-w-3xl mx-auto mb-4 p-2 md:flex">
               <select
                 value={selectedCauseId}
-                className="rounded-lg input md:mr-2 block mb-2 md:mb-0 bg-gray-300 border-0 text-xl px-4 h-12"
+                className={`rounded-lg input md:mr-2 block mb-2 md:mb-0 bg-gray-300 border-0 text-xl px-4 h-12 ${loading &&
+                  'opacity-50'}`}
                 name="cause"
                 onChange={handleInputChange}
                 role="cause-filter"
+                disabled={loading}
               >
                 <option key={0} value="">
                   Filtre por causa
@@ -87,10 +89,12 @@ const City: NextPage<CityProps> = ({
               </select>
               <select
                 value={selectedSkillId}
-                className="rounded-lg input md:mr-2 block mb-2 md:mb-0 bg-gray-300 border-0 text-xl px-4 h-12"
+                className={`rounded-lg input md:mr-2 block mb-2 md:mb-0 bg-gray-300 border-0 text-xl px-4 h-12 ${loading &&
+                  'opacity-50'}`}
                 name="skill"
                 onChange={handleInputChange}
                 role="skill-filter"
+                disabled={loading}
               >
                 <option key={0} value="">
                   Filtre por habilidade
