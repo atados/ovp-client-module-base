@@ -11,8 +11,8 @@ jest.mock('react-intl', () => ({
   defineMessages: x => x,
 }))
 
-jest.mock('react-redux', () => ({
-  useSelector: () => ({
+jest.mock('~/hooks/use-startup-data', () => () => ({
+  data: {
     causes: [
       { id: 1, name: 'cause1' },
       { id: 2, name: 'cause2' },
@@ -21,7 +21,8 @@ jest.mock('react-redux', () => ({
       { id: 1, name: 'skill1' },
       { id: 2, name: 'skill2' },
     ],
-  }),
+  },
+  loading: false,
 }))
 
 jest.mock('~/hooks/use-fetch-api', () => () => ({
