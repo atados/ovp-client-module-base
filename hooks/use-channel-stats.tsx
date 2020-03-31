@@ -7,6 +7,9 @@ type UseChannelStatsHook = () => {
   error: Error
 }
 
+/**
+ * @example const { stats, error, loading} = useCauses()
+ */
 const useChannelStats: UseChannelStatsHook = () => {
   const result = useStartupData()
 

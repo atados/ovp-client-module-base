@@ -8,6 +8,9 @@ type UseCausesHook = () => {
   error: Error
 }
 
+/**
+ * @example const { causes, error, loading} = useCauses()
+ */
 const useCauses: UseCausesHook = () => {
   const result = useStartupData()
 

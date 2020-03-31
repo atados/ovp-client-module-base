@@ -1,11 +1,11 @@
-import React from 'react'
-import { connect } from 'react-redux'
-import styled from 'styled-components'
-import { DropdownMenu } from '~/components/Dropdown'
-import SearchFilter from '~/components/SearchFilters/SearchFilter'
-import { pushToDataLayer } from '~/lib/tag-manager'
-import { RootState } from '~/redux/root-reducer'
 import { FormattedMessage } from 'react-intl'
+import styled from 'styled-components'
+import React from 'react'
+import { withStartupData, UseStartupDataResult } from '~/hooks/use-startup-data'
+import SearchFilter from '~/components/SearchFilters/SearchFilter'
+import ActivityIndicator from '~/components/ActivityIndicator'
+import { DropdownMenu } from '~/components/Dropdown'
+import { pushToDataLayer } from '~/lib/tag-manager'
 import { API } from '~/types/api'
 
 const Menu = styled(DropdownMenu)`
@@ -32,7 +32,8 @@ const CauseIndicator = styled.span`
 interface CausesFilterProps {
   readonly value?: number[]
   readonly className?: string
-  readonly causes: API.Cause[]
+  readonly causes?: API.Cause[]
+  readonly startupData?: UseStartupDataResult
   readonly onCommit: () => void
   readonly onChange: (newValue: number[]) => void
   readonly onOpenStateChange?: (open: boolean) => void
@@ -44,12 +45,13 @@ class CausesFilter extends React.Component<CausesFilterProps> {
   }
 
   public handleCauseChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { onChange, value: currentValue } = this.props
+    const { startupData, onChange, value: currentValue } = this.props
     const {
       target: { checked },
     } = event
     const causeId = parseInt(event.target.value, 10)
-    const cause = this.props.causes.find(c => c.id === causeId)
+    const causes = startupData?.data ? startupData?.data?.causes : []
+    const cause = causes.find(c => c.id === causeId)
 
     if (cause && currentValue) {
       pushToDataLayer({
@@ -72,12 +74,18 @@ class CausesFilter extends React.Component<CausesFilterProps> {
 
   public render() {
     const {
-      causes,
       className,
       onCommit,
       onOpenStateChange,
       value = [],
+      startupData,
     } = this.props
+
+    const data = startupData?.data
+    const loading = startupData?.loading
+
+    const causes = data ? data?.causes : []
+
     const children: React.ReactNode[][] = [[], []]
     let label: string | React.ReactNode = (
       <FormattedMessage id="causesFilter.value" defaultMessage="Causas" />
@@ -134,11 +142,12 @@ class CausesFilter extends React.Component<CausesFilterProps> {
             />
           </h4>
           <div className="flex flex-wrap">
-            {children.map((child, i) => (
-              <div className="md:w-1/2" key={i}>
-                {child}
-              </div>
-            ))}
+            {(loading && <ActivityIndicator size={36} />) ||
+              children.map((child, i) => (
+                <div className="md:w-1/2" key={i}>
+                  {child}
+                </div>
+              ))}
           </div>
         </div>
       </SearchFilter>
@@ -146,5 +155,4 @@ class CausesFilter extends React.Component<CausesFilterProps> {
   }
 }
 
-const mapStateToProps = ({ startup }: RootState) => ({ causes: startup.causes })
-export default connect(mapStateToProps)(CausesFilter)
+export default withStartupData(CausesFilter)

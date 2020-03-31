@@ -1,12 +1,12 @@
-import React from 'react'
-import { connect } from 'react-redux'
-import styled from 'styled-components'
-import { DropdownMenu } from '~/components/Dropdown'
-import SearchFilter from '~/components/SearchFilters/SearchFilter'
-import { pushToDataLayer } from '~/lib/tag-manager'
-import { RootState } from '~/redux/root-reducer'
 import { FormattedMessage } from 'react-intl'
-import { API } from '~/types/api'
+import styled from 'styled-components'
+import React from 'react'
+
+import { withStartupData, UseStartupDataResult } from '~/hooks/use-startup-data'
+import SearchFilter from '~/components/SearchFilters/SearchFilter'
+import ActivityIndicator from '~/components/ActivityIndicator'
+import { DropdownMenu } from '~/components/Dropdown'
+import { pushToDataLayer } from '~/lib/tag-manager'
 
 const Menu = styled(DropdownMenu)`
   left: 10px;
@@ -22,7 +22,7 @@ const Menu = styled(DropdownMenu)`
 interface SkillsFilterProps {
   readonly value?: number[]
   readonly className?: string
-  readonly skills: API.Skill[]
+  readonly startupData?: UseStartupDataResult
   readonly onCommit: () => void
   readonly onChange: (newValue: number[]) => void
   readonly onOpenStateChange?: (open: boolean) => void
@@ -34,7 +34,8 @@ class SkillsFilter extends React.Component<SkillsFilterProps> {
   }
 
   public handleSkillChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { skills, onChange, value: currentValue } = this.props
+    const { startupData, onChange, value: currentValue } = this.props
+    const skills = startupData?.data ? startupData?.data?.skills : []
     const {
       target: { checked },
     } = event
@@ -62,12 +63,18 @@ class SkillsFilter extends React.Component<SkillsFilterProps> {
 
   public render() {
     const {
-      skills,
+      startupData,
       className,
       onCommit,
       onOpenStateChange,
       value = [],
     } = this.props
+
+    const data = startupData?.data
+    const loading = startupData?.loading
+
+    const skills = data ? data?.skills : []
+
     const children: React.ReactNode[][] = [[], []]
     let label: string | React.ReactNode = (
       <FormattedMessage id="skillsFilter.value" defaultMessage="Habilidades" />
@@ -124,11 +131,12 @@ class SkillsFilter extends React.Component<SkillsFilterProps> {
             />
           </h4>
           <div className="flex flex-wrap">
-            {children.map((child, i) => (
-              <div className="w-full sm:w-1/2" key={i}>
-                {child}
-              </div>
-            ))}
+            {(loading && <ActivityIndicator size={36} />) ||
+              children.map((child, i) => (
+                <div className="w-full sm:w-1/2" key={i}>
+                  {child}
+                </div>
+              ))}
           </div>
         </div>
       </SearchFilter>
@@ -136,5 +144,4 @@ class SkillsFilter extends React.Component<SkillsFilterProps> {
   }
 }
 
-const mapStateToProps = ({ startup }: RootState) => ({ skills: startup.skills })
-export default connect(mapStateToProps)(SkillsFilter)
+export default withStartupData(SkillsFilter)

@@ -1,16 +1,17 @@
+import { FormattedMessage } from 'react-intl'
+import styled from 'styled-components'
 import Link from 'next/link'
 import React from 'react'
-import { connect } from 'react-redux'
-import styled from 'styled-components'
+
+import useCauses from '~/hooks/use-causes'
 import { Page, PageAs } from '~/common'
-import { RootState } from '~/redux/root-reducer'
-import { FormattedMessage } from 'react-intl'
-import PageLink from '../PageLink'
-import Icon from '../Icon'
 import { API } from '~/types/api'
 
+import PageLink from '../PageLink'
+import Icon from '../Icon'
+
 export interface CausesSectionProps {
-  readonly causes: API.Cause[]
+  readonly causes?: API.Cause[]
   readonly titleClassName?: string
   readonly className?: string
 }
@@ -73,11 +74,12 @@ const Card = styled.div`
 `
 
 const CausesSection: React.FC<CausesSectionProps> = ({
-  causes,
   titleClassName,
   ...props
 }) => {
-  if (causes.length === 0) {
+  const { causes, loading } = useCauses()
+
+  if (loading || !causes?.length) {
     return null
   }
 
@@ -97,7 +99,7 @@ const CausesSection: React.FC<CausesSectionProps> = ({
       </SectionSubtitle>
 
       <div className="flex -mx-2 flex-wrap">
-        {causes.map(cause => (
+        {causes?.slice(0, 6).map(cause => (
           <Link
             as={PageAs.Cause({ slug: cause.slug })}
             href={Page.Cause}
@@ -143,8 +145,4 @@ const CausesSection: React.FC<CausesSectionProps> = ({
 
 CausesSection.displayName = 'CausesSection'
 
-const mapStateToProps = ({ startup }: RootState) => ({
-  causes: startup.causes.slice(0, 6),
-})
-
-export default connect(mapStateToProps)(CausesSection)
+export default CausesSection
