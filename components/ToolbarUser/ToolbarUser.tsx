@@ -16,6 +16,7 @@ import PageLink from '~/components/PageLink'
 import { useModal } from '~/components/Modal'
 import ToolbarMessagesDropdown from '~/components/ToolbarUser/components/ToolbarMessagesDropdown'
 import { connect } from 'react-redux'
+import ToolbarNotifications from '~/components/ToolbarNotifications'
 
 interface ToolbarUserProps {
   readonly user: User | null
@@ -193,6 +194,7 @@ const ToolbarUser: React.FC<ToolbarUserProps> = ({
   if (user) {
     return (
       <div className="nav">
+        <ToolbarNotifications viewer={user} />
         {chatEnabled && (
           <AppNotificationWatcher user={user} inboxViewers={inboxViewers} />
         )}
