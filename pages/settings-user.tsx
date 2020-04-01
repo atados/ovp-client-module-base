@@ -98,18 +98,20 @@ const publicUserToValues = ({
 }: PublicUser): Values => ({
   name,
   phone: phone || '',
-  description: profile.about || '',
-  gender: profile.gender || '',
-  skills: profile.skills ? profile.skills.map(skillToSelectItem) : [],
-  causes: profile.causes ? profile.causes.map(causeToSelectItem) : [],
+  description: profile?.about || '',
+  gender: profile?.gender || '',
+  skills: profile?.skills ? profile?.skills.map(skillToSelectItem) : [],
+  causes: profile?.causes ? profile?.causes.map(causeToSelectItem) : [],
   avatar: avatar ? { previewURI: avatar.image_url } : null,
-  city: profile.address
+  city: profile?.address
     ? {
         kind: AddressKind.WEAK,
-        node: { description: profile.address.typed_address },
+        node: { description: profile?.address.typed_address },
       }
     : null,
-  birthdate: profile.birthday_date ? formatToBRDate(profile.birthday_date) : '',
+  birthdate: profile?.birthday_date
+    ? formatToBRDate(profile?.birthday_date)
+    : '',
 })
 
 interface Values {
