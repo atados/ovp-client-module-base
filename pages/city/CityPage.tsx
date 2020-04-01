@@ -89,8 +89,9 @@ const City: NextPage<CityProps> = ({
               </select>
               <select
                 value={selectedSkillId}
-                className={`rounded-lg input md:mr-2 block mb-2 md:mb-0 bg-gray-300 border-0 text-xl px-4 h-12 ${loading &&
-                  'opacity-50'}`}
+                className={`rounded-lg input md:mr-2 block mb-2 md:mb-0 bg-gray-300 border-0 text-xl px-4 h-12 ${
+                  loading ? 'opacity-50' : ''
+                }`}
                 name="skill"
                 onChange={handleInputChange}
                 role="skill-filter"
