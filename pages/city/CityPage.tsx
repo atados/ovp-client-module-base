@@ -71,8 +71,9 @@ const City: NextPage<CityProps> = ({
             <div className="bg-white rounded-lg max-w-3xl mx-auto mb-4 p-2 md:flex">
               <select
                 value={selectedCauseId}
-                className={`rounded-lg input md:mr-2 block mb-2 md:mb-0 bg-gray-300 border-0 text-xl px-4 h-12 ${loading &&
-                  'opacity-50'}`}
+                className={`rounded-lg input md:mr-2 block mb-2 md:mb-0 bg-gray-300 border-0 text-xl px-4 h-12 ${
+                  loading ? 'opacity-50' : ''
+                }`}
                 name="cause"
                 onChange={handleInputChange}
                 role="cause-filter"
