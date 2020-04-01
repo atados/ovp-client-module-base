@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
-import ToolbarNotificationsItem from './ToolbarNotificationsItem'
+import Notification from '~/components/Notification'
 
 const Body = styled.div`
   top: 50px;
@@ -63,7 +63,7 @@ const Notifications: React.FC<NotificationsProps> = ({
               key={notification.id}
               onClick={() => handleMarkAsRead(notification.id)}
             >
-              <ToolbarNotificationsItem notification={notification} />
+              <Notification notification={notification} />
             </button>
           ))}
         </div>

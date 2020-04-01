@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import Layout from '~/components/Layout'
 import Meta from '~/components/Meta'
-import ToolbarNotificationItem from '~/components/ToolbarNotifications/ToolbarNotificationsItem'
+import Notification from '~/components/Notification'
 
 interface Notification {
   id: number
@@ -66,7 +66,7 @@ const notificationsFake = [
   },
 ]
 
-const NotificationPage: React.FC = () => {
+const NotificationsPage: React.FC = () => {
   const [notifications, setNotifications] = useState<Notification[]>(
     notificationsFake,
   )
@@ -103,17 +103,16 @@ const NotificationPage: React.FC = () => {
 
         <div className="mx-auto max-w-5xl">
           {notifications.map(notification => (
-            <button
-              type="button"
-              className="text-left w-full outline-none"
+            <a
+              className="text-black"
               onClick={() => handleMarkAsRead(notification.id)}
               key={notification.id}
             >
-              <ToolbarNotificationItem
+              <Notification
                 notification={notification}
-                className=" rounded-md mb-4 "
+                className="rounded-md mb-4 "
               />
-            </button>
+            </a>
           ))}
         </div>
       </div>
@@ -121,4 +120,4 @@ const NotificationPage: React.FC = () => {
   )
 }
 
-export default NotificationPage
+export default NotificationsPage

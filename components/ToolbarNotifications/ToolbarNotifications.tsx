@@ -90,8 +90,9 @@ const ToolbarNotifications: React.FC<ToolbarNotificationsProps> = ({
     notificationsFake,
   )
   const [open, setOpen] = useState(false)
-  const numberNotifications = notifications?.filter(item => item.read === false)
-    .length
+  const newNotificationsCount = notifications?.filter(
+    item => item.read === false,
+  ).length
 
   function handleMarkAsRead(id) {
     setNotifications(
@@ -118,14 +119,14 @@ const ToolbarNotifications: React.FC<ToolbarNotificationsProps> = ({
           } btn`}
         >
           <div className="flex justify-center">
-            {numberNotifications > 0 && (
+            {newNotificationsCount > 0 && (
               <div className="absolute top-0 right-0 w-4 h-4 bg-red-500 rounded-full text-white mr-2 text-xs flex items-center justify-center">
-                {numberNotifications > 9 ? '+9' : numberNotifications}
+                {newNotificationsCount > 9 ? '+9' : newNotificationsCount}
               </div>
             )}
             <Icon
               name={
-                numberNotifications > 0
+                newNotificationsCount > 0
                   ? 'notifications_active'
                   : 'notifications'
               }
