@@ -1,27 +1,29 @@
+import { defineMessages, WithIntlProps } from 'react-intl'
 import { InjectedFormikProps, withFormik } from 'formik'
-import React from 'react'
-import { connect } from 'react-redux'
-import MaskedTextInput from 'react-text-mask'
 import Textarea from 'react-textarea-autosize'
-import { DropdownDirection } from '~/components/Dropdown/Dropdown'
-import FormGroup from '~/components/Form/FormGroup'
-import { FormComposerMode } from '~/components/FormComposer/FormComposer'
-import FormComposerLayout from '~/components/FormComposer/FormComposerLayout'
-import Icon from '~/components/Icon'
-import InputAddress from '~/components/InputAddress'
+import MaskedTextInput from 'react-text-mask'
+import React from 'react'
+
+import { withStartupData, UseStartupDataResult } from '~/hooks/use-startup-data'
 import { InputAddressValueType } from '~/components/InputAddress/InputAddress'
-import InputImage from '~/components/InputImage'
+import FormComposerLayout from '~/components/FormComposer/FormComposerLayout'
+import OrganizationComposerCard from '../components/OrganizationComposerCard'
+import { FormComposerMode } from '~/components/FormComposer/FormComposer'
 import { InputImageValueType } from '~/components/InputImage/InputImage'
+import { DropdownDirection } from '~/components/Dropdown/Dropdown'
+import ActivityIndicator from '~/components/ActivityIndicator'
+import { causeToSelectItem } from '~/lib/utils/form'
+import InputAddress from '~/components/InputAddress'
+import FormGroup from '~/components/Form/FormGroup'
+import InputImage from '~/components/InputImage'
+import Icon from '~/components/Icon'
 import InputSelect, {
   InputSelectItem,
 } from '~/components/InputSelect/InputSelect'
-import { fetchAPI } from '~/lib/fetch'
 import * as masks from '~/lib/form/masks'
-import Yup from '~/lib/form/yup'
-import { causeToSelectItem } from '~/lib/utils/form'
-import OrganizationComposerCard from '../components/OrganizationComposerCard'
-import { defineMessages, WithIntlProps } from 'react-intl'
+import { fetchAPI } from '~/lib/fetch'
 import { withIntl } from '~/lib/intl'
+import Yup from '~/lib/form/yup'
 
 const RE_CNPJ = /^[0-9]{2}.[0-9]{3}.[0-9]{3}\/[0-9]{4}-[0-9]{2}$/
 const OrganizationBasicsFormSchema = Yup.object().shape({
@@ -90,7 +92,7 @@ interface OrganizationComposerBasicsProps {
   readonly onSubmit: (values: Values) => void
   readonly onChange: (values: Values) => void
   readonly defaultValue?: Values
-  readonly causesSelectItems: InputSelectItem[]
+  readonly startupData?: UseStartupDataResult
 }
 
 const {
@@ -267,10 +269,14 @@ class OrganizationComposerBasics extends React.Component<
       touched,
       mode,
       handleSubmit,
-      causesSelectItems,
       isComposerSubmitting,
+      startupData,
       intl,
     } = this.props
+
+    const startupCauses = startupData?.data?.causes || []
+    const loading = startupData?.loading
+    const causesSelectItems = startupCauses.map(causeToSelectItem)
 
     return (
       <FormComposerLayout
@@ -399,27 +405,30 @@ class OrganizationComposerBasics extends React.Component<
           />
           {intl.formatMessage(ENDERECO_PLACEHOLDER)}
         </label>
-
-        <FormGroup
-          labelFor="ong-input-causes"
-          label={intl.formatMessage(CAUSAS)}
-          error={
-            touched.causes ? ((errors.causes as any) as string) : undefined
-          }
-          length={values.causes.length}
-          className="mb-6"
-          maxLength={3}
-          hint={intl.formatMessage(CAUSAS_HINT)}
-        >
-          <InputSelect
-            inputClassName="input--size-3"
-            selectedItems={values.causes}
-            onChange={this.handleCausesChange}
-            onBlur={this.handleCausesBlur}
-            items={causesSelectItems}
-            direction={DropdownDirection.UP}
-          />
-        </FormGroup>
+        {loading ? (
+          <ActivityIndicator size={36} />
+        ) : (
+          <FormGroup
+            labelFor="ong-input-causes"
+            label={intl.formatMessage(CAUSAS)}
+            error={
+              touched.causes ? ((errors.causes as any) as string) : undefined
+            }
+            length={values.causes.length}
+            className="mb-6"
+            maxLength={3}
+            hint={intl.formatMessage(CAUSAS_HINT)}
+          >
+            <InputSelect
+              inputClassName="input--size-3"
+              selectedItems={values.causes}
+              onChange={this.handleCausesChange}
+              onBlur={this.handleCausesBlur}
+              items={causesSelectItems}
+              direction={DropdownDirection.UP}
+            />
+          </FormGroup>
+        )}
 
         <FormGroup
           labelFor="ong-input-benefited-people"
@@ -475,11 +484,7 @@ const defaultValue: Values = {
   benefitedPeople: '',
 }
 
-const mapStateToProps = ({ startup }) => ({
-  causesSelectItems: startup.causes.map(causeToSelectItem),
-})
-
-export default connect(mapStateToProps)(
+export default withStartupData(
   withFormik<OrganizationComposerBasicsProps, Values>({
     displayName: 'OrganizationComposerBasicsForm',
     handleSubmit: (values, { props: { onSubmit } }) => {

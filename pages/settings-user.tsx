@@ -1,38 +1,41 @@
+import { FormattedMessage, defineMessages, useIntl } from 'react-intl'
 import { InjectedFormikProps, withFormik } from 'formik'
-import { NextPage } from 'next'
-import React, { useEffect } from 'react'
 import { connect, useSelector } from 'react-redux'
-import MaskedTextInput from 'react-text-mask'
 import Textarea from 'react-textarea-autosize'
+import MaskedTextInput from 'react-text-mask'
+import React, { useEffect } from 'react'
+import { NextPage } from 'next'
+
+import Yup, { YupDateErrorMessage, YupPhoneErrorMessage } from '~/lib/form/yup'
+import { InputImageValueType } from '~/components/InputImage/InputImage'
+import { causeToSelectItem, skillToSelectItem } from '~/lib/utils/form'
+import { InputSelectItem } from '~/components/InputSelect/InputSelect'
+import { updateUser, UserOverrides } from '~/redux/ducks/user-update'
+import { formatToBRDate, formatToUSDate } from '~/lib/utils/string'
 import ActivityIndicator from '~/components/ActivityIndicator'
 import ErrorMessage from '~/components/Form/ErrorMessage'
+import { PublicUser } from '~/redux/ducks/public-user'
+import useStartupData from '~/hooks/use-startup-data'
+import { RE_DATE, RE_PHONE } from '~/lib/form/regex'
 import FormGroup from '~/components/Form/FormGroup'
+import InputSelect from '~/components/InputSelect'
+import InputImage from '~/components/InputImage'
+import { RootState } from '~/redux/root-reducer'
+import * as masks from '~/lib/form/masks'
+import Meta from '~/components/Meta'
 import InputAddress, {
   AddressKind,
   InputAddressValueType,
 } from '~/components/InputAddress/InputAddress'
-import InputImage from '~/components/InputImage'
-import { InputImageValueType } from '~/components/InputImage/InputImage'
-import InputSelect from '~/components/InputSelect'
-import { InputSelectItem } from '~/components/InputSelect/InputSelect'
-import Meta from '~/components/Meta'
-import * as masks from '~/lib/form/masks'
-import { RE_DATE, RE_PHONE } from '~/lib/form/regex'
-import Yup, { YupDateErrorMessage, YupPhoneErrorMessage } from '~/lib/form/yup'
-import { causeToSelectItem, skillToSelectItem } from '~/lib/utils/form'
-import { formatToBRDate, formatToUSDate } from '~/lib/utils/string'
-import { PublicUser } from '~/redux/ducks/public-user'
-import { updateUser, UserOverrides } from '~/redux/ducks/user-update'
-import { RootState } from '~/redux/root-reducer'
-import Icon from '../components/Icon'
 import {
   ViewerSettingsLayout,
   getViewerSettingsInitialProps,
 } from '~/components/ViewerSettings'
-import { FormattedMessage, defineMessages, useIntl } from 'react-intl'
-import { Color } from '../common'
+
 import useFetchAPI from '../hooks/use-fetch-api'
 import { reportError } from '../lib/utils/error'
+import Icon from '../components/Icon'
+import { Color } from '../common'
 
 interface SettingsUserPageProps {
   readonly onSubmit: (values: UserOverrides) => any
@@ -95,18 +98,20 @@ const publicUserToValues = ({
 }: PublicUser): Values => ({
   name,
   phone: phone || '',
-  description: profile.about || '',
-  gender: profile.gender || '',
-  skills: profile.skills ? profile.skills.map(skillToSelectItem) : [],
-  causes: profile.causes ? profile.causes.map(causeToSelectItem) : [],
+  description: profile?.about || '',
+  gender: profile?.gender || '',
+  skills: profile?.skills ? profile?.skills.map(skillToSelectItem) : [],
+  causes: profile?.causes ? profile?.causes.map(causeToSelectItem) : [],
   avatar: avatar ? { previewURI: avatar.image_url } : null,
-  city: profile.address
+  city: profile?.address
     ? {
         kind: AddressKind.WEAK,
-        node: { description: profile.address.typed_address },
+        node: { description: profile?.address.typed_address },
       }
     : null,
-  birthdate: profile.birthday_date ? formatToBRDate(profile.birthday_date) : '',
+  birthdate: profile?.birthday_date
+    ? formatToBRDate(profile?.birthday_date)
+    : '',
 })
 
 interface Values {
@@ -137,13 +142,14 @@ const SettingsUserPage: NextPage<
   handleSubmit,
   status,
 }) => {
-  const { viewer, causesSelectItems, skillsSelectItems } = useSelector(
-    (state: RootState) => ({
-      viewer: state.user!,
-      causesSelectItems: state.startup.causes.map(causeToSelectItem),
-      skillsSelectItems: state.startup.skills.map(skillToSelectItem),
-    }),
-  )
+  const { data: startup, loading: startupLoading } = useStartupData()
+
+  const causesSelectItems = startup?.causes?.map(causeToSelectItem)
+  const skillsSelectItems = startup?.skills?.map(skillToSelectItem)
+
+  const { viewer } = useSelector((state: RootState) => ({
+    viewer: state.user!,
+  }))
   const intl = useIntl()
   const publicUserQuery = useFetchAPI<PublicUser>(
     `/public-users/${viewer && viewer.slug}/`,
@@ -155,7 +161,9 @@ const SettingsUserPage: NextPage<
       setValues(publicUserToValues({ ...viewer, ...publicUser }))
     }
   }, [publicUser])
-  if (!publicUser) {
+  const loading = !publicUser || startupLoading || !startup
+
+  if (loading) {
     return (
       <ViewerSettingsLayout>
         <div className="bg-white rounded-lg shadow p-5 text-center">
@@ -167,7 +175,7 @@ const SettingsUserPage: NextPage<
 
   return (
     <ViewerSettingsLayout>
-      <Meta title={publicUser.name} description={publicUser.profile.about} />
+      <Meta title={publicUser?.name} description={publicUser?.profile?.about} />
       <div className="bg-white rounded-lg shadow">
         <div className="py-4 px-4">
           <h4 className="font-normal mb-0 text-xl leading-loose">
