@@ -32,30 +32,30 @@ interface ToolbarNotificationsProps {
   readonly theme?: 'dark' | 'light'
 }
 
-const notificationsFake = [
+export const notificationsFake = [
   {
     id: 1,
-    read: true,
+    read: false,
     type: 'Confirm',
     project: 'Nome da Vaga',
     org: 'Nome da ONG',
     image: {
       image_medium_url:
-        'https://storage.googleapis.com/atados-v3/user-uploaded/images-medium/e7b7bce0-e287-4ef3-a3f7-d8904097e4af.jpeg',
+        'https://storage.googleapis.com/atados-v3/user-uploaded/images-medium/fa8f3c11-77cc-49b2-b224-e004c337cfe5.apng',
     },
-    created_at: 'Agora',
+    created_at: 'Sun Sep 01 2019 01:07:24 GMT-0300 (Brasilia Standard Time)',
   },
   {
     id: 2,
-    read: false,
+    read: true,
     type: 'Delete',
     project: 'Nome da Vaga',
     org: 'Nome da ONG',
     image: {
       image_medium_url:
-        'https://storage.googleapis.com/atados-v3/user-uploaded/images-medium/e7b7bce0-e287-4ef3-a3f7-d8904097e4af.jpeg',
+        'https://storage.googleapis.com/atados-v3/user-uploaded/images-medium/fa8f3c11-77cc-49b2-b224-e004c337cfe5.apng',
     },
-    created_at: 'Agora',
+    created_at: 'Sat May 04 2019 02:24:50 GMT-0300 (Brasilia Standard Time)',
   },
   {
     id: 3,
@@ -65,9 +65,9 @@ const notificationsFake = [
     org: 'Nome da ONG',
     image: {
       image_medium_url:
-        'https://storage.googleapis.com/atados-v3/user-uploaded/images-medium/e7b7bce0-e287-4ef3-a3f7-d8904097e4af.jpeg',
+        'https://storage.googleapis.com/atados-v3/user-uploaded/images-medium/fa8f3c11-77cc-49b2-b224-e004c337cfe5.apng',
     },
-    created_at: 'Agora',
+    created_at: 'Wed Feb 05 2020 07:37:56 GMT-0300 (Brasilia Standard Time)',
   },
   {
     id: 4,
@@ -77,30 +77,20 @@ const notificationsFake = [
     org: 'Nome da ONG',
     image: {
       image_medium_url:
-        'https://storage.googleapis.com/atados-v3/user-uploaded/images-medium/e7b7bce0-e287-4ef3-a3f7-d8904097e4af.jpeg',
+        'https://storage.googleapis.com/atados-v3/user-uploaded/images-medium/fa8f3c11-77cc-49b2-b224-e004c337cfe5.apng',
     },
-    created_at: 'Agora',
+    created_at: 'Wed Jan 08 2020 04:55:00 GMT-0300 (Brasilia Standard Time)',
   },
 ]
 
 const ToolbarNotifications: React.FC<ToolbarNotificationsProps> = ({
   theme,
 }) => {
-  const [notifications, setNotifications] = useState<Notification[]>(
-    notificationsFake,
-  )
+  const [notifications] = useState<Notification[]>(notificationsFake)
   const [open, setOpen] = useState(false)
   const newNotificationsCount = notifications?.filter(
     item => item.read === false,
   ).length
-
-  function handleMarkAsRead(id) {
-    setNotifications(
-      notifications?.map(notification =>
-        notification.id === id ? { ...notification, read: true } : notification,
-      ),
-    )
-  }
 
   return (
     <DropdownWithContext onOpenStateChange={setOpen}>
@@ -138,12 +128,7 @@ const ToolbarNotifications: React.FC<ToolbarNotificationsProps> = ({
         </button>
       </DropdownToggler>
       <Menu className="mt-1 bg-muted">
-        {open && (
-          <ViewerNotifications
-            notifications={notifications}
-            handleMarkAsRead={handleMarkAsRead}
-          />
-        )}
+        {open && <ViewerNotifications notifications={notifications} />}
       </Menu>
     </DropdownWithContext>
   )

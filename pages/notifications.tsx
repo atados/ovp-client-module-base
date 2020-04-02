@@ -2,72 +2,12 @@ import React, { useState } from 'react'
 import Layout from '~/components/Layout'
 import Meta from '~/components/Meta'
 import Notification from '~/components/Notification'
-
-interface Notification {
-  id: number
-  read: boolean
-  type: string
-  project: string
-  org: string
-  image: {
-    image_medium_url: string
-  }
-  created_at: string
-}
-
-const notificationsFake = [
-  {
-    id: 1,
-    read: true,
-    type: 'Confirm',
-    project: 'Nome da Vaga',
-    org: 'Nome da ONG',
-    image: {
-      image_medium_url:
-        'https://storage.googleapis.com/atados-v3/user-uploaded/images-medium/e7b7bce0-e287-4ef3-a3f7-d8904097e4af.jpeg',
-    },
-    created_at: 'Agora',
-  },
-  {
-    id: 2,
-    read: false,
-    type: 'Delete',
-    project: 'Nome da Vaga',
-    org: 'Nome da ONG',
-    image: {
-      image_medium_url:
-        'https://storage.googleapis.com/atados-v3/user-uploaded/images-medium/e7b7bce0-e287-4ef3-a3f7-d8904097e4af.jpeg',
-    },
-    created_at: 'Agora',
-  },
-  {
-    id: 3,
-    read: false,
-    type: 'Alert',
-    project: 'Nome da Vaga',
-    org: 'Nome da ONG',
-    image: {
-      image_medium_url:
-        'https://storage.googleapis.com/atados-v3/user-uploaded/images-medium/e7b7bce0-e287-4ef3-a3f7-d8904097e4af.jpeg',
-    },
-    created_at: 'Agora',
-  },
-  {
-    id: 4,
-    read: true,
-    type: 'Warn',
-    project: 'Nome da Vaga',
-    org: 'Nome da ONG',
-    image: {
-      image_medium_url:
-        'https://storage.googleapis.com/atados-v3/user-uploaded/images-medium/e7b7bce0-e287-4ef3-a3f7-d8904097e4af.jpeg',
-    },
-    created_at: 'Agora',
-  },
-]
+import { notificationsFake } from '~/components/ToolbarNotifications/ToolbarNotifications'
+import { API } from '~/types/api'
+import Icon from '~/components/Icon'
 
 const NotificationsPage: React.FC = () => {
-  const [notifications, setNotifications] = useState<Notification[]>(
+  const [notifications, setNotifications] = useState<API.Notification[]>(
     notificationsFake,
   )
   function handleMarkAllAsRead() {
@@ -81,26 +21,24 @@ const NotificationsPage: React.FC = () => {
   return (
     <Layout disableFooter>
       <Meta title="Notificações" />
-      <div>
-        <div className="flex items-center justify-between max-w-5xl mx-auto pt-12">
+      <div className="mx-auto max-w-5xl pt-12">
+        <div className="flex items-center justify-between mb-4">
           <h1 className="text-3xl font-bold">Notificações</h1>
           <button
             type="button"
-            className="rounded bg-gray-200 px-2 py-1 outline-none hover:bg-gray-300"
+            className="rounded px-3 py-2 font-medium outline-none hover:bg-green-200 hover:text-green-900 underline"
             onClick={() => handleMarkAllAsRead()}
           >
             Marcar todas como lidas
+            <Icon name="check" className="ml-1" />
           </button>
         </div>
-
-        <div className="mx-auto max-w-5xl">
-          {notifications.map(notification => (
-            <Notification
-              notification={notification}
-              className="rounded-md mb-4 "
-            />
-          ))}
-        </div>
+        {notifications.map(notification => (
+          <Notification
+            notification={notification}
+            className="rounded-lg mb-2"
+          />
+        ))}
       </div>
     </Layout>
   )

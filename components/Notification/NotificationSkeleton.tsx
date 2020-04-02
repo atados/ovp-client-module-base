@@ -2,6 +2,7 @@ import React from 'react'
 import Icon from '~/components/Icon'
 import cx from 'classnames'
 import { MaterialIconName } from '../Icon/Icon'
+import moment from 'moment'
 
 interface NotificationSkeletonProps {
   readonly className?: string
@@ -10,58 +11,69 @@ interface NotificationSkeletonProps {
   readonly timestamp: string
   readonly indicatorBgClassName: string
   readonly indicatorIcon: MaterialIconName
+  readonly children?: React.ReactNode
 }
 
-const NotificationSkeleton: React.FC<NotificationSkeletonProps> = ({
-  read,
-  avatarImageURL,
-  timestamp,
-  indicatorBgClassName,
-  indicatorIcon,
-  className,
-  children,
-}) => {
-  return (
-    <a
-      className={cx(
-        'hover:bg-gray-200 text-black cursor-pointer block p-2 px-4 flex flex-row',
-        !read && 'bg-gray-200',
-        className,
-      )}
-    >
-      <div
-        className="w-12 h-12 rounded-full border pr-10 float-left bg-cover bg-center mr-2"
-        style={
-          avatarImageURL
-            ? {
-                backgroundImage: `url('${avatarImageURL}')`,
-              }
-            : { backgroundColor: '#c4c4c4' }
-        }
+const NotificationSkeleton = React.forwardRef<
+  HTMLAnchorElement,
+  NotificationSkeletonProps
+>(
+  (
+    {
+      read,
+      avatarImageURL,
+      timestamp,
+      indicatorBgClassName,
+      indicatorIcon,
+      className,
+      children,
+    },
+    ref,
+  ) => {
+    return (
+      <a
+        ref={ref}
+        className={cx(
+          'hover:bg-gray-200 text-gray-800 cursor-pointer block py-2 px-3',
+          !read && 'bg-gray-200',
+          className,
+        )}
       >
-        <div className="flex justify-end items-end h-12">
+        <div className="pl-16 pr-6">
           <div
-            className={cx(
-              'w-5 h-5 -mb-1 -mr-10 rounded-full border-2 border-white flex justify-center items-center',
-              indicatorBgClassName,
-              !read && `border-gray-200`,
-            )}
+            className={`h-3 w-3 rounded-full float-right -mr-6 mt-1 ${
+              read ? `bg-gray-300` : `bg-primary-500`
+            }`}
+            role="presentation"
+          />
+          <div
+            className="w-12 h-12 rounded-full bg-cover bg-center relative -ml-16 float-left"
+            style={
+              avatarImageURL
+                ? {
+                    backgroundImage: `url('${avatarImageURL}')`,
+                  }
+                : { backgroundColor: '#c4c4c4' }
+            }
           >
-            <Icon name={indicatorIcon} className="text-white text-xs" />
+            <span
+              className={cx(
+                'w-5 h-5 absolute bottom-0 right-0 -mb-1 -mr-1 rounded-full border-2 text-center block leading-snug',
+                indicatorBgClassName,
+                read ? 'border-white' : 'border-gray-200',
+              )}
+            >
+              <Icon name={indicatorIcon} className="text-white text-xs" />
+            </span>
           </div>
+          <div className="block">{children}</div>
+          <abbr title={timestamp} className="text-gray-600 text-sm">
+            {moment(timestamp).fromNow()}
+          </abbr>
         </div>
-      </div>
-      <div className="flex-grow">
-        <span className="text-base font-regular block ">{children}</span>
-        <span className="text-gray-600 text-sm block mt-1">{timestamp}</span>
-      </div>
-      <div
-        className={`h-3 w-3 rounded-full float-right ${
-          read ? `bg-gray-300` : `bg-primary-500`
-        }`}
-      />
-    </a>
-  )
-}
+      </a>
+    )
+  },
+)
 
 export default NotificationSkeleton

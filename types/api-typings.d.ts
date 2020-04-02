@@ -66,3 +66,15 @@ export interface StartupPayload {
   readonly skills: Skill[]
   readonly stats: StartupPayloadStats
 }
+
+export interface Notification {
+  id: number
+  read: boolean
+  type: string
+  project: string
+  org: string
+  image: {
+    image_medium_url: string
+  }
+  created_at: string
+}

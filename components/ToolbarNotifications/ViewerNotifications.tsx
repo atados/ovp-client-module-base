@@ -2,6 +2,9 @@ import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import Notification from '~/components/Notification'
+import { API } from '~/types/api'
+import Link from 'next/link'
+import { Page } from '~/common'
 
 const Body = styled.div`
   top: 44px;
@@ -10,33 +13,16 @@ const Body = styled.div`
 
 const Header = styled.div`
   height: 44px;
-  padding-top: 14px;
-  padding-bottom: 14px;
 `
 
-interface Notification {
-  id: number
-  read: boolean
-  type: string
-  project: string
-  org: string
-  image: {
-    image_medium_url: string
-  }
-  created_at: string
-}
-
-interface NotificationsProps {
+interface ViewerNotificationsProps {
   readonly className?: string
-  readonly scroll?: boolean
-  readonly notifications: Notification[]
-  handleMarkAsRead(id: number): void
+  readonly notifications: API.Notification[]
 }
 
-const Notifications: React.FC<NotificationsProps> = ({
+const ViewerNotifications: React.FC<ViewerNotificationsProps> = ({
   className,
   notifications,
-  scroll = true,
 }) => {
   return (
     <div className={className}>
@@ -48,13 +34,15 @@ const Notifications: React.FC<NotificationsProps> = ({
               defaultMessage="Notificações"
             />
           </h4>
-          <a href="/notificacoes">Ver todas</a>
+          <Link href={Page.Notifications}>
+            <a>Ver todas</a>
+          </Link>
         </div>
       </Header>
-      <Body className={scroll ? 'absolute bottom-0 left-0 right-0' : ''}>
+      <Body className="absolute bottom-0 left-0 right-0">
         <div className="shadow-sm">
-          {notifications.map((notification: Notification) => (
-            <Notification notification={notification} />
+          {notifications.map((notification: API.Notification) => (
+            <Notification key={notification.id} notification={notification} />
           ))}
         </div>
         {notifications.length === 0 && (
@@ -72,6 +60,6 @@ const Notifications: React.FC<NotificationsProps> = ({
   )
 }
 
-Notifications.displayName = 'Notifications'
+ViewerNotifications.displayName = 'Notifications'
 
-export default Notifications
+export default ViewerNotifications
