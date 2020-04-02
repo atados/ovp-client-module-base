@@ -730,9 +730,8 @@ class SearchForm extends React.Component<
   }
 }
 
-const mapStateToProps = ({ startup, geo, search }: RootState) => ({
+const mapStateToProps = ({ geo, search }: RootState) => ({
   geo,
-  startupData: startup,
   filters: search.filters,
   currentSearchType: search.searchType,
   defaultValue: (search && search.filters && search.filters.query) || '',
