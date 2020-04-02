@@ -27,10 +27,10 @@ interface Notification {
 }
 
 interface NotificationsProps {
-  handleMarkAsRead(id: number): void
   readonly className?: string
   readonly scroll?: boolean
   readonly notifications: Notification[]
+  handleMarkAsRead(id: number): void
 }
 
 const Notifications: React.FC<NotificationsProps> = ({
