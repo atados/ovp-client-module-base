@@ -18,8 +18,6 @@ interface Notification {
 
 interface NotificationProps {
   readonly className?: string
-  readonly onClick?: (event: React.MouseEvent<HTMLAnchorElement>) => any
-  readonly onOpenApplication?: () => any
   readonly notification: Notification
 }
 
@@ -27,34 +25,40 @@ const Notification: React.FC<NotificationProps> = ({
   className,
   notification,
 }) => {
-  return (
-    <>
-      {notification.type === 'Confirm' && (
-        <NotificationApplicationConfirmed
-          notification={notification}
-          className={className}
-        />
-      )}
-      {notification.type === 'Delete' && (
-        <NotificationApplicationRemoved
-          notification={notification}
-          className={className}
-        />
-      )}
-      {notification.type === 'Alert' && (
-        <NotificationApplicationAlerted
-          notification={notification}
-          className={className}
-        />
-      )}
-      {notification.type === 'Warn' && (
-        <NotificationApplicationWarned
-          notification={notification}
-          className={className}
-        />
-      )}
-    </>
-  )
+  if (notification.type === 'Confirm') {
+    return (
+      <NotificationApplicationConfirmed
+        notification={notification}
+        className={className}
+      />
+    )
+  }
+  if (notification.type === 'Delete') {
+    return (
+      <NotificationApplicationRemoved
+        notification={notification}
+        className={className}
+      />
+    )
+  }
+  if (notification.type === 'Alert') {
+    return (
+      <NotificationApplicationAlerted
+        notification={notification}
+        className={className}
+      />
+    )
+  }
+  if (notification.type === 'Warn') {
+    return (
+      <NotificationApplicationWarned
+        notification={notification}
+        className={className}
+      />
+    )
+  } else {
+    return null
+  }
 }
 
 Notification.displayName = 'Notification'

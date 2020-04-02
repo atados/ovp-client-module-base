@@ -24,7 +24,7 @@ const NotificationApplicationRemoved: React.FC<NotificationApplicationProps> = (
 }) => {
   return (
     <NotificationSkeleton
-      notificationWasRead={notification.read}
+      read={notification.read}
       className={className}
       avatarImageURL={notification.image.image_medium_url}
       timestamp={notification.created_at}

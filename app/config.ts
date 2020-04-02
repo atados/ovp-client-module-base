@@ -8,6 +8,7 @@ export type ValidBasePageName =
   | 'Project'
   | 'Organization'
   | 'NewAccount'
+  | 'Notifications'
   | 'Cause'
   | 'Login'
   | 'Search'

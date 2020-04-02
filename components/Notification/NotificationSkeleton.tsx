@@ -1,10 +1,11 @@
 import React from 'react'
 import Icon from '~/components/Icon'
+import cx from 'classnames'
 import { MaterialIconName } from '../Icon/Icon'
 
 interface NotificationMessageProps {
   readonly className?: string
-  readonly notificationWasRead: boolean
+  readonly read: boolean
   readonly avatarImageURL: string
   readonly timestamp: string
   readonly indicatorBgClassName: string
@@ -12,7 +13,7 @@ interface NotificationMessageProps {
 }
 
 const NotificationMessage: React.FC<NotificationMessageProps> = ({
-  notificationWasRead,
+  read,
   avatarImageURL,
   timestamp,
   indicatorBgClassName,
@@ -22,11 +23,14 @@ const NotificationMessage: React.FC<NotificationMessageProps> = ({
 }) => {
   return (
     <div
-      className={`${!notificationWasRead &&
-        `bg-gray-200`}${className} hover:bg-gray-200 cursor-pointer block p-2 px-4 flex flex-row`}
+      className={cx(
+        'hover:bg-gray-200 cursor-pointer block p-2 px-4 flex flex-row',
+        !read && 'bg-gray-200',
+        className,
+      )}
     >
       <div
-        className="w-12 h-12 rounded-full border float-left bg-cover bg-center mr-4"
+        className="w-12 h-12 rounded-full border pr-10 float-left bg-cover bg-center mr-2"
         style={
           avatarImageURL
             ? {
@@ -37,26 +41,23 @@ const NotificationMessage: React.FC<NotificationMessageProps> = ({
       >
         <div className="flex justify-end items-end h-12">
           <div
-            className={`${indicatorBgClassName} w-5 h-5 -mb-1 rounded-full border-2 border-white flex justify-center items-center 
-          ${!notificationWasRead && `border-gray-200`}`}
+            className={cx(
+              'w-5 h-5 -mb-1 -mr-10 rounded-full border-2 border-white flex justify-center items-center',
+              indicatorBgClassName,
+              !read && `border-gray-200`,
+            )}
           >
             <Icon name={indicatorIcon} className="text-white text-xs" />
           </div>
         </div>
       </div>
-      <div className=" flex-grow">
-        <span
-          className={`${
-            className ? 'max-w-3xl' : 'max-w-sm'
-          } text-base font-regular block`}
-        >
-          {children}
-        </span>
+      <div className="flex-grow">
+        <span className="text-base font-regular block">{children}</span>
         <span className="text-gray-600 text-sm block mt-1">{timestamp}</span>
       </div>
       <div
-        className={`h-3 w-3 rounded-full ${
-          notificationWasRead ? `bg-gray-300` : `bg-primary-500`
+        className={`h-3 w-3 rounded-full px-1 ${
+          read ? `bg-gray-300` : `bg-primary-500`
         }`}
       />
     </div>

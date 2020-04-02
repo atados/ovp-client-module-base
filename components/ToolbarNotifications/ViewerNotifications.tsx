@@ -4,12 +4,12 @@ import { FormattedMessage } from 'react-intl'
 import Notification from '~/components/Notification'
 
 const Body = styled.div`
-  top: 50px;
+  top: 44px;
   overflow-y: auto;
 `
 
 const Header = styled.div`
-  height: 50px;
+  height: 44px;
   padding-top: 14px;
   padding-bottom: 14px;
 `
@@ -41,11 +41,11 @@ const Notifications: React.FC<NotificationsProps> = ({
 }) => {
   return (
     <div className={className}>
-      <Header className="px-3 shadow-sm relative bg-white rounded-t-lg shadow">
+      <Header className="px-3 pt-3 pb-2 shadow-sm relative bg-white rounded-t-lg">
         <div className="flex items-center justify-between">
           <h4 className="text-lg mb-0">
             <FormattedMessage
-              id="toolbarApplications.title"
+              id="view.notifications.title"
               defaultMessage="Notificações"
             />
           </h4>
@@ -55,23 +55,22 @@ const Notifications: React.FC<NotificationsProps> = ({
       <Body className={scroll ? 'absolute bottom-0 left-0 right-0' : ''}>
         <div className="shadow-sm">
           {notifications.map((notification: Notification) => (
-            <button
-              type="button"
+            <a
               className={`${
                 notification.read === false ? 'bg-gray-200' : null
-              } text-left w-full outline-none`}
+              } text-black`}
               key={notification.id}
               onClick={() => handleMarkAsRead(notification.id)}
             >
               <Notification notification={notification} />
-            </button>
+            </a>
           ))}
         </div>
         {notifications.length === 0 && (
           <div className="p-5 text-center">
             <h4>
               <FormattedMessage
-                id="toolbarApplications.noApplicationsFound.title"
+                id="viewer.notifications.empty"
                 defaultMessage="Nenhuma notificação encontrada"
               />
             </h4>

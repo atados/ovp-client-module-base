@@ -105,6 +105,7 @@ const app: AppConfiguration<ValidBasePageName> = {
         defaultPage: 'new-account',
       },
     },
+    Notifications: { pathname: '/notificacoes', filename: 'notifications' },
     Search: { pathname: '/explorar', filename: 'explore' },
     SearchProjects: {
       pathname: '/vagas',
