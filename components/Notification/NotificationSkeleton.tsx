@@ -20,7 +20,6 @@ const NotificationMessage: React.FC<NotificationMessageProps> = ({
   className,
   children,
 }) => {
-  console.log(indicatorIcon)
   return (
     <div
       className={`${!notificationWasRead &&

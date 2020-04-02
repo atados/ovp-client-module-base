@@ -27,9 +27,9 @@ interface Notification {
 }
 
 interface NotificationsProps {
+  handleMarkAsRead(id: number): void
   readonly className?: string
   readonly scroll?: boolean
-  handleMarkAsRead(id: number): void
   readonly notifications: Notification[]
 }
 
