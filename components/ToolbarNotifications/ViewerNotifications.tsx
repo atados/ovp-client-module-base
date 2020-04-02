@@ -35,7 +35,6 @@ interface NotificationsProps {
 
 const Notifications: React.FC<NotificationsProps> = ({
   className,
-  handleMarkAsRead,
   notifications,
   scroll = true,
 }) => {
@@ -45,7 +44,7 @@ const Notifications: React.FC<NotificationsProps> = ({
         <div className="flex items-center justify-between">
           <h4 className="text-lg mb-0">
             <FormattedMessage
-              id="view.notifications.title"
+              id="viewer.notifications.title"
               defaultMessage="Notificações"
             />
           </h4>
@@ -55,15 +54,7 @@ const Notifications: React.FC<NotificationsProps> = ({
       <Body className={scroll ? 'absolute bottom-0 left-0 right-0' : ''}>
         <div className="shadow-sm">
           {notifications.map((notification: Notification) => (
-            <a
-              className={`${
-                notification.read === false ? 'bg-gray-200' : null
-              } text-black`}
-              key={notification.id}
-              onClick={() => handleMarkAsRead(notification.id)}
-            >
-              <Notification notification={notification} />
-            </a>
+            <Notification notification={notification} />
           ))}
         </div>
         {notifications.length === 0 && (

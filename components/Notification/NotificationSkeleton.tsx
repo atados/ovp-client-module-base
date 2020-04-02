@@ -3,7 +3,7 @@ import Icon from '~/components/Icon'
 import cx from 'classnames'
 import { MaterialIconName } from '../Icon/Icon'
 
-interface NotificationMessageProps {
+interface NotificationSkeletonProps {
   readonly className?: string
   readonly read: boolean
   readonly avatarImageURL: string
@@ -12,7 +12,7 @@ interface NotificationMessageProps {
   readonly indicatorIcon: MaterialIconName
 }
 
-const NotificationMessage: React.FC<NotificationMessageProps> = ({
+const NotificationSkeleton: React.FC<NotificationSkeletonProps> = ({
   read,
   avatarImageURL,
   timestamp,
@@ -22,9 +22,9 @@ const NotificationMessage: React.FC<NotificationMessageProps> = ({
   children,
 }) => {
   return (
-    <div
+    <a
       className={cx(
-        'hover:bg-gray-200 cursor-pointer block p-2 px-4 flex flex-row',
+        'hover:bg-gray-200 text-black cursor-pointer block p-2 px-4 flex flex-row',
         !read && 'bg-gray-200',
         className,
       )}
@@ -52,16 +52,16 @@ const NotificationMessage: React.FC<NotificationMessageProps> = ({
         </div>
       </div>
       <div className="flex-grow">
-        <span className="text-base font-regular block">{children}</span>
+        <span className="text-base font-regular block ">{children}</span>
         <span className="text-gray-600 text-sm block mt-1">{timestamp}</span>
       </div>
       <div
-        className={`h-3 w-3 rounded-full px-1 ${
+        className={`h-3 w-3 rounded-full float-right ${
           read ? `bg-gray-300` : `bg-primary-500`
         }`}
       />
-    </div>
+    </a>
   )
 }
 
-export default NotificationMessage
+export default NotificationSkeleton

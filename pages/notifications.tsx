@@ -78,14 +78,6 @@ const NotificationsPage: React.FC = () => {
     )
   }
 
-  function handleMarkAsRead(id: number) {
-    setNotifications(
-      notifications.map(notification =>
-        notification.id === id ? { ...notification, read: true } : notification,
-      ),
-    )
-  }
-
   return (
     <Layout disableFooter>
       <Meta title="Notificações" />
@@ -103,16 +95,10 @@ const NotificationsPage: React.FC = () => {
 
         <div className="mx-auto max-w-5xl">
           {notifications.map(notification => (
-            <a
-              className="text-black"
-              onClick={() => handleMarkAsRead(notification.id)}
-              key={notification.id}
-            >
-              <Notification
-                notification={notification}
-                className="rounded-md mb-4 "
-              />
-            </a>
+            <Notification
+              notification={notification}
+              className="rounded-md mb-4 "
+            />
           ))}
         </div>
       </div>
