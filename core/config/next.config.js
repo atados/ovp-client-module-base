@@ -20,6 +20,8 @@ module.exports = {
     SOCKET_API_WS_URL: process.env.SOCKET_API_WS_URL || 'ws://localhost:3002',
     API_URL: process.env.API_URL || 'http://localhost:8000',
     APP_URL: process.env.APP_URL || 'http://localhost:3000',
+    NOTIFICATIONS_API_URL:
+      process.env.NOTIFICATIONS_API_URL || 'http://localhost:8080/graphql/v1',
     AUTH_CLIENT_ID: process.env.AUTH_CLIENT_ID || 'client',
     AUTH_CLIENT_SECRET: process.env.AUTH_CLIENT_SECRET || 'secret',
     APP_SHARE_URL: process.env.APP_SHARE_URL || 'http://localhost:3000',

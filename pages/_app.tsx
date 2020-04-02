@@ -10,7 +10,8 @@ import { ModalProvider } from '~/components/Modal'
 import ProgressBar from '~/components/ProgressBar'
 import { StatusProvider } from '~/components/Status'
 import GTMScripts from '~/components/TagManager/GTMScripts'
-import { withFetch } from '~/lib/apollo/with-fetch'
+import { withFetch } from '~/lib/deprecated/with-fetch'
+import { withApollo } from '~/lib/apollo/with-apollo'
 import { setupDataLayer } from '~/lib/tag-manager'
 import { RootState } from '~/redux/root-reducer'
 import withRedux from '~/redux/with-redux'
@@ -182,4 +183,6 @@ class App extends NextApp<AppProps> {
   }
 }
 
-export default withIntlProvider(withFetch(withRedux()(App as any)))
+export default withIntlProvider(
+  withApollo(withFetch(withRedux()(App as any)), { ssr: true }),
+)

@@ -7,6 +7,7 @@ import {
 } from 'react-fetch-json-hook'
 import { AppContextType } from 'next/dist/next-server/lib/utils'
 import { getDataFromTree } from 'react-fetch-json-hook'
+
 export const withFetch = (App: any) => {
   const WithFetch = ({ initialFetchCacheState, fetchClient, ...pageProps }) => {
     const client = useMemo(() => {

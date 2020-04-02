@@ -1,1 +1,0 @@
-{"__schema":{"types":[{"kind":"UNION","name":"MessageSender","possibleTypes":[{"name":"Organization"},{"name":"User"}]},{"kind":"UNION","name":"ThreadableNode","possibleTypes":[{"name":"Organization"},{"name":"User"},{"name":"Project"}]}]}}
