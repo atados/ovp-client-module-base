@@ -1,23 +1,31 @@
-import { NextPageContext } from 'next'
-import Link from 'next/link'
-import queryString from 'query-string'
-import React from 'react'
-import { connect } from 'react-redux'
+import { connect, useDispatch, useSelector } from 'react-redux'
+import { defineMessages, WithIntlProps } from 'react-intl'
 import { Waypoint } from 'react-waypoint'
+import React, { useEffect } from 'react'
+import { useRouter } from 'next/router'
+import queryString from 'query-string'
 import styled from 'styled-components'
-import { Mark } from '~/components/GoogleMap/GoogleMap'
+import Link from 'next/link'
+
+import { SearchSourcesSize } from '~/components/SearchSources/SearchSources'
 import ReduxGoogleMap from '~/components/GoogleMap/ReduxGoogleMap'
-import Icon from '~/components/Icon'
-import Layout from '~/components/Layout'
-import Meta from '~/components/Meta'
+import ActivityIndicator from '~/components/ActivityIndicator'
+import { mountAddressFilter } from '~/lib/utils/geo-location'
+import { fetchMapMarks } from '~/redux/ducks/search-marks'
+import { Organization } from '~/redux/ducks/organization'
+import { Mark } from '~/components/GoogleMap/GoogleMap'
 import SearchFilters from '~/components/SearchFilters'
 import SearchSources from '~/components/SearchSources'
-import { SearchSourcesSize } from '~/components/SearchSources/SearchSources'
+import useStartupData from '~/hooks/use-startup-data'
+import { RootState } from '~/redux/root-reducer'
 import { reportError } from '~/lib/utils/error'
-import { mountAddressFilter } from '~/lib/utils/geo-location'
 import { Geolocation } from '~/redux/ducks/geo'
-import { Organization } from '~/redux/ducks/organization'
 import { Project } from '~/redux/ducks/project'
+import { Page, PageAs, Config } from '~/common'
+import Layout from '~/components/Layout'
+import { withIntl } from '~/lib/intl'
+import Meta from '~/components/Meta'
+import Icon from '~/components/Icon'
 import {
   BaseFilters,
   BaseFiltersJSON,
@@ -31,11 +39,6 @@ import {
   SearchSource,
   SearchType,
 } from '~/redux/ducks/search'
-import { fetchMapMarks } from '~/redux/ducks/search-marks'
-import { RootState } from '~/redux/root-reducer'
-import { Page, PageAs, Config } from '~/common'
-import { withIntl } from '~/lib/intl'
-import { defineMessages, WithIntlProps } from 'react-intl'
 
 const Container = styled.div`
   padding-top: ${Config.toolbar.height + 56}px;
@@ -163,8 +166,6 @@ const {
   },
 })
 
-let causesMapById: { [causeId: number]: string } | undefined
-
 interface ExplorePageProps {
   readonly mapDefaultCenter: Mark
   readonly geo: Geolocation
@@ -191,60 +192,6 @@ class ExplorePage extends React.Component<
   ExplorePageProps & WithIntlProps<any>,
   ExplorePageState
 > {
-  public static async getInitialProps({
-    store,
-    query: { searchType, ...jsonFilters },
-  }: NextPageContext) {
-    const {
-      geo,
-      startup: { causes },
-    } = store.getState()
-    const filters: BaseFilters = mapQueryToFilters(jsonFilters)
-
-    if (!causesMapById) {
-      causesMapById = {}
-      causes.forEach(cause => {
-        causesMapById![cause.id] = cause.name
-      })
-    }
-
-    if (!filters.remoteOnly) {
-      filters.address = mountAddressFilter(geo, filters.address)
-    }
-
-    try {
-      if (String(searchType) === String(SearchType.Projects)) {
-        await store.dispatch(searchProjects(filters))
-        await store.dispatch(
-          fetchMapMarks({
-            filters: { ...filters, address: undefined, length: undefined },
-            nodeKind: NodeKind.Project,
-          }),
-        )
-      } else if (String(searchType) === String(SearchType.Organizations)) {
-        await store.dispatch(searchOrganizations({ ...filters, length: 18 }))
-        await store.dispatch(
-          fetchMapMarks({
-            filters: { ...filters, address: undefined, length: undefined },
-            nodeKind: NodeKind.Organization,
-          }),
-        )
-      } else {
-        await store.dispatch(
-          search({
-            ...filters,
-            organizationsLength: 6,
-            projectsLength: 20,
-          }),
-        )
-      }
-    } catch (error) {
-      reportError(error)
-    }
-
-    return {}
-  }
-
   private waypointContainerRef: HTMLSpanElement | null
 
   constructor(props: ExplorePageProps) {
@@ -535,6 +482,75 @@ const mapStateToProps = ({
   }
 }
 
-export default connect(mapStateToProps, {
+const ConnectedExplorePage = connect(mapStateToProps, {
   onFetchNextPage: fetchNextSearchPage,
 })(withIntl(ExplorePage))
+
+const NewExplorePage = () => {
+  const dispatch = useDispatch()
+  const startup = useStartupData()
+  const geo = useSelector((state: RootState) => state.geo)
+  const router = useRouter()
+
+  useEffect(() => {
+    if (!router || !startup.data) {
+      return
+    }
+
+    const { searchType, ...jsonFilters } = router.query
+    const fn = async () => {
+      const filters: BaseFilters = mapQueryToFilters(jsonFilters)
+
+      if (!filters.remoteOnly) {
+        filters.address = mountAddressFilter(geo, filters.address)
+      }
+
+      try {
+        if (String(searchType) === String(SearchType.Projects)) {
+          await dispatch(searchProjects(filters))
+          await dispatch(
+            fetchMapMarks({
+              filters: { ...filters, address: undefined, length: undefined },
+              nodeKind: NodeKind.Project,
+            }),
+          )
+        } else if (String(searchType) === String(SearchType.Organizations)) {
+          await dispatch(searchOrganizations({ ...filters, length: 18 }))
+          await dispatch(
+            fetchMapMarks({
+              filters: { ...filters, address: undefined, length: undefined },
+              nodeKind: NodeKind.Organization,
+            }),
+          )
+        } else {
+          await dispatch(
+            search({
+              ...filters,
+              organizationsLength: 6,
+              projectsLength: 20,
+            }),
+          )
+        }
+      } catch (error) {
+        reportError(error)
+      }
+    }
+
+    fn()
+  }, [router, startup])
+
+  if (!router || !startup.data) {
+    return (
+      <Layout className="relative min-h-screen">
+        <ActivityIndicator
+          className="absolute top-0 right-0 bottom-0 left-0 m-auto"
+          size={56}
+        />
+      </Layout>
+    )
+  }
+
+  return <ConnectedExplorePage />
+}
+
+export default NewExplorePage

@@ -1,12 +1,13 @@
+import { useSelector, useDispatch } from 'react-redux'
 import { FormattedMessage } from 'react-intl'
+import React, { useEffect } from 'react'
 import { useRouter } from 'next/router'
 import styled from 'styled-components'
-import { useSelector, useDispatch } from 'react-redux'
 import { NextPage } from 'next'
 import Link from 'next/link'
-import React from 'react'
 
 import { SearchSourcesSize } from '~/components/SearchSources/SearchSources'
+import ActivityIndicator from '~/components/ActivityIndicator'
 import { mountAddressFilter } from '~/lib/utils/geo-location'
 import VolunteerIcon from '~/components/Icon/VolunteerIcon'
 import { Organization } from '~/redux/ducks/organization'
@@ -14,6 +15,7 @@ import SearchSources from '~/components/SearchSources'
 import { PageAs, Page, Color, Theme } from '~/common'
 import { RootState } from '~/redux/root-reducer'
 import { Project } from '~/redux/ducks/project'
+import useCauses from '~/hooks/use-causes'
 import Layout from '~/components/Layout'
 import Meta from '~/components/Meta'
 import { API } from '~/types/api'
@@ -24,8 +26,6 @@ import {
   SearchSource,
   SearchType,
 } from '~/redux/ducks/search'
-import useCauses from '~/hooks/use-causes'
-import ActivityIndicator from '~/components/ActivityIndicator'
 
 const BannerOverlay = styled.div`
   position: relative;
@@ -99,25 +99,27 @@ const CausePage: NextPage<CausePageProps> = () => {
   const page = searchState.page
   const cause = causes?.find(candidate => candidate.slug === slug)
 
-  if (cause) {
-    dispatch(
-      search({
-        organizationsLength: 4,
-        causes: [cause.id],
-        address: mountAddressFilter(geo),
-      }),
-    )
+  useEffect(() => {
+    if (cause) {
+      dispatch(
+        search({
+          organizationsLength: 4,
+          causes: [cause.id],
+          address: mountAddressFilter(geo),
+        }),
+      )
 
-    if (
-      searchState.fetched &&
-      searchState.filters &&
-      searchState.filters.causes &&
-      searchState.filters.causes.length === 1 &&
-      searchState.filters.causes[0] === cause.id
-    ) {
-      sources = searchState.sources
+      if (
+        searchState.fetched &&
+        searchState.filters &&
+        searchState.filters.causes &&
+        searchState.filters.causes.length === 1 &&
+        searchState.filters.causes[0] === cause.id
+      ) {
+        sources = searchState.sources
+      }
     }
-  }
+  }, [cause, searchState])
 
   return (
     <Layout
