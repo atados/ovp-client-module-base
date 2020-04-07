@@ -22,13 +22,19 @@ async function createPagesFromMap(pagesMap) {
   const pageNames = Object.keys(pagesMap)
   let absolutePagesPathnames = []
 
+  // Resolve quais páginas precisam ser criadas em pages/[page].tsx
+  // e quais precisam dividir uma pasta
+  // Ex.: /doe/ e /doe/sangue resolvem em
+  // pages/doe/index.tsx
+  // pages/doe/sangue.tsx
   pageNames
     .map(pageName => pagesMap[pageName].pathname)
     .sort()
     .forEach(pathname => {
       absolutePagesPathnames = absolutePagesPathnames.filter(
         absolutePagePathname => {
-          return !pathname.startsWith(absolutePagePathname)
+          // Exemplo: /doe/sangue startsWith /doe = True
+          return !pathname.startsWith(`${absolutePagePathname}/`)
         },
       )
 
