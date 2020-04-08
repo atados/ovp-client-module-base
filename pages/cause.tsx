@@ -1,17 +1,24 @@
+import { useSelector, useDispatch } from 'react-redux'
+import { FormattedMessage } from 'react-intl'
+import React, { useEffect } from 'react'
+import { useRouter } from 'next/router'
+import styled from 'styled-components'
 import { NextPage } from 'next'
 import Link from 'next/link'
-import React from 'react'
-import { connect } from 'react-redux'
-import styled from 'styled-components'
+
+import { SearchSourcesSize } from '~/components/SearchSources/SearchSources'
+import ActivityIndicator from '~/components/ActivityIndicator'
+import { mountAddressFilter } from '~/lib/utils/geo-location'
+import VolunteerIcon from '~/components/Icon/VolunteerIcon'
+import { Organization } from '~/redux/ducks/organization'
+import SearchSources from '~/components/SearchSources'
+import { PageAs, Page, Color, Theme } from '~/common'
+import { RootState } from '~/redux/root-reducer'
+import { Project } from '~/redux/ducks/project'
+import useCauses from '~/hooks/use-causes'
 import Layout from '~/components/Layout'
 import Meta from '~/components/Meta'
-import SearchSources from '~/components/SearchSources'
-import { SearchSourcesSize } from '~/components/SearchSources/SearchSources'
-import { rgba } from '~/lib/color/transformers'
-import { NotFoundPageError } from '~/lib/next/errors'
-import { mountAddressFilter } from '~/lib/utils/geo-location'
-import { Organization } from '~/redux/ducks/organization'
-import { Project } from '~/redux/ducks/project'
+import { API } from '~/types/api'
 import {
   BaseFiltersJSON,
   mapFiltersToQueryObject,
@@ -19,11 +26,6 @@ import {
   SearchSource,
   SearchType,
 } from '~/redux/ducks/search'
-import { RootState } from '~/redux/root-reducer'
-import { PageAs, Page, Color, Theme } from '~/common'
-import VolunteerIcon from '~/components/Icon/VolunteerIcon'
-import { FormattedMessage } from 'react-intl'
-import { API } from '~/types/api'
 
 const BannerOverlay = styled.div`
   position: relative;
@@ -79,18 +81,46 @@ interface CausePageProps {
   readonly sources: Array<SearchSource<Project | Organization>>
 }
 
-const CausePage: NextPage<
-  CausePageProps,
-  Pick<CausePageProps, 'cause' | 'backgroundColor'>
-> = ({
-  causes,
-  page,
-  sources,
-  searchType,
-  filtersQueryObject,
-  cause,
-  fetching,
-}) => {
+const CausePage: NextPage<CausePageProps> = () => {
+  const router = useRouter()
+  const slug = router.query.slug
+  const dispatch = useDispatch()
+
+  const { geo, search: searchState } = useSelector(
+    (reduxState: RootState) => reduxState,
+  )
+
+  const { causes, loading: causesLoading } = useCauses()
+  const loading = !causes || causesLoading
+
+  const filtersQueryObject = mapFiltersToQueryObject(searchState.filters)
+  let sources: Array<SearchSource<Project | Organization>> = []
+  const searchType = searchState.searchType
+  const page = searchState.page
+  const cause = causes?.find(candidate => candidate.slug === slug)
+
+  useEffect(() => {
+    if (cause) {
+      dispatch(
+        search({
+          organizationsLength: 4,
+          causes: [cause.id],
+          address: mountAddressFilter(geo),
+        }),
+      )
+
+      if (
+        searchState.fetched &&
+        searchState.filters &&
+        searchState.filters.causes &&
+        searchState.filters.causes.length === 1 &&
+        searchState.filters.causes[0] === cause.id
+      ) {
+        sources = searchState.sources
+      }
+    }
+  }, [cause, searchState])
+
   return (
     <Layout
       toolbarProps={{
@@ -99,13 +129,13 @@ const CausePage: NextPage<
         float: true,
       }}
     >
-      <Meta title={cause.name} />
+      <Meta title={cause?.name} />
 
       <BannerOverlay
         className="p-toolbar bg-cover bg-center bg-secondary-400"
         style={
-          cause.image
-            ? { backgroundImage: `url('${cause.image.image_url}')` }
+          cause?.image
+            ? { backgroundImage: `url('${cause?.image.image_url}')` }
             : undefined
         }
       >
@@ -122,7 +152,7 @@ const CausePage: NextPage<
               Lute pela causa
             </span>
             <h1 className="display-1 text-center text-white p-3 rounded-lg cursor-pointer w-auto inline-block">
-              {cause.name}
+              {cause?.name || 'Carregando'}
             </h1>
           </div>
 
@@ -151,7 +181,7 @@ const CausePage: NextPage<
                 defaultMessage="Causas"
               />
             </h4>
-            {causes.map(c => (
+            {causes?.map(c => (
               <Link
                 key={c.id}
                 as={PageAs.Cause({ slug: c.slug })}
@@ -160,7 +190,7 @@ const CausePage: NextPage<
                 <CauseLink
                   href={`/causa/${c.slug}`}
                   className={`truncate block nav-link${
-                    c.id === cause.id ? ' active' : ''
+                    c.id === cause?.id ? ' active' : ''
                   }`}
                 >
                   {c.name}
@@ -168,66 +198,28 @@ const CausePage: NextPage<
               </Link>
             ))}
           </Sidebar>
-          <div className="px-2">
-            <SearchSources
-              size={SearchSourcesSize.Large}
-              page={page}
-              sources={sources}
-              searchType={searchType}
-              fetching={fetching}
-              filtersQueryObject={filtersQueryObject}
-            />
+          <div className="px-2 w-full">
+            {loading ? (
+              <div className="flex justify-center w-full">
+                <ActivityIndicator size={40} />
+              </div>
+            ) : (
+              <SearchSources
+                size={SearchSourcesSize.Large}
+                page={page}
+                sources={sources}
+                searchType={searchType}
+                fetching={loading}
+                filtersQueryObject={filtersQueryObject}
+              />
+            )}
           </div>
         </div>
       </div>
     </Layout>
   )
 }
+
 CausePage.displayName = 'CausePage'
-CausePage.getInitialProps = async ({ store, query: { slug } }) => {
-  const { startup, geo } = store.getState()
-  const cause = startup.causes.find(candidate => candidate.slug === slug)
 
-  if (!cause) {
-    throw new NotFoundPageError()
-  }
-
-  await store.dispatch(
-    search({
-      organizationsLength: 4,
-      causes: [cause.id],
-      address: mountAddressFilter(geo),
-    }),
-  )
-
-  return { cause, backgroundColor: rgba(cause.color, 10) }
-}
-
-const mapStateToProps = (
-  { startup, search: searchState }: RootState,
-  { cause }: CausePageProps,
-) => {
-  let sources: Array<SearchSource<Project | Organization>> = []
-
-  if (
-    searchState.fetched &&
-    searchState.filters &&
-    searchState.filters.causes &&
-    searchState.filters.causes.length === 1 &&
-    searchState.filters.causes[0] === cause.id
-  ) {
-    sources = searchState.sources
-  }
-
-  return {
-    causes: startup.causes,
-    filtersQueryObject: mapFiltersToQueryObject(searchState.filters),
-    fetching: searchState.fetching,
-    searchType: searchState.searchType,
-    page: searchState.page,
-    sources,
-    filters: searchState.filters || {},
-  }
-}
-
-export default connect(mapStateToProps)(CausePage)
+export default CausePage
