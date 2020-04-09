@@ -1,23 +1,26 @@
 import React from 'react'
 import CatalogueSection from '~/components/Catalogue/CatalogueSection'
-import CausesSection from '~/components/CausesSection'
-import Layout from '~/components/Layout'
-import Meta from '~/components/Meta'
-import { Catalogue } from '~/redux/ducks/catalogue'
-import Banner from '~/pages/home/Banner'
-import { useSelector } from 'react-redux'
-import { RootState } from '~/redux/root-reducer'
-import { mountAddressFilter } from '~/lib/utils/geo-location'
 import ActivityIndicator from '~/components/ActivityIndicator'
+import CausesSection from '~/components/CausesSection'
+import { Catalogue } from '~/redux/ducks/catalogue'
+import { useFetch } from '~/hooks/use-fetch2'
+import Layout from '~/components/Layout'
+import Banner from '~/pages/home/Banner'
 import { APIEndpoint } from '~/common'
-import useSWR from 'swr'
+import Meta from '~/components/Meta'
 
 const HomePage: React.FC = () => {
-  const geo = useSelector((state: RootState) => state.geo)
-  const catalogueQuery = useSWR<Catalogue>(
-    APIEndpoint.Catalogue('home', { address: mountAddressFilter(geo) }),
-  )
-  const sections = catalogueQuery.data?.sections || []
+  const catalogueQuery = useFetch<Catalogue>(APIEndpoint.Catalogue('home'))
+  const sections =
+    catalogueQuery.data?.sections?.filter(s => {
+      if (s.type === 'organizations') {
+        return !!s.organizations.length
+      }
+      if (s.type === 'projects') {
+        return !!s.projects.length
+      }
+      return false
+    }) || []
 
   return (
     <Layout className="p-toolbar" toolbarProps={{ flat: true, fixed: true }}>
