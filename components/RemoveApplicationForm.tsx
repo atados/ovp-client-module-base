@@ -1,7 +1,7 @@
 import React from 'react'
 import cx from 'classnames'
 import { API } from '../types/api'
-import { FormattedMessage, FormattedHTMLMessage } from 'react-intl'
+import { FormattedMessage } from 'react-intl'
 
 interface RemoveApplicationFormProps {
   readonly className?: string
@@ -21,9 +21,9 @@ const RemoveApplicationForm: React.FC<RemoveApplicationFormProps> = ({
   return (
     <div className={cx(className, '')}>
       <h1 className="text-lg leading-normal mb-1">
-        <FormattedHTMLMessage
+        <FormattedMessage
           id="removeApplicationForm.title"
-          defaultMessage={`<span class="font-normal">Tem certeza que deseja cancelar a inscrição do</span> {userName}?`}
+          defaultMessage={`Tem certeza que deseja cancelar a inscrição do {userName}?`}
           values={{ userName }}
         />
       </h1>

@@ -13,12 +13,7 @@ import Icon from '../components/Icon'
 import { Color } from '../common'
 import { useModal } from '../components/Modal'
 import Authentication from '../components/Authentication'
-import {
-  FormattedMessage,
-  FormattedHTMLMessage,
-  defineMessages,
-  useIntl,
-} from 'react-intl'
+import { FormattedMessage, defineMessages, useIntl } from 'react-intl'
 import Meta from '../components/Meta'
 import { logout } from '../redux/ducks/user'
 import { joinOrganization } from '../redux/ducks/organization-membership'
@@ -137,9 +132,9 @@ const OrganizationJoinPage: NextPage<OrganizationJoinPageProps> = ({
                 />
               </div>
               <h2 className="text-center">
-                <FormattedHTMLMessage
+                <FormattedMessage
                   id="organizationJoin.title"
-                  defaultMessage={`<span class="font-normal">Um convite por</span> {organizationName}`}
+                  defaultMessage={`Um convite por {organizationName}`}
                   values={{ organizationName: organization.name }}
                 />
               </h2>
@@ -153,9 +148,9 @@ const OrganizationJoinPage: NextPage<OrganizationJoinPageProps> = ({
               </p>
               {viewer && viewer.slug !== userSlug && (
                 <span className="text-red-700 mb-2 block text-center">
-                  <FormattedHTMLMessage
+                  <FormattedMessage
                     id="organizationJoin.differentAccount"
-                    defaultMessage="Você não esta logado como <b>{firstName}</b>"
+                    defaultMessage="Você não esta logado como {firstName}"
                     values={{ firstName: user.name && user.name.split(' ')[0] }}
                   />
                 </span>
