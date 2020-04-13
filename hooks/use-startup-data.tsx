@@ -1,6 +1,7 @@
 import { useAPIFetch } from '~/hooks/use-api-fetch'
 import { API } from '~/types/api'
 import { useMemo } from 'react'
+import { StartupPayload } from '~/types/api-typings'
 
 export interface StartupStats {
   volunteersCount: number
@@ -27,7 +28,7 @@ export type UseStartupDataHook = () => UseStartupDataResult
  * @example const { data, error, loading} = useStartupData()
  */
 const useStartupData: UseStartupDataHook = () => {
-  const result = useAPIFetch('/startup/')
+  const result = useAPIFetch<StartupPayload>('/startup/')
 
   return useMemo(() => {
     return {

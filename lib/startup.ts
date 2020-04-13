@@ -1,10 +1,9 @@
 import { colors, dev } from '~/common/constants'
 import { fetchAPI } from '~/lib/fetch'
 import { API } from '~/types/api'
+import { StartupData } from '~/redux/ducks/startup'
 
-export async function getStartupData(
-  locale?: string,
-): Promise<API.StartupPayload> {
+export async function getStartupData(locale?: string): Promise<StartupData> {
   try {
     const {
       causes,

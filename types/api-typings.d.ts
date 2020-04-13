@@ -56,13 +56,9 @@ export interface OrganizationMember {
   slug: string
 }
 
-export interface StartupPayloadStats {
-  readonly volunteers: number
-  readonly organizations: number
-}
-
 export interface StartupPayload {
   readonly causes: Cause[]
   readonly skills: Skill[]
-  readonly stats: StartupPayloadStats
+  readonly volunteer_count: number
+  readonly nonprofit_count: number
 }
