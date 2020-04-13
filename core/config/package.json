@@ -1,5 +1,5 @@
 {
-  "version": "0.0.13",
+  "version": "0.0.14",
   "private": true,
   "scripts": {
     "dev": "sh base/core/bin/run-dev.sh",
@@ -92,7 +92,7 @@
     "react-dom": "^16.12.0",
     "react-fetch-json-hook": "^0.2.0-rc12",
     "react-icons": "^3.9.0",
-    "react-intl": "3.1.12",
+    "react-intl": "^4.3.1",
     "react-redux": "^7.1.0",
     "react-responsive-carousel": "^3.1.51",
     "react-string-replace": "^0.4.4",
