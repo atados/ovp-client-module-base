@@ -193,7 +193,6 @@ const mapDispatchToProps = dispatch => ({
 
 const PublicUserEditSchema = Yup.object().shape({
   currentPassword: Yup.string()
-    .min(8)
     .max(100)
     .required(),
   newPassword: Yup.string()
