@@ -1,33 +1,36 @@
-import nextCookies from 'next-cookies'
 import NextApp, { AppProps as NextAppProps, AppContext } from 'next/app'
-import Head from 'next/head'
-import { Router } from 'next/router'
-import React from 'react'
-import { Provider } from 'react-redux'
-import { Store } from 'redux'
 import styled, { ThemeProvider } from 'styled-components'
+import { Provider } from 'react-redux'
+import nextCookies from 'next-cookies'
+import { Router } from 'next/router'
+import { SWRConfig } from 'swr'
+import { Store } from 'redux'
+import Head from 'next/head'
+import React from 'react'
+
+import ToastsProvider from '~/components/Toasts/ToastsProvider'
+import GTMScripts from '~/components/TagManager/GTMScripts'
+import { Asset, Config, Theme, Color } from '~/common'
+import { withIntlProvider, AppIntl } from '~/lib/intl'
+import { StatusProvider } from '~/components/Status'
+import { withFetch } from '~/lib/apollo/with-fetch'
 import { ModalProvider } from '~/components/Modal'
 import ProgressBar from '~/components/ProgressBar'
-import { StatusProvider } from '~/components/Status'
-import GTMScripts from '~/components/TagManager/GTMScripts'
-import { withFetch } from '~/lib/apollo/with-fetch'
 import { setupDataLayer } from '~/lib/tag-manager'
 import { RootState } from '~/redux/root-reducer'
-import withRedux from '~/redux/with-redux'
-import { getStartupData } from '../lib/startup'
-import { loginWithSessionToken, logout } from '../redux/ducks/user'
-import { Asset, Config, Theme, Color } from '~/common'
-import { setupErrorMonitoring, reportError } from '../lib/utils/error'
-import { createGeolocationObject } from '../lib/geo'
-import ToastsProvider from '~/components/Toasts/ToastsProvider'
-import { dev } from '~/common/constants'
-import { SWRConfig } from 'swr'
 import { swrFetcher } from '~/hooks/use-swr'
-import { withIntlProvider, AppIntl } from '~/lib/intl'
+import withRedux from '~/redux/with-redux'
+import { dev } from '~/common/constants'
+
+import { setupErrorMonitoring, reportError } from '../lib/utils/error'
+import { loginWithSessionToken, logout } from '../redux/ducks/user'
+import { createGeolocationObject } from '../lib/geo'
+import { getStartupData } from '../lib/startup'
 
 declare global {
   interface Window {
     __NEXT_DATA__: { [key: string]: any }
+    fetchAndDispatchStartupPromise: Promise<void>
   }
 }
 
@@ -52,7 +55,7 @@ class App extends NextApp<AppProps> {
     let pageProps = {}
 
     const { sessionToken } = nextCookies(ctx)
-    const { startup, user } = ctx.store.getState() as RootState
+    let { startup, user } = ctx.store.getState() as RootState
 
     if (sessionToken && !user) {
       try {
