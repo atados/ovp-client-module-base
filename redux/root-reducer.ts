@@ -64,7 +64,7 @@ export interface BaseRootState {
 }
 
 export interface RootState extends Omit<BaseRootState, 'startup'> {
-  startup: StartupData
+  startup: StartupData | undefined
 }
 
 export const baseReducers = {

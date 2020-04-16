@@ -5,6 +5,12 @@ import { RootState } from '~/redux/root-reducer'
 import { getStartupData } from '~/lib/startup'
 import { API } from '~/types/api'
 
+declare global {
+  interface Window {
+    fetchAndDispatchStartupPromise: Promise<void>
+  }
+}
+
 export interface StartupStats {
   volunteersCount: number
   organizationsCount: number
@@ -31,9 +37,7 @@ export type UseStartupDataHook = () => UseStartupDataResult
  */
 const useStartupData: UseStartupDataHook = () => {
   const [error, setError] = useState<Error | null>(null)
-  const startup = useSelector(
-    (reduxState: RootState) => reduxState.startup,
-  ) as any
+  const startup = useSelector((reduxState: RootState) => reduxState.startup)
   const dispatch = useDispatch()
 
   useEffect(() => {
@@ -44,20 +48,23 @@ const useStartupData: UseStartupDataHook = () => {
       })
       return
     }
-    async function fetchAndDispatchStartup() {
-      if (!startup) {
-        dispatch({
-          type: 'STARTUP',
-          payload: await getStartupData(),
-        })
-      }
-    }
+
     window.fetchAndDispatchStartupPromise = fetchAndDispatchStartup().catch(
       e => {
         setError(e)
         throw e
       },
     )
+
+    async function fetchAndDispatchStartup() {
+      if (!startup) {
+        const requestedStartupData = await getStartupData()
+        dispatch({
+          type: 'STARTUP',
+          payload: requestedStartupData,
+        })
+      }
+    }
   }, [startup])
 
   return useMemo(() => {
@@ -69,14 +76,14 @@ const useStartupData: UseStartupDataHook = () => {
           causes: startup.causes,
           skills: startup.skills,
           stats: {
-            volunteersCount: startup.stats.volunteer_count,
-            organizationsCount: startup.stats.nonprofit_count,
+            volunteersCount: startup.stats.volunteers,
+            organizationsCount: startup.stats.organizations,
           },
         },
       }
     } else {
       return {
-        error: null,
+        error,
         loading: true,
         data: undefined,
       }

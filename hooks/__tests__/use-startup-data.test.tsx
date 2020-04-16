@@ -1,30 +1,35 @@
-import { renderHook } from '@testing-library/react-hooks'
-import useStartupData from '../use-startup-data'
-import { swrFetcher } from '../fetch/swrFetcher'
+import renderHookWithProviders from '~/hooks/renderHookWithProviders'
+import { configureStore } from '~/redux/with-redux'
+import { getStartupData } from '~/lib/startup'
 
-jest.mock('../fetch/swrFetcher', () => ({
-  swrFetcher: jest.fn(),
+import useStartupData from '../use-startup-data'
+
+jest.mock('~/lib/startup', () => ({
+  getStartupData: jest.fn(),
 }))
 
-const swrFetcherMock = (swrFetcher as any) as jest.Mock<
-  ReturnType<typeof swrFetcher>
+const getStartupDataMock = (getStartupData as any) as jest.Mock<
+  ReturnType<typeof getStartupData>
 >
+
 describe('useStartupData', () => {
   it('should be return correct data', async () => {
-    swrFetcherMock.mockImplementation(() => {
+    getStartupDataMock.mockImplementation(() => {
       return Promise.resolve({
         causes: [
           {
             id: 1,
             name: 'Treinamento Profissional',
             slug: 'treinamento-profissional',
-            image: 'foo_img_src',
+            image: undefined,
+            color: 'pink',
           },
           {
             id: 2,
             name: 'Combate à Pobreza',
             slug: 'combate-a-pobreza',
-            image: 'foo_img_src',
+            image: undefined,
+            color: 'pink',
           },
         ],
         skills: [
@@ -35,15 +40,24 @@ describe('useStartupData', () => {
           },
           { id: 2, name: 'Comunicação', slug: 'comunicacao' },
         ],
-        volunteer_count: 123,
-        nonprofit_count: 123,
+        stats: {
+          volunteers: 123,
+          organizations: 123,
+        },
       })
     })
-    const { result, waitForNextUpdate } = renderHook(() => useStartupData())
 
-    expect(result.current.data).toEqual(undefined)
-    expect(result.current.error).toEqual(undefined)
+    const store = configureStore({ startup: undefined })
+    const { result, waitForNextUpdate } = renderHookWithProviders(
+      () => useStartupData(),
+      { store },
+    )
+
+    expect(getStartupDataMock).toHaveBeenCalled()
+    expect(result.current.data).toBeUndefined()
+    expect(result.current.error).toBeNull()
     expect(result.current.loading).toEqual(true)
+    expect(window.fetchAndDispatchStartupPromise).toBeTruthy()
 
     await waitForNextUpdate()
 
@@ -53,13 +67,15 @@ describe('useStartupData', () => {
           id: 1,
           name: 'Treinamento Profissional',
           slug: 'treinamento-profissional',
-          image: 'foo_img_src',
+          image: undefined,
+          color: 'pink',
         },
         {
           id: 2,
           name: 'Combate à Pobreza',
           slug: 'combate-a-pobreza',
-          image: 'foo_img_src',
+          image: undefined,
+          color: 'pink',
         },
       ],
       skills: [
@@ -70,9 +86,80 @@ describe('useStartupData', () => {
         },
         { id: 2, name: 'Comunicação', slug: 'comunicacao' },
       ],
-      stats: { organizationsCount: 123, volunteersCount: 123 },
+      stats: { volunteersCount: 123, organizationsCount: 123 },
     })
-    expect(result.current.error).toEqual(undefined)
-    expect(result.current.loading).toEqual(false)
+    expect(result.current.error).toBeNull()
+    expect(result.current.loading).toBeFalsy()
+  })
+
+  it('should return correct data from redux without calling the API', async () => {
+    getStartupDataMock.mockReset()
+
+    const store = configureStore({
+      startup: {
+        causes: [
+          {
+            id: 1,
+            name: 'Treinamento Profissional',
+            slug: 'treinamento-profissional',
+            image: undefined,
+            color: 'pink',
+          },
+          {
+            id: 2,
+            name: 'Combate à Pobreza',
+            slug: 'combate-a-pobreza',
+            image: undefined,
+            color: 'pink',
+          },
+        ],
+        skills: [
+          {
+            id: 1,
+            name: 'Artes/Trabalho manual',
+            slug: 'artes-trabalho-manual',
+          },
+          { id: 2, name: 'Comunicação', slug: 'comunicacao' },
+        ],
+        stats: {
+          volunteers: 123,
+          organizations: 123,
+        },
+      },
+    })
+    const { result } = renderHookWithProviders(() => useStartupData(), {
+      store,
+    })
+
+    expect(getStartupDataMock).not.toHaveBeenCalled()
+    expect(result.current.data).toEqual({
+      causes: [
+        {
+          id: 1,
+          name: 'Treinamento Profissional',
+          slug: 'treinamento-profissional',
+          image: undefined,
+          color: 'pink',
+        },
+        {
+          id: 2,
+          name: 'Combate à Pobreza',
+          slug: 'combate-a-pobreza',
+          image: undefined,
+          color: 'pink',
+        },
+      ],
+      skills: [
+        {
+          id: 1,
+          name: 'Artes/Trabalho manual',
+          slug: 'artes-trabalho-manual',
+        },
+        { id: 2, name: 'Comunicação', slug: 'comunicacao' },
+      ],
+      stats: { volunteersCount: 123, organizationsCount: 123 },
+    })
+    expect(result.current.error).toBeNull()
+    expect(result.current.loading).toBeFalsy()
   })
 })

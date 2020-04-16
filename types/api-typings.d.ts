@@ -23,6 +23,7 @@ export interface ImageDict {
 export interface Skill {
   id: number
   name: string
+  slug: string
 }
 
 export interface Cause {

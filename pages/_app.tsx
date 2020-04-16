@@ -30,7 +30,6 @@ import { getStartupData } from '../lib/startup'
 declare global {
   interface Window {
     __NEXT_DATA__: { [key: string]: any }
-    fetchAndDispatchStartupPromise: Promise<void>
   }
 }
 
@@ -55,7 +54,7 @@ class App extends NextApp<AppProps> {
     let pageProps = {}
 
     const { sessionToken } = nextCookies(ctx)
-    let { startup, user } = ctx.store.getState() as RootState
+    const { startup, user } = ctx.store.getState() as RootState
 
     if (sessionToken && !user) {
       try {
