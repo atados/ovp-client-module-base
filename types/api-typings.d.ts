@@ -62,3 +62,15 @@ export interface StartupPayload {
   readonly volunteer_count: number
   readonly nonprofit_count: number
 }
+
+export interface Notification {
+  id: number
+  read: boolean
+  type: string
+  project: string
+  org: string
+  image: {
+    image_medium_url: string
+  }
+  created_at: string
+}

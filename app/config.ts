@@ -7,6 +7,7 @@ export type ValidBasePageName =
   | 'Home'
   | 'Project'
   | 'Organization'
+  | 'Notifications'
   | 'NewAccount'
   | 'Cause'
   | 'Login'

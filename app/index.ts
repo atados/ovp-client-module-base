@@ -95,6 +95,7 @@ const app: AppConfiguration<ValidBasePageName> = {
       pathname: '/ong/[organizationSlug]',
       filename: 'organization',
     },
+    Notifications: { pathname: '/notificacoes', filename: 'notifications' },
     Project: { pathname: '/vaga/[slug]', filename: 'project' },
     Cause: { pathname: '/causa/[slug]', filename: 'cause' },
     Login: { pathname: '/entrar', filename: 'authentication' },

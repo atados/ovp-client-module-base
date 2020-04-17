@@ -1,5 +1,6 @@
 export const API_URL = process.env.API_URL!
 export const APP_URL = process.env.APP_URL!
+export const NOTIFICATIONS_API_URL = process.env.NOTIFICATIONS_API_URL!
 export const APP_SHARE_URL = process.env.APP_SHARE_URL!
 export const SOCKET_API_URL = process.env.SOCKET_API_URL!
 export const SOCKET_API_WS_URL = process.env.SOCKET_API_WS_URL!
