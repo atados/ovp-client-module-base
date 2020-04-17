@@ -7,7 +7,7 @@ import { API } from '~/types/api'
 
 declare global {
   interface Window {
-    fetchAndDispatchStartupPromise: Promise<void>
+    fetchAndDispatchStartupPromise?: Promise<void>
   }
 }
 
