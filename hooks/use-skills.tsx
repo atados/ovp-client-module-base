@@ -5,7 +5,7 @@ import { useMemo } from 'react'
 type UseSkillsHook = () => {
   skills: API.Skill[] | undefined
   loading: boolean
-  error: Error
+  error: Error | null
 }
 
 const useSkills: UseSkillsHook = () => {

@@ -22,10 +22,12 @@ export const fetchCurrentUserProfile = createAction<undefined, PublicUser>(
   async (_, { prevent, getState }) => {
     const {
       user,
-      startup: { causes },
+      startup,
       publicUser: currentPublicUserState,
       currentUserProfile,
     } = getState() as RootState
+
+    const causes = startup?.causes || null
 
     if (!user) {
       throw new Error('You must be logged in to fetch current user profile')
@@ -78,10 +80,14 @@ export const fetchCurrentUserProfile = createAction<undefined, PublicUser>(
       : []
 
     // Replace causes with global causes so we can have 'color' property
-    const causesIds: number[] = publicUser.profile.causes.map(cause => cause.id)
-    publicUser.profile.causes = causes.filter(
-      cause => causesIds.indexOf(cause.id) !== -1,
-    )
+    if (causes) {
+      const causesIds: number[] = publicUser.profile.causes.map(
+        cause => cause.id,
+      )
+      publicUser.profile.causes = causes.filter(
+        cause => causesIds.indexOf(cause.id) !== -1,
+      )
+    }
 
     return publicUser
   },

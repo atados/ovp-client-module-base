@@ -98,11 +98,15 @@ export const fetchPublicUser = createAction<
         })
       : []
 
-    // Replace causes with global causes so we can have 'color' property
-    const causesIds: number[] = publicUser.profile.causes.map(cause => cause.id)
-    publicUser.profile.causes = startupData.causes.filter(
-      cause => causesIds.indexOf(cause.id) !== -1,
-    )
+    if (startupData?.causes) {
+      // Replace causes with global causes so we can have 'color' property
+      const causesIds: number[] = publicUser.profile.causes.map(
+        cause => cause.id,
+      )
+      publicUser.profile.causes = startupData.causes.filter(
+        cause => causesIds.indexOf(cause.id) !== -1,
+      )
+    }
 
     return publicUser
   },
