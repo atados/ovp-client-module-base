@@ -167,11 +167,9 @@ function sortJobDates(date1: JobDate, date2: JobDate): number {
 export const fetchProject = createAction<string, Project, ProjectFetchMeta>(
   'PROJECT_FETCH',
   async (slug, { prevent, getState }) => {
-    const {
-      user,
-      startup: { causes },
-      project: currentState,
-    }: RootState = getState()
+    const { user, startup, project: currentState }: RootState = getState()
+
+    const causes = startup?.causes || null
 
     if (slug === currentState.slug && currentState.node) {
       prevent()
@@ -234,9 +232,13 @@ export const fetchProject = createAction<string, Project, ProjectFetchMeta>(
       }
     })
 
-    // Replace causes with global causes so we can have 'color' property
-    const causesIds: number[] = project.causes.map(cause => cause.id)
-    project.causes = causes.filter(cause => causesIds.indexOf(cause.id) !== -1)
+    if (causes) {
+      // Replace causes with global causes so we can have 'color' property
+      const causesIds: number[] = project.causes.map(cause => cause.id)
+      project.causes = causes.filter(
+        cause => causesIds.indexOf(cause.id) !== -1,
+      )
+    }
 
     if (
       project.disponibility &&

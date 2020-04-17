@@ -17,7 +17,7 @@ export interface CreateStoreContext {
   req?: IncomingMessage
 }
 
-const configureStore = (
+export const configureStore = (
   baseState: Partial<RootState>,
   context?: CreateStoreContext,
 ) => {

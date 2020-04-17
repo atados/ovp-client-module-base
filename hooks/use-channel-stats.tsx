@@ -4,7 +4,7 @@ import { useMemo } from 'react'
 type UseChannelStatsHook = () => {
   stats: StartupStats | undefined
   loading: boolean
-  error: Error
+  error: Error | null
 }
 
 /**

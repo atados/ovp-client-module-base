@@ -44,11 +44,9 @@ export const fetchOrganization = createAction<
 >(
   'ORGANIZATION_FETCH',
   async (slug, { prevent, getState }) => {
-    const {
-      user,
-      startup: { causes },
-      organization: currentState,
-    }: RootState = getState()
+    const { user, startup, organization: currentState }: RootState = getState()
+
+    const causes = startup?.causes || null
 
     if (slug === currentState.slug && currentState.node) {
       prevent()
@@ -70,11 +68,13 @@ export const fetchOrganization = createAction<
 
     organization.color = getRandomColor()
 
-    // Replace causes with global causes so we can have 'color' property
-    const causesIds: number[] = organization.causes.map(cause => cause.id)
-    organization.causes = causes.filter(
-      cause => causesIds.indexOf(cause.id) !== -1,
-    )
+    if (causes) {
+      // Replace causes with global causes so we can have 'color' property
+      const causesIds: number[] = organization.causes.map(cause => cause.id)
+      organization.causes = causes.filter(
+        cause => causesIds.indexOf(cause.id) !== -1,
+      )
+    }
 
     return organization
   },
