@@ -107,8 +107,9 @@ const FaqPage: NextPage<FAQPageProps> = ({ filterQuery }) => {
 }
 
 FaqPage.displayName = 'FaqPage'
-FaqPage.getInitialProps = async ctx => ({
-  filterQuery: ctx.query.query && String(ctx.query.query),
-})
+FaqPage.getInitialProps = async ctx =>
+  ({
+    filterQuery: ctx.query.query && String(ctx.query.query),
+  } as any)
 
 export default FaqPage
