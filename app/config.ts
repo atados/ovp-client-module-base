@@ -56,6 +56,7 @@ export type ValidBasePageName =
   | 'ConfirmEmail'
   | '_Facebook'
   | '_Google'
+  | '_Cause'
 
 export interface AppConfiguration<TValidPageName extends string> {
   id: string
