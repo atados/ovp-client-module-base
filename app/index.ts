@@ -272,6 +272,10 @@ const app: AppConfiguration<ValidBasePageName> = {
       pathname: '/api/google/[action]',
       filename: 'api/auth/google',
     },
+    _Cause: {
+      pathname: '/api/cause/[id]',
+      filename: 'api/cause/[id]',
+    },
   },
   assets: {},
   chat: {

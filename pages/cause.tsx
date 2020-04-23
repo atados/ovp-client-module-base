@@ -1,31 +1,23 @@
-import { useSelector, useDispatch } from 'react-redux'
 import { FormattedMessage } from 'react-intl'
-import React, { useEffect } from 'react'
 import { useRouter } from 'next/router'
 import styled from 'styled-components'
 import { NextPage } from 'next'
 import Link from 'next/link'
+import React from 'react'
 
-import { SearchSourcesSize } from '~/components/SearchSources/SearchSources'
+import { BaseFiltersJSON, SearchSource, SearchType } from '~/redux/ducks/search'
 import ActivityIndicator from '~/components/ActivityIndicator'
-import { mountAddressFilter } from '~/lib/utils/geo-location'
+import OrganizationCard from '~/components/OrganizationCard'
 import VolunteerIcon from '~/components/Icon/VolunteerIcon'
 import { Organization } from '~/redux/ducks/organization'
-import SearchSources from '~/components/SearchSources'
 import { PageAs, Page, Color, Theme } from '~/common'
-import { RootState } from '~/redux/root-reducer'
+import ProjectCard from '~/components/ProjectCard'
 import { Project } from '~/redux/ducks/project'
+import { useFetch } from '~/hooks/use-fetch2'
 import useCauses from '~/hooks/use-causes'
 import Layout from '~/components/Layout'
 import Meta from '~/components/Meta'
 import { API } from '~/types/api'
-import {
-  BaseFiltersJSON,
-  mapFiltersToQueryObject,
-  search,
-  SearchSource,
-  SearchType,
-} from '~/redux/ducks/search'
 
 const BannerOverlay = styled.div`
   position: relative;
@@ -81,45 +73,74 @@ interface CausePageProps {
   readonly sources: Array<SearchSource<Project | Organization>>
 }
 
+interface CardsSectionProps {
+  projects: API.Project[] | any
+  organizations: API.Organization[] | any
+  causeId: number | undefined
+}
+
+const CardsSection: React.FC<CardsSectionProps> = ({
+  projects,
+  organizations,
+  causeId,
+}) => {
+  const router = useRouter()
+
+  return (
+    <>
+      <section>
+        <h2>ONGs</h2>
+        <div className="flex flex-wrap">
+          {organizations.slice(0, 8).map(organization => (
+            <div key={organization.slug} className="pl-3 w-1/3 mb-6 lg:w-1/4">
+              <OrganizationCard organization={organization} />
+            </div>
+          ))}
+        </div>
+        <div className="flex justify-center">
+          <button
+            onClick={() => router.push(`/ongs?causes=${causeId}`)}
+            className="bg-gray-200 hover:bg-gray-300 rounded-full px-4 py-2 text-lg font-medium"
+          >
+            Ver mais ONGs
+          </button>
+        </div>
+      </section>
+      <section>
+        <h2>Vagas de voluntariado</h2>
+        <div className="flex flex-wrap">
+          {projects.slice(0, 8).map(project => (
+            <div key={project.slug} className="pl-3 w-1/3 mb-6 lg:w-1/4">
+              <ProjectCard {...project} />
+            </div>
+          ))}
+        </div>
+        <div className="flex justify-center">
+          <button
+            onClick={() => router.push(`/vagas?causes=${causeId}`)}
+            className="bg-gray-200 hover:bg-gray-300 rounded-full px-4 py-2 text-lg font-medium"
+          >
+            Ver mais vagas
+          </button>
+        </div>
+      </section>
+    </>
+  )
+}
+
 const CausePage: NextPage<CausePageProps> = () => {
   const router = useRouter()
   const slug = router.query.slug
-  const dispatch = useDispatch()
-
-  const { geo, search: searchState } = useSelector(
-    (reduxState: RootState) => reduxState,
-  )
 
   const { causes, loading: causesLoading } = useCauses()
-  const loading = !causes || causesLoading
 
-  const filtersQueryObject = mapFiltersToQueryObject(searchState.filters)
-  let sources: Array<SearchSource<Project | Organization>> = []
-  const searchType = searchState.searchType
-  const page = searchState.page
   const cause = causes?.find(candidate => candidate.slug === slug)
 
-  useEffect(() => {
-    if (cause) {
-      dispatch(
-        search({
-          organizationsLength: 4,
-          causes: [cause.id],
-          address: mountAddressFilter(geo),
-        }),
-      )
+  const { data, loading: apiCausesLoading } = useFetch(
+    `/api/cause/${cause?.id}`,
+  )
 
-      if (
-        searchState.fetched &&
-        searchState.filters &&
-        searchState.filters.causes &&
-        searchState.filters.causes.length === 1 &&
-        searchState.filters.causes[0] === cause.id
-      ) {
-        sources = searchState.sources
-      }
-    }
-  }, [cause, searchState])
+  const loading = !causes || causesLoading || apiCausesLoading || !data
 
   return (
     <Layout
@@ -173,7 +194,7 @@ const CausePage: NextPage<CausePageProps> = () => {
         </div>
       </BannerOverlay>
       <div className="container px-2 py-8">
-        <div className="md:flex md:-mx-2">
+        <div className="md:flex md:-mx-2 max-w-full">
           <Sidebar className="hidden md:block px-2">
             <h4 className="text-lg nav-link">
               <FormattedMessage
@@ -198,22 +219,19 @@ const CausePage: NextPage<CausePageProps> = () => {
               </Link>
             ))}
           </Sidebar>
-          <div className="px-2 w-full">
-            {loading ? (
-              <div className="flex justify-center w-full">
-                <ActivityIndicator size={40} />
-              </div>
-            ) : (
-              <SearchSources
-                size={SearchSourcesSize.Large}
-                page={page}
-                sources={sources}
-                searchType={searchType}
-                fetching={loading}
-                filtersQueryObject={filtersQueryObject}
+          {loading ? (
+            <div className="flex justify-center w-full pt-12">
+              <ActivityIndicator size={40} />
+            </div>
+          ) : (
+            <div className="px-2">
+              <CardsSection
+                projects={data.projects.results}
+                organizations={data.organizations.results}
+                causeId={cause?.id}
               />
-            )}
-          </div>
+            </div>
+          )}
         </div>
       </div>
     </Layout>
