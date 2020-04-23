@@ -1,5 +1,5 @@
 {
-  "version": "0.0.14",
+  "version": "0.0.15",
   "private": true,
   "scripts": {
     "dev": "sh base/core/bin/run-dev.sh",
@@ -31,12 +31,10 @@
   },
   "lint-staged": {
     "**/*.js": [
-      "prettier --write",
       "git add"
     ],
     "**/*.{ts,tsx}": [
       "tslint --fix",
-      "prettier --write",
       "git add"
     ]
   },
