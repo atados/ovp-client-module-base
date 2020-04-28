@@ -227,12 +227,12 @@ const ProjectComposerRoles: React.FC<InjectedFormikProps<
       defaultValue: role,
       onSubmit: roleEdited => {
         const { roles } = values
-        if (roles.length === 0) {
-          roles[0] = roleEdited
+        if (roles.length === 1) {
+          setFieldValue('roles', [roleEdited])
         } else {
           roles[index] = roleEdited
+          setFieldValue('roles', roles)
         }
-        setFieldValue('roles', roles)
 
         formModal.close()
       },
