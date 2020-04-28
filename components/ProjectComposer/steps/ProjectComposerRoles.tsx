@@ -1,5 +1,5 @@
 import { InjectedFormikProps, withFormik } from 'formik'
-import React, { useCallback, useState } from 'react'
+import React, { useCallback } from 'react'
 import styled from 'styled-components'
 import { FormComposerMode } from '~/components/FormComposer/FormComposer'
 import FormComposerLayout from '~/components/FormComposer/MultistepFormComposerLayout'
@@ -192,11 +192,6 @@ interface ProjectComposerDisponibilityProps
   readonly className?: string
 }
 
-interface ProjectComposerDisponibilityState {
-  editingRole?: ItemRole
-  editingRoleIndex?: number
-}
-
 const ProjectComposerRoles: React.FC<InjectedFormikProps<
   ProjectComposerDisponibilityProps,
   Values
@@ -209,43 +204,18 @@ const ProjectComposerRoles: React.FC<InjectedFormikProps<
   isFormSubmitting,
   formContext: { mode },
 }) => {
-  const [state, setState] = useState<ProjectComposerDisponibilityState>({})
   const intl = useIntl()
-  const handleFormSubmit = useCallback(
-    (role: ItemRole) => {
+  const handleAddRoleFormSubmit = useCallback(
+    (newRole: ItemRole) => {
       const { roles } = values
-      const { editingRoleIndex } = state
 
-      if (editingRoleIndex !== undefined && editingRoleIndex > -1) {
-        setFieldValue(
-          'roles',
-          roles.map((itemRole, i) => {
-            if (i === editingRoleIndex) {
-              return role
-            }
-
-            return itemRole
-          }),
-        )
-      } else {
-        setFieldValue('roles', [...roles, role])
-      }
+      setFieldValue('roles', [...roles, newRole])
 
       formModal.close()
     },
-    [state.editingRoleIndex, values, setFieldValue],
+    [values, setFieldValue],
   )
-  const handleFormRemove = useCallback(() => {
-    const { roles } = values
-    const { editingRoleIndex } = state
 
-    if (editingRoleIndex !== undefined && editingRoleIndex > -1) {
-      setFieldValue(
-        'roles',
-        roles.filter((_, i) => i !== editingRoleIndex),
-      )
-    }
-  }, [state.editingRoleIndex, values, setFieldValue])
   const formModal = useModal({
     id: 'RoleForm',
     component: RoleForm,
@@ -345,8 +315,8 @@ const ProjectComposerRoles: React.FC<InjectedFormikProps<
           <RoleAdd
             onClick={() =>
               formModal.open({
-                onSubmit: handleFormSubmit,
-                onRemove: handleFormRemove,
+                onSubmit: handleAddRoleFormSubmit,
+                onRemove: () => formModal.close(),
               })
             }
           >
