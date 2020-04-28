@@ -251,10 +251,26 @@ const ProjectComposerRoles: React.FC<InjectedFormikProps<
     component: RoleForm,
     className: 'p-5',
   })
+
   const handleRoleEdit = useCallback((role: ItemRole, index: number) => {
-    setState({
-      editingRole: role,
-      editingRoleIndex: index,
+    formModal.open({
+      defaultValue: role,
+      onSubmit: roleEdited => {
+        const { roles } = values
+        roles[index] = roleEdited
+        setFieldValue('roles', roles)
+
+        formModal.close()
+      },
+      onRemove: () => {
+        const { roles } = values
+        setFieldValue(
+          'roles',
+          roles.filter((_, i) => i !== index),
+        )
+
+        formModal.close()
+      },
     })
   }, [])
 
