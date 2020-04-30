@@ -1,6 +1,8 @@
 @import 'animate.css/animate.css';
 @import 'react-responsive-carousel/lib/styles/carousel.min.css';
+/* purgecss start ignore */
 @import 'react-multi-carousel/lib/styles.css';
+/* purgecss end ignore */
 
 [data-reach-dialog-overlay] {
   background: hsla(0, 0%, 0%, 0.44);
